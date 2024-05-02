@@ -1,0 +1,1938 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="LaTeX CV generator engine from a YAML input file.">
+      
+      
+        <meta name="author" content="Sina Atalay">
+      
+      
+        <link rel="canonical" href="https://sinaatalay.github.io/rendercv/reference/themes/classic/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../engineeringresumes/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.17">
+    
+    
+      
+        <title>classic - RenderCV</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.bcfcd587.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#classic-theme" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="RenderCV" class="md-header__button md-logo" aria-label="RenderCV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            RenderCV
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              classic
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sinaatalay/rendercv" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sinaatalay/rendercv
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="RenderCV" class="md-nav__button md-logo" aria-label="RenderCV" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    RenderCV
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sinaatalay/rendercv" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    sinaatalay/rendercv
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user_guide/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Reference
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cli/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cli.py
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../data_models/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    data_models.py
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../renderer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    renderer.py
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    themes
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            themes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    classic
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    classic
+  </span>
+  
+
+      </a>
+      
+        
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#bulletentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        BulletEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#onelineentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        OneLineEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#sectionbeginning" class="md-nav__link">
+      <span class="md-ellipsis">
+        SectionBeginning
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#textentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        TextEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#preamble" class="md-nav__link">
+      <span class="md-ellipsis">
+        Preamble
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#experienceentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        ExperienceEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#normalentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        NormalEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#header" class="md-nav__link">
+      <span class="md-ellipsis">
+        Header
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#publicationentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        PublicationEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#educationentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        EducationEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#sectionending" class="md-nav__link">
+      <span class="md-ellipsis">
+        SectionEnding
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../engineeringresumes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    engineeringresumes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sb2nov/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    sb2nov
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../moderncv/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    moderncv
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../changelog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Changelog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+<nav class="md-nav md-nav--secondary" aria-label="Page contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Page contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#bulletentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        BulletEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#onelineentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        OneLineEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#sectionbeginning" class="md-nav__link">
+      <span class="md-ellipsis">
+        SectionBeginning
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#textentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        TextEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#preamble" class="md-nav__link">
+      <span class="md-ellipsis">
+        Preamble
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#experienceentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        ExperienceEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#normalentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        NormalEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#header" class="md-nav__link">
+      <span class="md-ellipsis">
+        Header
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#publicationentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        PublicationEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#educationentry" class="md-nav__link">
+      <span class="md-ellipsis">
+        EducationEntry
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+        <!--
+  Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+-->
+
+<!-- Table of contents item -->
+<li class="md-nav__item">
+    <a href="#sectionending" class="md-nav__link">
+      <span class="md-ellipsis">
+        SectionEnding
+      </span>
+    </a>
+  
+    <!-- Table of contents list -->
+    
+  </li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+    
+      
+    
+    <a href="https://github.com/sinaatalay/rendercv/raw/main/docs/reference/themes/classic.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+    </a>
+  
+
+
+<h1 id="classic-theme">Classic Theme<a class="headerlink" href="#classic-theme" title="Permanent link">&para;</a></h1>
+<h2 id="bulletentry">BulletEntry<a class="headerlink" href="#bulletentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>((* endif *))
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">\begin</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="k">\textbullet</span> <span class="k">\hspace</span><span class="nb">{</span>3pt<span class="nb">}</span> &lt;&lt;entry.bullet&gt;&gt;
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="k">\end</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="onelineentry">OneLineEntry<a class="headerlink" href="#onelineentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>((* endif *))
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">\begin</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.label&gt;&gt;:<span class="nb">}</span> &lt;&lt;entry.details&gt;&gt;
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="k">\end</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="sectionbeginning">SectionBeginning<a class="headerlink" href="#sectionbeginning" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">\section</span><span class="nb">{</span>&lt;&lt;section<span class="nb">_</span>title&gt;&gt;<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="textentry">TextEntry<a class="headerlink" href="#textentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>((* endif *))
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="k">\begin</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    &lt;&lt;entry&gt;&gt;
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">\end</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="preamble">Preamble<a class="headerlink" href="#preamble" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">\documentclass</span><span class="na">[&lt;&lt;design.font_size&gt;&gt;, &lt;&lt;design.page_size&gt;&gt;]</span><span class="nb">{</span>article<span class="nb">}</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c">% Packages:</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">\usepackage</span>[
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    ignoreheadfoot, <span class="c">% set margins without considering header and footer</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    top=&lt;&lt;design.margins.page.top&gt;&gt;, <span class="c">% seperation between body and page edge from the top</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    bottom=&lt;&lt;design.margins.page.bottom&gt;&gt;, <span class="c">% seperation between body and page edge from the bottom</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    left=&lt;&lt;design.margins.page.left&gt;&gt;, <span class="c">% seperation between body and page edge from the left</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    right=&lt;&lt;design.margins.page.right&gt;&gt;, <span class="c">% seperation between body and page edge from the right</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    footskip=&lt;&lt;design.margins.page.bottom|divide<span class="nb">_</span>length<span class="nb">_</span>by(2)&gt;&gt;, <span class="c">% seperation between body and footer</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>    <span class="c">% showframe % for debugging </span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>]<span class="nb">{</span>geometry<span class="nb">}</span> <span class="c">% for adjusting page geometry</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="k">\usepackage</span><span class="na">[explicit]</span><span class="nb">{</span>titlesec<span class="nb">}</span> <span class="c">% for customizing section titles</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="k">\usepackage</span><span class="nb">{</span>tabularx<span class="nb">}</span> <span class="c">% for making tables with fixed width columns</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="k">\usepackage</span><span class="nb">{</span>array<span class="nb">}</span> <span class="c">% tabularx requires this</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="k">\usepackage</span><span class="na">[dvipsnames]</span><span class="nb">{</span>xcolor<span class="nb">}</span> <span class="c">% for coloring text</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="k">\definecolor</span><span class="nb">{</span>primaryColor<span class="nb">}{</span>RGB<span class="nb">}{</span>&lt;&lt;design.color.as<span class="nb">_</span>rgb<span class="nb">_</span>tuple()|join(&quot;, &quot;)&gt;&gt;<span class="nb">}</span> <span class="c">% define primary color</span>
+</span><span id="__span-4-18"><a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="k">\usepackage</span><span class="nb">{</span>enumitem<span class="nb">}</span> <span class="c">% for customizing lists</span>
+</span><span id="__span-4-19"><a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="k">\usepackage</span><span class="nb">{</span>fontawesome5<span class="nb">}</span> <span class="c">% for using icons</span>
+</span><span id="__span-4-20"><a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="k">\usepackage</span><span class="nb">{</span>amsmath<span class="nb">}</span> <span class="c">% for math</span>
+</span><span id="__span-4-21"><a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="k">\usepackage</span>[
+</span><span id="__span-4-22"><a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a>    pdftitle=<span class="nb">{</span>&lt;&lt;cv.name&gt;&gt;&#39;s CV<span class="nb">}</span>,
+</span><span id="__span-4-23"><a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>    pdfauthor=<span class="nb">{</span>&lt;&lt;cv.name&gt;&gt;<span class="nb">}</span>,
+</span><span id="__span-4-24"><a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a>    colorlinks=true,
+</span><span id="__span-4-25"><a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>    urlcolor=primaryColor
+</span><span id="__span-4-26"><a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>]<span class="nb">{</span>hyperref<span class="nb">}</span> <span class="c">% for links, metadata and bookmarks</span>
+</span><span id="__span-4-27"><a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="k">\usepackage</span><span class="na">[pscoord]</span><span class="nb">{</span>eso-pic<span class="nb">}</span> <span class="c">% for floating text on the page</span>
+</span><span id="__span-4-28"><a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="k">\usepackage</span><span class="nb">{</span>calc<span class="nb">}</span> <span class="c">% for calculating lengths</span>
+</span><span id="__span-4-29"><a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="k">\usepackage</span><span class="nb">{</span>bookmark<span class="nb">}</span> <span class="c">% for bookmarks</span>
+</span><span id="__span-4-30"><a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="k">\usepackage</span><span class="nb">{</span>lastpage<span class="nb">}</span> <span class="c">% for getting the total number of pages</span>
+</span><span id="__span-4-31"><a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="k">\usepackage</span><span class="nb">{</span>changepage<span class="nb">}</span> <span class="c">% for one column entries (adjustwidth environment)</span>
+</span><span id="__span-4-32"><a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="k">\usepackage</span><span class="nb">{</span>paracol<span class="nb">}</span> <span class="c">% for two and three column entries</span>
+</span><span id="__span-4-33"><a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="k">\usepackage</span><span class="nb">{</span>ifthen<span class="nb">}</span> <span class="c">% for conditional statements</span>
+</span><span id="__span-4-34"><a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="k">\usepackage</span><span class="nb">{</span>needspace<span class="nb">}</span> <span class="c">% for avoiding page brake right after the section title</span>
+</span><span id="__span-4-35"><a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="k">\usepackage</span><span class="nb">{</span>iftex<span class="nb">}</span> <span class="c">% check if engine is pdflatex, xetex or luatex</span>
+</span><span id="__span-4-36"><a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a>
+</span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="c">% Ensure that generate pdf is machine readable/ATS parsable:</span>
+</span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="k">\ifPDFTeX</span>
+</span><span id="__span-4-39"><a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a>    <span class="k">\input</span><span class="nb">{</span>glyphtounicode<span class="nb">}</span>
+</span><span id="__span-4-40"><a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a>    <span class="k">\pdfgentounicode</span>=1
+</span><span id="__span-4-41"><a id="__codelineno-4-41" name="__codelineno-4-41" href="#__codelineno-4-41"></a>    <span class="k">\usepackage</span><span class="na">[T1]</span><span class="nb">{</span>fontenc<span class="nb">}</span>
+</span><span id="__span-4-42"><a id="__codelineno-4-42" name="__codelineno-4-42" href="#__codelineno-4-42"></a>    <span class="k">\usepackage</span><span class="na">[utf8]</span><span class="nb">{</span>inputenc<span class="nb">}</span>
+</span><span id="__span-4-43"><a id="__codelineno-4-43" name="__codelineno-4-43" href="#__codelineno-4-43"></a>    <span class="k">\usepackage</span><span class="nb">{</span>lmodern<span class="nb">}</span>
+</span><span id="__span-4-44"><a id="__codelineno-4-44" name="__codelineno-4-44" href="#__codelineno-4-44"></a><span class="k">\fi</span>
+</span><span id="__span-4-45"><a id="__codelineno-4-45" name="__codelineno-4-45" href="#__codelineno-4-45"></a>
+</span><span id="__span-4-46"><a id="__codelineno-4-46" name="__codelineno-4-46" href="#__codelineno-4-46"></a>((* if design.font == &quot;Latin Modern Serif&quot; *))
+</span><span id="__span-4-47"><a id="__codelineno-4-47" name="__codelineno-4-47" href="#__codelineno-4-47"></a>
+</span><span id="__span-4-48"><a id="__codelineno-4-48" name="__codelineno-4-48" href="#__codelineno-4-48"></a>((* elif design.font == &quot;Latin Modern Sans Serif&quot; *))
+</span><span id="__span-4-49"><a id="__codelineno-4-49" name="__codelineno-4-49" href="#__codelineno-4-49"></a><span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\familydefault</span><span class="nb">}{</span><span class="k">\sfdefault</span><span class="nb">}</span>
+</span><span id="__span-4-50"><a id="__codelineno-4-50" name="__codelineno-4-50" href="#__codelineno-4-50"></a>((* elif design.font == &quot;Latin Modern Mono&quot; *))
+</span><span id="__span-4-51"><a id="__codelineno-4-51" name="__codelineno-4-51" href="#__codelineno-4-51"></a><span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\familydefault</span><span class="nb">}{</span><span class="k">\ttdefault</span><span class="nb">}</span>
+</span><span id="__span-4-52"><a id="__codelineno-4-52" name="__codelineno-4-52" href="#__codelineno-4-52"></a>((* elif design.font == &quot;Source Sans 3&quot; *))
+</span><span id="__span-4-53"><a id="__codelineno-4-53" name="__codelineno-4-53" href="#__codelineno-4-53"></a><span class="k">\usepackage</span><span class="na">[default, type1]</span><span class="nb">{</span>sourcesanspro<span class="nb">}</span> 
+</span><span id="__span-4-54"><a id="__codelineno-4-54" name="__codelineno-4-54" href="#__codelineno-4-54"></a>((* elif design.font == &quot;Charter&quot; *))
+</span><span id="__span-4-55"><a id="__codelineno-4-55" name="__codelineno-4-55" href="#__codelineno-4-55"></a><span class="k">\usepackage</span><span class="nb">{</span>charter<span class="nb">}</span>
+</span><span id="__span-4-56"><a id="__codelineno-4-56" name="__codelineno-4-56" href="#__codelineno-4-56"></a>((* endif *))
+</span><span id="__span-4-57"><a id="__codelineno-4-57" name="__codelineno-4-57" href="#__codelineno-4-57"></a>
+</span><span id="__span-4-58"><a id="__codelineno-4-58" name="__codelineno-4-58" href="#__codelineno-4-58"></a><span class="c">% Some settings:</span>
+</span><span id="__span-4-59"><a id="__codelineno-4-59" name="__codelineno-4-59" href="#__codelineno-4-59"></a>((* if design.text<span class="nb">_</span>alignment == &quot;justified-with-no-hyphenation&quot; *))
+</span><span id="__span-4-60"><a id="__codelineno-4-60" name="__codelineno-4-60" href="#__codelineno-4-60"></a><span class="k">\usepackage</span><span class="na">[none]</span><span class="nb">{</span>hyphenat<span class="nb">}</span>
+</span><span id="__span-4-61"><a id="__codelineno-4-61" name="__codelineno-4-61" href="#__codelineno-4-61"></a><span class="k">\sloppy</span>
+</span><span id="__span-4-62"><a id="__codelineno-4-62" name="__codelineno-4-62" href="#__codelineno-4-62"></a>((* elif design.text<span class="nb">_</span>alignment == &quot;left-aligned&quot; *))
+</span><span id="__span-4-63"><a id="__codelineno-4-63" name="__codelineno-4-63" href="#__codelineno-4-63"></a><span class="k">\raggedright</span>
+</span><span id="__span-4-64"><a id="__codelineno-4-64" name="__codelineno-4-64" href="#__codelineno-4-64"></a>((* endif *))
+</span><span id="__span-4-65"><a id="__codelineno-4-65" name="__codelineno-4-65" href="#__codelineno-4-65"></a><span class="k">\AtBeginEnvironment</span><span class="nb">{</span>adjustwidth<span class="nb">}{</span><span class="k">\partopsep</span>0pt<span class="nb">}</span> <span class="c">% remove space before adjustwidth environment</span>
+</span><span id="__span-4-66"><a id="__codelineno-4-66" name="__codelineno-4-66" href="#__codelineno-4-66"></a><span class="k">\pagestyle</span><span class="nb">{</span>empty<span class="nb">}</span> <span class="c">% no header or footer</span>
+</span><span id="__span-4-67"><a id="__codelineno-4-67" name="__codelineno-4-67" href="#__codelineno-4-67"></a><span class="k">\setcounter</span><span class="nb">{</span>secnumdepth<span class="nb">}{</span>0<span class="nb">}</span> <span class="c">% no section numbering</span>
+</span><span id="__span-4-68"><a id="__codelineno-4-68" name="__codelineno-4-68" href="#__codelineno-4-68"></a><span class="k">\setlength</span><span class="nb">{</span><span class="k">\parindent</span><span class="nb">}{</span>0pt<span class="nb">}</span> <span class="c">% no indentation</span>
+</span><span id="__span-4-69"><a id="__codelineno-4-69" name="__codelineno-4-69" href="#__codelineno-4-69"></a><span class="k">\setlength</span><span class="nb">{</span><span class="k">\topskip</span><span class="nb">}{</span>0pt<span class="nb">}</span> <span class="c">% no top skip</span>
+</span><span id="__span-4-70"><a id="__codelineno-4-70" name="__codelineno-4-70" href="#__codelineno-4-70"></a><span class="k">\setlength</span><span class="nb">{</span><span class="k">\columnsep</span><span class="nb">}{</span>0.15cm<span class="nb">}</span> <span class="c">% set column seperation</span>
+</span><span id="__span-4-71"><a id="__codelineno-4-71" name="__codelineno-4-71" href="#__codelineno-4-71"></a>((* if design.disable<span class="nb">_</span>page<span class="nb">_</span>numbering *))
+</span><span id="__span-4-72"><a id="__codelineno-4-72" name="__codelineno-4-72" href="#__codelineno-4-72"></a><span class="k">\pagenumbering</span><span class="nb">{</span>gobble<span class="nb">}</span> <span class="c">% no page numbering</span>
+</span><span id="__span-4-73"><a id="__codelineno-4-73" name="__codelineno-4-73" href="#__codelineno-4-73"></a>((* else *))
+</span><span id="__span-4-74"><a id="__codelineno-4-74" name="__codelineno-4-74" href="#__codelineno-4-74"></a>((* set page<span class="nb">_</span>numbering<span class="nb">_</span>style<span class="nb">_</span>placeholders = <span class="nb">{</span>
+</span><span id="__span-4-75"><a id="__codelineno-4-75" name="__codelineno-4-75" href="#__codelineno-4-75"></a>    &quot;NAME&quot;: cv.name,
+</span><span id="__span-4-76"><a id="__codelineno-4-76" name="__codelineno-4-76" href="#__codelineno-4-76"></a>    &quot;PAGE<span class="nb">_</span>NUMBER&quot;: &quot;<span class="k">\\</span>thepage<span class="nb">{}</span>&quot;,
+</span><span id="__span-4-77"><a id="__codelineno-4-77" name="__codelineno-4-77" href="#__codelineno-4-77"></a>    &quot;TOTAL<span class="nb">_</span>PAGES&quot;: &quot;<span class="k">\pageref*</span><span class="nb">{</span>LastPage<span class="nb">}</span>&quot;
+</span><span id="__span-4-78"><a id="__codelineno-4-78" name="__codelineno-4-78" href="#__codelineno-4-78"></a><span class="nb">}</span> *))
+</span><span id="__span-4-79"><a id="__codelineno-4-79" name="__codelineno-4-79" href="#__codelineno-4-79"></a><span class="k">\makeatletter</span>
+</span><span id="__span-4-80"><a id="__codelineno-4-80" name="__codelineno-4-80" href="#__codelineno-4-80"></a><span class="k">\let\ps</span>@customFooterStyle<span class="k">\ps</span>@plain <span class="c">% Copy the plain style to customFooterStyle</span>
+</span><span id="__span-4-81"><a id="__codelineno-4-81" name="__codelineno-4-81" href="#__codelineno-4-81"></a><span class="k">\patchcmd</span><span class="nb">{</span><span class="k">\ps</span>@customFooterStyle<span class="nb">}{</span><span class="k">\thepage</span><span class="nb">}{</span>
+</span><span id="__span-4-82"><a id="__codelineno-4-82" name="__codelineno-4-82" href="#__codelineno-4-82"></a>    <span class="k">\color</span><span class="nb">{</span>gray<span class="nb">}</span><span class="k">\textit</span><span class="nb">{</span><span class="k">\small</span> &lt;&lt;design.page<span class="nb">_</span>numbering<span class="nb">_</span>style|replace<span class="nb">_</span>placeholders<span class="nb">_</span>with<span class="nb">_</span>actual<span class="nb">_</span>values(page<span class="nb">_</span>numbering<span class="nb">_</span>style<span class="nb">_</span>placeholders)&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-4-83"><a id="__codelineno-4-83" name="__codelineno-4-83" href="#__codelineno-4-83"></a><span class="nb">}{}{}</span> <span class="c">% replace number by desired string</span>
+</span><span id="__span-4-84"><a id="__codelineno-4-84" name="__codelineno-4-84" href="#__codelineno-4-84"></a><span class="k">\makeatother</span>
+</span><span id="__span-4-85"><a id="__codelineno-4-85" name="__codelineno-4-85" href="#__codelineno-4-85"></a><span class="k">\pagestyle</span><span class="nb">{</span>customFooterStyle<span class="nb">}</span>
+</span><span id="__span-4-86"><a id="__codelineno-4-86" name="__codelineno-4-86" href="#__codelineno-4-86"></a>((* endif *))
+</span><span id="__span-4-87"><a id="__codelineno-4-87" name="__codelineno-4-87" href="#__codelineno-4-87"></a>
+</span><span id="__span-4-88"><a id="__codelineno-4-88" name="__codelineno-4-88" href="#__codelineno-4-88"></a><span class="k">\titleformat</span><span class="nb">{</span><span class="k">\section</span><span class="nb">}{</span>
+</span><span id="__span-4-89"><a id="__codelineno-4-89" name="__codelineno-4-89" href="#__codelineno-4-89"></a>    <span class="c">% avoid page braking right after the section title</span>
+</span><span id="__span-4-90"><a id="__codelineno-4-90" name="__codelineno-4-90" href="#__codelineno-4-90"></a>    <span class="k">\needspace</span><span class="nb">{</span>4<span class="k">\baselineskip</span><span class="nb">}</span>
+</span><span id="__span-4-91"><a id="__codelineno-4-91" name="__codelineno-4-91" href="#__codelineno-4-91"></a>    <span class="c">% make the font size of the section title large and color it with the primary color</span>
+</span><span id="__span-4-92"><a id="__codelineno-4-92" name="__codelineno-4-92" href="#__codelineno-4-92"></a>    <span class="k">\Large\color</span><span class="nb">{</span>primaryColor<span class="nb">}</span>
+</span><span id="__span-4-93"><a id="__codelineno-4-93" name="__codelineno-4-93" href="#__codelineno-4-93"></a><span class="nb">}{</span>
+</span><span id="__span-4-94"><a id="__codelineno-4-94" name="__codelineno-4-94" href="#__codelineno-4-94"></a><span class="nb">}{</span>
+</span><span id="__span-4-95"><a id="__codelineno-4-95" name="__codelineno-4-95" href="#__codelineno-4-95"></a><span class="nb">}{</span>
+</span><span id="__span-4-96"><a id="__codelineno-4-96" name="__codelineno-4-96" href="#__codelineno-4-96"></a>    <span class="c">% print bold title, give 0.15 cm space and draw a line of 0.8 pt thickness</span>
+</span><span id="__span-4-97"><a id="__codelineno-4-97" name="__codelineno-4-97" href="#__codelineno-4-97"></a>    <span class="c">% from the end of the title to the end of the body</span>
+</span><span id="__span-4-98"><a id="__codelineno-4-98" name="__codelineno-4-98" href="#__codelineno-4-98"></a>    <span class="k">\textbf</span><span class="nb">{</span>#1<span class="nb">}</span><span class="k">\hspace</span><span class="nb">{</span>0.15cm<span class="nb">}</span><span class="k">\titlerule</span><span class="na">[0.8pt]</span><span class="k">\hspace</span><span class="nb">{</span>-0.1cm<span class="nb">}</span>
+</span><span id="__span-4-99"><a id="__codelineno-4-99" name="__codelineno-4-99" href="#__codelineno-4-99"></a><span class="nb">}</span>[] <span class="c">% section title formatting</span>
+</span><span id="__span-4-100"><a id="__codelineno-4-100" name="__codelineno-4-100" href="#__codelineno-4-100"></a>
+</span><span id="__span-4-101"><a id="__codelineno-4-101" name="__codelineno-4-101" href="#__codelineno-4-101"></a><span class="k">\titlespacing</span><span class="nb">{</span><span class="k">\section</span><span class="nb">}{</span>
+</span><span id="__span-4-102"><a id="__codelineno-4-102" name="__codelineno-4-102" href="#__codelineno-4-102"></a>    <span class="c">% left space:</span>
+</span><span id="__span-4-103"><a id="__codelineno-4-103" name="__codelineno-4-103" href="#__codelineno-4-103"></a>    -1pt
+</span><span id="__span-4-104"><a id="__codelineno-4-104" name="__codelineno-4-104" href="#__codelineno-4-104"></a><span class="nb">}{</span>
+</span><span id="__span-4-105"><a id="__codelineno-4-105" name="__codelineno-4-105" href="#__codelineno-4-105"></a>    <span class="c">% top space:</span>
+</span><span id="__span-4-106"><a id="__codelineno-4-106" name="__codelineno-4-106" href="#__codelineno-4-106"></a>    &lt;&lt;design.margins.section<span class="nb">_</span>title.top&gt;&gt;
+</span><span id="__span-4-107"><a id="__codelineno-4-107" name="__codelineno-4-107" href="#__codelineno-4-107"></a><span class="nb">}{</span>
+</span><span id="__span-4-108"><a id="__codelineno-4-108" name="__codelineno-4-108" href="#__codelineno-4-108"></a>    <span class="c">% bottom space:</span>
+</span><span id="__span-4-109"><a id="__codelineno-4-109" name="__codelineno-4-109" href="#__codelineno-4-109"></a>    &lt;&lt;design.margins.section<span class="nb">_</span>title.bottom&gt;&gt;
+</span><span id="__span-4-110"><a id="__codelineno-4-110" name="__codelineno-4-110" href="#__codelineno-4-110"></a><span class="nb">}</span> <span class="c">% section title spacing</span>
+</span><span id="__span-4-111"><a id="__codelineno-4-111" name="__codelineno-4-111" href="#__codelineno-4-111"></a>
+</span><span id="__span-4-112"><a id="__codelineno-4-112" name="__codelineno-4-112" href="#__codelineno-4-112"></a><span class="c">% \renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points</span>
+</span><span id="__span-4-113"><a id="__codelineno-4-113" name="__codelineno-4-113" href="#__codelineno-4-113"></a><span class="k">\newenvironment</span><span class="nb">{</span>highlights<span class="nb">}{</span>
+</span><span id="__span-4-114"><a id="__codelineno-4-114" name="__codelineno-4-114" href="#__codelineno-4-114"></a>    <span class="k">\begin</span><span class="nb">{</span>itemize<span class="nb">}</span>[
+</span><span id="__span-4-115"><a id="__codelineno-4-115" name="__codelineno-4-115" href="#__codelineno-4-115"></a>        topsep=&lt;&lt;design.margins.highlights<span class="nb">_</span>area.top&gt;&gt;,
+</span><span id="__span-4-116"><a id="__codelineno-4-116" name="__codelineno-4-116" href="#__codelineno-4-116"></a>        parsep=&lt;&lt;design.margins.highlights<span class="nb">_</span>area.vertical<span class="nb">_</span>between<span class="nb">_</span>bullet<span class="nb">_</span>points&gt;&gt;,
+</span><span id="__span-4-117"><a id="__codelineno-4-117" name="__codelineno-4-117" href="#__codelineno-4-117"></a>        partopsep=0pt,
+</span><span id="__span-4-118"><a id="__codelineno-4-118" name="__codelineno-4-118" href="#__codelineno-4-118"></a>        itemsep=0pt,
+</span><span id="__span-4-119"><a id="__codelineno-4-119" name="__codelineno-4-119" href="#__codelineno-4-119"></a>        leftmargin=&lt;&lt;design.margins.highlights<span class="nb">_</span>area.left&gt;&gt; + 10pt
+</span><span id="__span-4-120"><a id="__codelineno-4-120" name="__codelineno-4-120" href="#__codelineno-4-120"></a>    ]
+</span><span id="__span-4-121"><a id="__codelineno-4-121" name="__codelineno-4-121" href="#__codelineno-4-121"></a><span class="nb">}{</span>
+</span><span id="__span-4-122"><a id="__codelineno-4-122" name="__codelineno-4-122" href="#__codelineno-4-122"></a>    <span class="k">\end</span><span class="nb">{</span>itemize<span class="nb">}</span>
+</span><span id="__span-4-123"><a id="__codelineno-4-123" name="__codelineno-4-123" href="#__codelineno-4-123"></a><span class="nb">}</span> <span class="c">% new environment for highlights</span>
+</span><span id="__span-4-124"><a id="__codelineno-4-124" name="__codelineno-4-124" href="#__codelineno-4-124"></a>
+</span><span id="__span-4-125"><a id="__codelineno-4-125" name="__codelineno-4-125" href="#__codelineno-4-125"></a>
+</span><span id="__span-4-126"><a id="__codelineno-4-126" name="__codelineno-4-126" href="#__codelineno-4-126"></a><span class="k">\newenvironment</span><span class="nb">{</span>onecolentry<span class="nb">}{</span>
+</span><span id="__span-4-127"><a id="__codelineno-4-127" name="__codelineno-4-127" href="#__codelineno-4-127"></a>    <span class="k">\begin</span><span class="nb">{</span>adjustwidth<span class="nb">}{</span>
+</span><span id="__span-4-128"><a id="__codelineno-4-128" name="__codelineno-4-128" href="#__codelineno-4-128"></a>        &lt;&lt;design.margins.entry<span class="nb">_</span>area.left<span class="nb">_</span>and<span class="nb">_</span>right&gt;&gt; + 0.00001 cm
+</span><span id="__span-4-129"><a id="__codelineno-4-129" name="__codelineno-4-129" href="#__codelineno-4-129"></a>    <span class="nb">}{</span>
+</span><span id="__span-4-130"><a id="__codelineno-4-130" name="__codelineno-4-130" href="#__codelineno-4-130"></a>        &lt;&lt;design.margins.entry<span class="nb">_</span>area.left<span class="nb">_</span>and<span class="nb">_</span>right&gt;&gt; + 0.00001 cm
+</span><span id="__span-4-131"><a id="__codelineno-4-131" name="__codelineno-4-131" href="#__codelineno-4-131"></a>    <span class="nb">}</span>
+</span><span id="__span-4-132"><a id="__codelineno-4-132" name="__codelineno-4-132" href="#__codelineno-4-132"></a><span class="nb">}{</span>
+</span><span id="__span-4-133"><a id="__codelineno-4-133" name="__codelineno-4-133" href="#__codelineno-4-133"></a>    <span class="k">\end</span><span class="nb">{</span>adjustwidth<span class="nb">}</span>
+</span><span id="__span-4-134"><a id="__codelineno-4-134" name="__codelineno-4-134" href="#__codelineno-4-134"></a><span class="nb">}</span> <span class="c">% new environment for one column entries</span>
+</span><span id="__span-4-135"><a id="__codelineno-4-135" name="__codelineno-4-135" href="#__codelineno-4-135"></a>
+</span><span id="__span-4-136"><a id="__codelineno-4-136" name="__codelineno-4-136" href="#__codelineno-4-136"></a><span class="k">\newenvironment</span><span class="nb">{</span>twocolentry<span class="nb">}</span>[2][]<span class="nb">{</span>
+</span><span id="__span-4-137"><a id="__codelineno-4-137" name="__codelineno-4-137" href="#__codelineno-4-137"></a>    <span class="k">\onecolentry</span>
+</span><span id="__span-4-138"><a id="__codelineno-4-138" name="__codelineno-4-138" href="#__codelineno-4-138"></a>    <span class="k">\def\secondColumn</span><span class="nb">{</span>#2<span class="nb">}</span>
+</span><span id="__span-4-139"><a id="__codelineno-4-139" name="__codelineno-4-139" href="#__codelineno-4-139"></a>    <span class="k">\setcolumnwidth</span><span class="nb">{</span><span class="k">\fill</span>, &lt;&lt;design.margins.entry<span class="nb">_</span>area.date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>width&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-4-140"><a id="__codelineno-4-140" name="__codelineno-4-140" href="#__codelineno-4-140"></a>    <span class="k">\begin</span><span class="nb">{</span>paracol<span class="nb">}{</span>2<span class="nb">}</span>
+</span><span id="__span-4-141"><a id="__codelineno-4-141" name="__codelineno-4-141" href="#__codelineno-4-141"></a><span class="nb">}{</span>
+</span><span id="__span-4-142"><a id="__codelineno-4-142" name="__codelineno-4-142" href="#__codelineno-4-142"></a>    <span class="k">\switchcolumn</span> <span class="k">\raggedleft</span> <span class="k">\secondColumn</span>
+</span><span id="__span-4-143"><a id="__codelineno-4-143" name="__codelineno-4-143" href="#__codelineno-4-143"></a>    <span class="k">\end</span><span class="nb">{</span>paracol<span class="nb">}</span>
+</span><span id="__span-4-144"><a id="__codelineno-4-144" name="__codelineno-4-144" href="#__codelineno-4-144"></a>    <span class="k">\endonecolentry</span>
+</span><span id="__span-4-145"><a id="__codelineno-4-145" name="__codelineno-4-145" href="#__codelineno-4-145"></a><span class="nb">}</span> <span class="c">% new environment for two column entries</span>
+</span><span id="__span-4-146"><a id="__codelineno-4-146" name="__codelineno-4-146" href="#__codelineno-4-146"></a>
+</span><span id="__span-4-147"><a id="__codelineno-4-147" name="__codelineno-4-147" href="#__codelineno-4-147"></a><span class="k">\newenvironment</span><span class="nb">{</span>threecolentry<span class="nb">}</span>[3][]<span class="nb">{</span>
+</span><span id="__span-4-148"><a id="__codelineno-4-148" name="__codelineno-4-148" href="#__codelineno-4-148"></a>    <span class="k">\onecolentry</span>
+</span><span id="__span-4-149"><a id="__codelineno-4-149" name="__codelineno-4-149" href="#__codelineno-4-149"></a>    <span class="k">\def\thirdColumn</span><span class="nb">{</span>#3<span class="nb">}</span>
+</span><span id="__span-4-150"><a id="__codelineno-4-150" name="__codelineno-4-150" href="#__codelineno-4-150"></a>    <span class="k">\setcolumnwidth</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.education<span class="nb">_</span>degree<span class="nb">_</span>width&gt;&gt;, <span class="k">\fill</span>, &lt;&lt;design.margins.entry<span class="nb">_</span>area.date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>width&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-4-151"><a id="__codelineno-4-151" name="__codelineno-4-151" href="#__codelineno-4-151"></a>    <span class="k">\begin</span><span class="nb">{</span>paracol<span class="nb">}{</span>3<span class="nb">}</span>
+</span><span id="__span-4-152"><a id="__codelineno-4-152" name="__codelineno-4-152" href="#__codelineno-4-152"></a>    <span class="nb">{</span><span class="k">\raggedright</span> #2<span class="nb">}</span> <span class="k">\switchcolumn</span>
+</span><span id="__span-4-153"><a id="__codelineno-4-153" name="__codelineno-4-153" href="#__codelineno-4-153"></a><span class="nb">}{</span>
+</span><span id="__span-4-154"><a id="__codelineno-4-154" name="__codelineno-4-154" href="#__codelineno-4-154"></a>    <span class="k">\switchcolumn</span> <span class="k">\raggedleft</span> <span class="k">\thirdColumn</span>
+</span><span id="__span-4-155"><a id="__codelineno-4-155" name="__codelineno-4-155" href="#__codelineno-4-155"></a>    <span class="k">\end</span><span class="nb">{</span>paracol<span class="nb">}</span>
+</span><span id="__span-4-156"><a id="__codelineno-4-156" name="__codelineno-4-156" href="#__codelineno-4-156"></a>    <span class="k">\endonecolentry</span>
+</span><span id="__span-4-157"><a id="__codelineno-4-157" name="__codelineno-4-157" href="#__codelineno-4-157"></a><span class="nb">}</span> <span class="c">% new environment for three column entries</span>
+</span><span id="__span-4-158"><a id="__codelineno-4-158" name="__codelineno-4-158" href="#__codelineno-4-158"></a>
+</span><span id="__span-4-159"><a id="__codelineno-4-159" name="__codelineno-4-159" href="#__codelineno-4-159"></a><span class="k">\newenvironment</span><span class="nb">{</span>header<span class="nb">}{</span>
+</span><span id="__span-4-160"><a id="__codelineno-4-160" name="__codelineno-4-160" href="#__codelineno-4-160"></a>    <span class="k">\setlength</span><span class="nb">{</span><span class="k">\topsep</span><span class="nb">}{</span>0pt<span class="nb">}</span><span class="k">\par\kern\topsep\centering\color</span><span class="nb">{</span>primaryColor<span class="nb">}</span><span class="k">\linespread</span><span class="nb">{</span>1.5<span class="nb">}</span>
+</span><span id="__span-4-161"><a id="__codelineno-4-161" name="__codelineno-4-161" href="#__codelineno-4-161"></a><span class="nb">}{</span>
+</span><span id="__span-4-162"><a id="__codelineno-4-162" name="__codelineno-4-162" href="#__codelineno-4-162"></a>    <span class="k">\par\kern\topsep</span>
+</span><span id="__span-4-163"><a id="__codelineno-4-163" name="__codelineno-4-163" href="#__codelineno-4-163"></a><span class="nb">}</span> <span class="c">% new environment for the header</span>
+</span><span id="__span-4-164"><a id="__codelineno-4-164" name="__codelineno-4-164" href="#__codelineno-4-164"></a>
+</span><span id="__span-4-165"><a id="__codelineno-4-165" name="__codelineno-4-165" href="#__codelineno-4-165"></a>((* set last<span class="nb">_</span>updated<span class="nb">_</span>date<span class="nb">_</span>style<span class="nb">_</span>placeholders = <span class="nb">{</span>
+</span><span id="__span-4-166"><a id="__codelineno-4-166" name="__codelineno-4-166" href="#__codelineno-4-166"></a>    &quot;TODAY&quot;: today,
+</span><span id="__span-4-167"><a id="__codelineno-4-167" name="__codelineno-4-167" href="#__codelineno-4-167"></a><span class="nb">}</span> *))
+</span><span id="__span-4-168"><a id="__codelineno-4-168" name="__codelineno-4-168" href="#__codelineno-4-168"></a><span class="k">\newcommand</span><span class="nb">{</span><span class="k">\placelastupdatedtext</span><span class="nb">}{</span><span class="c">% \placetextbox{&lt;horizontal pos&gt;}{&lt;vertical pos&gt;}{&lt;stuff&gt;}</span>
+</span><span id="__span-4-169"><a id="__codelineno-4-169" name="__codelineno-4-169" href="#__codelineno-4-169"></a>  <span class="k">\AddToShipoutPictureFG*</span><span class="nb">{</span><span class="c">% Add &lt;stuff&gt; to current page foreground</span>
+</span><span id="__span-4-170"><a id="__codelineno-4-170" name="__codelineno-4-170" href="#__codelineno-4-170"></a>    <span class="k">\put</span>(
+</span><span id="__span-4-171"><a id="__codelineno-4-171" name="__codelineno-4-171" href="#__codelineno-4-171"></a>        <span class="k">\LenToUnit</span><span class="nb">{</span><span class="k">\paperwidth</span>-&lt;&lt;design.margins.page.right&gt;&gt;-&lt;&lt;design.margins.entry<span class="nb">_</span>area.left<span class="nb">_</span>and<span class="nb">_</span>right&gt;&gt;+0.05cm<span class="nb">}</span>,
+</span><span id="__span-4-172"><a id="__codelineno-4-172" name="__codelineno-4-172" href="#__codelineno-4-172"></a>        <span class="k">\LenToUnit</span><span class="nb">{</span><span class="k">\paperheight</span>-&lt;&lt;design.margins.page.top|divide<span class="nb">_</span>length<span class="nb">_</span>by(2)&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-4-173"><a id="__codelineno-4-173" name="__codelineno-4-173" href="#__codelineno-4-173"></a>    )<span class="nb">{</span><span class="k">\vtop</span><span class="nb">{{</span><span class="k">\null</span><span class="nb">}</span><span class="k">\makebox</span><span class="na">[0pt][c]</span><span class="nb">{</span>
+</span><span id="__span-4-174"><a id="__codelineno-4-174" name="__codelineno-4-174" href="#__codelineno-4-174"></a>        <span class="k">\small\color</span><span class="nb">{</span>gray<span class="nb">}</span><span class="k">\textit</span><span class="nb">{</span>&lt;&lt;design.last<span class="nb">_</span>updated<span class="nb">_</span>date<span class="nb">_</span>style|replace<span class="nb">_</span>placeholders<span class="nb">_</span>with<span class="nb">_</span>actual<span class="nb">_</span>values(last<span class="nb">_</span>updated<span class="nb">_</span>date<span class="nb">_</span>style<span class="nb">_</span>placeholders)&gt;&gt;<span class="nb">}</span><span class="k">\hspace</span><span class="nb">{</span><span class="k">\widthof</span><span class="nb">{</span>&lt;&lt;design.last<span class="nb">_</span>updated<span class="nb">_</span>date<span class="nb">_</span>style|replace<span class="nb">_</span>placeholders<span class="nb">_</span>with<span class="nb">_</span>actual<span class="nb">_</span>values(last<span class="nb">_</span>updated<span class="nb">_</span>date<span class="nb">_</span>style<span class="nb">_</span>placeholders)&gt;&gt;<span class="nb">}}</span>
+</span><span id="__span-4-175"><a id="__codelineno-4-175" name="__codelineno-4-175" href="#__codelineno-4-175"></a>    <span class="nb">}}}</span><span class="c">%</span>
+</span><span id="__span-4-176"><a id="__codelineno-4-176" name="__codelineno-4-176" href="#__codelineno-4-176"></a>  <span class="nb">}</span><span class="c">%</span>
+</span><span id="__span-4-177"><a id="__codelineno-4-177" name="__codelineno-4-177" href="#__codelineno-4-177"></a><span class="nb">}</span><span class="c">%</span>
+</span><span id="__span-4-178"><a id="__codelineno-4-178" name="__codelineno-4-178" href="#__codelineno-4-178"></a>
+</span><span id="__span-4-179"><a id="__codelineno-4-179" name="__codelineno-4-179" href="#__codelineno-4-179"></a><span class="c">% save the original href command in a new command:</span>
+</span><span id="__span-4-180"><a id="__codelineno-4-180" name="__codelineno-4-180" href="#__codelineno-4-180"></a><span class="k">\let\hrefWithoutArrow\href</span>
+</span><span id="__span-4-181"><a id="__codelineno-4-181" name="__codelineno-4-181" href="#__codelineno-4-181"></a>
+</span><span id="__span-4-182"><a id="__codelineno-4-182" name="__codelineno-4-182" href="#__codelineno-4-182"></a><span class="c">% new command for external links:</span>
+</span><span id="__span-4-183"><a id="__codelineno-4-183" name="__codelineno-4-183" href="#__codelineno-4-183"></a>((* if not design.disable<span class="nb">_</span>external<span class="nb">_</span>link<span class="nb">_</span>icons *))
+</span><span id="__span-4-184"><a id="__codelineno-4-184" name="__codelineno-4-184" href="#__codelineno-4-184"></a><span class="k">\renewcommand</span><span class="nb">{</span><span class="k">\href</span><span class="nb">}</span>[2]<span class="nb">{</span><span class="k">\hrefWithoutArrow</span><span class="nb">{</span>#1<span class="nb">}{</span><span class="k">\mbox</span><span class="nb">{</span><span class="k">\ifthenelse</span><span class="nb">{</span><span class="k">\equal</span><span class="nb">{</span>#2<span class="nb">}{}}{</span> <span class="nb">}{</span>#2 <span class="nb">}</span><span class="k">\raisebox</span><span class="nb">{</span>.15ex<span class="nb">}{</span><span class="k">\footnotesize</span> <span class="k">\faExternalLink*</span><span class="nb">}}}}</span>
+</span><span id="__span-4-185"><a id="__codelineno-4-185" name="__codelineno-4-185" href="#__codelineno-4-185"></a>((* endif *))
+</span></code></pre></div>
+<h2 id="experienceentry">ExperienceEntry<a class="headerlink" href="#experienceentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>((* if section<span class="nb">_</span>title in design.show<span class="nb">_</span>timespan<span class="nb">_</span>in *))
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string, entry.time<span class="nb">_</span>span<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>((* else *))
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>((* endif *))
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>((* endif *))
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>((* if entry.date<span class="nb">_</span>string or entry.location *))
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="k">\begin</span><span class="nb">{</span>twocolentry<span class="nb">}{</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    &lt;&lt;date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings|join(&quot;<span class="k">\n\n</span>&quot;)&gt;&gt;
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="nb">}</span>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.company&gt;&gt;<span class="nb">}</span>, &lt;&lt;entry.position&gt;&gt;
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>    ((* for item in entry.highlights *))
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>        ((* if loop.first *))
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>    <span class="k">\begin</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>        ((* endif *))
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>        <span class="k">\item</span> &lt;&lt;item&gt;&gt;
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>        ((* if loop.last *))
+</span><span id="__span-5-21"><a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a>    <span class="k">\end</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-5-22"><a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a>        ((* endif *))
+</span><span id="__span-5-23"><a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a>    ((* endfor *))
+</span><span id="__span-5-24"><a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="k">\end</span><span class="nb">{</span>twocolentry<span class="nb">}</span>
+</span><span id="__span-5-25"><a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a>((* else *))
+</span><span id="__span-5-26"><a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="k">\begin</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-5-27"><a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.company&gt;&gt;<span class="nb">}</span>, &lt;&lt;entry.position&gt;&gt;
+</span><span id="__span-5-28"><a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a>    ((* for item in entry.highlights *))
+</span><span id="__span-5-29"><a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a>        ((* if loop.first *))
+</span><span id="__span-5-30"><a id="__codelineno-5-30" name="__codelineno-5-30" href="#__codelineno-5-30"></a>    <span class="k">\begin</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-5-31"><a id="__codelineno-5-31" name="__codelineno-5-31" href="#__codelineno-5-31"></a>        ((* endif *))
+</span><span id="__span-5-32"><a id="__codelineno-5-32" name="__codelineno-5-32" href="#__codelineno-5-32"></a>        <span class="k">\item</span> &lt;&lt;item&gt;&gt;
+</span><span id="__span-5-33"><a id="__codelineno-5-33" name="__codelineno-5-33" href="#__codelineno-5-33"></a>        ((* if loop.last *))
+</span><span id="__span-5-34"><a id="__codelineno-5-34" name="__codelineno-5-34" href="#__codelineno-5-34"></a>    <span class="k">\end</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-5-35"><a id="__codelineno-5-35" name="__codelineno-5-35" href="#__codelineno-5-35"></a>        ((* endif *))
+</span><span id="__span-5-36"><a id="__codelineno-5-36" name="__codelineno-5-36" href="#__codelineno-5-36"></a>    ((* endfor *))
+</span><span id="__span-5-37"><a id="__codelineno-5-37" name="__codelineno-5-37" href="#__codelineno-5-37"></a><span class="k">\end</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-5-38"><a id="__codelineno-5-38" name="__codelineno-5-38" href="#__codelineno-5-38"></a>((* endif *))
+</span></code></pre></div>
+<h2 id="normalentry">NormalEntry<a class="headerlink" href="#normalentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>((* if section<span class="nb">_</span>title in design.show<span class="nb">_</span>timespan<span class="nb">_</span>in *))
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string, entry.time<span class="nb">_</span>span<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>((* else *))
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>((* endif *))
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>((* endif *))
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>((* if entry.date<span class="nb">_</span>string or entry.location *))
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">\begin</span><span class="nb">{</span>twocolentry<span class="nb">}{</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    &lt;&lt;date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings|join(&quot;<span class="k">\n\n</span>&quot;)&gt;&gt;
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="nb">}</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.name&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    ((* for item in entry.highlights *))
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        ((* if loop.first *))
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>    <span class="k">\begin</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>        ((* endif *))
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>        <span class="k">\item</span> &lt;&lt;item&gt;&gt;
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>        ((* if loop.last *))
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="k">\end</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        ((* endif *))
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    ((* endfor *))
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="k">\end</span><span class="nb">{</span>twocolentry<span class="nb">}</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>((* else *))
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="k">\begin</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.name&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-6-28"><a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a>    ((* for item in entry.highlights *))
+</span><span id="__span-6-29"><a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a>        ((* if loop.first *))
+</span><span id="__span-6-30"><a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a>    <span class="k">\begin</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-6-31"><a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a>        ((* endif *))
+</span><span id="__span-6-32"><a id="__codelineno-6-32" name="__codelineno-6-32" href="#__codelineno-6-32"></a>        <span class="k">\item</span> &lt;&lt;item&gt;&gt;
+</span><span id="__span-6-33"><a id="__codelineno-6-33" name="__codelineno-6-33" href="#__codelineno-6-33"></a>        ((* if loop.last *))
+</span><span id="__span-6-34"><a id="__codelineno-6-34" name="__codelineno-6-34" href="#__codelineno-6-34"></a>    <span class="k">\end</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-6-35"><a id="__codelineno-6-35" name="__codelineno-6-35" href="#__codelineno-6-35"></a>        ((* endif *))
+</span><span id="__span-6-36"><a id="__codelineno-6-36" name="__codelineno-6-36" href="#__codelineno-6-36"></a>    ((* endfor *))
+</span><span id="__span-6-37"><a id="__codelineno-6-37" name="__codelineno-6-37" href="#__codelineno-6-37"></a><span class="k">\end</span><span class="nb">{</span>onecolentry<span class="nb">}</span>
+</span><span id="__span-6-38"><a id="__codelineno-6-38" name="__codelineno-6-38" href="#__codelineno-6-38"></a>((* endif *))
+</span></code></pre></div>
+<h2 id="header">Header<a class="headerlink" href="#header" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>((* if not design.disable<span class="nb">_</span>last<span class="nb">_</span>updated<span class="nb">_</span>date *))
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">\placelastupdatedtext</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>((* endif *))
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>((* if cv.name is not none *))
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">\begin</span><span class="nb">{</span>header<span class="nb">}</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="k">\fontsize</span><span class="nb">{</span>&lt;&lt;design.header<span class="nb">_</span>font<span class="nb">_</span>size&gt;&gt;<span class="nb">}{</span>&lt;&lt;design.header<span class="nb">_</span>font<span class="nb">_</span>size&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;cv.name&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.header.vertical<span class="nb">_</span>between<span class="nb">_</span>name<span class="nb">_</span>and<span class="nb">_</span>connections&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>    <span class="k">\normalsize</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a>    ((* for connection in cv.connections *))
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>    <span class="k">\mbox</span><span class="nb">{</span>((*- if connection[&quot;url&quot;] -*))
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a>        <span class="k">\hrefWithoutArrow</span><span class="nb">{</span>&lt;&lt;connection[&quot;url&quot;]&gt;&gt;<span class="nb">}{{</span><span class="k">\footnotesize</span>&lt;&lt;connection[&quot;latex<span class="nb">_</span>icon&quot;]&gt;&gt;<span class="nb">}</span><span class="k">\hspace*</span><span class="nb">{</span>0.13cm<span class="nb">}</span>&lt;&lt;connection[&quot;placeholder&quot;]&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a>        ((*- else -*))
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>        <span class="nb">{</span><span class="k">\footnotesize</span>&lt;&lt;connection[&quot;latex<span class="nb">_</span>icon&quot;]&gt;&gt;<span class="nb">}</span><span class="k">\hspace*</span><span class="nb">{</span>0.13cm<span class="nb">}</span>&lt;&lt;connection[&quot;placeholder&quot;]&gt;&gt;
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        ((*- endif -*))<span class="nb">}</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="k">\kern</span> &lt;&lt;design.margins.header.horizontal<span class="nb">_</span>between<span class="nb">_</span>connections&gt;&gt;
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a>    ((* endfor *))
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="k">\end</span><span class="nb">{</span>header<span class="nb">}</span>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a>
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22" href="#__codelineno-7-22"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.header.bottom&gt;&gt; - &lt;&lt;design.margins.section<span class="nb">_</span>title.top&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23" href="#__codelineno-7-23"></a>((* endif *))
+</span></code></pre></div>
+<h2 id="publicationentry">PublicationEntry<a class="headerlink" href="#publicationentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>((* endif *))
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="k">\begin</span><span class="nb">{</span>twocolentry<span class="nb">}{</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    &lt;&lt;entry.date<span class="nb">_</span>string&gt;&gt;
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="nb">}</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="k">\begin</span><span class="nb">{</span>minipage<span class="nb">}{</span><span class="k">\linewidth</span><span class="nb">}</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>        <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.title&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a>        <span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.highlights<span class="nb">_</span>area.vertical<span class="nb">_</span>between<span class="nb">_</span>bullet<span class="nb">_</span>points&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a>        &lt;&lt;entry.authors|map(&quot;make<span class="nb">_</span>it<span class="nb">_</span>nolinebreak&quot;)|join(&quot;, &quot;)&gt;&gt;
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>        ((* if entry.doi or entry.journal *))
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>        <span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.highlights<span class="nb">_</span>area.vertical<span class="nb">_</span>between<span class="nb">_</span>bullet<span class="nb">_</span>points&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a>        ((* endif *))
+</span><span id="__span-8-18"><a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a>        ((* if entry.doi -*))
+</span><span id="__span-8-19"><a id="__codelineno-8-19" name="__codelineno-8-19" href="#__codelineno-8-19"></a>        <span class="k">\href</span><span class="nb">{</span>&lt;&lt;entry.doi<span class="nb">_</span>url&gt;&gt;<span class="nb">}{</span>&lt;&lt;entry.doi&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-8-20"><a id="__codelineno-8-20" name="__codelineno-8-20" href="#__codelineno-8-20"></a>        ((*- endif -*))
+</span><span id="__span-8-21"><a id="__codelineno-8-21" name="__codelineno-8-21" href="#__codelineno-8-21"></a>        ((*- if entry.doi and entry.journal *)) (((* endif -*))
+</span><span id="__span-8-22"><a id="__codelineno-8-22" name="__codelineno-8-22" href="#__codelineno-8-22"></a>        ((*- if entry.journal -*))
+</span><span id="__span-8-23"><a id="__codelineno-8-23" name="__codelineno-8-23" href="#__codelineno-8-23"></a>        &lt;&lt;entry.journal&gt;&gt;
+</span><span id="__span-8-24"><a id="__codelineno-8-24" name="__codelineno-8-24" href="#__codelineno-8-24"></a>        ((*- endif -*))
+</span><span id="__span-8-25"><a id="__codelineno-8-25" name="__codelineno-8-25" href="#__codelineno-8-25"></a>        ((*- if entry.doi and entry.journal *)))((* endif *))
+</span><span id="__span-8-26"><a id="__codelineno-8-26" name="__codelineno-8-26" href="#__codelineno-8-26"></a>    <span class="k">\end</span><span class="nb">{</span>minipage<span class="nb">}</span>
+</span><span id="__span-8-27"><a id="__codelineno-8-27" name="__codelineno-8-27" href="#__codelineno-8-27"></a><span class="k">\end</span><span class="nb">{</span>twocolentry<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="educationentry">EducationEntry<a class="headerlink" href="#educationentry" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>((* if section<span class="nb">_</span>title in design.show<span class="nb">_</span>timespan<span class="nb">_</span>in *))
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string, entry.time<span class="nb">_</span>span<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>((* else *))
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    ((* set date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings = [entry.location, entry.date<span class="nb">_</span>string]|select(&quot;!=&quot;, &quot;&quot;) *))
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>((* endif *))
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>((* if not is<span class="nb">_</span>first<span class="nb">_</span>entry *))
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">\vspace</span><span class="nb">{</span>&lt;&lt;design.margins.entry<span class="nb">_</span>area.vertical<span class="nb">_</span>between&gt;&gt;<span class="nb">}</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>((* endif *))
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="k">\begin</span><span class="nb">{</span>threecolentry<span class="nb">}{</span><span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.degree&gt;&gt;<span class="nb">}}{</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>    &lt;&lt;date<span class="nb">_</span>and<span class="nb">_</span>location<span class="nb">_</span>strings|join(&quot;<span class="k">\n\n</span>&quot;)&gt;&gt;
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="nb">}</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>    <span class="k">\textbf</span><span class="nb">{</span>&lt;&lt;entry.institution&gt;&gt;<span class="nb">}</span>, &lt;&lt;entry.area&gt;&gt;
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>((* for item in entry.highlights *))
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>    ((* if loop.first *))
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>    <span class="k">\begin</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>    ((* endif *))
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a>        <span class="k">\item</span> &lt;&lt;item&gt;&gt;
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a>    ((* if loop.last *))
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a>    <span class="k">\end</span><span class="nb">{</span>highlights<span class="nb">}</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>    ((* endif *))
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>((* endfor *))
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="k">\end</span><span class="nb">{</span>threecolentry<span class="nb">}</span>
+</span></code></pre></div>
+<h2 id="sectionending">SectionEnding<a class="headerlink" href="#sectionending" title="Permanent link">&para;</a></h2>
+<div class="language-latex highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: themes">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                themes
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../engineeringresumes/" class="md-footer__link md-footer__link--next" aria-label="Next: engineeringresumes">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                engineeringresumes
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 Sina Atalay
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.action.view", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.top", "search.highlight", "search.suggest", "toc.follow"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.1e8ae164.min.js"></script>
+      
+        <script src="../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
