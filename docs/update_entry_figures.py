@@ -36,9 +36,9 @@ def dictionary_to_yaml(dictionary: dict):
     """Converts a dictionary to a YAML string.
 
     Args:
-        dictionary (dict): The dictionary to be converted to YAML.
+        dictionary: The dictionary to be converted to YAML.
     Returns:
-        str: The YAML string.
+        The YAML string.
     """
     yaml_object = ruamel.yaml.YAML()
     yaml_object.width = 60

@@ -28,8 +28,8 @@ def copy_theme_files_to_output_directory(
     copied from the current working directory.
 
     Args:
-        theme_name (str): The name of the theme.
-        output_directory_path (pathlib.Path): Path to the output directory.
+        theme_name: The name of the theme.
+        output_directory_path: Path to the output directory.
     """
     if theme_name in data.available_themes:
         theme_directory_path = importlib.resources.files(
@@ -75,11 +75,11 @@ def create_a_latex_file(
     directory.
 
     Args:
-        rendercv_data_model (dm.RenderCVDataModel): The data model.
-        output_directory (pathlib.Path): Path to the output directory.
+        rendercv_data_model: The data model.
+        output_directory: Path to the output directory.
 
     Returns:
-        pathlib.Path: The path to the generated $\\LaTeX$ file.
+        The path to the generated $\\LaTeX$ file.
     """
     # create output directory if it doesn't exist:
     if not output_directory.is_dir():
@@ -105,11 +105,11 @@ def create_a_markdown_file(
     directory.
 
     Args:
-        rendercv_data_model (dm.RenderCVDataModel): The data model.
-        output_directory (pathlib.Path): Path to the output directory.
+        rendercv_data_model: The data model.
+        output_directory: Path to the output directory.
 
     Returns:
-        pathlib.Path: The path to the rendered Markdown file.
+        The path to the rendered Markdown file.
     """
     # create output directory if it doesn't exist:
     if not output_directory.is_dir():
@@ -135,11 +135,11 @@ def create_a_latex_file_and_copy_theme_files(
     copy the auxiliary theme files to the output directory.
 
     Args:
-        rendercv_data_model (dm.RenderCVDataModel): The data model.
-        output_directory (pathlib.Path): Path to the output directory.
+        rendercv_data_model: The data model.
+        output_directory: Path to the output directory.
 
     Returns:
-        pathlib.Path: The path to the rendered $\\LaTeX$ file.
+        The path to the rendered $\\LaTeX$ file.
     """
     latex_file_path = create_a_latex_file(rendercv_data_model, output_directory)
     copy_theme_files_to_output_directory(
@@ -154,10 +154,10 @@ def render_a_pdf_from_latex(
     """Run TinyTeX with the given $\\LaTeX$ file to render the PDF.
 
     Args:
-        latex_file_path (str): The path to the $\\LaTeX$ file.
+        latex_file_path: The path to the $\\LaTeX$ file.
 
     Returns:
-        pathlib.Path: The path to the rendered PDF file.
+        The path to the rendered PDF file.
     """
     # check if the file exists:
     if not latex_file_path.is_file():
@@ -283,10 +283,10 @@ def render_pngs_from_pdf(pdf_file_path: pathlib.Path) -> list[pathlib.Path]:
     """Render a PNG file for each page of the given PDF file.
 
     Args:
-        pdf_file_path (pathlib.Path): The path to the PDF file.
+        pdf_file_path: The path to the PDF file.
 
     Returns:
-        list[pathlib.Path]: The paths to the rendered PNG files.
+        The paths to the rendered PNG files.
     """
     # check if the file exists:
     if not pdf_file_path.is_file():
@@ -311,10 +311,10 @@ def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Pa
     directory. It uses `rendercv/themes/main.j2.html` as the Jinja2 template.
 
     Args:
-        markdown_file_path (pathlib.Path): The path to the Markdown file.
+        markdown_file_path: The path to the Markdown file.
 
     Returns:
-        pathlib.Path: The path to the rendered HTML file.
+        The path to the rendered HTML file.
     """
     # check if the file exists:
     if not markdown_file_path.is_file():

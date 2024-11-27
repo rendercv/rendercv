@@ -28,9 +28,9 @@ class LiveProgressReporter(rich.live.Live):
     reporting functionality.
 
     Args:
-        number_of_steps (int): The number of steps to be finished.
-        end_message (str, optional): The message to be printed when the progress is
-            finished. Defaults to "Your CV is rendered!".
+        number_of_steps: The number of steps to be finished.
+        end_message: The message to be printed when the progress is finished. Defaults
+            to "Your CV is rendered!".
     """
 
     def __init__(self, number_of_steps: int, end_message: str = "Your CV is rendered!"):
@@ -77,7 +77,7 @@ class LiveProgressReporter(rich.live.Live):
         """Start a step and update the progress bars.
 
         Args:
-            step_name (str): The name of the step.
+            step_name: The name of the step.
         """
         self.current_step_name = step_name
         self.current_step_id = self.step_progress.add_task(
@@ -116,7 +116,7 @@ def warn_if_new_version_is_available() -> bool:
     otherwise.
 
     Returns:
-        bool: True if there is a new version, and False otherwise.
+        True if there is a new version, and False otherwise.
     """
     latest_version = utilities.get_latest_version_number_from_pypi()
     if latest_version is not None and __version__ != latest_version:
@@ -161,7 +161,7 @@ def warning(text: str):
     """Print a warning message to the terminal.
 
     Args:
-        text (str): The text of the warning message.
+        text: The text of the warning message.
     """
     print(f"[bold yellow]{text}")
 
@@ -172,8 +172,8 @@ def error(text: Optional[str] = None, exception: Optional[Exception] = None):
     given, then print an empty line and exit the program.
 
     Args:
-        text (str): The text of the error message.
-        exception (Exception, optional): An exception object. Defaults to None.
+        text: The text of the error message.
+        exception: An exception object. Defaults to None.
     """
     if exception is not None:
         exception_messages = [str(arg) for arg in exception.args]
@@ -196,7 +196,7 @@ def information(text: str):
     """Print an information message to the terminal.
 
     Args:
-        text (str): The text of the information message.
+        text: The text of the information message.
     """
     print(f"[green]{text}")
 
@@ -210,7 +210,7 @@ def print_validation_errors(exception: pydantic.ValidationError):
     in a nice table with [Rich](https://rich.readthedocs.io/en/latest/).
 
     Args:
-        exception (pydantic.ValidationError): The Pydantic validation error object.
+        exception: The Pydantic validation error object.
     """
     # This dictionary is used to convert the error messages that Pydantic returns to
     # more user-friendly messages.
@@ -373,20 +373,16 @@ def handle_and_print_raised_exceptions(function: Callable) -> Callable:
     as
 
     ```python
-    handle_exceptions(my_function)()
+    my_function = handle_exceptions(my_function)
     ```
 
-    which is step by step equivalent to
-
-    1.  Execute `#!python handle_exceptions(my_function)` which will return the
-        function called `wrapper`.
-    2.  Execute `#!python wrapper()`.
+    which means that the function `my_function` is modified by the `handle_exceptions`.
 
     Args:
-        function (Callable): The function to be wrapped.
+        function: The function to be wrapped.
 
     Returns:
-        Callable: The wrapped function.
+        The wrapped function.
     """
 
     @functools.wraps(function)

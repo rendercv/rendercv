@@ -8,7 +8,7 @@ import copy
 import pathlib
 import re
 from datetime import date as Date
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 import jinja2
 
@@ -22,8 +22,8 @@ class TemplatedFile:
     templates.
 
     Args:
-        data_model (dm.RenderCVDataModel): The data model.
-        environment (jinja2.Environment): The Jinja2 environment.
+        data_model: The data model.
+        environment: The Jinja2 environment.
     """
 
     def __init__(
@@ -46,11 +46,11 @@ class TemplatedFile:
         """Template one of the files in the `themes` directory.
 
         Args:
-            template_name (str): The name of the template file.
-            entry (Optional[dm.Entry]): The title of the section.
+            template_name: The name of the template file.
+            entry: The title of the section.
 
         Returns:
-            str: The templated file.
+            The templated file.
         """
         template = self.environment.get_template(
             f"{theme_name}/{template_name}.j2.{extension}"
@@ -114,8 +114,7 @@ class LaTeXFile(TemplatedFile):
         """Render and return all the templates for the $\\LaTeX$ file.
 
         Returns:
-            Tuple[str, str, List[Tuple[str, List[str], str]]]: The preamble, header, and
-                sections of the $\\LaTeX$ file.
+            The preamble, header, and sections of the $\\LaTeX$ file.
         """
         # Template the preamble, header, and sections:
         preamble = self.template("Preamble")
@@ -124,7 +123,7 @@ class LaTeXFile(TemplatedFile):
         for section in self.cv.sections:
             section_beginning = self.template(
                 "SectionBeginning",
-                section_title=section.title,
+                section_title=escape_latex_characters(section.title),
                 entry_type=section.entry_type,
             )
             entries: list[str] = []
@@ -158,11 +157,11 @@ class LaTeXFile(TemplatedFile):
         """Template one of the files in the `themes` directory.
 
         Args:
-            template_name (str): The name of the template file.
-            entry (Optional[dm.Entry]): The data model of the entry.
+            template_name: The name of the template file.
+            entry: The data model of the entry.
 
         Returns:
-            str: The templated file.
+            The templated file.
         """
         result = super().template(
             self.design.theme,
@@ -180,7 +179,7 @@ class LaTeXFile(TemplatedFile):
         """Get the $\\LaTeX$ code of the file.
 
         Returns:
-            str: The $\\LaTeX$ code.
+            The $\\LaTeX$ code.
         """
         preamble, header, sections = self.render_templates()
         latex_code: str = super().get_full_code(
@@ -207,8 +206,7 @@ class MarkdownFile(TemplatedFile):
         """Render and return all the templates for the Markdown file.
 
         Returns:
-            tuple[str, List[Tuple[str, List[str]]]]: The header and sections of the
-                Markdown file.
+            The header and sections of the Markdown file.
         """
         # Template the header and sections:
         header = self.template("Header")
@@ -248,11 +246,11 @@ class MarkdownFile(TemplatedFile):
         """Template one of the files in the `themes` directory.
 
         Args:
-            template_name (str): The name of the template file.
-            entry (Optional[dm.Entry]): The data model of the entry.
+            template_name: The name of the template file.
+            entry: The data model of the entry.
 
         Returns:
-            str: The templated file.
+            The templated file.
         """
         result = super().template(
             "markdown",
@@ -267,7 +265,7 @@ class MarkdownFile(TemplatedFile):
         """Get the Markdown code of the file.
 
         Returns:
-            str: The Markdown code.
+            The Markdown code.
         """
         header, sections = self.render_templates()
         markdown_code: str = super().get_full_code(
@@ -287,11 +285,10 @@ def revert_nested_latex_style_commands(latex_string: str) -> str:
     unitalicize a bold or italicized text.
 
     Args:
-        latex_string (str): The string to revert the nested $\\LaTeX$ style
-            commands.
+        latex_string: The string to revert the nested $\\LaTeX$ style commands.
 
     Returns:
-        str: The string with the reverted nested $\\LaTeX$ style commands.
+        The string with the reverted nested $\\LaTeX$ style commands.
     """
     # If there is nested \textbf, \textit, or \underline commands, replace the inner
     # ones with \textnormal:
@@ -320,7 +317,7 @@ def revert_nested_latex_style_commands(latex_string: str) -> str:
     return latex_string
 
 
-def escape_latex_characters(latex_string: str, strict: bool = True) -> str:
+def escape_latex_characters(latex_string: str) -> str:
     """Escape $\\LaTeX$ characters in a string by adding a backslash before them.
 
     Example:
@@ -328,41 +325,31 @@ def escape_latex_characters(latex_string: str, strict: bool = True) -> str:
         escape_latex_characters("This is a # string.")
         ```
         returns
-        `#!python "This is a \\# string."`
+        `"This is a \\# string."`
 
     Args:
-        latex_string (str): The string to escape.
-        strict (bool): Whether to escape all the special $\\LaTeX$ characters or not. If
-            you want to allow math input, set it to False.
+        latex_string: The string to escape.
 
     Returns:
-        str: The escaped string.
+        The escaped string.
     """
 
     # Dictionary of escape characters:
     escape_characters = {
+        "{": "\\{",
+        "}": "\\}",
+        # "\\": "\\textbackslash{}",
         "#": "\\#",
         "%": "\\%",
         "&": "\\&",
         "~": "\\textasciitilde{}",
-    }
-
-    strict_escape_characters = {
         "$": "\\$",
         "_": "\\_",
         "^": "\\textasciicircum{}",
     }
-
-    if strict:
-        # To allow math input, users can use this function with strict = False
-        escape_characters.update(strict_escape_characters)
-
     translation_map = str.maketrans(escape_characters)
-    strict_translation_map = str.maketrans(strict_escape_characters)
 
     # Don't escape urls as hyperref package will do it automatically:
-    # Also always escape link placeholders strictly (as we don't expect any math in
-    # them):
     # Find all the links in the sentence:
     links = re.findall(r"\[(.*?)\]\((.*?)\)", latex_string)
 
@@ -370,8 +357,7 @@ def escape_latex_characters(latex_string: str, strict: bool = True) -> str:
     new_links = []
     for i, link in enumerate(links):
         placeholder = link[0]
-        escaped_placeholder = placeholder.translate(strict_translation_map)
-        escaped_placeholder = escaped_placeholder.translate(translation_map)
+        escaped_placeholder = placeholder.translate(translation_map)
         url = link[1]
 
         original_link = f"[{placeholder}]({url})"
@@ -380,6 +366,23 @@ def escape_latex_characters(latex_string: str, strict: bool = True) -> str:
         new_link = f"[{escaped_placeholder}]({url})"
         new_links.append(new_link)
 
+    # If there are equations in the sentence, don't escape the special characters:
+    # Find all the equations in the sentence:
+    equations = re.findall(r"(\$\$.*?\$\$)", latex_string)
+    new_equations = []
+    for i, equation in enumerate(equations):
+        latex_string = latex_string.replace(equation, f"!!-equation{i}-!!")
+
+        # Keep only one dollar sign for inline equations:
+        new_equation = equation.replace("$$", "$")
+        new_equations.append(new_equation)
+
+    # Don't touch latex commands:
+    # Find all the latex commands in the sentence:
+    latex_commands = re.findall(r"\\[a-zA-Z]+\{.*?\}", latex_string)
+    for i, latex_command in enumerate(latex_commands):
+        latex_string = latex_string.replace(latex_command, f"!!-latex{i}-!!")
+
     # Loop through the letters of the sentence and if you find an escape character,
     # replace it with its LaTeX equivalent:
     latex_string = latex_string.translate(translation_map)
@@ -387,6 +390,14 @@ def escape_latex_characters(latex_string: str, strict: bool = True) -> str:
     # Replace !!-link{i}-!!" with the original urls:
     for i, new_link in enumerate(new_links):
         latex_string = latex_string.replace(f"!!-link{i}-!!", new_link)
+
+    # Replace !!-equation{i}-!!" with the original equations:
+    for i, new_equation in enumerate(new_equations):
+        latex_string = latex_string.replace(f"!!-equation{i}-!!", new_equation)
+
+    # Replace !!-latex{i}-!!" with the original latex commands:
+    for i, latex_command in enumerate(latex_commands):
+        latex_string = latex_string.replace(f"!!-latex{i}-!!", latex_command)
 
     return latex_string
 
@@ -404,13 +415,13 @@ def markdown_to_latex(markdown_string: str) -> str:
 
         returns
 
-        `#!python "This is a \\textbf{bold} text with a \\href{https://google.com}{\\textit{link}}."`
+        `"This is a \\textbf{bold} text with a \\href{https://google.com}{\\textit{link}}."`
 
     Args:
-        markdown_string (str): The Markdown string to convert.
+        markdown_string: The Markdown string to convert.
 
     Returns:
-        str: The $\\LaTeX$ string.
+        The $\\LaTeX$ string.
     """
     # convert links
     links = re.findall(r"\[([^\]\[]*)\]\((.*?)\)", markdown_string)
@@ -466,10 +477,10 @@ def transform_markdown_sections_to_latex_sections(
     characters.
 
     Args:
-        sections (Optional[dict[str, dm.SectionInput]]): Sections with Markdown strings.
+        sections: Sections with Markdown strings.
 
     Returns:
-        Optional[dict[str, dm.SectionInput]]: Sections with $\\LaTeX$ strings.
+        Sections with $\\LaTeX$ strings.
     """
     for key, value in sections.items():
         # loop through the list and apply markdown_to_latex and escape_latex_characters
@@ -478,22 +489,23 @@ def transform_markdown_sections_to_latex_sections(
         for entry in value:
             if isinstance(entry, str):
                 # Then it means it's a TextEntry.
-                result = markdown_to_latex(escape_latex_characters(entry, strict=False))
+                result = markdown_to_latex(escape_latex_characters(entry))
                 transformed_list.append(result)
             else:
                 # Then it means it's one of the other entries.
+                fields_to_skip = ["doi"]
                 entry_as_dict = entry.model_dump()
                 for entry_key, value in entry_as_dict.items():
+                    if entry_key in fields_to_skip:
+                        continue
                     if isinstance(value, str):
-                        result = markdown_to_latex(
-                            escape_latex_characters(value, strict=False)
-                        )
+                        result = markdown_to_latex(escape_latex_characters(value))
                         setattr(entry, entry_key, result)
                     elif isinstance(value, list):
                         for j, item in enumerate(value):
                             if isinstance(item, str):
                                 value[j] = markdown_to_latex(
-                                    escape_latex_characters(item, strict=False)
+                                    escape_latex_characters(item)
                                 )
                         setattr(entry, entry_key, value)
                 transformed_list.append(entry)
@@ -511,11 +523,11 @@ def replace_placeholders_with_actual_values(
     This function can be used as a Jinja2 filter in templates.
 
     Args:
-        text (str): The text with placeholders.
-        placeholders (dict[str, str]): The placeholders and their values.
+        text: The text with placeholders.
+        placeholders: The placeholders and their values.
 
     Returns:
-        str: The string with actual values.
+        The string with actual values.
     """
     for placeholder, value in placeholders.items():
         text = text.replace(placeholder, str(value))
@@ -524,7 +536,9 @@ def replace_placeholders_with_actual_values(
 
 
 def make_matched_part_something(
-    value: str, something: str, match_str: Optional[str] = None
+    value: str,
+    something: Literal["textbf", "underline", "textit", "mbox"],
+    match_str: Optional[str] = None,
 ) -> str:
     """Make the matched parts of the string something. If the match_str is None, the
     whole string will be made something.
@@ -534,12 +548,12 @@ def make_matched_part_something(
         `make_matched_part_underlined`, `make_matched_part_italic`, or
         `make_matched_part_non_line_breakable instead.
     Args:
-        value (str): The string to make something.
-        something (str): The $\\LaTeX$ command to use.
-        match_str (str): The string to match.
+        value: The string to make something.
+        something: The $\\LaTeX$ command to use.
+        match_str: The string to match.
 
     Returns:
-        str: The string with the matched part something.
+        The string with the matched part something.
     """
     if match_str is None:
         # If the match_str is None, the whole string will be made something:
@@ -564,14 +578,14 @@ def make_matched_part_bold(value: str, match_str: Optional[str] = None) -> str:
 
         returns
 
-        `#!python "\\textbf{Hello} World!"`
+        `"\\textbf{Hello} World!"`
 
     Args:
-        value (str): The string to make bold.
-        match_str (str): The string to match.
+        value: The string to make bold.
+        match_str: The string to match.
 
     Returns:
-        str: The string with the matched part bold.
+        The string with the matched part bold.
     """
     return make_matched_part_something(value, "textbf", match_str)
 
@@ -589,14 +603,14 @@ def make_matched_part_underlined(value: str, match_str: Optional[str] = None) ->
 
         returns
 
-        `#!python "\\underline{Hello} World!"`
+        `"\\underline{Hello} World!"`
 
     Args:
-        value (str): The string to make underlined.
-        match_str (str): The string to match.
+        value: The string to make underlined.
+        match_str: The string to match.
 
     Returns:
-        str: The string with the matched part underlined.
+        The string with the matched part underlined.
     """
     return make_matched_part_something(value, "underline", match_str)
 
@@ -614,14 +628,14 @@ def make_matched_part_italic(value: str, match_str: Optional[str] = None) -> str
 
         returns
 
-        `#!python "\\textit{Hello} World!"`
+        `"\\textit{Hello} World!"`
 
     Args:
-        value (str): The string to make italic.
-        match_str (str): The string to match.
+        value: The string to make italic.
+        match_str: The string to match.
 
     Returns:
-        str: The string with the matched part italic.
+        The string with the matched part italic.
     """
     return make_matched_part_something(value, "textit", match_str)
 
@@ -641,14 +655,14 @@ def make_matched_part_non_line_breakable(
 
         returns
 
-        `#!python "\\mbox{Hello} World!"`
+        `"\\mbox{Hello} World!"`
 
     Args:
-        value (str): The string to disable line breaks.
-        match_str (str): The string to match.
+        value: The string to disable line breaks.
+        match_str: The string to match.
 
     Returns:
-        str: The string with the matched part non line breakable.
+        The string with the matched part non line breakable.
     """
     return make_matched_part_something(value, "mbox", match_str)
 
@@ -665,13 +679,13 @@ def abbreviate_name(name: Optional[str]) -> str:
 
         returns
 
-        `#!python "J. Doe"`
+        `"J. Doe"`
 
     Args:
-        name (str): The name to abbreviate.
+        name: The name to abbreviate.
 
     Returns:
-        str: The abbreviated name.
+        The abbreviated name.
     """
     if name is None:
         return ""
@@ -702,14 +716,14 @@ def divide_length_by(length: str, divider: float) -> str:
 
         returns
 
-        `#!python "5.2cm"`
+        `"5.2cm"`
 
     Args:
-        length (str): The length to divide.
-        divider (float): The number to divide the length by.
+        length: The length to divide.
+        divider: The number to divide the length by.
 
     Returns:
-        str: The divided length.
+        The divided length.
     """
     # Get the value as a float and the unit as a string:
     value = re.search(r"\d+\.?\d*", length)
@@ -746,12 +760,12 @@ def get_an_item_with_a_specific_attribute_value(
     This function can be used as a Jinja2 filter in templates.
 
     Args:
-        items (list[Any]): The list of items.
-        attribute (str): The attribute to check.
-        value (Any): The value of the attribute.
+        items: The list of items.
+        attribute: The attribute to check.
+        value: The value of the attribute.
 
     Returns:
-        Any: The item with the specific attribute value.
+        The item with the specific attribute value.
     """
     if items is not None:
         for item in items:
@@ -774,7 +788,7 @@ def setup_jinja2_environment() -> jinja2.Environment:
     """Setup and return the Jinja2 environment for templating the $\\LaTeX$ files.
 
     Returns:
-        jinja2.Environment: The theme environment.
+        The theme environment.
     """
     global jinja2_environment
     themes_directory = pathlib.Path(__file__).parent.parent / "themes"

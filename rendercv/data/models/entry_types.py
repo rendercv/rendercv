@@ -22,10 +22,10 @@ def validate_date_field(date: Optional[int | str]) -> Optional[int | str]:
     """Check if the `date` field is provided correctly.
 
     Args:
-        date (Optional[int | str]): The date to validate.
+        date: The date to validate.
 
     Returns:
-        Optional[int | str]: The validated date.
+        The validated date.
     """
     date_is_provided = date is not None
 
@@ -57,10 +57,10 @@ def validate_start_and_end_date_fields(
     """Check if the `start_date` and `end_date` fields are provided correctly.
 
     Args:
-        date (Optional[Literal["present"] | int | RenderCVDate]): The date to validate.
+        date: The date to validate.
 
     Returns:
-        Optional[Literal["present"] | int | RenderCVDate]: The validated date.
+        The validated date.
     """
     date_is_provided = date is not None
 
@@ -87,12 +87,12 @@ def validate_and_adjust_dates_for_an_entry(
     """Check if the dates are provided correctly and make the necessary adjustments.
 
     Args:
-        start_date (StartDate): The start date of the event.
-        end_date (EndDate): The end date of the event.
-        date (ArbitraryDate): The date of the event.
+        start_date: The start date of the event.
+        end_date: The end date of the event.
+        date: The date of the event.
 
     Returns:
-        EntryBase: The validated
+        The validated and adjusted `start_date`, `end_date`, and `date`.
     """
     date_is_provided = date is not None
     start_date_is_provided = start_date is not None
@@ -354,7 +354,7 @@ class EntryBase(EntryWithDate):
             entry = dm.EntryBase(start_date="2020-10-11", end_date="2021-04-04").date_string
             ```
             returns
-            `#!python "Nov 2020 to Apr 2021"`
+            `"Nov 2020 to Apr 2021"`
         """
         return computers.compute_date_string(
             start_date=self.start_date, end_date=self.end_date, date=self.date
@@ -371,7 +371,7 @@ class EntryBase(EntryWithDate):
             entry = dm.EntryBase(start_date="2020-10-11", end_date="2021-04-04").date_string_only_years
             ```
             returns
-            `#!python "2020 to 2021"`
+            `"2020 to 2021"`
         """
         return computers.compute_date_string(
             start_date=self.start_date,

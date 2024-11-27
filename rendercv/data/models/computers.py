@@ -28,10 +28,10 @@ def format_phone_number(phone_number: str) -> str:
         ```
 
     Args:
-        phone_number (str): The phone number to format.
+        phone_number: The phone number to format.
 
     Returns:
-        str: The formatted phone number.
+        The formatted phone number.
     """
 
     format = LOCALE_CATALOG["phone_number_format"].upper()  # type: ignore
@@ -54,15 +54,15 @@ def format_date(date: Date, date_style: Optional[str] = None) -> str:
         ```
         will return
 
-        `#!python "May 2024"`
+        `"May 2024"`
 
     Args:
-        date (Date): The date to format.
-        date_style (Optional[str]): The style of the date string. If not provided, the
-            default date style from the `locale_catalog` dictionary will be used.
+        date: The date to format.
+        date_style: The style of the date string. If not provided, the default date
+            style from the `locale_catalog` dictionary will be used.
 
     Returns:
-        str: The formatted date.
+        The formatted date.
     """
     full_month_names = LOCALE_CATALOG["full_names_of_months"]
     short_month_names = LOCALE_CATALOG["abbreviations_for_months"]
@@ -89,11 +89,8 @@ def format_date(date: Date, date_style: Optional[str] = None) -> str:
     return date_string  # type: ignore
 
 
-def convert_string_to_path(value: str) -> pathlib.Path:
-    """Converts a string to a `pathlib.Path` object by replacing the placeholders
-    with the corresponding values. If the path is not an absolute path, it is
-    converted to an absolute path by prepending the current working directory.
-    """
+def replace_placeholders(value: str) -> str:
+    """Replaces the placeholders in a string with the corresponding values."""
     name = curriculum_vitae["name"]  # Curriculum Vitae owner's name
     full_month_names = LOCALE_CATALOG["full_names_of_months"]
     short_month_names = LOCALE_CATALOG["abbreviations_for_months"]
@@ -120,6 +117,16 @@ def convert_string_to_path(value: str) -> pathlib.Path:
     for placeholder, placeholder_value in placeholders.items():
         value = value.replace(placeholder, placeholder_value)
 
+    return value
+
+
+def convert_string_to_path(value: str) -> pathlib.Path:
+    """Converts a string to a `pathlib.Path` object by replacing the placeholders
+    with the corresponding values. If the path is not an absolute path, it is
+    converted to an absolute path by prepending the current working directory.
+    """
+    value = replace_placeholders(value)
+
     return pathlib.Path(value).absolute()
 
 
@@ -138,17 +145,16 @@ def compute_time_span_string(
 
         returns
 
-        `#!python "4 months"`
+        `"4 months"`
 
     Args:
-        start_date (Optional[str]): A start date in YYYY-MM-DD, YYYY-MM, or YYYY format.
-        end_date (Optional[str]): An end date in YYYY-MM-DD, YYYY-MM, or YYYY format or
-            "present".
-        date (Optional[str]): A date in YYYY-MM-DD, YYYY-MM, or YYYY format or a custom
-            string. If provided, start_date and end_date will be ignored.
+        start_date: A start date in YYYY-MM-DD, YYYY-MM, or YYYY format.
+        end_date: An end date in YYYY-MM-DD, YYYY-MM, or YYYY format or "present".
+        date: A date in YYYY-MM-DD, YYYY-MM, or YYYY format or a custom string. If
+            provided, start_date and end_date will be ignored.
 
     Returns:
-        str: The computed time span string.
+        The computed time span string.
     """
     date_is_provided = date is not None
     start_date_is_provided = start_date is not None
@@ -187,8 +193,14 @@ def compute_time_span_string(
         # Calculate the number of days between start_date and end_date:
         timespan_in_days = (end_date - start_date).days  # type: ignore
 
-        # Calculate the number of years between start_date and end_date:
+        # Calculate the number of years and months between start_date and end_date:
         how_many_years = timespan_in_days // 365
+        how_many_months = (timespan_in_days % 365) // 30 + 1
+        # Deal with overflow (prevent rounding to 1 year 12 months, etc.)
+        how_many_years += how_many_months // 12
+        how_many_months %= 12
+
+        # Format the number of years and months between start_date and end_date:
         if how_many_years == 0:
             how_many_years_string = None
         elif how_many_years == 1:
@@ -196,20 +208,25 @@ def compute_time_span_string(
         else:
             how_many_years_string = f"{how_many_years} {LOCALE_CATALOG['years']}"
 
-        # Calculate the number of months between start_date and end_date:
-        how_many_months = round((timespan_in_days % 365) / 30)
-        if how_many_months <= 1:
+        # Format the number of months between start_date and end_date:
+        if how_many_months == 1 or (
+            how_many_years_string is None and how_many_months == 0
+        ):
             how_many_months_string = f"1 {LOCALE_CATALOG['month']}"
+        elif how_many_months == 0:
+            how_many_months_string = None
         else:
             how_many_months_string = f"{how_many_months} {LOCALE_CATALOG['months']}"
 
         # Combine howManyYearsString and howManyMonthsString:
         if how_many_years_string is None:
             time_span_string = how_many_months_string
+        elif how_many_months_string is None:
+            time_span_string = how_many_years_string
         else:
             time_span_string = f"{how_many_years_string} {how_many_months_string}"
 
-        return time_span_string
+        return time_span_string.strip()
 
 
 def compute_date_string(
@@ -230,17 +247,14 @@ def compute_date_string(
         ```
 
     Args:
-        start_date (Optional[str]): A start date in YYYY-MM-DD, YYYY-MM, or YYYY
-            format.
-        end_date (Optional[str]): An end date in YYYY-MM-DD, YYYY-MM, or YYYY format
-            or "present".
-        date (Optional[str]): A date in YYYY-MM-DD, YYYY-MM, or YYYY format or
-            a custom string. If provided, start_date and end_date will be ignored.
-        show_only_years (bool): If True, only the years will be shown in the date
-            string.
+        start_date: A start date in YYYY-MM-DD, YYYY-MM, or YYYY format.
+        end_date: An end date in YYYY-MM-DD, YYYY-MM, or YYYY format or "present".
+        date: A date in YYYY-MM-DD, YYYY-MM, or YYYY format or a custom string. If
+            provided, start_date and end_date will be ignored.
+        show_only_years: If True, only the years will be shown in the date string.
 
     Returns:
-        str: The computed date string.
+        The computed date string.
     """
     date_is_provided = date is not None
     start_date_is_provided = start_date is not None
@@ -303,13 +317,13 @@ def make_a_url_clean(url: str) -> str:
         make_a_url_clean("https://www.example.com/")
         ```
         returns
-        `#!python "example.com"`
+        `"example.com"`
 
     Args:
-        url (str): The URL to make clean.
+        url: The URL to make clean.
 
     Returns:
-        str: The clean URL.
+        The clean URL.
     """
     url = url.replace("https://", "").replace("http://", "")
     if url.endswith("/"):
@@ -324,10 +338,10 @@ def get_date_object(date: str | int) -> Date:
     the data models.
 
     Args:
-        date (str | int): The date string to parse.
+        date: The date string to parse.
 
     Returns:
-        Date: The parsed date.
+        The parsed date.
     """
     if isinstance(date, int):
         date_object = Date.fromisoformat(f"{date}-01-01")
@@ -359,13 +373,13 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
         dictionary_key_to_proper_section_title("section_title")
         ```
         returns
-        `#!python "Section Title"`
+        `"Section Title"`
 
     Args:
-        key (str): The key to convert to a proper section title.
+        key: The key to convert to a proper section title.
 
     Returns:
-        str: The proper section title.
+        The proper section title.
     """
     title = key.replace("_", " ")
     words = title.split(" ")
