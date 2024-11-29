@@ -125,6 +125,7 @@ def test_markdown_file_class(tmp_path, rendercv_data_model, jinja2_environment):
             "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
         ),
         (
+
             "$###$",
             "\\$\\#\\#\\#\\$",
         ),
