@@ -11,7 +11,7 @@ import typer
 from rich import print
 
 from .. import __version__, data, renderer
-from . import printer, utilities
+from . import printer, utilities, watcher
 
 app = typer.Typer(
     rich_markup_mode="rich",
@@ -123,6 +123,14 @@ def cli_command_render(
             help="Don't generate the PNG file.",
         ),
     ] = False,
+    watch: Annotated[
+        bool,
+        typer.Option(
+            "--watch",
+            "-w",
+            help="Automatically re-run RenderCV when the input file is updated.",
+        ),
+    ] = False,
     # This is a dummy argument for the help message for
     # extra_data_model_override_argumets:
     _: Annotated[
@@ -136,7 +144,8 @@ def cli_command_render(
     extra_data_model_override_argumets: typer.Context = None,  # type: ignore
 ):
     """Render a CV from a YAML input file."""
-    printer.welcome()
+    if not watch:
+        printer.welcome()
 
     input_file_path: pathlib.Path = pathlib.Path(input_file_name).absolute()
     original_working_directory = pathlib.Path.cwd()
@@ -165,6 +174,7 @@ def cli_command_render(
         "dont_generate_png": dont_generate_png,
         "dont_generate_markdown": dont_generate_markdown,
         "dont_generate_html": dont_generate_html,
+        "watch": watch,
     }
     input_file_as_a_dict = utilities.update_render_command_settings_of_the_input_file(
         input_file_as_a_dict, cli_render_arguments
@@ -172,6 +182,30 @@ def cli_command_render(
     render_command_settings_dict = input_file_as_a_dict["rendercv_settings"][
         "render_command"
     ]
+
+    if render_command_settings_dict["watch"]:
+        cwd = os.getcwd()
+
+        def rerun_command():
+            os.chdir(cwd)  # Undo the chdir present later in the file for new runs.
+            cli_command_render(
+                input_file_name=input_file_name,
+                use_local_latex_command=use_local_latex_command,
+                output_folder_name=output_folder_name,
+                latex_path=latex_path,
+                pdf_path=pdf_path,
+                markdown_path=markdown_path,
+                html_path=html_path,
+                png_path=png_path,
+                dont_generate_markdown=dont_generate_markdown,
+                dont_generate_html=dont_generate_html,
+                dont_generate_png=dont_generate_png,
+                watch=False,
+                extra_data_model_override_argumets=extra_data_model_override_argumets,
+            )
+
+        watcher.run_a_function_if_a_file_changes(input_file_path, rerun_command)
+        return
 
     # Compute the number of steps
     # 1. Validate the input file.
