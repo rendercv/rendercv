@@ -6,6 +6,7 @@ import itertools
 import pathlib
 import shutil
 import typing
+import urllib.request
 from typing import Optional
 
 import jinja2
@@ -278,15 +279,22 @@ def create_combinations_of_a_model(
 
 @pytest.fixture
 def rendercv_filled_curriculum_vitae_data_model(
-    text_entry, bullet_entry
+    text_entry, bullet_entry, testdata_directory_path
 ) -> data.CurriculumVitae:
     """Return a filled CurriculumVitae data model, where each section has all possible
     combinations of entry types.
     """
+    profile_picture_path = testdata_directory_path / "profile_picture.png"
+    if update_testdata:
+        # Get an image from https://picsum.photos
+        response = urllib.request.urlopen("https://picsum.photos/id/237/300/300")
+        profile_picture_path.write_bytes(response.read())
+
     return data.CurriculumVitae(
         name="John Doe",
         location="Istanbul, Turkey",
         email="john_doe@example.com",
+        photo=profile_picture_path,  # type: ignore
         phone="+905419999999",  # type: ignore
         website="https://example.com",  # type: ignore
         social_networks=[
@@ -503,7 +511,7 @@ def design_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
     """Return the path to the input file."""
     design_settings_file_path = testdata_directory_path / "John_Doe_CV_design.yaml"
     if update_testdata:
-        design_settings_file_path.write_text("design:\n  theme: classic")
+        design_settings_file_path.write_text("design:\n  theme: classic\n")
 
     shutil.copyfile(design_settings_file_path, tmp_path / "John_Doe_CV_design.yaml")
     return tmp_path / "John_Doe_CV_design.yaml"
@@ -516,7 +524,7 @@ def locale_catalog_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
         testdata_directory_path / "John_Doe_CV_locale_catalog.yaml"
     )
     if update_testdata:
-        locale_catalog_file_path.write_text("locale_catalog:\n  years: yil")
+        locale_catalog_file_path.write_text("locale_catalog:\n  years: yil\n")
     shutil.copyfile(
         locale_catalog_file_path, tmp_path / "John_Doe_CV_locale_catalog.yaml"
     )
@@ -531,7 +539,7 @@ def rendercv_settings_file_path(tmp_path, testdata_directory_path) -> pathlib.Pa
     )
     if update_testdata:
         rendercv_settings_file_path.write_text(
-            "rendercv_settings:\n  render_command:\n    dont_generate_html: true"
+            "rendercv_settings:\n  render_command:\n    dont_generate_html: true\n"
         )
 
     shutil.copyfile(

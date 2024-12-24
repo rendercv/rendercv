@@ -9,7 +9,17 @@
 \placelastupdatedtext
 ((* endif *))
 ((* if cv.name is not none *))
+
+((* if cv.photo is not none *))
+\begin{twocolheadercontainer}{
+    \includegraphics[width=\linewidth]{<<cv.photo.name>>}
+
+}
+((* endif *))
 \begin{header}
+    ((* if cv.photo is not none *))
+    \raggedright
+    ((* endif *))
     \fontsize{<<design.header_font_size>>}{<<design.header_font_size>>}\selectfont <<cv.name>>
 
     \vspace{<<design.margins.header.vertical_between_name_and_connections>>}
@@ -36,6 +46,9 @@
         ((* endif *))
     ((* endfor *))
 \end{header}
+((* if cv.photo is not none *))
+\end{twocolheadercontainer}
+((* endif *))
 
 \vspace{<<design.margins.header.bottom>> - <<design.margins.section_title.top>>}
 ((* endif *))

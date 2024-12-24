@@ -34,18 +34,15 @@
 \usepackage{ifthen} % for conditional statements
 \usepackage{needspace} % for avoiding page brake right after the section title
 \usepackage{iftex} % check if engine is pdflatex, xetex or luatex
-
 % Ensure that generate pdf is machine readable/ATS parsable:
 \ifPDFTeX
     \input{glyphtounicode}
     \pdfgentounicode=1
-    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[T1]{fontenc}
     \usepackage[utf8]{inputenc}
     \usepackage{lmodern}
 \fi
-
 ((* if design.font == "Latin Modern Serif" *))
-
 ((* elif design.font == "Latin Modern Sans Serif" *))
 \renewcommand{\familydefault}{\sfdefault}
 ((* elif design.font == "Latin Modern Mono" *))
@@ -55,6 +52,7 @@
 ((* elif design.font == "Charter" *))
 \usepackage{charter}
 ((* endif *))
+\usepackage{graphicx} % for the profile picture
 
 % Some settings:
 ((* if design.text_alignment == "justified-with-no-hyphenation" *))
@@ -152,6 +150,17 @@
 }{
     \par\kern\topsep
 } % new environment for the header
+
+\newenvironment{twocolheadercontainer}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 0.2\linewidth}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for headers with profile pictures
 
 ((* set last_updated_date_style_placeholders = {
     "TODAY": today,

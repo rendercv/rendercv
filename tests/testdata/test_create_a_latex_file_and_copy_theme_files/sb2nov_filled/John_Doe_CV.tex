@@ -34,17 +34,15 @@
 \usepackage{ifthen} % for conditional statements
 \usepackage{needspace} % for avoiding page brake right after the section title
 \usepackage{iftex} % check if engine is pdflatex, xetex or luatex
-
 % Ensure that generate pdf is machine readable/ATS parsable:
 \ifPDFTeX
     \input{glyphtounicode}
     \pdfgentounicode=1
-    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[T1]{fontenc}
     \usepackage[utf8]{inputenc}
     \usepackage{lmodern}
 \fi
-
-
+\usepackage{graphicx} % for the profile picture
 
 % Some settings:
 \AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
@@ -127,6 +125,17 @@
     \par\kern\topsep
 } % new environment for the header
 
+\newenvironment{twocolheadercontainer}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 0.2\linewidth}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for headers with profile pictures
+
 \newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
   \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
     \put(
@@ -154,7 +163,13 @@
     \sbox\ANDbox{}
 
     \placelastupdatedtext
+
+    \begin{twocolheadercontainer}{
+        \includegraphics[width=\linewidth]{profile_picture.png}
+
+    }
     \begin{header}
+        \raggedright
         \textbf{\fontsize{24 pt}{24 pt}\selectfont John Doe}
 
         \vspace{0.3 cm}
@@ -218,6 +233,7 @@
         \kern 0.25 cm%
         \mbox{\hrefWithoutArrow{https://t.me/johndoe}{\color{black}{\footnotesize\faTelegram}\hspace*{0.13cm}johndoe}}%
     \end{header}
+    \end{twocolheadercontainer}
 
     \vspace{0.3 cm - 0.3 cm}
 

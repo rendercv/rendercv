@@ -71,7 +71,12 @@ def validate_design_options(
             theme_name,  # this is value of the error
         )
 
-    custom_theme_folder = INPUT_FILE_DIRECTORY / theme_name
+    if INPUT_FILE_DIRECTORY is None:
+        theme_parent_folder = pathlib.Path.cwd()
+    else:
+        theme_parent_folder = INPUT_FILE_DIRECTORY
+
+    custom_theme_folder = theme_parent_folder / theme_name
 
     # Check if the custom theme folder exists:
     if not custom_theme_folder.exists():

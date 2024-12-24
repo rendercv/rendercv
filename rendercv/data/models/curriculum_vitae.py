@@ -4,6 +4,7 @@ field of the input file.
 """
 
 import functools
+import pathlib
 import re
 from typing import Annotated, Any, Literal, Optional, get_args
 
@@ -78,7 +79,7 @@ def create_a_section_validator(entry_type: type) -> type[SectionBase]:
 
 
 def get_characteristic_entry_attributes(
-    entry_types: list[type],
+    entry_types: tuple[type],
 ) -> dict[type, set[str]]:
     """Get the characteristic attributes of the entry types.
 
@@ -111,7 +112,7 @@ def get_characteristic_entry_attributes(
 
 
 def get_entry_type_name_and_section_validator(
-    entry: dict[str, str | list[str]] | str | type, entry_types: list[type]
+    entry: dict[str, str | list[str]] | str | type, entry_types: tuple[type]
 ) -> tuple[str, type[SectionBase]]:
     """Get the entry type name and the section validator based on the entry.
 
@@ -164,7 +165,7 @@ def get_entry_type_name_and_section_validator(
 
 
 def validate_a_section(
-    sections_input: list[Any], entry_types: list[type]
+    sections_input: list[Any], entry_types: tuple[type]
 ) -> list[entry_types.Entry]:
     """Validate a list of entries (a section) based on the entry types.
 
@@ -394,6 +395,11 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         title="Email",
         description="The email address of the person.",
     )
+    photo: Optional[pathlib.Path] = pydantic.Field(
+        default=None,
+        title="Photo",
+        description="Path to the photo of the person, relatie to the input file.",
+    )
     phone: Optional[pydantic_phone_numbers.PhoneNumber] = pydantic.Field(
         default=None,
         title="Phone",
@@ -417,6 +423,22 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         # `sections` key is preserved for RenderCV's internal use.
         alias="sections",
     )
+
+    @pydantic.field_validator("photo")
+    @classmethod
+    def update_photo_path(cls, value: Optional[pathlib.Path]) -> Optional[pathlib.Path]:
+        """Cast `photo` to Path and make the path absolute"""
+        if value:
+            from .rendercv_data_model import INPUT_FILE_DIRECTORY
+
+            if INPUT_FILE_DIRECTORY is not None:
+                profile_picture_parent_folder = INPUT_FILE_DIRECTORY
+            else:
+                profile_picture_parent_folder = pathlib.Path.cwd()
+
+            return profile_picture_parent_folder / str(value)
+
+        return value
 
     @pydantic.field_validator("name")
     @classmethod

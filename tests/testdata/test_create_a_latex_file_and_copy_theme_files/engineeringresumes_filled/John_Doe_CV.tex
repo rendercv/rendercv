@@ -34,7 +34,6 @@
 \usepackage{ifthen} % for conditional statements
 \usepackage{needspace} % for avoiding page brake right after the section title
 \usepackage{iftex} % check if engine is pdflatex, xetex or luatex
-
 % Ensure that generate pdf is machine readable/ATS parsable:
 \ifPDFTeX
     \input{glyphtounicode}
@@ -43,8 +42,8 @@
     \usepackage[utf8]{inputenc}
     \usepackage{lmodern}
 \fi
-
 \usepackage{charter}
+\usepackage{graphicx} % for the profile picture
 
 % Some settings:
 \raggedright
@@ -145,6 +144,17 @@
   }%
 }%
 
+\newenvironment{twocolheadercontainer}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 0.2\linewidth}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for headers with profile pictures
+
 % save the original href command in a new command:
 \let\hrefWithoutArrow\href
 
@@ -159,7 +169,13 @@
     \newsavebox\ANDbox
     \sbox\ANDbox{$|$}
 
+
+    \begin{twocolheadercontainer}{
+        \includegraphics[width=\linewidth]{profile_picture.png}
+
+    }
     \begin{header}
+        \raggedright
         \fontsize{25 pt}{25 pt}\selectfont John Doe
 
         \vspace{5 pt}
@@ -223,6 +239,7 @@
         \kern 5.0 pt%
         \mbox{\hrefWithoutArrow{https://t.me/johndoe}{t.me/johndoe}}%
     \end{header}
+    \end{twocolheadercontainer}
 
     \vspace{5 pt - 0.3 cm}
 
