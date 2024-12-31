@@ -23,9 +23,9 @@ RUN pip install --no-cache-dir -r requirements.txt && \
 # Copy the application code
 COPY app/ ./app/
 
-# Create necessary directories
-RUN mkdir -p /app/temp /app/rendercv_output && \
-    chmod 777 /app/temp /app/rendercv_output
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/rendercv_output && \
+    chmod 777 /app/rendercv_output
 
 # Expose the port
 EXPOSE 8000

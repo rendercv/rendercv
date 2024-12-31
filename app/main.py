@@ -275,55 +275,31 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
             import subprocess
             import glob
             
-            # Create output directory
-            output_dir = request_dir / "output"
-            output_dir.mkdir(exist_ok=True)
-            
-            # Run rendercv command with specified output directory
+            # Run rendercv command - it will output to rendercv_output by default
             process = subprocess.run(
-                ["rendercv", "render", str(yaml_path), "--output-dir", str(output_dir)],
+                ["rendercv", "render", str(yaml_path)],
                 capture_output=True,
                 text=True,
                 check=True
             )
             
-            # Check multiple possible locations for the PDF
-            possible_locations = [
-                output_dir / "cv.pdf",  # Our custom output directory
-                BASE_DIR / "rendercv_output" / "cv.pdf",  # Default rendercv output
-                output_dir / "output.pdf",  # Another possible name
-            ]
+            # Look for the PDF in rendercv_output directory
+            output_path = BASE_DIR / "rendercv_output" / "cv.pdf"
             
-            output_path = None
-            for loc in possible_locations:
-                if loc.exists():
-                    output_path = loc
-                    break
-                    
-            if not output_path:
-                # Fallback: try to find any PDF file in both directories
-                pdf_files = list(output_dir.glob("*.pdf")) + list((BASE_DIR / "rendercv_output").glob("*.pdf"))
+            if not output_path.exists():
+                # Fallback: try to find any PDF file in rendercv_output
+                pdf_files = list((BASE_DIR / "rendercv_output").glob("*.pdf"))
                 if pdf_files:
                     output_path = pdf_files[0]
                 else:
                     raise Exception(
-                        f"PDF not found in any output directory. Process output:\n{process.stdout}\n"
+                        f"PDF not found in rendercv_output directory. Process output:\n{process.stdout}\n"
                         f"Error: {process.stderr}\n"
-                        f"Files in custom output dir: {list(output_dir.glob('*'))}\n"
                         f"Files in rendercv_output: {list((BASE_DIR / 'rendercv_output').glob('*'))}"
                     )
             
-            # Copy the file to our output directory if it was found in rendercv_output
-            if output_path.parent != output_dir:
-                import shutil
-                final_path = output_dir / output_path.name
-                shutil.copy2(output_path, final_path)
-                output_path = final_path
-            
-            # Schedule cleanup
-            background_tasks.add_task(cleanup_files, str(request_dir))
-            if output_path.parent != output_dir:
-                background_tasks.add_task(cleanup_files, str(BASE_DIR / "rendercv_output"))
+            # Schedule cleanup for after the response is sent
+            background_tasks.add_task(cleanup_files, str(BASE_DIR / "rendercv_output"))
             
             return FileResponse(
                 path=output_path,
