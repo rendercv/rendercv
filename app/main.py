@@ -270,11 +270,22 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         yaml_path = request_dir / "cv.yaml"
         yaml_path.write_text(cv_request.yaml_content, encoding="utf-8")
         
-        # Use rendercv directly instead of Docker
+        # Use rendercv CLI command
         try:
-            from rendercv.cli import render_cv
+            import subprocess
             output_path = request_dir / "output.pdf"
-            render_cv(str(yaml_path), str(output_path))
+            
+            # Run rendercv command
+            process = subprocess.run(
+                ["rendercv", "render", str(yaml_path)],
+                capture_output=True,
+                text=True,
+                check=True
+            )
+            
+            # Check if PDF was generated
+            if not output_path.exists():
+                raise Exception(f"PDF not generated. Process output: {process.stdout}\nError: {process.stderr}")
             
             # Schedule cleanup
             background_tasks.add_task(cleanup_files, str(request_dir))
