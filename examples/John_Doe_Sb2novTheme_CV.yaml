@@ -68,6 +68,15 @@ cv:
             XML docs from XML Schema
           - Automated the extraction and processing of large datasets
             from legacy systems using SQL and Perl scripts
+    references:
+      - reference: Jane Doe
+        email: janed@google.com
+        position: Senior Software Engineer
+        at: Google
+      - reference: John Smith
+        email: jsmith@fb.com
+        position: Software Engineer
+        at: Facebook
     publications:
       - title: 3D Finite Element Analysis of No-Insulation Coils
         authors:

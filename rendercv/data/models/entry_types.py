@@ -452,6 +452,29 @@ class EducationEntry(EntryBase, EducationEntryBase):
     """
 
 
+class ReferenceEntry(RenderCVBaseModelWithExtraKeys):
+    """This class is the data model of `ReferenceEntry`."""
+
+    reference: str = pydantic.Field(
+        title="Reference",
+        description="The name of the reference.",
+    )
+    email: str = pydantic.Field(
+        title="EMail",
+        description="email address of reference",
+    )
+    position: Optional[str] = pydantic.Field(
+        default=None,
+        title="Position",
+        description="The position of the reference.",
+    )
+    at: Optional[str] = pydantic.Field(
+        default=None,
+        title="At",
+        description="Company or institution of the reference",
+    )
+
+
 # ======================================================================================
 # Create custom types based on the entry models: =======================================
 # ======================================================================================
@@ -463,6 +486,7 @@ Entry = (
     | EducationEntry
     | PublicationEntry
     | BulletEntry
+    | ReferenceEntry
     | str
 )
 
@@ -474,6 +498,7 @@ ListOfEntries = (
     | list[EducationEntry]
     | list[PublicationEntry]
     | list[BulletEntry]
+    | list[ReferenceEntry]
     | list[str]
 )
 

@@ -66,6 +66,15 @@ sections:
           Schema
         - Automated the extraction and processing of large datasets from legacy systems
           using SQL and Perl scripts
+  references:
+    - reference: Jane Doe
+      position: Senior Software Engineer
+      at: Google
+      email: janed@google.com
+    - reference: John Smith
+      position: Software Engineer
+      at: Facebook
+      email: jsmith@fb.com
   publications:
     - title: 3D Finite Element Analysis of No-Insulation Coils
       authors: [Frodo Baggins, "***John Doe***", Samwise Gamgee]

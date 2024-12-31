@@ -1,0 +1,18 @@
+((* if not is_first_entry *))
+\vspace{<<design.margins.entry_area.vertical_between>>}
+((* endif *))
+
+\begin{samepage}
+    \begin{twocolentry}{<<entry.email>>}
+        \textbf{<<entry.reference>>}
+
+        \vspace{<<design.margins.highlights_area.top>>}
+
+        ((* if entry.position *))
+        \textit{<<entry.position>>}
+        ((* endif *))
+        ((* if entry.at *))
+        ((* if entry.position *)) at ((* endif *))\textit{<<entry.at>>}
+        ((* endif *))
+    \end{twocolentry}
+\end{samepage}

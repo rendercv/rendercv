@@ -85,6 +85,13 @@ bullet_entry_dictionary = {
     "bullet": "This is a bullet entry.",
 }
 
+reference_entry_dictionary = {
+    "reference": "This is a reference entry.",
+    "email": "jane@acme.com",
+    "position": "Senior Software Engineer",
+    "at": "ACME Inc.",
+}
+
 
 @pytest.fixture
 def publication_entry() -> dict[str, str | list[str]]:
@@ -120,6 +127,12 @@ def one_line_entry() -> dict[str, str]:
 def bullet_entry() -> dict[str, str]:
     """Return a sample bullet entry."""
     return copy.deepcopy(bullet_entry_dictionary)
+
+
+@pytest.fixture
+def reference_entry() -> dict[str, str]:
+    """Return a sample reference entry."""
+    return copy.deepcopy(reference_entry_dictionary)
 
 
 @pytest.fixture

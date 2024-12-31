@@ -305,6 +305,9 @@ SocialNetworkName = Literal[
     "YouTube",
     "Google Scholar",
     "Telegram",
+    "Keybase",
+    "Twitter",
+    "Xing",
 ]
 
 available_social_networks = get_args(SocialNetworkName)
@@ -371,6 +374,9 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
                 "YouTube": "https://youtube.com/@",
                 "Google Scholar": "https://scholar.google.com/citations?user=",
                 "Telegram": "https://t.me/",
+                "Keybase": "https://keybase.io/",
+                "Twitter": "https://twitter.com/",
+                "Xing": "https://xing.com/profile/",
             }
             url = url_dictionary[self.network] + self.username
 
@@ -516,6 +522,9 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 "YouTube": "\\faYoutube",
                 "Google Scholar": "\\faGraduationCap",
                 "Telegram": "\\faTelegram",
+                "Keybase": "\\faKeybase",
+                "Twitter": "\\faTwitter",
+                "Xing": "\\faXing",
             }
             for social_network in self.social_networks:
                 clean_url = computers.make_a_url_clean(social_network.url)

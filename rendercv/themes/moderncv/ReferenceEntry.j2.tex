@@ -1,0 +1,10 @@
+\cventry{<<entry.email>>}
+{\textbf{<<entry.reference>>}}
+{
+    ((* if entry.position *))
+    \textit{<<entry.position>>}
+    ((* endif *))
+    ((* if entry.at *))
+    ((* if entry.position *)) at ((* endif *))\textit{<<entry.at>>}
+    ((* endif *))
+}{}{}
