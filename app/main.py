@@ -274,36 +274,65 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         try:
             import subprocess
             import glob
+            import os
             
-            # Run rendercv command - it will output to rendercv_output by default
+            # Ensure we're in the correct directory
+            os.chdir(BASE_DIR)
+            
+            # Run rendercv command with proper environment
             process = subprocess.run(
                 ["rendercv", "render", str(yaml_path)],
                 capture_output=True,
                 text=True,
-                check=True
+                env={**os.environ, 'RENDERCV_OUTPUT_DIR': str(BASE_DIR / "rendercv_output")},
+                check=False  # Don't raise exception immediately
             )
             
-            # Look for the PDF in rendercv_output directory
-            output_path = BASE_DIR / "rendercv_output" / "cv.pdf"
+            # Log the output for debugging
+            logger.info(f"rendercv stdout: {process.stdout}")
+            if process.stderr:
+                logger.error(f"rendercv stderr: {process.stderr}")
             
-            if not output_path.exists():
-                # Fallback: try to find any PDF file in rendercv_output
-                pdf_files = list((BASE_DIR / "rendercv_output").glob("*.pdf"))
-                if pdf_files:
-                    output_path = pdf_files[0]
-                else:
-                    raise Exception(
-                        f"PDF not found in rendercv_output directory. Process output:\n{process.stdout}\n"
-                        f"Error: {process.stderr}\n"
-                        f"Files in rendercv_output: {list((BASE_DIR / 'rendercv_output').glob('*'))}"
-                    )
+            if process.returncode != 0:
+                raise Exception(
+                    f"rendercv failed with return code {process.returncode}.\n"
+                    f"Output: {process.stdout}\n"
+                    f"Error: {process.stderr}"
+                )
+            
+            # Look for the PDF in rendercv_output directory
+            output_dir = BASE_DIR / "rendercv_output"
+            pdf_files = list(output_dir.glob("*.pdf"))
+            
+            if not pdf_files:
+                raise Exception(
+                    f"No PDF files found in {output_dir}.\n"
+                    f"Directory contents: {list(output_dir.glob('*'))}\n"
+                    f"Process output: {process.stdout}\n"
+                    f"Process error: {process.stderr}"
+                )
+            
+            output_path = pdf_files[0]
+            
+            # Extract applicant name from the YAML file
+            import yaml
+            with open(str(yaml_path), 'r') as file:
+                cv_data = yaml.safe_load(file)
+                applicant_name = cv_data.get('cv', {}).get('name', 'Applicant').replace(' ', '_')
+            
+            # Rename the output PDF file based on the applicant's name
+            final_output_path = output_dir / f"{applicant_name}_CV.pdf"
+            if output_path != final_output_path:
+                import shutil
+                shutil.copy2(output_path, final_output_path)
+                output_path = final_output_path
             
             # Schedule cleanup for after the response is sent
-            background_tasks.add_task(cleanup_files, str(BASE_DIR / "rendercv_output"))
+            background_tasks.add_task(cleanup_files, str(output_dir))
             
             return FileResponse(
                 path=output_path,
-                filename="cv.pdf",
+                filename=f"{applicant_name}_CV.pdf",
                 media_type="application/pdf",
                 background=background_tasks
             )
