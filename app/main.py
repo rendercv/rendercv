@@ -16,6 +16,7 @@ from pathlib import Path
 from datetime import datetime
 from ruamel.yaml import YAML
 from io import StringIO
+import asyncio
 yaml = YAML()
 yaml.allow_unicode = True
 yaml.default_flow_style = False
@@ -221,6 +222,12 @@ class CVValidator:
 class CVRequest(BaseModel):
     yaml_content: str
 
+class GeneratedFiles(BaseModel):
+    pdf_url: str
+    png_urls: List[str]
+    html_url: str
+    markdown_url: str
+
 @app.get("/", response_class=HTMLResponse)
 async def root():
     try:
@@ -231,10 +238,10 @@ async def root():
         logging.error(f"Error reading index.html: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/generate-cv/")
+@app.post("/generate-cv/", response_model=GeneratedFiles)
 async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
     """
-    Generate a CV from YAML content and return the PDF file
+    Generate a CV from YAML content and return all generated files
     """
     try:
         # Parse YAML content
@@ -274,10 +281,6 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         
         # Use rendercv CLI command
         try:
-            import subprocess
-            import glob
-            import os
-            
             # Ensure we're in the correct directory
             os.chdir(BASE_DIR)
             
@@ -287,7 +290,7 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
                 capture_output=True,
                 text=True,
                 env={**os.environ, 'RENDERCV_OUTPUT_DIR': str(BASE_DIR / "rendercv_output")},
-                check=False  # Don't raise exception immediately
+                check=False
             )
             
             # Log the output for debugging
@@ -302,9 +305,12 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
                     f"Error: {process.stderr}"
                 )
             
-            # Look for the PDF in rendercv_output directory
+            # Get all generated files from rendercv_output directory
             output_dir = BASE_DIR / "rendercv_output"
             pdf_files = list(output_dir.glob("*.pdf"))
+            png_files = list(output_dir.glob("*.png"))
+            html_files = list(output_dir.glob("*.html"))
+            md_files = list(output_dir.glob("*.md"))
             
             if not pdf_files:
                 raise Exception(
@@ -314,28 +320,40 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
                     f"Process error: {process.stderr}"
                 )
             
-            output_path = pdf_files[0]
-            
             # Extract applicant name from the YAML file
             with open(str(yaml_path), 'r') as file:
                 cv_data = yaml.load(file)
                 applicant_name = cv_data.get('cv', {}).get('name', 'Applicant').replace(' ', '_')
             
-            # Rename the output PDF file based on the applicant's name
-            final_output_path = output_dir / f"{applicant_name}_CV.pdf"
-            if output_path != final_output_path:
-                import shutil
-                shutil.copy2(output_path, final_output_path)
-                output_path = final_output_path
+            # Move files to static directory with proper names
+            static_output_dir = STATIC_DIR / request_id
+            static_output_dir.mkdir(exist_ok=True, parents=True)
             
-            # Schedule cleanup for after the response is sent
+            # Helper function to copy and rename files
+            def copy_and_rename(files, prefix):
+                renamed_files = []
+                for idx, file in enumerate(files):
+                    new_name = f"{applicant_name}_{prefix}_{idx+1 if len(files) > 1 else ''}{file.suffix}"
+                    new_path = static_output_dir / new_name
+                    shutil.copy2(file, new_path)
+                    renamed_files.append(f"/static/{request_id}/{new_name}")
+                return renamed_files
+            
+            # Copy and rename all files
+            pdf_urls = copy_and_rename(pdf_files, "CV")
+            png_urls = copy_and_rename(png_files, "CV")
+            html_urls = copy_and_rename(html_files, "CV")
+            md_urls = copy_and_rename(md_files, "CV")
+            
+            # Schedule cleanup for after some time (e.g., 1 hour)
             background_tasks.add_task(cleanup_files, str(output_dir))
+            background_tasks.add_task(cleanup_files, str(static_output_dir), delay=3600)
             
-            return FileResponse(
-                path=output_path,
-                filename=f"{applicant_name}_CV.pdf",
-                media_type="application/pdf",
-                background=background_tasks
+            return GeneratedFiles(
+                pdf_url=pdf_urls[0] if pdf_urls else "",
+                png_urls=png_urls,
+                html_url=html_urls[0] if html_urls else "",
+                markdown_url=md_urls[0] if md_urls else ""
             )
             
         except Exception as e:
@@ -362,11 +380,15 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
             }
         )
 
-def cleanup_files(directory: str):
+async def cleanup_files(directory: str, delay: int = 0):
     """Clean up temporary files after response is sent"""
     try:
-        import shutil
-        shutil.rmtree(directory, ignore_errors=True)
+        if delay > 0:
+            await asyncio.sleep(delay)
+        
+        if os.path.exists(directory):
+            shutil.rmtree(directory)
+            logger.info(f"Cleaned up directory: {directory}")
     except Exception as e:
         logger.error(f"Error cleaning up directory {directory}: {str(e)}")
 
@@ -388,11 +410,23 @@ async def test_connection(request_body: dict):
 @app.get("/usage/")
 async def usage():
     return {
+        "status": "success",
         "message": "Welcome to CV Generator API",
         "usage": {
             "endpoint": "POST /generate-cv/",
             "body": {
                 "yaml_content": "Your YAML content here"
-            }
+            },
+            "response": {
+                "pdf_url": "URL to the generated PDF file",
+                "png_urls": ["URLs to the generated PNG previews"],
+                "html_url": "URL to the generated HTML file (for Grammarly)",
+                "markdown_url": "URL to the generated Markdown file"
+            },
+            "note": "Files will be available for 1 hour after generation"
         }
     }
+
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
