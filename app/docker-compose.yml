@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  yaml-to-pdf:
+    build: .
+    ports:
+      - "8090:8090"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
