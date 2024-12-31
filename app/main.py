@@ -273,22 +273,57 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         # Use rendercv CLI command
         try:
             import subprocess
-            output_path = request_dir / "output.pdf"
+            import glob
             
-            # Run rendercv command
+            # Create output directory
+            output_dir = request_dir / "output"
+            output_dir.mkdir(exist_ok=True)
+            
+            # Run rendercv command with specified output directory
             process = subprocess.run(
-                ["rendercv", "render", str(yaml_path)],
+                ["rendercv", "render", str(yaml_path), "--output-dir", str(output_dir)],
                 capture_output=True,
                 text=True,
                 check=True
             )
             
-            # Check if PDF was generated
-            if not output_path.exists():
-                raise Exception(f"PDF not generated. Process output: {process.stdout}\nError: {process.stderr}")
+            # Check multiple possible locations for the PDF
+            possible_locations = [
+                output_dir / "cv.pdf",  # Our custom output directory
+                BASE_DIR / "rendercv_output" / "cv.pdf",  # Default rendercv output
+                output_dir / "output.pdf",  # Another possible name
+            ]
+            
+            output_path = None
+            for loc in possible_locations:
+                if loc.exists():
+                    output_path = loc
+                    break
+                    
+            if not output_path:
+                # Fallback: try to find any PDF file in both directories
+                pdf_files = list(output_dir.glob("*.pdf")) + list((BASE_DIR / "rendercv_output").glob("*.pdf"))
+                if pdf_files:
+                    output_path = pdf_files[0]
+                else:
+                    raise Exception(
+                        f"PDF not found in any output directory. Process output:\n{process.stdout}\n"
+                        f"Error: {process.stderr}\n"
+                        f"Files in custom output dir: {list(output_dir.glob('*'))}\n"
+                        f"Files in rendercv_output: {list((BASE_DIR / 'rendercv_output').glob('*'))}"
+                    )
+            
+            # Copy the file to our output directory if it was found in rendercv_output
+            if output_path.parent != output_dir:
+                import shutil
+                final_path = output_dir / output_path.name
+                shutil.copy2(output_path, final_path)
+                output_path = final_path
             
             # Schedule cleanup
             background_tasks.add_task(cleanup_files, str(request_dir))
+            if output_path.parent != output_dir:
+                background_tasks.add_task(cleanup_files, str(BASE_DIR / "rendercv_output"))
             
             return FileResponse(
                 path=output_path,
@@ -324,10 +359,10 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
 def cleanup_files(directory: str):
     """Clean up temporary files after response is sent"""
     try:
-        if os.path.exists(directory):
-            shutil.rmtree(directory)
+        import shutil
+        shutil.rmtree(directory, ignore_errors=True)
     except Exception as e:
-        logging.error(f"Error cleaning up {directory}: {str(e)}")
+        logger.error(f"Error cleaning up directory {directory}: {str(e)}")
 
 @app.post("/test-connection/")
 async def test_connection(request_body: dict):
