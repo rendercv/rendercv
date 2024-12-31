@@ -15,7 +15,10 @@ import traceback
 from pathlib import Path
 from datetime import datetime
 from ruamel.yaml import YAML
-yaml = YAML(typ='safe')
+from io import StringIO
+yaml = YAML()
+yaml.allow_unicode = True
+yaml.default_flow_style = False
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -247,7 +250,9 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         try:
             cv_data = CVValidator.validate_and_fix_cv_data(cv_data)
             # Convert back to YAML
-            cv_request.yaml_content = yaml.dump(cv_data, allow_unicode=True)
+            yaml_str = StringIO()
+            yaml.dump(cv_data, yaml_str)
+            cv_request.yaml_content = yaml_str.getvalue()
         except ValueError as e:
             raise HTTPException(
                 status_code=400,
