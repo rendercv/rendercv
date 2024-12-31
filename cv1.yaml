@@ -1,82 +1,103 @@
 cv:
-  name: John Doe
-  location: Your Location
-  email: youremail@yourdomain.com
-  phone: tel:+90-541-999-99-99
-  website: https://yourwebsite.com/
+  name: JAMES IMODOI EPALE
+  location: Nairobi, Kenya
+  email: Ijepale@gmail.com
+  phone: tel:+254743854888
   social_networks:
     - network: LinkedIn
-      username: yourusername
+      username: jamesepale
     - network: GitHub
-      username: yourusername
+      username: imodoiepale
+
   sections:
-    welcome_to_RenderCV!:
-      - '[RenderCV](https://github.com/sinaatalay/rendercv) is a LaTeX-based CV/resume framework. It allows you to create a high-quality CV or resume as a PDF file from a YAML file, with **full Markdown syntax support** and **complete control over the LaTeX code**.'
-      - The boilerplate content was inspired by [Gayle McDowell](https://github.com/dnl-blkv/mcdowell-cv).
-    quick_guide:
-      - bullet: Each section title is arbitrary and each section contains a list of entries.
-      - bullet: 'There are 7 unique entry types: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
-      - bullet: Select a section title, pick an entry type, and start writing your section!
-      - bullet: '[Here](https://docs.rendercv.com/user_guide/), you can find a comprehensive user guide for RenderCV.'
-    education:
-      - institution: University of Pennsylvania
-        area: Computer Science
-        degree: BS
-        start_date: 2000-09
-        end_date: 2005-05
-        highlights:
-          - 'GPA: 3.9/4.0 ([a link to somewhere](https://example.com))'
-          - '**Coursework:** Computer Architecture, Comparison of Learning Algorithms, Computational Theory'
+    summary:
+      - I am a results-driven Software Developer with 5+ years of experience specializing in web development, machine learning, e-commerce solutions, and custom business software. With a proven track record of increasing efficiency by 40% through innovative Ideas and AI implementations, and reducing security vulnerabilities by 30%. Skilled in delivering scalable solutions that drive business growth and enhance user experiences.
+
+    skills:
+      - label: Programming Languages
+        details: JavaScript, Java, Python, VB, .NET, C++, C#
+      - label: Web Development
+        details: HTML, CSS, JavaScript, React, Node.js, Vue.js, Angular, WordPress
+      - label: Machine Learning & AI
+        details: TensorFlow, PyTorch, Supervised/Unsupervised Learning, Deep Learning
+      - label: Database Management
+        details: MySQL, PostgreSQL, Supabase, Firebase, Prisma
+      - label: Cloud Computing
+        details: AWS, Google Firebase
+      - label: Frontend Frameworks
+        details: React, Vue.js, Angular
+      - label: Other Tools
+        details: Git, JIRA, Trello, Figma
+
     experience:
-      - company: Apple
-        position: Software Engineer
-        location: Cupertino, CA
-        start_date: 2005-06
-        end_date: 2007-08
+      - company: HADEAZY DIGITAL SOLUTIONS
+        position: CTO
+        location: Nairobi
+        start_date: 2023-06
+        end_date: present
         highlights:
-          - Reduced time to render user buddy lists by 75% by implementing a prediction algorithm
-          - Integrated iChat with Spotlight Search by creating a tool to extract metadata from saved chat transcripts and provide metadata to a system-wide search database
-          - Redesigned chat file format and implemented backward compatibility for search
-      - company: Microsoft
-        position: Software Engineer Intern
-        location: Redmond, WA
-        start_date: 2003-06
-        end_date: 2003-08
+          - Spearheading development of scalable web solutions, resulting in 50% faster load times
+          - Implementing AI-driven recommender systems, increasing user engagement by 35%
+          - Managing end-to-end software development lifecycle for 10+ projects simultaneously
+          - Mentoring a team of 8 developers, improving code quality and reducing bugs by 40%
+          - Designing custom e-commerce platforms, boosting client conversion rates by 25%
+          - Optimizing database queries, reducing response times by 60% for high-traffic applications
+
+      - company: Booksmart Consultancy Limited
+        position: Finance Software Engineer
+        location: Nairobi
+        start_date: 2023-09
+        end_date: present
         highlights:
-          - Designed a UI for the VS open file switcher (Ctrl-Tab) and extended it to tool windows
-          - Created a service to provide gradient across VS and VS add-ins, optimizing its performance via caching
-          - Built an app to compute the similarity of all methods in a codebase, reducing the time from $$\mathcal{O}(n^2)$$ to $$\mathcal{O}(n \log n)$$
-          - Created a test case generation tool that creates random XML docs from XML Schema
-          - Automated the extraction and processing of large datasets from legacy systems using SQL and Perl scripts
-    publications:
-      - title: 3D Finite Element Analysis of No-Insulation Coils
-        authors:
-          - Frodo Baggins
-          - '***John Doe***'
-          - Samwise Gamgee
-        doi: 10.1109/TASC.2023.3340648
-        date: 2004-01
-    projects:
-      - name: Multi-User Drawing Tool
-        date: '[github.com/name/repo](https://github.com/sinaatalay/rendercv)'
+          - Developing AI-powered accounting software, increasing client efficiency by 40%
+          - Implementing machine learning algorithms for fraud detection, reducing false positives by 60%
+          - Collaborating with data scientists to improve model accuracy, achieving 95% prediction rate
+          - Designing bespoke auditing solutions, streamlining processes and saving 200+ hours annually
+          - Optimizing security protocols, resulting in 30% decrease in vulnerability incidents
+          - Leading cross-functional team of 5 developers, delivering 10 major software updates on time
+          - Automating 15 key business processes, reducing manual workload by 70%
+
+      - company: Web Age Technologies
+        position: Web Developer
+        location: Nairobi
+        start_date: 2022-04
+        end_date: 2023-06
         highlights:
-          - Developed an electronic classroom where multiple users can simultaneously view and draw on a "chalkboard" with each person's edits synchronized
-          - 'Tools Used: C++, MFC'
-      - name: Synchronized Desktop Calendar
-        date: '[github.com/name/repo](https://github.com/sinaatalay/rendercv)'
+          - Developed 20+ responsive websites using WordPress and custom solutions
+          - Improved website performance by 45% through frontend optimizations
+          - Implemented e-commerce functionality for 5 clients, increasing their online sales by 30%
+          - Conducted code reviews for team of 3 junior developers, reducing bugs by 50%
+          - Integrated payment gateways and CRM systems, enhancing user experience for 100,000+ monthly active users
+
+      - company: Freelance
+        position: Software Developer
+        location: Nairobi
+        start_date: 2020-04
+        end_date: present
         highlights:
-          - Developed a desktop calendar with globally shared and synchronized calendars, allowing users to schedule meetings with other users
-          - 'Tools Used: C#, .NET, SQL, XML'
-      - name: Custom Operating System
-        date: 2002
+          - Successfully completed over 30 Custom Website Design jobs with 98% client satisfaction rate
+          - Built a full stack school management system
+          - Developed full-stack e-commerce solution, increasing client's revenue by 40%
+          - Created custom CRM system, improving client's customer retention by 25%
+          - Optimized legacy code for 5 clients, reducing maintenance costs by 30%
+
+    education:
+      - institution: KCA University
+        area: Software Development
+        degree: BSc
+        start_date: 2021-09
+        end_date: 2024-04
         highlights:
-          - Built a UNIX-style OS with a scheduler, file system, text editor, and calculator
-          - 'Tools Used: C'
-    technologies:
-      - label: Languages
-        details: C++, C, Java, Objective-C, C#, SQL, JavaScript
-      - label: Technologies
-        details: .NET, Microsoft SQL Server, XCode, Interface Builder
+          - '**Coursework:** Advanced Algorithms, Machine Learning, Cloud Computing, Software Engineering'
+          - 'GPA: 3.4/4.0'
+
+      - institution: Starehe Boys' Centre and School
+        area: KCSE
+        degree: Secondary Education
+        start_date: 2017-01
+        end_date: 2021-04
+        highlights:
+          - 'Grade: A-'
 
 design:
   theme: classic

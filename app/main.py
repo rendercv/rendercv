@@ -215,7 +215,6 @@ class CVValidator:
 
 class CVRequest(BaseModel):
     yaml_content: str
-    template: Optional[str] = "sb2nov"
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
@@ -227,9 +226,32 @@ async def root():
         logging.error(f"Error reading index.html: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
+def ensure_docker_image():
+    """Ensure the RenderCV Docker image is pulled"""
+    try:
+        subprocess.run(
+            ["docker", "pull", "rendercv/rendercv:latest"],
+            capture_output=True,
+            check=True
+        )
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Failed to pull Docker image: {e.stderr}")
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error_type": "DOCKER_ERROR",
+                "error_message": "Failed to pull Docker image",
+                "error_details": {
+                    "output": e.stdout,
+                    "error": e.stderr
+                }
+            }
+        )
+
 @app.post("/generate-cv/")
 async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
     try:
+        ensure_docker_image()
         # Parse YAML content
         try:
             cv_data = yaml.safe_load(cv_request.yaml_content)
@@ -271,10 +293,18 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         yaml_path = request_dir / "cv.yaml"
         yaml_path.write_text(cv_request.yaml_content, encoding="utf-8")
         
-        # Generate CV using rendercv with error capture
+        # Run RenderCV command in Docker with Windows path formatting
         try:
+            request_dir_win = str(request_dir).replace('\\', '/')
+            docker_cmd = [
+                "docker", "run", "--rm",
+                "-v", f"{request_dir_win}:/app/data",
+                "rendercv/rendercv:latest",
+                "render", "/app/data/cv.yaml"
+            ]
+            
             process = subprocess.run(
-                ["rendercv", "render", str(yaml_path)],
+                docker_cmd,
                 capture_output=True,
                 text=True,
                 check=True
@@ -296,33 +326,28 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
                 }
             )
         
-        # Find the generated PDF
-        pdf_files = list(OUTPUT_DIR.glob("*.pdf"))
+        # Find the generated PDF in the mounted directory
+        pdf_path = request_dir / "cv.pdf"
         
-        if not pdf_files:
+        if not pdf_path.exists():
             raise HTTPException(
                 status_code=500,
                 detail={
                     "error_type": "PDF_NOT_FOUND",
                     "error_message": "PDF file not generated",
                     "error_details": {
-                        "output_dir": str(OUTPUT_DIR),
-                        "files_found": [str(f) for f in OUTPUT_DIR.iterdir()]
+                        "output_dir": str(request_dir),
+                        "files_found": [str(f) for f in request_dir.iterdir()]
                     }
                 }
             )
         
-        # Copy the PDF to our temp directory
-        output_pdf = request_dir / "cv.pdf"
-        shutil.copy2(str(pdf_files[0]), str(output_pdf))
-        
         # Schedule cleanup
         background_tasks.add_task(cleanup_files, str(request_dir))
-        background_tasks.add_task(cleanup_files, str(OUTPUT_DIR))
         
         # Return the PDF
         return FileResponse(
-            str(output_pdf),
+            str(pdf_path),
             media_type="application/pdf",
             filename="cv.pdf"
         )
@@ -368,8 +393,7 @@ async def usage():
         "usage": {
             "endpoint": "POST /generate-cv/",
             "body": {
-                "yaml_content": "Your YAML content here",
-                "template": "sb2nov (optional)"
+                "yaml_content": "Your YAML content here"
             }
         }
     }
