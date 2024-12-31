@@ -226,32 +226,9 @@ async def root():
         logging.error(f"Error reading index.html: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-def ensure_docker_image():
-    """Ensure the RenderCV Docker image is pulled"""
-    try:
-        subprocess.run(
-            ["docker", "pull", "rendercv/rendercv:latest"],
-            capture_output=True,
-            check=True
-        )
-    except subprocess.CalledProcessError as e:
-        logger.error(f"Failed to pull Docker image: {e.stderr}")
-        raise HTTPException(
-            status_code=500,
-            detail={
-                "error_type": "DOCKER_ERROR",
-                "error_message": "Failed to pull Docker image",
-                "error_details": {
-                    "output": e.stdout,
-                    "error": e.stderr
-                }
-            }
-        )
-
 @app.post("/generate-cv/")
 async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
     try:
-        ensure_docker_image()
         # Parse YAML content
         try:
             cv_data = yaml.safe_load(cv_request.yaml_content)
@@ -293,75 +270,45 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
         yaml_path = request_dir / "cv.yaml"
         yaml_path.write_text(cv_request.yaml_content, encoding="utf-8")
         
-        # Run RenderCV command in Docker with Windows path formatting
+        # Use rendercv directly instead of Docker
         try:
-            request_dir_win = str(request_dir).replace('\\', '/')
-            docker_cmd = [
-                "docker", "run", "--rm",
-                "-v", f"{request_dir_win}:/app/data",
-                "rendercv/rendercv:latest",
-                "render", "/app/data/cv.yaml"
-            ]
+            from rendercv.cli import render_cv
+            output_path = request_dir / "output.pdf"
+            render_cv(str(yaml_path), str(output_path))
             
-            process = subprocess.run(
-                docker_cmd,
-                capture_output=True,
-                text=True,
-                check=True
+            # Schedule cleanup
+            background_tasks.add_task(cleanup_files, str(request_dir))
+            
+            return FileResponse(
+                path=output_path,
+                filename="cv.pdf",
+                media_type="application/pdf",
+                background=background_tasks
             )
-            logger.info(f"RenderCV output: {process.stdout}")
-        except subprocess.CalledProcessError as e:
-            logger.error(f"RenderCV Error: {e.stderr}")
-            raise HTTPException(
-                status_code=400,
-                detail={
-                    "error_type": "CV_GENERATION_ERROR",
-                    "error_message": "Failed to generate CV",
-                    "error_details": {
-                        "command": e.cmd,
-                        "return_code": e.returncode,
-                        "output": e.stdout,
-                        "error": e.stderr
-                    }
-                }
-            )
-        
-        # Find the generated PDF in the mounted directory
-        pdf_path = request_dir / "cv.pdf"
-        
-        if not pdf_path.exists():
+            
+        except Exception as e:
+            logger.error(f"Error generating CV: {str(e)}")
+            logger.error(traceback.format_exc())
             raise HTTPException(
                 status_code=500,
                 detail={
-                    "error_type": "PDF_NOT_FOUND",
-                    "error_message": "PDF file not generated",
-                    "error_details": {
-                        "output_dir": str(request_dir),
-                        "files_found": [str(f) for f in request_dir.iterdir()]
-                    }
+                    "error_type": "GENERATION_ERROR",
+                    "error_message": str(e),
+                    "error_details": None
                 }
             )
-        
-        # Schedule cleanup
-        background_tasks.add_task(cleanup_files, str(request_dir))
-        
-        # Return the PDF
-        return FileResponse(
-            str(pdf_path),
-            media_type="application/pdf",
-            filename="cv.pdf"
-        )
-        
+            
     except Exception as e:
-        # Log the full error
-        logger.error(f"Error generating CV: {str(e)}\n{traceback.format_exc()}")
-        
-        # Clean up on error
-        if 'request_dir' in locals():
-            cleanup_files(str(request_dir))
-        
-        # Re-raise the exception to be handled by the global exception handler
-        raise
+        logger.error(f"Unexpected error: {str(e)}")
+        logger.error(traceback.format_exc())
+        raise HTTPException(
+            status_code=500,
+            detail={
+                "error_type": "UNEXPECTED_ERROR",
+                "error_message": str(e),
+                "error_details": None
+            }
+        )
 
 def cleanup_files(directory: str):
     """Clean up temporary files after response is sent"""

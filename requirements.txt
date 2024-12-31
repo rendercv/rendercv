@@ -4,3 +4,6 @@ python-multipart==0.0.6
 pyyaml==6.0.1
 rendercv==1.17
 python-jose==3.3.0
+weasyprint>=60.1
+jinja2>=3.0.0
+markdown>=3.3.0
