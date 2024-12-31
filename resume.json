@@ -1,0 +1,131 @@
+{
+  "name": "JAMES IMODOI EPALE",
+  "contact": {
+    "location": "Nairobi, Kenya",
+    "phone": "+254743854888",
+    "email": "Ijepale@gmail.com"
+  },
+  "summary": "I am a results-driven Software Developer with 5+ years of experience specializing in web development, machine learning, e-commerce solutions, and custom business software. With a proven track record of increasing efficiency by 40% through innovative Ideas and AI implementations, and reducing security vulnerabilities by 30%. Skilled in delivering scalable solutions that drive business growth and enhance user experiences.",
+  "skills": [
+    "Programming Languages: JavaScript, Java, Python, VB, .NET, C++, C#",
+    "Web Development: HTML, CSS, JavaScript, React, Node.js, Vue.js, Angular, WordPress",
+    "Machine Learning & AI: TensorFlow, PyTorch, Supervised/Unsupervised Learning, Deep Learning",
+    "E-commerce: Recommendation systems, user interest modeling, large-scale data mining",
+    "Custom Business Software: Requirements analysis, system design, implementation, and integration",
+    "Database Management: MySQL, PostgreSQL, Supabase, Firebase, Prisma",
+    "Cloud Computing: AWS, Google Firebase",
+    "Software Development: Agile methodologies, Git, JIRA, Trello",
+    "Data Structures & Algorithms: Strong problem-solving skills",
+    "Big Data: Experience with large-scale data processing and analysis",
+    "Frontend Frameworks: React, Vue.js, Angular",
+    "UI/UX: Figma",
+    "Business Process Automation: Workflow optimization, custom software solutions, Proficient in the use of computer systems, networks, and software applications",
+    "Experienced in the installation, configuration, and maintenance of computer hardware and software"
+  ],
+  "experience": [
+    {
+      "position": "CTO",
+      "company": "HADEAZY DIGITAL SOLUTIONS",
+      "location": "Nairobi",
+      "dates": "June 2023 – Present",
+      "responsibilities": [
+        "Spearheading development of scalable web solutions, resulting in 50% faster load times",
+        "Implementing AI-driven recommender systems, increasing user engagement by 35%",
+        "Managing end-to-end software development lifecycle for 10+ projects simultaneously",
+        "Mentoring a team of 8 developers, improving code quality and reducing bugs by 40%",
+        "Designing custom e-commerce platforms, boosting client conversion rates by 25%",
+        "Optimizing database queries, reducing response times by 60% for high-traffic applications"
+      ]
+    },
+    {
+      "position": "Finance Software Engineer",
+      "company": "Booksmart Consultancy Limited",
+      "location": "Nairobi",
+      "dates": "September 2023 – Present",
+      "responsibilities": [
+        "Developing AI-powered accounting software, increasing client efficiency by 40%",
+        "Implementing machine learning algorithms for fraud detection, reducing false positives by 60%",
+        "Collaborating with data scientists to improve model accuracy, achieving 95% prediction rate",
+        "Designing bespoke auditing solutions, streamlining processes and saving 200+ hours annually",
+        "Optimizing security protocols, resulting in a 30% decrease in vulnerability incidents",
+        "Leading cross-functional team of 5 developers, delivering 10 major software updates on time",
+        "Automating 15 key business processes, reducing manual workload by 70%"
+      ]
+    },
+    {
+      "position": "Web Developer",
+      "company": "Web Age Technologies",
+      "location": "Nairobi",
+      "dates": "April 2022 – June 2023",
+      "responsibilities": [
+        "Developed 20+ responsive websites using WordPress and custom solutions",
+        "Improved website performance by 45% through frontend optimizations",
+        "Implemented e-commerce functionality for 5 clients, increasing their online sales by 30%",
+        "Conducted code reviews for team of 3 junior developers, reducing bugs by 50%",
+        "Integrated payment gateways and CRM systems, enhancing user experience for 100,000+ monthly active users",
+        "Optimized database queries, reducing page load times by 40%"
+      ]
+    },
+    {
+      "position": "Freelance Software Developer",
+      "location": "Nairobi",
+      "dates": "April 2020 – Present",
+      "responsibilities": [
+        "Successfully completed over 30 Custom Website Design jobs with 98% client satisfaction rate",
+        "Built a full stack school management system",
+        "Business discussions with clients to identify business requirements",
+        "Developed full-stack e-commerce solution, increasing client's revenue by 40%",
+        "Implemented recommendation system, boosting product views by 55%",
+        "Created custom CRM system, improving client's customer retention by 25%",
+        "Optimized legacy code for 5 clients, reducing maintenance costs by 30%",
+        "Provided technical support, resolving 95% of issues within 24 hours",
+        "Conducted regular system backups and disaster recovery testing",
+        "Developed and implemented IT policies and procedures to ensure the optimal functioning of computer systems and networks"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "BSC. Software Development",
+      "institution": "KCA University",
+      "dates": "Sep 2021 – April 2024 (Virtual)",
+      "gpa": "3.4/4.0",
+      "coursework": [
+        "Advanced Algorithms",
+        "Machine Learning",
+        "Cloud Computing",
+        "Software Engineering"
+      ]
+    },
+    {
+      "degree": "KCSE",
+      "institution": "Starehe Boys' Centre and School",
+      "dates": "Jan 2017 – Apr 2021",
+      "grade": "A-"
+    }
+  ],
+  "projects": {
+    "github": "https://github.com/imodoiepale",
+    "website": "https://imodoiepale.vercel.app"
+  },
+  "referees": [
+    {
+      "name": "Arman Khondker",
+      "position": "Software Engineer",
+      "company": "Tiktok",
+      "email": "hi.armankhondker@gmail.com"
+    },
+    {
+      "name": "David Kipkemboi",
+      "position": "CTO",
+      "company": "Cosmere Ventures",
+      "email": "davidkla12@gmail.com"
+    },
+    {
+      "name": "Sandip Patel",
+      "position": "Chief Accountant and Auditor",
+      "company": "Booksmart Consultancy Limited",
+      "email": "sandypats@gmail.com"
+    }
+  ]
+}

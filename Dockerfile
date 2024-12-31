@@ -1,12 +1,26 @@
 # Use the official Python image as a base
-FROM python:3.13-slim
+FROM python:3.11-slim
 
-# Install RenderCV:
-RUN pip install rendercv
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    texlive-latex-base \
+    texlive-fonts-recommended \
+    texlive-latex-extra \
+    && rm -rf /var/lib/apt/lists/*
 
-# Create a directory for the app
-WORKDIR /rendercv
+# Set working directory
+WORKDIR /app
 
-# Set the entrypoint to /bin/sh instead of Python
-ENTRYPOINT ["/bin/bash"]
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy the application code
+COPY app/ ./app/
+
+# Expose the port
+EXPOSE 8000
+
+# Command to run the application
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

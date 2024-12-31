@@ -1,0 +1,11 @@
+{
+  "type": "module",
+  "dependencies": {
+    "body-parser": "^1.20.3",
+    "express": "^4.21.2",
+    "jsonresume-theme-even": "^0.23.0",
+    "path": "^0.12.7",
+    "puppeteer": "^23.11.1",
+    "resumed": "^4.0.0"
+  }
+}

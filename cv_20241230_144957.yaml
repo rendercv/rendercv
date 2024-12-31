@@ -1,0 +1,69 @@
+cv:
+  name: ''
+  location: ''
+  email: ''
+  phone: 'tel:'
+  social_networks:
+  - network: ''
+    username: ''
+  - network: ''
+    username: ''
+  sections:
+    summary:
+    - ''
+    skills:
+    - label: ''
+      details: ''
+    experience:
+    - company: ''
+      position: ''
+      location: ''
+      start_date: ''
+      end_date: present
+      highlights: []
+    - company: ''
+      position: ''
+      location: ''
+      start_date: ''
+      end_date: present
+      highlights: []
+    education:
+    - institution: ''
+      area: ''
+      degree: ''
+      start_date: ''
+      end_date: present
+      highlights: []
+    - institution: ''
+      area: ''
+      degree: ''
+      start_date: ''
+      end_date: present
+      highlights: []
+design:
+  theme: sb2nov
+  font: Latin Modern Serif
+  font_size: 10pt
+  page_size: letterpaper
+  color: '#004f90'
+  margins:
+    page:
+      top: 2 cm
+      bottom: 2 cm
+      left: 2 cm
+      right: 2 cm
+    section_title:
+      top: 0.3 cm
+      bottom: 0.2 cm
+    entry_area:
+      left_and_right: 0.2 cm
+      vertical_between: 0.2 cm
+      date_and_location_width: 4.5 cm
+    highlights_area:
+      top: 0.10 cm
+      left: 0.4 cm
+      vertical_between_bullet_points: 0.10 cm
+    header:
+      vertical_between_name_and_connections: 0.3 cm
+      bottom: 0.3 cm
+      horizontal_between_connections: 0.5 cm

@@ -1,131 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YAML to PDF Converter</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        textarea {
-            width: 100%;
-            height: 300px;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            resize: vertical;
-            font-family: monospace;
-        }
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            display: block;
-            margin: 0 auto;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #status {
-            margin-top: 20px;
-            text-align: center;
-            color: #666;
-        }
-        .sample-yaml {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #yamlInput {
+      font-family: monospace;
+    }
+  </style>
 </head>
-<body>
-    <div class="container">
-        <h1>YAML to PDF Converter</h1>
-        <textarea id="yamlInput" placeholder="Paste your YAML content here...">name: John Doe
-title: Software Engineer
-experience:
-  - company: Tech Corp
-    position: Senior Developer
-    duration: 2020-Present
-  - company: Start Up Inc
-    position: Developer
-    duration: 2018-2020
-education:
-  - degree: Computer Science
-    school: University of Technology
-    year: 2018</textarea>
-        <button onclick="convertToPDF()">Convert to PDF</button>
-        <div id="status"></div>
+
+<body class="bg-gray-100 min-h-screen p-8">
+  <div class="max-w-6xl mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center text-gray-800">CV Generator</h1>
+
+    <div class="bg-white rounded-lg shadow-lg p-6">
+      <div class="mb-4">
+        <div class="grid grid-cols-3 gap-4">
+          <button id="loadSampleBtn1" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Load Sample CV 1
+          </button>
+          <button id="loadSampleBtn2" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Load Sample CV 2
+          </button>
+          <button id="loadSampleBtn3" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            Load Sample CV 3
+          </button>
+        </div>
+        <button id="clearBtn" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 mt-2">
+          Clear
+        </button>
+      </div>
+
+      <div class="mb-4">
+        <label for="yamlInput" class="block text-gray-700 text-sm font-bold mb-2">YAML Content:</label>
+        <textarea id="yamlInput" rows="20"
+          class="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:shadow-outline"
+          placeholder="Paste your YAML content here..."></textarea>
+      </div>
+
+      <div class="flex space-x-4">
+        <button id="generateBtn" class="bg-green-500 text-white px-6 py-2 rounded hover:bg-green-600">
+          Generate CV
+        </button>
+        <button id="previewBtn" class="bg-purple-500 text-white px-6 py-2 rounded hover:bg-purple-600 hidden">
+          Preview CV
+        </button>
+      </div>
+
+      <div id="status" class="mt-4 text-gray-700"></div>
     </div>
 
-    <script>
-        async function convertToPDF() {
-            const yamlContent = document.getElementById('yamlInput').value;
-            const statusDiv = document.getElementById('status');
-            
-            if (!yamlContent.trim()) {
-                statusDiv.textContent = 'Please enter YAML content';
-                return;
-            }
+    <!-- Preview Modal -->
+    <div id="previewModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+      <div class="bg-white rounded-lg p-6 w-11/12 h-5/6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold">CV Preview</h2>
+          <button id="closePreviewBtn" class="text-gray-500 hover:text-gray-700">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <iframe id="pdfPreview" class="w-full h-5/6"></iframe>
+        <div class="mt-4 flex justify-end">
+          <button id="downloadBtn" class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
+            Download CV
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-            statusDiv.textContent = 'Converting...';
-            
-            try {
-                const response = await fetch('/api/convert', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ content: yamlContent })
-                });
+  <script>
+    // Sample CVs content
+    const sampleCV1 = `cv:
+  name: JAMES IMODOI EPALE
+  location: Nairobi, Kenya
+  email: Ijepale@gmail.com
+  phone: tel:+254743854888
+  social_networks:
+    - network: LinkedIn
+      username: jamesepale
+    - network: GitHub
+      username: imodoiepale
 
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || 'Error converting YAML to PDF');
-                }
+  sections:
+    summary:
+      - I am a results-driven Software Developer with 5+ years of experience specializing in web development, machine learning, e-commerce solutions, and custom business software. With a proven track record of increasing efficiency by 40% through innovative Ideas and AI implementations, and reducing security vulnerabilities by 30%. Skilled in delivering scalable solutions that drive business growth and enhance user experiences.
 
-                // Get the blob from the response
-                const blob = await response.blob();
-                
-                // Create a URL for the blob
-                const url = window.URL.createObjectURL(blob);
-                
-                // Create a temporary link and click it to download the file
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'converted.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                window.URL.revokeObjectURL(url);
+    skills:
+      - label: Programming Languages
+        details: JavaScript, Java, Python, VB, .NET, C++, C#
+      - label: Web Development
+        details: HTML, CSS, JavaScript, React, Node.js, Vue.js, Angular, WordPress
+      - label: Machine Learning & AI
+        details: TensorFlow, PyTorch, Supervised/Unsupervised Learning, Deep Learning
+      - label: Database Management
+        details: MySQL, PostgreSQL, Supabase, Firebase, Prisma
+      - label: Cloud Computing
+        details: AWS, Google Firebase
+      - label: Frontend Frameworks
+        details: React, Vue.js, Angular
+      - label: Other Tools
+        details: Git, JIRA, Trello, Figma
 
-                statusDiv.textContent = 'Conversion successful! PDF downloaded.';
-            } catch (error) {
-                console.error('Error:', error);
-                statusDiv.textContent = error.message || 'Error converting YAML to PDF. Please check your YAML syntax.';
-            }
+    experience:
+      - company: HADEAZY DIGITAL SOLUTIONS
+        position: CTO
+        location: Nairobi
+        start_date: 2023-06
+        end_date: present
+        highlights:
+          - Spearheading development of scalable web solutions, resulting in 50% faster load times
+          - Implementing AI-driven recommender systems, increasing user engagement by 35%
+          - Managing end-to-end software development lifecycle for 10+ projects simultaneously
+
+    education:
+      - institution: KCA University
+        area: Software Development
+        degree: BSc
+        start_date: 2021-09
+        end_date: 2024-04
+        highlights:
+          - '**Coursework:** Advanced Algorithms, Machine Learning, Cloud Computing, Software Engineering'
+          - 'GPA: 3.4/4.0'
+
+design:
+  theme: sb2nov
+  font: Latin Modern Serif
+  font_size: 10pt
+  page_size: letterpaper
+  color: '#004f90'
+  margins:
+    page:
+      top: 2 cm
+      bottom: 2 cm
+      left: 2 cm
+      right: 2 cm
+    section_title:
+      top: 0.3 cm
+      bottom: 0.2 cm
+    entry_area:
+      left_and_right: 0.2 cm
+      vertical_between: 0.2 cm
+      date_and_location_width: 4.5 cm
+    highlights_area:
+      top: 0.10 cm
+      left: 0.4 cm
+      vertical_between_bullet_points: 0.10 cm
+    header:
+      vertical_between_name_and_connections: 0.3 cm
+      bottom: 0.3 cm
+      horizontal_between_connections: 0.5 cm
+
+locale_catalog:
+  phone_number_format: national 
+  date_style: "MONTH_ABBREVIATION YEAR" 
+  abbreviations_for_months:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  full_names_of_months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: to`;
+
+    const sampleCV2 = `cv:
+  name: JANE DOE
+  location: New York, USA
+  email: janedoe@example.com
+  phone: tel:+1234567890
+  social_networks:
+    - network: LinkedIn
+      username: janedoe
+    - network: GitHub
+      username: janedoe
+
+  sections:
+    summary:
+      - I am a highly motivated and detail-oriented Software Engineer with 3+ years of experience in developing scalable and efficient software solutions. Proficient in a range of programming languages, including Java, Python, and C++. Strong understanding of computer science fundamentals and software engineering principles.
+
+    skills:
+      - label: Programming Languages
+        details: Java, Python, C++, JavaScript
+      - label: Web Development
+        details: HTML, CSS, JavaScript, React, Node.js
+      - label: Database Management
+        details: MySQL, PostgreSQL, MongoDB
+      - label: Cloud Computing
+        details: AWS, Google Cloud
+      - label: Other Tools
+        details: Git, JIRA, Trello
+
+    experience:
+      - company: ABC Corporation
+        position: Software Engineer
+        location: New York
+        start_date: 2020-01
+        end_date: 2022-06
+        highlights:
+          - Developed and deployed multiple software applications using Java and Python
+          - Collaborated with cross-functional teams to design and implement new features
+          - Participated in code reviews and ensured high-quality code standards
+
+    education:
+      - institution: New York University
+        area: Computer Science
+        degree: BSc
+        start_date: 2018-09
+        end_date: 2020-05
+        highlights:
+          - '**Coursework:** Data Structures, Algorithms, Computer Systems, Web Development'
+          - 'GPA: 3.6/4.0'
+
+design:
+  theme: sb2nov
+  font: Latin Modern Serif
+  font_size: 10pt
+  page_size: letterpaper
+  color: '#004f90'
+  margins:
+    page:
+      top: 2 cm
+      bottom: 2 cm
+      left: 2 cm
+      right: 2 cm
+    section_title:
+      top: 0.3 cm
+      bottom: 0.2 cm
+    entry_area:
+      left_and_right: 0.2 cm
+      vertical_between: 0.2 cm
+      date_and_location_width: 4.5 cm
+    highlights_area:
+      top: 0.10 cm
+      left: 0.4 cm
+      vertical_between_bullet_points: 0.10 cm
+    header:
+      vertical_between_name_and_connections: 0.3 cm
+      bottom: 0.3 cm
+      horizontal_between_connections: 0.5 cm
+
+locale_catalog:
+  phone_number_format: national 
+  date_style: "MONTH_ABBREVIATION YEAR" 
+  abbreviations_for_months:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  full_names_of_months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: to`;
+
+    const sampleCV3 = `cv:
+  name: JOHN SMITH
+  location: London, UK
+  email: johnsmith@example.com
+  phone: tel:+441234567890
+  social_networks:
+    - network: LinkedIn
+      username: johnsmith
+    - network: GitHub
+      username: johnsmith
+
+  sections:
+    summary:
+      - I am a seasoned IT professional with 10+ years of experience in software development, project management, and team leadership. Skilled in a range of programming languages, including Java, Python, and C++. Strong understanding of Agile development methodologies and cloud computing platforms.
+
+    skills:
+      - label: Programming Languages
+        details: Java, Python, C++, JavaScript
+      - label: Web Development
+        details: HTML, CSS, JavaScript, React, Node.js
+      - label: Database Management
+        details: MySQL, PostgreSQL, MongoDB
+      - label: Cloud Computing
+        details: AWS, Google Cloud, Azure
+      - label: Other Tools
+        details: Git, JIRA, Trello, Jenkins
+
+    experience:
+      - company: DEF Company
+        position: IT Manager
+        location: London
+        start_date: 2015-01
+        end_date: 2020-06
+        highlights:
+          - Led multiple software development teams and managed projects from conception to delivery
+          - Implemented Agile development methodologies and improved team productivity by 30%
+          - Collaborated with stakeholders to design and implement new features and systems
+
+    education:
+      - institution: University of London
+        area: Computer Science
+        degree: MSc
+        start_date: 2010-09
+        end_date: 2012-06
+        highlights:
+          - '**Coursework:** Advanced Computer Systems, Software Engineering, Data Mining'
+          - 'GPA: 3.8/4.0'
+
+design:
+  theme: sb2nov
+  font: Latin Modern Serif
+  font_size: 10pt
+  page_size: letterpaper
+  color: '#004f90'
+  margins:
+    page:
+      top: 2 cm
+      bottom: 2 cm
+      left: 2 cm
+      right: 2 cm
+    section_title:
+      top: 0.3 cm
+      bottom: 0.2 cm
+    entry_area:
+      left_and_right: 0.2 cm
+      vertical_between: 0.2 cm
+      date_and_location_width: 4.5 cm
+    highlights_area:
+      top: 0.10 cm
+      left: 0.4 cm
+      vertical_between_bullet_points: 0.10 cm
+    header:
+      vertical_between_name_and_connections: 0.3 cm
+      bottom: 0.3 cm
+      horizontal_between_connections: 0.5 cm
+
+locale_catalog:
+  phone_number_format: national 
+  date_style: "MONTH_ABBREVIATION YEAR" 
+  abbreviations_for_months:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  full_names_of_months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: to`;
+
+    // Use production URL since we're deploying to Railway
+    const API_URL = 'https://cv-generator-production-c194.up.railway.app/generate-cv/';
+    let currentPdfBlob = null;
+
+    document.getElementById('loadSampleBtn1').addEventListener('click', () => {
+      document.getElementById('yamlInput').value = sampleCV1;
+    });
+
+    document.getElementById('loadSampleBtn2').addEventListener('click', () => {
+      document.getElementById('yamlInput').value = sampleCV2;
+    });
+
+    document.getElementById('loadSampleBtn3').addEventListener('click', () => {
+      document.getElementById('yamlInput').value = sampleCV3;
+    });
+
+    document.getElementById('clearBtn').addEventListener('click', () => {
+      document.getElementById('yamlInput').value = '';
+      document.getElementById('previewBtn').classList.add('hidden');
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', async () => {
+      const yamlContent = document.getElementById('yamlInput').value;
+      const statusDiv = document.getElementById('status');
+      const previewBtn = document.getElementById('previewBtn');
+
+      if (!yamlContent) {
+        statusDiv.innerHTML = '<p class="text-red-500">Please enter YAML content</p>';
+        return;
+      }
+
+      statusDiv.innerHTML = '<p class="text-blue-500">Generating CV...</p>';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            yaml_content: yamlContent,
+            template: 'sb2nov'
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.detail || 'Failed to generate CV');
         }
-    </script>
+
+        // Get the PDF blob
+        currentPdfBlob = await response.blob();
+        
+        // Show preview button
+        previewBtn.classList.remove('hidden');
+        statusDiv.innerHTML = '<p class="text-green-500">CV generated successfully!</p>';
+      } catch (error) {
+        statusDiv.innerHTML = `<p class="text-red-500">Error: ${error.message}</p>`;
+      }
+    });
+
+    // Preview Modal Functionality
+    const previewModal = document.getElementById('previewModal');
+    const pdfPreview = document.getElementById('pdfPreview');
+    const closePreviewBtn = document.getElementById('closePreviewBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    document.getElementById('previewBtn').addEventListener('click', () => {
+      if (currentPdfBlob) {
+        const pdfUrl = URL.createObjectURL(currentPdfBlob);
+        pdfPreview.src = pdfUrl;
+        previewModal.classList.remove('hidden');
+      }
+    });
+
+    closePreviewBtn.addEventListener('click', () => {
+      previewModal.classList.add('hidden');
+      pdfPreview.src = '';
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      if (currentPdfBlob) {
+        const url = URL.createObjectURL(currentPdfBlob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'cv.pdf';
+        document.body.appendChild(a);
+        a.click();
+        URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      }
+    });
+
+    // Close modal when clicking outside
+    previewModal.addEventListener('click', (e) => {
+      if (e.target === previewModal) {
+        previewModal.classList.add('hidden');
+        pdfPreview.src = '';
+      }
+    });
+  </script>
 </body>
+
 </html>
