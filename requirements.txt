@@ -1,7 +1,7 @@
 fastapi==0.104.1
 uvicorn==0.24.0
 python-multipart==0.0.6
-pyyaml==6.0.1
+ruamel.yaml==0.18.6
 rendercv==1.17
 python-jose==3.3.0
 weasyprint>=60.1

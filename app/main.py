@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Union
-import yaml
 import os
+import glob
 import subprocess
 import shutil
 import uuid
@@ -14,6 +14,8 @@ import logging
 import traceback
 from pathlib import Path
 from datetime import datetime
+from ruamel.yaml import YAML
+yaml = YAML(typ='safe')
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -228,24 +230,19 @@ async def root():
 
 @app.post("/generate-cv/")
 async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
+    """
+    Generate a CV from YAML content and return the PDF file
+    """
     try:
         # Parse YAML content
         try:
-            cv_data = yaml.safe_load(cv_request.yaml_content)
+            cv_data = yaml.load(cv_request.yaml_content)
         except yaml.YAMLError as e:
             raise HTTPException(
                 status_code=400,
-                detail={
-                    "error_type": "YAML_PARSING_ERROR",
-                    "error_message": str(e),
-                    "error_details": {
-                        "line": getattr(e, 'problem_mark', {}).get('line', None),
-                        "column": getattr(e, 'problem_mark', {}).get('column', None),
-                        "problem": getattr(e, 'problem', None),
-                    }
-                }
+                detail=f"Invalid YAML content: {str(e)}"
             )
-
+        
         # Validate and fix CV data
         try:
             cv_data = CVValidator.validate_and_fix_cv_data(cv_data)
@@ -315,9 +312,8 @@ async def generate_cv(cv_request: CVRequest, background_tasks: BackgroundTasks):
             output_path = pdf_files[0]
             
             # Extract applicant name from the YAML file
-            import yaml
             with open(str(yaml_path), 'r') as file:
-                cv_data = yaml.safe_load(file)
+                cv_data = yaml.load(file)
                 applicant_name = cv_data.get('cv', {}).get('name', 'Applicant').replace(' ', '_')
             
             # Rename the output PDF file based on the applicant's name
