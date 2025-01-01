@@ -27,7 +27,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- `locale_catalog` field has been fixed ([#282](https://github.com/rendercv/rendercv/issues/275)).
+- `locale` field has been fixed ([#282](https://github.com/rendercv/rendercv/issues/275)).
 
 ## [1.17] - December 25, 2024
 
@@ -39,7 +39,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - `markdown_to_latex` filter has been added to Jinja templates ([#269](https://github.com/rendercv/rendercv/pull/269)).
 
 ### Changed
-- `design.last_updated_date_style` and `design.page_numbering_style` fields are moved to `locale_catalog.last_updated_date_style` and `locale_catalog.page_numbering_style` fields, respectively ([#270](https://github.com/rendercv/rendercv/pull/270)).
+- `design.last_updated_date_style` and `design.page_numbering_style` fields are moved to `locale.last_updated_date_style` and `locale.page_numbering_style` fields, respectively ([#270](https://github.com/rendercv/rendercv/pull/270)).
 
 ## [1.16] - December 10, 2024
 
@@ -58,7 +58,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 -   Four new options are added to the `rendercv render` command:
     -   `--watch` ([#170](https://github.com/rendercv/rendercv/pull/170)). It re-runs RenderCV automatically whenever the input file changes.
-    -   `--design`, `--locale_catalog`, and `--rendercv_settings` ([#220](https://github.com/rendercv/rendercv/pull/220)). They take the `design`, `locale_catalog`, and `rendercv_settings` fields as separate YAML files.
+    -   `--design`, `--locale`, and `--rendercv_settings` ([#220](https://github.com/rendercv/rendercv/pull/220)). They take the `design`, `locale`, and `rendercv_settings` fields as separate YAML files.
 -   The docker image of RenderCV is pushed to [Docker Hub](https://hub.docker.com/r/rendercv/rendercv) ([#222](https://github.com/rendercv/rendercv/issues/222)).
 -   Telegram has been added as a social network type ([#187](https://github.com/rendercv/rendercv/issues/187)).
 -   Math equations are now displayed in HTML with KaTeX ([#200](https://github.com/rendercv/rendercv/pull/200)).
@@ -97,7 +97,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Arbitrary keys are now allowed in the `cv` field. For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#using-arbitrary-keys).
-- Two new fields have been added to the `locale_catalog` field: `phone_number_format` and `date_style` ([#130](https://github.com/rendercv/rendercv/issues/130)). For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#locale_catalog-field).
+- Two new fields have been added to the `locale` field: `phone_number_format` and `date_style` ([#130](https://github.com/rendercv/rendercv/issues/130)). For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#locale-field).
 
 ### Changed
 
@@ -116,7 +116,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Arbitrary keys are now allowed in entry types. Users can use these keys in their templates. For details, see the [documentation](../user_guide/structure_of_the_yaml_input_file.md#using-arbitrary-keys).
-- The `locale_catalog.full_names_of_months` field has been added to the data model ([#111](https://github.com/rendercv/rendercv/issues/111)).
+- The `locale.full_names_of_months` field has been added to the data model ([#111](https://github.com/rendercv/rendercv/issues/111)).
 - The `TODAY` placeholder can be used in the `design.page_numbering_style` field now.
 
 ### Changed
@@ -125,7 +125,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- The `TODAY` placeholder in `design.last_updated_style` field is localized with the new `locale_catalog.full_names_of_months` field ([#111](https://github.com/rendercv/rendercv/issues/111))
+- The `TODAY` placeholder in `design.last_updated_style` field is localized with the new `locale.full_names_of_months` field ([#111](https://github.com/rendercv/rendercv/issues/111))
 - Rendering Markdown links with special characters has been fixed ([#112](https://github.com/rendercv/rendercv/issues/112)).
 
 ## [1.11] - June 19, 2024
@@ -137,7 +137,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - CLI options now have short versions. See the [CLI documentation](https://docs.rendercv.com/user_guide/cli/) for more information.
 - CLI now notifies the user when a new version is available ([#89](https://github.com/rendercv/rendercv/issues/89)).
 - `Google Scholar` has been added as a social network type ([#85](https://github.com/rendercv/rendercv/issues/85)).
-- Two new design options have been added to the `classic`, `sb2nov`, and `engineeringresumes` themes: `seperator_between_connections` and `use_icons_for_connections`.
+- Two new design options have been added to the `classic`, `sb2nov`, and `engineeringresumes` themes: `separator_between_connections` and `use_icons_for_connections`.
 
 ### Changed
 
@@ -179,7 +179,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- RenderCV is now a multilingual tool. English strings can be overridden with `locale_catalog` section in the YAML input file ([#26](https://github.com/rendercv/rendercv/issues/26), [#20](https://github.com/rendercv/rendercv/pull/20)). See the [documentation](../user_guide/structure_of_the_yaml_input_file.md#locale_catalog-field) for more information.
+- RenderCV is now a multilingual tool. English strings can be overridden with `locale` section in the YAML input file ([#26](https://github.com/rendercv/rendercv/issues/26), [#20](https://github.com/rendercv/rendercv/pull/20)). See the [documentation](../user_guide/structure_of_the_yaml_input_file.md#locale-field) for more information.
 - PNG files for each page can be generated now ([#57](https://github.com/rendercv/rendercv/issues/57)).
 - `rendercv new` command now generates Markdown and $\LaTeX$ source files in addition to the YAML input file so that the default templates can be modified easily.
 - A new CLI command has been added, `rendercv create-theme`, to allow users to create their own themes easily.
@@ -245,7 +245,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 - The new theme, `engineeringresumes`, is ready to be used now.
 - The `education_degree_width` design option has been added for the `classic` theme.
-- `last_updated_date_style` design option has been added for all the themes except `moderncv`.
+- `last_updated_date_template` design option has been added for all the themes except `moderncv`.
 
 ### Fixed
 

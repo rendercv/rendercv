@@ -4,13 +4,7 @@ models for the themes.
 """
 
 from .classic import ClassicThemeOptions
-from .engineeringresumes import EngineeringresumesThemeOptions
-from .moderncv import ModerncvThemeOptions
-from .sb2nov import Sb2novThemeOptions
 
 __all__ = [
     "ClassicThemeOptions",
-    "EngineeringresumesThemeOptions",
-    "ModerncvThemeOptions",
-    "Sb2novThemeOptions",
 ]

@@ -464,7 +464,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         if self.location is not None:
             connections.append(
                 {
-                    "latex_icon": "\\faMapMarker*",
+                    "typst_icon": "location-dot",
                     "url": None,
                     "clean_url": None,
                     "placeholder": self.location,
@@ -474,7 +474,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         if self.email is not None:
             connections.append(
                 {
-                    "latex_icon": "\\faEnvelope[regular]",
+                    "typst_icon": "envelope",
                     "url": f"mailto:{self.email}",
                     "clean_url": self.email,
                     "placeholder": self.email,
@@ -485,7 +485,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             phone_placeholder = computers.format_phone_number(self.phone)
             connections.append(
                 {
-                    "latex_icon": "\\faPhone*",
+                    "typst_icon": "phone",
                     "url": self.phone,
                     "clean_url": phone_placeholder,
                     "placeholder": phone_placeholder,
@@ -496,7 +496,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             website_placeholder = computers.make_a_url_clean(str(self.website))
             connections.append(
                 {
-                    "latex_icon": "\\faLink",
+                    "typst_icon": "link",
                     "url": str(self.website),
                     "clean_url": website_placeholder,
                     "placeholder": website_placeholder,
@@ -505,22 +505,22 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         if self.social_networks is not None:
             icon_dictionary = {
-                "LinkedIn": "\\faLinkedinIn",
-                "GitHub": "\\faGithub",
-                "GitLab": "\\faGitlab",
-                "Instagram": "\\faInstagram",
-                "Mastodon": "\\faMastodon",
-                "ORCID": "\\faOrcid",
-                "StackOverflow": "\\faStackOverflow",
-                "ResearchGate": "\\faResearchgate",
-                "YouTube": "\\faYoutube",
-                "Google Scholar": "\\faGraduationCap",
-                "Telegram": "\\faTelegram",
+                "LinkedIn": "linkedin",
+                "GitHub": "github",
+                "GitLab": "gitlab",
+                "Instagram": "instagram",
+                "Mastodon": "mastodon",
+                "ORCID": "orcid",
+                "StackOverflow": "stack-overflow",
+                "ResearchGate": "researchgate",
+                "YouTube": "youtube",
+                "Google Scholar": "graduation-cap",
+                "Telegram": "telegram",
             }
             for social_network in self.social_networks:
                 clean_url = computers.make_a_url_clean(social_network.url)
                 connection = {
-                    "latex_icon": icon_dictionary[social_network.network],
+                    "typst_icon": icon_dictionary[social_network.network],
                     "url": social_network.url,
                     "clean_url": clean_url,
                     "placeholder": social_network.username,

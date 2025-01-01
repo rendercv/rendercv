@@ -1,6 +1,6 @@
 # Structure of the YAML Input File
 
-RenderCV's input file consists of four parts: `cv`, `design`, `locale_catalog` and `rendercv_settings`.
+RenderCV's input file consists of four parts: `cv`, `design`, `locale` and `rendercv_settings`.
 
 ```yaml title="Your_Name_CV.yaml"
 cv:
@@ -11,7 +11,7 @@ design:
   ...
   YOUR DESIGN
   ...
-locale_catalog:
+locale:
   ...
   TRANSLATIONS TO YOUR LANGUAGE
   ...
@@ -23,7 +23,7 @@ rendercv_settings:
 
 - The `cv` field is mandatory. It contains the **content of the CV**.
 - The `design` field is optional. It contains the **design options of the CV**. If you don't provide a `design` field, RenderCV will use the default design options with the `classic` theme.
-- The `locale_catalog` field is optional. You can provide translations for some of the strings used in the CV, for example, month abbreviations. RenderCV will use the default English strings if you don't provide a `locale_catalog` field.
+- The `locale` field is optional. You can provide translations for some of the strings used in the CV, for example, month abbreviations. RenderCV will use the default English strings if you don't provide a `locale` field.
 - The `rendercv_settings` field is optional. It contains the **settings of RenderCV** (output paths, etc.). If you don't provide a `rendercv_settings` field, RenderCV will use the default settings.
 
 !!! tip
@@ -64,7 +64,7 @@ cv:
   ...
 ```
 
-1.  If you want to change the phone number formatting in the output, see the `locale_catalog` field's `phone_number_format` key.
+1.  If you want to change the phone number formatting in the output, see the `locale` field's `phone_number_format` key.
 2.  The available social networks are: {{available_social_networks}}.
 
 None of the values above are required. You can omit any or all of them, and RenderCV will adapt to your input. These generic fields are used in the header of the CV.
@@ -253,7 +253,7 @@ highlights:
 
 By default, the `an_arbitrary_key` key will not affect the output as the built-in templates do not use it. However, you can use the `an_arbitrary_key` key in your custom templates. Further information on overriding the built-in templates with custom ones can be found [here](index.md#overriding-built-in-themes).
 
-Also, you can use arbitrary keys in the `cv` field. You can use them anywhere in the templates, but generally, they are used in the header of the CV (`Header.j2.tex`).
+Also, you can use arbitrary keys in the `cv` field. You can use them anywhere in the templates, but generally, they are used in the header of the CV (`Header.j2.typ`).
 
 ```yaml hl_lines="3"
 cv:
@@ -313,18 +313,18 @@ design:
       vertical_between_name_and_connections: 0.3 cm
 ```
 
-## "`locale_catalog`" field
+## "`locale`" field
 
-This field is what makes RenderCV a multilingual tool. RenderCV uses some English strings to render PDFs. For example, it takes the dates in ISO format (`2020-01-01`) and converts them into human-friendly strings (`"Jan 2020"`). However, you can override these strings for your own language or needs with the `locale_catalog` field. Also, you can change the phone number formatting with the `phone_number_format` key.
+This field is what makes RenderCV a multilingual tool. RenderCV uses some English strings to render PDFs. For example, it takes the dates in ISO format (`2020-01-01`) and converts them into human-friendly strings (`"Jan 2020"`). However, you can override these strings for your own language or needs with the `locale` field. Also, you can change the phone number formatting with the `phone_number_format` key.
 
 Here is an example:
 
 ```yaml
-locale_catalog:
+locale:
   phone_number_format: national # (1)!
-  date_style: "MONTH_ABBREVIATION YEAR" # (2)!
-  last_updated_date_style: Last updated in TODAY # (3)!
-  page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES # (4)!
+  date_template: "MONTH_ABBREVIATION YEAR" # (2)!
+  last_updated_date_template: Last updated in TODAY # (3)!
+  page_numbering_template: NAME - Page PAGE_NUMBER of TOTAL_PAGES # (4)!
   abbreviations_for_months: 
     - Jan
     - Feb
@@ -361,7 +361,7 @@ locale_catalog:
 
 1. The available phone number formats are: `national`, `international`, and `E164`.
 2. The `MONTH_ABBREVIATION` and `YEAR` are placeholders. The available placeholders are: `FULL_MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `YEAR`, and `YEAR_IN_TWO_DIGITS`.
-3. The available placeholders are: `TODAY`, which prints the today's date with `locale_catalog.date_style`.
+3. The available placeholders are: `TODAY`, which prints the today's date with `locale.date_template`.
 4. The available placeholders are: `NAME`, `PAGE_NUMBER`, `TOTAL_PAGES`, and `TODAY`.
 
 ## "`rendercv_settings`" field
@@ -372,7 +372,7 @@ rendercv_settings:
   render_command:
     output_folder_name: rendercv_output
     pdf_path: NAME_IN_SNAKE_CASE_CV.pdf # (1)!
-    latex_path: NAME_IN_LOWER_SNAKE_CASE_cv.tex
+    typst_path: NAME_IN_LOWER_SNAKE_CASE_cv.typ
     html_path: NAME_IN_KEBAB_CASE_CV.html
     markdown_path: NAME.md
     dont_generate_html: false 

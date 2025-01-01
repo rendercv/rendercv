@@ -78,7 +78,7 @@ def define_env(env):
     theme_templates = {}
     for theme in data.available_themes:
         theme_templates[theme] = {}
-        for theme_file in themes_path.glob(f"{theme}/*.tex"):
+        for theme_file in themes_path.glob(f"{theme}/*.typ"):
             theme_templates[theme][theme_file.stem] = theme_file.read_text()
 
         # Update ordering of theme templates
@@ -99,7 +99,7 @@ def define_env(env):
 
         if theme != "markdown":
             theme_templates[theme] = {
-                f"{key}.tex": value for key, value in theme_templates[theme].items()
+                f"{key}.typ": value for key, value in theme_templates[theme].items()
             }
         else:
             theme_templates[theme] = {
@@ -161,10 +161,10 @@ def generate_entry_figures():
                 )
 
                 # Render
-                latex_file_path = renderer.create_a_latex_file_and_copy_theme_files(
+                typst_file_path = renderer.create_a_typst_file_and_copy_theme_files(
                     data_model, temporary_directory_path
                 )
-                pdf_file_path = renderer.render_a_pdf_from_latex(latex_file_path)
+                pdf_file_path = renderer.render_a_pdf_from_typst(typst_file_path)
 
                 # Prepare output directory and file path
                 output_directory = image_assets_directory / theme

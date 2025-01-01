@@ -112,7 +112,7 @@ design:
   content_scale: 0.75
   show_only_years: false
   disable_page_numbers: false
-locale_catalog:
+locale:
   phone_number_format: national
   page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES
   last_updated_date_style: Last updated in TODAY

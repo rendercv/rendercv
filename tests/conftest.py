@@ -24,7 +24,7 @@ from rendercv.renderer import templater
 # the output. Setting update_testdata to True will update the reference files with
 # the latest RenderCV. This should be done with caution, as it will overwrite the
 # reference files with the latest output.
-update_testdata = False
+update_testdata = True
 
 # copy sample entries from docs/update_rendercv_files.py:
 education_entry_dictionary = {
@@ -518,17 +518,13 @@ def design_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
 
 
 @pytest.fixture
-def locale_catalog_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
+def locale_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
     """Return the path to the input file."""
-    locale_catalog_file_path = (
-        testdata_directory_path / "John_Doe_CV_locale_catalog.yaml"
-    )
+    locale_file_path = testdata_directory_path / "John_Doe_CV_locale.yaml"
     if update_testdata:
-        locale_catalog_file_path.write_text("locale_catalog:\n  years: yil\n")
-    shutil.copyfile(
-        locale_catalog_file_path, tmp_path / "John_Doe_CV_locale_catalog.yaml"
-    )
-    return tmp_path / "John_Doe_CV_locale_catalog.yaml"
+        locale_file_path.write_text("locale:\n  years: yil\n")
+    shutil.copyfile(locale_file_path, tmp_path / "John_Doe_CV_locale.yaml")
+    return tmp_path / "John_Doe_CV_locale.yaml"
 
 
 @pytest.fixture

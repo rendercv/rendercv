@@ -1,6 +1,6 @@
 """
 The `rendercv.renderer.renderer` module contains the necessary functions for rendering
-$\\LaTeX$, PDF, Markdown, HTML, and PNG files from the `RenderCVDataModel` object.
+Typst, PDF, Markdown, HTML, and PNG files from the `RenderCVDataModel` object.
 """
 
 import importlib.resources
@@ -9,9 +9,9 @@ import re
 import shutil
 from typing import Optional
 
-import fitz
 import markdown
-import rendercv_tinytex
+import rendercv_fonts
+import typst
 
 from .. import data
 from . import templater
@@ -21,10 +21,8 @@ def copy_theme_files_to_output_directory(
     theme_name: str,
     output_directory_path: pathlib.Path,
 ):
-    """Copy the auxiliary files (all the files that don't end with `.j2.tex` and `.py`)
-    of the theme to the output directory. For example, a theme can have custom
-    fonts, and the $\\LaTeX$ needs it. If the theme is a custom theme, then it will be
-    copied from the current working directory.
+    """Copy the auxiliary files (all the files that don't end with `.j2.typ` and `.py`)
+    of the theme to the output directory.
 
     Args:
         theme_name: The name of the theme.
@@ -46,8 +44,8 @@ def copy_theme_files_to_output_directory(
             )
             raise FileNotFoundError(message)
 
+    dont_copy_files_with_these_extensions = [".py", ".j2.typ"]
     for theme_file in theme_directory_path.iterdir():
-        dont_copy_files_with_these_extensions = [".j2.tex", ".py"]
         # theme_file.suffix returns the latest part of the file name after the last dot.
         # But we need the latest part of the file name after the first dot:
         try:
@@ -68,34 +66,35 @@ def copy_theme_files_to_output_directory(
                 )
 
 
-def create_a_latex_file(
+def create_a_typst_file(
     rendercv_data_model: data.RenderCVDataModel, output_directory: pathlib.Path
 ) -> pathlib.Path:
-    """Render the $\\LaTeX$ file with the given data model and write it to the output
-    directory.
+    """Create a Typst file (depending on the theme) with the given data model and write
+    it to the output directory.
 
     Args:
         rendercv_data_model: The data model.
         output_directory: Path to the output directory.
 
     Returns:
-        The path to the generated $\\LaTeX$ file.
+        The path to the generated Typst file.
     """
     # Create output directory if it doesn't exist:
     if not output_directory.is_dir():
         output_directory.mkdir(parents=True)
 
     jinja2_environment = templater.setup_jinja2_environment()
-    latex_file_object = templater.LaTeXFile(
+
+    file_object = templater.TypstFile(
         rendercv_data_model,
         jinja2_environment,
     )
+    file_name = f"{str(rendercv_data_model.cv.name).replace(' ', '_')}_CV.typ"
 
-    latex_file_name = f"{str(rendercv_data_model.cv.name).replace(' ', '_')}_CV.tex"
-    latex_file_path = output_directory / latex_file_name
-    latex_file_object.create_file(latex_file_path)
+    file_path = output_directory / file_name
+    file_object.create_file(file_path)
 
-    return latex_file_path
+    return file_path
 
 
 def create_a_markdown_file(
@@ -128,10 +127,10 @@ def create_a_markdown_file(
     return markdown_file_path
 
 
-def create_a_latex_file_and_copy_theme_files(
+def create_a_typst_file_and_copy_theme_files(
     rendercv_data_model: data.RenderCVDataModel, output_directory: pathlib.Path
 ) -> pathlib.Path:
-    """Render the $\\LaTeX$ file with the given data model in the output directory and
+    """Render the Typst file with the given data model in the output directory and
     copy the auxiliary theme files to the output directory.
 
     Args:
@@ -139,9 +138,9 @@ def create_a_latex_file_and_copy_theme_files(
         output_directory: Path to the output directory.
 
     Returns:
-        The path to the rendered $\\LaTeX$ file.
+        The path to the rendered Typst file.
     """
-    latex_file_path = create_a_latex_file(rendercv_data_model, output_directory)
+    file_path = create_a_typst_file(rendercv_data_model, output_directory)
     copy_theme_files_to_output_directory(
         rendercv_data_model.design.theme, output_directory
     )
@@ -152,49 +151,66 @@ def create_a_latex_file_and_copy_theme_files(
             rendercv_data_model.cv.photo,
             output_directory / rendercv_data_model.cv.photo.name,
         )
-    return latex_file_path
+
+    return file_path
 
 
-def render_a_pdf_from_latex(
-    latex_file_path: pathlib.Path, local_latex_command: Optional[str] = None
-) -> pathlib.Path:
-    """Run TinyTeX with the given $\\LaTeX$ file to render the PDF.
+typst_compiler: Optional[typst.Compiler] = None
+typst_file_path: pathlib.Path
+
+
+def setup_typst_compiler(file_path: pathlib.Path) -> typst.Compiler:
+    global typst_compiler, typst_file_path  # NOQA: PLW0603
+    if typst_compiler is None or typst_file_path != file_path:
+        typst_compiler = typst.Compiler(
+            file_path, font_paths=rendercv_fonts.paths_to_font_folders
+        )
+        typst_file_path = file_path
+
+    return typst_compiler
+
+
+def render_a_pdf_from_typst(file_path: pathlib.Path) -> pathlib.Path:
+    """Run TinyTeX with the given Typst file to render the PDF.
 
     Args:
-        latex_file_path: The path to the $\\LaTeX$ file.
+        typst_file_path: The path to the Typst file.
 
     Returns:
         The path to the rendered PDF file.
     """
-    return rendercv_tinytex.run_latex(latex_file_path, local_latex_command)
+    typst_compiler = setup_typst_compiler(file_path)
+
+    pdf_output_path = file_path.with_suffix(".pdf")
+    typst_compiler.compile(output=pdf_output_path, format="pdf")
+
+    return pdf_output_path
 
 
-def render_pngs_from_pdf(pdf_file_path: pathlib.Path) -> list[pathlib.Path]:
-    """Render a PNG file for each page of the given PDF file.
+def render_pngs_from_typst(
+    file_path: pathlib.Path, ppi: float = 600
+) -> list[pathlib.Path]:
+    """Run Typst with the given Typst file to render the PNG files.
 
     Args:
-        pdf_file_path: The path to the PDF file.
+        file_path: The path to the Typst file.
+        output_directory: Path to the output directory.
+        ppi: Pixels per inch for PNG output, defaults to 600.
 
     Returns:
-        The paths to the rendered PNG files.
+        Paths to the rendered PNG files.
     """
-    # check if the file exists:
-    if not pdf_file_path.is_file():
-        message = f"The file {pdf_file_path} doesn't exist!"
-        raise FileNotFoundError(message)
+    typst_compiler = setup_typst_compiler(file_path)
+    output_path = file_path.parent / (file_path.stem + "_{p}.png")
+    output = typst_compiler.compile(format="png", ppi=ppi, output=output_path)
 
-    # convert the PDF to PNG:
-    png_directory = pdf_file_path.parent
-    png_file_name = pdf_file_path.stem
-    png_files = []
-    pdf = fitz.open(pdf_file_path)  # open the PDF file
-    for page in pdf:  # iterate the pages
-        image = page.get_pixmap(dpi=300)  # type: ignore
-        png_file_path = png_directory / f"{png_file_name}_{page.number + 1}.png"  # type: ignore
-        image.save(png_file_path)
-        png_files.append(png_file_path)
+    if isinstance(output, list):
+        return [
+            output_path.parent / output_path.name.format(p=i)
+            for i in range(len(output))
+        ]
 
-    return png_files
+    return [output_path.parent / output_path.name.format(p=1)]
 
 
 def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Path:

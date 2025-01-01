@@ -12,7 +12,7 @@ from ...themes import ClassicThemeOptions
 from .base import RenderCVBaseModelWithoutExtraKeys
 from .curriculum_vitae import CurriculumVitae
 from .design import RenderCVDesign
-from .locale_catalog import LocaleCatalog
+from .locale import Locale
 from .rendercv_settings import RenderCVSettings
 
 INPUT_FILE_DIRECTORY: Optional[pathlib.Path] = None
@@ -22,7 +22,7 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
     """This class binds both the CV and the design information together."""
 
     # `cv` is normally required, but don't enforce it in JSON Schema to allow
-    # `design` or `locale_catalog` fields to have individual YAML files.
+    # `design` or `locale` fields to have individual YAML files.
     model_config = pydantic.ConfigDict(json_schema_extra={"required": []})
     cv: CurriculumVitae = pydantic.Field(
         title="Curriculum Vitae",
@@ -35,7 +35,7 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
             "The design information of the CV. The default is the classic theme."
         ),
     )
-    locale_catalog: LocaleCatalog = pydantic.Field(
+    locale: Locale = pydantic.Field(
         default=None,  # type: ignore
         title="Locale Catalog",
         description=(
@@ -65,13 +65,13 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
 
         return model
 
-    @pydantic.field_validator("locale_catalog", mode="before")
+    @pydantic.field_validator("locale", mode="before")
     @classmethod
-    def update_locale_catalog(cls, value) -> LocaleCatalog:
+    def update_locale(cls, value) -> Locale:
         """Update the output folder name in the RenderCV settings."""
         # Somehow, we need this for `test_if_local_catalog_resets` to pass.
         if value is None:
-            return LocaleCatalog()
+            return Locale()
 
         return value
 

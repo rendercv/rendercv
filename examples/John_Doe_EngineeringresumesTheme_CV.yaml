@@ -137,7 +137,7 @@ design:
       vertical_between_name_and_connections: 5 pt
       bottom: 5 pt
       horizontal_between_connections: 10 pt
-locale_catalog:
+locale:
   phone_number_format: national
   page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES
   last_updated_date_style: Last updated in TODAY

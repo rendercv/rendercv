@@ -14,7 +14,7 @@ modules, each containing a different group of data models.
     data model that contains all the content of the CV.
 - `design.py`: Contains the data model that is used to represent the design options of
     the CV.
-- `locale_catalog.py`: Contains the data model that is used to represent the locale
+- `locale.py`: Contains the data model that is used to represent the locale
     catalog of the CV.
 - `rendercv_settings.py`: Contains the data model that is used to represent the settings
     of the RenderCV.
@@ -22,14 +22,17 @@ modules, each containing a different group of data models.
     main data model that defines the whole input file structure.
 """
 
-from .computers import format_date
+from .computers import format_date, get_date_input
 from .curriculum_vitae import (
     CurriculumVitae,
     SectionContents,
     SocialNetwork,
     available_social_networks,
 )
-from .design import available_theme_options, available_themes
+from .design import (
+    available_theme_options,
+    available_themes,
+)
 from .entry_types import (
     BulletEntry,
     EducationEntry,
@@ -41,7 +44,7 @@ from .entry_types import (
     available_entry_models,
     available_entry_type_names,
 )
-from .locale_catalog import LocaleCatalog
+from .locale import Locale
 from .rendercv_data_model import RenderCVDataModel, rendercv_data_model_fields
 from .rendercv_settings import RenderCommandSettings, RenderCVSettings
 
@@ -51,7 +54,7 @@ __all__ = [
     "EducationEntry",
     "Entry",
     "ExperienceEntry",
-    "LocaleCatalog",
+    "Locale",
     "NormalEntry",
     "OneLineEntry",
     "PublicationEntry",
@@ -59,6 +62,7 @@ __all__ = [
     "RenderCVSettings",
     "RenderCommandSettings",
     "SectionContents",
+    "get_date_input",
     "SocialNetwork",
     "available_entry_models",
     "available_entry_type_names",

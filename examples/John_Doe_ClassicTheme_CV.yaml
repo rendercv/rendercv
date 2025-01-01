@@ -139,7 +139,7 @@ design:
       bottom: 0.3 cm
       horizontal_between_connections: 0.5 cm
   show_timespan_in: []
-locale_catalog:
+locale:
   phone_number_format: national
   page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES
   last_updated_date_style: Last updated in TODAY

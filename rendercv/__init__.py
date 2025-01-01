@@ -1,7 +1,6 @@
 """
-RenderCV is a $\\LaTeX$ CV/resume framework that allows you to create a high-quality CV
-as a PDF from a YAML file with Markdown syntax support and complete control over the
-$\\LaTeX$ code.
+RenderCV is a Typst-based Python package with a command-line interface (CLI) that allows
+you to version-control your CV/resume as source code.
 """
 
-__version__ = "1.18"
+__version__ = "2.0"

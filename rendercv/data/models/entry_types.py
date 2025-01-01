@@ -209,6 +209,12 @@ class EntryWithDate(RenderCVBaseModelWithExtraKeys):
         ),
         examples=["2020-09-24", "Fall 2023"],
     )
+    summary: Optional[str] = pydantic.Field(
+        default=None,
+        title="Summary",
+        description="The summary of the event.",
+        examples=["Did this and that."],
+    )
 
     @functools.cached_property
     def date_string(self) -> str:

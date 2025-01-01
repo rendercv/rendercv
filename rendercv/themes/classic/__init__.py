@@ -2,52 +2,14 @@ from typing import Literal
 
 import pydantic
 
-from rendercv.themes.common_options import (
-    EntryAreaMargins,
-    LaTeXDimension,
-    Margins,
+from rendercv.data.models.base import RenderCVBaseModelWithoutExtraKeys
+from rendercv.themes.options import (
     ThemeOptions,
+    TypstDimension,
 )
 
 
-class EntryAreaMarginsForClassic(EntryAreaMargins):
-    """This class is a data model for the entry area margins."""
-
-    education_degree_width: LaTeXDimension = pydantic.Field(
-        default="1 cm",
-        title="Date and Location Column Width",
-        description=(
-            "The width of the degree column in EducationEntry. The default value is"
-            " 1 cm."
-        ),
-    )
-
-
-class MarginsForClassic(Margins):
-    """This class is a data model for the margins."""
-
-    entry_area: EntryAreaMarginsForClassic = pydantic.Field(
-        default=EntryAreaMarginsForClassic(),
-        title="Entry Area Margins",
-        description="Entry area margins.",
-    )
-
-
-class ClassicThemeOptions(ThemeOptions):
-    """This class is the data model of the theme options for the `classic` theme."""
-
-    theme: Literal["classic"]
-    font: Literal[
-        "Latin Modern Serif",
-        "Latin Modern Sans Serif",
-        "Latin Modern Mono",
-        "Source Sans 3",
-        "Charter",
-    ] = pydantic.Field(
-        default="Source Sans 3",
-        title="Font",
-        description="The font family of the CV. The default value is Source Sans 3.",
-    )
+class ThemeSpecific(RenderCVBaseModelWithoutExtraKeys):
     show_timespan_in: list[str] = pydantic.Field(
         default=[],
         title="Show Time Span in These Sections",
@@ -58,8 +20,20 @@ class ClassicThemeOptions(ThemeOptions):
             " span)."
         ),
     )
-    margins: MarginsForClassic = pydantic.Field(
-        default=MarginsForClassic(),
-        title="Margins",
-        description="Page, section title, entry field, and highlights field margins.",
+    education_degree_width: TypstDimension = pydantic.Field(
+        default="1cm",
+        title="Date and Location Column Width",
+        description=(
+            "The width of the degree column in EducationEntry. The default value is"
+            ' "1cm".'
+        ),
+    )
+
+
+class ClassicThemeOptions(ThemeOptions):
+    theme: Literal["classic"]
+    theme_specific: ThemeSpecific = pydantic.Field(
+        default_factory=ThemeSpecific,
+        title="Classic Theme Specific Options",
+        description="The options specific to the Classic theme.",
     )
