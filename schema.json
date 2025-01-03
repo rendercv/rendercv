@@ -120,10 +120,10 @@
             "title": "Text Alignment",
             "type": "string"
           },
-          "seperator_between_connections": {
+          "separator_between_connections": {
             "default": "",
             "description": "The separator between the connections in the header. The default value is empty string.",
-            "title": "Seperator Between Connections",
+            "title": "Separator Between Connections",
             "type": "string"
           },
           "use_icons_for_connections": {
@@ -523,10 +523,10 @@
             "title": "Text Alignment",
             "type": "string"
           },
-          "seperator_between_connections": {
+          "separator_between_connections": {
             "default": "$|$",
             "description": "The separator between the connections in the header. The default value is empty string.",
-            "title": "Seperator Between Connections",
+            "title": "Separator Between Connections",
             "type": "string"
           },
           "use_icons_for_connections": {
@@ -1830,10 +1830,10 @@
             "title": "Text Alignment",
             "type": "string"
           },
-          "seperator_between_connections": {
+          "separator_between_connections": {
             "default": "",
             "description": "The separator between the connections in the header. The default value is empty string.",
-            "title": "Seperator Between Connections",
+            "title": "Separator Between Connections",
             "type": "string"
           },
           "use_icons_for_connections": {
@@ -1960,7 +1960,7 @@
           "last_updated_date_style": "Last updated in TODAY",
           "header_font_size": "30 pt",
           "text_alignment": "justified",
-          "seperator_between_connections": "",
+          "separator_between_connections": "",
           "use_icons_for_connections": true,
           "margins": {
             "entry_area": {

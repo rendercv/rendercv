@@ -3,11 +3,11 @@
 % Packages:
 \usepackage[
     ignoreheadfoot, % set margins without considering header and footer
-    top=<<design.margins.page.top>>, % seperation between body and page edge from the top
-    bottom=<<design.margins.page.bottom>>, % seperation between body and page edge from the bottom
-    left=<<design.margins.page.left>>, % seperation between body and page edge from the left
-    right=<<design.margins.page.right>>, % seperation between body and page edge from the right
-    footskip=<<design.margins.page.bottom|divide_length_by(2)>>, % seperation between body and footer
+    top=<<design.margins.page.top>>, % separation between body and page edge from the top
+    bottom=<<design.margins.page.bottom>>, % separation between body and page edge from the bottom
+    left=<<design.margins.page.left>>, % separation between body and page edge from the left
+    right=<<design.margins.page.right>>, % separation between body and page edge from the right
+    footskip=<<design.margins.page.bottom|divide_length_by(2)>>, % separation between body and footer
     % showframe % for debugging 
 ]{geometry} % for adjusting page geometry
 \usepackage[explicit]{titlesec} % for customizing section titles
@@ -66,7 +66,7 @@
 \setcounter{secnumdepth}{0} % no section numbering
 \setlength{\parindent}{0pt} % no indentation
 \setlength{\topskip}{0pt} % no top skip
-\setlength{\columnsep}{0.15cm} % set column seperation
+\setlength{\columnsep}{0.15cm} % set column separation
 ((* if design.disable_page_numbering *))
 \pagenumbering{gobble} % no page numbering
 ((* else *))

@@ -23,7 +23,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- `design.seperator_between_connections` field has been renamed to `design.separator_between_connections` ([#282](https://github.com/rendercv/rendercv/issues/277)).
+- `design.separator_between_connections` field has been renamed to `design.separator_between_connections` ([#282](https://github.com/rendercv/rendercv/issues/277)).
 
 ### Fixed
 
@@ -137,7 +137,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - CLI options now have short versions. See the [CLI documentation](https://docs.rendercv.com/user_guide/cli/) for more information.
 - CLI now notifies the user when a new version is available ([#89](https://github.com/rendercv/rendercv/issues/89)).
 - `Google Scholar` has been added as a social network type ([#85](https://github.com/rendercv/rendercv/issues/85)).
-- Two new design options have been added to the `classic`, `sb2nov`, and `engineeringresumes` themes: `seperator_between_connections` and `use_icons_for_connections`.
+- Two new design options have been added to the `classic`, `sb2nov`, and `engineeringresumes` themes: `separator_between_connections` and `use_icons_for_connections`.
 
 ### Changed
 
