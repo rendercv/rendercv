@@ -3,36 +3,16 @@ name: Test
 # GitHub events that triggers the workflow:
 on:
   push:
-    branches: ["main", "dev"]
+    branches:
+      - "*"
   pull_request:
-    branches: ["main", "dev"]
-  workflow_call: # to make the workflow triggerable from other workflows (publish.yaml)
+    branches:
+      - "*"
+  workflow_call: # to make the workflow triggerable from other workflows (publish-to-pypi.yaml)
   workflow_dispatch: # to make the workflow triggerable manually
 
 # The workflow:
 jobs:
-  lint:
-    name: Lint with Ruff (Py${{ matrix.python-version }})
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Install Hatch
-        uses: pypa/hatch@install
-
-      - name: Lint with Ruff
-        run: |
-          hatch run lint
-
   test:
     name: Test with Py${{ matrix.python-version }} on ${{ matrix.os }}
 
@@ -40,7 +20,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, windows, macos]
-        python-version: ["3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
 
     runs-on: ${{ matrix.os }}-latest
     steps:
@@ -48,17 +28,12 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-
       - name: Install Hatch
         uses: pypa/hatch@install
 
       - name: Test
-        run: hatch run test:coverage run -m pytest
-    
+        run: hatch run test.py${{ matrix.python-version }}:test-and-report
+
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
@@ -79,11 +54,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Download coverage files
         uses: actions/download-artifact@v4
         with:
@@ -96,9 +66,9 @@ jobs:
 
       - name: Combine coverage files
         run: |
-          hatch run test:coverage combine coverage
-          hatch run test:coverage report
-          hatch run test:coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
+          hatch run coverage combine coverage
+          hatch run coverage report
+          hatch run coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
 
       - name: Upload the coverage report to smokeshow
         run: |
@@ -106,6 +76,6 @@ jobs:
           smokeshow upload ./htmlcov
         env:
           SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
-          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 97
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
           SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}

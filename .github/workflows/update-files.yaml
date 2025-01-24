@@ -2,7 +2,7 @@ name: Update files
 
 # GitHub events that triggers the workflow:
 on:
-  workflow_call: # to make the workflow triggerable from other workflows (publish.yaml)
+  workflow_call: # to make the workflow triggerable from other workflows (publish-to-pypi.yaml)
   workflow_dispatch: # to make the workflow triggerable manually
 
 jobs:
@@ -18,18 +18,13 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
       - name: Install Hatch
         uses: pypa/hatch@install
 
       - name: Set Git credentials
         run: |
-          git config --global user.name "${{ github.actor }}"
-          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions [Bot]"
 
       - name: Update schema.json
         continue-on-error: true

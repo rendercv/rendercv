@@ -1,24 +1,25 @@
 """
 The `rendercv.renderer.templater` module contains all the necessary classes and
-functions for templating the $\\LaTeX$ and Markdown files from the `RenderCVDataModel`
+functions for templating the Typst and Markdown files from the `RenderCVDataModel`
 object.
 """
 
 import copy
 import pathlib
 import re
-from datetime import date as Date
-from typing import Any, Literal, Optional
+from collections.abc import Callable
+from typing import Optional
 
 import jinja2
+import pydantic
 
 from .. import data
 
 
 class TemplatedFile:
-    """This class is a base class for `LaTeXFile` and `MarkdownFile` classes. It
+    """This class is a base class for `TypstFile`, and `MarkdownFile` classes. It
     contains the common methods and attributes for both classes. These classes are used
-    to generate the $\\LaTeX$ and Markdown files with the data model and Jinja2
+    to generate the Typst and Markdown files with the data model and Jinja2
     templates.
 
     Args:
@@ -33,6 +34,7 @@ class TemplatedFile:
     ):
         self.cv = data_model.cv
         self.design = data_model.design
+        self.locale = data_model.locale
         self.environment = environment
 
     def template(
@@ -71,28 +73,26 @@ class TemplatedFile:
                     entry.__setattr__(key, "")
 
         # The arguments of the template can be used in the template file:
-        result = template.render(
+        return template.render(
             cv=self.cv,
             design=self.design,
+            locale=self.locale,
             entry=entry,
-            today=data.format_date(Date.today(), date_style="FULL_MONTH_NAME YEAR"),
+            today=data.format_date(data.get_date_input()),
             **kwargs,
         )
-
-        return result
 
     def get_full_code(self, main_template_name: str, **kwargs) -> str:
         """Combine all the templates to get the full code of the file."""
         main_template = self.environment.get_template(main_template_name)
-        latex_code = main_template.render(
+        return main_template.render(
             **kwargs,
         )
-        return latex_code
 
 
-class LaTeXFile(TemplatedFile):
-    """This class represents a $\\LaTeX$ file. It generates the $\\LaTeX$ code with the
-    data model and Jinja2 templates. It inherits from the `TemplatedFile` class.
+class TypstFile(TemplatedFile):
+    """This class represents a Typst file. It generates the Typst code with the
+    data model and Jinja2 templates.
     """
 
     def __init__(
@@ -100,22 +100,51 @@ class LaTeXFile(TemplatedFile):
         data_model: data.RenderCVDataModel,
         environment: jinja2.Environment,
     ):
-        latex_file_data_model = copy.deepcopy(data_model)
+        typst_file_data_model = copy.deepcopy(data_model)
 
-        if latex_file_data_model.cv.sections_input is not None:
-            transformed_sections = transform_markdown_sections_to_latex_sections(
-                latex_file_data_model.cv.sections_input
+        if typst_file_data_model.cv.sections_input is not None:
+            transformed_sections = transform_markdown_sections_to_typst_sections(
+                typst_file_data_model.cv.sections_input
             )
-            latex_file_data_model.cv.sections_input = transformed_sections
+            typst_file_data_model.cv.sections_input = transformed_sections
 
-        super().__init__(latex_file_data_model, environment)
+        super().__init__(typst_file_data_model, environment)
 
     def render_templates(self) -> tuple[str, str, list[tuple[str, list[str], str]]]:
-        """Render and return all the templates for the $\\LaTeX$ file.
+        """Render and return all the templates for the Typst file.
 
         Returns:
-            The preamble, header, and sections of the $\\LaTeX$ file.
+            The preamble, header, and sections of the Typst file.
         """
+        # All the template field names:
+        all_template_names = [
+            "main_column_first_row_template",
+            "main_column_second_row_template",
+            "main_column_second_row_without_url_template",
+            "main_column_second_row_without_journal_template",
+            "date_and_location_column_template",
+            "template",
+            "degree_column_template",
+        ]
+
+        # All the placeholders used in the templates:
+        sections_input: dict[str, list[pydantic.BaseModel]] = self.cv.sections_input  # type: ignore
+        # Loop through the sections and entries to find all the field names:
+        placeholder_keys: set[str] = set()
+        if sections_input:
+            for section in sections_input.values():
+                for entry in section:
+                    if isinstance(entry, str):
+                        break
+                    entry_dictionary = entry.model_dump()
+                    for key in entry_dictionary:
+                        placeholder_keys.add(key.upper())
+
+        pattern = re.compile(r"(?<!^)(?=[A-Z])")
+
+        def camel_to_snake(name: str) -> str:
+            return pattern.sub("_", name).lower()
+
         # Template the preamble, header, and sections:
         preamble = self.template("Preamble")
         header = self.template("Header")
@@ -123,12 +152,61 @@ class LaTeXFile(TemplatedFile):
         for section in self.cv.sections:
             section_beginning = self.template(
                 "SectionBeginning",
-                section_title=escape_latex_characters(section.title),
+                section_title=escape_typst_characters(section.title),
                 entry_type=section.entry_type,
             )
+
+            templates = {
+                template_name: getattr(
+                    getattr(
+                        getattr(self.design, "entry_types", None),
+                        camel_to_snake(section.entry_type),
+                        None,
+                    ),
+                    template_name,
+                    None,
+                )
+                for template_name in all_template_names
+            }
+
             entries: list[str] = []
             for i, entry in enumerate(section.entries):
-                is_first_entry = i == 0
+                # Prepare placeholders:
+                placeholders = {}
+                for placeholder_key in placeholder_keys:
+                    components_path = (
+                        pathlib.Path(__file__).parent.parent / "themes" / "components"
+                    )
+                    lowercase_placeholder_key = placeholder_key.lower()
+                    if (
+                        components_path / f"{lowercase_placeholder_key}.j2.typ"
+                    ).exists():
+                        placeholder_value = super().template(
+                            "components",
+                            lowercase_placeholder_key,
+                            "typ",
+                            entry,
+                            section_title=section.title,
+                        )
+                    else:
+                        placeholder_value = getattr(entry, placeholder_key, None)
+
+                    placeholders[placeholder_key] = (
+                        placeholder_value if placeholder_value != "None" else None
+                    )
+
+                # Substitute the placeholders in the templates:
+                templates_with_substitutions = {
+                    template_name: (
+                        input_template_to_typst(
+                            templates[template_name],
+                            placeholders,  # type: ignore
+                        )
+                        if templates.get(template_name)
+                        else None
+                    )
+                    for template_name in all_template_names
+                }
 
                 entries.append(
                     self.template(
@@ -136,7 +214,8 @@ class LaTeXFile(TemplatedFile):
                         entry=entry,
                         section_title=section.title,
                         entry_type=section.entry_type,
-                        is_first_entry=is_first_entry,
+                        is_first_entry=i == 0,
+                        **templates_with_substitutions,  # all the templates
                     )
                 )
             section_ending = self.template(
@@ -163,43 +242,39 @@ class LaTeXFile(TemplatedFile):
         Returns:
             The templated file.
         """
-        result = super().template(
+        return super().template(
             self.design.theme,
             template_name,
-            "tex",
+            "typ",
             entry,
             **kwargs,
         )
 
-        result = revert_nested_latex_style_commands(result)
-
-        return result
-
     def get_full_code(self) -> str:
-        """Get the $\\LaTeX$ code of the file.
+        """Get the Typst code of the file.
 
         Returns:
-            The $\\LaTeX$ code.
+            The Typst code.
         """
         preamble, header, sections = self.render_templates()
-        latex_code: str = super().get_full_code(
-            "main.j2.tex",
+        code: str = super().get_full_code(
+            "main.j2.typ",
             preamble=preamble,
             header=header,
             sections=sections,
         )
-        return latex_code
+        return code
 
     def create_file(self, file_path: pathlib.Path):
-        """Write the $\\LaTeX$ code to a file."""
+        """Write the Typst code to a file."""
         file_path.write_text(self.get_full_code(), encoding="utf-8")
 
 
 class MarkdownFile(TemplatedFile):
     """This class represents a Markdown file. It generates the Markdown code with the
-    data model and Jinja2 templates. It inherits from the `TemplatedFile` class.
-    Markdown files are generated to produce an HTML which can be copy-pasted to
-    [Grammarly](https://app.grammarly.com/) for proofreading.
+    data model and Jinja2 templates. Markdown files are generated to produce an HTML
+    which can be copy-pasted to [Grammarly](https://app.grammarly.com/) for
+    proofreading.
     """
 
     def render_templates(self) -> tuple[str, list[tuple[str, list[str]]]]:
@@ -219,10 +294,7 @@ class MarkdownFile(TemplatedFile):
             )
             entries: list[str] = []
             for i, entry in enumerate(section.entries):
-                if i == 0:
-                    is_first_entry = True
-                else:
-                    is_first_entry = False
+                is_first_entry = bool(i == 0)
                 entries.append(
                     self.template(
                         section.entry_type,
@@ -252,14 +324,13 @@ class MarkdownFile(TemplatedFile):
         Returns:
             The templated file.
         """
-        result = super().template(
+        return super().template(
             "markdown",
             template_name,
             "md",
             entry,
             **kwargs,
         )
-        return result
 
     def get_full_code(self) -> str:
         """Get the Markdown code of the file.
@@ -268,90 +339,108 @@ class MarkdownFile(TemplatedFile):
             The Markdown code.
         """
         header, sections = self.render_templates()
-        markdown_code: str = super().get_full_code(
+        code: str = super().get_full_code(
             "main.j2.md",
             header=header,
             sections=sections,
         )
-        return markdown_code
+        return code
 
     def create_file(self, file_path: pathlib.Path):
         """Write the Markdown code to a file."""
         file_path.write_text(self.get_full_code(), encoding="utf-8")
 
 
-def revert_nested_latex_style_commands(latex_string: str) -> str:
-    """Revert the nested $\\LaTeX$ style commands to allow users to unbold or
-    unitalicize a bold or italicized text.
+def input_template_to_typst(
+    input_template: Optional[str], placeholders: dict[str, Optional[str]]
+) -> str:
+    """Convert an input template to Typst.
 
     Args:
-        latex_string: The string to revert the nested $\\LaTeX$ style commands.
+        input_template: The input template.
+        placeholders: The placeholders and their values.
 
     Returns:
-        The string with the reverted nested $\\LaTeX$ style commands.
+        Typst string.
     """
-    # If there is nested \textbf, \textit, or \underline commands, replace the inner
-    # ones with \textnormal:
-    nested_commands_to_look_for = [
-        "textbf",
-        "textit",
-        "underline",
-    ]
+    if input_template is None:
+        return ""
 
-    for command in nested_commands_to_look_for:
-        nested_commands = True
-        while nested_commands:
-            # replace all the inner commands with \textnormal until there are no
-            # nested commands left:
+    output = replace_placeholders_with_actual_values(
+        markdown_to_typst(input_template),
+        placeholders,
+    )
 
-            # find the first nested command:
-            nested_commands = re.findall(
-                rf"\\{command}{{[^}}]*?(\\{command}{{.*?}})", latex_string
-            )
+    # If \n is escaped, revert:
+    output = output.replace("\\n", "\n")
 
-            # replace the nested command with \textnormal:
-            for nested_command in nested_commands:
-                new_command = nested_command.replace(command, "textnormal")
-                latex_string = latex_string.replace(nested_command, new_command)
+    # If there are blank italics and bolds, remove them:
+    output = output.replace("#emph[]", "")
+    output = output.replace("#strong[]", "")
 
-    return latex_string
+    # Check if there are any letters in the input template. If not, return an empty
+    if not re.search(r"[a-zA-Z]", input_template):
+        return ""
+
+    # Find italic and bold links and fix them:
+    # For example:
+    # Convert `#emph[#link("https://google.com")[italic link]]` to
+    # `#link("https://google.com")[#emph[italic link]]`
+    output = re.sub(
+        r"#emph\[#link\(\"(.*?)\"\)\[(.*?)\]\]",
+        r'#link("\1")[#emph[\2]]',
+        output,
+    )
+    output = re.sub(
+        r"#strong\[#link\(\"(.*?)\"\)\[(.*?)\]\]",
+        r'#link("\1")[#strong[\2]]',
+        output,
+    )
+    output = re.sub(
+        r"#strong\[#emph\[#link\(\"(.*?)\"\)\[(.*?)\]\]\]",
+        r'#link("\1")[#strong[#emph[\2]]]',
+        output,
+    )
+
+    # Replace all multiple \n with a double \n:
+    output = re.sub(r"\n+", r"\n\n", output)
+
+    # Strip whitespace
+    output = output.strip()
+
+    # Strip non-alphanumeric, non-typst characters from the beginning and end of the
+    # string. For example, when location is not given in a template like this:
+    # "NAME -- LOCATION", "NAME -- " should become "NAME".
+    output = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", output)
+    output = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", output)
+
+    return output  # noqa: RET504
 
 
-def escape_latex_characters(latex_string: str) -> str:
-    """Escape $\\LaTeX$ characters in a string by adding a backslash before them.
+def escape_characters(string: str, escape_dictionary: dict[str, str]) -> str:
+    """Escape characters in a string by using `escape_dictionary`, where keys are
+    characters to escape and values are their escaped versions.
 
     Example:
         ```python
-        escape_latex_characters("This is a # string.")
+        escape_characters("This is a # string.", {"#": "\\#"})
         ```
         returns
         `"This is a \\# string."`
 
     Args:
-        latex_string: The string to escape.
+        string: The string to escape.
+        escape_dictionary: The dictionary of escape characters.
 
     Returns:
         The escaped string.
     """
 
-    # Dictionary of escape characters:
-    escape_characters = {
-        "{": "\\{",
-        "}": "\\}",
-        # "\\": "\\textbackslash{}",
-        "#": "\\#",
-        "%": "\\%",
-        "&": "\\&",
-        "~": "\\textasciitilde{}",
-        "$": "\\$",
-        "_": "\\_",
-        "^": "\\textasciicircum{}",
-    }
-    translation_map = str.maketrans(escape_characters)
+    translation_map = str.maketrans(escape_dictionary)
 
     # Don't escape urls as hyperref package will do it automatically:
     # Find all the links in the sentence:
-    links = re.findall(r"\[(.*?)\]\((.*?)\)", latex_string)
+    links = re.findall(r"\[(.*?)\]\((.*?)\)", string)
 
     # Replace the links with a dummy string and save links with escaped characters:
     new_links = []
@@ -361,67 +450,90 @@ def escape_latex_characters(latex_string: str) -> str:
         url = link[1]
 
         original_link = f"[{placeholder}]({url})"
-        latex_string = latex_string.replace(original_link, f"!!-link{i}-!!")
+        string = string.replace(original_link, f"!!-link{i}-!!")
 
         new_link = f"[{escaped_placeholder}]({url})"
         new_links.append(new_link)
 
     # If there are equations in the sentence, don't escape the special characters:
     # Find all the equations in the sentence:
-    equations = re.findall(r"(\$\$.*?\$\$)", latex_string)
+    equations = re.findall(r"(\$\$.*?\$\$)", string)
     new_equations = []
     for i, equation in enumerate(equations):
-        latex_string = latex_string.replace(equation, f"!!-equation{i}-!!")
+        string = string.replace(equation, f"!!-equation{i}-!!")
 
         # Keep only one dollar sign for inline equations:
         new_equation = equation.replace("$$", "$")
         new_equations.append(new_equation)
 
-    # Don't touch latex commands:
-    # Find all the latex commands in the sentence:
-    latex_commands = re.findall(r"\\[a-zA-Z]+\{.*?\}", latex_string)
-    for i, latex_command in enumerate(latex_commands):
-        latex_string = latex_string.replace(latex_command, f"!!-latex{i}-!!")
-
     # Loop through the letters of the sentence and if you find an escape character,
-    # replace it with its LaTeX equivalent:
-    latex_string = latex_string.translate(translation_map)
+    # replace it with their equivalent:
+    string = string.translate(translation_map)
 
     # Replace !!-link{i}-!!" with the original urls:
     for i, new_link in enumerate(new_links):
-        latex_string = latex_string.replace(f"!!-link{i}-!!", new_link)
+        string = string.replace(f"!!-link{i}-!!", new_link)
 
     # Replace !!-equation{i}-!!" with the original equations:
     for i, new_equation in enumerate(new_equations):
-        latex_string = latex_string.replace(f"!!-equation{i}-!!", new_equation)
+        string = string.replace(f"!!-equation{i}-!!", new_equation)
 
-    # Replace !!-latex{i}-!!" with the original latex commands:
-    for i, latex_command in enumerate(latex_commands):
-        latex_string = latex_string.replace(f"!!-latex{i}-!!", latex_command)
-
-    return latex_string
+    return string
 
 
-def markdown_to_latex(markdown_string: str) -> str:
-    """Convert a Markdown string to $\\LaTeX$.
-
-    This function is called during the reading of the input file. Before the validation
-    process, each input field is converted from Markdown to $\\LaTeX$.
+def escape_typst_characters(string: str) -> str:
+    """Escape Typst characters in a string by adding a backslash before them.
 
     Example:
         ```python
-        markdown_to_latex("This is a **bold** text with an [*italic link*](https://google.com).")
+        escape_typst_characters("This is a # string.")
+        ```
+        returns
+        `"This is a \\# string."`
+
+    Args:
+        string: The string to escape.
+
+    Returns:
+        The escaped string.
+    """
+    escape_dictionary = {
+        "[": "\\[",
+        "]": "\\]",
+        "(": "\\(",
+        ")": "\\)",
+        "\\": "\\\\",
+        '"': '\\"',
+        "#": "\\#",
+        "$": "\\$",
+        "@": "\\@",
+        "%": "\\%",
+        "~": "\\~",
+        "_": "\\_",
+    }
+
+    return escape_characters(string, escape_dictionary)
+
+
+def markdown_to_typst(markdown_string: str) -> str:
+    """Convert a Markdown string to Typst.
+
+    Example:
+        ```python
+        markdown_to_typst(
+            "This is a **bold** text with an [*italic link*](https://google.com)."
+        )
         ```
 
         returns
 
-        `"This is a \\textbf{bold} text with a \\href{https://google.com}{\\textit{link}}."`
+        `"This is a *bold* text with an #link("https://google.com")[_italic link_]."`
 
     Args:
         markdown_string: The Markdown string to convert.
 
     Returns:
-        The $\\LaTeX$ string.
+        The Typst string.
     """
     # convert links
     links = re.findall(r"\[([^\]\[]*)\]\((.*?)\)", markdown_string)
@@ -431,17 +543,39 @@ def markdown_to_latex(markdown_string: str) -> str:
             link_url = link[1]
 
             old_link_string = f"[{link_text}]({link_url})"
-            new_link_string = "\\href{" + link_url + "}{" + link_text + "}"
+            new_link_string = f'#link("{link_url}")[{link_text}]'
 
             markdown_string = markdown_string.replace(old_link_string, new_link_string)
+
+    # Process escaped asterisks in the yaml (such that they are actual asterisks,
+    # and not markers for bold/italics). We need to temporarily replace them with
+    # a dummy string.
+
+    ONE_STAR = "ONE_STAR"
+
+    # NOTE: We get a mix of escape levels depending on whether the star is in a quoted
+    #       or unquoted yaml entry. This is a bit of a mess but below seems to work
+    #       as i would instinctively expect.
+    markdown_string = markdown_string.replace("\\\\*", ONE_STAR)
+    markdown_string = markdown_string.replace("\\*", ONE_STAR)
+
+    # convert bold and italic:
+    bold_and_italics = re.findall(r"\*\*\*(.+?)\*\*\*", markdown_string)
+    if bold_and_italics is not None:
+        for bold_and_italic_text in bold_and_italics:
+            old_bold_and_italic_text = f"***{bold_and_italic_text}***"
+            new_bold_and_italic_text = f"#strong[#emph[{bold_and_italic_text}]]"
+
+            markdown_string = markdown_string.replace(
+                old_bold_and_italic_text, new_bold_and_italic_text
+            )
 
     # convert bold
     bolds = re.findall(r"\*\*(.+?)\*\*", markdown_string)
     if bolds is not None:
         for bold_text in bolds:
             old_bold_text = f"**{bold_text}**"
-            new_bold_text = "\\textbf{" + bold_text + "}"
-
+            new_bold_text = f"#strong[{bold_text}]"
             markdown_string = markdown_string.replace(old_bold_text, new_bold_text)
 
     # convert italic
@@ -449,65 +583,73 @@ def markdown_to_latex(markdown_string: str) -> str:
     if italics is not None:
         for italic_text in italics:
             old_italic_text = f"*{italic_text}*"
-            new_italic_text = "\\textit{" + italic_text + "}"
+            new_italic_text = f"#emph[{italic_text}]"
 
             markdown_string = markdown_string.replace(old_italic_text, new_italic_text)
 
-    # convert code
-    # not supported by rendercv currently
-    # codes = re.findall(r"`([^`]*)`", markdown_string)
-    # if codes is not None:
-    #     for code_text in codes:
-    #         old_code_text = f"`{code_text}`"
-    #         new_code_text = "\\texttt{" + code_text + "}"
+    # Revert normal asterisks then convert them to Typst's asterisks
+    markdown_string = markdown_string.replace(ONE_STAR, "*")
 
-    #         markdown_string = markdown_string.replace(old_code_text, new_code_text)
+    # convert any remaining asterisks to Typst's asterisk
+    # - Asterisk with a space can just be replaced.
+    # - Asterisk without a space needs a zero-width box to delimit it.
+    TYPST_AST = "#sym.ast.basic"
+    ZERO_BOX = "#h(0pt, weak: true)"
+    markdown_string = markdown_string.replace("* ", TYPST_AST + " ")
+    markdown_string = markdown_string.replace("*", TYPST_AST + ZERO_BOX)
 
-    latex_string = markdown_string
+    # At this point, the document ought to have absolutely no '*' characters left!
+    # NOTE: The final typst file might still have some asterisks when specifying a
+    #       size, for example `#v(design-text-font-size * 0.4)`
+    # XXX: Maybe put this behind some kind of debug flag? -MK
+    # assert "*" not in markdown_string
 
-    return latex_string
+    return markdown_string  # noqa: RET504
 
 
-def transform_markdown_sections_to_latex_sections(
+def transform_markdown_sections_to_something_else_sections(
     sections: dict[str, data.SectionContents],
+    functions_to_apply: list[Callable],
 ) -> Optional[dict[str, data.SectionContents]]:
     """
-    Recursively loop through sections and convert all the Markdown strings (user input
-    is in Markdown format) to $\\LaTeX$ strings. Also, escape special $\\LaTeX$
-    characters.
+    Recursively loop through sections and update all the strings by applying the
+    `functions_to_apply` functions, given as an argument.
 
     Args:
         sections: Sections with Markdown strings.
+        functions_to_apply: Functions to apply to the strings.
 
     Returns:
-        Sections with $\\LaTeX$ strings.
+        Sections with updated strings.
     """
+
+    def apply_functions_to_string(string: str):
+        for function in functions_to_apply:
+            string = function(string)
+        return string
+
     for key, value in sections.items():
-        # loop through the list and apply markdown_to_latex and escape_latex_characters
-        # to each item:
         transformed_list = []
         for entry in value:
             if isinstance(entry, str):
                 # Then it means it's a TextEntry.
-                result = markdown_to_latex(escape_latex_characters(entry))
+                result = apply_functions_to_string(entry)
                 transformed_list.append(result)
             else:
                 # Then it means it's one of the other entries.
                 fields_to_skip = ["doi"]
                 entry_as_dict = entry.model_dump()
-                for entry_key, value in entry_as_dict.items():
+                for entry_key, inner_value in entry_as_dict.items():
                     if entry_key in fields_to_skip:
                         continue
-                    if isinstance(value, str):
-                        result = markdown_to_latex(escape_latex_characters(value))
+                    if isinstance(inner_value, str):
+                        result = apply_functions_to_string(inner_value)
                         setattr(entry, entry_key, result)
-                    elif isinstance(value, list):
-                        for j, item in enumerate(value):
+                    elif isinstance(inner_value, list):
+                        for j, item in enumerate(inner_value):
                             if isinstance(item, str):
-                                value[j] = markdown_to_latex(
-                                    escape_latex_characters(item)
-                                )
-                        setattr(entry, entry_key, value)
+                                inner_value[j] = apply_functions_to_string(item)
+                        setattr(entry, entry_key, inner_value)
                 transformed_list.append(entry)
 
         sections[key] = transformed_list
@@ -515,8 +657,28 @@ def transform_markdown_sections_to_latex_sections(
     return sections
 
 
+def transform_markdown_sections_to_typst_sections(
+    sections: dict[str, data.SectionContents],
+) -> Optional[dict[str, data.SectionContents]]:
+    """
+    Recursively loop through sections and convert all the Markdown strings (user input
+    is in Markdown format) to Typst strings.
+
+    Args:
+        sections: Sections with Markdown strings.
+
+    Returns:
+        Sections with Typst strings.
+    """
+    return transform_markdown_sections_to_something_else_sections(
+        sections,
+        [escape_typst_characters, markdown_to_typst],
+    )
+
+
 def replace_placeholders_with_actual_values(
-    text: str, placeholders: dict[str, Optional[str]]
+    text: str,
+    placeholders: dict[str, Optional[str]],
 ) -> str:
     """Replace the placeholders in a string with actual values.
 
@@ -530,310 +692,52 @@ def replace_placeholders_with_actual_values(
         The string with actual values.
     """
     for placeholder, value in placeholders.items():
-        text = text.replace(placeholder, str(value))
+        if value:
+            text = text.replace(placeholder, str(value))
+        else:
+            text = text.replace(placeholder, "")
 
     return text
 
 
-def make_matched_part_something(
-    value: str,
-    something: Literal["textbf", "underline", "textit", "mbox"],
-    match_str: Optional[str] = None,
-) -> str:
-    """Make the matched parts of the string something. If the match_str is None, the
-    whole string will be made something.
-
-    Warning:
-        This function shouldn't be used directly. Use `make_matched_part_bold`,
-        `make_matched_part_underlined`, `make_matched_part_italic`, or
-        `make_matched_part_non_line_breakable instead.
-    Args:
-        value: The string to make something.
-        something: The $\\LaTeX$ command to use.
-        match_str: The string to match.
-
-    Returns:
-        The string with the matched part something.
-    """
-    if match_str is None:
-        # If the match_str is None, the whole string will be made something:
-        value = f"\\{something}{{{value}}}"
-    elif match_str in value and match_str != "":
-        # If the match_str is in the value, then make the matched part something:
-        value = value.replace(match_str, f"\\{something}{{{match_str}}}")
-
-    return value
-
-
-def make_matched_part_bold(value: str, match_str: Optional[str] = None) -> str:
-    """Make the matched parts of the string bold. If the match_str is None, the whole
-    string will be made bold.
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        make_it_bold("Hello World!", "Hello")
-        ```
-
-        returns
-
-        `"\\textbf{Hello} World!"`
-
-    Args:
-        value: The string to make bold.
-        match_str: The string to match.
-
-    Returns:
-        The string with the matched part bold.
-    """
-    return make_matched_part_something(value, "textbf", match_str)
-
-
-def make_matched_part_underlined(value: str, match_str: Optional[str] = None) -> str:
-    """Make the matched parts of the string underlined. If the match_str is None, the
-    whole string will be made underlined.
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        make_it_underlined("Hello World!", "Hello")
-        ```
-
-        returns
-
-        `"\\underline{Hello} World!"`
-
-    Args:
-        value: The string to make underlined.
-        match_str: The string to match.
-
-    Returns:
-        The string with the matched part underlined.
-    """
-    return make_matched_part_something(value, "underline", match_str)
-
-
-def make_matched_part_italic(value: str, match_str: Optional[str] = None) -> str:
-    """Make the matched parts of the string italic. If the match_str is None, the whole
-    string will be made italic.
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        make_it_italic("Hello World!", "Hello")
-        ```
-
-        returns
-
-        `"\\textit{Hello} World!"`
-
-    Args:
-        value: The string to make italic.
-        match_str: The string to match.
-
-    Returns:
-        The string with the matched part italic.
-    """
-    return make_matched_part_something(value, "textit", match_str)
-
-
-def make_matched_part_non_line_breakable(
-    value: str, match_str: Optional[str] = None
-) -> str:
-    """Make the matched parts of the string non line breakable. If the match_str is
-    None, the whole string will be made nonbreakable.
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        make_it_nolinebreak("Hello World!", "Hello")
-        ```
-
-        returns
-
-        `"\\mbox{Hello} World!"`
-
-    Args:
-        value: The string to disable line breaks.
-        match_str: The string to match.
-
-    Returns:
-        The string with the matched part non line breakable.
-    """
-    return make_matched_part_something(value, "mbox", match_str)
-
-
-def abbreviate_name(name: Optional[str]) -> str:
-    """Abbreviate a name by keeping the first letters of the first names.
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        abbreviate_name("John Doe")
-        ```
-
-        returns
-
-        `"J. Doe"`
-
-    Args:
-        name: The name to abbreviate.
-
-    Returns:
-        The abbreviated name.
-    """
-    if name is None:
-        return ""
-
-    number_of_words = len(name.split(" "))
-
-    if number_of_words == 1:
-        return name
-
-    first_names = name.split(" ")[:-1]
-    first_names_initials = [first_name[0] + "." for first_name in first_names]
-    last_name = name.split(" ")[-1]
-    abbreviated_name = " ".join(first_names_initials) + " " + last_name
-
-    return abbreviated_name
-
-
-def divide_length_by(length: str, divider: float) -> str:
-    r"""Divide a length by a number. Length is a string with the following regex
-    pattern: `\d+\.?\d* *(cm|in|pt|mm|ex|em)`
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Example:
-        ```python
-        divide_length_by("10.4cm", 2)
-        ```
-
-        returns
-
-        `"5.2cm"`
-
-    Args:
-        length: The length to divide.
-        divider: The number to divide the length by.
-
-    Returns:
-        The divided length.
-    """
-    # Get the value as a float and the unit as a string:
-    value = re.search(r"\d+\.?\d*", length)
-
-    if value is None:
-        raise ValueError(f"Invalid length {length}!")
-    else:
-        value = value.group()
-
-    if divider <= 0:
-        raise ValueError(f"The divider must be greater than 0, but got {divider}!")
-
-    unit = re.findall(r"[^\d\.\s]+", length)[0]
-
-    return str(float(value) / divider) + " " + unit
-
-
-def get_an_item_with_a_specific_attribute_value(
-    items: Optional[list[Any]], attribute: str, value: Any
-) -> Any:
-    """Get an item from a list of items with a specific attribute value.
-
-    Example:
-        ```python
-        get_an_item_with_a_specific_attribute_value(
-            [item1, item2], # where item1.name = "John" and item2.name = "Jane"
-            "name",
-            "Jane"
-        )
-        ```
-        returns
-        `item2`
-
-    This function can be used as a Jinja2 filter in templates.
-
-    Args:
-        items: The list of items.
-        attribute: The attribute to check.
-        value: The value of the attribute.
-
-    Returns:
-        The item with the specific attribute value.
-    """
-    if items is not None:
-        for item in items:
-            if not hasattr(item, attribute):
-                raise AttributeError(
-                    f"The attribute {attribute} doesn't exist in the item {item}!"
-                )
-            else:
-                if getattr(item, attribute) == value:
-                    return item
-    else:
-        return None
-
-
-# Only one Jinja2 environment is needed for all the templates:
-jinja2_environment: Optional[jinja2.Environment] = None
-
-
-def setup_jinja2_environment() -> jinja2.Environment:
-    """Setup and return the Jinja2 environment for templating the $\\LaTeX$ files.
-
-    Returns:
-        The theme environment.
-    """
-    global jinja2_environment
-    themes_directory = pathlib.Path(__file__).parent.parent / "themes"
-
-    if jinja2_environment is None:
-        # create a Jinja2 environment:
-        # we need to add the current working directory because custom themes might be used.
-        environment = jinja2.Environment(
-            loader=jinja2.FileSystemLoader([pathlib.Path.cwd(), themes_directory]),
-            trim_blocks=True,
-            lstrip_blocks=True,
-        )
-
-        # set custom delimiters for LaTeX templating:
-        environment.block_start_string = "((*"
-        environment.block_end_string = "*))"
-        environment.variable_start_string = "<<"
-        environment.variable_end_string = ">>"
-        environment.comment_start_string = "((#"
-        environment.comment_end_string = "#))"
-
-        # add custom filters to make it easier to template the LaTeX files and add new
-        # themes:
-        environment.filters["make_it_bold"] = make_matched_part_bold
-        environment.filters["make_it_underlined"] = make_matched_part_underlined
-        environment.filters["make_it_italic"] = make_matched_part_italic
-        environment.filters["make_it_nolinebreak"] = (
-            make_matched_part_non_line_breakable
-        )
-        environment.filters["make_it_something"] = make_matched_part_something
-        environment.filters["divide_length_by"] = divide_length_by
-        environment.filters["abbreviate_name"] = abbreviate_name
-        environment.filters["replace_placeholders_with_actual_values"] = (
-            replace_placeholders_with_actual_values
-        )
-        environment.filters["get_an_item_with_a_specific_attribute_value"] = (
-            get_an_item_with_a_specific_attribute_value
-        )
-        environment.filters["escape_latex_characters"] = escape_latex_characters
-
-        jinja2_environment = environment
-    else:
-        # update the loader in case the current working directory has changed:
-        jinja2_environment.loader = jinja2.FileSystemLoader(
-            [pathlib.Path.cwd(), themes_directory]
-        )
-
-    return jinja2_environment
+class Jinja2Environment:
+    instance: "Jinja2Environment"
+    environment: jinja2.Environment
+    current_working_directory: Optional[pathlib.Path] = None
+
+    def __new__(cls):
+        if (
+            not hasattr(cls, "instance")
+            or cls.current_working_directory != pathlib.Path.cwd()
+        ):
+            cls.instance = super().__new__(cls)
+
+            themes_directory = pathlib.Path(__file__).parent.parent / "themes"
+
+            # create a Jinja2 environment:
+            # we need to add the current working directory because custom themes might be used.
+            environment = jinja2.Environment(
+                loader=jinja2.FileSystemLoader([pathlib.Path.cwd(), themes_directory]),
+                trim_blocks=True,
+                lstrip_blocks=True,
+            )
+
+            # set custom delimiters:
+            environment.block_start_string = "((*"
+            environment.block_end_string = "*))"
+            environment.variable_start_string = "<<"
+            environment.variable_end_string = ">>"
+            environment.comment_start_string = "((#"
+            environment.comment_end_string = "#))"
+
+            # add custom Jinja2 filters:
+            environment.filters["replace_placeholders_with_actual_values"] = (
+                replace_placeholders_with_actual_values
+            )
+            environment.filters["escape_typst_characters"] = escape_typst_characters
+            environment.filters["markdown_to_typst"] = markdown_to_typst
+            environment.filters["make_a_url_clean"] = data.make_a_url_clean
+
+            cls.environment = environment
+
+        return cls.instance

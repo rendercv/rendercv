@@ -10,6 +10,7 @@ import pathlib
 import shutil
 import tempfile
 
+import fitz
 import pdfCropMargins
 import pydantic
 import ruamel.yaml
@@ -45,8 +46,7 @@ def dictionary_to_yaml(dictionary: dict):
     yaml_object.indent(mapping=2, sequence=4, offset=2)
     with io.StringIO() as string_stream:
         yaml_object.dump(dictionary, string_stream)
-        yaml_string = string_stream.getvalue()
-    return yaml_string
+        return string_stream.getvalue()
 
 
 def define_env(env):
@@ -57,7 +57,7 @@ def define_env(env):
     # validate the parsed dictionary by creating an instance of SampleEntries:
     SampleEntries(**sample_entries)
 
-    entries_showcase = dict()
+    entries_showcase = {}
     for entry_name, entry in sample_entries.items():
         proper_entry_name = entry_name.replace("_", " ").title().replace(" ", "")
         entries_showcase[proper_entry_name] = {
@@ -76,10 +76,10 @@ def define_env(env):
 
     # For theme templates reference docs
     themes_path = rendercv_path / "themes"
-    theme_templates = dict()
+    theme_templates = {}
     for theme in data.available_themes:
-        theme_templates[theme] = dict()
-        for theme_file in themes_path.glob(f"{theme}/*.tex"):
+        theme_templates[theme] = {}
+        for theme_file in themes_path.glob(f"{theme}/*.typ"):
             theme_templates[theme][theme_file.stem] = theme_file.read_text()
 
         # Update ordering of theme templates
@@ -100,7 +100,7 @@ def define_env(env):
 
         if theme != "markdown":
             theme_templates[theme] = {
-                f"{key}.tex": value for key, value in theme_templates[theme].items()
+                f"{key}.typ": value for key, value in theme_templates[theme].items()
             }
         else:
             theme_templates[theme] = {
@@ -120,6 +120,34 @@ def define_env(env):
     env.variables["available_social_networks"] = ", ".join(social_networks)
 
 
+def render_pngs_from_pdf(pdf_file_path: pathlib.Path) -> list[pathlib.Path]:
+    """Render a PNG file for each page of the given PDF file.
+
+    Args:
+        pdf_file_path: The path to the PDF file.
+
+    Returns:
+        The paths to the rendered PNG files.
+    """
+    # check if the file exists:
+    if not pdf_file_path.is_file():
+        message = f"The file {pdf_file_path} doesn't exist!"
+        raise FileNotFoundError(message)
+
+    # convert the PDF to PNG:
+    png_directory = pdf_file_path.parent
+    png_file_name = pdf_file_path.stem
+    png_files = []
+    pdf = fitz.open(pdf_file_path)  # open the PDF file
+    for page in pdf:  # iterate the pages
+        image = page.get_pixmap(dpi=300)  # type: ignore
+        png_file_path = png_directory / f"{png_file_name}_{page.number + 1}.png"  # type: ignore
+        image.save(png_file_path)
+        png_files.append(png_file_path)
+
+    return png_files
+
+
 def generate_entry_figures():
     """Generate an image for each entry type and theme."""
     # Generate PDF figures for each entry type and theme
@@ -135,13 +163,11 @@ def generate_entry_figures():
         for theme in themes:
             design_dictionary = {
                 "theme": theme,
-                "disable_page_numbering": True,
-                "disable_last_updated_date": True,
+                "page": {
+                    "show_page_numbering": False,
+                    "show_last_updated_date": False,
+                },
             }
-            if theme == "moderncv":
-                # moderncv theme does not support these options
-                del design_dictionary["disable_page_numbering"]
-                del design_dictionary["disable_last_updated_date"]
 
             entry_types = [
                 "education_entry",
@@ -155,19 +181,17 @@ def generate_entry_figures():
             for entry_type in entry_types:
                 # Create data model with only one section and one entry
                 data_model = data.RenderCVDataModel(
-                    **{
-                        "cv": data.CurriculumVitae(
-                            sections={entry_type: [getattr(entries, entry_type)]}
-                        ),
-                        "design": design_dictionary,
-                    }
+                    cv=data.CurriculumVitae(
+                        sections={entry_type: [getattr(entries, entry_type)]}
+                    ),
+                    design=design_dictionary,
                 )
 
                 # Render
-                latex_file_path = renderer.create_a_latex_file_and_copy_theme_files(
+                typst_file_path = renderer.create_a_typst_file_and_copy_theme_files(
                     data_model, temporary_directory_path
                 )
-                pdf_file_path = renderer.render_a_pdf_from_latex(latex_file_path)
+                pdf_file_path = renderer.render_a_pdf_from_typst(typst_file_path)
 
                 # Prepare output directory and file path
                 output_directory = image_assets_directory / theme
@@ -198,7 +222,7 @@ def generate_entry_figures():
                 )
 
                 # Convert PDF to image
-                png_file_path = renderer.render_pngs_from_pdf(output_pdf_file_path)[0]
+                png_file_path = render_pngs_from_pdf(output_pdf_file_path)[0]
                 desired_png_file_path = output_pdf_file_path.with_suffix(".png")
 
                 # If image exists, remove it
@@ -221,4 +245,4 @@ def update_index():
 
 if __name__ == "__main__":
     generate_entry_figures()
-    print("Entry figures generated successfully.")
+    print("Entry figures generated successfully.")  # NOQA: T201

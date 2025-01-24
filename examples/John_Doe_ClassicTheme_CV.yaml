@@ -1,73 +1,90 @@
 cv:
   name: John Doe
-  location: Your Location
-  email: youremail@yourdomain.com
-  phone: tel:+90-541-999-99-99
-  website: https://yourwebsite.com/
+  location: Location
+  email: john.doe@example.com
+  phone: tel:+1-609-999-9995
   social_networks:
     - network: LinkedIn
-      username: yourusername
+      username: john.doe
     - network: GitHub
-      username: yourusername
+      username: john.doe
   sections:
     welcome_to_RenderCV!:
-      - '[RenderCV](https://rendercv.com) is a LaTeX-based CV/resume
-        version-control and maintenance app. It allows you to
-        create a high-quality CV or resume as a PDF file from
-        a YAML file, with **Markdown syntax support** and **complete
-        control over the LaTeX code**.'
-      - The boilerplate content was inspired by [Gayle McDowell](https://github.com/dnl-blkv/mcdowell-cv).
-    quick_guide:
-      - bullet: Each section title is arbitrary and each section
-          contains a list of entries.
-      - bullet: 'There are 7 unique entry types: *BulletEntry*,
-          *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*,
-          *PublicationEntry*, and *OneLineEntry*.'
-      - bullet: Select a section title, pick an entry type, and
-          start writing your section!
-      - bullet: '[Here](https://docs.rendercv.com/user_guide/),
-          you can find a comprehensive user guide for RenderCV.'
+      - '[RenderCV](https://rendercv.com) is a Typst-based CV
+        framework designed for academics and engineers, with Markdown
+        syntax support.'
+      - Each section title is arbitrary. Each section contains
+        a list of entries, and there are 7 different entry types
+        to choose from.
     education:
-      - institution: University of Pennsylvania
+      - institution: Stanford University
         area: Computer Science
+        degree: PhD
+        location: Stanford, CA, USA
+        start_date: 2023-09
+        end_date: present
+        highlights:
+          - Working on the optimization of autonomous vehicles
+            in urban environments
+      - institution: Boğaziçi University
+        area: Computer Engineering
         degree: BS
-        start_date: 2000-09
-        end_date: 2005-05
+        location: Istanbul, Türkiye
+        start_date: 2018-09
+        end_date: 2022-06
         highlights:
-          - 'GPA: 3.9/4.0 ([a link to somewhere](https://example.com))'
-          - '**Coursework:** Computer Architecture, Comparison
-            of Learning Algorithms, Computational Theory'
+          - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
+          - 'Awards: Best Senior Project, High Honor'
     experience:
-      - company: Apple
-        position: Software Engineer
-        location: Cupertino, CA
-        start_date: 2005-06
-        end_date: 2007-08
+      - company: Company C
+        position: Summer Intern
+        location: Livingston, LA, USA
+        start_date: 2024-06
+        end_date: 2024-09
         highlights:
-          - Reduced time to render user buddy lists by 75% by
-            implementing a prediction algorithm
-          - Integrated iChat with Spotlight Search by creating
-            a tool to extract metadata from saved chat transcripts
-            and provide metadata to a system-wide search database
-          - Redesigned chat file format and implemented backward
-            compatibility for search
-      - company: Microsoft
-        position: Software Engineer Intern
-        location: Redmond, WA
-        start_date: 2003-06
-        end_date: 2003-08
+          - Developed deep learning models for the detection of
+            gravitational waves in LIGO data
+          - Published [3 peer-reviewed research papers](https://example.com)
+            about the project and results
+      - company: Company B
+        position: Summer Intern
+        location: Ankara, Türkiye
+        start_date: 2023-06
+        end_date: 2023-09
         highlights:
-          - Designed a UI for the VS open file switcher (Ctrl-Tab)
-            and extended it to tool windows
-          - Created a service to provide gradient across VS and
-            VS add-ins, optimizing its performance via caching
-          - Built an app to compute the similarity of all methods
-            in a codebase, reducing the time from $$\mathcal{O}(n^2)$$
-            to $$\mathcal{O}(n \log n)$$
-          - Created a test case generation tool that creates random
-            XML docs from XML Schema
-          - Automated the extraction and processing of large datasets
-            from legacy systems using SQL and Perl scripts
+          - Optimized the production line by 15% by implementing
+            a new scheduling algorithm
+      - company: Company A
+        position: Summer Intern
+        location: Istanbul, Türkiye
+        start_date: 2022-06
+        end_date: 2022-09
+        highlights:
+          - Designed an inventory management web application for
+            a warehouse
+    projects:
+      - name: '[Example Project](https://example.com)'
+        start_date: 2024-05
+        end_date: present
+        highlights:
+          - Launched an [iOS app](https://example.com) in 09/2024
+            that currently has 10k+ monthly active users
+          - The app is made open-source (3,000+ stars [on GitHub](https://github.com))
+        summary: A web application for writing essays
+      - name: '[Teaching on Udemy](https://example.com)'
+        date: Fall 2023
+        highlights:
+          - Instructed the "Statics" course on Udemy (60,000+
+            students, 200,000+ hours watched)
+    skills:
+      - label: Programming
+        details: Proficient with Python, C++, and Git; good understanding
+          of Web, app development, and DevOps
+      - label: Mathematics
+        details: Good understanding of differential equations,
+          calculus, and linear algebra
+      - label: Languages
+        details: 'English (fluent, TOEFL: 118/120), Turkish (native)'
     publications:
       - title: 3D Finite Element Analysis of No-Insulation Coils
         authors:
@@ -76,68 +93,134 @@ cv:
           - Samwise Gamgee
         doi: 10.1109/TASC.2023.3340648
         date: 2004-01
-    projects:
-      - name: Multi-User Drawing Tool
-        date: '[github.com/name/repo](https://github.com/sinaatalay/rendercv)'
-        highlights:
-          - Developed an electronic classroom where multiple users
-            can simultaneously view and draw on a "chalkboard"
-            with each person's edits synchronized
-          - 'Tools Used: C++, MFC'
-      - name: Synchronized Desktop Calendar
-        date: '[github.com/name/repo](https://github.com/sinaatalay/rendercv)'
-        highlights:
-          - Developed a desktop calendar with globally shared
-            and synchronized calendars, allowing users to schedule
-            meetings with other users
-          - 'Tools Used: C#, .NET, SQL, XML'
-      - name: Custom Operating System
-        date: 2002
-        highlights:
-          - Built a UNIX-style OS with a scheduler, file system,
-            text editor, and calculator
-          - 'Tools Used: C'
-    technologies:
-      - label: Languages
-        details: C++, C, Java, Objective-C, C#, SQL, JavaScript
-      - label: Technologies
-        details: .NET, Microsoft SQL Server, XCode, Interface
-          Builder
+    extracurricular_activities:
+      - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*,
+          *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*,
+          *PublicationEntry*, and *OneLineEntry*.'
+      - bullet: Each entry type has a different structure and
+          layout. This document demonstrates all of them.
 design:
   theme: classic
-  font: Source Sans 3
-  font_size: 10pt
-  page_size: letterpaper
-  color: '#004f90'
-  disable_external_link_icons: false
-  disable_page_numbering: false
-  page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES
-  disable_last_updated_date: false
-  last_updated_date_style: Last updated in TODAY
-  header_font_size: 30 pt
-  text_alignment: justified
-  seperator_between_connections: ''
-  use_icons_for_connections: true
-  margins:
-    page:
-      top: 2 cm
-      bottom: 2 cm
-      left: 2 cm
-      right: 2 cm
-    section_title:
-      top: 0.3 cm
-      bottom: 0.2 cm
-    entry_area:
-      left_and_right: 0.2 cm
-      vertical_between: 0.2 cm
-      date_and_location_width: 4.5 cm
-      education_degree_width: 1 cm
-    highlights_area:
-      top: 0.10 cm
-      left: 0.4 cm
-      vertical_between_bullet_points: 0.10 cm
-    header:
-      vertical_between_name_and_connections: 0.3 cm
-      bottom: 0.3 cm
-      horizontal_between_connections: 0.5 cm
-  show_timespan_in: []
+  page:
+    size: us-letter
+    top_margin: 2cm
+    bottom_margin: 2cm
+    left_margin: 2cm
+    right_margin: 2cm
+    show_page_numbering: true
+    show_last_updated_date: true
+  colors:
+    text: black
+    name: '#004f90'
+    connections: '#004f90'
+    section_titles: '#004f90'
+    links: '#004f90'
+    last_updated_date_and_page_numbering: grey
+  text:
+    font_family: Source Sans 3
+    font_size: 10pt
+    leading: 0.6em
+    alignment: justified
+    date_and_location_column_alignment: right
+  links:
+    underline: false
+    use_external_link_icon: true
+  header:
+    name_font_size: 30pt
+    name_bold: true
+    photo_width: 3.5cm
+    vertical_space_between_name_and_connections: 0.7cm
+    vertical_space_between_connections_and_first_section: 0.7cm
+    horizontal_space_between_connections: 0.5cm
+    separator_between_connections: ''
+    use_icons_for_connections: true
+    alignment: center
+  section_titles:
+    type: with-parial-line
+    font_size: 1.4em
+    bold: true
+    small_caps: false
+    line_thickness: 0.5pt
+    vertical_space_above: 0.5cm
+    vertical_space_below: 0.3cm
+  entries:
+    date_and_location_width: 4.15cm
+    left_and_right_margin: 0.2cm
+    horizontal_space_between_columns: 0.1cm
+    vertical_space_between_entries: 1.2em
+    allow_page_break_in_entries: true
+    short_second_row: false
+    show_time_spans_in: []
+  highlights:
+    bullet: •
+    top_margin: 0.25cm
+    left_margin: 0.4cm
+    vertical_space_between_highlights: 0.25cm
+    horizontal_space_between_bullet_and_highlight: 0.5em
+    summary_left_margin: 0cm
+  entry_types:
+    one_line_entry:
+      template: '**LABEL:** DETAILS'
+    education_entry:
+      main_column_first_row_template: '**INSTITUTION**, AREA'
+      degree_column_template: '**DEGREE**'
+      degree_column_width: 1cm
+      main_column_second_row_template: "SUMMARY\nHIGHLIGHTS"
+      date_and_location_column_template: "LOCATION\nDATE"
+    normal_entry:
+      main_column_first_row_template: '**NAME**'
+      main_column_second_row_template: "SUMMARY\nHIGHLIGHTS"
+      date_and_location_column_template: "LOCATION\nDATE"
+    experience_entry:
+      main_column_first_row_template: '**COMPANY**, POSITION'
+      main_column_second_row_template: "SUMMARY\nHIGHLIGHTS"
+      date_and_location_column_template: "LOCATION\nDATE"
+    publication_entry:
+      main_column_first_row_template: '**TITLE**'
+      main_column_second_row_template: "AUTHORS\nURL (JOURNAL)"
+      main_column_second_row_without_journal_template: "AUTHORS\n\
+        URL"
+      main_column_second_row_without_url_template: "AUTHORS\n\
+        JOURNAL"
+      date_and_location_column_template: DATE
+locale:
+  language: en
+  phone_number_format: national
+  page_numbering_template: NAME - Page PAGE_NUMBER of TOTAL_PAGES
+  last_updated_date_template: Last updated in TODAY
+  date_template: MONTH_ABBREVIATION YEAR
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: –
+  abbreviations_for_months:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - June
+    - July
+    - Aug
+    - Sept
+    - Oct
+    - Nov
+    - Dec
+  full_names_of_months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+rendercv_settings:
+  date: '2025-01-07'
+  bold_keywords: []

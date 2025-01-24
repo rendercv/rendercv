@@ -5,13 +5,15 @@ of the input file.
 
 import importlib
 import importlib.util
+import os
 import pathlib
-from typing import Annotated, Any, Type
+from typing import Annotated, Any
 
 import pydantic
 
 from ...themes import (
     ClassicThemeOptions,
+    EngineeringclassicThemeOptions,
     EngineeringresumesThemeOptions,
     ModerncvThemeOptions,
     Sb2novThemeOptions,
@@ -26,7 +28,7 @@ from .base import RenderCVBaseModelWithoutExtraKeys
 
 def validate_design_options(
     design: Any,
-    available_theme_options: dict[str, Type],
+    available_theme_options: dict[str, type],
     available_entry_type_names: list[str],
 ) -> Any:
     """Chech if the design options are for a built-in theme or a custom theme. If it is
@@ -44,104 +46,141 @@ def validate_design_options(
     Returns:
         The validated design as a Pydantic data model.
     """
+    from .rendercv_data_model import INPUT_FILE_DIRECTORY
+
+    original_working_directory = pathlib.Path.cwd()
+
+    # Change the working directory to the input file directory:
+
     if isinstance(design, tuple(available_theme_options.values())):
         # Then it means it is an already validated built-in theme. Return it as it is:
         return design
-    elif design["theme"] in available_theme_options:
+    if design["theme"] in available_theme_options:
         # Then it is a built-in theme, but it is not validated yet. Validate it and
         # return it:
         ThemeDataModel = available_theme_options[design["theme"]]
         return ThemeDataModel(**design)
+    # It is a custom theme. Validate it:
+    theme_name: str = str(design["theme"])
+
+    # Custom theme should only contain letters and digits:
+    if not theme_name.isalnum():
+        message = "The custom theme name should only contain letters and digits."
+        raise ValueError(
+            message,
+            "theme",  # this is the location of the error
+            theme_name,  # this is value of the error
+        )
+
+    if INPUT_FILE_DIRECTORY is None:
+        theme_parent_folder = pathlib.Path.cwd()
     else:
-        # It is a custom theme. Validate it:
-        theme_name: str = str(design["theme"])
+        theme_parent_folder = INPUT_FILE_DIRECTORY
 
-        # Custom theme should only contain letters and digits:
-        if not theme_name.isalnum():
-            raise ValueError(
-                "The custom theme name should only contain letters and digits.",
-                "theme",  # this is the location of the error
-                theme_name,  # this is value of the error
-            )
+    custom_theme_folder = theme_parent_folder / theme_name
 
-        custom_theme_folder = pathlib.Path(theme_name)
-
-        # Check if the custom theme folder exists:
-        if not custom_theme_folder.exists():
-            raise ValueError(
+    # Check if the custom theme folder exists:
+    if not custom_theme_folder.exists():
+        message = (
+            (
                 f"The custom theme folder `{custom_theme_folder}` does not exist."
-                " It should be in the working directory as the input file.",
-                "",  # this is the location of the error
-                theme_name,  # this is value of the error
+                " It should be in the working directory as the input file."
+            ),
+        )
+        raise ValueError(
+            message,
+            "",  # this is the location of the error
+            theme_name,  # this is value of the error
+        )
+
+    # check if all the necessary files are provided in the custom theme folder:
+    required_entry_files = [
+        custom_theme_folder / (entry_type_name + ".j2.typ")
+        for entry_type_name in available_entry_type_names
+    ]
+    required_files = [
+        custom_theme_folder / "SectionBeginning.j2.typ",  # section beginning template
+        custom_theme_folder / "SectionEnding.j2.typ",  # section ending template
+        custom_theme_folder / "Preamble.j2.typ",  # preamble template
+        custom_theme_folder / "Header.j2.typ",  # header template
+        *required_entry_files,
+    ]
+
+    for file in required_files:
+        if not file.exists():
+            message = (
+                f"You provided a custom theme, but the file `{file}` is not"
+                f" found in the folder `{custom_theme_folder}`."
+            )
+            raise ValueError(
+                message,
+                "",  # This is the location of the error
+                theme_name,  # This is value of the error
             )
 
-        # check if all the necessary files are provided in the custom theme folder:
-        required_entry_files = [
-            entry_type_name + ".j2.tex"
-            for entry_type_name in available_entry_type_names
-        ]
-        required_files = [
-            "SectionBeginning.j2.tex",  # section beginning template
-            "SectionEnding.j2.tex",  # section ending template
-            "Preamble.j2.tex",  # preamble template
-            "Header.j2.tex",  # header template
-        ] + required_entry_files
+    # Import __init__.py file from the custom theme folder if it exists:
+    path_to_init_file = custom_theme_folder / "__init__.py"
 
-        for file in required_files:
-            file_path = custom_theme_folder / file
-            if not file_path.exists():
-                raise ValueError(
-                    f"You provided a custom theme, but the file `{file}` is not"
-                    f" found in the folder `{custom_theme_folder}`.",
-                    "",  # This is the location of the error
-                    theme_name,  # This is value of the error
-                )
+    if path_to_init_file.exists():
+        spec = importlib.util.spec_from_file_location(
+            "theme",
+            path_to_init_file,
+        )
 
-        # Import __init__.py file from the custom theme folder if it exists:
-        path_to_init_file = pathlib.Path(f"{theme_name}/__init__.py")
-
-        if path_to_init_file.exists():
-            spec = importlib.util.spec_from_file_location(
-                "theme",
-                path_to_init_file,
+        theme_module = importlib.util.module_from_spec(spec)  # type: ignore
+        try:
+            spec.loader.exec_module(theme_module)  # type: ignore
+        except SyntaxError as e:
+            message = (
+                f"The custom theme {theme_name}'s __init__.py file has a syntax"
+                " error. Please fix it."
             )
-
-            theme_module = importlib.util.module_from_spec(spec)  # type: ignore
-            try:
-                spec.loader.exec_module(theme_module)  # type: ignore
-            except SyntaxError:
-                raise ValueError(
-                    f"The custom theme {theme_name}'s __init__.py file has a syntax"
-                    " error. Please fix it.",
-                )
-            except ImportError:
-                raise ValueError(
+            raise ValueError(message) from e
+        except ImportError as e:
+            message = (
+                (
                     f"The custom theme {theme_name}'s __init__.py file has an"
                     " import error. If you have copy-pasted RenderCV's built-in"
                     " themes, make sure to update the import statements (e.g.,"
-                    ' "from . import" to "from rendercv.themes import").',
-                )
-
-            ThemeDataModel = getattr(
-                theme_module, f"{theme_name.capitalize()}ThemeOptions"  # type: ignore
+                    ' "from . import" to "from rendercv.themes import").'
+                ),
             )
 
-            # Initialize and validate the custom theme data model:
-            theme_data_model = ThemeDataModel(**design)
-        else:
-            # Then it means there is no __init__.py file in the custom theme folder.
-            # Create a dummy data model and use that instead.
-            class ThemeOptionsAreNotProvided(RenderCVBaseModelWithoutExtraKeys):
-                theme: str = theme_name
+            raise ValueError(message) from e
 
-            theme_data_model = ThemeOptionsAreNotProvided(theme=theme_name)
+        ThemeDataModel = getattr(
+            theme_module,
+            f"{theme_name.capitalize()}ThemeOptions",  # type: ignore
+        )
 
-        return theme_data_model
+        # Initialize and validate the custom theme data model:
+        theme_data_model = ThemeDataModel(**design)
+    else:
+        # Then it means there is no __init__.py file in the custom theme folder.
+        # Create a dummy data model and use that instead.
+        class ThemeOptionsAreNotProvided(RenderCVBaseModelWithoutExtraKeys):
+            theme: str = theme_name
+
+        theme_data_model = ThemeOptionsAreNotProvided(theme=theme_name)
+
+    os.chdir(original_working_directory)
+
+    return theme_data_model
 
 
 # ======================================================================================
 # Create custom types: =================================================================
 # ======================================================================================
+
+available_theme_options = {
+    "classic": ClassicThemeOptions,
+    "sb2nov": Sb2novThemeOptions,
+    "engineeringresumes": EngineeringresumesThemeOptions,
+    "engineeringclassic": EngineeringclassicThemeOptions,
+    "moderncv": ModerncvThemeOptions,
+}
+
+available_themes = list(available_theme_options.keys())
 
 # Create a custom type named RenderCVBuiltinDesign:
 # It is a union of all the design options and the correct design option is determined by
@@ -149,9 +188,10 @@ def validate_design_options(
 # See https://docs.pydantic.dev/2.7/concepts/fields/#discriminator for more information
 RenderCVBuiltinDesign = Annotated[
     ClassicThemeOptions
-    | ModerncvThemeOptions
     | Sb2novThemeOptions
-    | EngineeringresumesThemeOptions,
+    | EngineeringresumesThemeOptions
+    | EngineeringclassicThemeOptions
+    | ModerncvThemeOptions,
     pydantic.Field(discriminator="theme"),
 ]
 
@@ -165,17 +205,7 @@ RenderCVDesign = Annotated[
         lambda design: validate_design_options(
             design,
             available_theme_options=available_theme_options,
-            available_entry_type_names=entry_types.available_entry_type_names,
+            available_entry_type_names=entry_types.available_entry_type_names,  # type: ignore
         )
     ),
 ]
-
-
-available_theme_options = {
-    "classic": ClassicThemeOptions,
-    "moderncv": ModerncvThemeOptions,
-    "sb2nov": Sb2novThemeOptions,
-    "engineeringresumes": EngineeringresumesThemeOptions,
-}
-
-available_themes = list(available_theme_options.keys())

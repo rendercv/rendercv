@@ -1,65 +1,9 @@
 from typing import Literal
 
-import pydantic
+from rendercv.themes.options import ThemeOptions, theme_options_theme_field_info
 
-from rendercv.themes.common_options import (
-    EntryAreaMargins,
-    LaTeXDimension,
-    Margins,
-    ThemeOptions,
-)
-
-
-class EntryAreaMarginsForClassic(EntryAreaMargins):
-    """This class is a data model for the entry area margins."""
-
-    education_degree_width: LaTeXDimension = pydantic.Field(
-        default="1 cm",
-        title="Date and Location Column Width",
-        description=(
-            "The width of the degree column in EducationEntry. The default value is"
-            " 1 cm."
-        ),
-    )
-
-
-class MarginsForClassic(Margins):
-    """This class is a data model for the margins."""
-
-    entry_area: EntryAreaMarginsForClassic = pydantic.Field(
-        default=EntryAreaMarginsForClassic(),
-        title="Entry Area Margins",
-        description="Entry area margins.",
-    )
+theme_options_theme_field_info.default = "classic"
 
 
 class ClassicThemeOptions(ThemeOptions):
-    """This class is the data model of the theme options for the `classic` theme."""
-
-    theme: Literal["classic"]
-    font: Literal[
-        "Latin Modern Serif",
-        "Latin Modern Sans Serif",
-        "Latin Modern Mono",
-        "Source Sans 3",
-        "Charter",
-    ] = pydantic.Field(
-        default="Source Sans 3",
-        title="Font",
-        description="The font family of the CV. The default value is Source Sans 3.",
-    )
-    show_timespan_in: list[str] = pydantic.Field(
-        default=[],
-        title="Show Time Span in These Sections",
-        description=(
-            "The time span will be shown in the date and location column in these"
-            " sections. The input should be a list of section titles as strings"
-            " (case-sensitive). The default value is [] (no section will show the time"
-            " span)."
-        ),
-    )
-    margins: MarginsForClassic = pydantic.Field(
-        default=MarginsForClassic(),
-        title="Margins",
-        description="Page, section title, entry field, and highlights field margins.",
-    )
+    theme: Literal["classic"] = theme_options_theme_field_info

@@ -119,8 +119,10 @@ def validate_and_adjust_dates_for_an_entry(
             end_date_object = computers.get_date_object(end_date)
 
             if start_date_object > end_date_object:
+                message = '"start_date" can not be after "end_date"!'
+
                 raise ValueError(
-                    '"start_date" can not be after "end_date"!',
+                    message,
                     "start_date",  # This is the location of the error
                     str(start_date),  # This is value of the error
                 )
@@ -171,6 +173,15 @@ EndDate = Annotated[
 # ======================================================================================
 
 
+def make_keywords_bold_in_a_string(string: str, keywords: list[str]) -> str:
+    """Make the given keywords bold in the given string."""
+    replacement_map = {keyword: f"**{keyword}**" for keyword in keywords}
+    for keyword, replacement in replacement_map.items():
+        string = string.replace(keyword, replacement)
+
+    return string
+
+
 class OneLineEntry(RenderCVBaseModelWithExtraKeys):
     """This class is the data model of `OneLineEntry`."""
 
@@ -183,6 +194,18 @@ class OneLineEntry(RenderCVBaseModelWithExtraKeys):
         description="The details of the OneLineEntry.",
     )
 
+    def make_keywords_bold(self, keywords: list[str]) -> "OneLineEntry":
+        """Make the given keywords bold in the `details` field.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A OneLineEntry with the keywords made bold in the `details` field.
+        """
+        self.details = make_keywords_bold_in_a_string(self.details, keywords)
+        return self
+
 
 class BulletEntry(RenderCVBaseModelWithExtraKeys):
     """This class is the data model of `BulletEntry`."""
@@ -191,6 +214,18 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys):
         title="Bullet",
         description="The bullet of the BulletEntry.",
     )
+
+    def make_keywords_bold(self, keywords: list[str]) -> "BulletEntry":
+        """Make the given keywords bold in the `bullet` field.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A BulletEntry with the keywords made bold in the `bullet` field.
+        """
+        self.bullet = make_keywords_bold_in_a_string(self.bullet, keywords)
+        return self
 
 
 class EntryWithDate(RenderCVBaseModelWithExtraKeys):
@@ -267,8 +302,7 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
 
         if doi_is_provided:
             return f"https://doi.org/{self.doi}"
-        else:
-            return ""
+        return ""
 
     @functools.cached_property
     def clean_url(self) -> str:
@@ -279,8 +313,7 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
 
         if url_is_provided:
             return computers.make_a_url_clean(str(self.url))  # type: ignore
-        else:
-            return ""
+        return ""
 
 
 # The following class is to ensure PublicationEntryBase keys come first,
@@ -291,8 +324,6 @@ class PublicationEntry(EntryWithDate, PublicationEntryBase):
     created by combining the `EntryWithDate` and `PublicationEntryBase` classes to have
     the fields in the correct order.
     """
-
-    pass
 
 
 class EntryBase(EntryWithDate):
@@ -331,6 +362,12 @@ class EntryBase(EntryWithDate):
         description="The highlights of the event as a list of strings.",
         examples=["Did this.", "Did that."],
     )
+    summary: Optional[str] = pydantic.Field(
+        default=None,
+        title="Summary",
+        description="The summary of the event.",
+        examples=["Did this and that."],
+    )
 
     @pydantic.model_validator(mode="after")  # type: ignore
     def check_and_adjust_dates(self) -> "EntryBase":
@@ -351,7 +388,9 @@ class EntryBase(EntryWithDate):
 
         Example:
             ```python
-            entry = dm.EntryBase(start_date="2020-10-11", end_date="2021-04-04").date_string
+            entry = dm.EntryBase(
+                start_date="2020-10-11", end_date="2021-04-04"
+            ).date_string
             ```
             returns
             `"Nov 2020 to Apr 2021"`
@@ -368,7 +407,9 @@ class EntryBase(EntryWithDate):
 
         Example:
             ```python
-            entry = dm.EntryBase(start_date="2020-10-11", end_date="2021-04-04").date_string_only_years
+            entry = dm.EntryBase(
+                start_date="2020-10-11", end_date="2021-04-04"
+            ).date_string_only_years
             ```
             returns
             `"2020 to 2021"`
@@ -389,6 +430,27 @@ class EntryBase(EntryWithDate):
             start_date=self.start_date, end_date=self.end_date, date=self.date
         )
 
+    def make_keywords_bold(self, keywords: list[str]) -> "EntryBase":
+        """Make the given keywords bold in the `summary` and `highlights` fields.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            An EntryBase with the keywords made bold in the `summary` and `highlights`
+            fields.
+        """
+        if self.summary:
+            self.summary = make_keywords_bold_in_a_string(self.summary, keywords)
+
+        if self.highlights:
+            self.highlights = [
+                make_keywords_bold_in_a_string(highlight, keywords)
+                for highlight in self.highlights
+            ]
+
+        return self
+
 
 class NormalEntryBase(RenderCVBaseModelWithExtraKeys):
     """This class is the parent class of the `NormalEntry` class."""
@@ -404,8 +466,6 @@ class NormalEntry(EntryBase, NormalEntryBase):
     combining the `EntryBase` and `NormalEntryBase` classes to have the fields in the
     correct order.
     """
-
-    pass
 
 
 class ExperienceEntryBase(RenderCVBaseModelWithExtraKeys):
@@ -426,8 +486,6 @@ class ExperienceEntry(EntryBase, ExperienceEntryBase):
     created by combining the `EntryBase` and `ExperienceEntryBase` classes to have the
     fields in the correct order.
     """
-
-    pass
 
 
 class EducationEntryBase(RenderCVBaseModelWithExtraKeys):
@@ -454,8 +512,6 @@ class EducationEntry(EntryBase, EducationEntryBase):
     created by combining the `EntryBase` and `EducationEntryBase` classes to have the
     fields in the correct order.
     """
-
-    pass
 
 
 # ======================================================================================
@@ -489,8 +545,8 @@ ListOfEntries = (
 # Entry.__args__[:-1] is a tuple of all the entry types except `str``:
 # `str` (TextEntry) is not included because it's validation handled differently. It is
 # not a Pydantic model, but a string.
-available_entry_models = list(Entry.__args__[:-1])
+available_entry_models: tuple[type[Entry]] = tuple(Entry.__args__[:-1])
 
-available_entry_type_names = [
-    entry_type.__name__ for entry_type in available_entry_models
-] + ["TextEntry"]
+available_entry_type_names = tuple(
+    [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
+)

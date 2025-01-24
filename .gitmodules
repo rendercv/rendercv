@@ -1,3 +1,0 @@
-[submodule "rendercv/tinytex-release"]
-	path = rendercv/renderer/tinytex-release
-	url = https://github.com/sinaatalay/tinytex-release.git

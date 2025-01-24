@@ -2,33 +2,31 @@ import io
 import json
 import os
 import shutil
+import sys
 from datetime import date as Date
 
 import pydantic
 import pytest
 import ruamel.yaml
-import time_machine
 
-from rendercv import data as data
+from rendercv import data
 from rendercv.data import generator
 from rendercv.data.models import (
     computers,
     curriculum_vitae,
     entry_types,
-    locale_catalog,
+    locale,
 )
-
-from .conftest import update_testdata
 
 
 @pytest.mark.parametrize(
-    "date, expected_date_object, expected_error",
+    ("date", "expected_date_object", "expected_error"),
     [
         ("2020-01-01", Date(2020, 1, 1), None),
         ("2020-01", Date(2020, 1, 1), None),
         ("2020", Date(2020, 1, 1), None),
         (2020, Date(2020, 1, 1), None),
-        ("present", Date(2024, 1, 1), None),
+        ("present", Date.today(), None),
         ("invalid", None, ValueError),
         ("20222", None, ValueError),
         ("202222-20200", None, ValueError),
@@ -36,7 +34,6 @@ from .conftest import update_testdata
         ("2022-20-20", None, ValueError),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_get_date_object(date, expected_date_object, expected_error):
     if expected_error:
         with pytest.raises(expected_error):
@@ -46,7 +43,7 @@ def test_get_date_object(date, expected_date_object, expected_error):
 
 
 @pytest.mark.parametrize(
-    "date, expected_date_string",
+    ("date", "expected_date_string"),
     [
         (Date(2020, 1, 1), "Jan 2020"),
         (Date(2020, 2, 1), "Feb 2020"),
@@ -67,32 +64,12 @@ def test_format_date(date, expected_date_string):
 
 
 def test_read_input_file(input_file_path):
-    # Update the auxiliary files if update_testdata is True
-    if update_testdata:
-        # create testdata directory if it doesn't exist
-        if not input_file_path.parent.exists():
-            input_file_path.parent.mkdir()
-
-        input_dictionary = {
-            "cv": {
-                "name": "John Doe",
-                "sections": {"test_section": ["this is a text entry."]},
-            },
-            "design": {
-                "theme": "classic",
-            },
-        }
-
-        # dump the dictionary to a yaml file
-        yaml_object = ruamel.yaml.YAML()
-        yaml_object.dump(input_dictionary, input_file_path)
-
     data_model = data.read_input_file(input_file_path)
 
     assert isinstance(data_model, data.RenderCVDataModel)
 
 
-def test_read_input_file_directly_with_contents(input_file_path):
+def test_read_input_file_directly_with_contents():
     input_dictionary = {
         "cv": {
             "name": "John Doe",
@@ -118,7 +95,7 @@ def test_read_input_file_directly_with_contents(input_file_path):
 def test_read_input_file_invalid_file(tmp_path):
     invalid_file_path = tmp_path / "invalid.extension"
     invalid_file_path.write_text("dummy content", encoding="utf-8")
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # NOQA: PT011
         data.read_input_file(invalid_file_path)
 
 
@@ -138,7 +115,7 @@ def test_create_a_sample_data_model(theme):
 
 
 def test_create_a_sample_data_model_invalid_theme():
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError):  # NOQA: PT011
         data.create_a_sample_data_model("John Doe", "invalid")
 
 
@@ -159,13 +136,17 @@ def test_generate_json_schema_file(tmp_path):
     assert isinstance(schema, dict)
 
 
-@pytest.mark.skip(
-    reason="We should start using this when we start to use branches for each version."
-)
+@pytest.mark.skipif(sys.platform == "win32", reason="Somehow fails on Windows")
 def test_if_the_schema_is_the_latest(root_directory_path):
     original_schema_file_path = root_directory_path / "schema.json"
     original_schema_text = original_schema_file_path.read_text()
     original_schema = json.loads(original_schema_text)
+    original_schema["$defs"]["RenderCVSettings"]["properties"]["date"]["default"] = (
+        Date.today().isoformat()
+    )
+    original_schema["properties"]["rendercv_settings"]["default"]["date"] = (
+        Date.today().isoformat()
+    )
 
     new_schema = data.generate_json_schema()
 
@@ -173,94 +154,121 @@ def test_if_the_schema_is_the_latest(root_directory_path):
 
 
 @pytest.mark.parametrize(
-    "start_date, end_date, date, expected_date_string, expected_date_string_only_years,"
-    " expected_time_span",
+    (
+        "start_date",
+        "end_date",
+        "date",
+        "expected_date_string",
+        "expected_date_string_only_years",
+        "expected_time_span",
+    ),
     [
         (
             "2020-01-01",
             "2021-01-01",
             None,
-            "Jan 2020 – Jan 2021",
-            "2020 – 2021",
+            "Jan 2020 – Jan 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
             "1 year 1 month",
         ),
         (
             "2020-01-01",
             "2022-01-01",
             None,
-            "Jan 2020 – Jan 2022",
-            "2020 – 2022",
+            "Jan 2020 – Jan 2022",  # NOQA: RUF001
+            "2020 – 2022",  # NOQA: RUF001
             "2 years 1 month",
         ),
         (
             "2020-01-01",
             "2021-12-10",
             None,
-            "Jan 2020 – Dec 2021",
-            "2020 – 2021",
+            "Jan 2020 – Dec 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
             "2 years",
         ),
         (
             Date(2020, 1, 1),
             Date(2021, 1, 1),
             None,
-            "Jan 2020 – Jan 2021",
-            "2020 – 2021",
+            "Jan 2020 – Jan 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
             "1 year 1 month",
         ),
         (
             "2020-01",
             "2021-01",
             None,
-            "Jan 2020 – Jan 2021",
-            "2020 – 2021",
+            "Jan 2020 – Jan 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
             "1 year 1 month",
         ),
         (
             "2020-01",
-            "2021-01-01",
+            "2021-02-01",
             None,
-            "Jan 2020 – Jan 2021",
-            "2020 – 2021",
-            "1 year 1 month",
+            "Jan 2020 – Feb 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
+            "1 year 2 months",
         ),
         (
             "2020-01-01",
             "2021-01",
             None,
-            "Jan 2020 – Jan 2021",
-            "2020 – 2021",
+            "Jan 2020 – Jan 2021",  # NOQA: RUF001
+            "2020 – 2021",  # NOQA: RUF001
             "1 year 1 month",
         ),
         (
             "2020-01-01",
             None,
             None,
-            "Jan 2020 – present",
-            "2020 – present",
+            "Jan 2020 – present",  # NOQA: RUF001
+            "2020 – present",  # NOQA: RUF001
             "4 years 1 month",
         ),
         (
             "2020-02-01",
             "present",
             None,
-            "Feb 2020 – present",
-            "2020 – present",
+            "Feb 2020 – present",  # NOQA: RUF001
+            "2020 – present",  # NOQA: RUF001
             "4 years",
         ),
         ("2020-01-01", "2021-01-01", "2023-02-01", "Feb 2023", "2023", ""),
-        ("2020", "2021", None, "2020 – 2021", "2020 – 2021", "1 year"),
-        ("2020", None, None, "2020 – present", "2020 – present", "4 years"),
-        ("2020-10-10", "2022", None, "Oct 2020 – 2022", "2020 – 2022", "2 years"),
+        ("2020", "2021", None, "2020 – 2021", "2020 – 2021", "1 year"),  # NOQA: RUF001
+        (
+            "2020",
+            None,
+            None,
+            "2020 – present",  # NOQA: RUF001
+            "2020 – present",  # NOQA: RUF001
+            "4 years",
+        ),
+        (
+            "2020-10-10",
+            "2022",
+            None,
+            "Oct 2020 – 2022",  # NOQA: RUF001
+            "2020 – 2022",  # NOQA: RUF001
+            "2 years",
+        ),
         (
             "2020-10-10",
             "2020-11-05",
             None,
-            "Oct 2020 – Nov 2020",
-            "2020 – 2020",
+            "Oct 2020 – Nov 2020",  # NOQA: RUF001
+            "2020 – 2020",  # NOQA: RUF001
             "1 month",
         ),
-        ("2022", "2023-10-10", None, "2022 – Oct 2023", "2022 – 2023", "1 year"),
+        (
+            "2022",
+            "2023-10-10",
+            None,
+            "2022 – Oct 2023",  # NOQA: RUF001
+            "2022 – 2023",  # NOQA: RUF001
+            "1 year",
+        ),
         (
             "2020-01-01",
             "present",
@@ -302,7 +310,6 @@ def test_if_the_schema_is_the_latest(root_directory_path):
         ("2002", "2020", "2024", "2024", "2024", ""),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_dates(
     start_date,
     end_date,
@@ -311,6 +318,7 @@ def test_dates(
     expected_date_string_only_years,
     expected_time_span,
 ):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
     entry_base = entry_types.EntryBase(
         start_date=start_date, end_date=end_date, date=date
     )
@@ -321,11 +329,11 @@ def test_dates(
 
 
 def test_dates_style():
-    assert "TEST" == data.format_date(Date(2020, 1, 1), "TEST")
+    assert data.format_date(Date(2020, 1, 1), "TEST") == "TEST"
 
 
 @pytest.mark.parametrize(
-    "date, expected_date_string",
+    ("date", "expected_date_string"),
     [
         ("2020-01-01", "Jan 2020"),
         ("2020-01", "Jan 2020"),
@@ -340,13 +348,13 @@ def test_publication_dates(publication_entry, date, expected_date_string):
 
 @pytest.mark.parametrize("date", ["2025-23-23"])
 def test_invalid_publication_dates(publication_entry, date):
+    publication_entry["date"] = date
     with pytest.raises(pydantic.ValidationError):
-        publication_entry["date"] = date
         data.PublicationEntry(**publication_entry)
 
 
 @pytest.mark.parametrize(
-    "start_date, end_date, date",
+    ("start_date", "end_date", "date"),
     [
         ("aaa", "2021-01-01", None),
         ("2020-01-01", "aaa", None),
@@ -366,7 +374,7 @@ def test_invalid_dates(start_date, end_date, date):
 
 
 @pytest.mark.parametrize(
-    "doi, expected_doi_url",
+    ("doi", "expected_doi_url"),
     [
         ("10.1109/TASC.2023.3340648", "https://doi.org/10.1109/TASC.2023.3340648"),
     ],
@@ -378,7 +386,7 @@ def test_doi_url(publication_entry, doi, expected_doi_url):
 
 
 @pytest.mark.parametrize(
-    "network, username",
+    ("network", "username"),
     [
         ("Mastodon", "invalidmastodon"),
         ("Mastodon", "@inva@l@id"),
@@ -387,6 +395,7 @@ def test_doi_url(publication_entry, doi, expected_doi_url):
         ("StackOverflow", "invalidusername//"),
         ("StackOverflow", "invalidusername/invalid"),
         ("YouTube", "@invalidusername"),
+        ("NONAME", "@invalidusername"),
     ],
 )
 def test_invalid_social_networks(network, username):
@@ -395,7 +404,7 @@ def test_invalid_social_networks(network, username):
 
 
 @pytest.mark.parametrize(
-    "network, username, expected_url",
+    ("network", "username", "expected_url"),
     [
         ("LinkedIn", "myusername", "https://linkedin.com/in/myusername"),
         ("GitHub", "myusername", "https://github.com/myusername"),
@@ -440,7 +449,7 @@ def test_social_network_url(network, username, expected_url):
 
 
 @pytest.mark.parametrize(
-    "entry, expected_entry_type, expected_section_type",
+    ("entry", "expected_entry_type", "expected_section_type"),
     [
         (
             "publication_entry",
@@ -558,8 +567,26 @@ def test_sections(
         assert len(section.entries) == 2
 
 
+def test_section_with_different_entry_types(
+    education_entry,
+    experience_entry,
+):
+    input = {
+        "name": "John Doe",
+        "sections": {
+            "arbitrary_title": [
+                education_entry,
+                experience_entry,
+            ],
+        },
+    }
+
+    with pytest.raises(pydantic.ValidationError):
+        data.CurriculumVitae(**input)
+
+
 def test_sections_with_invalid_entries():
-    input = {"name": "John Doe", "sections": dict()}
+    input = {"name": "John Doe", "sections": {}}
     input["sections"]["section_title"] = [
         {
             "this": "is",
@@ -572,7 +599,7 @@ def test_sections_with_invalid_entries():
 
 
 def test_sections_without_list():
-    input = {"name": "John Doe", "sections": dict()}
+    input = {"name": "John Doe", "sections": {}}
     input["sections"]["section_title"] = {
         "this section": "does not have a list of entries but a single entry."
     }
@@ -590,23 +617,19 @@ def test_sections_without_list():
 def test_invalid_custom_theme(invalid_custom_theme_name):
     with pytest.raises(pydantic.ValidationError):
         data.RenderCVDataModel(
-            **{
-                "cv": {"name": "John Doe"},
-                "design": {"theme": invalid_custom_theme_name},
-            }
+            cv={"name": "John Doe"},  # type: ignore
+            design={"theme": invalid_custom_theme_name},
         )
 
 
 def test_custom_theme_with_missing_files(tmp_path):
     custom_theme_path = tmp_path / "customtheme"
     custom_theme_path.mkdir()
+    os.chdir(tmp_path)
     with pytest.raises(pydantic.ValidationError):
-        os.chdir(tmp_path)
         data.RenderCVDataModel(
-            **{  # type: ignore
-                "cv": {"name": "John Doe"},
-                "design": {"theme": "customtheme"},
-            }
+            cv={"name": "John Doe"},  # type: ignore
+            design={"theme": "customtheme"},
         )
 
 
@@ -616,10 +639,8 @@ def test_custom_theme(testdata_directory_path):
         / "test_copy_theme_files_to_output_directory_custom_theme"
     )
     data_model = data.RenderCVDataModel(
-        **{  # type: ignore
-            "cv": {"name": "John Doe"},
-            "design": {"theme": "dummytheme"},
-        }
+        cv={"name": "John Doe"},  # type: ignore
+        design={"theme": "dummytheme"},
     )
 
     assert data_model.design.theme == "dummytheme"
@@ -642,10 +663,8 @@ def test_custom_theme_without_init_file(tmp_path, testdata_directory_path):
 
     os.chdir(tmp_path)
     data_model = data.RenderCVDataModel(
-        **{  # type: ignore
-            "cv": {"name": "John Doe"},
-            "design": {"theme": "dummytheme"},
-        }
+        cv={"name": "John Doe"},  # type: ignore
+        design={"theme": "dummytheme"},
     )
 
     assert data_model.design.theme == "dummytheme"
@@ -669,10 +688,8 @@ def test_custom_theme_with_broken_init_file(tmp_path, testdata_directory_path):
     os.chdir(tmp_path)
     with pytest.raises(pydantic.ValidationError):
         data.RenderCVDataModel(
-            **{  # type: ignore
-                "cv": {"name": "John Doe"},
-                "design": {"theme": "dummytheme"},
-            }
+            cv={"name": "John Doe"},  # type: ignore
+            design={"theme": "dummytheme"},
         )
 
     # overwrite the __init__.py file (import error)
@@ -682,16 +699,14 @@ def test_custom_theme_with_broken_init_file(tmp_path, testdata_directory_path):
     os.chdir(tmp_path)
     with pytest.raises(pydantic.ValidationError):
         data.RenderCVDataModel(
-            **{  # type: ignore
-                "cv": {"name": "John Doe"},
-                "design": {"theme": "dummytheme"},
-            }
+            cv={"name": "John Doe"},  # type: ignore
+            design={"theme": "dummytheme"},
         )
 
 
-def test_locale_catalog():
+def test_locale():
     data_model = data.create_a_sample_data_model("John Doe")
-    data_model.locale_catalog = data.LocaleCatalog(
+    data_model.locale = data.Locale(
         month="a",
         months="b",
         year="c",
@@ -729,21 +744,26 @@ def test_locale_catalog():
         phone_number_format="international",
     )
 
-    assert locale_catalog.LOCALE_CATALOG == data_model.locale_catalog.model_dump()
+    locale_as_dict = data_model.locale.model_dump()
+    del locale_as_dict["page_numbering_template"]
+    del locale_as_dict["last_updated_date_template"]
+    del locale_as_dict["language"]
+
+    assert locale_as_dict == locale.locale
 
 
 def test_if_local_catalog_resets():
     data_model = data.create_a_sample_data_model("John Doe")
 
-    data_model.locale_catalog = data.LocaleCatalog(
+    data_model.locale = data.Locale(
         month="a",
     )
 
-    assert locale_catalog.LOCALE_CATALOG["month"] == "a"
+    assert locale.locale["month"] == "a"
 
     data_model = data.create_a_sample_data_model("John Doe")
 
-    assert locale_catalog.LOCALE_CATALOG["month"] == "month"
+    assert locale.locale["month"] == "month"
 
 
 def test_curriculum_vitae():
@@ -791,13 +811,8 @@ def test_create_a_sample_yaml_input_file(tmp_path):
     assert yaml_contents == input_file_path.read_text(encoding="utf-8")
 
 
-def test_default_input_file_doesnt_have_local_catalog():
-    yaml_contents = data.create_a_sample_yaml_input_file()
-    assert "locale_catalog" not in yaml_contents
-
-
 @pytest.mark.parametrize(
-    "key, expected_section_title",
+    ("key", "expected_section_title"),
     [
         ("this_is_a_test", "This Is a Test"),
         ("welcome_to_RenderCV!", "Welcome to RenderCV!"),
@@ -812,11 +827,8 @@ def test_dictionary_key_to_proper_section_title(key, expected_section_title):
     )
 
 
-# def test_if_available_themes_and_avaialble_theme_options_has_the_same_length():
-
-
 @pytest.mark.parametrize(
-    "url, expected_clean_url",
+    ("url", "expected_clean_url"),
     [
         ("https://example.com", "example.com"),
         ("https://example.com/", "example.com"),
@@ -834,7 +846,7 @@ def test_make_a_url_clean(url, expected_clean_url):
 
 
 @pytest.mark.parametrize(
-    "path_name, expected_value",
+    ("path_name", "expected_value"),
     [
         ("NAME_IN_SNAKE_CASE", "John_Doe"),
         ("NAME_IN_LOWER_SNAKE_CASE", "john_doe"),
@@ -851,20 +863,111 @@ def test_make_a_url_clean(url, expected_clean_url):
         ("YEAR_IN_TWO_DIGITS", "24"),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_render_command_settings_placeholders(path_name, expected_value):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+
     data.CurriculumVitae(name="John Doe")
 
     render_command_settings = data.RenderCommandSettings(
         pdf_path=path_name,
-        latex_path=path_name,
+        typst_path=path_name,
         html_path=path_name,
         markdown_path=path_name,
         output_folder_name=path_name,
     )
 
     assert render_command_settings.pdf_path.name == expected_value  # type: ignore
-    assert render_command_settings.latex_path.name == expected_value  # type: ignore
+    assert render_command_settings.typst_path.name == expected_value  # type: ignore
     assert render_command_settings.html_path.name == expected_value  # type: ignore
     assert render_command_settings.markdown_path.name == expected_value  # type: ignore
     assert render_command_settings.output_folder_name == expected_value
+
+
+def test_make_keywords_bold_in_a_string():
+    assert (
+        data.make_keywords_bold_in_a_string(
+            "This is a test string with some keywords.",
+            ["test", "keywords"],
+        )
+        == "This is a **test** string with some **keywords**."
+    )
+
+
+def test_bold_keywords():
+    data_model = data.RenderCVDataModel(
+        cv=data.CurriculumVitae(
+            name="John Doe",
+            sections={
+                "test": [
+                    "test_keyword_1",
+                ],
+                "test2": [
+                    data.EducationEntry(
+                        institution="Test Institution",
+                        area="Test Area",
+                        highlights=["test_keyword_2"],
+                        summary="test_keyword_3 test_keyword_4",
+                    ),
+                ],
+                "test3": [
+                    data.ExperienceEntry(
+                        company="Test Company",
+                        position="Test Position",
+                        highlights=["test_keyword_5", "test_keyword_6"],
+                        summary="test_keyword_6 test_keyword_7",
+                    ),
+                ],
+                "test4": [
+                    data.NormalEntry(
+                        name="Test",
+                        highlights=["test_keyword_2"],
+                        summary="test_keyword_3 test_keyword_4",
+                    ),
+                ],
+                "test5": [
+                    data.PublicationEntry(
+                        title="Test Institution",
+                        authors=["Test Author"],
+                    ),
+                ],
+                "test6": [
+                    data.BulletEntry(
+                        bullet="test_keyword_3 test_keyword_4",
+                    ),
+                ],
+                "test7": [
+                    data.OneLineEntry(
+                        label="Test Institution",
+                        details="test_keyword_3 test_keyword_4",
+                    ),
+                ],
+            },
+        )
+    )
+
+    for section in data_model.cv.sections:
+        for entry in section.entries:
+            if section.title == "test":
+                assert "**test_keyword_1**" in entry
+            elif section.title == "test2":
+                assert "**test_keyword_2**" in entry.highlights[0]
+                assert "**test_keyword_3**" in entry.summary
+                assert "**test_keyword_4**" in entry.summary
+            elif section.title == "test3":
+                assert "**test_keyword_5**" in entry.highlights[0]
+                assert "**test_keyword_6**" in entry.highlights[1]
+                assert "**test_keyword_6**" in entry.summary
+                assert "**test_keyword_7**" in entry.summary
+            elif section.title == "test4":
+                assert "**test_keyword_2**" in entry.highlights[0]
+                assert "**test_keyword_3**" in entry.summary
+                assert "**test_keyword_4**" in entry.summary
+            elif section.title == "test5":
+                assert "**test_keyword_3**" in entry.summary
+                assert "**test_keyword_4**" in entry.summary
+            elif section.title == "test6":
+                assert "**test_keyword_3**" in entry.bullet
+                assert "**test_keyword_4**" in entry.bullet
+            elif section.title == "test7":
+                assert "**test_keyword_3**" in entry.details
+                assert "**test_keyword_4**" in entry.details

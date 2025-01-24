@@ -1,185 +1,185 @@
-from typing import Literal
+from typing import Literal, Optional
 
-import pydantic
 import pydantic_extra_types.color as pydantic_color
 
-from rendercv.themes.common_options import (
-    EntryAreaMargins,
-    HeaderMargins,
-    HighlightsAreaMargins,
-    LaTeXDimension,
-    Margins,
-    ThemeOptions,
+import rendercv.themes.options as o
+
+o.page_show_page_numbering_field_info.default = False
+
+
+class Page(o.Page):
+    show_page_numbering: bool = o.page_show_page_numbering_field_info
+
+
+o.header_separator_between_connections_field_info.default = "|"
+o.header_use_icons_for_connections_field_info.default = False
+o.header_name_bold_field_info.default = False
+o.header_name_font_size_field_info = "25pt"
+
+
+class Header(o.Header):
+    name_font_size: o.TypstDimension = o.header_name_font_size_field_info
+    name_bold: bool = o.header_name_bold_field_info
+    separator_between_connections: str = (
+        o.header_separator_between_connections_field_info
+    )
+    use_icons_for_connections: bool = o.header_use_icons_for_connections_field_info
+
+
+o.colors_name_field_info.default = "rgb(0,0,0)"
+o.colors_connections_field_info.default = "rgb(0,0,0)"
+o.colors_section_titles_field_info.default = "rgb(0,0,0)"
+o.colors_links_field_info.default = "rgb(0,0,0)"
+
+
+class Colors(o.Colors):
+    name: pydantic_color.Color = o.colors_name_field_info
+    connections: pydantic_color.Color = o.colors_connections_field_info
+    section_titles: pydantic_color.Color = o.colors_section_titles_field_info
+    links: pydantic_color.Color = o.colors_links_field_info
+
+
+o.links_underline_field_info.default = True
+o.links_use_external_link_icon_field_info.default = False
+
+
+class Links(o.Links):
+    underline: bool = o.links_underline_field_info
+    use_external_link_icon: bool = o.links_use_external_link_icon_field_info
+
+
+o.text_font_family_field_info.default = "XCharter"
+o.text_leading_field_info.default = "0.6em"
+
+
+class Text(o.Text):
+    font_family: o.FontFamily = o.text_font_family_field_info
+    leading: o.TypstDimension = o.text_leading_field_info
+
+
+o.section_titles_type_field_info.default = "with-full-line"
+o.section_titles_vertical_space_above_field_info.default = "0.55cm"
+o.section_titles_vertical_space_below_field_info.default = "0.3cm"
+o.section_titles_font_size_field_info.default = "1.2em"
+
+
+class SectionTitles(o.SectionTitles):
+    line_type: o.SectionTitleType = o.section_titles_type_field_info
+    vertical_space_above: o.TypstDimension = (
+        o.section_titles_vertical_space_above_field_info
+    )
+    vertical_space_below: o.TypstDimension = (
+        o.section_titles_vertical_space_below_field_info
+    )
+    font_size: o.TypstDimension = o.section_titles_font_size_field_info
+
+
+o.entries_vertical_space_between_entries_field_info.default = "0.4cm"
+o.entries_left_and_right_margin_field_info.default = "0cm"
+
+
+class Entries(o.Entries):
+    vertical_space_between_entries: o.TypstDimension = (
+        o.entries_vertical_space_between_entries_field_info
+    )
+    left_and_right_margin: o.TypstDimension = o.entries_left_and_right_margin_field_info
+
+
+o.highlights_left_margin_field_info.default = "0cm"
+o.highlights_top_margin_field_info.default = "0.25cm"
+o.highlights_vertical_space_between_highlights_field_info.default = "0.19cm"
+o.highlights_horizontal_space_between_bullet_and_highlight_field_info.default = "0.3em"
+
+
+class Highlights(o.Highlights):
+    left_margin: o.TypstDimension = o.highlights_left_margin_field_info
+    top_margin: o.TypstDimension = o.highlights_top_margin_field_info
+    horizontal_space_between_bullet_and_highlight: o.TypstDimension = (
+        o.highlights_horizontal_space_between_bullet_and_highlight_field_info
+    )
+    vertical_space_between_highlights: o.TypstDimension = (
+        o.highlights_vertical_space_between_highlights_field_info
+    )
+
+
+o.education_entry_main_column_first_row_template_field_info.default = (
+    "**INSTITUTION**, DEGREE in AREA -- LOCATION"
+)
+o.education_entry_degree_column_template_field_info.default = None
+o.entry_base_with_date_date_and_location_column_template_field_info.default = "DATE"
+
+
+class EducationEntry(o.EducationEntry):
+    main_column_first_row_template: str = (
+        o.education_entry_main_column_first_row_template_field_info
+    )
+    degree_column_template: Optional[str] = (
+        o.education_entry_degree_column_template_field_info
+    )
+    date_and_location_column_template: str = (
+        o.entry_base_with_date_date_and_location_column_template_field_info
+    )
+
+
+o.normal_entry_main_column_first_row_template_field_info.default = (
+    "**NAME** -- **LOCATION**"
 )
 
 
-class EntryAreaMarginsForEngineeringresumes(EntryAreaMargins):
-    """This class is a data model for the entry area margins."""
-
-    left_and_right: LaTeXDimension = pydantic.Field(
-        default="0 cm",
-        title="Left Margin",
-        description="The left margin of entry areas. The default value is 0 cm.",
+class NormalEntry(o.NormalEntry):
+    main_column_first_row_template: str = (
+        o.normal_entry_main_column_first_row_template_field_info
+    )
+    date_and_location_column_template: str = (
+        o.entry_base_with_date_date_and_location_column_template_field_info
     )
 
 
-class HighlightsAreaMarginsForEngineeringresumes(HighlightsAreaMargins):
-    """This class is a data model for the highlights area margins."""
+o.experience_entry_main_column_first_row_template_field_info.default = (
+    "**POSITION**, COMPANY -- LOCATION"
+)
 
-    top: LaTeXDimension = pydantic.Field(
-        default="0.10 cm",
-        title="Top Margin",
-        description="The top margin of highlights areas. The default value is 0.10 cm.",
+
+class ExperienceEntry(o.ExperienceEntry):
+    main_column_first_row_template: str = (
+        o.experience_entry_main_column_first_row_template_field_info
     )
-    left: LaTeXDimension = pydantic.Field(
-        default="0 cm",
-        title="Left Margin",
-        description="The left margin of highlights areas. The default value is 0 cm.",
-    )
-    vertical_between_bullet_points: LaTeXDimension = pydantic.Field(
-        default="0.10 cm",
-        title="Vertical Margin Between Bullet Points",
-        description=(
-            "The vertical margin between bullet points. The default value is 0.10 cm."
-        ),
+    date_and_location_column_template: str = (
+        o.entry_base_with_date_date_and_location_column_template_field_info
     )
 
 
-class HeaderMarginsForEngineeringresumes(HeaderMargins):
-    """This class is a data model for the header margins."""
-
-    vertical_between_name_and_connections: LaTeXDimension = pydantic.Field(
-        default="5 pt",
-        title="Vertical Margin Between the Name and Connections",
-        description=(
-            "The vertical margin between the name of the person and the connections."
-            " The default value is 5 pt."
-        ),
-    )
-    bottom: LaTeXDimension = pydantic.Field(
-        default="5 pt",
-        title="Bottom Margin",
-        description=(
-            "The bottom margin of the header, i.e., the vertical margin between the"
-            " connections and the first section title. The default value is 5 pt."
-        ),
-    )
-    horizontal_between_connections: LaTeXDimension = pydantic.Field(
-        default="10 pt",
-        title="Space Between Connections",
-        description=(
-            "The space between the connections (like phone, email, and website). The"
-            " default value is 20 pt."
-        ),
-    )
+o.entry_types_education_entry_field_info.default = EducationEntry()
+o.entry_types_normal_entry_field_info.default = NormalEntry()
+o.entry_types_experience_entry_field_info.default = ExperienceEntry()
 
 
-class MarginsForEngineeringresumes(Margins):
-    """This class is a data model for the margins."""
-
-    entry_area: EntryAreaMarginsForEngineeringresumes = pydantic.Field(
-        default=EntryAreaMarginsForEngineeringresumes(),
-        title="Entry Area Margins",
-        description="Entry area margins.",
-    )
-    highlights_area: HighlightsAreaMarginsForEngineeringresumes = pydantic.Field(
-        default=HighlightsAreaMarginsForEngineeringresumes(),
-        title="Highlights Area Margins",
-        description="Highlights area margins.",
-    )
-    header: HeaderMarginsForEngineeringresumes = pydantic.Field(
-        default=HeaderMarginsForEngineeringresumes(),
-        title="Header Margins",
-        description="Header margins.",
-    )
+class EntryTypes(o.EntryTypes):
+    education_entry: EducationEntry = o.entry_types_education_entry_field_info
+    normal_entry: NormalEntry = o.entry_types_normal_entry_field_info
+    experience_entry: ExperienceEntry = o.entry_types_experience_entry_field_info
 
 
-class EngineeringresumesThemeOptions(ThemeOptions):
-    """This class is the data model of the theme options for the `engineeringresumes`
-    theme.
-    """
+o.theme_options_theme_field_info.default = "engineeringresumes"
+o.theme_options_page_field_info.default = Page()
+o.theme_options_header_field_info.default = Header()
+o.theme_options_text_field_info.default = Text()
+o.theme_options_colors_field_info.default = Colors()
+o.theme_options_entry_types_field_info.default = EntryTypes()
+o.theme_options_section_titles_field_info.default = SectionTitles()
+o.theme_options_highlights_field_info.default = Highlights()
+o.theme_options_links_field_info.default = Links()
+o.theme_options_entries_field_info.default = Entries()
 
-    theme: Literal["engineeringresumes"]
-    font: Literal[
-        "Latin Modern Serif",
-        "Latin Modern Sans Serif",
-        "Latin Modern Mono",
-        "Source Sans 3",
-        "Charter",
-    ] = pydantic.Field(
-        default="Charter",
-        title="Font",
-        description="The font family of the CV. The default value is Charter.",
-    )
-    header_font_size: LaTeXDimension = pydantic.Field(
-        default="25 pt",
-        title="Header Font Size",
-        description=(
-            "The font size of the header (the name of the person). The default value is"
-            " 25 pt."
-        ),
-    )
-    color: pydantic_color.Color = pydantic.Field(
-        default="rgb(0,0,0)",
-        validate_default=True,
-        title="Primary Color",
-        description=(
-            "The primary color of the theme. \nThe color can be specified either with"
-            " their [name](https://www.w3.org/TR/SVG11/types.html#ColorKeywords),"
-            " hexadecimal value, RGB value, or HSL value. The default value is"
-            " rgb(0,0,0)."
-        ),
-        examples=["Black", "7fffd4", "rgb(0,79,144)", "hsl(270, 60%, 70%)"],
-    )
-    disable_external_link_icons: bool = pydantic.Field(
-        default=True,
-        title="Disable External Link Icons",
-        description=(
-            "If this option is set to true, then the external link icons will not be"
-            " shown next to the links. The default value is true."
-        ),
-    )
-    disable_page_numbering: bool = pydantic.Field(
-        default=True,
-        title="Disable Page Numbering",
-        description=(
-            "If this option is set to true, then the page numbering will not be shown."
-            " The default value is true."
-        ),
-    )
-    disable_last_updated_date: bool = pydantic.Field(
-        default=True,
-        title="Disable Last Updated Date",
-        description=(
-            "If this option is set to true, then the last updated date will not be"
-            " shown in the header. The default value is true."
-        ),
-    )
-    text_alignment: Literal[
-        "left-aligned", "justified", "justified-with-no-hyphenation"
-    ] = pydantic.Field(
-        default="left-aligned",
-        title="Text Alignment",
-        description="The alignment of the text. The default value is left-aligned.",
-    )
-    seperator_between_connections: str = pydantic.Field(
-        default="$|$",
-        title="Seperator Between Connections",
-        description=(
-            "The separator between the connections in the header. The default value is"
-            " empty string."
-        ),
-    )
-    use_icons_for_connections: bool = pydantic.Field(
-        default=False,
-        title="Use Icons for Connections",
-        description=(
-            "If this option is set to true, then icons will be used for the connections"
-            " (like phone, email, and website). The default value is false."
-        ),
-    )
-    margins: MarginsForEngineeringresumes = pydantic.Field(
-        default=MarginsForEngineeringresumes(),
-        title="Margins",
-        description="Page, section title, entry field, and highlights field margins.",
-    )
+
+class EngineeringresumesThemeOptions(o.ThemeOptions):
+    theme: Literal["engineeringresumes"] = o.theme_options_theme_field_info
+    page: Page = o.theme_options_page_field_info
+    header: Header = o.theme_options_header_field_info
+    highlights: Highlights = o.theme_options_highlights_field_info
+    text: Text = o.theme_options_text_field_info
+    colors: Colors = o.theme_options_colors_field_info
+    links: Links = o.theme_options_links_field_info
+    entries: Entries = o.theme_options_entries_field_info
+    entry_types: EntryTypes = o.theme_options_entry_types_field_info
+    section_titles: SectionTitles = o.theme_options_section_titles_field_info

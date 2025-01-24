@@ -1,22 +1,27 @@
 # Testing
 
-After updating the code, ensure that all tests pass. To run the tests, use the following command. 
+After implementing a new feature or fixing a bug, one can run all the tests to see if anything is broken.
+
+To run all the tests with each Python version (3.10, 3.11, 3.12, and 3.13), use the following command.
 
 ```bash
-hatch run test:run
+hatch run test:test
 ```
 
-If you would like to run the tests in your IDE, use the `test` virtual environment.
-
-To generate a coverage report with the tests, run the following command.
+To run the tests with a specific Python version, use the following command.
 
 ```bash
-hatch run test:run-and-report
+hatch run test.py3.10:test
 ```
 
-Once new commits are pushed to the `main` branch, the [`test.yaml`](https://github.com/sinaatalay/rendercv/blob/main/.github/workflows/test.yaml) workflow will be automatically triggered, and the tests will run.
+To run the tests with Python 3.13 and generate a coverage report, use the following command.
 
-## About [`testdata`](https://github.com/sinaatalay/rendercv/tree/main/tests/testdata) folder
+```bash
+hatch run test-and-report
+```
+Once new commits are pushed to the `main` branch, the [`test.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/test.yaml) workflow will be automatically triggered, and the tests will run.
+
+## About [`testdata`](https://github.com/rendercv/rendercv/tree/main/tests/testdata) folder
 
 In some of the tests:
 

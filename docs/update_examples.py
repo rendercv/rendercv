@@ -48,6 +48,9 @@ def generate_examples():
         output_pdf_file = (
             examples_directory_path / "rendercv_output" / "John_Doe_CV.pdf"
         )
+        output_typst_file = (
+            examples_directory_path / "rendercv_output" / "John_Doe_CV.typ"
+        )
 
         # Move PDF file to examples directory
         new_pdf_file_path = examples_directory_path / f"{yaml_file_path.stem}.pdf"
@@ -55,13 +58,8 @@ def generate_examples():
             new_pdf_file_path.unlink()
         output_pdf_file.rename(new_pdf_file_path)
 
-        # Remove rendercv_output directory
-        rendercv_output_directory = examples_directory_path / "rendercv_output"
-
-        shutil.rmtree(rendercv_output_directory)
-
         # Convert first page of PDF to image
-        png_file_paths = renderer.render_pngs_from_pdf(new_pdf_file_path)
+        png_file_paths = renderer.render_pngs_from_typst(output_typst_file)
         firt_page_png_file_path = png_file_paths[0]
         if len(png_file_paths) > 1:
             # Remove other pages
@@ -77,7 +75,12 @@ def generate_examples():
         # Move image to desired location
         firt_page_png_file_path.rename(desired_png_file_path)
 
+        # Remove rendercv_output directory
+        rendercv_output_directory = examples_directory_path / "rendercv_output"
+
+        shutil.rmtree(rendercv_output_directory)
+
 
 if __name__ == "__main__":
     generate_examples()
-    print("Examples generated successfully.")
+    print("Examples generated successfully.")  # NOQA: T201

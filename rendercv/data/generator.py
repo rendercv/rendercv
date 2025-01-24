@@ -9,7 +9,6 @@ import pathlib
 from typing import Optional
 
 import pydantic
-import ruamel.yaml
 
 from . import models, reader
 
@@ -23,15 +22,20 @@ def dictionary_to_yaml(dictionary: dict) -> str:
     Returns:
         The YAML string.
     """
+    try:
+        import ruamel.yaml
+    except Exception as e:
+        from .. import _parial_install_error_message
+
+        raise ImportError(_parial_install_error_message) from e
+
     yaml_object = ruamel.yaml.YAML()
     yaml_object.encoding = "utf-8"
     yaml_object.width = 60
     yaml_object.indent(mapping=2, sequence=4, offset=2)
     with io.StringIO() as string_stream:
         yaml_object.dump(dictionary, string_stream)
-        yaml_string = string_stream.getvalue()
-
-    return yaml_string
+        return string_stream.getvalue()
 
 
 def create_a_sample_data_model(
@@ -48,10 +52,11 @@ def create_a_sample_data_model(
     # Check if the theme is valid:
     if theme not in models.available_theme_options:
         available_themes_string = ", ".join(models.available_theme_options.keys())
-        raise ValueError(
+        message = (
             f"The theme should be one of the following: {available_themes_string}!"
             f' The provided theme is "{theme}".'
         )
+        raise ValueError(message)
 
     # read the sample_content.yaml file
     sample_content = pathlib.Path(__file__).parent / "sample_content.yaml"
@@ -129,16 +134,13 @@ def generate_json_schema() -> dict:
             json_schema["title"] = "RenderCV"
             json_schema["description"] = "RenderCV data model."
             json_schema["$id"] = (
-                "https://raw.githubusercontent.com/sinaatalay/rendercv/main/schema.json"
+                "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json"
             )
             json_schema["$schema"] = "http://json-schema.org/draft-07/schema#"
 
             # Loop through $defs and remove docstring descriptions and fix optional
             # fields
-            for object_name, value in json_schema["$defs"].items():
-                # Don't allow additional properties
-                value["additionalProperties"] = False
-
+            for _, value in json_schema["$defs"].items():
                 # If a type is optional, then Pydantic sets the type to a list of two
                 # types, one of which is null. The null type can be removed since we
                 # already have the required field. Moreover, we would like to warn
@@ -147,7 +149,7 @@ def generate_json_schema() -> dict:
                 null_type_dict = {
                     "type": "null",
                 }
-                for field_name, field in value["properties"].items():
+                for _, field in value["properties"].items():
                     if "anyOf" in field:
                         if null_type_dict in field["anyOf"]:
                             field["anyOf"].remove(null_type_dict)
@@ -155,28 +157,31 @@ def generate_json_schema() -> dict:
                         field["oneOf"] = field["anyOf"]
                         del field["anyOf"]
 
-            # Currently, YAML extension in VS Code doesn't work properly with the
-            # `ListOfEntries` objects. For the best user experience, we will update
-            # the JSON Schema. If YAML extension in VS Code starts to work properly,
-            # then we should remove the following code for the correct JSON Schema.
-            ListOfEntriesForJsonSchema = list[models.Entry]
-            list_of_entries_json_schema = pydantic.TypeAdapter(
-                ListOfEntriesForJsonSchema
-            ).json_schema()
-            del list_of_entries_json_schema["$defs"]
+            # # Currently, YAML extension in VS Code doesn't work properly with the
+            # # `ListOfEntries` objects. For the best user experience, we will update
+            # # the JSON Schema. If YAML extension in VS Code starts to work properly,
+            # # then we should remove the following code for the correct JSON Schema.
+            # ListOfEntriesForJsonSchema = list[models.Entry]
+            # list_of_entries_json_schema = pydantic.TypeAdapter(
+            #     ListOfEntriesForJsonSchema
+            # ).json_schema()
+            # del list_of_entries_json_schema["$defs"]
 
-            # Update the JSON Schema:
-            json_schema["$defs"]["CurriculumVitae"]["properties"]["sections"]["oneOf"][
-                0
-            ]["additionalProperties"] = list_of_entries_json_schema
+            # json_schema["$defs"]["CurriculumVitae"]["properties"]["sections"]["oneOf"][
+            #     0
+            # ]["additionalProperties"] = list_of_entries_json_schema
+
+            # # Loop through json_schema["$defs"] and update keys:
+            # # Make all ANYTHING__KEY to KEY
+            # for key in list(json_schema["$defs"]):
+            #     new_key = key.split("__")[-1]
+            #     json_schema["$defs"][new_key] = json_schema["$defs"][key]
 
             return json_schema
 
-    schema = models.RenderCVDataModel.model_json_schema(
+    return models.RenderCVDataModel.model_json_schema(
         schema_generator=RenderCVSchemaGenerator
     )
-
-    return schema
 
 
 def generate_json_schema_file(json_schema_path: pathlib.Path):

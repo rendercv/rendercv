@@ -3,15 +3,21 @@ The `rendercv.cli.commands` module contains all the command-line interface (CLI)
 commands of RenderCV.
 """
 
-import os
+import copy
 import pathlib
 from typing import Annotated, Optional
 
-import typer
 from rich import print
 
-from .. import __version__, data, renderer
+from .. import __version__, data
 from . import printer, utilities
+
+try:
+    import typer
+except ImportError as e:
+    from .. import _parial_install_error_message
+
+    raise ImportError(_parial_install_error_message) from e
 
 app = typer.Typer(
     rich_markup_mode="rich",
@@ -37,18 +43,29 @@ app = typer.Typer(
 )
 @printer.handle_and_print_raised_exceptions
 def cli_command_render(
-    input_file_name: Annotated[
-        str, typer.Argument(help="Name of the YAML input file.")
-    ],
-    use_local_latex_command: Annotated[
+    input_file_name: Annotated[str, typer.Argument(help="The YAML input file.")],
+    design: Annotated[
         Optional[str],
         typer.Option(
-            "--use-local-latex-command",
-            "-use",
-            help=(
-                "Use the local LaTeX installation with the given command instead of the"
-                " RenderCV's TinyTeX."
-            ),
+            "--design",
+            "-d",
+            help='The "design" field\'s YAML input file.',
+        ),
+    ] = None,
+    locale: Annotated[
+        Optional[str],
+        typer.Option(
+            "--locale-catalog",
+            "-lc",
+            help='The "locale" field\'s YAML input file.',
+        ),
+    ] = None,
+    rendercv_settings: Annotated[
+        Optional[str],
+        typer.Option(
+            "--rendercv-settings",
+            "-rs",
+            help='The "rendercv_settings" field\'s YAML input file.',
         ),
     ] = None,
     output_folder_name: Annotated[
@@ -56,15 +73,15 @@ def cli_command_render(
         typer.Option(
             "--output-folder-name",
             "-o",
-            help="Name of the output folder.",
+            help="Name of the output folder",
         ),
     ] = "rendercv_output",
-    latex_path: Annotated[
+    typst_path: Annotated[
         Optional[str],
         typer.Option(
-            "--latex-path",
-            "-latex",
-            help="Copy the LaTeX file to the given path.",
+            "--typst-path",
+            "-typst",
+            help="Copy the Typst file to the given path",
         ),
     ] = None,
     pdf_path: Annotated[
@@ -72,7 +89,7 @@ def cli_command_render(
         typer.Option(
             "--pdf-path",
             "-pdf",
-            help="Copy the PDF file to the given path.",
+            help="Copy the PDF file to the given path",
         ),
     ] = None,
     markdown_path: Annotated[
@@ -80,7 +97,7 @@ def cli_command_render(
         typer.Option(
             "--markdown-path",
             "-md",
-            help="Copy the Markdown file to the given path.",
+            help="Copy the Markdown file to the given path",
         ),
     ] = None,
     html_path: Annotated[
@@ -88,7 +105,7 @@ def cli_command_render(
         typer.Option(
             "--html-path",
             "-html",
-            help="Copy the HTML file to the given path.",
+            help="Copy the HTML file to the given path",
         ),
     ] = None,
     png_path: Annotated[
@@ -96,7 +113,7 @@ def cli_command_render(
         typer.Option(
             "--png-path",
             "-png",
-            help="Copy the PNG file to the given path.",
+            help="Copy the PNG file to the given path",
         ),
     ] = None,
     dont_generate_markdown: Annotated[
@@ -104,7 +121,7 @@ def cli_command_render(
         typer.Option(
             "--dont-generate-markdown",
             "-nomd",
-            help="Don't generate the Markdown and HTML file.",
+            help="Don't generate the Markdown and HTML file",
         ),
     ] = False,
     dont_generate_html: Annotated[
@@ -112,7 +129,7 @@ def cli_command_render(
         typer.Option(
             "--dont-generate-html",
             "-nohtml",
-            help="Don't generate the HTML file.",
+            help="Don't generate the HTML file",
         ),
     ] = False,
     dont_generate_png: Annotated[
@@ -120,7 +137,15 @@ def cli_command_render(
         typer.Option(
             "--dont-generate-png",
             "-nopng",
-            help="Don't generate the PNG file.",
+            help="Don't generate the PNG file",
+        ),
+    ] = False,
+    watch: Annotated[
+        bool,
+        typer.Option(
+            "--watch",
+            "-w",
+            help="Automatically re-run RenderCV when the input file is updated",
         ),
     ] = False,
     # This is a dummy argument for the help message for
@@ -133,156 +158,44 @@ def cli_command_render(
             ' [cyan bold]--cv.phone "123-456-7890"[/cyan bold].',
         ),
     ] = None,
-    extra_data_model_override_argumets: typer.Context = None,  # type: ignore
+    extra_data_model_override_arguments: typer.Context = None,  # type: ignore
 ):
     """Render a CV from a YAML input file."""
     printer.welcome()
-
-    input_file_path: pathlib.Path = pathlib.Path(input_file_name).absolute()
     original_working_directory = pathlib.Path.cwd()
+    input_file_path = pathlib.Path(input_file_name).absolute()
 
-    input_file_as_a_dict = data.read_a_yaml_file(input_file_path)
+    from . import utilities as u
 
-    # Update the input file if there are extra override arguments (for example,
-    # --cv.phone "123-456-7890"):
-    if extra_data_model_override_argumets:
-        key_and_values = utilities.parse_render_command_override_arguments(
-            extra_data_model_override_argumets
-        )
-        input_file_as_a_dict = utilities.set_or_update_values(
-            input_file_as_a_dict, key_and_values
-        )
+    argument_names = list(u.get_default_render_command_cli_arguments().keys())
+    argument_names.remove("_")
+    argument_names.remove("extra_data_model_override_arguments")
+    # This is where the user input is accessed and stored:
+    variables = copy.copy(locals())
+    cli_render_arguments = {name: variables[name] for name in argument_names}
 
-    # If non-default CLI arguments are provided, override the `rendercv_settings.render_command`:
-    cli_render_arguments = {
-        "use_local_latex_command": use_local_latex_command,
-        "output_folder_name": output_folder_name,
-        "latex_path": latex_path,
-        "pdf_path": pdf_path,
-        "markdown_path": markdown_path,
-        "html_path": html_path,
-        "png_path": png_path,
-        "dont_generate_png": dont_generate_png,
-        "dont_generate_markdown": dont_generate_markdown,
-        "dont_generate_html": dont_generate_html,
-    }
-    input_file_as_a_dict = utilities.update_render_command_settings_of_the_input_file(
-        input_file_as_a_dict, cli_render_arguments
+    input_file_as_a_dict = u.read_and_construct_the_input(
+        input_file_path, cli_render_arguments, extra_data_model_override_arguments
     )
-    render_command_settings_dict = input_file_as_a_dict["rendercv_settings"][
-        "render_command"
-    ]
 
-    # Compute the number of steps
-    # 1. Validate the input file.
-    # 2. Create the LaTeX file.
-    # 3. Render PDF from LaTeX.
-    # 4. Render PNGs from PDF.
-    # 5. Create the Markdown file.
-    # 6. Render HTML from Markdown.
-    number_of_steps = 6
-    if render_command_settings_dict["dont_generate_png"]:
-        number_of_steps -= 1
+    watch = input_file_as_a_dict["rendercv_settings"]["render_command"]["watch"]
 
-    if render_command_settings_dict["dont_generate_markdown"]:
-        number_of_steps -= 2
+    if watch:
+
+        @printer.handle_and_print_raised_exceptions_without_exit
+        def run_rendercv():
+            input_file_as_a_dict = u.update_render_command_settings_of_the_input_file(
+                data.read_a_yaml_file(input_file_path), cli_render_arguments
+            )
+            u.run_rendercv_with_printer(
+                input_file_as_a_dict, original_working_directory, input_file_path
+            )
+
+        u.run_a_function_if_a_file_changes(input_file_path, run_rendercv)
     else:
-        if render_command_settings_dict["dont_generate_html"]:
-            number_of_steps -= 1
-
-    with printer.LiveProgressReporter(number_of_steps=number_of_steps) as progress:
-        progress.start_a_step("Validating the input file")
-
-        data_model = data.validate_input_dictionary_and_return_the_data_model(
-            input_file_as_a_dict
+        u.run_rendercv_with_printer(
+            input_file_as_a_dict, original_working_directory, input_file_path
         )
-
-        render_command_settings: data.models.RenderCommandSettings = (
-            data_model.rendercv_settings.render_command  # type: ignore
-        )  # type: ignore
-        output_directory = (
-            original_working_directory / render_command_settings.output_folder_name  # type: ignore
-        )
-
-        progress.finish_the_current_step()
-
-        # Change the current working directory to the input file's directory (because
-        # the template overrides are looked up in the current working directory). The
-        # output files will be in the original working directory.
-        os.chdir(input_file_path.parent)
-
-        progress.start_a_step("Generating the LaTeX file")
-
-        latex_file_path_in_output_folder = (
-            renderer.create_a_latex_file_and_copy_theme_files(
-                data_model, output_directory
-            )
-        )
-        if render_command_settings.latex_path:
-            utilities.copy_files(
-                latex_file_path_in_output_folder,
-                render_command_settings.latex_path,
-            )
-
-        progress.finish_the_current_step()
-
-        progress.start_a_step("Rendering the LaTeX file to a PDF")
-
-        pdf_file_path_in_output_folder = renderer.render_a_pdf_from_latex(
-            latex_file_path_in_output_folder,
-            render_command_settings.use_local_latex_command,
-        )
-        if render_command_settings.pdf_path:
-            utilities.copy_files(
-                pdf_file_path_in_output_folder,
-                render_command_settings.pdf_path,
-            )
-
-        progress.finish_the_current_step()
-
-        if not render_command_settings.dont_generate_png:
-            progress.start_a_step("Rendering PNG files from the PDF")
-
-            png_file_paths_in_output_folder = renderer.render_pngs_from_pdf(
-                pdf_file_path_in_output_folder
-            )
-            if render_command_settings.png_path:
-                utilities.copy_files(
-                    png_file_paths_in_output_folder,
-                    render_command_settings.png_path,
-                )
-
-            progress.finish_the_current_step()
-
-        if not render_command_settings.dont_generate_markdown:
-            progress.start_a_step("Generating the Markdown file")
-
-            markdown_file_path_in_output_folder = renderer.create_a_markdown_file(
-                data_model, output_directory
-            )
-            if render_command_settings.markdown_path:
-                utilities.copy_files(
-                    markdown_file_path_in_output_folder,
-                    render_command_settings.markdown_path,
-                )
-
-            progress.finish_the_current_step()
-
-            if not render_command_settings.dont_generate_html:
-                progress.start_a_step(
-                    "Rendering the Markdown file to a HTML (for Grammarly)"
-                )
-
-                html_file_path_in_output_folder = renderer.render_an_html_from_markdown(
-                    markdown_file_path_in_output_folder
-                )
-                if render_command_settings.html_path:
-                    utilities.copy_files(
-                        html_file_path_in_output_folder,
-                        render_command_settings.html_path,
-                    )
-
-                progress.finish_the_current_step()
 
 
 @app.command(
@@ -293,13 +206,13 @@ def cli_command_render(
     ),
 )
 def cli_command_new(
-    full_name: Annotated[str, typer.Argument(help="Your full name.")],
+    full_name: Annotated[str, typer.Argument(help="Your full name")],
     theme: Annotated[
         str,
         typer.Option(
             help=(
-                "The name of the theme. Available themes are:"
-                f" {', '.join(data.available_themes)}."
+                "The name of the theme (available themes are:"
+                f" {', '.join(data.available_themes)})"
             )
         ),
     ] = "classic",
@@ -307,8 +220,8 @@ def cli_command_new(
         bool,
         typer.Option(
             "--dont-create-theme-source-files",
-            "-nolatex",
-            help="Don't create theme source files.",
+            "-notypst",
+            help="Don't create theme source files",
         ),
     ] = False,
     dont_create_markdown_source_files: Annotated[
@@ -316,11 +229,11 @@ def cli_command_new(
         typer.Option(
             "--dont-create-markdown-source-files",
             "-nomd",
-            help="Don't create the Markdown source files.",
+            help="Don't create the Markdown source files",
         ),
     ] = False,
 ):
-    """Generate a YAML input file and the LaTeX and Markdown source files."""
+    """Generate a YAML input file and the Typst and Markdown source files"""
     created_files_and_folders = []
 
     input_file_name = f"{full_name.replace(' ', '_')}_CV.yaml"
@@ -329,7 +242,7 @@ def cli_command_new(
     if input_file_path.exists():
         printer.warning(
             f'The input file "{input_file_name}" already exists! A new input file is'
-            " not created."
+            " not created"
         )
     else:
         try:
@@ -349,7 +262,7 @@ def cli_command_new(
         else:
             printer.warning(
                 f'The theme folder "{theme}" already exists! The theme files are not'
-                " created."
+                " created"
             )
 
     if not dont_create_markdown_source_files:
@@ -360,7 +273,7 @@ def cli_command_new(
         else:
             printer.warning(
                 'The "markdown" folder already exists! The Markdown files are not'
-                " created."
+                " created"
             )
 
     if len(created_files_and_folders) > 0:
@@ -382,23 +295,23 @@ def cli_command_new(
 def cli_command_create_theme(
     theme_name: Annotated[
         str,
-        typer.Argument(help="The name of the new theme."),
+        typer.Argument(help="The name of the new theme"),
     ],
     based_on: Annotated[
         str,
         typer.Option(
             help=(
-                "The name of the existing theme to base the new theme on. Available"
-                f" themes are: {', '.join(data.available_themes)}."
+                "The name of the existing theme to base the new theme on (available"
+                f" themes are: {', '.join(data.available_themes)})"
             )
         ),
     ] = "classic",
 ):
-    """Create a custom theme based on an existing theme."""
+    """Create a custom theme based on an existing theme"""
     if based_on not in data.available_themes:
         printer.error(
             f'The theme "{based_on}" is not in the list of available themes:'
-            f' {", ".join(data.available_themes)}'
+            f" {', '.join(data.available_themes)}"
         )
 
     theme_folder = utilities.copy_templates(
@@ -408,7 +321,7 @@ def cli_command_create_theme(
     if theme_folder is None:
         printer.warning(
             f'The theme folder "{theme_name}" already exists! The theme files are not'
-            " created."
+            " created"
         )
         return
 
@@ -434,7 +347,7 @@ def cli_command_create_theme(
 @app.callback()
 def cli_command_no_args(
     version_requested: Annotated[
-        Optional[bool], typer.Option("--version", "-v", help="Show the version.")
+        Optional[bool], typer.Option("--version", "-v", help="Show the version")
     ] = None,
 ):
     if version_requested:

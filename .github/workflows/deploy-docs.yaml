@@ -3,7 +3,8 @@ name: Deploy the documentation
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
+    branches:
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -28,13 +29,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-      
       - name: Install Hatch
-        uses: pypa/hatch@install 
+        uses: pypa/hatch@install
 
       - name: Build the website
         run: |
