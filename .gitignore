@@ -184,3 +184,6 @@ rendercv_output/
 
 # Mac:
 .DS_Store
+
+# Virtual Env Created by pyenv
+.python-version
