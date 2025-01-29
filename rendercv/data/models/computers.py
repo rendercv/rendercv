@@ -105,26 +105,30 @@ def replace_placeholders(value: str) -> str:
     full_month_names = locale["full_names_of_months"]
     short_month_names = locale["abbreviations_for_months"]
 
-    month = get_date_input().month
-    year = str(get_date_input().year)
+    date_input = get_date_input()
+    month = date_input.month
+    year = str(date_input.year)
 
-    placeholders = {
-        "NAME_IN_SNAKE_CASE": name.replace(" ", "_"),
-        "NAME_IN_LOWER_SNAKE_CASE": name.replace(" ", "_").lower(),
-        "NAME_IN_UPPER_SNAKE_CASE": name.replace(" ", "_").upper(),
-        "NAME_IN_KEBAB_CASE": name.replace(" ", "-"),
-        "NAME_IN_LOWER_KEBAB_CASE": name.replace(" ", "-").lower(),
-        "NAME_IN_UPPER_KEBAB_CASE": name.replace(" ", "-").upper(),
-        "FULL_MONTH_NAME": full_month_names[month - 1],
-        "MONTH_ABBREVIATION": short_month_names[month - 1],
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "YEAR_IN_TWO_DIGITS": str(year[-2:]),
-        "NAME": name,
-        "YEAR": str(year),
-        "MONTH": str(month),
-    }
+    name_snake_case = name.replace(" ", "_")
+    name_kebab_case = name.replace(" ", "-")
 
-    for placeholder, placeholder_value in placeholders.items():
+    placeholders = (
+        ("NAME_IN_SNAKE_CASE", name_snake_case),
+        ("NAME_IN_LOWER_SNAKE_CASE", name_snake_case.lower()),
+        ("NAME_IN_UPPER_SNAKE_CASE", name_snake_case.upper()),
+        ("NAME_IN_KEBAB_CASE", name_kebab_case),
+        ("NAME_IN_LOWER_KEBAB_CASE", name_kebab_case.lower()),
+        ("NAME_IN_UPPER_KEBAB_CASE", name_kebab_case.upper()),
+        ("FULL_MONTH_NAME", full_month_names[month - 1]),
+        ("MONTH_ABBREVIATION", short_month_names[month - 1]),
+        ("MONTH_IN_TWO_DIGITS", f"{month:02d}"),
+        ("YEAR_IN_TWO_DIGITS", year[-2:]),
+        ("NAME", name),
+        ("YEAR", year),
+        ("MONTH", str(month)),
+    )
+
+    for placeholder, placeholder_value in placeholders:
         value = value.replace(placeholder, placeholder_value)
 
     return value
