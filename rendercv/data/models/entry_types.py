@@ -193,6 +193,12 @@ class OneLineEntry(RenderCVBaseModelWithExtraKeys):
         title="Details",
         description="The details of the OneLineEntry.",
     )
+    
+    tags: Optional[list[str]] = pydantic.Field(
+        default=None,
+        title="Tags",
+        description="The tags of the OneLineEntry.",
+    )
 
     def make_keywords_bold(self, keywords: list[str]) -> "OneLineEntry":
         """Make the given keywords bold in the `details` field.
@@ -213,6 +219,12 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys):
     bullet: str = pydantic.Field(
         title="Bullet",
         description="The bullet of the BulletEntry.",
+    )
+    
+    tags: Optional[list[str]] = pydantic.Field(
+        default=None,
+        title="Tags",
+        description="The tags of the BulletEntry.",
     )
 
     def make_keywords_bold(self, keywords: list[str]) -> "BulletEntry":
@@ -367,6 +379,12 @@ class EntryBase(EntryWithDate):
         title="Summary",
         description="The summary of the event.",
         examples=["Did this and that."],
+    )
+    
+    tags: Optional[list[str]] = pydantic.Field(
+        default=None,
+        title="Tags",
+        description="The tags of the entry.",
     )
 
     @pydantic.model_validator(mode="after")  # type: ignore

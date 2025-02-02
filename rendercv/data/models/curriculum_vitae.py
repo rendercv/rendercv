@@ -12,7 +12,8 @@ import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from . import computers, entry_types
-from .base import RenderCVBaseModelWithExtraKeys, RenderCVBaseModelWithoutExtraKeys
+from .base import (RenderCVBaseModelWithExtraKeys,
+                   RenderCVBaseModelWithoutExtraKeys)
 
 # ======================================================================================
 # Create validator functions: ==========================================================
@@ -74,6 +75,7 @@ def create_a_section_validator(entry_type: type) -> type[SectionBase]:
         model_name,
         entry_type=(Literal[entry_type_name], ...),  # type: ignore
         entries=(list[entry_type], ...),
+        tags=(Optional[list[str]], None),
         __base__=SectionBase,
     )
 

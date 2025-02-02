@@ -93,10 +93,17 @@ cv:
           - Samwise Gamgee
         doi: 10.1109/TASC.2023.3340648
         date: 2004-01
+        tags:
+          - superconducting magnets
+          - finite element analysis
+          - no-insulation coils
     extracurricular_activities:
       - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*,
           *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*,
           *PublicationEntry*, and *OneLineEntry*.'
+        tags:
+          - RenderCV
+          - entry types
       - bullet: Each entry type has a different structure and
           layout. This document demonstrates all of them.
 design:
