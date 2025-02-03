@@ -5,7 +5,6 @@ the time span between two dates, the date string, the URL of a social network, e
 """
 
 import pathlib
-import re
 from datetime import date as Date
 from typing import Optional
 
@@ -351,26 +350,22 @@ def get_date_object(date: str | int) -> Date:
         The parsed date.
     """
     if isinstance(date, int):
-        date_object = Date.fromisoformat(f"{date}-01-01")
-    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
-        # Then it is in YYYY-MM-DD format
-        date_object = Date.fromisoformat(date)
-    elif re.fullmatch(r"\d{4}-\d{2}", date):
-        # Then it is in YYYY-MM format
-        date_object = Date.fromisoformat(f"{date}-01")
-    elif re.fullmatch(r"\d{4}", date):
-        # Then it is in YYYY format
-        date_object = Date.fromisoformat(f"{date}-01-01")
-    elif date == "present":
-        date_object = get_date_input()
-    else:
-        message = (
-            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
-            " YYYY format."
-        )
-        raise ValueError(message)
+        return Date.fromisoformat(f"{date}-01-01")
 
-    return date_object
+    if date == "present":
+        return get_date_input()
+
+    length = len(date)
+    if length == 10 and date[4] == "-" and date[7] == "-":
+        return Date.fromisoformat(date)  # YYYY-MM-DD format
+    if length == 7 and date[4] == "-":
+        return Date.fromisoformat(f"{date}-01")  # YYYY-MM format
+    if length == 4 and date.isdigit():
+        return Date.fromisoformat(f"{date}-01-01")  # YYYY format
+    raise ValueError(
+        "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
+        " format."
+    )
 
 
 def dictionary_key_to_proper_section_title(key: str) -> str:
