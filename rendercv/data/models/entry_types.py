@@ -294,6 +294,11 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
         title="Journal",
         description="The journal or conference name.",
     )
+    tags: Optional[list[str]] = pydantic.Field(
+        default=None,
+        title="Tags",
+        description="The tags of the publication.",
+    )
 
     @pydantic.model_validator(mode="after")  # type: ignore
     def ignore_url_if_doi_is_given(self) -> "PublicationEntryBase":

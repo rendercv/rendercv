@@ -574,6 +574,21 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 sections.append(section)
 
         return sections
+    
+    @functools.cached_property
+    def all_tags(self) -> set[str]:
+        """Return a set of all unique tags used across all entries in the CV.
+
+        Returns:
+            set[str]: All set containing all unique tags found in any entry in the CV.
+        """
+        tags = set()
+        if self.sections_input is not None:
+            for section in self.sections_input.values():
+                for entry in section:
+                    if hasattr(entry, "tags") and entry.tags is not None:
+                        tags.update(entry.tags)
+        return tags
 
 
 # The dictionary below will be overwritten by CurriculumVitae class, which will contain
