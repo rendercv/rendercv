@@ -272,6 +272,33 @@ def validate_a_social_network_username(username: str, network: str) -> str:
 
     return username
 
+def filter_section_by_tags(
+    section_input: list[entry_types.Entry],
+    filter_tags: list[str],
+) -> list[entry_types.Entry]:
+    """Filter the entries of a section based on the tags.
+
+    Args:
+        section_input: The section input to filter.
+        filter_tags: The tags to filter the section input.
+    Returns:
+        The filtered section input.
+    """
+    if not filter_tags:
+        return section_input
+    
+    filtered_section = []
+    for entry in section_input:
+        if isinstance(entry, str):
+            # default entry type is TextEntry
+            filtered_section.append(entry)
+            continue
+        entry_tags = getattr(entry, "tags", [])
+        if any(tag in entry_tags for tag in filter_tags):
+            filtered_section.append(entry)
+    return filtered_section
+        
+            
 
 # ======================================================================================
 # Create custom types: =================================================================
@@ -574,21 +601,6 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 sections.append(section)
 
         return sections
-    
-    @functools.cached_property
-    def all_tags(self) -> set[str]:
-        """Return a set of all unique tags used across all entries in the CV.
-
-        Returns:
-            set[str]: All set containing all unique tags found in any entry in the CV.
-        """
-        tags = set()
-        if self.sections_input is not None:
-            for section in self.sections_input.values():
-                for entry in section:
-                    if hasattr(entry, "tags") and entry.tags is not None:
-                        tags.update(entry.tags)
-        return tags
 
 
 # The dictionary below will be overwritten by CurriculumVitae class, which will contain
