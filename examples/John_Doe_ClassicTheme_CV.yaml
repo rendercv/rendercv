@@ -23,6 +23,7 @@ cv:
         location: Stanford, CA, USA
         start_date: 2023-09
         end_date: present
+        tags: [Machine Learning, Robotics]
         highlights:
           - Working on the optimization of autonomous vehicles
             in urban environments
@@ -41,6 +42,7 @@ cv:
         location: Livingston, LA, USA
         start_date: 2024-06
         end_date: 2024-09
+        tags: [Deep Learning, Gravitational Waves]
         highlights:
           - Developed deep learning models for the detection of
             gravitational waves in LIGO data
@@ -51,6 +53,7 @@ cv:
         location: Ankara, Türkiye
         start_date: 2023-06
         end_date: 2023-09
+        tags: [Optimization, Scheduling]
         highlights:
           - Optimized the production line by 15% by implementing
             a new scheduling algorithm
@@ -59,6 +62,7 @@ cv:
         location: Istanbul, Türkiye
         start_date: 2022-06
         end_date: 2022-09
+        tags: [Web Development, Inventory Management]
         highlights:
           - Designed an inventory management web application for
             a warehouse
@@ -66,6 +70,7 @@ cv:
       - name: '[Example Project](https://example.com)'
         start_date: 2024-05
         end_date: present
+        tags: [iOS, Open Source]
         highlights:
           - Launched an [iOS app](https://example.com) in 09/2024
             that currently has 10k+ monthly active users
@@ -73,17 +78,21 @@ cv:
         summary: A web application for writing essays
       - name: '[Teaching on Udemy](https://example.com)'
         date: Fall 2023
+        tags: [Statics, Online Education]
         highlights:
           - Instructed the "Statics" course on Udemy (60,000+
             students, 200,000+ hours watched)
     skills:
       - label: Programming
+        tags: [Python, C++, Git]
         details: Proficient with Python, C++, and Git; good understanding
           of Web, app development, and DevOps
       - label: Mathematics
+        tags: [Differential Equations, Calculus, Linear Algebra]
         details: Good understanding of differential equations,
           calculus, and linear algebra
       - label: Languages
+        tags: [English, Turkish]
         details: 'English (fluent, TOEFL: 118/120), Turkish (native)'
     publications:
       - title: 3D Finite Element Analysis of No-Insulation Coils

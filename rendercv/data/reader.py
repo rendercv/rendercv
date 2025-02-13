@@ -263,13 +263,6 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
     if yaml_as_a_dictionary is None:
         message = "The input file is empty!"
         raise ValueError(message)
-    
-    # if there is an entry type of BulletEntry, then print the tags if present in the bullet entry
-    sections = yaml_as_a_dictionary.get("cv", {}).get("sections", {})
-    for section in sections.values():
-        for entry in section:
-            if isinstance(entry, dict): 
-                print(entry.get("tags", []))
         
     return yaml_as_a_dictionary
 
