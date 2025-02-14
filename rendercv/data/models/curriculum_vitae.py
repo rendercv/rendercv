@@ -75,7 +75,6 @@ def create_a_section_validator(entry_type: type) -> type[SectionBase]:
         model_name,
         entry_type=(Literal[entry_type_name], ...),  # type: ignore
         entries=(list[entry_type], ...),
-        tags=(Optional[list[str]], None),
         __base__=SectionBase,
     )
 
@@ -272,32 +271,6 @@ def validate_a_social_network_username(username: str, network: str) -> str:
 
     return username
 
-def filter_section_by_tags(
-    section_input: list[entry_types.Entry],
-    filter_tags: list[str],
-) -> list[entry_types.Entry]:
-    """Filter the entries of a section based on the tags.
-
-    Args:
-        section_input: The section input to filter.
-        filter_tags: The tags to filter the section input.
-    Returns:
-        The filtered section input.
-    """
-    if not filter_tags:
-        return section_input
-    
-    filtered_section = []
-    for entry in section_input:
-        if isinstance(entry, str):
-            # default entry type is TextEntry
-            filtered_section.append(entry)
-            continue
-        entry_tags = getattr(entry, "tags", [])
-        if any(tag in entry_tags for tag in filter_tags):
-            filtered_section.append(entry)
-    return filtered_section
-        
             
 
 # ======================================================================================
