@@ -6,13 +6,53 @@ Pydantic data model of RenderCV's data format.
 
 import pathlib
 import re
-from typing import Optional
+from typing import Optional, Sequence
 
 import pydantic
 
 from . import models
 from .models import entry_types
 
+
+def filter_entry_types(
+    entries: Sequence[entry_types.Entry], 
+    include: Optional[list[str]] = None,
+    exclude: Optional[list[str]] = None,
+    ) -> list[entry_types.Entry]:
+    """Filter the list of EntryType objects based on the given list of entry types.
+
+    Args:
+        list[EntryType]: The list of EntryType objects.
+        list[str]: The list of entry types to keep.
+
+    Returns:
+        The filtered list of EntryType objects.
+    """
+    # If both include and exclude are empty, return the entries as is
+    if not include and not exclude:
+        return list(entries)
+    
+    include_entries = []
+    for entry in entries:
+        if hasattr(entry, 'tags'):
+            entry_tags = entry.tags or []
+            # Check include condition if any tag that is present in the entry is in the
+            # include list
+            if include and any(tag in include for tag in entry_tags):
+                include_entries.append(entry)
+            # Check exclude condition if any tag that is present in the entry is in the
+            # exclude list
+            elif exclude and any(tag in exclude for tag in entry_tags):
+                continue
+            # There is a tags present that is not included by the include nor excluded
+            # by the exclude
+            else:
+                continue
+        else:
+            include_entries.append(entry)
+            
+    return include_entries
+        
 
 def make_given_keywords_bold_in_sections(
     sections_input: models.Sections, keywords: list[str]
@@ -287,6 +327,32 @@ def validate_input_dictionary_and_return_the_data_model(
     data_model = models.RenderCVDataModel.model_validate(
         input_dictionary, context=context
     )
+    
+    # filtering the entries based on the include and exclude fields in the versions
+    # field
+    if data_model.versions:
+        for version in data_model.versions:
+            version.include = version.include or []
+            version.exclude = version.exclude or []
+            keys_to_remove = []
+            if data_model.cv.sections_input:
+                # print the section key and the number of entries in it
+                for item in data_model.cv.sections_input.items():
+                    key = item[0]
+                    entries = data_model.cv.sections_input[key]
+                    filtered_entries = filter_entry_types(
+                        entries, version.include, version.exclude
+                    )
+                    # if the filtered_entries is empty, remove the key from the section else update the section
+                    if not filtered_entries:
+                        keys_to_remove.append(key)
+                    else:
+                        data_model.cv.sections_input[key] = filtered_entries
+                        
+                # remove the keys that have no entries in them
+                for key in keys_to_remove:
+                    data_model.cv.sections_input.pop(key)
+            
 
     # If the `bold_keywords` field is provided in the `rendercv_settings`, make the
     # given keywords bold in the `cv.sections` field:

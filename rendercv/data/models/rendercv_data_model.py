@@ -14,6 +14,7 @@ from .curriculum_vitae import CurriculumVitae
 from .design import RenderCVDesign
 from .locale import Locale
 from .rendercv_settings import RenderCVSettings
+from .versions import Versions
 
 INPUT_FILE_DIRECTORY: Optional[pathlib.Path] = None
 
@@ -47,6 +48,13 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
         title="RenderCV Settings",
         description="The settings of the RenderCV.",
     )
+    
+    versions: Optional[list[Versions]] = pydantic.Field(
+        default=None,
+        title="Versions",
+        description="The versions of the CV.",
+    )
+    
 
     @pydantic.model_validator(mode="before")
     @classmethod

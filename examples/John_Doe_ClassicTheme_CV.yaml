@@ -32,6 +32,7 @@ cv:
         degree: BS
         location: Istanbul, Türkiye
         start_date: 2018-09
+        tags: [Artificial Intelligence, Data Science]
         end_date: 2022-06
         highlights:
           - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
@@ -240,3 +241,9 @@ locale:
 rendercv_settings:
   date: '2025-01-07'
   bold_keywords: []
+versions:
+  - name: devops
+    include: ["no-insulation coils", experience, skills]
+  - name: academic
+    include: [education, experience, projects, publications]
+    exclude: [skills, extracurricular_activities]
