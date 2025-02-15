@@ -486,6 +486,41 @@ def read_and_construct_the_input(
         The input of the user as a dictionary.
     """
     input_file_as_a_dict = data.read_a_yaml_file(input_file_path)
+    
+    version = cli_render_arguments.get("version", None)
+    
+    if version:
+        available_version_in_input_file = input_file_as_a_dict.get("versions", [])
+        if version not in [v["name"] for v in available_version_in_input_file]:
+            raise ValueError(f"Version '{version}' is not defined in the input file.")
+        
+        # Assign the value of the version that is 
+        # defined in the cv and remove other versions
+        for available_version in available_version_in_input_file:
+            if available_version["name"] == version:
+                input_file_as_a_dict["versions"] = [available_version]
+                break
+    else:
+        # Check if version information is provided in the rendercv settings
+        version = input_file_as_a_dict.get("rendercv_settings", {}).get("version", None)
+        if version:
+            available_version_in_input_file = input_file_as_a_dict.get("versions", [])
+            if version not in [v["name"] for v in available_version_in_input_file]:
+                raise ValueError(
+                    f"Version '{version}' is not defined in the input file."
+                )
+            
+            # Assign the value of the version that is
+            # defined in the cv and remove other versions
+            for available_version in available_version_in_input_file:
+                if available_version["name"] == version:
+                    input_file_as_a_dict["versions"] = [available_version]
+                    break
+        else:
+            # If no version is provided in the cli or input file 
+            # remove the versions dictionary
+            if "versions" in input_file_as_a_dict:
+                del input_file_as_a_dict["versions"]
 
     # Read individual `design`, `locale`, etc. files if they are provided in the
     # input file:

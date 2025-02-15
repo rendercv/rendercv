@@ -44,6 +44,14 @@ app = typer.Typer(
 @printer.handle_and_print_raised_exceptions
 def cli_command_render(
     input_file_name: Annotated[str, typer.Argument(help="The YAML input file.")],
+    version: Annotated[
+        Optional[str],
+        typer.Option(
+            "--version",
+            "-v",
+            help="Specify the version of the CV to render.",
+        )  
+    ] = None,
     design: Annotated[
         Optional[str],
         typer.Option(

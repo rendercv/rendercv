@@ -40,6 +40,15 @@ DATE_INPUT = datetime.date.today()
 class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of the `render` command's settings."""
 
+    version: Optional[str] = pydantic.Field(
+        default=None,
+        title="Version",
+        description=(
+            "The version of the CV. If it is not provided, the version will not be"
+            " added to the output file names."
+        ),
+    )
+
     design: Optional[pathlib.Path] = pydantic.Field(
         default=None,
         title="`design` Field's YAML File",
