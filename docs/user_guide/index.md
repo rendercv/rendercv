@@ -17,7 +17,7 @@ pip install "rendercv[full]"
 To get started, navigate to the directory where you want to create your CV and run the command below to create the input files.
 
 ```bash
-rendercv new "Your Full Name"
+python -m rendercv new "Your Full Name"
 ```
 This command will create the following files:
 
