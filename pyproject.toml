@@ -84,7 +84,7 @@ full = [
     'typer==0.15.1',   # to create the command-line interface
     "markdown==3.7",   # to convert Markdown to HTML
     "watchdog==6.0.0", # to poll files for updates
-    "typst==0.12.3",   # to render PDF from Typst source files
+    "typst==0.13.0",   # to render PDF from Typst source files
     "rendercv-fonts",  # some font files for RenderCV
     "packaging==24.2", # to validate the version number
 ]
