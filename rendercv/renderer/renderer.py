@@ -318,7 +318,7 @@ def render_pngs_from_typst(
     return sorted(png_files, key=lambda x: int(x.stem.split("_")[-1]))
 
 
-def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Path:
+def render_an_html_from_markdown(markdown_file_path: pathlib.Path, rendercv_data_model: data.RenderCVDataModel) -> pathlib.Path:
     """Render an HTML file from a Markdown file with the same name and in the same
     directory. It uses `rendercv/themes/main.j2.html` as the Jinja2 template.
 
@@ -344,13 +344,9 @@ def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Pa
     markdown_text = markdown_file_path.read_text(encoding="utf-8")
     html_body = markdown.markdown(markdown_text)
 
-    # Get the title of the markdown content:
-    title = re.search(r"# (.*)\n", markdown_text)
-    title = title.group(1) if title else None
-
     jinja2_environment = templater.Jinja2Environment().environment
     html_template = jinja2_environment.get_template("main.j2.html")
-    html = html_template.render(html_body=html_body, title=title)
+    html = html_template.render(html_body=html_body, cv=rendercv_data_model.cv)
 
     # Write html into a file:
     html_file_path = markdown_file_path.parent / f"{markdown_file_path.stem}.html"

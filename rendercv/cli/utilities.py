@@ -405,7 +405,8 @@ def run_rendercv_with_printer(
                 )
 
                 html_file_path_in_output_folder = renderer.render_an_html_from_markdown(
-                    markdown_file_path_in_output_folder
+                    markdown_file_path_in_output_folder,
+                    data_model
                 )
                 if render_command_settings.html_path:
                     copy_files(
