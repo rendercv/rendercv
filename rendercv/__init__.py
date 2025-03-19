@@ -41,7 +41,7 @@ __all__ = [
     "read_a_yaml_string_and_return_a_data_model",
 ]
 
-_parial_install_error_message = (
+_partial_install_error_message = (
     "It seems you have a partial installation of RenderCV, so this feature is"
     " unavailable. To enable full functionality, run:\n\npip install"
     ' "rendercv[full]"`'

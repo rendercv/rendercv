@@ -240,9 +240,9 @@ class TypstCompiler:
                 import rendercv_fonts
                 import typst
             except Exception as e:
-                from .. import _parial_install_error_message
+                from .. import _partial_install_error_message
 
-                raise ImportError(_parial_install_error_message) from e
+                raise ImportError(_partial_install_error_message) from e
 
             cls.instance = super().__new__(cls)
             cls.instance.file_path = file_path
@@ -331,9 +331,9 @@ def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Pa
     try:
         import markdown
     except Exception as e:
-        from .. import _parial_install_error_message
+        from .. import _partial_install_error_message
 
-        raise ImportError(_parial_install_error_message) from e
+        raise ImportError(_partial_install_error_message) from e
 
     # check if the file exists:
     if not markdown_file_path.is_file():
