@@ -1,0 +1,164 @@
+cv:
+  name: JAMES IMODOI EPALE
+  location: Nairobi, Kenya
+  email: Ijepale@gmail.com
+  phone: tel:+254743854888
+  social_networks:
+    - network: LinkedIn
+      username: jamesepale
+    - network: GitHub
+      username: imodoiepale
+
+  sections:
+    summary:
+      - I am a results-driven Software Developer with 5+ years of experience specializing in web development, machine learning, e-commerce solutions, and custom business software. With a proven track record of increasing efficiency by 40% through innovative Ideas and AI implementations, and reducing security vulnerabilities by 30%. Skilled in delivering scalable solutions that drive business growth and enhance user experiences.
+
+    skills:
+      - label: Programming Languages
+        details: JavaScript, Java, Python, VB, .NET, C++, C#
+      - label: Web Development
+        details: HTML, CSS, JavaScript, React, Node.js, Vue.js, Angular, WordPress
+      - label: Machine Learning & AI
+        details: TensorFlow, PyTorch, Supervised/Unsupervised Learning, Deep Learning
+      - label: Database Management
+        details: MySQL, PostgreSQL, Supabase, Firebase, Prisma
+      - label: Cloud Computing
+        details: AWS, Google Firebase
+      - label: Frontend Frameworks
+        details: React, Vue.js, Angular
+      - label: Other Tools
+        details: Git, JIRA, Trello, Figma
+
+    experience:
+      - company: HADEAZY DIGITAL SOLUTIONS
+        position: CTO
+        location: Nairobi
+        start_date: 2023-06
+        end_date: present
+        highlights:
+          - Spearheading development of scalable web solutions, resulting in 50% faster load times
+          - Implementing AI-driven recommender systems, increasing user engagement by 35%
+          - Managing end-to-end software development lifecycle for 10+ projects simultaneously
+          - Mentoring a team of 8 developers, improving code quality and reducing bugs by 40%
+          - Designing custom e-commerce platforms, boosting client conversion rates by 25%
+          - Optimizing database queries, reducing response times by 60% for high-traffic applications
+
+      - company: Booksmart Consultancy Limited
+        position: Finance Software Engineer
+        location: Nairobi
+        start_date: 2023-09
+        end_date: present
+        highlights:
+          - Developing AI-powered accounting software, increasing client efficiency by 40%
+          - Implementing machine learning algorithms for fraud detection, reducing false positives by 60%
+          - Collaborating with data scientists to improve model accuracy, achieving 95% prediction rate
+          - Designing bespoke auditing solutions, streamlining processes and saving 200+ hours annually
+          - Optimizing security protocols, resulting in 30% decrease in vulnerability incidents
+          - Leading cross-functional team of 5 developers, delivering 10 major software updates on time
+          - Automating 15 key business processes, reducing manual workload by 70%
+
+      - company: Web Age Technologies
+        position: Web Developer
+        location: Nairobi
+        start_date: 2022-04
+        end_date: 2023-06
+        highlights:
+          - Developed 20+ responsive websites using WordPress and custom solutions
+          - Improved website performance by 45% through frontend optimizations
+          - Implemented e-commerce functionality for 5 clients, increasing their online sales by 30%
+          - Conducted code reviews for team of 3 junior developers, reducing bugs by 50%
+          - Integrated payment gateways and CRM systems, enhancing user experience for 100,000+ monthly active users
+
+      - company: Freelance
+        position: Software Developer
+        location: Nairobi
+        start_date: 2020-04
+        end_date: present
+        highlights:
+          - Successfully completed over 30 Custom Website Design jobs with 98% client satisfaction rate
+          - Built a full stack school management system
+          - Developed full-stack e-commerce solution, increasing client's revenue by 40%
+          - Created custom CRM system, improving client's customer retention by 25%
+          - Optimized legacy code for 5 clients, reducing maintenance costs by 30%
+
+    education:
+      - institution: KCA University
+        area: Software Development
+        degree: BSc
+        start_date: 2021-09
+        end_date: 2024-04
+        highlights:
+          - '**Coursework:** Advanced Algorithms, Machine Learning, Cloud Computing, Software Engineering'
+          - 'GPA: 3.4/4.0'
+
+      - institution: Starehe Boys' Centre and School
+        area: KCSE
+        degree: Secondary Education
+        start_date: 2017-01
+        end_date: 2021-04
+        highlights:
+          - 'Grade: A-'
+
+design:
+  theme: sb2nov
+  font: Latin Modern Serif
+  font_size: 10pt
+  page_size: letterpaper
+  color: '#004f90'
+  margins:
+    page:
+      top: 2 cm
+      bottom: 2 cm
+      left: 2 cm
+      right: 2 cm
+    section_title:
+      top: 0.3 cm
+      bottom: 0.2 cm
+    entry_area:
+      left_and_right: 0.2 cm
+      vertical_between: 0.2 cm
+      date_and_location_width: 4.5 cm
+    highlights_area:
+      top: 0.10 cm
+      left: 0.4 cm
+      vertical_between_bullet_points: 0.10 cm
+    header:
+      vertical_between_name_and_connections: 0.3 cm
+      bottom: 0.3 cm
+      horizontal_between_connections: 0.5 cm
+
+locale_catalog:
+  phone_number_format: national 
+  date_style: "MONTH_ABBREVIATION YEAR" 
+  abbreviations_for_months:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  full_names_of_months:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: to

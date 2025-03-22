@@ -1,0 +1,9 @@
+fastapi==0.104.1
+uvicorn==0.24.0
+python-multipart==0.0.6
+ruamel.yaml==0.18.6
+rendercv==1.17
+python-jose==3.3.0
+weasyprint>=60.1
+jinja2>=3.0.0
+markdown>=3.3.0

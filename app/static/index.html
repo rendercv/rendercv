@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Generator API</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/monokai.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">CV Generator API</h1>
+            <p class="text-gray-600">Generate beautiful CVs from YAML using RenderCV</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Input Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4">Input YAML</h2>
+                <textarea id="yamlEditor" class="w-full h-96"></textarea>
+                <button id="generateBtn" class="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition-colors w-full">
+                    Generate CV
+                </button>
+            </div>
+
+            <!-- Output Section -->
+            <div class="bg-white rounded-lg shadow-lg p-6">
+                <h2 class="text-2xl font-semibold mb-4">Generated Files</h2>
+                <div id="output" class="space-y-4">
+                    <!-- PDF Preview -->
+                    <div id="pdfPreview" class="hidden">
+                        <h3 class="text-lg font-medium mb-2">PDF</h3>
+                        <a id="pdfLink" target="_blank" class="text-blue-600 hover:underline block"></a>
+                    </div>
+
+                    <!-- PNG Previews -->
+                    <div id="pngPreviews" class="hidden">
+                        <h3 class="text-lg font-medium mb-2">PNG Previews</h3>
+                        <div id="pngLinks" class="space-y-2"></div>
+                    </div>
+
+                    <!-- HTML Preview -->
+                    <div id="htmlPreview" class="hidden">
+                        <h3 class="text-lg font-medium mb-2">HTML (for Grammarly)</h3>
+                        <a id="htmlLink" target="_blank" class="text-blue-600 hover:underline block"></a>
+                    </div>
+
+                    <!-- Markdown Preview -->
+                    <div id="markdownPreview" class="hidden">
+                        <h3 class="text-lg font-medium mb-2">Markdown</h3>
+                        <a id="markdownLink" target="_blank" class="text-blue-600 hover:underline block"></a>
+                    </div>
+                </div>
+                <div id="loading" class="hidden">
+                    <div class="flex items-center justify-center space-x-2">
+                        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                        <span>Generating CV...</span>
+                    </div>
+                </div>
+                <div id="error" class="hidden text-red-600 mt-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/yaml/yaml.min.js"></script>
+    <script>
+        // Initialize CodeMirror
+        const editor = CodeMirror.fromTextArea(document.getElementById("yamlEditor"), {
+            mode: "yaml",
+            theme: "monokai",
+            lineNumbers: true,
+            lineWrapping: true,
+            tabSize: 2
+        });
+
+        // Sample YAML
+        const sampleYaml = `cv:
+  name: John Doe
+  email: john@example.com
+  phone: "+1234567890"
+  location: New York, USA
+  summary: >
+    Experienced software engineer with a passion for building scalable applications.
+  
+experience:
+  - company: Tech Corp
+    position: Senior Software Engineer
+    start: 2020
+    end: Present
+    highlights:
+      - Led development of cloud-native applications
+      - Mentored junior developers
+      - Improved system performance by 40%`;
+
+        editor.setValue(sampleYaml);
+
+        // Handle Generate Button Click
+        document.getElementById("generateBtn").addEventListener("click", async () => {
+            const yamlContent = editor.getValue();
+            const outputDiv = document.getElementById("output");
+            const loadingDiv = document.getElementById("loading");
+            const errorDiv = document.getElementById("error");
+
+            // Reset UI
+            document.getElementById("pdfPreview").classList.add("hidden");
+            document.getElementById("pngPreviews").classList.add("hidden");
+            document.getElementById("htmlPreview").classList.add("hidden");
+            document.getElementById("markdownPreview").classList.add("hidden");
+            errorDiv.classList.add("hidden");
+            loadingDiv.classList.remove("hidden");
+
+            try {
+                const response = await fetch("/generate-cv/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        yaml_content: yamlContent
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail?.error_message || "Failed to generate CV");
+                }
+
+                const data = await response.json();
+                
+                // Update UI with links
+                if (data.pdf_url) {
+                    document.getElementById("pdfPreview").classList.remove("hidden");
+                    const pdfLink = document.getElementById("pdfLink");
+                    pdfLink.href = data.pdf_url;
+                    pdfLink.textContent = "Download PDF";
+                }
+
+                if (data.png_urls && data.png_urls.length > 0) {
+                    document.getElementById("pngPreviews").classList.remove("hidden");
+                    const pngLinksDiv = document.getElementById("pngLinks");
+                    pngLinksDiv.innerHTML = data.png_urls.map((url, index) => `
+                        <a href="${url}" target="_blank" class="text-blue-600 hover:underline block">
+                            View Preview ${index + 1}
+                        </a>
+                    `).join("");
+                }
+
+                if (data.html_url) {
+                    document.getElementById("htmlPreview").classList.remove("hidden");
+                    const htmlLink = document.getElementById("htmlLink");
+                    htmlLink.href = data.html_url;
+                    htmlLink.textContent = "View HTML";
+                }
+
+                if (data.markdown_url) {
+                    document.getElementById("markdownPreview").classList.remove("hidden");
+                    const markdownLink = document.getElementById("markdownLink");
+                    markdownLink.href = data.markdown_url;
+                    markdownLink.textContent = "View Markdown";
+                }
+            } catch (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.classList.remove("hidden");
+            } finally {
+                loadingDiv.classList.add("hidden");
+            }
+        });
+    </script>
+</body>
+</html>
