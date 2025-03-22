@@ -30,7 +30,7 @@ This page lists the available commands and options of the RenderCV CLI.
     rendercv new "Full Name" --theme "THEME_NAME" 
     ```
 
-- `#!bash --dont-create-theme-source-files` or `#!bash -nolatex`
+- `#!bash --dont-create-theme-source-files` or `#!bash -notypst`
 
     Prevents the creation of the theme source files. By default, the theme source files are created.
 
@@ -65,14 +65,6 @@ This page lists the available commands and options of the RenderCV CLI.
     rendercv render "Full_Name_CV.yaml" --watch
     ```
 
-- `#!bash --use-local-latex-command "LATEX_COMMAND"` or `#!bash -use "LATEX_COMMAND"`
-
-    Generates the CV with the local $\LaTeX$ installation, i.e., runs `LATEX_COMMAND`. By default, RenderCV uses its own TinyTeX distribution.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --use-local-latex-command "pdflatex" 
-    ```
-
 - `#!bash --output-folder-name "OUTPUT_FOLDER_NAME"` or `#!bash -o "OUTPUT_FOLDER_NAME"`
 
     Generates the output files in a folder with the given name. By default, the output folder name is `rendercv_output`. The output folder will be created in the current working directory.
@@ -81,12 +73,12 @@ This page lists the available commands and options of the RenderCV CLI.
     rendercv render "Full_Name_CV.yaml" --output-folder-name "OUTPUT_FOLDER_NAME"
     ```
 
-- `#!bash --latex-path "PATH"` or `#!bash -latex "PATH"`
+- `#!bash --typst-path "PATH"` or `#!bash -typst "PATH"`
 
-    Copies the generated $\LaTeX$ source code from the output folder and pastes it to the specified path.
+    Copies the generated Typst source code from the output folder and pastes it to the specified path.
 
     ```bash
-    rendercv render "Full_Name_CV.yaml" --latex-path "PATH"
+    rendercv render "Full_Name_CV.yaml" --typst-path "PATH"
     ```
 
 - `#!bash --pdf-path "PATH"` or `#!bash -pdf "PATH"`
@@ -152,12 +144,12 @@ This page lists the available commands and options of the RenderCV CLI.
     rendercv render "Full_Name_CV.yaml" --design "design.yaml"
     ```
 
-- `#!bash --locale-catalog locale_catalog.yaml`
+- `#!bash --locale-catalog locale.yaml`
    
-    Uses the given locale catalog file for the `locale_catalog` field of the input YAML file.
+    Uses the given locale catalog file for the `locale` field of the input YAML file.
 
     ```bash
-    rendercv render "Full_Name_CV.yaml" --locale-catalog "locale_catalog.yaml"
+    rendercv render "Full_Name_CV.yaml" --locale-catalog "locale.yaml"
     ```
 
 - `#!bash --rendercv-settings rendercv_settings.yaml`

@@ -25,8 +25,6 @@ jobs:
     runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Install Hatch
         uses: pypa/hatch@install
@@ -37,7 +35,7 @@ jobs:
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
-      - name: Store coverage files
+      - name: Upload coverage as an artifact
         uses: actions/upload-artifact@v4
         with:
           include-hidden-files: true

@@ -56,6 +56,10 @@ This is done with [Development containers](https://containers.dev/), and the env
 
 These commands are defined in the [`pyproject.toml`](https://github.com/rendercv/rendercv/blob/main/pyproject.toml) file.
 
+- Build the package
+    ```bash
+    hatch run build
+    ```
 - Format the code with [Black](https://github.com/psf/black) and [Ruff](https://github.com/astral-sh/ruff)
     ```bash
     hatch run format
@@ -80,6 +84,18 @@ These commands are defined in the [`pyproject.toml`](https://github.com/rendercv
     ```bash
     hatch run test-and-report
     ```
+- Update [schema.json](https://github.com/rendercv/rendercv/blob/main/schema.json)
+    ```bash
+    hatch run update-schema
+    ```
+- Update [`examples`](https://github.com/rendercv/rendercv/tree/main/examples) folder
+    ```bash
+    hatch run update-examples
+    ```
+- Create an executable version of RenderCV with [PyInstaller](https://www.pyinstaller.org/)
+    ```bash
+    hatch run exe:creates
+    ```
 - Preview the documentation as you write it
     ```bash
     hatch run docs:serve
@@ -87,14 +103,6 @@ These commands are defined in the [`pyproject.toml`](https://github.com/rendercv
 - Build the documentation
     ```bash
     hatch run docs:build
-    ```
-- Update [schema.json](https://github.com/rendercv/rendercv/blob/main/schema.json)
-    ```bash
-    hatch run docs:update-schema
-    ```
-- Update [`examples`](https://github.com/rendercv/rendercv/tree/main/examples) folder
-    ```bash
-    hatch run docs:update-examples
     ```
 - Update figures of the entry types in the "[Structure of the YAML Input File](../user_guide/structure_of_the_yaml_input_file.md)"
     ```bash

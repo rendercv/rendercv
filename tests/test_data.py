@@ -7,7 +7,6 @@ from datetime import date as Date
 import pydantic
 import pytest
 import ruamel.yaml
-import time_machine
 
 from rendercv import data
 from rendercv.data import generator
@@ -15,7 +14,7 @@ from rendercv.data.models import (
     computers,
     curriculum_vitae,
     entry_types,
-    locale_catalog,
+    locale,
 )
 
 
@@ -26,7 +25,7 @@ from rendercv.data.models import (
         ("2020-01", Date(2020, 1, 1), None),
         ("2020", Date(2020, 1, 1), None),
         (2020, Date(2020, 1, 1), None),
-        ("present", Date(2024, 1, 1), None),
+        ("present", Date.today(), None),
         ("invalid", None, ValueError),
         ("20222", None, ValueError),
         ("202222-20200", None, ValueError),
@@ -34,7 +33,6 @@ from rendercv.data.models import (
         ("2022-20-20", None, ValueError),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_get_date_object(date, expected_date_object, expected_error):
     if expected_error:
         with pytest.raises(expected_error):
@@ -138,13 +136,14 @@ def test_generate_json_schema_file(tmp_path):
 
 
 @pytest.mark.skip(
-    reason="We should start using this when we start to use branches for each version."
+    reason=(
+        "This test doesn't work currently, due to the `rendercv_settings.date` field."
+    )
 )
 def test_if_the_schema_is_the_latest(root_directory_path):
     original_schema_file_path = root_directory_path / "schema.json"
     original_schema_text = original_schema_file_path.read_text()
     original_schema = json.loads(original_schema_text)
-
     new_schema = data.generate_json_schema()
 
     assert original_schema == new_schema
@@ -307,7 +306,6 @@ def test_if_the_schema_is_the_latest(root_directory_path):
         ("2002", "2020", "2024", "2024", "2024", ""),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_dates(
     start_date,
     end_date,
@@ -316,6 +314,7 @@ def test_dates(
     expected_date_string_only_years,
     expected_time_span,
 ):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
     entry_base = entry_types.EntryBase(
         start_date=start_date, end_date=end_date, date=date
     )
@@ -406,7 +405,7 @@ def test_invalid_social_networks(network, username):
         ("LinkedIn", "myusername", "https://linkedin.com/in/myusername"),
         ("GitHub", "myusername", "https://github.com/myusername"),
         ("Instagram", "myusername", "https://instagram.com/myusername"),
-        ("ORCID", "myusername", "https://orcid.org/myusername"),
+        ("ORCID", "0000-0000-0000-0000", "https://orcid.org/0000-0000-0000-0000"),
         ("Mastodon", "@myusername@test.org", "https://test.org/@myusername"),
         (
             "StackOverflow",
@@ -437,6 +436,11 @@ def test_invalid_social_networks(network, username):
             "Telegram",
             "myusername",
             "https://t.me/myusername",
+        ),
+        (
+            "X",
+            "myusername",
+            "https://x.com/myusername",
         ),
     ],
 )
@@ -701,9 +705,9 @@ def test_custom_theme_with_broken_init_file(tmp_path, testdata_directory_path):
         )
 
 
-def test_locale_catalog():
+def test_locale():
     data_model = data.create_a_sample_data_model("John Doe")
-    data_model.locale_catalog = data.LocaleCatalog(
+    data_model.locale = data.Locale(
         month="a",
         months="b",
         year="c",
@@ -741,25 +745,26 @@ def test_locale_catalog():
         phone_number_format="international",
     )
 
-    locale_catalog_as_dict = data_model.locale_catalog.model_dump()
-    del locale_catalog_as_dict["page_numbering_style"]
-    del locale_catalog_as_dict["last_updated_date_style"]
+    locale_as_dict = data_model.locale.model_dump()
+    del locale_as_dict["page_numbering_template"]
+    del locale_as_dict["last_updated_date_template"]
+    del locale_as_dict["language"]
 
-    assert locale_catalog_as_dict == locale_catalog.LOCALE_CATALOG
+    assert locale_as_dict == locale.locale
 
 
 def test_if_local_catalog_resets():
     data_model = data.create_a_sample_data_model("John Doe")
 
-    data_model.locale_catalog = data.LocaleCatalog(
+    data_model.locale = data.Locale(
         month="a",
     )
 
-    assert locale_catalog.LOCALE_CATALOG["month"] == "a"
+    assert locale.locale["month"] == "a"
 
     data_model = data.create_a_sample_data_model("John Doe")
 
-    assert locale_catalog.LOCALE_CATALOG["month"] == "month"
+    assert locale.locale["month"] == "month"
 
 
 def test_curriculum_vitae():
@@ -807,12 +812,6 @@ def test_create_a_sample_yaml_input_file(tmp_path):
     assert yaml_contents == input_file_path.read_text(encoding="utf-8")
 
 
-@pytest.mark.skip("We want `rendercv_settings` to be in the input file for now.")
-def test_default_input_file_doesnt_have_rendercv_settings():
-    yaml_contents = data.create_a_sample_yaml_input_file()
-    assert "rendercv_settings" not in yaml_contents
-
-
 @pytest.mark.parametrize(
     ("key", "expected_section_title"),
     [
@@ -827,9 +826,6 @@ def test_dictionary_key_to_proper_section_title(key, expected_section_title):
     assert (
         computers.dictionary_key_to_proper_section_title(key) == expected_section_title
     )
-
-
-# def test_if_available_themes_and_avaialble_theme_options_has_the_same_length():
 
 
 @pytest.mark.parametrize(
@@ -868,20 +864,137 @@ def test_make_a_url_clean(url, expected_clean_url):
         ("YEAR_IN_TWO_DIGITS", "24"),
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_render_command_settings_placeholders(path_name, expected_value):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+
     data.CurriculumVitae(name="John Doe")
 
     render_command_settings = data.RenderCommandSettings(
         pdf_path=path_name,
-        latex_path=path_name,
+        typst_path=path_name,
         html_path=path_name,
         markdown_path=path_name,
         output_folder_name=path_name,
     )
 
     assert render_command_settings.pdf_path.name == expected_value  # type: ignore
-    assert render_command_settings.latex_path.name == expected_value  # type: ignore
+    assert render_command_settings.typst_path.name == expected_value  # type: ignore
     assert render_command_settings.html_path.name == expected_value  # type: ignore
     assert render_command_settings.markdown_path.name == expected_value  # type: ignore
     assert render_command_settings.output_folder_name == expected_value
+
+
+def test_make_keywords_bold_in_a_string():
+    assert (
+        data.make_keywords_bold_in_a_string(
+            "This is a test string with some keywords.",
+            ["test", "keywords"],
+        )
+        == "This is a **test** string with some **keywords**."
+    )
+
+
+def test_bold_keywords():
+    data_model_as_dict = {
+        "cv": {
+            "sections": {
+                "test": ["test_keyword_1"],
+                "test2": [
+                    {
+                        "institution": "Test Institution",
+                        "area": "Test Area",
+                        "degree": None,
+                        "date": None,
+                        "start_date": None,
+                        "end_date": None,
+                        "location": None,
+                        "summary": "test_keyword_3 test_keyword_4",
+                        "highlights": ["test_keyword_2"],
+                    }
+                ],
+                "test3": [
+                    {
+                        "company": "Test Company",
+                        "position": "Test Position",
+                        "date": None,
+                        "start_date": None,
+                        "end_date": None,
+                        "location": None,
+                        "summary": "test_keyword_6 test_keyword_7",
+                        "highlights": ["test_keyword_5", "test_keyword_6"],
+                    }
+                ],
+                "test4": [
+                    {
+                        "name": "Test",
+                        "date": None,
+                        "start_date": None,
+                        "end_date": None,
+                        "location": None,
+                        "summary": "test_keyword_3 test_keyword_4",
+                        "highlights": ["test_keyword_2"],
+                    }
+                ],
+                "test6": [{"bullet": "test_keyword_3 test_keyword_4"}],
+                "test7": [
+                    {
+                        "label": "Test Institution",
+                        "details": "test_keyword_3 test_keyword_4",
+                    }
+                ],
+            },
+        },
+        "rendercv_settings": {
+            "bold_keywords": [
+                "test_keyword_1",
+                "test_keyword_2",
+                "test_keyword_3",
+                "test_keyword_4",
+                "test_keyword_5",
+                "test_keyword_6",
+                "test_keyword_7",
+            ],
+        },
+    }
+
+    data_model = data.validate_input_dictionary_and_return_the_data_model(
+        data_model_as_dict
+    )
+
+    for section in data_model.cv.sections:
+        for entry in section.entries:
+            if section.title == "Test":
+                assert "**test_keyword_1**" in entry
+            elif section.title == "Test2":
+                assert "**test_keyword_2**" in entry.highlights[0]
+                assert "**test_keyword_3**" in entry.summary
+                assert "**test_keyword_4**" in entry.summary
+            elif section.title == "Test3":
+                assert "**test_keyword_5**" in entry.highlights[0]
+                assert "**test_keyword_6**" in entry.highlights[1]
+                assert "**test_keyword_6**" in entry.summary
+                assert "**test_keyword_7**" in entry.summary
+            elif section.title == "Test4":
+                assert "**test_keyword_2**" in entry.highlights[0]
+                assert "**test_keyword_3**" in entry.summary
+                assert "**test_keyword_4**" in entry.summary
+            elif section.title == "Test6":
+                assert "**test_keyword_3**" in entry.bullet
+                assert "**test_keyword_4**" in entry.bullet
+            elif section.title == "Test7":
+                assert "**test_keyword_3**" in entry.details
+                assert "**test_keyword_4**" in entry.details
+
+
+def test_none_entries():
+    with pytest.raises(pydantic.ValidationError):
+        data.RenderCVDataModel(
+            cv=data.CurriculumVitae(
+                name="John Doe",
+                sections={
+                    "test": [
+                        None,
+                    ],
+                },
+            )
+        )

@@ -112,7 +112,7 @@ def get_characteristic_entry_attributes(
 
 
 def get_entry_type_name_and_section_validator(
-    entry: dict[str, str | list[str]] | str | type, entry_types: tuple[type]
+    entry: Optional[dict[str, str | list[str]] | str | type], entry_types: tuple[type]
 ) -> tuple[str, type[SectionBase]]:
     """Get the entry type name and the section validator based on the entry.
 
@@ -155,6 +155,10 @@ def get_entry_type_name_and_section_validator(
         # Then it is a TextEntry
         entry_type_name = "TextEntry"
         section_type = create_a_section_validator(str)
+
+    elif entry is None:
+        message = "The entry cannot be a null value."
+        raise ValueError(message)
 
     else:
         # Then the entry is already initialized with a data model:
@@ -267,6 +271,11 @@ def validate_a_social_network_username(username: str, network: str) -> str:
                 " beginning of the username."
             )
             raise ValueError(message)
+    elif network == "ORCID":
+        orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
+        if not re.fullmatch(orcid_username_pattern, username):
+            message = "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
+            raise ValueError(message)
 
     return username
 
@@ -305,6 +314,7 @@ SocialNetworkName = Literal[
     "YouTube",
     "Google Scholar",
     "Telegram",
+    "X",
 ]
 
 available_social_networks = get_args(SocialNetworkName)
@@ -317,13 +327,18 @@ available_social_networks = get_args(SocialNetworkName)
 class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of a social network."""
 
+    model_config = pydantic.ConfigDict(
+        title="Social Network",
+    )
     network: SocialNetworkName = pydantic.Field(
         title="Social Network",
-        description="Name of the social network.",
     )
     username: str = pydantic.Field(
         title="Username",
-        description="The username of the social network. The link will be generated.",
+        description=(
+            "The username used in the social network. The link will be generated"
+            " automatically."
+        ),
     )
 
     @pydantic.field_validator("username")
@@ -371,6 +386,7 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
                 "YouTube": "https://youtube.com/@",
                 "Google Scholar": "https://scholar.google.com/citations?user=",
                 "Telegram": "https://t.me/",
+                "X": "https://x.com/",
             }
             url = url_dictionary[self.network] + self.username
 
@@ -380,45 +396,45 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
 class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
     """This class is the data model of the `cv` field."""
 
+    model_config = pydantic.ConfigDict(
+        title="CV",
+    )
     name: Optional[str] = pydantic.Field(
         default=None,
         title="Name",
-        description="The name of the person.",
     )
     location: Optional[str] = pydantic.Field(
         default=None,
         title="Location",
-        description="The location of the person.",
     )
     email: Optional[pydantic.EmailStr] = pydantic.Field(
         default=None,
         title="Email",
-        description="The email address of the person.",
     )
     photo: Optional[pathlib.Path] = pydantic.Field(
         default=None,
         title="Photo",
-        description="Path to the photo of the person, relatie to the input file.",
+        description="Path to the photo of the person, relative to the input file.",
     )
     phone: Optional[pydantic_phone_numbers.PhoneNumber] = pydantic.Field(
         default=None,
         title="Phone",
-        description="The phone number of the person, including the country code.",
+        description=(
+            "Country code should be included. For example, +1 for the United States."
+        ),
     )
     website: Optional[pydantic.HttpUrl] = pydantic.Field(
         default=None,
         title="Website",
-        description="The website of the person.",
     )
     social_networks: Optional[list[SocialNetwork]] = pydantic.Field(
         default=None,
         title="Social Networks",
-        description="The social networks of the person.",
     )
     sections_input: Sections = pydantic.Field(
         default=None,
         title="Sections",
-        description="The sections of the CV.",
+        description="The sections of the CV, like Education, Experience, etc.",
         # This is an alias to allow users to use `sections` in the YAML file:
         # `sections` key is preserved for RenderCV's internal use.
         alias="sections",
@@ -464,7 +480,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         if self.location is not None:
             connections.append(
                 {
-                    "latex_icon": "\\faMapMarker*",
+                    "typst_icon": "location-dot",
                     "url": None,
                     "clean_url": None,
                     "placeholder": self.location,
@@ -474,7 +490,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         if self.email is not None:
             connections.append(
                 {
-                    "latex_icon": "\\faEnvelope[regular]",
+                    "typst_icon": "envelope",
                     "url": f"mailto:{self.email}",
                     "clean_url": self.email,
                     "placeholder": self.email,
@@ -485,7 +501,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             phone_placeholder = computers.format_phone_number(self.phone)
             connections.append(
                 {
-                    "latex_icon": "\\faPhone*",
+                    "typst_icon": "phone",
                     "url": self.phone,
                     "clean_url": phone_placeholder,
                     "placeholder": phone_placeholder,
@@ -496,7 +512,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             website_placeholder = computers.make_a_url_clean(str(self.website))
             connections.append(
                 {
-                    "latex_icon": "\\faLink",
+                    "typst_icon": "link",
                     "url": str(self.website),
                     "clean_url": website_placeholder,
                     "placeholder": website_placeholder,
@@ -505,22 +521,23 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         if self.social_networks is not None:
             icon_dictionary = {
-                "LinkedIn": "\\faLinkedinIn",
-                "GitHub": "\\faGithub",
-                "GitLab": "\\faGitlab",
-                "Instagram": "\\faInstagram",
-                "Mastodon": "\\faMastodon",
-                "ORCID": "\\faOrcid",
-                "StackOverflow": "\\faStackOverflow",
-                "ResearchGate": "\\faResearchgate",
-                "YouTube": "\\faYoutube",
-                "Google Scholar": "\\faGraduationCap",
-                "Telegram": "\\faTelegram",
+                "LinkedIn": "linkedin",
+                "GitHub": "github",
+                "GitLab": "gitlab",
+                "Instagram": "instagram",
+                "Mastodon": "mastodon",
+                "ORCID": "orcid",
+                "StackOverflow": "stack-overflow",
+                "ResearchGate": "researchgate",
+                "YouTube": "youtube",
+                "Google Scholar": "graduation-cap",
+                "Telegram": "telegram",
+                "X": "x-twitter",
             }
             for social_network in self.social_networks:
                 clean_url = computers.make_a_url_clean(social_network.url)
                 connection = {
-                    "latex_icon": icon_dictionary[social_network.network],
+                    "typst_icon": icon_dictionary[social_network.network],
                     "url": social_network.url,
                     "clean_url": clean_url,
                     "placeholder": social_network.username,
@@ -572,6 +589,16 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 sections.append(section)
 
         return sections
+
+    @pydantic.field_serializer("phone")
+    def serialize_phone(
+        self, phone: Optional[pydantic_phone_numbers.PhoneNumber]
+    ) -> Optional[str]:
+        """Serialize the phone number."""
+        if phone is not None:
+            return phone.replace("tel:", "")
+
+        return phone
 
 
 # The dictionary below will be overwritten by CurriculumVitae class, which will contain

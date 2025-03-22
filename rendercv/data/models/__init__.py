@@ -14,7 +14,7 @@ modules, each containing a different group of data models.
     data model that contains all the content of the CV.
 - `design.py`: Contains the data model that is used to represent the design options of
     the CV.
-- `locale_catalog.py`: Contains the data model that is used to represent the locale
+- `locale.py`: Contains the data model that is used to represent the locale
     catalog of the CV.
 - `rendercv_settings.py`: Contains the data model that is used to represent the settings
     of the RenderCV.
@@ -22,28 +22,39 @@ modules, each containing a different group of data models.
     main data model that defines the whole input file structure.
 """
 
-from .computers import format_date
+import warnings
+
+from .computers import format_date, get_date_input, make_a_url_clean
 from .curriculum_vitae import (
     CurriculumVitae,
     SectionContents,
+    Sections,
     SocialNetwork,
     available_social_networks,
 )
-from .design import available_theme_options, available_themes
+from .design import (
+    available_theme_options,
+    available_themes,
+)
 from .entry_types import (
     BulletEntry,
     EducationEntry,
     Entry,
     ExperienceEntry,
     NormalEntry,
+    NumberedEntry,
     OneLineEntry,
     PublicationEntry,
+    ReversedNumberedEntry,
     available_entry_models,
     available_entry_type_names,
+    make_keywords_bold_in_a_string,
 )
-from .locale_catalog import LocaleCatalog
+from .locale import Locale
 from .rendercv_data_model import RenderCVDataModel, rendercv_data_model_fields
 from .rendercv_settings import RenderCommandSettings, RenderCVSettings
+
+warnings.filterwarnings("ignore")
 
 __all__ = [
     "BulletEntry",
@@ -51,14 +62,17 @@ __all__ = [
     "EducationEntry",
     "Entry",
     "ExperienceEntry",
-    "LocaleCatalog",
+    "Locale",
     "NormalEntry",
+    "NumberedEntry",
     "OneLineEntry",
     "PublicationEntry",
     "RenderCVDataModel",
     "RenderCVSettings",
     "RenderCommandSettings",
+    "ReversedNumberedEntry",
     "SectionContents",
+    "Sections",
     "SocialNetwork",
     "available_entry_models",
     "available_entry_type_names",
@@ -66,5 +80,8 @@ __all__ = [
     "available_theme_options",
     "available_themes",
     "format_date",
+    "get_date_input",
+    "make_a_url_clean",
+    "make_keywords_bold_in_a_string",
     "rendercv_data_model_fields",
 ]

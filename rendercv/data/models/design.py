@@ -13,6 +13,7 @@ import pydantic
 
 from ...themes import (
     ClassicThemeOptions,
+    EngineeringclassicThemeOptions,
     EngineeringresumesThemeOptions,
     ModerncvThemeOptions,
     Sb2novThemeOptions,
@@ -94,19 +95,19 @@ def validate_design_options(
 
     # check if all the necessary files are provided in the custom theme folder:
     required_entry_files = [
-        entry_type_name + ".j2.tex" for entry_type_name in available_entry_type_names
+        custom_theme_folder / (entry_type_name + ".j2.typ")
+        for entry_type_name in available_entry_type_names
     ]
     required_files = [
-        "SectionBeginning.j2.tex",  # section beginning template
-        "SectionEnding.j2.tex",  # section ending template
-        "Preamble.j2.tex",  # preamble template
-        "Header.j2.tex",  # header template
+        custom_theme_folder / "SectionBeginning.j2.typ",  # section beginning template
+        custom_theme_folder / "SectionEnding.j2.typ",  # section ending template
+        custom_theme_folder / "Preamble.j2.typ",  # preamble template
+        custom_theme_folder / "Header.j2.typ",  # header template
         *required_entry_files,
     ]
 
     for file in required_files:
-        file_path = custom_theme_folder / file
-        if not file_path.exists():
+        if not file.exists():
             message = (
                 f"You provided a custom theme, but the file `{file}` is not"
                 f" found in the folder `{custom_theme_folder}`."
@@ -171,15 +172,26 @@ def validate_design_options(
 # Create custom types: =================================================================
 # ======================================================================================
 
+available_theme_options = {
+    "classic": ClassicThemeOptions,
+    "sb2nov": Sb2novThemeOptions,
+    "engineeringresumes": EngineeringresumesThemeOptions,
+    "engineeringclassic": EngineeringclassicThemeOptions,
+    "moderncv": ModerncvThemeOptions,
+}
+
+available_themes = list(available_theme_options.keys())
+
 # Create a custom type named RenderCVBuiltinDesign:
 # It is a union of all the design options and the correct design option is determined by
 # the theme field, thanks to Pydantic's discriminator feature.
 # See https://docs.pydantic.dev/2.7/concepts/fields/#discriminator for more information
 RenderCVBuiltinDesign = Annotated[
     ClassicThemeOptions
-    | ModerncvThemeOptions
     | Sb2novThemeOptions
-    | EngineeringresumesThemeOptions,
+    | EngineeringresumesThemeOptions
+    | EngineeringclassicThemeOptions
+    | ModerncvThemeOptions,
     pydantic.Field(discriminator="theme"),
 ]
 
@@ -197,13 +209,3 @@ RenderCVDesign = Annotated[
         )
     ),
 ]
-
-
-available_theme_options = {
-    "classic": ClassicThemeOptions,
-    "moderncv": ModerncvThemeOptions,
-    "sb2nov": Sb2novThemeOptions,
-    "engineeringresumes": EngineeringresumesThemeOptions,
-}
-
-available_themes = list(available_theme_options.keys())

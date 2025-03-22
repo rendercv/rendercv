@@ -12,11 +12,11 @@ from typing import Optional
 import phonenumbers
 
 from .curriculum_vitae import curriculum_vitae
-from .locale_catalog import LOCALE_CATALOG
+from .locale import locale
 
 
 def format_phone_number(phone_number: str) -> str:
-    """Format a phone number to the format specified in the `locale_catalog` dictionary.
+    """Format a phone number to the format specified in the `locale` dictionary.
 
     Example:
         ```python
@@ -34,7 +34,7 @@ def format_phone_number(phone_number: str) -> str:
         The formatted phone number.
     """
 
-    format = LOCALE_CATALOG["phone_number_format"].upper()  # type: ignore
+    format = locale["phone_number_format"].upper()  # type: ignore
 
     parsed_number = phonenumbers.parse(phone_number, None)
     return phonenumbers.format_number(
@@ -42,9 +42,20 @@ def format_phone_number(phone_number: str) -> str:
     )
 
 
-def format_date(date: Date, date_style: Optional[str] = None) -> str:
+def get_date_input() -> Date:
+    """Return the date input.
+
+    Returns:
+        The date input.
+    """
+    from .rendercv_settings import DATE_INPUT
+
+    return DATE_INPUT
+
+
+def format_date(date: Date, date_template: Optional[str] = None) -> str:
     """Formats a `Date` object to a string in the following format: "Jan 2021". The
-    month names are taken from the `locale_catalog` dictionary from the
+    month names are taken from the `locale` dictionary from the
     `rendercv.data_models.models` module.
 
     Example:
@@ -57,14 +68,14 @@ def format_date(date: Date, date_style: Optional[str] = None) -> str:
 
     Args:
         date: The date to format.
-        date_style: The style of the date string. If not provided, the default date
-            style from the `locale_catalog` dictionary will be used.
+        date_template: The template of the date string. If not provided, the default date
+            style from the `locale` dictionary will be used.
 
     Returns:
         The formatted date.
     """
-    full_month_names = LOCALE_CATALOG["full_names_of_months"]
-    short_month_names = LOCALE_CATALOG["abbreviations_for_months"]
+    full_month_names = locale["full_names_of_months"]
+    short_month_names = locale["abbreviations_for_months"]
 
     month = int(date.strftime("%m"))
     year = date.strftime(format="%Y")
@@ -77,43 +88,47 @@ def format_date(date: Date, date_style: Optional[str] = None) -> str:
         "MONTH": str(month),
         "YEAR": str(year),
     }
-    if date_style is None:
-        date_style = LOCALE_CATALOG["date_style"]  # type: ignore
+    if date_template is None:
+        date_template = locale["date_template"]  # type: ignore
 
-    assert isinstance(date_style, str)
+    assert isinstance(date_template, str)
 
     for placeholder, value in placeholders.items():
-        date_style = date_style.replace(placeholder, value)  # type: ignore
+        date_template = date_template.replace(placeholder, value)  # type: ignore
 
-    return date_style
+    return date_template
 
 
 def replace_placeholders(value: str) -> str:
     """Replaces the placeholders in a string with the corresponding values."""
     name = curriculum_vitae.get("name", "None")
-    full_month_names = LOCALE_CATALOG["full_names_of_months"]
-    short_month_names = LOCALE_CATALOG["abbreviations_for_months"]
+    full_month_names = locale["full_names_of_months"]
+    short_month_names = locale["abbreviations_for_months"]
 
-    month = Date.today().month
-    year = str(Date.today().year)
+    date_input = get_date_input()
+    month = date_input.month
+    year = str(date_input.year)
 
-    placeholders = {
-        "NAME_IN_SNAKE_CASE": name.replace(" ", "_"),
-        "NAME_IN_LOWER_SNAKE_CASE": name.replace(" ", "_").lower(),
-        "NAME_IN_UPPER_SNAKE_CASE": name.replace(" ", "_").upper(),
-        "NAME_IN_KEBAB_CASE": name.replace(" ", "-"),
-        "NAME_IN_LOWER_KEBAB_CASE": name.replace(" ", "-").lower(),
-        "NAME_IN_UPPER_KEBAB_CASE": name.replace(" ", "-").upper(),
-        "FULL_MONTH_NAME": full_month_names[month - 1],
-        "MONTH_ABBREVIATION": short_month_names[month - 1],
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "YEAR_IN_TWO_DIGITS": str(year[-2:]),
-        "NAME": name,
-        "YEAR": str(year),
-        "MONTH": str(month),
-    }
+    name_snake_case = name.replace(" ", "_")
+    name_kebab_case = name.replace(" ", "-")
 
-    for placeholder, placeholder_value in placeholders.items():
+    placeholders = (
+        ("NAME_IN_SNAKE_CASE", name_snake_case),
+        ("NAME_IN_LOWER_SNAKE_CASE", name_snake_case.lower()),
+        ("NAME_IN_UPPER_SNAKE_CASE", name_snake_case.upper()),
+        ("NAME_IN_KEBAB_CASE", name_kebab_case),
+        ("NAME_IN_LOWER_KEBAB_CASE", name_kebab_case.lower()),
+        ("NAME_IN_UPPER_KEBAB_CASE", name_kebab_case.upper()),
+        ("FULL_MONTH_NAME", full_month_names[month - 1]),
+        ("MONTH_ABBREVIATION", short_month_names[month - 1]),
+        ("MONTH_IN_TWO_DIGITS", f"{month:02d}"),
+        ("YEAR_IN_TWO_DIGITS", year[-2:]),
+        ("NAME", name),
+        ("YEAR", year),
+        ("MONTH", str(month)),
+    )
+
+    for placeholder, placeholder_value in placeholders:
         value = value.replace(placeholder, placeholder_value)
 
     return value
@@ -202,17 +217,17 @@ def compute_time_span_string(
     if how_many_years == 0:
         how_many_years_string = None
     elif how_many_years == 1:
-        how_many_years_string = f"1 {LOCALE_CATALOG['year']}"
+        how_many_years_string = f"1 {locale['year']}"
     else:
-        how_many_years_string = f"{how_many_years} {LOCALE_CATALOG['years']}"
+        how_many_years_string = f"{how_many_years} {locale['years']}"
 
     # Format the number of months between start_date and end_date:
     if how_many_months == 1 or (how_many_years_string is None and how_many_months == 0):
-        how_many_months_string = f"1 {LOCALE_CATALOG['month']}"
+        how_many_months_string = f"1 {locale['month']}"
     elif how_many_months == 0:
         how_many_months_string = None
     else:
-        how_many_months_string = f"{how_many_months} {LOCALE_CATALOG['months']}"
+        how_many_months_string = f"{how_many_months} {locale['months']}"
 
     # Combine howManyYearsString and howManyMonthsString:
     if how_many_years_string is None and how_many_months_string is not None:
@@ -286,7 +301,7 @@ def compute_date_string(
                 start_date = format_date(date_object)
 
         if end_date == "present":
-            end_date = LOCALE_CATALOG["present"]  #  type: ignore
+            end_date = locale["present"]  #  type: ignore
         elif isinstance(end_date, int):
             # Then it means only the year is provided
             end_date = str(end_date)
@@ -295,7 +310,7 @@ def compute_date_string(
             date_object = get_date_object(end_date)
             end_date = date_object.year if show_only_years else format_date(date_object)
 
-        date_string = f"{start_date} {LOCALE_CATALOG['to']} {end_date}"
+        date_string = f"{start_date} {locale['to']} {end_date}"
 
     else:
         # Neither date, start_date, nor end_date are provided, so return an empty
@@ -351,7 +366,7 @@ def get_date_object(date: str | int) -> Date:
         # Then it is in YYYY format
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif date == "present":
-        date_object = Date.today()
+        date_object = get_date_input()
     else:
         message = (
             "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"

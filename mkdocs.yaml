@@ -1,6 +1,6 @@
 site_name: RenderCV Engine
-site_description: A CLI tool to version-control CVs and resumes as code
-site_author: Sina Atalay
+site_description: A Python package with CLI tool to write and version-control CVs and resumes as source code
+site_author: RenderCV Team
 copyright: Copyright &copy; 2023 - 2024 RenderCV
 site_url: https://docs.rendercv.com
 repo_url: https://github.com/rendercv/rendercv
@@ -64,6 +64,9 @@ nav:
       - FAQ: developer_guide/faq.md
   - API Reference:
       - Reference: reference/index.md
+      - api:
+          - api: reference/api/index.md
+          - functions.py: reference/api/functions.md
       - cli:
           - cli: reference/cli/index.md
           - commands.py: reference/cli/commands.md
@@ -78,7 +81,7 @@ nav:
               - entry_types.py: reference/data/models/entry_types.md
               - curriculum_vitae.py: reference/data/models/curriculum_vitae.md
               - design.py: reference/data/models/design.md
-              - locale_catalog.py: reference/data/models/locale_catalog.md
+              - locale.py: reference/data/models/locale.md
               - rendercv_settings.py: reference/data/models/rendercv_settings.md
               - rendercv_data_model.py: reference/data/models/rendercv_data_model.md
           - generator.py: reference/data/generator.md
@@ -89,11 +92,13 @@ nav:
           - templater.py: reference/renderer/templater.md
       - themes:
           - themes: reference/themes/index.md
-          - common_options.py: reference/themes/common_options.md
+          - options.py: reference/themes/options.md
           - classic: reference/themes/classic.md
           - engineeringresumes: reference/themes/engineeringresumes.md
           - sb2nov: reference/themes/sb2nov.md
           - moderncv: reference/themes/moderncv.md
+          - engineeringclassic: reference/themes/engineeringclassic.md
+          - components: reference/themes/components.md
   - Changelog:
       - Changelog: changelog/index.md
 
@@ -120,7 +125,7 @@ markdown_extensions:
 plugins:
   - search
   - macros: # mkdocs-macros-plugin
-      module_name: docs/update_entry_figures
+      module_name: docs/dynamic_content_generation
   - mkdocstrings:
       handlers:
         python:

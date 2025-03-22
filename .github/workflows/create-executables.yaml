@@ -1,0 +1,35 @@
+name: Create executables
+
+# GitHub events that triggers the workflow:
+on:
+  workflow_call: # to make the workflow triggerable from other workflows (publish-a-release.yaml)
+  workflow_dispatch: # to make the workflow triggerable manually
+
+jobs:
+  create_executables:
+    name: For ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, ubuntu-22.04-arm, macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Hatch
+        uses: pypa/hatch@install
+
+      - name: Create executable
+        run: |
+          hatch run exe:create
+
+      - name: Upload executable as an artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendercv-${{ matrix.os }}
+          path: bin/*

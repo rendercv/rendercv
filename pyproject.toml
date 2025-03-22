@@ -32,8 +32,8 @@ requires = [
 build-backend = "hatchling.build" # A build-backend object for building RenderCV
 
 [tool.hatch.build.targets.sdist]
-# In the sdist, what do we want to exclude?
-exclude = []
+# In the sdist, what do we want to exclude? Gif files are huge.
+exclude = ["*.gif"]
 
 [tool.hatch.build.targets.wheel]
 # In wheel, what do we want to include and exclude?
@@ -48,7 +48,7 @@ path = "rendercv/__init__.py"
 [project]
 # Under the `project` section, we specify the metadata about RenderCV.
 name = 'rendercv'
-description = 'A LaTeX CV/resume framework'
+description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
 readme = "README.md"
@@ -56,35 +56,43 @@ requires-python = '>=3.10'
 # RenderCV depends on these packages. They will be installed automatically when RenderCV
 # is installed:
 dependencies = [
-    'rendercv-tinytex==0.2.0',      # to render LaTeX files with TinyTeX
-    'Jinja2==3.1.5',                # to generate LaTeX and Markdown files
-    'phonenumbers==8.13.52',        # to validate phone numbers
+    'Jinja2>=3.1.3',                # to generate Typst and Markdown files
+    'phonenumbers==9.0.0',        # to validate phone numbers
     'email-validator==2.2.0',       # to validate email addresses
-    'pydantic==2.10.4',             # to validate and parse the input file
-    'pydantic-extra-types==2.10.1', # to validate some extra types
+    'pydantic==2.10.5',             # to validate and parse the input file
+    'pycountry==24.6.1',            # for ISO 639-3 validation
+    'pydantic-extra-types==2.10.2', # to validate some extra types
     'ruamel.yaml==0.18.6',          # to parse YAML files
-    'typer==0.15.1',                # to create the command-line interface
-    "markdown==3.7",                # to convert Markdown to HTML
-    "PyMuPDF==1.24.14",             # to convert PDF files to images
-    "watchdog==6.0.0",              # to poll files for updates
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
     "Intended Audience :: Education",
-    "Topic :: Text Processing :: Markup :: LaTeX",
+    "Topic :: Text Processing :: Markup",
     "Topic :: Printing",
     "Development Status :: 5 - Production/Stable",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ] # go to https://pypi.org/classifiers/ to see all classifiers
 dynamic = ["version"] # We will use hatchling to generate the version number
 
+[project.optional-dependencies]
+full = [
+    'typer==0.15.2',   # to create the command-line interface
+    "markdown==3.7",   # to convert Markdown to HTML
+    "watchdog==6.0.0", # to poll files for updates
+    "typst==0.13.1",   # to render PDF from Typst source files
+    "rendercv-fonts",  # some font files for RenderCV
+    "packaging==24.2", # to validate the version number
+]
+
 [project.urls]
 # Here, we can specify the URLs related to RenderCV. They will be listed under the
 # "Project links" section in PyPI. See https://pypi.org/project/rendercv/
+"Web App" = 'https://rendercv.com'
 Source = 'https://github.com/rendercv/rendercv'
 Documentation = 'https://docs.rendercv.com'
 Changelog = 'https://docs.rendercv.com/changelog'
@@ -117,23 +125,24 @@ rendercv = 'rendercv.cli:app'
 [tool.hatch.envs.default]
 installer = "uv"
 python = "3.13"
-# Dependencies to be installed in the `default` virtual environment.
 dependencies = [
-    "ruff",                 # to lint and format the code
-    "black",                # to format the code
-    "ipython",              # for ipython shell
-    "pyright",              # to check the types
-    "pre-commit",           # to run the checks before committing
-    "pytest==8.3.2",        # to run the tests
-    "coverage==7.6.1",      # to generate coverage reports
-    "time-machine==2.15.0", # to select an arbitrary date and time for testing
-    "pypdf==4.3.1",         # to read PDF files
+    "ruff",                # to lint and format the code
+    "black",               # to format the code
+    "ipython",             # for ipython shell
+    "pyright",             # to check the types
+    "pre-commit",          # to run the checks before committing
+    "pytest==8.3.4",       # to run the tests
+    "coverage==7.6.10",    # to generate coverage reports
+    "pypdf==5.1.0",        # to read PDF files
+    "snakeviz==2.2.2",     # for profiling
+    "pyinstaller==6.11.1", # to build the executable
 ]
+features = ["full"] # to install full optional dependencies
 [tool.hatch.envs.default.scripts]
 # Hatch allows us to define scripts that can be run in the activated virtual environment
 # with `hatch run ENV_NAME:SCRIPT_NAME`.
 # Format all the code in the `rendercv` package with `black`:
-format = "ruff check --fix && ruff format && black rendercv docs tests" # hatch run format
+format = "black rendercv docs tests && ruff check --fix && ruff format" # hatch run format
 # Lint the code in the `rendercv` package with `ruff`:
 lint = "ruff check" # hatch run lint
 # Check types in the `rendercv` package with `pyright`:
@@ -144,6 +153,12 @@ precommit = "pre-commit run --all-files" # hatch run pre-commit
 test = "pytest" # hatch run test
 # Run the tests and generate the coverage report as HTML:
 test-and-report = "coverage run -m pytest && coverage combine && coverage report && coverage html --show-contexts" # hatch run test-and-report
+# Profile render command
+profile-render-command = "python -m cProfile -o render_command.prof -m rendercv render examples/John_Doe_ClassicTheme_CV.yaml && snakeviz render_command.prof"
+# Update schema.json:
+update-schema = "python scripts/update_schema.py" # hatch run update-schema
+# Update `examples` folder:
+update-examples = "python scripts/update_examples.py" # hatch run update-examples
 
 [tool.hatch.envs.test]
 template = "default"
@@ -160,19 +175,27 @@ dependencies = [
     "pdfCropMargins==2.1.3",       # to generate entry figures for the documentation
     "pillow==10.4.0",              # lock the dependency of pdfCropMargins
     "mkdocs-macros-plugin==1.0.5", # to be able to have dynamic content in the documentation
+    "PyMuPDF==1.24.14",            # to convert PDF files to images    
 ]
+features = ["full"] # to install full optional dependencies
 [tool.hatch.envs.docs.scripts]
 # Build the documentation with `mkdocs`:
 build = "mkdocs build --clean --strict" # hatch run docs:build
 # Start the development server for the documentation with `mkdocs`:
 serve = "mkdocs serve" # hatch run docs:serve
-# Update schema.json:
-update-schema = "python docs/update_schema.py" # hatch run docs:update-schema
-# Update `examples` folder:
-update-examples = "python docs/update_examples.py" # hatch run docs:update-examples
 # Update entry figures in "Structure of the YAML File" page:
-update-entry-figures = "python docs/update_entry_figures.py" # hatch run docs:update-entry-figures
+update-entry-figures = "python scripts/update_entry_figures.py" # hatch run docs:update-entry-figures
 
+
+[tool.hatch.envs.exe]
+installer = "uv"
+python = "3.13"
+dependencies = [
+    "pyinstaller==6.11.1", # to build the executable
+]
+features = ["full"]
+[tool.hatch.envs.exe.scripts]
+create = "python scripts/create_executable.py" # hatch run exe:create
 # ======================================================================================
 # Virtual Environments Above ===========================================================
 # ======================================================================================
@@ -233,6 +256,7 @@ enable-unstable-feature = [
 [tool.pyright]
 reportIncompatibleVariableOverride = false # disable this error type
 reportIncompatibleMethodOverride = false   # disable this error type
+exclude = ["rendercv/themes/*"]
 
 [tool.coverage.run]
 source = ['rendercv']             # The source to measure during execution
@@ -252,6 +276,7 @@ exclude_lines = ["if __name__ == .__main__.:"]
 [tool.pytest.ini_options]
 addopts = [
     "-ra",              # Show extra test summary info for all tests
+    "-v",               # Increase verbosity
     "--strict-markers", # Don't allow unknown markers
     "--strict-config",  # Always fail if there are unknown configuration options
 ]

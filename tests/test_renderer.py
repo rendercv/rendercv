@@ -1,12 +1,10 @@
 import copy
-import math
 import os
 import pathlib
 import shutil
 
 import jinja2
 import pytest
-import time_machine
 
 from rendercv import data, renderer
 from rendercv.renderer import renderer as renderer_module
@@ -18,87 +16,16 @@ folder_name_dictionary = {
 }
 
 
-def test_latex_file_class(tmp_path, rendercv_data_model, jinja2_environment):
-    latex_file = templater.LaTeXFile(rendercv_data_model, jinja2_environment)
-    latex_file.get_full_code()
-    latex_file.create_file(tmp_path / "test.tex")
-
-
-@pytest.mark.parametrize(
-    ("string", "expected_string"),
-    [
-        (
-            "\\textit{This is a \\textit{nested} italic text.}",
-            "\\textit{This is a \\textnormal{nested} italic text.}",
-        ),
-        (
-            "\\underline{This is a \\underline{nested} underlined text.}",
-            "\\underline{This is a \\textnormal{nested} underlined text.}",
-        ),
-        (
-            "\\textbf{This is a \\textit{nested} bold text.}",
-            "\\textbf{This is a \\textit{nested} bold text.}",
-        ),
-        (
-            "\\textbf{This is not} a \\textbf{nested bold text.}",
-            "\\textbf{This is not} a \\textbf{nested bold text.}",
-        ),
-        (
-            (
-                "\\textbf{This is not} \\textbf{a nested bold text. But it \\textbf{is}"
-                " now.}"
-            ),
-            (
-                "\\textbf{This is not} \\textbf{a nested bold text. But it"
-                " \\textnormal{is} now.}"
-            ),
-        ),
-        (
-            "\\textit{This is a \\underline{nested} italic text.}",
-            "\\textit{This is a \\underline{nested} italic text.}",
-        ),
-    ],
-)
-def test_latex_file_revert_nested_latex_style_commands_method(string, expected_string):
-    assert templater.revert_nested_latex_style_commands(string) == expected_string
-
-
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "The current implementation of revert_nested_latex_style_commands method does"
-        " not handle the challenging cases in the test cases below."
-    ),
-)
-@pytest.mark.parametrize(
-    ("string", "expected_string"),
-    [
-        (
-            "\\textbf{This is a \\textbf{nested} bold \\textbf{text}.}",
-            "\\textbf{This is a \\textnormal{nested} bold \\textnormal{text}.}",
-        ),
-        (
-            (
-                "\\textit{This \\textit{is} a \\textbf{n\\textit{ested}} underlined"
-                " \\textit{text}.}"
-            ),
-            (
-                "\\textit{This \\textnormal{is} a \\textbf{n\\textnormal{ested}}"
-                " underlined \\textnormal{text}.}"
-            ),
-        ),
-    ],
-)
-def test_latex_file_revert_nested_latex_style_commands_method_challenging_ones(
-    string, expected_string
-):
-    assert templater.revert_nested_latex_style_commands(string) == expected_string
+def test_typst_file_class(tmp_path, rendercv_data_model, jinja2_environment):
+    typst_file = templater.TypstFile(rendercv_data_model, jinja2_environment)
+    typst_file.get_full_code()
+    typst_file.create_file(tmp_path / "test.typ")
 
 
 def test_markdown_file_class(tmp_path, rendercv_data_model, jinja2_environment):
-    latex_file = templater.MarkdownFile(rendercv_data_model, jinja2_environment)
-    latex_file.get_full_code()
-    latex_file.create_file(tmp_path / "test.tex")
+    typst_file = templater.MarkdownFile(rendercv_data_model, jinja2_environment)
+    typst_file.get_full_code()
+    typst_file.create_file(tmp_path / "test.typ")
 
 
 @pytest.mark.parametrize(
@@ -107,9 +34,16 @@ def test_markdown_file_class(tmp_path, rendercv_data_model, jinja2_environment):
         ("My Text", "My Text"),
         ("My # Text", "My \\# Text"),
         ("My % Text", "My \\% Text"),
-        ("My & Text", "My \\& Text"),
-        ("My ~ Text", "My \\textasciitilde{} Text"),
-        ("##%%&&~~", "\\#\\#\\%\\%\\&\\&\\textasciitilde{}\\textasciitilde{}"),
+        ("My ~ Text", "My \\~ Text"),
+        ("My _ Text", "My \\_ Text"),
+        ("My $ Text", "My \\$ Text"),
+        ("My [ Text", "My \\[ Text"),
+        ("My ] Text", "My \\] Text"),
+        ("My ( Text", "My \\( Text"),
+        ("My ) Text", "My \\) Text"),
+        ("My \\ Text", "My \\\\ Text"),
+        ('My " Text', 'My \\" Text'),
+        ("My @ Text", "My \\@ Text"),
         (
             (
                 "[link_test#](you shouldn't escape whatever is in here & % # ~) [second"
@@ -125,48 +59,103 @@ def test_markdown_file_class(tmp_path, rendercv_data_model, jinja2_environment):
             "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
         ),
         (
-            "$###$",
-            "\\$\\#\\#\\#\\$",
+            "$###$////",
+            "\\$\\#\\#\\#\\$\\/\\/\\/\\/",
         ),
         (
-            "\\dontEscapeThis{}",
-            "\\dontEscapeThis{}",
+            "#test-typst-command[argument]",
+            "#test-typst-command[argument]",
         ),
     ],
 )
-def test_escape_latex_characters(string, expected_string):
-    assert templater.escape_latex_characters(string) == expected_string
+def test_escape_typst_characters(string, expected_string):
+    assert templater.escape_typst_characters(string) == expected_string
 
 
 @pytest.mark.parametrize(
-    ("markdown_string", "expected_latex_string"),
+    ("markdown_string", "expected_typst_string"),
     [
         ("My Text", "My Text"),
-        ("**My** Text", "\\textbf{My} Text"),
-        ("*My* Text", "\\textit{My} Text"),
-        ("***My*** Text", "\\textbf{\\textit{My}} Text"),
-        ("[My](https://myurl.com) Text", "\\href{https://myurl.com}{My} Text"),
+        ("**My** Text", "#strong[My] Text"),
+        ("*My* Text", "#emph[My] Text"),
+        ("***My*** Text", "#strong[#emph[My]] Text"),
+        ("[My](https://myurl.com) Text", '#link("https://myurl.com")[My] Text'),
         ("`My` Text", "`My` Text"),
         (
             "[**My** *Text* ***Is*** `Here`](https://myurl.com)",
             (
-                "\\href{https://myurl.com}{\\textbf{My} \\textit{Text}"
-                " \\textbf{\\textit{Is}} `Here`}"
+                '#link("https://myurl.com")[#strong[My] #emph[Text] #strong[#emph[Is]]'
+                " `Here`]"
             ),
         ),
         (
             "Some other *** tests, which should be tricky* to parse!**",
-            "Some other \\textbf{\\textit{ tests, which should be tricky} to parse!}",
+            "Some other #strong[#emph[ tests, which should be tricky] to parse!]",
+        ),
+        (
+            "One asterisk does not a quote* maketh",
+            "One asterisk does not a quote#sym.ast.basic maketh",
+        ),
+        (
+            "We can put asteri*sks in the middle of words",
+            (
+                "We can put asteri#sym.ast.basic#h(0pt, weak: true) sks in the middle"
+                " of words"
+            ),
+        ),
+        (
+            (
+                "If we want to escape \\*'s such that they don't become bold, we use a"
+                " backslash: \\*"
+            ),
+            (
+                "If we want to escape #sym.ast.basic#h(0pt, weak: true) 's such that"
+                " they don't become bold, we use a backslash: #sym.ast.basic#h(0pt,"
+                " weak: true) "
+            ),
+        ),
+        (
+            "Asterisk with a space after it does not need a zero-width space: * test",
+            (
+                "Asterisk with a space after it does not need a zero-width space:"
+                " #sym.ast.basic test"
+            ),
+        ),
+        (
+            "Asterisk with a space after it does not need a zero-width space: *test",
+            (
+                "Asterisk with a space after it does not need a zero-width space:"
+                " #sym.ast.basic#h(0pt, weak: true) test"
+            ),
+        ),
+        (
+            "\\* Asterisk should not be escaped\\*.Hey?",
+            (
+                "#sym.ast.basic Asterisk should not be escaped#sym.ast.basic#h(0pt,"
+                " weak: true) .Hey?"
+            ),
+        ),
+        (
+            "I would like to not have any \\*\\*bold\\*\\* text",
+            (
+                "I would like to not have any #sym.ast.basic#h(0pt, weak: true)"
+                " #sym.ast.basic#h(0pt, weak: true) bold#sym.ast.basic#h(0pt,"
+                " weak: true) #sym.ast.basic text"
+            ),
+        ),
+        (
+            "Keep Typst commands #test-typst-command[argument] as they are.",
+            "Keep Typst commands #test-typst-command[argument] as they are.",
         ),
     ],
 )
-def test_markdown_to_latex(markdown_string, expected_latex_string):
-    assert templater.markdown_to_latex(markdown_string) == expected_latex_string
+def test_markdown_to_typst(markdown_string, expected_typst_string):
+    assert templater.markdown_to_typst(markdown_string) == expected_typst_string
 
 
-def test_transform_markdown_sections_to_latex_sections(rendercv_data_model):
+def test_transform_markdown_sections_to_typst_sections(rendercv_data_model):
     new_data_model = copy.deepcopy(rendercv_data_model)
-    new_sections_input = templater.transform_markdown_sections_to_latex_sections(
+    new_sections_input = templater.transform_markdown_sections_to_typst_sections(
         new_data_model.cv.sections_input
     )
     new_data_model.cv.sections_input = new_sections_input
@@ -180,7 +169,7 @@ def test_transform_markdown_sections_to_latex_sections(rendercv_data_model):
 @pytest.mark.parametrize(
     ("string", "placeholders", "expected_string"),
     [
-        ("Hello, {name}!", {"{name}": None}, "Hello, None!"),
+        ("Hello, {name}!", {"{name}": None}, "Hello, !"),
         (
             "{greeting}, {name}!",
             {"{greeting}": "Hello", "{name}": "World"},
@@ -200,153 +189,8 @@ def test_replace_placeholders_with_actual_values(string, placeholders, expected_
     assert result == expected_string
 
 
-@pytest.mark.parametrize(
-    ("value", "something", "match_str", "expected"),
-    [
-        ("Hello World", "textbf", None, "\\textbf{Hello World}"),
-        ("Hello World", "textbf", "World", "Hello \\textbf{World}"),
-        ("Hello World", "textbf", "Universe", "Hello World"),
-        ("", "textbf", "Universe", ""),
-        ("Hello World", "textbf", "", "Hello World"),
-    ],
-)
-def test_make_matched_part_something(value, something, match_str, expected):
-    result = templater.make_matched_part_something(value, something, match_str)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("value", "match_str", "expected"),
-    [
-        ("Hello World", None, "\\textbf{Hello World}"),
-        ("Hello World", "World", "Hello \\textbf{World}"),
-        ("Hello World", "Universe", "Hello World"),
-        ("", "Universe", ""),
-        ("Hello World", "", "Hello World"),
-    ],
-)
-def test_make_matched_part_bold(value, match_str, expected):
-    result = templater.make_matched_part_bold(value, match_str)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("value", "match_str", "expected"),
-    [
-        ("Hello World", None, "\\underline{Hello World}"),
-        ("Hello World", "World", "Hello \\underline{World}"),
-        ("Hello World", "Universe", "Hello World"),
-        ("", "Universe", ""),
-        ("Hello World", "", "Hello World"),
-    ],
-)
-def test_make_matched_part_underlined(value, match_str, expected):
-    result = templater.make_matched_part_underlined(value, match_str)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("value", "match_str", "expected"),
-    [
-        ("Hello World", None, "\\textit{Hello World}"),
-        ("Hello World", "World", "Hello \\textit{World}"),
-        ("Hello World", "Universe", "Hello World"),
-        ("", "Universe", ""),
-        ("Hello World", "", "Hello World"),
-    ],
-)
-def test_make_matched_part_italic(value, match_str, expected):
-    result = templater.make_matched_part_italic(value, match_str)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("value", "match_str", "expected"),
-    [
-        ("Hello World", None, "\\mbox{Hello World}"),
-        ("Hello World", "World", "Hello \\mbox{World}"),
-        ("Hello World", "Universe", "Hello World"),
-        ("", "Universe", ""),
-        ("Hello World", "", "Hello World"),
-    ],
-)
-def test_make_matched_part_non_line_breakable(value, match_str, expected):
-    result = templater.make_matched_part_non_line_breakable(value, match_str)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("name", "expected"),
-    [
-        ("John Doe", "J. Doe"),
-        ("John Jacob Jingleheimer Schmidt", "J. J. J. Schmidt"),
-        ("SingleName", "SingleName"),
-        ("", ""),
-        (None, ""),
-    ],
-)
-def test_abbreviate_name(name, expected):
-    result = templater.abbreviate_name(name)
-    assert result == expected
-
-
-@pytest.mark.parametrize(
-    ("length", "divider", "expected"),
-    [
-        ("10pt", 2, "5.0pt"),
-        ("15cm", 3, "5.0cm"),
-        ("20mm", 4, "5.0mm"),
-        ("25ex", 5, "5.0ex"),
-        ("30em", 6, "5.0em"),
-        ("10pt", 3, "3.33pt"),
-        ("10pt", 4, "2.5pt"),
-        ("0pt", 1, "0.0pt"),
-    ],
-)
-def test_divide_length_by(length, divider, expected):
-    result = templater.divide_length_by(length, divider)
-    assert math.isclose(
-        float(result[:-2]), float(expected[:-2]), rel_tol=1e-2
-    ), f"Expected {expected}, but got {result}"
-
-
-@pytest.mark.parametrize(
-    ("length", "divider"),
-    [("10pt", 0), ("10pt", -1), ("invalid", 4)],
-)
-def test_invalid_divide_length_by(length, divider):
-    with pytest.raises(ValueError):  # NOQA: PT011
-        templater.divide_length_by(length, divider)
-
-
-def test_get_an_item_with_a_specific_attribute_value():
-    entry_objects = [
-        data.OneLineEntry(
-            label="Test1",
-            details="Test2",
-        ),
-        data.OneLineEntry(
-            label="Test3",
-            details="Test4",
-        ),
-    ]
-    result = templater.get_an_item_with_a_specific_attribute_value(
-        entry_objects, "label", "Test3"
-    )
-    assert result == entry_objects[1]
-    result = templater.get_an_item_with_a_specific_attribute_value(
-        entry_objects, "label", "DoesntExist"
-    )
-    assert result is None
-
-    with pytest.raises(AttributeError):
-        templater.get_an_item_with_a_specific_attribute_value(
-            entry_objects, "invalid", "Test5"
-        )
-
-
 def test_setup_jinja2_environment():
-    env = templater.setup_jinja2_environment()
+    env = templater.Jinja2Environment().environment
 
     # Check if the returned object is a jinja2.Environment instance
     assert isinstance(env, jinja2.Environment)
@@ -359,16 +203,6 @@ def test_setup_jinja2_environment():
     assert env.comment_start_string == "((#"
     assert env.comment_end_string == "#))"
 
-    # Check if the custom filters are correctly set
-    assert "make_it_bold" in env.filters
-    assert "make_it_underlined" in env.filters
-    assert "make_it_italic" in env.filters
-    assert "make_it_nolinebreak" in env.filters
-    assert "make_it_something" in env.filters
-    assert "divide_length_by" in env.filters
-    assert "abbreviate_name" in env.filters
-    assert "get_an_item_with_a_specific_attribute_value" in env.filters
-
 
 @pytest.mark.parametrize(
     "theme_name",
@@ -381,8 +215,7 @@ def test_setup_jinja2_environment():
         "rendercv_filled_curriculum_vitae_data_model",
     ],
 )
-@time_machine.travel("2024-01-01")
-def test_create_a_latex_file(
+def test_create_a_typst_file(
     run_a_function_and_check_if_output_is_the_same_as_reference,
     request: pytest.FixtureRequest,
     theme_name,
@@ -392,31 +225,34 @@ def test_create_a_latex_file(
     data_model = data.RenderCVDataModel(
         cv=cv_data_model,
         design={"theme": theme_name},
+        rendercv_settings=data.RenderCVSettings(date="2024-01-01"),  # type: ignore
     )
-
-    output_file_name = f"{str(cv_data_model.name).replace(' ', '_')}_CV.tex"
+    output_file_name = f"{str(cv_data_model.name).replace(' ', '_')}_CV.typ"
     reference_file_name = (
-        f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}.tex"
+        f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}.typ"
     )
+    if theme_name in data.available_themes:
+        output_file_name = output_file_name.replace(".typ", ".typ")
+        reference_file_name = reference_file_name.replace(".typ", ".typ")
 
-    def create_a_latex_file(output_directory_path, _):
-        renderer.create_a_latex_file(data_model, output_directory_path)
+    def create_a_typst_file(output_directory_path, _):
+        renderer.create_a_typst_file(data_model, output_directory_path)
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
-        create_a_latex_file,
+        create_a_typst_file,
         reference_file_name,
         output_file_name,
     )
 
 
-def test_if_create_a_latex_file_can_create_a_new_directory(
+def test_if_create_a_typst_file_can_create_a_new_directory(
     tmp_path, rendercv_data_model
 ):
     new_directory = tmp_path / "new_directory"
 
-    latex_file_path = renderer.create_a_latex_file(rendercv_data_model, new_directory)
+    typst_file_path = renderer.create_a_typst_file(rendercv_data_model, new_directory)
 
-    assert latex_file_path.exists()
+    assert typst_file_path.exists()
 
 
 @pytest.mark.parametrize(
@@ -430,13 +266,13 @@ def test_if_create_a_latex_file_can_create_a_new_directory(
         "rendercv_filled_curriculum_vitae_data_model",
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_create_a_markdown_file(
     run_a_function_and_check_if_output_is_the_same_as_reference,
     request: pytest.FixtureRequest,
     theme_name,
     curriculum_vitae_data_model,
 ):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
     cv_data_model = request.getfixturevalue(curriculum_vitae_data_model)
     data_model = data.RenderCVDataModel(
         cv=cv_data_model,
@@ -463,11 +299,11 @@ def test_if_create_a_markdown_file_can_create_a_new_directory(
 ):
     new_directory = tmp_path / "new_directory"
 
-    latex_file_path = renderer.create_a_markdown_file(
+    typst_file_path = renderer.create_a_markdown_file(
         rendercv_data_model, new_directory
     )
 
-    assert latex_file_path.exists()
+    assert typst_file_path.exists()
 
 
 @pytest.mark.parametrize(
@@ -506,12 +342,12 @@ def test_copy_theme_files_to_output_directory_custom_theme(
 
         # create a txt file called test.txt in the custom theme directory:
         for entry_type_name in data.available_entry_type_names:
-            pathlib.Path(dummytheme_path / f"{entry_type_name}.j2.tex").touch()
+            pathlib.Path(dummytheme_path / f"{entry_type_name}.j2.typ").touch()
 
-        pathlib.Path(dummytheme_path / "Header.j2.tex").touch()
-        pathlib.Path(dummytheme_path / "Preamble.j2.tex").touch()
-        pathlib.Path(dummytheme_path / "SectionBeginning.j2.tex").touch()
-        pathlib.Path(dummytheme_path / "SectionEnding.j2.tex").touch()
+        pathlib.Path(dummytheme_path / "Header.j2.typ").touch()
+        pathlib.Path(dummytheme_path / "Preamble.j2.typ").touch()
+        pathlib.Path(dummytheme_path / "SectionBeginning.j2.typ").touch()
+        pathlib.Path(dummytheme_path / "SectionEnding.j2.typ").touch()
         pathlib.Path(dummytheme_path / "theme_auxiliary_file.cls").touch()
         pathlib.Path(dummytheme_path / "theme_auxiliary_dir").mkdir(exist_ok=True)
         pathlib.Path(
@@ -564,35 +400,38 @@ def test_copy_theme_files_to_output_directory_nonexistent_theme():
     data.available_themes,
 )
 @pytest.mark.parametrize(
+    "short_second_row",
+    [True, False],
+)
+@pytest.mark.parametrize(
     "curriculum_vitae_data_model",
     [
         "rendercv_empty_curriculum_vitae_data_model",
         "rendercv_filled_curriculum_vitae_data_model",
     ],
 )
-@time_machine.travel("2024-01-01")
-def test_create_a_latex_file_and_copy_theme_files(
+def test_create_a_typst_file_and_copy_theme_files(
     run_a_function_and_check_if_output_is_the_same_as_reference,
     request: pytest.FixtureRequest,
     theme_name,
     curriculum_vitae_data_model,
+    short_second_row,
 ):
-    reference_directory_name = (
-        f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}"
-    )
-
+    short_s_r = "short_second_row" if short_second_row else "long_second_row"
+    reference_directory_name = f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}_{short_s_r}"
     data_model = data.RenderCVDataModel(
         cv=request.getfixturevalue(curriculum_vitae_data_model),
-        design={"theme": theme_name},
+        design={"theme": theme_name, "entries": {"short_second_row": short_second_row}},
+        rendercv_settings=data.RenderCVSettings(date="2024-01-01"),  # type: ignore
     )
 
-    def create_a_latex_file_and_copy_theme_files(output_directory_path, _):
-        renderer.create_a_latex_file_and_copy_theme_files(
+    def create_a_typst_file_and_copy_theme_files(output_directory_path, _):
+        renderer.create_a_typst_file_and_copy_theme_files(
             data_model, output_directory_path
         )
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
-        create_a_latex_file_and_copy_theme_files,
+        create_a_typst_file_and_copy_theme_files,
         reference_directory_name,
     )
 
@@ -602,40 +441,47 @@ def test_create_a_latex_file_and_copy_theme_files(
     data.available_themes,
 )
 @pytest.mark.parametrize(
+    "short_second_row",
+    [True, False],
+)
+@pytest.mark.parametrize(
     "curriculum_vitae_data_model",
     [
         "rendercv_empty_curriculum_vitae_data_model",
         "rendercv_filled_curriculum_vitae_data_model",
     ],
 )
-@time_machine.travel("2024-01-01")
-def test_render_a_pdf_from_latex(
+def test_render_a_pdf_from_typst(
     request: pytest.FixtureRequest,
     run_a_function_and_check_if_output_is_the_same_as_reference,
     theme_name,
     curriculum_vitae_data_model,
+    short_second_row,
 ):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
     name = request.getfixturevalue(curriculum_vitae_data_model).name
     name = str(name).replace(" ", "_")
 
     output_file_name = f"{name}_CV.pdf"
-    reference_name = (
-        f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}"
-    )
+    short_s_r = "short_second_row" if short_second_row else "long_second_row"
+    reference_name = f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}_{short_s_r}"
     reference_file_name = f"{reference_name}.pdf"
 
+    file_name = f"{name}_CV.typ"
+
+    if theme_name in data.available_themes:
+        file_name = file_name.replace(".typ", ".typ")
+
     def generate_pdf_file(output_directory_path, reference_file_or_directory_path):
-        latex_sources_path = (
+        typst_sources_path = (
             reference_file_or_directory_path.parent.parent
-            / "test_create_a_latex_file_and_copy_theme_files"
+            / "test_create_a_typst_file_and_copy_theme_files"
             / reference_name
         )
 
-        # copy the latex sources to the output path
-        shutil.copytree(latex_sources_path, output_directory_path, dirs_exist_ok=True)
+        shutil.copytree(typst_sources_path, output_directory_path, dirs_exist_ok=True)
 
-        # convert the latex code to a pdf
-        renderer.render_a_pdf_from_latex(output_directory_path / f"{name}_CV.tex")
+        renderer.render_a_pdf_from_typst(output_directory_path / file_name)
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
         function=generate_pdf_file,
@@ -644,10 +490,10 @@ def test_render_a_pdf_from_latex(
     )
 
 
-def test_render_pdf_from_latex_nonexistent_latex_file():
-    file_path = pathlib.Path("file_doesnt_exist.tex")
+def test_render_pdf_from_typst_nonexistent_typst_file():
+    file_path = pathlib.Path("file_doesnt_exist.typ")
     with pytest.raises(FileNotFoundError):
-        renderer.render_a_pdf_from_latex(file_path)
+        renderer.render_a_pdf_from_typst(file_path)
 
 
 @pytest.mark.parametrize(
@@ -661,12 +507,12 @@ def test_render_pdf_from_latex_nonexistent_latex_file():
         "rendercv_filled_curriculum_vitae_data_model",
     ],
 )
-@time_machine.travel("2024-01-01")
 def test_render_an_html_from_markdown(
     run_a_function_and_check_if_output_is_the_same_as_reference,
     theme_name,
     curriculum_vitae_data_model,
 ):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
     reference_name = (
         f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}"
     )
@@ -705,72 +551,201 @@ def test_render_html_from_markdown_nonexistent_markdown_file():
         renderer.render_an_html_from_markdown(file_path)
 
 
-def test_render_pngs_from_pdf_single_page(
-    run_a_function_and_check_if_output_is_the_same_as_reference,
-):
-    output_file_name = "classic_empty_1.png"
-    reference_file_name = "classic_empty.png"
-
-    def generate_pngs(output_directory_path, reference_file_or_directory_path):
-        pdf_file_name = "classic_empty.pdf"
-
-        pdf_path = (
-            reference_file_or_directory_path.parent.parent
-            / "test_render_a_pdf_from_latex"
-            / pdf_file_name
-        )
-
-        # copy the markdown source to the output path
-        shutil.copy(pdf_path, output_directory_path)
-
-        # convert pdf to pngs
-        renderer.render_pngs_from_pdf(output_directory_path / pdf_file_name)
-
-    assert run_a_function_and_check_if_output_is_the_same_as_reference(
-        generate_pngs,
-        reference_file_or_directory_name=reference_file_name,
-        output_file_name=output_file_name,
-    )
-
-
-def test_render_pngs_from_pdf(
+def test_render_pngs_from_typst(
     run_a_function_and_check_if_output_is_the_same_as_reference,
 ):
     reference_directory_name = "pngs"
 
     def generate_pngs(output_directory_path, reference_file_or_directory_path):
-        pdf_file_name = "classic_filled.pdf"
-
-        pdf_path = (
+        typst_folder_path = (
             reference_file_or_directory_path.parent.parent
-            / "test_render_a_pdf_from_latex"
-            / pdf_file_name
+            / "test_create_a_typst_file_and_copy_theme_files"
+            / "classic_filled_long_second_row"
         )
 
-        # copy the markdown source to the output path
-        shutil.copy(pdf_path, output_directory_path)
+        # copy typst folder to the output path
+        shutil.copytree(typst_folder_path, output_directory_path, dirs_exist_ok=True)
 
         # convert pdf to pngs
-        renderer.render_pngs_from_pdf(output_directory_path / pdf_file_name)
+        renderer.render_pngs_from_typst(
+            output_directory_path / "John_Doe_CV.typ", ppi=20
+        )
 
-        # remove the pdf file
-        (output_directory_path / pdf_file_name).unlink()
+        # remove everything except the pngs
+        for file in output_directory_path.glob("*"):
+            if file.suffix == ".jpg" or file.suffix == ".typ":
+                file.unlink()
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
-        generate_pngs,
-        reference_directory_name,
+        generate_pngs, reference_directory_name
     )
 
 
-def test_render_pngs_from_pdf_nonexistent_pdf_file():
-    file_path = pathlib.Path("file_doesnt_exist.pdf")
-    with pytest.raises(FileNotFoundError):
-        renderer.render_pngs_from_pdf(file_path)
-
-
-def test_render_pdf_invalid_latex_file(tmp_path):
-    latex_file_path = tmp_path / "invalid_latex_file.tex"
-    latex_file_path.write_text("Invalid LaTeX code")
+def test_render_pdf_invalid_typst_file(tmp_path):
+    typst_file_path = tmp_path / "invalid_typst_file.typ"
+    typst_file_path.write_text("# Invalid Typst code")
 
     with pytest.raises(RuntimeError):
-        renderer.render_a_pdf_from_latex(latex_file_path)
+        renderer.render_a_pdf_from_typst(typst_file_path)
+
+
+@pytest.mark.parametrize(
+    "theme_name",
+    data.available_themes,
+)
+def test_locale(
+    theme_name,
+    tmp_path,
+):
+    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+    cv = data.CurriculumVitae(
+        name="Test",
+        sections={
+            "Normal Entries": [
+                data.NormalEntry(
+                    name="Test",
+                    start_date="2024-01-01",
+                    end_date="present",
+                ),
+            ]
+        },
+    )
+
+    # "The style of the date. The following placeholders can be"
+    # " used:\n-FULL_MONTH_NAME: Full name of the month\n- MONTH_ABBREVIATION:"
+    # " Abbreviation of the month\n- MONTH: Month as a number\n-"
+    # " MONTH_IN_TWO_DIGITS: Month as a number in two digits\n- YEAR: Year as a"
+    # " number\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits\nThe"
+    # ' default value is "MONTH_ABBREVIATION YEAR".'
+    locale = data.Locale(
+        abbreviations_for_months=[
+            "Abbreviation of Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+        full_names_of_months=[
+            "Full name of January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
+        ],
+        present="this is present",
+        to="this is to",
+        date_template=(
+            "FULL_MONTH_NAME MONTH_ABBREVIATION MONTH MONTH_IN_TWO_DIGITS YEAR"
+            " YEAR_IN_TWO_DIGITS"
+        ),
+    )
+
+    data_model = data.RenderCVDataModel(
+        cv=cv,
+        design={"theme": theme_name},
+        locale=locale,
+    )
+
+    file = renderer.create_a_typst_file(data_model, tmp_path)
+
+    contents = file.read_text()
+
+    assert "Full name of January" in contents
+    assert "Abbreviation of Jan" in contents
+    assert "this is present" in contents
+    assert "this is to" in contents
+
+
+@pytest.mark.parametrize(
+    "theme_name",
+    data.available_themes,
+)
+def test_are_all_the_theme_files_the_same(theme_name):
+    source_of_truth_theme = "classic"
+
+    # find the directiory of rendercv.themes.classic:
+    source_of_truth_theme_folder = (
+        pathlib.Path(__file__).parent.parent
+        / "rendercv"
+        / "themes"
+        / source_of_truth_theme
+    )
+    source_of_truth_file_contents = [
+        file.read_text() for file in source_of_truth_theme_folder.rglob("*.j2.typ")
+    ]
+
+    # find the directiory of rendercv.themes.{theme_name}:
+    theme_folder = (
+        pathlib.Path(__file__).parent.parent / "rendercv" / "themes" / theme_name
+    )
+    theme_file_contents = [file.read_text() for file in theme_folder.rglob("*.j2.typ")]
+
+    assert source_of_truth_file_contents == theme_file_contents
+
+
+@pytest.mark.parametrize(
+    ("input_template", "placeholders", "expected_output"),
+    [
+        # ("Hello, {name}!", {"{name}": None}, "Hello, "), # currently does not work
+        # ("Hello, {name}!", {"{name}": "World"}, "Hello, World!"), # currently does not work
+        # ("No placeholders here.", {}, "No placeholders here."),  # currently does not work
+        ("*[My](https://myurl.com)*", {}, '#link("https://myurl.com")[#emph[My]]'),
+        ("**[My](https://myurl.com)**", {}, '#link("https://myurl.com")[#strong[My]]'),
+        (
+            "***[My](https://myurl.com)***",
+            {},
+            '#link("https://myurl.com")[#strong[#emph[My]]]',
+        ),
+    ],
+)
+def test_input_template_to_typst(
+    input_template,
+    placeholders,
+    expected_output,
+):
+    output = templater.input_template_to_typst(
+        input_template,
+        placeholders,
+    )
+
+    assert output == expected_output
+
+
+def test_render_a_typst_file_with_none_name(tmp_path):
+    cv = data.CurriculumVitae(
+        name=None,
+        sections={
+            "Normal Entries": [
+                data.NormalEntry(
+                    name="Test",
+                    start_date="2024-01-01",
+                    end_date="present",
+                ),
+            ]
+        },
+    )
+
+    data_model = data.RenderCVDataModel(
+        cv=cv,
+        design={"theme": "classic"},
+    )
+
+    file = renderer.create_a_typst_file(data_model, tmp_path)
+
+    contents = file.read_text()
+
+    assert "Test" in contents

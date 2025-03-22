@@ -3,6 +3,7 @@ The `rendercv.models.data.entry_types` module contains the data models of all th
 entry types in RenderCV.
 """
 
+import abc
 import functools
 import re
 from datetime import date as Date
@@ -173,26 +174,124 @@ EndDate = Annotated[
 # ======================================================================================
 
 
-class OneLineEntry(RenderCVBaseModelWithExtraKeys):
+class EntryType(abc.ABC):
+    """This class is an abstract class that defines all the methods an entry type should
+    have."""
+
+    @abc.abstractmethod
+    def make_keywords_bold(self, keywords: list[str]) -> "EntryType": ...
+
+
+def make_keywords_bold_in_a_string(string: str, keywords: list[str]) -> str:
+    """Make the given keywords bold in the given string, handling capitalization and substring issues.
+
+    Examples:
+        >>> make_keywords_bold_in_a_string("I know java and javascript", ["java"])
+        'I know **java** and javascript'
+
+        >>> make_keywords_bold_in_a_string("Experience with aws, Aws and AWS", ["aws"])
+        'Experience with **aws**, **Aws** and **AWS**'
+    """
+
+    def bold_match(match):
+        return f"**{match.group(0)}**"
+
+    for keyword in keywords:
+        # Use re.escape to ensure special characters in keywords are handled
+        pattern = r"\b" + re.escape(keyword) + r"\b"
+        string = re.sub(pattern, bold_match, string, flags=re.IGNORECASE)
+
+    return string
+
+
+class OneLineEntry(RenderCVBaseModelWithExtraKeys, EntryType):
     """This class is the data model of `OneLineEntry`."""
 
+    model_config = pydantic.ConfigDict(title="One Line Entry")
     label: str = pydantic.Field(
-        title="Name",
-        description="The label of the OneLineEntry.",
+        title="Label",
     )
     details: str = pydantic.Field(
         title="Details",
-        description="The details of the OneLineEntry.",
     )
 
+    def make_keywords_bold(self, keywords: list[str]) -> "OneLineEntry":
+        """Make the given keywords bold in the `details` field.
 
-class BulletEntry(RenderCVBaseModelWithExtraKeys):
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A OneLineEntry with the keywords made bold in the `details` field.
+        """
+        self.details = make_keywords_bold_in_a_string(self.details, keywords)
+        return self
+
+
+class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
     """This class is the data model of `BulletEntry`."""
 
+    model_config = pydantic.ConfigDict(title="Bullet Entry")
     bullet: str = pydantic.Field(
         title="Bullet",
-        description="The bullet of the BulletEntry.",
     )
+
+    def make_keywords_bold(self, keywords: list[str]) -> "BulletEntry":
+        """Make the given keywords bold in the `bullet` field.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A BulletEntry with the keywords made bold in the `bullet` field.
+        """
+        self.bullet = make_keywords_bold_in_a_string(self.bullet, keywords)
+        return self
+
+
+class NumberedEntry(RenderCVBaseModelWithExtraKeys, EntryType):
+    """This class is the data model of `NumberedEntry`."""
+
+    model_config = pydantic.ConfigDict(title="Numbered Entry")
+
+    number: str = pydantic.Field(
+        title="Number",
+    )
+
+    def make_keywords_bold(self, keywords: list[str]) -> "NumberedEntry":
+        """Make the given keywords bold in the `number` field.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A NumberedEntry with the keywords made bold in the `number` field.
+        """
+        self.number = make_keywords_bold_in_a_string(str(self.number), keywords)
+        return self
+
+
+class ReversedNumberedEntry(RenderCVBaseModelWithExtraKeys, EntryType):
+    """This class is the data model of `ReversedNumberedEntry`."""
+
+    model_config = pydantic.ConfigDict(title="Reversed Numbered Entry")
+    reversed_number: str = pydantic.Field(
+        title="Reversed Number",
+    )
+
+    def make_keywords_bold(self, keywords: list[str]) -> "ReversedNumberedEntry":
+        """Make the given keywords bold in the `reversed_number` field.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A ReversedNumberedEntry with the keywords made bold in the `reversed_number` field.
+        """
+        self.reversed_number = make_keywords_bold_in_a_string(
+            str(self.reversed_number), keywords
+        )
+        return self
 
 
 class EntryWithDate(RenderCVBaseModelWithExtraKeys):
@@ -204,8 +303,8 @@ class EntryWithDate(RenderCVBaseModelWithExtraKeys):
         default=None,
         title="Date",
         description=(
-            "The date field can be filled in YYYY-MM-DD, YYYY-MM, or YYYY formats or as"
-            ' an arbitrary string like "Fall 2023".'
+            "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as"
+            ' an arbitrary string such as "Fall 2023."'
         ),
         examples=["2020-09-24", "Fall 2023"],
     )
@@ -225,29 +324,23 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
 
     title: str = pydantic.Field(
         title="Publication Title",
-        description="The title of the publication.",
     )
     authors: list[str] = pydantic.Field(
         title="Authors",
-        description="The authors of the publication in order as a list of strings.",
     )
     doi: Optional[Annotated[str, pydantic.Field(pattern=r"\b10\..*")]] = pydantic.Field(
         default=None,
         title="DOI",
-        description="The DOI of the publication.",
         examples=["10.48550/arXiv.2310.03138"],
     )
     url: Optional[pydantic.HttpUrl] = pydantic.Field(
         default=None,
         title="URL",
-        description=(
-            "The URL of the publication. If DOI is provided, it will be ignored."
-        ),
+        description="If DOI is provided, it will be ignored.",
     )
     journal: Optional[str] = pydantic.Field(
         default=None,
         title="Journal",
-        description="The journal or conference name.",
     )
 
     @pydantic.model_validator(mode="after")  # type: ignore
@@ -282,15 +375,23 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
             return computers.make_a_url_clean(str(self.url))  # type: ignore
         return ""
 
+    def make_keywords_bold(
+        self,
+        keywords: list[str],  # NOQA: ARG002
+    ) -> "PublicationEntryBase":
+        return self
+
 
 # The following class is to ensure PublicationEntryBase keys come first,
 # then the keys of the EntryWithDate class. The only way to achieve this in Pydantic is
 # to do this. The same thing is done for the other classes as well.
-class PublicationEntry(EntryWithDate, PublicationEntryBase):
+class PublicationEntry(EntryWithDate, PublicationEntryBase, EntryType):
     """This class is the data model of `PublicationEntry`. `PublicationEntry` class is
     created by combining the `EntryWithDate` and `PublicationEntryBase` classes to have
     the fields in the correct order.
     """
+
+    model_config = pydantic.ConfigDict(title="Publication Entry")
 
 
 class EntryBase(EntryWithDate):
@@ -299,17 +400,11 @@ class EntryBase(EntryWithDate):
     etc.
     """
 
-    location: Optional[str] = pydantic.Field(
-        default=None,
-        title="Location",
-        description="The location of the event.",
-        examples=["Istanbul, Türkiye"],
-    )
     start_date: StartDate = pydantic.Field(
         default=None,
         title="Start Date",
         description=(
-            "The start date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format."
+            "The event's start date, written in YYYY-MM-DD, YYYY-MM, or YYYY format."
         ),
         examples=["2020-09-24"],
     )
@@ -317,18 +412,37 @@ class EntryBase(EntryWithDate):
         default=None,
         title="End Date",
         description=(
-            "The end date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format. If the"
-            ' event is still ongoing, then type "present" or provide only the'
-            " start_date."
+            "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If"
+            " the event is ongoing, type “present” or provide only the start date."
         ),
         examples=["2020-09-24", "present"],
+    )
+    location: Optional[str] = pydantic.Field(
+        default=None,
+        title="Location",
+        examples=["Istanbul, Türkiye"],
+    )
+    summary: Optional[str] = pydantic.Field(
+        default=None,
+        title="Summary",
+        examples=["Did this and that."],
     )
     highlights: Optional[list[str]] = pydantic.Field(
         default=None,
         title="Highlights",
-        description="The highlights of the event as a list of strings.",
         examples=["Did this.", "Did that."],
     )
+
+    @pydantic.field_validator("highlights", mode="after")
+    @classmethod
+    def handle_nested_bullets_in_highlights(
+        cls, highlights: Optional[list[str]]
+    ) -> Optional[list[str]]:
+        """Handle nested bullets in the `highlights` field."""
+        if highlights:
+            return [highlight.replace(" - ", "\n    - ") for highlight in highlights]
+
+        return highlights
 
     @pydantic.model_validator(mode="after")  # type: ignore
     def check_and_adjust_dates(self) -> "EntryBase":
@@ -349,7 +463,9 @@ class EntryBase(EntryWithDate):
 
         Example:
             ```python
-            entry = dm.EntryBase(start_date="2020-10-11", end_date="2021-04-04").date_string
+            entry = dm.EntryBase(
+                start_date="2020-10-11", end_date="2021-04-04"
+            ).date_string
             ```
             returns
             `"Nov 2020 to Apr 2021"`
@@ -389,21 +505,43 @@ class EntryBase(EntryWithDate):
             start_date=self.start_date, end_date=self.end_date, date=self.date
         )
 
+    def make_keywords_bold(self, keywords: list[str]) -> "EntryBase":
+        """Make the given keywords bold in the `summary` and `highlights` fields.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            An EntryBase with the keywords made bold in the `summary` and `highlights`
+            fields.
+        """
+        if self.summary:
+            self.summary = make_keywords_bold_in_a_string(self.summary, keywords)
+
+        if self.highlights:
+            self.highlights = [
+                make_keywords_bold_in_a_string(highlight, keywords)
+                for highlight in self.highlights
+            ]
+
+        return self
+
 
 class NormalEntryBase(RenderCVBaseModelWithExtraKeys):
     """This class is the parent class of the `NormalEntry` class."""
 
     name: str = pydantic.Field(
         title="Name",
-        description="The name of the NormalEntry.",
     )
 
 
-class NormalEntry(EntryBase, NormalEntryBase):
+class NormalEntry(EntryBase, NormalEntryBase, EntryType):
     """This class is the data model of `NormalEntry`. `NormalEntry` class is created by
     combining the `EntryBase` and `NormalEntryBase` classes to have the fields in the
     correct order.
     """
+
+    model_config = pydantic.ConfigDict(title="Normal Entry")
 
 
 class ExperienceEntryBase(RenderCVBaseModelWithExtraKeys):
@@ -411,19 +549,19 @@ class ExperienceEntryBase(RenderCVBaseModelWithExtraKeys):
 
     company: str = pydantic.Field(
         title="Company",
-        description="The company name.",
     )
     position: str = pydantic.Field(
         title="Position",
-        description="The position.",
     )
 
 
-class ExperienceEntry(EntryBase, ExperienceEntryBase):
+class ExperienceEntry(EntryBase, ExperienceEntryBase, EntryType):
     """This class is the data model of `ExperienceEntry`. `ExperienceEntry` class is
     created by combining the `EntryBase` and `ExperienceEntryBase` classes to have the
     fields in the correct order.
     """
+
+    model_config = pydantic.ConfigDict(title="Experience Entry")
 
 
 class EducationEntryBase(RenderCVBaseModelWithExtraKeys):
@@ -431,25 +569,25 @@ class EducationEntryBase(RenderCVBaseModelWithExtraKeys):
 
     institution: str = pydantic.Field(
         title="Institution",
-        description="The institution name.",
     )
     area: str = pydantic.Field(
         title="Area",
-        description="The area of study.",
     )
     degree: Optional[str] = pydantic.Field(
         default=None,
         title="Degree",
-        description="The type of the degree.",
+        description="The type of the degree, such as BS, BA, PhD, MS.",
         examples=["BS", "BA", "PhD", "MS"],
     )
 
 
-class EducationEntry(EntryBase, EducationEntryBase):
+class EducationEntry(EntryBase, EducationEntryBase, EntryType):
     """This class is the data model of `EducationEntry`. `EducationEntry` class is
     created by combining the `EntryBase` and `EducationEntryBase` classes to have the
     fields in the correct order.
     """
+
+    model_config = pydantic.ConfigDict(title="Education Entry")
 
 
 # ======================================================================================
@@ -463,6 +601,8 @@ Entry = (
     | EducationEntry
     | PublicationEntry
     | BulletEntry
+    | NumberedEntry
+    | ReversedNumberedEntry
     | str
 )
 
@@ -474,6 +614,8 @@ ListOfEntries = (
     | list[EducationEntry]
     | list[PublicationEntry]
     | list[BulletEntry]
+    | list[NumberedEntry]
+    | list[ReversedNumberedEntry]
     | list[str]
 )
 

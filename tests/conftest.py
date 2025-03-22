@@ -3,6 +3,7 @@
 import copy
 import filecmp
 import itertools
+import json
 import pathlib
 import shutil
 import typing
@@ -26,7 +27,6 @@ from rendercv.renderer import templater
 # reference files with the latest output.
 update_testdata = False
 
-# copy sample entries from docs/update_rendercv_files.py:
 education_entry_dictionary = {
     "institution": "Boğaziçi University",
     "location": "Istanbul, Turkey",
@@ -48,8 +48,8 @@ experience_entry_dictionary = {
     "end_date": "2021-08-12",
     "highlights": [
         (
-            "Developed an [IOS application](https://example.com) that has received"
-            " more than **100,000 downloads**."
+            "Developed an [IOS application](https://example.com) that has received more"
+            " than **100,000 downloads**."
         ),
         "Managed a team of **5** engineers.",
     ],
@@ -83,6 +83,14 @@ one_line_entry_dictionary = {
 
 bullet_entry_dictionary = {
     "bullet": "This is a bullet entry.",
+}
+
+numbered_entry_dictionary = {
+    "number": "This is a numbered entry.",
+}
+
+reversed_numbered_entry_dictionary = {
+    "reversed_number": "This is a reversed numbered entry.",
 }
 
 
@@ -123,6 +131,18 @@ def bullet_entry() -> dict[str, str]:
 
 
 @pytest.fixture
+def numbered_entry() -> dict[str, str]:
+    """Return a sample numbered entry."""
+    return copy.deepcopy(numbered_entry_dictionary)
+
+
+@pytest.fixture
+def reversed_numbered_entry() -> dict[str, str]:
+    """Return a sample reversed numbered entry."""
+    return copy.deepcopy(reversed_numbered_entry_dictionary)
+
+
+@pytest.fixture
 def text_entry() -> str:
     """Return a sample text entry."""
     return (
@@ -136,6 +156,17 @@ def text_entry() -> str:
 def rendercv_data_model() -> data.RenderCVDataModel:
     """Return a sample RenderCV data model."""
     return data.create_a_sample_data_model()
+
+
+@pytest.fixture
+def rendercv_data_as_python_dictionary(
+    rendercv_data_model,
+) -> dict:
+    """Return a sample RenderCV data as a Python dictionary."""
+    data_model_as_json = rendercv_data_model.model_dump_json(
+        exclude_none=False, by_alias=True, exclude={"cv": {"sections", "photo"}}
+    )
+    return json.loads(data_model_as_json)
 
 
 @pytest.fixture
@@ -171,6 +202,16 @@ def return_a_value_for_a_field_type(
         "start_date": "2015-09",
         "end_date": "2020-06",
         "date": "2021-09",
+        "summary": (
+            "Did *this* and this is a **bold** [link](https://example.com). But I must"
+            " explain to you how all this mistaken idea of denouncing pleasure and"
+            " praising pain was born and I will give you a complete account of the"
+            " system, and expound the actual teachings of the great explorer of the"
+            " truth, the master-builder of human happiness. No one rejects, dislikes,"
+            " or avoids pleasure itself, because it is pleasure, but because those who"
+            " do not know how to pursue pleasure rationally encounter consequences that"
+            " are extremely painful."
+        ),
         "highlights": [
             (
                 "Did *this* and this is a **bold** [link](https://example.com). But I"
@@ -189,7 +230,7 @@ def return_a_value_for_a_field_type(
                 " pleasure."
             ),
         ],
-        "company": "Some **Company**",
+        "company": "Some Company",
         "position": "Software Engineer",
         "name": "My Project",
         "label": "Pro**gram**ming",
@@ -218,7 +259,16 @@ def return_a_value_for_a_field_type(
     field_type_dictionary = {
         pydantic.HttpUrl: "https://example.com",
         pydantic_phone_numbers.PhoneNumber: "+905419999999",
-        str: "A string",
+        str: (
+            "Did *this* and this is a **bold** [link](https://example.com). But I must"
+            " explain to you how all this mistaken idea of denouncing pleasure and"
+            " praising pain was born and I will give you a complete account of the"
+            " system, and expound the actual teachings of the great explorer of the"
+            " truth, the master-builder of human happiness. No one rejects, dislikes,"
+            " or avoids pleasure itself, because it is pleasure, but because those who"
+            " do not know how to pursue pleasure rationally encounter consequences that"
+            " are extremely painful."
+        ),
         list[str]: ["A string", "Another string"],
         int: 1,
         float: 1.0,
@@ -284,7 +334,7 @@ def rendercv_filled_curriculum_vitae_data_model(
     """Return a filled CurriculumVitae data model, where each section has all possible
     combinations of entry types.
     """
-    profile_picture_path = testdata_directory_path / "profile_picture.png"
+    profile_picture_path = testdata_directory_path / "profile_picture.jpg"
     if update_testdata:
         # Get an image from https://picsum.photos
         response = urllib.request.urlopen("https://picsum.photos/id/237/300/300")
@@ -309,6 +359,7 @@ def rendercv_filled_curriculum_vitae_data_model(
             data.SocialNetwork(network="ResearchGate", username="johndoe"),
             data.SocialNetwork(network="YouTube", username="johndoe"),
             data.SocialNetwork(network="Telegram", username="johndoe"),
+            data.SocialNetwork(network="X", username="johndoe"),
         ],
         sections={
             "Text Entries": [text_entry, text_entry, text_entry],
@@ -320,6 +371,10 @@ def rendercv_filled_curriculum_vitae_data_model(
             "Education Entries": create_combinations_of_a_model(data.EducationEntry),
             "Normal Entries": create_combinations_of_a_model(data.NormalEntry),
             "One Line Entries": create_combinations_of_a_model(data.OneLineEntry),
+            "Numbered Entries": create_combinations_of_a_model(data.NumberedEntry),
+            "Reversed Numbered Entries": create_combinations_of_a_model(
+                data.ReversedNumberedEntry
+            ),
             "A Section & with % Special Characters": [
                 data.NormalEntry(name="A Section & with % Special Characters")
             ],
@@ -330,7 +385,7 @@ def rendercv_filled_curriculum_vitae_data_model(
 @pytest.fixture
 def jinja2_environment() -> jinja2.Environment:
     """Return a Jinja2 environment."""
-    return templater.setup_jinja2_environment()
+    return templater.Jinja2Environment().environment
 
 
 @pytest.fixture
@@ -381,10 +436,8 @@ def are_these_two_directories_the_same(
         if file1.is_dir():
             if not file2.is_dir():
                 return False
-            are_these_two_directories_the_same(file1, file2)
-        else:
-            if are_these_two_files_the_same(file1, file2) is False:
-                return False
+            return are_these_two_directories_the_same(file1, file2)
+        return are_these_two_files_the_same(file1, file2)
 
     return True
 
@@ -408,14 +461,15 @@ def are_these_two_files_the_same(file1: pathlib.Path, file2: pathlib.Path) -> bo
     if extension1 == ".pdf":
         pages1 = pypdf.PdfReader(file1).pages
         pages2 = pypdf.PdfReader(file2).pages
-        if len(pages1) != len(pages2):
-            return False
+        result = len(pages1) == len(pages2)
 
         for i in range(len(pages1)):
             if pages1[i].extract_text() != pages2[i].extract_text():
-                return False
+                result = False
+                break
 
-        return True
+        return result
+
     return filecmp.cmp(file1, file2)
 
 
@@ -518,17 +572,13 @@ def design_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
 
 
 @pytest.fixture
-def locale_catalog_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
+def locale_file_path(tmp_path, testdata_directory_path) -> pathlib.Path:
     """Return the path to the input file."""
-    locale_catalog_file_path = (
-        testdata_directory_path / "John_Doe_CV_locale_catalog.yaml"
-    )
+    locale_file_path = testdata_directory_path / "John_Doe_CV_locale.yaml"
     if update_testdata:
-        locale_catalog_file_path.write_text("locale_catalog:\n  years: yil\n")
-    shutil.copyfile(
-        locale_catalog_file_path, tmp_path / "John_Doe_CV_locale_catalog.yaml"
-    )
-    return tmp_path / "John_Doe_CV_locale_catalog.yaml"
+        locale_file_path.write_text("locale:\n  years: yil\n")
+    shutil.copyfile(locale_file_path, tmp_path / "John_Doe_CV_locale.yaml")
+    return tmp_path / "John_Doe_CV_locale.yaml"
 
 
 @pytest.fixture

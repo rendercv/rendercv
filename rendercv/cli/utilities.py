@@ -6,7 +6,6 @@ import inspect
 import json
 import os
 import pathlib
-import re
 import shutil
 import sys
 import time
@@ -14,6 +13,7 @@ import urllib.request
 from collections.abc import Callable
 from typing import Any, Optional
 
+import packaging.version
 import typer
 import watchdog.events
 import watchdog.observers
@@ -120,7 +120,7 @@ def copy_files(paths: list[pathlib.Path] | pathlib.Path, new_path: pathlib.Path)
             shutil.copy2(file_path, png_path_with_page_number)
 
 
-def get_latest_version_number_from_pypi() -> Optional[str]:
+def get_latest_version_number_from_pypi() -> Optional[packaging.version.Version]:
     """Get the latest version number of RenderCV from PyPI.
 
     Example:
@@ -141,38 +141,12 @@ def get_latest_version_number_from_pypi() -> Optional[str]:
             data = response.read()
             encoding = response.info().get_content_charset("utf-8")
             json_data = json.loads(data.decode(encoding))
-            version = json_data["info"]["version"]
+            version_string = json_data["info"]["version"]
+            version = packaging.version.Version(version_string)
     except Exception:
         pass
 
     return version
-
-
-def get_error_message_and_location_and_value_from_a_custom_error(
-    error_string: str,
-) -> tuple[Optional[str], Optional[str], Optional[str]]:
-    """Look at a string and figure out if it's a custom error message that has been
-    sent from `rendercv.data.reader.read_input_file`. If it is, then return the custom
-    message, location, and the input value.
-
-    This is done because sometimes we raise an error about a specific field in the model
-    validation level, but Pydantic doesn't give us the exact location of the error
-    because it's a model-level error. So, we raise a custom error with three string
-    arguments: message, location, and input value. Those arguments then combined into a
-    string by Python. This function is used to parse that custom error message and
-    return the three values.
-
-    Args:
-        error_string: The error message.
-
-    Returns:
-        The custom message, location, and the input value.
-    """
-    pattern = r"""\(['"](.*)['"], '(.*)', '(.*)'\)"""
-    match = re.search(pattern, error_string)
-    if match:
-        return match.group(1), match.group(2), match.group(3)
-    return None, None, None
 
 
 def copy_templates(
@@ -232,8 +206,9 @@ def parse_render_command_override_arguments(
 
     if len(extra_arguments.args) % 2 != 0:
         message = (
-            "There is a problem with the extra arguments! Each key should have a"
-            " corresponding value."
+            "There is a problem with the extra arguments"
+            f" ({','.join(extra_arguments.args)})! Each key should have a corresponding"
+            " value."
         )
         raise ValueError(message)
 
@@ -291,7 +266,10 @@ def update_render_command_settings_of_the_input_file(
     if "rendercv_settings" not in input_file_as_a_dict:
         input_file_as_a_dict["rendercv_settings"] = {}
 
-    if "render_command" not in input_file_as_a_dict["rendercv_settings"]:
+    if (
+        "render_command" not in input_file_as_a_dict["rendercv_settings"]
+        or input_file_as_a_dict["rendercv_settings"]["render_command"] is None
+    ):
         input_file_as_a_dict["rendercv_settings"]["render_command"] = {}
 
     render_command_field = input_file_as_a_dict["rendercv_settings"]["render_command"]
@@ -305,38 +283,6 @@ def update_render_command_settings_of_the_input_file(
     input_file_as_a_dict["rendercv_settings"]["render_command"] = render_command_field
 
     return input_file_as_a_dict
-
-
-def make_given_keywords_bold_in_a_dictionary(
-    dictionary: dict, keywords: list[str]
-) -> dict:
-    """Iterate over the dictionary recursively and make the given keywords bold.
-
-    Args:
-        dictionary: The dictionary to make the keywords bold.
-        keywords: The keywords to make bold.
-
-    Returns:
-        The dictionary with the given keywords bold.
-    """
-    new_dictionary = dictionary.copy()
-    for keyword in keywords:
-        for key, value in dictionary.items():
-            if isinstance(value, str):
-                new_dictionary[key] = value.replace(keyword, f"**{keyword}**")
-            elif isinstance(value, dict):
-                new_dictionary[key] = make_given_keywords_bold_in_a_dictionary(
-                    value, keywords
-                )
-            elif isinstance(value, list):
-                for i, item in enumerate(value):
-                    if isinstance(item, str):
-                        new_dictionary[key][i] = item.replace(keyword, f"**{keyword}**")
-                    elif isinstance(item, dict):
-                        new_dictionary[key][i] = (
-                            make_given_keywords_bold_in_a_dictionary(item, keywords)
-                        )
-    return new_dictionary
 
 
 def run_rendercv_with_printer(
@@ -359,8 +305,8 @@ def run_rendercv_with_printer(
 
     # Compute the number of steps
     # 1. Validate the input file.
-    # 2. Create the LaTeX file.
-    # 3. Render PDF from LaTeX.
+    # 2. Create the Typst file.
+    # 3. Render PDF from Typst.
     # 4. Render PNGs from PDF.
     # 5. Create the Markdown file.
     # 6. Render HTML from Markdown.
@@ -382,17 +328,6 @@ def run_rendercv_with_printer(
             context={"input_file_directory": input_file_path.parent},
         )
 
-        # If the `bold_keywords` field is provided in the `rendercv_settings`, make the
-        # given keywords bold in the `cv.sections` field:
-        if data_model.rendercv_settings and data_model.rendercv_settings.bold_keywords:
-            cv_field_as_dictionary = data_model.cv.model_dump(by_alias=True)
-            new_sections_field = make_given_keywords_bold_in_a_dictionary(
-                cv_field_as_dictionary["sections"],
-                data_model.rendercv_settings.bold_keywords,
-            )
-            cv_field_as_dictionary["sections"] = new_sections_field
-            data_model.cv = data.models.CurriculumVitae(**cv_field_as_dictionary)
-
         # Change the current working directory to the input file's directory (because
         # the template overrides are looked up in the current working directory). The
         # output files will be in the original working directory. It should be done
@@ -401,33 +336,32 @@ def run_rendercv_with_printer(
 
         render_command_settings: data.models.RenderCommandSettings = (
             data_model.rendercv_settings.render_command  # type: ignore
-        )  # type: ignore
+        )
         output_directory = (
-            working_directory / render_command_settings.output_folder_name  # type: ignore
+            working_directory / render_command_settings.output_folder_name
         )
 
         progress.finish_the_current_step()
 
-        progress.start_a_step("Generating the LaTeX file")
+        progress.start_a_step("Generating the Typst file")
 
-        latex_file_path_in_output_folder = (
-            renderer.create_a_latex_file_and_copy_theme_files(
+        typst_file_path_in_output_folder = (
+            renderer.create_a_typst_file_and_copy_theme_files(
                 data_model, output_directory
             )
         )
-        if render_command_settings.latex_path:
+        if render_command_settings.typst_path:
             copy_files(
-                latex_file_path_in_output_folder,
-                render_command_settings.latex_path,
+                typst_file_path_in_output_folder,
+                render_command_settings.typst_path,
             )
 
         progress.finish_the_current_step()
 
-        progress.start_a_step("Rendering the LaTeX file to a PDF")
+        progress.start_a_step("Rendering the Typst file to a PDF")
 
-        pdf_file_path_in_output_folder = renderer.render_a_pdf_from_latex(
-            latex_file_path_in_output_folder,
-            render_command_settings.use_local_latex_command,
+        pdf_file_path_in_output_folder = renderer.render_a_pdf_from_typst(
+            typst_file_path_in_output_folder,
         )
         if render_command_settings.pdf_path:
             copy_files(
@@ -440,8 +374,8 @@ def run_rendercv_with_printer(
         if not render_command_settings.dont_generate_png:
             progress.start_a_step("Rendering PNG files from the PDF")
 
-            png_file_paths_in_output_folder = renderer.render_pngs_from_pdf(
-                pdf_file_path_in_output_folder
+            png_file_paths_in_output_folder = renderer.render_pngs_from_typst(
+                typst_file_path_in_output_folder
             )
             if render_command_settings.png_path:
                 copy_files(
@@ -545,7 +479,7 @@ def read_and_construct_the_input(
     """
     input_file_as_a_dict = data.read_a_yaml_file(input_file_path)
 
-    # Read individual `design`, `locale_catalog`, etc. files if they are provided in the
+    # Read individual `design`, `locale`, etc. files if they are provided in the
     # input file:
     for field in data.rendercv_data_model_fields:
         if field in cli_render_arguments and cli_render_arguments[field] is not None:

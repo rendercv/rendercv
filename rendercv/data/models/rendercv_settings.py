@@ -3,6 +3,7 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 `rendercv_settings` field of the input file.
 """
 
+import datetime
 import pathlib
 from typing import Optional
 
@@ -33,11 +34,13 @@ file_path_placeholder_description_without_default = (
     file_path_placeholder_description.replace("\nThe default value is null.", "")
 )
 
+DATE_INPUT = datetime.date.today()
+
 
 class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of the `render` command's settings."""
 
-    design: Optional[str] = pydantic.Field(
+    design: Optional[pathlib.Path] = pydantic.Field(
         default=None,
         title="`design` Field's YAML File",
         description=(
@@ -45,7 +48,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    rendercv_settings: Optional[str] = pydantic.Field(
+    rendercv_settings: Optional[pathlib.Path] = pydantic.Field(
         default=None,
         title="`rendercv_settings` Field's YAML File",
         description=(
@@ -54,12 +57,11 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    locale_catalog: Optional[str] = pydantic.Field(
+    locale: Optional[pathlib.Path] = pydantic.Field(
         default=None,
-        title="`locale_catalog` Field's YAML File",
+        title="`locale` Field's YAML File",
         description=(
-            "The file path to the yaml file containing the `locale_catalog` field"
-            " separately."
+            "The file path to the yaml file containing the `locale` field separately."
         ),
     )
 
@@ -73,30 +75,21 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    use_local_latex_command: Optional[str] = pydantic.Field(
-        default=None,
-        title="Local LaTeX Command",
-        description=(
-            "The command to compile the LaTeX file to a PDF file. The default value is"
-            ' "pdflatex".'
-        ),
-    )
-
     pdf_path: Optional[pathlib.Path] = pydantic.Field(
         default=None,
         title="PDF Path",
         description=(
-            "The path of the PDF file. If it is not provided, the PDF file will not be"
-            f" generated. {file_path_placeholder_description}"
+            "The path to copy the PDF file to. If it is not provided, the PDF file will"
+            f" not be copied. {file_path_placeholder_description}"
         ),
     )
 
-    latex_path: Optional[pathlib.Path] = pydantic.Field(
+    typst_path: Optional[pathlib.Path] = pydantic.Field(
         default=None,
-        title="LaTeX Path",
+        title="Typst Path",
         description=(
-            "The path of the LaTeX file. If it is not provided, the LaTeX file will not"
-            f" be generated. {file_path_placeholder_description}"
+            "The path to copy the Typst file to. If it is not provided, the Typst file"
+            f" will not be copied. {file_path_placeholder_description}"
         ),
     )
 
@@ -104,8 +97,8 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         default=None,
         title="HTML Path",
         description=(
-            "The path of the HTML file. If it is not provided, the HTML file will not"
-            f" be generated. {file_path_placeholder_description}"
+            "The path to copy the HTML file to. If it is not provided, the HTML file"
+            f" will not be copied. {file_path_placeholder_description}"
         ),
     )
 
@@ -113,8 +106,8 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         default=None,
         title="PNG Path",
         description=(
-            "The path of the PNG file. If it is not provided, the PNG file will not be"
-            f" generated. {file_path_placeholder_description}"
+            "The path to copy the PNG file to. If it is not provided, the PNG file will"
+            f" not be copied. {file_path_placeholder_description}"
         ),
     )
 
@@ -122,8 +115,8 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         default=None,
         title="Markdown Path",
         description=(
-            "The path of the Markdown file. If it is not provided, the Markdown file"
-            f" will not be generated. {file_path_placeholder_description}"
+            "The path to copy the Markdown file to. If it is not provided, the Markdown"
+            f" file will not be copied. {file_path_placeholder_description}"
         ),
     )
 
@@ -141,7 +134,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         title="Don't Generate Markdown",
         description=(
             "A boolean value to determine whether the Markdown file will be generated."
-            " The default value is False."
+            ' The default value is "false".'
         ),
     )
 
@@ -159,7 +152,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         title="Re-run RenderCV When the Input File is Updated",
         description=(
             "A boolean value to determine whether to re-run RenderCV when the input"
-            "file is updated. The default value is False."
+            'file is updated. The default value is "false".'
         ),
     )
 
@@ -174,10 +167,10 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
 
     @pydantic.field_validator(
         "design",
-        "locale_catalog",
+        "locale",
         "rendercv_settings",
         "pdf_path",
-        "latex_path",
+        "typst_path",
         "html_path",
         "png_path",
         "markdown_path",
@@ -198,6 +191,20 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
 class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of the RenderCV settings."""
 
+    model_config = pydantic.ConfigDict(title="RenderCV Settings")
+
+    date: datetime.date = pydantic.Field(
+        default=datetime.date.today(),
+        title="Date",
+        description=(
+            "The date that will be used everywhere (e.g., in the output file names,"
+            " last updated date, computation of time spans for the events that are"
+            " currently happening, etc.). The default value is the current date."
+        ),
+        json_schema_extra={
+            "default": None,
+        },
+    )
     render_command: Optional[RenderCommandSettings] = pydantic.Field(
         default=None,
         title="Render Command Settings",
@@ -215,3 +222,14 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             " empty list."
         ),
     )
+
+    @pydantic.field_validator("date")
+    @classmethod
+    def mock_today(cls, value: datetime.date) -> datetime.date:
+        """Mocks the current date for testing."""
+
+        global DATE_INPUT  # NOQA: PLW0603
+
+        DATE_INPUT = value
+
+        return value

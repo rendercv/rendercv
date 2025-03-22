@@ -46,12 +46,12 @@ def cli_command_render(
             help='The "design" field\'s YAML input file.',
         ),
     ] = None,
-    locale_catalog: Annotated[
+    locale: Annotated[
         Optional[str],
         typer.Option(
             "--locale-catalog",
             "-lc",
-            help='The "locale_catalog" field\'s YAML input file.',
+            help='The "locale" field\'s YAML input file.',
         ),
     ] = None,
     rendercv_settings: Annotated[
@@ -62,17 +62,6 @@ def cli_command_render(
             help='The "rendercv_settings" field\'s YAML input file.',
         ),
     ] = None,
-    use_local_latex_command: Annotated[
-        Optional[str],
-        typer.Option(
-            "--use-local-latex-command",
-            "-use",
-            help=(
-                "Use the local LaTeX installation with the given command instead of the"
-                " RenderCV's TinyTeX"
-            ),
-        ),
-    ] = None,
     output_folder_name: Annotated[
         str,
         typer.Option(
@@ -81,12 +70,12 @@ def cli_command_render(
             help="Name of the output folder",
         ),
     ] = "rendercv_output",
-    latex_path: Annotated[
+    typst_path: Annotated[
         Optional[str],
         typer.Option(
-            "--latex-path",
-            "-latex",
-            help="Copy the LaTeX file to the given path",
+            "--typst-path",
+            "-typst",
+            help="Copy the Typst file to the given path",
         ),
     ] = None,
     pdf_path: Annotated[
@@ -225,7 +214,7 @@ def cli_command_new(
         bool,
         typer.Option(
             "--dont-create-theme-source-files",
-            "-nolatex",
+            "-notypst",
             help="Don't create theme source files",
         ),
     ] = False,
@@ -238,7 +227,7 @@ def cli_command_new(
         ),
     ] = False,
 ):
-    """Generate a YAML input file and the LaTeX and Markdown source files"""
+    """Generate a YAML input file and the Typst and Markdown source files"""
     created_files_and_folders = []
 
     input_file_name = f"{full_name.replace(' ', '_')}_CV.yaml"
@@ -316,7 +305,7 @@ def cli_command_create_theme(
     if based_on not in data.available_themes:
         printer.error(
             f'The theme "{based_on}" is not in the list of available themes:'
-            f' {", ".join(data.available_themes)}'
+            f" {', '.join(data.available_themes)}"
         )
 
     theme_folder = utilities.copy_templates(

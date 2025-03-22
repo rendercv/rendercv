@@ -36,7 +36,7 @@ jobs:
         run: |
           hatch run docs:build
 
-      - name: Upload artifact
+      - name: Upload the website as an artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site

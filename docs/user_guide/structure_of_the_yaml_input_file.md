@@ -1,6 +1,6 @@
 # Structure of the YAML Input File
 
-RenderCV's input file consists of four parts: `cv`, `design`, `locale_catalog` and `rendercv_settings`.
+RenderCV's input file consists of four parts: `cv`, `design`, `locale` and `rendercv_settings`.
 
 ```yaml title="Your_Name_CV.yaml"
 cv:
@@ -11,7 +11,7 @@ design:
   ...
   YOUR DESIGN
   ...
-locale_catalog:
+locale:
   ...
   TRANSLATIONS TO YOUR LANGUAGE
   ...
@@ -23,10 +23,10 @@ rendercv_settings:
 
 - The `cv` field is mandatory. It contains the **content of the CV**.
 - The `design` field is optional. It contains the **design options of the CV**. If you don't provide a `design` field, RenderCV will use the default design options with the `classic` theme.
-- The `locale_catalog` field is optional. You can provide translations for some of the strings used in the CV, for example, month abbreviations. RenderCV will use the default English strings if you don't provide a `locale_catalog` field.
-- The `rendercv_settings` field is optional. It contains the **settings of RenderCV** (output paths, etc.). If you don't provide a `rendercv_settings` field, RenderCV will use the default settings.
+- The `locale` field is optional. It contains all the strings that define the CV's language (like month names, etc.). If you don't provide a `locale` field, the default English strings will be used.
+- The `rendercv_settings` field is optional. It contains the settings of RenderCV (output paths, keywords to make bold, etc.). If you don't provide a `rendercv_settings` field, the default settings will be used.
 
-!!! tip
+!!! tip "Tip: JSON Schema"
     To maximize your productivity while editing the input YAML file, set up RenderCV's JSON Schema in your IDE. It will validate your inputs on the fly and give auto-complete suggestions.
 
     === "Visual Studio Code"
@@ -37,13 +37,13 @@ rendercv_settings:
 
     === "Other"
 
-        1.  Ensure your editor of choice has support for JSON Schema.
-        2.  Add the following line at the top of `Your_Name_CV.yaml`:
+        4.  Ensure your editor of choice has support for JSON Schema.
+        5.  Add the following line at the top of `Your_Name_CV.yaml`:
 
             ``` yaml
             # yaml-language-server: $schema=https://github.com/rendercv/rendercv/blob/main/schema.json?raw=true
             ```
-        3. Press `Ctrl + Space` to see the auto-complete suggestions.
+        6. Press `Ctrl + Space` to see the auto-complete suggestions.
 
 ## "`cv`" field
 
@@ -64,7 +64,7 @@ cv:
   ...
 ```
 
-1.  If you want to change the phone number formatting in the output, see the `locale_catalog` field's `phone_number_format` key.
+1.  If you want to change the phone number formatting in the output, see the `locale` field's `phone_number_format` key.
 2.  The available social networks are: {{available_social_networks}}.
 
 None of the values above are required. You can omit any or all of them, and RenderCV will adapt to your input. These generic fields are used in the header of the CV.
@@ -131,7 +131,7 @@ The available entry types are: [`EducationEntry`](#educationentry), [`Experience
 
 Each entry type is a different object (a dictionary). Below, you can find all the entry types along with their optional/mandatory fields and how they appear in each built-in theme.
 
-{% for entry_name, entry in showcase_entries.items() %}
+{% for entry_name, entry in sample_entries.items() %}
 #### {{ entry_name }}
 
 {% if entry_name == "EducationEntry" %}
@@ -143,74 +143,92 @@ Each entry type is a different object (a dictionary). Below, you can find all th
 
 **Optional Fields:**
 
-- `degree`: The type of degree.
-- `location`: The location.
-- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format.
-- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present".
+- `degree`: The type of degree (e.g., BS, MS, PhD)
+- `location`: The location
+- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format
+- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present"
 - `date`: The date as a custom string or in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format. This will override `start_date` and `end_date`.
-- `highlights`: A list of bullet points.
+- `summary`: The summary
+- `highlights`: The list of bullet points
 
 {% elif entry_name == "ExperienceEntry" %}
 
 **Mandatory Fields:**
 
-- `company`: The name of the company.
-- `position`: Your position.
+- `company`: The name of the company
+- `position`: The position
 
 **Optional Fields:**
 
-- `location`: The location.
-- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format.
-- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present".
+- `location`: The location
+- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format
+- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present"
 - `date`: The date as a custom string or in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format. This will override `start_date` and `end_date`.
-- `highlights`: A list of bullet points.
+- `summary`: The summary
+- `highlights`: The list of bullet points
 
 {% elif entry_name == "PublicationEntry" %}
 
 **Mandatory Fields:**
 
-- `title`: The title of the publication.
-- `authors`: The authors of the publication.
+- `title`: The title of the publication
+- `authors`: The authors of the publication
 
 **Optional Fields:**
 
-- `doi`: The DOI of the publication.
-- `journal`: The journal of the publication.
-- `date`: The date as a custom string or in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format.
+- `doi`: The DOI of the publication
+- `url`: The URL of the publication
+- `journal`: The journal of the publication
+- `date`: The date as a custom string or in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format
 
 {% elif entry_name == "NormalEntry" %}
 
 
 **Mandatory Fields:**
 
-- `name`: The name of the entry.
+- `name`: The name of the entry
 
 **Optional Fields:**
 
-- `location`: The location.
-- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format.
-- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present".
+- `location`: The location
+- `start_date`: The start date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format
+- `end_date`: The end date in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format or "present"
 - `date`: The date as a custom string or in `YYYY-MM-DD`, `YYYY-MM`, or `YYYY` format. This will override `start_date` and `end_date`.
-- `highlights`: A list of bullet points.
+- `summary`: The summary
+- `highlights`: The list of bullet points
 
 {% elif entry_name == "OneLineEntry" %}
 
 **Mandatory Fields:**
 
-- `label`: The label of the entry.
-- `details`: The details of the entry.
+- `label`: The label of the entry
+- `details`: The details of the entry
 
 {% elif entry_name == "BulletEntry" %}
 
 **Mandatory Fields:**
 
-- `bullet`: The bullet point.
+- `bullet`: The bullet point
+
+{% elif entry_name == "NumberedEntry" %}
+
+**Mandatory Fields:**
+
+- `number`: The content of the numbered entry
+
+{% elif entry_name == "ReversedNumberedEntry" %}
+
+The `ReversedNumberedEntry` displays entries in descending numerical order.
+
+**Mandatory Fields:**
+
+- `reversed_number`: The content of the reversed numbered entry
 
 {% elif entry_name == "TextEntry" %}
 
 **Mandatory Fields:**
 
-- The text itself.
+- The text itself
 
 {% endif %}
 
@@ -251,19 +269,11 @@ highlights:
   - Managed a team of **5** engineers.
 ```
 
-By default, the `an_arbitrary_key` key will not affect the output as the built-in templates do not use it. However, you can use the `an_arbitrary_key` key in your custom templates. Further information on overriding the built-in templates with custom ones can be found [here](index.md#overriding-built-in-themes).
-
-Also, you can use arbitrary keys in the `cv` field. You can use them anywhere in the templates, but generally, they are used in the header of the CV (`Header.j2.tex`).
-
-```yaml hl_lines="3"
-cv:
-  name: John Doe
-  label_as_an_arbitrary_key: Software Engineer
-```
+By default, the `an_arbitrary_key` key will not affect the output as the default design options do not use it. However, you can use the `an_arbitrary_key` key in your own design options (see `design.entry_types` field).
 
 ## "`design`" field
 
-The `design` field contains your theme selection and its options. Currently, the available themes are: {{available_themes}}. However, custom themes can also be used (see [here](index.md#creating-custom-themes-with-the-create-theme-command)).
+The `design` field contains your theme selection and its options. Currently, the available themes are: {{available_themes}}. The only difference between the themes are the `design` options. Their Typst templates are the same. Any theme can be obtained by playing with the `design` options. Custom themes can also be created (see [here](faq.md#how-to-create-a-custom-theme)).
 
 ```yaml
 design:
@@ -271,74 +281,163 @@ design:
   ...
 ```
 
-Each theme may have different options for design. `classic`, `sb2nov`, and `engineeringresumes` almost use identical options, but `moderncv` is slightly different. Please use an IDE that supports JSON schema to avoid missing any available options for the theme (see [above](#structure-of-the-yaml-input-file)).
+Use an IDE that supports JSON schema to avoid missing any available options for the theme (see [above](#structure-of-the-yaml-input-file)).
 
 An example `design` field for a `classic` theme is shown below:
 
 ```yaml
 design:
-  theme: classic
-  color: blue
-  disable_external_link_icons: false
-  disable_last_updated_date: false
-  disable_page_numbering: false
-  font: Source Sans 3
-  font_size: 10pt
-  header_font_size: "30 pt"
-  page_size: a4paper
-  show_timespan_in:
-    - 'Experience'
-  text_alignment: justified
-  margins: 
-    page:
-      bottom: 2 cm
-      left: 2 cm
-      right: 2 cm
-      top: 2 cm
-    section_title:
-      bottom: 0.2 cm
-      top: 0.3 cm
-    entry_area:
-      date_and_location_width: 4.5 cm
-      education_degree_width: 1 cm
-      left_and_right: 0.2 cm
-      vertical_between: 0.2 cm
-    highlights_area:
-      left: 0.4 cm
-      top: 0.10 cm
-      vertical_between_bullet_points: 0.10 cm
-    header:
-      bottom: 0.3 cm
-      horizontal_between_connections: 0.5 cm
-      vertical_between_name_and_connections: 0.3 cm
+  theme: classic # (1)!
+  page:
+    size: us-letter # (2)!
+    top_margin: 2cm
+    bottom_margin: 2cm
+    left_margin: 2cm
+    right_margin: 2cm
+    show_page_numbering: true
+    show_last_updated_date: true
+  colors:
+    text: black
+    name: '#004f90'
+    connections: '#004f90'
+    section_titles: '#004f90'
+    links: '#004f90'
+    last_updated_date_and_page_numbering: grey
+  text:
+    font_family: Source Sans 3 # (3)!
+    font_size: 10pt
+    leading: 0.6em
+    alignment: justified # (4)!
+    date_and_location_column_alignment: right # (5)!
+  links:
+    underline: false
+    use_external_link_icon: true
+  header:
+    name_font_family: Source Sans 3
+    name_font_size: 30pt
+    name_bold: true
+    small_caps_for_name: false
+    photo_width: 3.5cm
+    vertical_space_between_name_and_connections: 0.7cm
+    vertical_space_between_connections_and_first_section: 0.7cm
+    horizontal_space_between_connections: 0.5cm
+    connections_font_family: Source Sans 3
+    separator_between_connections: ''
+    use_icons_for_connections: true
+    alignment: center # (6)!
+  section_titles:
+    type: with-partial-line # (7)!
+    font_family: Source Sans 3
+    font_size: 1.4em
+    bold: true
+    small_caps: false
+    line_thickness: 0.5pt
+    vertical_space_above: 0.5cm
+    vertical_space_below: 0.3cm
+  entries:
+    date_and_location_width: 4.15cm
+    left_and_right_margin: 0.2cm
+    horizontal_space_between_columns: 0.1cm
+    vertical_space_between_entries: 1.2em
+    allow_page_break_in_sections: true
+    allow_page_break_in_entries: true
+    short_second_row: false
+    show_time_spans_in: []
+  highlights:
+    bullet: • # (8)!
+    top_margin: 0.25cm
+    left_margin: 0.4cm
+    vertical_space_between_highlights: 0.25cm
+    horizontal_space_between_bullet_and_highlight: 0.5em
+    summary_left_margin: 0cm
+  entry_types:
+    one_line_entry:
+      template: '**LABEL:** DETAILS'
+    education_entry:
+      main_column_first_row_template: '**INSTITUTION**, AREA'
+      degree_column_template: '**DEGREE**'
+      degree_column_width: 1cm
+      main_column_second_row_template: |-
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column_template: |-
+        LOCATION
+        DATE
+    normal_entry:
+      main_column_first_row_template: '**NAME**'
+      main_column_second_row_template: |-
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column_template: |-
+        LOCATION
+        DATE
+    experience_entry:
+      main_column_first_row_template: '**COMPANY**, POSITION'
+      main_column_second_row_template: |-
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column_template: |-
+        LOCATION
+        DATE
+    publication_entry:
+      main_column_first_row_template: '**TITLE**'
+      main_column_second_row_template: |-
+        AUTHORS
+        URL (JOURNAL)
+      main_column_second_row_without_journal_template: |-
+        AUTHORS
+        URL
+      main_column_second_row_without_url_template: |-
+        AUTHORS
+        JOURNAL
+      date_and_location_column_template: DATE
 ```
 
-## "`locale_catalog`" field
+1. The `design.theme` field only changes the default values of all the other fields in the `design` field. Therefore, if you don't change any of the other fields, the output will be the same for all the themes. You can remove all the other fields and just keep the `design.theme` field to use the default values of that theme.
 
-This field is what makes RenderCV a multilingual tool. RenderCV uses some English strings to render PDFs. For example, it takes the dates in ISO format (`2020-01-01`) and converts them into human-friendly strings (`"Jan 2020"`). However, you can override these strings for your own language or needs with the `locale_catalog` field. Also, you can change the phone number formatting with the `phone_number_format` key.
+    The available themes are: {{available_themes}}.
+
+2. The available page sizes are: {{available_page_sizes}}.
+3. The available font families are: {{available_font_families}}.
+4. The available text alignments are: {{available_text_alignments}}.
+5. The available date and location column alignments are: {{available_header_alignments}}.
+6. The available header alignments are: {{available_header_alignments}}.
+7. The available section title types are: {{available_section_title_types}}.
+8. The available bullet types are: {{available_bullets}}.
+
+## "`locale`" field
+
+This field is what makes RenderCV a multilingual tool. RenderCV uses some English strings to render PDFs. For example, it takes the dates in ISO format (`2020-01-01`) and converts them into human-friendly strings (`"Jan 2020"`). However, you can override these strings for your own language or needs with the `locale` field.
 
 Here is an example:
 
 ```yaml
-locale_catalog:
+locale:
+  language: en
   phone_number_format: national # (1)!
-  date_style: "MONTH_ABBREVIATION YEAR" # (2)!
-  last_updated_date_style: Last updated in TODAY # (3)!
-  page_numbering_style: NAME - Page PAGE_NUMBER of TOTAL_PAGES # (4)!
-  abbreviations_for_months: 
+  page_numbering_template: NAME - Page PAGE_NUMBER of TOTAL_PAGES # (4)!
+  last_updated_date_template: Last updated in TODAY # (3)!
+  date_template: MONTH_ABBREVIATION YEAR # (2)!
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  to: –
+  abbreviations_for_months:
     - Jan
     - Feb
     - Mar
     - Apr
     - May
-    - Jun
-    - Jul
+    - June
+    - July
     - Aug
-    - Sep
+    - Sept
     - Oct
     - Nov
     - Dec
-  full_names_of_months: 
+  full_names_of_months:
     - January
     - February
     - March
@@ -351,28 +450,26 @@ locale_catalog:
     - October
     - November
     - December
-  month: month      
-  months: months    
-  year: year        
-  years: years      
-  present: present   
-  to: to            
 ```
 
 1. The available phone number formats are: `national`, `international`, and `E164`.
 2. The `MONTH_ABBREVIATION` and `YEAR` are placeholders. The available placeholders are: `FULL_MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `YEAR`, and `YEAR_IN_TWO_DIGITS`.
-3. The available placeholders are: `TODAY`, which prints the today's date with `locale_catalog.date_style`.
+3. The available placeholders are: `TODAY`, which prints the today's date with `locale.date_template`.
 4. The available placeholders are: `NAME`, `PAGE_NUMBER`, `TOTAL_PAGES`, and `TODAY`.
 
 ## "`rendercv_settings`" field
 
-The `rendercv_settings` field contains RenderCV settings. We plan to add more settings soon, such as the ability to bold specific words and disable sections. Currently, it only includes the `render_command` field, which contains all the CLI options of the [`rendercv render`](./cli.md#rendercv-render-command) command, as shown below. If CLI arguments are provided, they will override the values in the YAML file. All the fields are optional.
+The `rendercv_settings` field contains RenderCV settings. 
+
 ```yaml
 rendercv_settings:
+  date: "2025-01-06" # (1)!
+  bold_keywords:
+    - Python # (2)!
   render_command:
     output_folder_name: rendercv_output
-    pdf_path: NAME_IN_SNAKE_CASE_CV.pdf # (1)!
-    latex_path: NAME_IN_LOWER_SNAKE_CASE_cv.tex
+    pdf_path: NAME_IN_SNAKE_CASE_CV.pdf # (3)!
+    typst_path: NAME_IN_LOWER_SNAKE_CASE_cv.typ
     html_path: NAME_IN_KEBAB_CASE_CV.html
     markdown_path: NAME.md
     dont_generate_html: false 
@@ -380,4 +477,6 @@ rendercv_settings:
     dont_generate_png: false 
 ```
 
-1. `NAME_IN_SNAKE_CASE` is a placeholder. The available placeholders are: `NAME_IN_SNAKE_CASE`, `NAME_IN_LOWER_SNAKE_CASE`, `NAME_IN_UPPER_SNAKE_CASE`, `NAME_IN_KEBAB_CASE`, `NAME_IN_LOWER_KEBAB_CASE`, `NAME_IN_UPPER_KEBAB_CASE`, `NAME`, `FULL_MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `YEAR`, and `YEAR_IN_TWO_DIGITS`.
+1. This field is used for time span calculations and last updated date text.
+2. The words in the list will be bolded in the output automatically.
+3. `NAME_IN_SNAKE_CASE` is a placeholder. The available placeholders are: `NAME_IN_SNAKE_CASE`, `NAME_IN_LOWER_SNAKE_CASE`, `NAME_IN_UPPER_SNAKE_CASE`, `NAME_IN_KEBAB_CASE`, `NAME_IN_LOWER_KEBAB_CASE`, `NAME_IN_UPPER_KEBAB_CASE`, `NAME`, `FULL_MONTH_NAME`, `MONTH_ABBREVIATION`, `MONTH`, `MONTH_IN_TWO_DIGITS`, `YEAR`, and `YEAR_IN_TWO_DIGITS`.
