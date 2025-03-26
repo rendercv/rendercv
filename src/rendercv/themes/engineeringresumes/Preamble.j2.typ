@@ -330,7 +330,7 @@
     if type(page.margin) == "dictionary" {
       left-sum-right-margin = page.margin.left + page.margin.right
     } else {
-      left-sum-right-margin = page.margin * 4
+      left-sum-right-margin = page.margin * 2
     }
 
     let ending-index = starting-index + 1
