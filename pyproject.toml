@@ -59,7 +59,7 @@ dependencies = [
     'Jinja2>=3.1.3',                # to generate Typst and Markdown files
     'phonenumbers==9.0.0',        # to validate phone numbers
     'email-validator==2.2.0',       # to validate email addresses
-    'pydantic==2.10.5',             # to validate and parse the input file
+    'pydantic==2.11.3',             # to validate and parse the input file
     'pycountry==24.6.1',            # for ISO 639-3 validation
     'pydantic-extra-types==2.10.2', # to validate some extra types
     'ruamel.yaml==0.18.6',          # to parse YAML files
