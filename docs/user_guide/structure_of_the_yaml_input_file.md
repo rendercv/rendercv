@@ -53,6 +53,8 @@ The `cv` field of the YAML input starts with generic information, as shown below
 cv:
   name: John Doe
   location: Your Location
+  nationality: American
+  birthdate: 1990-01-31
   email: youremail@yourdomain.com
   phone: +905419999999 # (1)!
   website: https://example.com/
@@ -75,6 +77,8 @@ The main content of your CV is stored in a field called `sections`.
 cv:
   name: John Doe
   location: Your Location
+  nationality: American
+  birthdate: 1990-01-31
   email: youremail@yourdomain.com
   phone: +905419999999
   website: https://yourwebsite.com/
