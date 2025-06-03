@@ -2,7 +2,7 @@
 FROM python:3.13-slim
 
 # Install RenderCV:
-RUN pip install "rendercv[full]"
+RUN pip install --no-cache-dir "rendercv[full]"
 
 # Create a directory for the app
 WORKDIR /rendercv
