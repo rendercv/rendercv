@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal
 
 import pydantic_extra_types.color as pydantic_color
 

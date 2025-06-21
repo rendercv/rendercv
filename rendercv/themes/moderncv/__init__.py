@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal
 
 import rendercv.themes.options as o
 

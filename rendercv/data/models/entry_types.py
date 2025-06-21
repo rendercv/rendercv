@@ -232,7 +232,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
     """This class is the data model of `BulletEntry`."""
 
     model_config = pydantic.ConfigDict(title="Bullet Entry")
-    bullet: str = pydantic.Field(
+    bullets: list[str] = pydantic.Field(
         title="Bullet",
     )
 
@@ -245,7 +245,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
         Returns:
             A BulletEntry with the keywords made bold in the `bullet` field.
         """
-        self.bullet = make_keywords_bold_in_a_string(self.bullet, keywords)
+        self.bullets = [make_keywords_bold_in_a_string(bullet, keywords) for bullet in self.bullets]
         return self
 
 
@@ -347,7 +347,6 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
     def ignore_url_if_doi_is_given(self) -> "PublicationEntryBase":
         """Check if DOI is provided and ignore the URL if it is provided."""
         doi_is_provided = self.doi is not None
-
         if doi_is_provided:
             self.url = None
 

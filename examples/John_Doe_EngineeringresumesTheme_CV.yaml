@@ -97,7 +97,6 @@ cv:
           - Samwise Gamgee
         doi: 10.1109/TASC.2023.3340648
         url:
-        journal:
         date: 2004-01
     extracurricular_activities:
       - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
@@ -196,10 +195,9 @@ design:
         SUMMARY
         HIGHLIGHTS
     publication_entry:
-      first_row_template: '**TITLE**\nAUTHORS'
-      second_row_template: "**Journal:** URL (JOURNAL) || DATE"
-      second_row_no_journal_template: "**Journal:** URL || DATE"
-      second_row_no_url_template: "**Journal:** JOURNAL || DATE"
+      first_row_template: '**TITLE** \n AUTHORS'
+      second_row_template: "**Journal:** URL *JOURNAL* || DATE"
+      third_row_template: "**Conference:** CONFERENCE_URL *CONFERENCE* || CONFERENCE_DATE"
 locale:
   language: en
   phone_number_format: national

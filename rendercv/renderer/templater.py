@@ -122,8 +122,7 @@ class TypstFile(TemplatedFile):
         all_template_names = [
             "first_row_template",
             "second_row_template",
-            "second_row_no_url_template",
-            "second_row_no_journal_template",
+            "third_row_template",
             "first_column_width",
             "template",
             "last_column_width",
@@ -415,12 +414,17 @@ def input_template_to_typst(
     def clean(s):
         s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
         s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
-        return s
+        # Remove trailing newline
+        s = s.rstrip('\n')
+
+        # Remove all occurrences of empty parentheses
+        s = re.sub(r"\(\)", "", s)
+        return s  # noqa: RET504
 
     parts = output.split("||")
     cleaned_parts = [clean(part.strip()) for part in parts]
 
-    return " || ".join(cleaned_parts)  # noqa: RET504
+    return " || ".join(cleaned_parts)
 
 
 @overload
@@ -760,10 +764,6 @@ def split_and_trim(value: str, delimiter="||"):
             return split
     return value
 
-def console_log(value):
-    print(repr(value))
-    return value
-
 class Jinja2Environment:
     instance: "Jinja2Environment"
     environment: jinja2.Environment
@@ -796,7 +796,6 @@ class Jinja2Environment:
 
             # add custom Jinja2 filters:
             environment.filters["split_and_trim"] = split_and_trim
-            environment.filters["console_log"] = console_log
             environment.filters["replace_placeholders_with_actual_values"] = (
                 replace_placeholders_with_actual_values
             )

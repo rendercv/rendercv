@@ -181,7 +181,7 @@ design:
     one_line_entry:
       template: '**LABEL:** DETAILS'
     education_entry:
-      first_row_template: "DEGREE || **INSTITUTION**, AREA || LOCATION\nDATE"
+      first_row_template: "**DEGREE** || **INSTITUTION**, AREA || LOCATION\nDATE"
       first_column_width: 1cm
       second_row_template: |-
         SUMMARY

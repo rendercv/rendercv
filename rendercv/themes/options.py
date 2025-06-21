@@ -11,7 +11,10 @@ from typing import Annotated, Literal, Optional
 import pydantic
 import pydantic_extra_types.color as pydantic_color
 
-from ..data.models.base import RenderCVBaseModelWithoutExtraKeys, RenderCVBaseModelWithExtraKeys
+from ..data.models.base import (
+    RenderCVBaseModelWithExtraKeys,
+    RenderCVBaseModelWithoutExtraKeys,
+)
 
 
 # Custom field types:
@@ -631,23 +634,6 @@ class Highlights(RenderCVBaseModelWithoutExtraKeys):
     summary_left_margin: TypstDimension = highlights_summary_left_margin_field_info
 
 
-# entry_base_with_date_main_column_second_row_template_field_info = pydantic.Field(
-#     default="SUMMARY\nHIGHLIGHTS",
-#     title="Main Column, Second Row",
-#     description=(
-#         "The content of the second row of the Main Column. The available placeholders"
-#         " are all the keys used in the entries (in uppercase)."
-#     ),
-# )
-# entry_base_with_date_date_and_location_column_template_field_info = pydantic.Field(
-#     default="LOCATION\nDATE",
-#     title="Date and Location Column",
-#     description=(
-#         "The content of the Date and Location Column. The available placeholders are"
-#         " all the keys used in the entries (in uppercase)."
-#     ),
-# )
-
 entry_base_second_row_template = pydantic.Field(
         default="SUMMARY\nHIGHLIGHTS",
         title="Second Row",
@@ -672,58 +658,6 @@ class EntryBase(RenderCVBaseModelWithExtraKeys):
 
     last_column_width: TypstDimension = entries_date_and_location_width_field_info
 
-
-# class EntryBaseWithDate(RenderCVBaseModelWithoutExtraKeys):
-#     """Base options for entries with a date."""
-#
-#     main_column_second_row_template: str = (
-#         entry_base_with_date_main_column_second_row_template_field_info
-#     )
-#     date_and_location_column_template: str = (
-#         entry_base_with_date_date_and_location_column_template_field_info
-#     )
-
-#
-# publication_entry_main_column_first_row_template_field_info = pydantic.Field(
-#     default="**TITLE**",
-#     title="Main Column",
-#     description=(
-#         "The content of the Main Column. The available placeholders are all the keys"
-#         " used in the entries (in uppercase)."
-#     ),
-# )
-# publication_entry_main_column_second_row_template_field_info = pydantic.Field(
-#     default="AUTHORS\nURL (JOURNAL)",
-#     title="Main Column, Second Row",
-#     description=(
-#         "The content of the second row of the Main Column. The available placeholders"
-#         " are all the keys used in the entries (in uppercase)."
-#     ),
-# )
-# publication_entry_main_column_second_row_without_journal_template_field_info = pydantic.Field(
-#     default="AUTHORS\nURL",
-#     title="Main Column, Second Row Without Journal",
-#     description=(
-#         "The content of the Main Column in case the journal is not given. The"
-#         " available placeholders are all the keys used in the entries (in uppercase)."
-#     ),
-# )
-# publication_entry_main_column_second_row_without_url_template_field_info = pydantic.Field(
-#     default="AUTHORS\nJOURNAL",
-#     title="Main Column, Second Row Without URL",
-#     description=(
-#         "The content of the Main Column in case the `doi` or `url is not given. The"
-#         " available placeholders are all the keys used in the entries (in uppercase)."
-#     ),
-# )
-# publication_entry_date_and_location_column_template_field_info = pydantic.Field(
-#     default="DATE",
-#     title="Date and Location Column",
-#     description=(
-#         "The content of the Date and Location Column. The available placeholders are"
-#         " all the keys used in the entries (in uppercase)."
-#     ),
-# )
 
 publication_entry_first_row_template = pydantic.Field(
     default="**TITLE** || DATE",
@@ -771,40 +705,7 @@ class PublicationEntryOptions(EntryBase):
     second_row_no_url_template: str = publication_entry_second_row_no_url_template
     second_row_no_journal_template: str = publication_entry_second_row_no_journal_template
 
-    # main_column_first_row_template: str = (
-    #     publication_entry_main_column_first_row_template_field_info
-    # )
-    # main_column_second_row_template: str = (
-    #     publication_entry_main_column_second_row_template_field_info
-    # )
-    # main_column_second_row_without_journal_template: str = (
-    #     publication_entry_main_column_second_row_without_journal_template_field_info
-    # )
-    # main_column_second_row_without_url_template: str = (
-    #     publication_entry_main_column_second_row_without_url_template_field_info
-    # )
-    # date_and_location_column_template: str = (
-    #     publication_entry_date_and_location_column_template_field_info
-    # )
 
-
-# education_entry_main_column_first_row_template_field_info = pydantic.Field(
-#     default="**INSTITUTION**, AREA",
-#     title="Main Column, First Row",
-#     description=(
-#         "The content of the Main Column. The available placeholders are all the keys"
-#         " used in the entries (in uppercase)."
-#     ),
-# )
-# education_entry_degree_column_template_field_info = pydantic.Field(
-#     default="**DEGREE**",
-#     title="Template of the Degree Column",
-#     description=(
-#         'If given, a degree column will be added to the education entry. If "null",'
-#         " no degree column will be shown. The available placeholders are all the"
-#         " keys used in the entries (in uppercase)."
-#     ),
-# )
 education_entry_degree_column_width_field_info = pydantic.Field(
     default="1cm",
     title="Width of the Degree Column",
@@ -827,14 +728,6 @@ class EducationEntryBase(RenderCVBaseModelWithoutExtraKeys):
     first_row_template: str = education_entry_first_row_template
 
     first_column_width: str = education_entry_degree_column_width_field_info
-    # main_column_first_row_template: str = (
-    #     education_entry_main_column_first_row_template_field_info
-    # )
-    # degree_column_template: Optional[str] = (
-    #     education_entry_degree_column_template_field_info
-    # )
-    # degree_column_width: TypstDimension = education_entry_degree_column_width_field_info
-
 
 class EducationEntryOptions(EntryBase, EducationEntryBase):
     """Options related to education entries."""
