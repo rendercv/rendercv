@@ -414,13 +414,12 @@ def input_template_to_typst(
     # "NAME -- LOCATION", "NAME -- " should become "NAME".
     def clean(s):
         s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
-        s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
-        return s
+        return re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
 
     parts = output.split("||")
     cleaned_parts = [clean(part.strip()) for part in parts]
 
-    return " || ".join(cleaned_parts)  # noqa: RET504
+    return " || ".join(cleaned_parts)
 
 
 @overload
@@ -761,7 +760,7 @@ def split_and_trim(value: str, delimiter="||"):
     return value
 
 def console_log(value):
-    print(repr(value))
+    print(repr(value))  # noqa: T201
     return value
 
 class Jinja2Environment:
