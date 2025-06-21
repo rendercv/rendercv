@@ -181,37 +181,25 @@ design:
     one_line_entry:
       template: '**LABEL:** DETAILS'
     education_entry:
-      main_column_first_row_template: '**INSTITUTION**, DEGREE in AREA -- LOCATION'
-      degree_column_template:
-      degree_column_width: 1cm
-      main_column_second_row_template: |-
+      first_row_template: '**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     normal_entry:
-      main_column_first_row_template: '**NAME** -- **LOCATION**'
-      main_column_second_row_template: |-
+      first_row_template: '**NAME** -- **LOCATION** || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     experience_entry:
-      main_column_first_row_template: '**POSITION**, COMPANY -- LOCATION'
-      main_column_second_row_template: |-
+      first_row_template: '**POSITION**, COMPANY -- LOCATION || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     publication_entry:
-      main_column_first_row_template: '**TITLE**'
-      main_column_second_row_template: |-
-        AUTHORS
-        URL (JOURNAL)
-      main_column_second_row_without_journal_template: |-
-        AUTHORS
-        URL
-      main_column_second_row_without_url_template: |-
-        AUTHORS
-        JOURNAL
-      date_and_location_column_template: DATE
+      first_row_template: '**TITLE**\nAUTHORS'
+      second_row_template: "**Journal:** URL (JOURNAL) || DATE"
+      second_row_no_journal_template: "**Journal:** URL || DATE"
+      second_row_no_url_template: "**Journal:** JOURNAL || DATE"
 locale:
   language: en
   phone_number_format: national

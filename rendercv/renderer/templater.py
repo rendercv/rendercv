@@ -120,13 +120,13 @@ class TypstFile(TemplatedFile):
         """
         # All the template field names:
         all_template_names = [
-            "main_column_first_row_template",
-            "main_column_second_row_template",
-            "main_column_second_row_without_url_template",
-            "main_column_second_row_without_journal_template",
-            "date_and_location_column_template",
+            "first_row_template",
+            "second_row_template",
+            "second_row_no_url_template",
+            "second_row_no_journal_template",
+            "first_column_width",
             "template",
-            "degree_column_template",
+            "last_column_width",
         ]
 
         # All the placeholders used in the templates:
@@ -409,16 +409,18 @@ def input_template_to_typst(
     # Replace all multiple \n with a double \n:
     output = re.sub(r"\n+", r"\n\n", output)
 
-    # Strip whitespace
-    output = output.strip()
-
     # Strip non-alphanumeric, non-typst characters from the beginning and end of the
     # string. For example, when location is not given in a template like this:
     # "NAME -- LOCATION", "NAME -- " should become "NAME".
-    output = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", output)
-    output = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", output)
+    def clean(s):
+        s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
+        s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
+        return s
 
-    return output  # noqa: RET504
+    parts = output.split("||")
+    cleaned_parts = [clean(part.strip()) for part in parts]
+
+    return " || ".join(cleaned_parts)  # noqa: RET504
 
 
 @overload
@@ -751,6 +753,16 @@ def replace_placeholders_with_actual_values(
 
     return text
 
+def split_and_trim(value: str, delimiter="||"):
+    if isinstance(value, str):
+        split = [part.strip() for part in value.split(delimiter)]
+        if len(split) < 4:
+            return split
+    return value
+
+def console_log(value):
+    print(repr(value))
+    return value
 
 class Jinja2Environment:
     instance: "Jinja2Environment"
@@ -783,6 +795,8 @@ class Jinja2Environment:
             environment.comment_end_string = "#))"
 
             # add custom Jinja2 filters:
+            environment.filters["split_and_trim"] = split_and_trim
+            environment.filters["console_log"] = console_log
             environment.filters["replace_placeholders_with_actual_values"] = (
                 replace_placeholders_with_actual_values
             )

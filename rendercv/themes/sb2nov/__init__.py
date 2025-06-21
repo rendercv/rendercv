@@ -56,44 +56,35 @@ class Highlights(o.Highlights):
     bullet: o.BulletPoint = o.highlights_bullet_field_info
 
 
-o.education_entry_main_column_first_row_template_field_info.default = (
-    "**INSTITUTION**\n*DEGREE in AREA*"
-)
-o.education_entry_degree_column_template_field_info.default = None
-o.entry_base_with_date_date_and_location_column_template_field_info.default = (
-    "*LOCATION*\n*DATE*"
+o.education_entry_first_row_template.default = (
+    "**INSTITUTION**\n*DEGREE in AREA* || *LOCATION*\n*DATE*"
 )
 
 
 class EducationEntryOptions(o.EducationEntryOptions):
-    main_column_first_row_template: str = (
-        o.education_entry_main_column_first_row_template_field_info
+    first_row_template: str = (
+        o.education_entry_first_row_template
     )
-    degree_column_template: Optional[str] = (
-        o.education_entry_degree_column_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_column_width: str = (
+        o.entry_base_first_column_width
     )
 
+o.normal_entry_first_row_template.default = (
+    "**NAME** || *LOCATION*\n*DATE*"
+)
 
 class NormalEntryOptions(o.NormalEntryOptions):
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
-    )
+    first_row_template: str = o.normal_entry_first_row_template
 
 
-o.experience_entry_main_column_first_row_template_field_info.default = (
-    "**POSITION**\n*COMPANY*"
+o.experience_entry_first_row_template.default = (
+    "**POSITION**\n*COMPANY* || *LOCATION*\n*DATE*"
 )
 
 
 class ExperienceEntryOptions(o.ExperienceEntryOptions):
-    main_column_first_row_template: str = (
-        o.experience_entry_main_column_first_row_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_row_template: str = (
+        o.experience_entry_first_row_template
     )
 
 
