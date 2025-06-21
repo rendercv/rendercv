@@ -25,7 +25,7 @@ from rendercv.renderer import templater
 # the output. Setting update_testdata to True will update the reference files with
 # the latest RenderCV. This should be done with caution, as it will overwrite the
 # reference files with the latest output.
-update_testdata = False
+update_testdata = True
 
 education_entry_dictionary = {
     "institution": "Boğaziçi University",

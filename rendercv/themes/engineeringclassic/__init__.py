@@ -52,46 +52,39 @@ class Highlights(o.Highlights):
     left_margin: o.TypstDimension = o.highlights_left_margin_field_info
 
 
-o.education_entry_main_column_first_row_template_field_info.default = (
-    "**INSTITUTION**, AREA -- LOCATION"
+o.education_entry_first_row_template.default = (
+    "**INSTITUTION**, AREA -- LOCATION || DATE"
 )
-o.entry_base_with_date_date_and_location_column_template_field_info.default = "DATE"
 
 
 class EducationEntryOptions(o.EducationEntryOptions):
-    main_column_first_row_template: str = (
-        o.education_entry_main_column_first_row_template_field_info
+    first_row_template: str = (
+        o.education_entry_first_row_template
     )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_column_width: str = (
+        o.entry_base_first_column_width
     )
 
 
-o.normal_entry_main_column_first_row_template_field_info.default = (
-    "**NAME** -- **LOCATION**"
+o.normal_entry_first_row_template.default = (
+    "**NAME** -- **LOCATION** || DATE"
 )
 
 
 class NormalEntryOptions(o.NormalEntryOptions):
-    main_column_first_row_template: str = (
-        o.normal_entry_main_column_first_row_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_row_template: str = (
+        o.normal_entry_first_row_template
     )
 
 
-o.experience_entry_main_column_first_row_template_field_info.default = (
-    "**POSITION**, COMPANY -- LOCATION"
+o.experience_entry_first_row_template.default = (
+    "**POSITION**, COMPANY -- LOCATION || DATE"
 )
 
 
 class ExperienceEntryOptions(o.ExperienceEntryOptions):
-    main_column_first_row_template: str = (
-        o.experience_entry_main_column_first_row_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_row_template: str = (
+        o.experience_entry_first_row_template
     )
 
 
