@@ -56,6 +56,7 @@ cv:
   email: youremail@yourdomain.com
   phone: +905419999999 # (1)!
   website: https://example.com/
+  connections_order: [location, email, phone, website, social_networks]
   social_networks:
     - network: LinkedIn # (2)!
       username: yourusername
@@ -66,6 +67,9 @@ cv:
 
 1.  If you want to change the phone number formatting in the output, see the `locale` field's `phone_number_format` key.
 2.  The available social networks are: {{available_social_networks}}.
+3.  Use `connections_order` to customize the order of the items shown in
+    the header. Valid values are `location`, `email`, `phone`, `website`,
+    and `social_networks`.
 
 None of the values above are required. You can omit any or all of them, and RenderCV will adapt to your input. These generic fields are used in the header of the CV.
 
@@ -78,6 +82,7 @@ cv:
   email: youremail@yourdomain.com
   phone: +905419999999
   website: https://yourwebsite.com/
+  connections_order: [location, email, phone, website, social_networks]
   social_networks:
     - network: LinkedIn
       username: yourusername

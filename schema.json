@@ -242,6 +242,27 @@
             }
           ]
         },
+        "connections_order": {
+          "default": null,
+          "title": "Order of Connections",
+          "description": "Preferred order of header items.",
+          "oneOf": [
+            {
+              "items": {
+                "enum": [
+                  "location",
+                  "email",
+                  "phone",
+                  "website",
+                  "social_networks"
+                ],
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {"type": "null"}
+          ]
+        },
         "social_networks": {
           "default": null,
           "title": "Social Networks",

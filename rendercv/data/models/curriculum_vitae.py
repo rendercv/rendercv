@@ -319,6 +319,16 @@ SocialNetworkName = Literal[
 
 available_social_networks = get_args(SocialNetworkName)
 
+# Create a custom type that defines the possible items which can appear
+# in the header connections list.
+ConnectionsOrderItem = Literal[
+    "location",
+    "email",
+    "phone",
+    "website",
+    "social_networks",
+]
+
 # ======================================================================================
 # Create the models: ===================================================================
 # ======================================================================================
@@ -431,6 +441,11 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         default=None,
         title="Social Networks",
     )
+    connections_order: Optional[list[ConnectionsOrderItem]] = pydantic.Field(
+        default=None,
+        title="Order of Connections",
+        description="Preferred order of the header items.",
+    )
     sections_input: Sections = pydantic.Field(
         default=None,
         title="Sections",
@@ -475,10 +490,16 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             The connections of the person.
         """
 
-        connections: list[dict[str, Optional[str]]] = []
+        connection_map: dict[str, list[dict[str, Optional[str]]]] = {
+            "location": [],
+            "email": [],
+            "phone": [],
+            "website": [],
+            "social_networks": [],
+        }
 
         if self.location is not None:
-            connections.append(
+            connection_map["location"].append(
                 {
                     "typst_icon": "location-dot",
                     "url": None,
@@ -488,7 +509,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             )
 
         if self.email is not None:
-            connections.append(
+            connection_map["email"].append(
                 {
                     "typst_icon": "envelope",
                     "url": f"mailto:{self.email}",
@@ -499,7 +520,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         if self.phone is not None:
             phone_placeholder = computers.format_phone_number(self.phone)
-            connections.append(
+            connection_map["phone"].append(
                 {
                     "typst_icon": "phone",
                     "url": self.phone,
@@ -510,7 +531,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         if self.website is not None:
             website_placeholder = computers.make_a_url_clean(str(self.website))
-            connections.append(
+            connection_map["website"].append(
                 {
                     "typst_icon": "link",
                     "url": str(self.website),
@@ -549,7 +570,28 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 if social_network.network == "Google Scholar":
                     connection["placeholder"] = "Google Scholar"
 
-                connections.append(connection)  # type: ignore
+                connection_map["social_networks"].append(connection)
+
+        default_order = [
+            "location",
+            "email",
+            "phone",
+            "website",
+            "social_networks",
+        ]
+
+        if self.connections_order:
+            order = [item for item in self.connections_order if item in default_order]
+        else:
+            order = default_order.copy()
+
+        for item in default_order:
+            if item not in order:
+                order.append(item)
+
+        connections: list[dict[str, Optional[str]]] = []
+        for key in order:
+            connections.extend(connection_map[key])
 
         return connections
 
