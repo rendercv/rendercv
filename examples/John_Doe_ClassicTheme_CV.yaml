@@ -24,6 +24,7 @@ cv:
         summary:
         highlights:
           - Working on the optimization of autonomous vehicles in urban environments
+        grade: "GPA: 3.9/4.0"
       - institution: Boğaziçi University
         area: Computer Engineering
         degree: BS
@@ -35,6 +36,7 @@ cv:
         highlights:
           - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
           - 'Awards: Best Senior Project, High Honor'
+        grade: "GPA: 3.9/4.0"
     experience:
       - company: Company C
         position: Summer Intern
