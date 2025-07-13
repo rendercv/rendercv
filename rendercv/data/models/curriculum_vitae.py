@@ -393,6 +393,33 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
         return url
 
 
+class CustomConnection(RenderCVBaseModelWithoutExtraKeys):
+    """This class is the data model of a custom connection."""
+
+    model_config = pydantic.ConfigDict(
+        title="Custom Connection",
+    )
+    
+    typst_icon: str = pydantic.Field(
+        title="Typst Icon",
+        description="The fontawesome icon name to use for this connection"
+    )
+    url: Optional[str] = pydantic.Field(
+        default=None,
+        title="URL",
+        description="The URL for this connection (optional)"
+    )
+    clean_url: Optional[str] = pydantic.Field(
+        default=None,
+        title="Clean URL", 
+        description="A cleaned version of the URL for display (optional)"
+    )
+    placeholder: str = pydantic.Field(
+        title="Placeholder",
+        description="The text to display for this connection"
+    )
+
+
 class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
     """This class is the data model of the `cv` field."""
 
@@ -430,6 +457,11 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
     social_networks: Optional[list[SocialNetwork]] = pydantic.Field(
         default=None,
         title="Social Networks",
+    )
+    custom_connections: Optional[list[CustomConnection]] = pydantic.Field(
+        default=None,
+        title="Custom Connections",
+        description="Additional custom connections to display in the header"
     )
     sections_input: Sections = pydantic.Field(
         default=None,
@@ -550,6 +582,17 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                     connection["placeholder"] = "Google Scholar"
 
                 connections.append(connection)  # type: ignore
+        
+        if self.custom_connections is not None:
+            for custom_connection in self.custom_connections:
+                connections.append(
+                    {
+                        "typst_icon": custom_connection.typst_icon,
+                        "url": custom_connection.url,
+                        "clean_url": custom_connection.clean_url,
+                        "placeholder": custom_connection.placeholder,
+                    }
+                )
 
         return connections
 
