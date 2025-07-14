@@ -1,4 +1,3 @@
-
 #import "@preview/fontawesome:0.5.0": fa-icon
 
 #let name = "None"
@@ -58,7 +57,6 @@
 #let design-page-show-last-updated-date = true
 #let design-page-show-page-numbering = true
 #let design-links-underline = true
-#let design-entry-types-education-entry-degree-column-width = 1cm
 #let date = datetime.today()
 
 // Metadata:
@@ -142,6 +140,7 @@
     body-indent: design-highlights-horizontal-space-between-bullet-and-highlights,
   )
 }
+
 #let three-col(
   left-column-width: 1fr,
   middle-column-width: 1fr,

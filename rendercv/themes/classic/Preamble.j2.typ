@@ -1,4 +1,3 @@
-
 ((* set page_numbering_template_placeholders = {
     "NAME": cv.name,
     "PAGE_NUMBER": "\" + str(here().page()) + \"",
@@ -67,7 +66,6 @@
 #let design-page-show-last-updated-date = <<design.page.show_last_updated_date|lower>>
 #let design-page-show-page-numbering = <<design.page.show_page_numbering|lower>>
 #let design-links-underline = <<design.links.underline|lower>>
-#let design-entry-types-education-entry-degree-column-width = <<design.entry_types.education_entry.degree_column_width>>
 #let date = datetime.today()
 
 // Metadata:
@@ -151,6 +149,7 @@
     body-indent: design-highlights-horizontal-space-between-bullet-and-highlights,
   )
 }
+
 #let three-col(
   left-column-width: 1fr,
   middle-column-width: 1fr,
