@@ -7,6 +7,7 @@ import functools
 import pathlib
 import re
 from typing import Annotated, Any, Literal, Optional, get_args
+import datetime
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
@@ -407,6 +408,18 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         default=None,
         title="Location",
     )
+    nationality: Optional[str] = pydantic.Field(
+        default=None,
+        title="Nationality",
+    )
+    birthdate: Optional[datetime.date] = pydantic.Field(
+        default=None,
+        title="Birthdate",
+        description=(
+            "The birthdate of the person. It should be in the format YYYY-MM-DD, for"
+            " example, 1990-01-01."
+        ),
+    )
     email: Optional[pydantic.EmailStr] = pydantic.Field(
         default=None,
         title="Email",
@@ -476,6 +489,26 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         """
 
         connections: list[dict[str, Optional[str]]] = []
+
+        if self.nationality is not None:
+            connections.append(
+                {
+                    "typst_icon": "passport",
+                    "url": None,
+                    "clean_url": None,
+                    "placeholder": self.nationality,
+                }
+            )
+
+        if self.birthdate is not None:
+            connections.append(
+                {
+                    "typst_icon": "cake-candles",
+                    "url": None,
+                    "clean_url": None,
+                    "placeholder": self.birthdate.strftime("%Y-%m-%d"),
+                }
+            )
 
         if self.location is not None:
             connections.append(
