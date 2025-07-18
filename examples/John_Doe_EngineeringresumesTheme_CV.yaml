@@ -17,7 +17,6 @@ cv:
       - institution: Stanford University
         area: Computer Science
         degree: PhD
-        grade: "GPA: 3.9/4.0"
         date:
         start_date: 2023-09
         end_date: present
@@ -28,13 +27,13 @@ cv:
       - institution: Boğaziçi University
         area: Computer Engineering
         degree: BS
-        grade: "GPA: 3.9/4.0"
         date:
         start_date: 2018-09
         end_date: 2022-06
         location: Istanbul, Türkiye
         summary:
         highlights:
+          - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
           - 'Awards: Best Senior Project, High Honor'
     experience:
       - company: Company C
