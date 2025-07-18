@@ -100,8 +100,10 @@ cv:
         journal:
         date: 2004-01
     extracurricular_activities:
-      - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
-      - bullet: Each entry type has a different structure and layout. This document demonstrates all of them.
+      - bullets:
+            - 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
+      - bullets:
+            - Each entry type has a different structure and layout. This document demonstrates all of them.
     numbered_entries:
       - number: This is a numbered entry.
       - number: This is another numbered entry.

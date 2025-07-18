@@ -122,8 +122,7 @@ class TypstFile(TemplatedFile):
         all_template_names = [
             "first_row_template",
             "second_row_template",
-            "second_row_no_url_template",
-            "second_row_no_journal_template",
+            "third_row_template",
             "first_column_width",
             "template",
             "last_column_width",
@@ -191,7 +190,7 @@ class TypstFile(TemplatedFile):
                             section_title=section.title,
                         )
                     else:
-                        placeholder_value = getattr(entry, placeholder_key, None)
+                        placeholder_value = getattr(entry, lowercase_placeholder_key, None)
 
                     placeholders[placeholder_key] = (
                         placeholder_value if placeholder_value != "None" else None
@@ -414,7 +413,13 @@ def input_template_to_typst(
     # "NAME -- LOCATION", "NAME -- " should become "NAME".
     def clean(s):
         s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
-        return re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
+        s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
+        # Remove trailing newline
+        s = s.rstrip('\n')
+
+        # Remove all occurrences of empty parentheses
+        s = re.sub(r"\(\)", "", s)
+        return s  # noqa: RET504
 
     parts = output.split("||")
     cleaned_parts = [clean(part.strip()) for part in parts]
@@ -600,6 +605,15 @@ def markdown_to_typst(markdown_string: str) -> str:
 
             markdown_string = markdown_string.replace(old_link_string, new_link_string)
 
+    # convert colors
+    colors = re.findall(r"%%(.+?)%%", markdown_string)
+    if colors is not None:
+        for color in colors:
+            old_color_string = f"%%{color}%%"
+            new_color_string = f'#text(fill: design-colors-custom)[{color}]'
+
+            markdown_string = markdown_string.replace(old_color_string, new_color_string)
+
     # Process escaped asterisks in the yaml (such that they are actual asterisks,
     # and not markers for bold/italics). We need to temporarily replace them with
     # a dummy string.
@@ -745,10 +759,11 @@ def replace_placeholders_with_actual_values(
         The string with actual values.
     """
     for placeholder, value in placeholders.items():
+        escaped = re.escape(placeholder)
         if value:
-            text = text.replace(placeholder, str(value))
+            text = re.sub(rf"\b{escaped}\b", str(value), text)
         else:
-            text = text.replace(placeholder, "")
+            text = re.sub(rf"\b{escaped}\b", "", text)
 
     return text
 

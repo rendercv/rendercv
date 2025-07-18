@@ -232,7 +232,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
     """This class is the data model of `BulletEntry`."""
 
     model_config = pydantic.ConfigDict(title="Bullet Entry")
-    bullet: str = pydantic.Field(
+    bullets: list[str] = pydantic.Field(
         title="Bullet",
     )
 
@@ -245,7 +245,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
         Returns:
             A BulletEntry with the keywords made bold in the `bullet` field.
         """
-        self.bullet = make_keywords_bold_in_a_string(self.bullet, keywords)
+        self.bullets = [make_keywords_bold_in_a_string(bullet, keywords) for bullet in self.bullets]
         return self
 
 
@@ -342,12 +342,29 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
         default=None,
         title="Journal",
     )
+    conference_date: ArbitraryDate = pydantic.Field(
+        default=None,
+        title="Date",
+        description=(
+            "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as"
+            ' an arbitrary string such as "Fall 2023."'
+        ),
+        examples=["2020-09-24", "Fall 2023"],
+    )
+    conference_doi: Optional[Annotated[str, pydantic.Field(pattern=r"\b10\..*")]] = pydantic.Field(
+        default=None,
+        title="Conference DOI",
+        examples=["10.48550/arXiv.2310.03138"],
+    )
+    conference: Optional[str] = pydantic.Field(
+        default=None,
+        title="Conference",
+    )
 
     @pydantic.model_validator(mode="after")  # type: ignore
     def ignore_url_if_doi_is_given(self) -> "PublicationEntryBase":
         """Check if DOI is provided and ignore the URL if it is provided."""
         doi_is_provided = self.doi is not None
-
         if doi_is_provided:
             self.url = None
 
@@ -532,6 +549,12 @@ class NormalEntryBase(RenderCVBaseModelWithExtraKeys):
 
     name: str = pydantic.Field(
         title="Name",
+    )
+
+    project_url: Optional[str] = pydantic.Field(
+        default=None,
+        title="project URL",
+        description="url of github project",
     )
 
 
