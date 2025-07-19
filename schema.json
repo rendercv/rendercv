@@ -362,6 +362,22 @@
             }
           ]
         },
+        "grade": {
+          "default": null,
+          "description": "The grade received.",
+          "examples": [
+            "GPA: 3.5/4.0"
+          ],
+          "title": "Grade",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "date": {
           "default": null,
           "description": "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as an arbitrary string such as \"Fall 2023.\"",
@@ -404,7 +420,7 @@
         },
         "end_date": {
           "default": null,
-          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type “present” or provide only the start date.",
+          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type \"present\" or provide only the start date.",
           "examples": [
             "2020-09-24",
             "present"
@@ -899,7 +915,7 @@
         },
         "end_date": {
           "default": null,
-          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type “present” or provide only the start date.",
+          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type \"present\" or provide only the start date.",
           "examples": [
             "2020-09-24",
             "present"
@@ -1377,7 +1393,7 @@
         },
         "end_date": {
           "default": null,
-          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type “present” or provide only the start date.",
+          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type \"present\" or provide only the start date.",
           "examples": [
             "2020-09-24",
             "present"
