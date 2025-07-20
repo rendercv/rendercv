@@ -1,8 +1,11 @@
+import contextlib
+import io
 import multiprocessing as mp
 import os
 import pathlib
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -681,8 +684,6 @@ def test_if_welcome_prints_new_version_available(monkeypatch):
         "get_latest_version_number_from_pypi",
         lambda: packaging.version.Version("99.99.99"),
     )
-    import contextlib  # noqa: PLC0415
-    import io  # noqa: PLC0415
 
     with contextlib.redirect_stdout(io.StringIO()) as f:
         printer.welcome()
@@ -962,8 +963,6 @@ def test_watcher(tmp_path, input_file_path):
     )
     time.sleep(4)
     assert p.is_alive()
-    import signal  # noqa: PLC0415
-
     p.terminate()
     os.kill(p.pid, signal.SIGINT)  # type: ignore
 
@@ -983,8 +982,6 @@ def test_watcher_with_errors(tmp_path, input_file_path):
     input_file_path.write_text("")
     time.sleep(4)
     assert p.is_alive()
-    import signal  # noqa: PLC0415
-
     os.kill(p.pid, signal.SIGINT)  # type: ignore
 
     p.join()

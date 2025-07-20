@@ -4,6 +4,7 @@ properties based on the input data. For example, it includes functions that calc
 the time span between two dates, the date string, the URL of a social network, etc.
 """
 
+import importlib
 import pathlib
 import re
 from datetime import date as Date
@@ -47,9 +48,8 @@ def get_date_input() -> Date:
     Returns:
         The date input.
     """
-    from .rendercv_settings import DATE_INPUT  # noqa: PLC0415
-
-    return DATE_INPUT
+    module = importlib.import_module(".rendercv_settings", __package__)
+    return module.DATE_INPUT
 
 
 def format_date(date: Date, date_template: str | None = None) -> str:

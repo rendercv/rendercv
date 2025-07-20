@@ -18,8 +18,8 @@ import typer
 import watchdog.events
 import watchdog.observers
 
-from .. import data, renderer
-from . import printer
+from .. import __version__, data, renderer
+from . import commands, printer
 
 
 def set_or_update_a_value(
@@ -135,6 +135,7 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
         number cannot be fetched.
     """
     version: packaging.version.Version | None = None
+    version: packaging.version.Version | None = None
     url = "https://pypi.org/pypi/rendercv/json"
     try:
         with urllib.request.urlopen(url) as response:
@@ -147,8 +148,6 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
         pass
 
     if version is None:
-        from .. import __version__  # noqa: PLC0415
-
         return packaging.version.Version(__version__)
 
     return version
@@ -237,9 +236,7 @@ def get_default_render_command_cli_arguments() -> dict:
     Returns:
         The default values of the `render` command's CLI arguments.
     """
-    from .commands import cli_command_render  # noqa: PLC0415
-
-    sig = inspect.signature(cli_command_render)
+    sig = inspect.signature(commands.cli_command_render)
     return {
         k: v.default
         for k, v in sig.parameters.items()

@@ -4,6 +4,7 @@ field of the input file.
 """
 
 import functools
+import importlib
 import pathlib
 import re
 from typing import Annotated, Any, Literal, get_args
@@ -445,7 +446,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
     def update_photo_path(cls, value: pathlib.Path | None) -> pathlib.Path | None:
         """Cast `photo` to Path and make the path absolute"""
         if value:
-            from .rendercv_data_model import INPUT_FILE_DIRECTORY  # noqa: PLC0415
+            module = importlib.import_module(".rendercv_data_model", __package__)
+            INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
 
             if INPUT_FILE_DIRECTORY is not None:
                 profile_picture_parent_folder = INPUT_FILE_DIRECTORY

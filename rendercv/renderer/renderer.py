@@ -3,6 +3,7 @@ The `rendercv.renderer.renderer` module contains the necessary functions for ren
 Typst, PDF, Markdown, HTML, and PNG files from the `RenderCVDataModel` object.
 """
 
+import importlib
 import importlib.resources
 import pathlib
 import re
@@ -237,12 +238,11 @@ class TypstCompiler:
     def __new__(cls, file_path: pathlib.Path):
         if not hasattr(cls, "instance") or cls.instance.file_path != file_path:
             try:
-                import rendercv_fonts  # noqa: PLC0415
-                import typst  # noqa: PLC0415
+                rendercv_fonts = importlib.import_module("rendercv_fonts")
+                typst = importlib.import_module("typst")
             except Exception as e:
-                from .. import _parial_install_error_message  # noqa: PLC0415
-
-                raise ImportError(_parial_install_error_message) from e
+                parent = importlib.import_module("..", __package__)
+                raise ImportError(parent._parial_install_error_message) from e
 
             cls.instance = super().__new__(cls)
             cls.instance.file_path = file_path
@@ -356,11 +356,10 @@ def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Pa
         The path to the rendered HTML file.
     """
     try:
-        import markdown  # noqa: PLC0415
+        markdown = importlib.import_module("markdown")
     except Exception as e:
-        from .. import _parial_install_error_message  # noqa: PLC0415
-
-        raise ImportError(_parial_install_error_message) from e
+        parent = importlib.import_module("..", __package__)
+        raise ImportError(parent._parial_install_error_message) from e
 
     # check if the file exists:
     if not markdown_file_path.is_file():
