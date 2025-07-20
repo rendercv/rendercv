@@ -168,8 +168,7 @@ class TypstFile(TemplatedFile):
                 for entry in section:
                     if isinstance(entry, str):
                         break
-                    entry_dictionary = entry.model_dump()
-                    for key in entry_dictionary:
+                    for key in entry.__class__.model_fields.keys():
                         placeholder_keys.add(key.upper())
 
         pattern = re.compile(r"(?<!^)(?=[A-Z])")
