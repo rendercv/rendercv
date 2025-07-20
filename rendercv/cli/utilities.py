@@ -134,7 +134,7 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
         The latest version number of RenderCV from PyPI. Returns None if the version
         number cannot be fetched.
     """
-    version = None
+    version: packaging.version.Version | None = None
     url = "https://pypi.org/pypi/rendercv/json"
     try:
         with urllib.request.urlopen(url) as response:
@@ -145,6 +145,11 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
             version = packaging.version.Version(version_string)
     except Exception:
         pass
+
+    if version is None:
+        from .. import __version__  # noqa: PLC0415
+
+        return packaging.version.Version(__version__)
 
     return version
 

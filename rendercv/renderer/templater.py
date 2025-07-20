@@ -8,7 +8,7 @@ import copy
 import pathlib
 import re
 from collections.abc import Callable
-from typing import overload, get_origin, get_args
+from typing import get_args, get_origin, overload
 
 import jinja2
 import pydantic
@@ -84,17 +84,17 @@ class TemplatedFile:
                 is_list_field = (
                     origin is list
                     or field_type is list
-                    or any(get_origin(arg) is list or arg is list for arg in get_args(field_type))
+                    or any(
+                        get_origin(arg) is list or arg is list
+                        for arg in get_args(field_type)
+                    )
                 )
 
                 # 2) Identify *plain* string annotations (str | None)
-                is_string_field = (
-                    field_type is str
-                    or (
-                        origin is not None
-                        and all(arg in {str, type(None)} for arg in get_args(field_type))
-                        and any(arg is str for arg in get_args(field_type))
-                    )
+                is_string_field = field_type is str or (
+                    origin is not None
+                    and all(arg in {str, type(None)} for arg in get_args(field_type))
+                    and any(arg is str for arg in get_args(field_type))
                 )
 
                 if is_list_field:
@@ -168,7 +168,7 @@ class TypstFile(TemplatedFile):
                 for entry in section:
                     if isinstance(entry, str):
                         break
-                    for key in entry.__class__.model_fields.keys():
+                    for key in entry.__class__.model_fields:
                         placeholder_keys.add(key.upper())
 
         pattern = re.compile(r"(?<!^)(?=[A-Z])")
@@ -722,7 +722,7 @@ def transform_markdown_sections_to_something_else_sections(
                 # because they are stored as specialised objects (e.g. pydantic HttpUrl).
                 fields_to_skip = {"doi", "url", "website"}
 
-                for entry_key, model_field in entry.__class__.model_fields.items():
+                for entry_key, _model_field in entry.__class__.model_fields.items():
                     if entry_key in fields_to_skip:
                         continue
 
@@ -730,7 +730,9 @@ def transform_markdown_sections_to_something_else_sections(
 
                     # Process str
                     if isinstance(inner_value, str):
-                        setattr(entry, entry_key, apply_functions_to_string(inner_value))
+                        setattr(
+                            entry, entry_key, apply_functions_to_string(inner_value)
+                        )
 
                     # Process list[str]
                     elif isinstance(inner_value, list):
