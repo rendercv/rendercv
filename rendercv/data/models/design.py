@@ -46,7 +46,7 @@ def validate_design_options(
     Returns:
         The validated design as a Pydantic data model.
     """
-    from .rendercv_data_model import INPUT_FILE_DIRECTORY
+    from .rendercv_data_model import INPUT_FILE_DIRECTORY  # noqa: PLC0415
 
     original_working_directory = pathlib.Path.cwd()
 

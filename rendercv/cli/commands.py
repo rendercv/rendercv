@@ -4,16 +4,16 @@ commands of RenderCV.
 """
 
 import copy
+import inspect  # NEW: for signature inspection
 import pathlib
-from typing import Annotated, Optional
+from typing import Annotated
 
 import typer
+from click.core import Parameter  # NEW: needed for monkey-patch
 from rich import print
 
 from .. import __version__, data
 from . import printer, utilities
-import inspect  # NEW: for signature inspection
-from click.core import Parameter  # NEW: needed for monkey-patch
 
 _orig_make_metavar = Parameter.make_metavar  # preserve original implementation
 _orig_sig = inspect.signature(_orig_make_metavar)
@@ -50,8 +50,7 @@ def _adapt_make_metavar(self, *args, **kwargs):  # type: ignore[override]
     # Delegate to the original function with correct positional arguments.
     if expects_ctx:
         return _orig_make_metavar(self, ctx, param_hint, **kwargs)  # type: ignore[arg-type]
-    else:
-        return _orig_make_metavar(self, param_hint, **kwargs)  # type: ignore[arg-type]
+    return _orig_make_metavar(self, param_hint, **kwargs)  # type: ignore[arg-type]
 
 
 # Apply the monkey-patch once.
@@ -83,7 +82,7 @@ app = typer.Typer(
 def cli_command_render(
     input_file_name: Annotated[str, typer.Argument(help="The YAML input file.")],
     design: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--design",
             "-d",
@@ -91,7 +90,7 @@ def cli_command_render(
         ),
     ] = None,
     locale: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--locale-catalog",
             "-lc",
@@ -99,7 +98,7 @@ def cli_command_render(
         ),
     ] = None,
     rendercv_settings: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--rendercv-settings",
             "-rs",
@@ -115,7 +114,7 @@ def cli_command_render(
         ),
     ] = "rendercv_output",
     typst_path: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--typst-path",
             "-typst",
@@ -123,7 +122,7 @@ def cli_command_render(
         ),
     ] = None,
     pdf_path: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--pdf-path",
             "-pdf",
@@ -131,7 +130,7 @@ def cli_command_render(
         ),
     ] = None,
     markdown_path: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--markdown-path",
             "-md",
@@ -139,7 +138,7 @@ def cli_command_render(
         ),
     ] = None,
     html_path: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--html-path",
             "-html",
@@ -147,7 +146,7 @@ def cli_command_render(
         ),
     ] = None,
     png_path: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--png-path",
             "-png",
@@ -189,7 +188,7 @@ def cli_command_render(
     # This is a dummy argument for the help message for
     # extra_data_model_override_argumets:
     _: Annotated[
-        Optional[str],
+        str | None,
         typer.Option(
             "--YAMLLOCATION",
             help="Overrides the value of YAMLLOCATION. For example,"
@@ -203,16 +202,15 @@ def cli_command_render(
     original_working_directory = pathlib.Path.cwd()
     input_file_path = pathlib.Path(input_file_name).absolute()
 
-    from . import utilities as u
-
-    argument_names = list(u.get_default_render_command_cli_arguments().keys())
+    # from . import utilities as u  # removed redundant alias import
+    argument_names = list(utilities.get_default_render_command_cli_arguments().keys())
     argument_names.remove("_")
     argument_names.remove("extra_data_model_override_arguments")
     # This is where the user input is accessed and stored:
     variables = copy.copy(locals())
     cli_render_arguments = {name: variables[name] for name in argument_names}
 
-    input_file_as_a_dict = u.read_and_construct_the_input(
+    input_file_as_a_dict = utilities.read_and_construct_the_input(
         input_file_path, cli_render_arguments, extra_data_model_override_arguments
     )
 
@@ -222,16 +220,18 @@ def cli_command_render(
 
         @printer.handle_and_print_raised_exceptions_without_exit
         def run_rendercv():
-            input_file_as_a_dict = u.update_render_command_settings_of_the_input_file(
-                data.read_a_yaml_file(input_file_path), cli_render_arguments
+            input_file_as_a_dict = (
+                utilities.update_render_command_settings_of_the_input_file(
+                    data.read_a_yaml_file(input_file_path), cli_render_arguments
+                )
             )
-            u.run_rendercv_with_printer(
+            utilities.run_rendercv_with_printer(
                 input_file_as_a_dict, original_working_directory, input_file_path
             )
 
-        u.run_a_function_if_a_file_changes(input_file_path, run_rendercv)
+        utilities.run_a_function_if_a_file_changes(input_file_path, run_rendercv)
     else:
-        u.run_rendercv_with_printer(
+        utilities.run_rendercv_with_printer(
             input_file_as_a_dict, original_working_directory, input_file_path
         )
 
@@ -385,11 +385,10 @@ def cli_command_create_theme(
 @app.callback()
 def cli_command_no_args(
     version_requested: Annotated[
-        Optional[bool], typer.Option("--version", "-v", help="Show the version")
+        bool | None, typer.Option("--version", "-v", help="Show the version")
     ] = None,
 ):
     if version_requested:
         there_is_a_new_version = printer.warn_if_new_version_is_available()
         if not there_is_a_new_version:
             print(f"RenderCV v{__version__}")
-

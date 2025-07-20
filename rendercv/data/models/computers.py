@@ -7,7 +7,6 @@ the time span between two dates, the date string, the URL of a social network, e
 import pathlib
 import re
 from datetime import date as Date
-from typing import Optional
 
 import phonenumbers
 
@@ -48,12 +47,12 @@ def get_date_input() -> Date:
     Returns:
         The date input.
     """
-    from .rendercv_settings import DATE_INPUT
+    from .rendercv_settings import DATE_INPUT  # noqa: PLC0415
 
     return DATE_INPUT
 
 
-def format_date(date: Date, date_template: Optional[str] = None) -> str:
+def format_date(date: Date, date_template: str | None = None) -> str:
     """Formats a `Date` object to a string in the following format: "Jan 2021". The
     month names are taken from the `locale` dictionary from the
     `rendercv.data_models.models` module.
@@ -145,9 +144,9 @@ def convert_string_to_path(value: str) -> pathlib.Path:
 
 
 def compute_time_span_string(
-    start_date: Optional[str | int],
-    end_date: Optional[str | int],
-    date: Optional[str | int],
+    start_date: str | int | None,
+    end_date: str | int | None,
+    date: str | int | None,
 ) -> str:
     """
     Return a time span string based on the provided dates.
@@ -244,9 +243,9 @@ def compute_time_span_string(
 
 
 def compute_date_string(
-    start_date: Optional[str | int],
-    end_date: Optional[str | int],
-    date: Optional[str | int],
+    start_date: str | int | None,
+    end_date: str | int | None,
+    date: str | int | None,
     show_only_years: bool = False,
 ) -> str:
     """Return a date string based on the provided dates.

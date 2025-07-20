@@ -8,13 +8,13 @@ import pathlib
 import re
 import shutil
 import sys
-from typing import Any, Literal, Optional
+from typing import Any, Literal
 
 from .. import data
 from . import templater
 
 
-def create_a_file_name_without_extension_from_name(name: Optional[str]) -> str:
+def create_a_file_name_without_extension_from_name(name: str | None) -> str:
     """Create a file name from the given name by replacing the spaces with underscores
     and removing typst commands.
 
@@ -237,10 +237,10 @@ class TypstCompiler:
     def __new__(cls, file_path: pathlib.Path):
         if not hasattr(cls, "instance") or cls.instance.file_path != file_path:
             try:
-                import rendercv_fonts
-                import typst
+                import rendercv_fonts  # noqa: PLC0415
+                import typst  # noqa: PLC0415
             except Exception as e:
-                from .. import _parial_install_error_message
+                from .. import _parial_install_error_message  # noqa: PLC0415
 
                 raise ImportError(_parial_install_error_message) from e
 
@@ -260,7 +260,7 @@ class TypstCompiler:
         self,
         output: pathlib.Path,
         format: Literal["png", "pdf"],
-        ppi: Optional[float] = None,
+        ppi: float | None = None,
     ) -> pathlib.Path | list[pathlib.Path]:
         return self.instance.compiler.compile(format=format, output=output, ppi=ppi)
 
@@ -296,7 +296,7 @@ def render_a_pdf_from_typst(file_path: pathlib.Path) -> pathlib.Path:
         previous = None
         while previous != source:
             previous = source
-            source = inline_pattern.sub(lambda m: ''.join(m.groups()), source)
+            source = inline_pattern.sub(lambda m: "".join(m.groups()), source)
         _ = file_path.write_text(source, encoding="utf-8")
 
     # Create the compiler *after* the preprocessing so that it reads the updated
@@ -356,9 +356,9 @@ def render_an_html_from_markdown(markdown_file_path: pathlib.Path) -> pathlib.Pa
         The path to the rendered HTML file.
     """
     try:
-        import markdown
+        import markdown  # noqa: PLC0415
     except Exception as e:
-        from .. import _parial_install_error_message
+        from .. import _parial_install_error_message  # noqa: PLC0415
 
         raise ImportError(_parial_install_error_message) from e
 
