@@ -342,24 +342,6 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
         default=None,
         title="Journal",
     )
-    conference_date: ArbitraryDate = pydantic.Field(
-        default=None,
-        title="Date",
-        description=(
-            "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as"
-            ' an arbitrary string such as "Fall 2023."'
-        ),
-        examples=["2020-09-24", "Fall 2023"],
-    )
-    conference_doi: Optional[Annotated[str, pydantic.Field(pattern=r"\b10\..*")]] = pydantic.Field(
-        default=None,
-        title="Conference DOI",
-        examples=["10.48550/arXiv.2310.03138"],
-    )
-    conference: Optional[str] = pydantic.Field(
-        default=None,
-        title="Conference",
-    )
 
     @pydantic.model_validator(mode="after")  # type: ignore
     def ignore_url_if_doi_is_given(self) -> "PublicationEntryBase":
@@ -549,12 +531,6 @@ class NormalEntryBase(RenderCVBaseModelWithExtraKeys):
 
     name: str = pydantic.Field(
         title="Name",
-    )
-
-    project_url: Optional[str] = pydantic.Field(
-        default=None,
-        title="project URL",
-        description="url of github project",
     )
 
 
