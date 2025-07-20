@@ -12,6 +12,50 @@ from rich import print
 
 from .. import __version__, data
 from . import printer, utilities
+import inspect  # NEW: for signature inspection
+from click.core import Parameter  # NEW: needed for monkey-patch
+
+_orig_make_metavar = Parameter.make_metavar  # preserve original implementation
+_orig_sig = inspect.signature(_orig_make_metavar)
+_orig_param_count = len(_orig_sig.parameters)  # includes ``self``
+
+
+def _adapt_make_metavar(self, *args, **kwargs):  # type: ignore[override]
+    """Adapter to call *make_metavar* regardless of Click version.
+
+    It normalises the positional arguments emitted by Typer to match the
+    signature expected by the underlying Click version:
+
+    • Click < 8.1 → make_metavar(self, param_hint=None)
+    • Click ≥ 8.1 → make_metavar(self, ctx, param_hint=None)
+    """
+
+    # Determine expected arg layout (excluding *self*).
+    expects_ctx = _orig_param_count == 3  # self + ctx + param_hint
+
+    ctx = None
+    param_hint = None
+
+    if expects_ctx:
+        if len(args) == 1:
+            # We only got ``param_hint``; fabricate ctx=None.
+            param_hint = args[0]
+        elif len(args) >= 2:
+            ctx, param_hint = args[:2]
+    else:
+        # Original expects only param_hint.
+        if len(args) >= 1:
+            param_hint = args[0]
+
+    # Delegate to the original function with correct positional arguments.
+    if expects_ctx:
+        return _orig_make_metavar(self, ctx, param_hint, **kwargs)  # type: ignore[arg-type]
+    else:
+        return _orig_make_metavar(self, param_hint, **kwargs)  # type: ignore[arg-type]
+
+
+# Apply the monkey-patch once.
+Parameter.make_metavar = _adapt_make_metavar  # type: ignore[assignment]
 
 app = typer.Typer(
     rich_markup_mode="rich",
@@ -348,3 +392,4 @@ def cli_command_no_args(
         there_is_a_new_version = printer.warn_if_new_version_is_available()
         if not there_is_a_new_version:
             print(f"RenderCV v{__version__}")
+
