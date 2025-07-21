@@ -6,7 +6,6 @@ Schema of the input data format and a sample YAML input file.
 import io
 import json
 import pathlib
-from typing import Optional
 
 import pydantic
 import ruamel.yaml
@@ -77,7 +76,7 @@ def create_a_sample_data_model(
 
 
 def create_a_sample_yaml_input_file(
-    input_file_path: Optional[pathlib.Path] = None,
+    input_file_path: pathlib.Path | None = None,
     name: str = "John Doe",
     theme: str = "classic",
 ) -> str:

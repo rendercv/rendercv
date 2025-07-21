@@ -5,7 +5,6 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 
 import datetime
 import pathlib
-from typing import Optional
 
 import pydantic
 
@@ -40,7 +39,7 @@ DATE_INPUT = datetime.date.today()
 class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of the `render` command's settings."""
 
-    design: Optional[pathlib.Path] = pydantic.Field(
+    design: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`design` Field's YAML File",
         description=(
@@ -48,7 +47,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    rendercv_settings: Optional[pathlib.Path] = pydantic.Field(
+    rendercv_settings: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`rendercv_settings` Field's YAML File",
         description=(
@@ -57,7 +56,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    locale: Optional[pathlib.Path] = pydantic.Field(
+    locale: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`locale` Field's YAML File",
         description=(
@@ -75,7 +74,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    pdf_path: Optional[pathlib.Path] = pydantic.Field(
+    pdf_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="PDF Path",
         description=(
@@ -84,7 +83,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    typst_path: Optional[pathlib.Path] = pydantic.Field(
+    typst_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Typst Path",
         description=(
@@ -93,7 +92,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    html_path: Optional[pathlib.Path] = pydantic.Field(
+    html_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="HTML Path",
         description=(
@@ -102,7 +101,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    png_path: Optional[pathlib.Path] = pydantic.Field(
+    png_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="PNG Path",
         description=(
@@ -111,7 +110,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    markdown_path: Optional[pathlib.Path] = pydantic.Field(
+    markdown_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Markdown Path",
         description=(
@@ -177,7 +176,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         mode="before",
     )
     @classmethod
-    def convert_string_to_path(cls, value: Optional[str]) -> Optional[pathlib.Path]:
+    def convert_string_to_path(cls, value: str | None) -> pathlib.Path | None:
         """Converts a string to a `pathlib.Path` object by replacing the placeholders
         with the corresponding values. If the path is not an absolute path, it is
         converted to an absolute path by prepending the current working directory.
@@ -205,7 +204,7 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             "default": None,
         },
     )
-    render_command: Optional[RenderCommandSettings] = pydantic.Field(
+    render_command: RenderCommandSettings | None = pydantic.Field(
         default=None,
         title="Render Command Settings",
         description=(

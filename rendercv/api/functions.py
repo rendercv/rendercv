@@ -7,7 +7,6 @@ import pathlib
 import shutil
 import tempfile
 from collections.abc import Callable
-from typing import Optional
 
 import pydantic
 
@@ -45,7 +44,7 @@ def _create_a_file_from_something(
     parser: Callable,
     renderer: Callable,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input, generate a file and save it to the output file path.
 
@@ -192,7 +191,7 @@ def create_contents_of_a_markdown_file_from_a_yaml_string(
 def create_a_typst_file_from_a_yaml_string(
     yaml_file_as_string: str,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input file given as a string, generate a Typst file and save it to the
     output file path.
@@ -216,7 +215,7 @@ def create_a_typst_file_from_a_yaml_string(
 def create_a_typst_file_from_a_python_dictionary(
     input_file_as_a_dict: dict,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input dictionary, generate a Typst file and save it to the output file
     path.
@@ -239,7 +238,7 @@ def create_a_typst_file_from_a_python_dictionary(
 def create_a_markdown_file_from_a_python_dictionary(
     input_file_as_a_dict: dict,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input dictionary, generate a Markdown file and save it to the output
     file path.
@@ -262,7 +261,7 @@ def create_a_markdown_file_from_a_python_dictionary(
 def create_a_markdown_file_from_a_yaml_string(
     yaml_file_as_string: str,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input file given as a string, generate a Markdown file and save it to
     the output file path.
@@ -285,7 +284,7 @@ def create_a_markdown_file_from_a_yaml_string(
 def create_an_html_file_from_a_python_dictionary(
     input_file_as_a_dict: dict,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input dictionary, generate an HTML file and save it to the output file
     path.
@@ -310,7 +309,7 @@ def create_an_html_file_from_a_python_dictionary(
 def create_an_html_file_from_a_yaml_string(
     yaml_file_as_string: str,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input file given as a string, generate an HTML file and save it to the
     output file path.
@@ -335,7 +334,7 @@ def create_an_html_file_from_a_yaml_string(
 def create_a_pdf_from_a_yaml_string(
     yaml_file_as_string: str,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input file given as a string, generate a PDF file and save it to the
     output file path.
@@ -360,7 +359,7 @@ def create_a_pdf_from_a_yaml_string(
 def create_a_pdf_from_a_python_dictionary(
     input_file_as_a_dict: dict,
     output_file_path: pathlib.Path,
-) -> Optional[list[dict]]:
+) -> list[dict] | None:
     """
     Validate the input dictionary, generate a PDF file and save it to the output file
     path.

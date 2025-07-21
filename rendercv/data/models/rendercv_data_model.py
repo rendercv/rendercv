@@ -4,7 +4,6 @@ data model, which is the main data model that defines the whole input file struc
 """
 
 import pathlib
-from typing import Optional
 
 import pydantic
 
@@ -15,7 +14,7 @@ from .design import RenderCVDesign
 from .locale import Locale
 from .rendercv_settings import RenderCVSettings
 
-INPUT_FILE_DIRECTORY: Optional[pathlib.Path] = None
+INPUT_FILE_DIRECTORY: pathlib.Path | None = None
 
 
 class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
@@ -52,7 +51,7 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
     @classmethod
     def update_paths(
         cls, model, info: pydantic.ValidationInfo
-    ) -> Optional[RenderCVSettings]:
+    ) -> RenderCVSettings | None:
         """Update the paths in the RenderCV settings."""
         global INPUT_FILE_DIRECTORY  # NOQA: PLW0603
 

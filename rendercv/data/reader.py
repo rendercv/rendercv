@@ -6,7 +6,6 @@ Pydantic data model of RenderCV's data format.
 
 import pathlib
 import re
-from typing import Optional
 
 import pydantic
 import ruamel.yaml
@@ -45,7 +44,7 @@ def make_given_keywords_bold_in_sections(
 
 def get_error_message_and_location_and_value_from_a_custom_error(
     error_string: str,
-) -> tuple[Optional[str], Optional[str], Optional[str]]:
+) -> tuple[str | None, str | None, str | None]:
     """Look at a string and figure out if it's a custom error message that has been
     sent from `rendercv.data.reader.read_input_file`. If it is, then return the custom
     message, location, and the input value.
@@ -125,7 +124,7 @@ def get_coordinates_of_a_key_in_a_yaml_object(
 
 
 def parse_validation_errors(
-    exception: pydantic.ValidationError, yaml_file_as_string: Optional[str] = None
+    exception: pydantic.ValidationError, yaml_file_as_string: str | None = None
 ) -> list[dict[str, str]]:
     """Take a Pydantic validation error, parse it, and return a list of error
     dictionaries that contain the error messages, locations, and the input values.
@@ -334,7 +333,7 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
 
 def validate_input_dictionary_and_return_the_data_model(
     input_dictionary: dict,
-    context: Optional[dict] = None,
+    context: dict | None = None,
 ) -> models.RenderCVDataModel:
     """Validate the input dictionary by creating an instance of `RenderCVDataModel`,
     which is a Pydantic data model of RenderCV's data format.
