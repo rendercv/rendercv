@@ -7,11 +7,12 @@ import json
 import os
 import pathlib
 import shutil
+import ssl
 import sys
 import time
 import urllib.request
 from collections.abc import Callable
-from typing import Any, Optional
+from typing import Any
 
 import packaging.version
 import typer
@@ -26,7 +27,7 @@ def set_or_update_a_value(
     dictionary: dict,
     key: str,
     value: str,
-    sub_dictionary: Optional[dict | list] = None,
+    sub_dictionary: dict | list | None = None,
 ) -> dict:  # type: ignore
     """Set or update a value in a dictionary for the given key. For example, a key can
     be `cv.sections.education.3.institution` and the value can be "Bogazici University".
@@ -120,7 +121,7 @@ def copy_files(paths: list[pathlib.Path] | pathlib.Path, new_path: pathlib.Path)
             shutil.copy2(file_path, png_path_with_page_number)
 
 
-def get_latest_version_number_from_pypi() -> Optional[packaging.version.Version]:
+def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
     """Get the latest version number of RenderCV from PyPI.
 
     Example:
@@ -137,7 +138,7 @@ def get_latest_version_number_from_pypi() -> Optional[packaging.version.Version]
     version = None
     url = "https://pypi.org/pypi/rendercv/json"
     try:
-        with urllib.request.urlopen(url) as response:
+        with urllib.request.urlopen(url, context=ssl._create_unverified_context()) as response:
             data = response.read()
             encoding = response.info().get_content_charset("utf-8")
             json_data = json.loads(data.decode(encoding))
@@ -152,8 +153,8 @@ def get_latest_version_number_from_pypi() -> Optional[packaging.version.Version]
 def copy_templates(
     folder_name: str,
     copy_to: pathlib.Path,
-    new_folder_name: Optional[str] = None,
-) -> Optional[pathlib.Path]:
+    new_folder_name: str | None = None,
+) -> pathlib.Path | None:
     """Copy one of the folders found in `rendercv.templates` to `copy_to`.
 
     Args:
@@ -232,7 +233,9 @@ def get_default_render_command_cli_arguments() -> dict:
     Returns:
         The default values of the `render` command's CLI arguments.
     """
-    from .commands import cli_command_render
+    cli_command_render = __import__(
+        f"{__package__}.commands", fromlist=["cli_command_render"]
+    ).cli_command_render
 
     sig = inspect.signature(cli_command_render)
     return {
@@ -462,7 +465,7 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
 def read_and_construct_the_input(
     input_file_path: pathlib.Path,
     cli_render_arguments: dict[str, Any],
-    extra_data_model_override_arguments: Optional[typer.Context] = None,
+    extra_data_model_override_arguments: typer.Context | None = None,
 ) -> dict:
     """Read RenderCV YAML files and CLI to construct the user's input as a dictionary.
     Input file is read, CLI arguments override the input file, and individual design,

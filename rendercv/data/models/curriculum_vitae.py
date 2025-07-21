@@ -439,6 +439,9 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         # `sections` key is preserved for RenderCV's internal use.
         alias="sections",
     )
+    sort_entries: Literal["reverse-chronological", "chronological", "none"] = (
+        "none"
+    )
 
     @pydantic.field_validator("photo")
     @classmethod
@@ -580,11 +583,14 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                     entry_types=entry_types.available_entry_models,
                 )
 
+                sort_order = self.sort_entries
+                sorted_entries = entry_types.sort_entries_by_date(entries, sort_order)
+
                 # SectionBase is used so that entries are not validated again:
                 section = SectionBase(
                     title=formatted_title,
                     entry_type=entry_type_name,
-                    entries=entries,
+                    entries=sorted_entries,
                 )
                 sections.append(section)
 

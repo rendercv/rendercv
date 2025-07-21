@@ -7,7 +7,7 @@ import abc
 import functools
 import re
 from datetime import date as Date
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Literal
 
 import pydantic
 
@@ -19,7 +19,7 @@ from .base import RenderCVBaseModelWithExtraKeys
 # ======================================================================================
 
 
-def validate_date_field(date: Optional[int | str]) -> Optional[int | str]:
+def validate_date_field(date: int | str | None) -> int | str | None:
     """Check if the `date` field is provided correctly.
 
     Args:
@@ -151,21 +151,21 @@ ExactDate = Annotated[
 # ArbitraryDate that accepts either an integer or a string, but it is validated with
 # `validate_date_field` function:
 ArbitraryDate = Annotated[
-    Optional[int | str],
+    int | str | None,
     pydantic.BeforeValidator(validate_date_field),
 ]
 
 # StartDate that accepts either an integer or an ExactDate, but it is validated with
 # `validate_start_and_end_date_fields` function:
 StartDate = Annotated[
-    Optional[int | ExactDate],
+    int | ExactDate | None,
     pydantic.BeforeValidator(validate_start_and_end_date_fields),
 ]
 
 # EndDate that accepts either an integer, the string "present", or an ExactDate, but it
 # is validated with `validate_start_and_end_date_fields` function:
 EndDate = Annotated[
-    Optional[Literal["present"] | int | ExactDate],
+    Literal["present"] | int | ExactDate | None,
     pydantic.BeforeValidator(validate_start_and_end_date_fields),
 ]
 
@@ -328,17 +328,17 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
     authors: list[str] = pydantic.Field(
         title="Authors",
     )
-    doi: Optional[Annotated[str, pydantic.Field(pattern=r"\b10\..*")]] = pydantic.Field(
+    doi: Annotated[str, pydantic.Field(pattern=r"\b10\..*")] | None = pydantic.Field(
         default=None,
         title="DOI",
         examples=["10.48550/arXiv.2310.03138"],
     )
-    url: Optional[pydantic.HttpUrl] = pydantic.Field(
+    url: pydantic.HttpUrl | None = pydantic.Field(
         default=None,
         title="URL",
         description="If DOI is provided, it will be ignored.",
     )
-    journal: Optional[str] = pydantic.Field(
+    journal: str | None = pydantic.Field(
         default=None,
         title="Journal",
     )
@@ -417,17 +417,17 @@ class EntryBase(EntryWithDate):
         ),
         examples=["2020-09-24", "present"],
     )
-    location: Optional[str] = pydantic.Field(
+    location: str | None = pydantic.Field(
         default=None,
         title="Location",
         examples=["Istanbul, Türkiye"],
     )
-    summary: Optional[str] = pydantic.Field(
+    summary: str | None = pydantic.Field(
         default=None,
         title="Summary",
         examples=["Did this and that."],
     )
-    highlights: Optional[list[str]] = pydantic.Field(
+    highlights: list[str] | None = pydantic.Field(
         default=None,
         title="Highlights",
         examples=["Did this.", "Did that."],
@@ -436,8 +436,8 @@ class EntryBase(EntryWithDate):
     @pydantic.field_validator("highlights", mode="after")
     @classmethod
     def handle_nested_bullets_in_highlights(
-        cls, highlights: Optional[list[str]]
-    ) -> Optional[list[str]]:
+        cls, highlights: list[str] | None
+    ) -> list[str] | None:
         """Handle nested bullets in the `highlights` field."""
         if highlights:
             return [highlight.replace(" - ", "\n    - ") for highlight in highlights]
@@ -573,7 +573,7 @@ class EducationEntryBase(RenderCVBaseModelWithExtraKeys):
     area: str = pydantic.Field(
         title="Area",
     )
-    degree: Optional[str] = pydantic.Field(
+    degree: str | None = pydantic.Field(
         default=None,
         title="Degree",
         description="The type of the degree, such as BS, BA, PhD, MS.",
@@ -630,3 +630,76 @@ available_entry_models: tuple[type[Entry]] = tuple(Entry.__args__[:-1])
 available_entry_type_names = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
+
+
+def compute_dates_for_sorting(
+    start_date: StartDate,
+    end_date: EndDate,
+    date: ArbitraryDate,
+) -> tuple[Date | None, Date | None]:
+    """Return end and start dates for sorting based on entry date fields."""
+
+    start_date, end_date, date = validate_and_adjust_dates_for_an_entry(
+        start_date=start_date, end_date=end_date, date=date
+    )
+
+    # If only ``date`` is provided, use it for both end and start dates
+    if date is not None:
+        try:
+            date_obj = computers.get_date_object(date)
+            return date_obj, date_obj
+        except ValueError:
+            return None, None
+
+    end_date_obj: Date | None = None
+    if end_date is not None:
+        try:
+            end_date_obj = computers.get_date_object(end_date)
+        except ValueError:
+            end_date_obj = None
+
+    start_date_obj: Date | None = None
+    if start_date is not None:
+        try:
+            start_date_obj = computers.get_date_object(start_date)
+        except ValueError:
+            start_date_obj = None
+
+    return end_date_obj, start_date_obj
+
+
+def sort_entries_by_date(entries: list[Entry], order: str) -> list[Entry]:
+    """Sort the given entries based on the provided order."""
+
+    if order not in {"reverse-chronological", "chronological"}:
+        return entries
+
+    processed: list[tuple[Entry, Date | None, Date | None]] = []
+    for entry in entries:
+        if isinstance(entry, str):
+            processed.append((entry, None, None))
+        else:
+            start = getattr(entry, "start_date", None)
+            end = getattr(entry, "end_date", None)
+            d = getattr(entry, "date", None)
+            end_obj, start_obj = compute_dates_for_sorting(
+                start_date=start,
+                end_date=end,
+                date=d,
+            )
+            processed.append((entry, end_obj, start_obj))
+
+    reverse = order == "reverse-chronological"
+    default_end = Date.min if reverse else Date.max
+    default_start = Date.min if reverse else Date.max
+
+    def key(item: tuple[Entry, Date | None, Date | None]):
+        _entry, end_obj, start_obj = item
+        return (
+            end_obj or default_end,
+            start_obj or default_start,
+        )
+
+    processed.sort(key=key, reverse=reverse)
+
+    return [item[0] for item in processed]
