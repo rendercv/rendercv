@@ -998,3 +998,158 @@ def test_none_entries():
                 },
             )
         )
+
+
+def _create_sorting_data_model(order: str) -> data.RenderCVDataModel:
+    entries = [
+        {
+            "company": "A",
+            "position": "P",
+            "start_date": "2020-01-01",
+        },
+        {
+            "company": "B",
+            "position": "P",
+            "start_date": "2022-01-01",
+        },
+        {
+            "company": "C",
+            "position": "P",
+            "date": "2021-05-01",
+        },
+        {
+            "company": "D",
+            "position": "P",
+            "date": "2022-01-01",
+        },
+    ]
+
+    cv = data.CurriculumVitae(
+        name="John Doe",
+        sections={"exp": entries},
+    )
+
+    settings = data.RenderCVSettings(date="2024-01-01", sort_entries=order)
+
+    return data.RenderCVDataModel(cv=cv, rendercv_settings=settings)
+
+
+@pytest.mark.parametrize(
+    ("order", "expected"),
+    [
+        (
+            "reverse-chronological",
+            ["B", "A", "D", "C"],
+        ),
+        (
+            "chronological",
+            ["C", "D", "A", "B"],
+        ),
+        (
+            "none",
+            ["A", "B", "C", "D"],
+        ),
+    ],
+)
+def test_sort_entries(order, expected):
+    data_model = _create_sorting_data_model(order)
+    entries = data_model.cv.sections[0].entries
+    companies = [e.company for e in entries]
+    assert companies == expected
+
+
+def _create_sorting_data_model_with_ranges(order: str) -> data.RenderCVDataModel:
+    entries = [
+        {
+            "company": "A",
+            "position": "P",
+            "start_date": "2020-01-01",
+            "end_date": "2021-06-01",
+        },
+        {
+            "company": "B",
+            "position": "P",
+            "start_date": "2019-01-01",
+            "end_date": "2022-06-01",
+        },
+        {
+            "company": "C",
+            "position": "P",
+            "start_date": "2021-01-01",
+            "end_date": "2022-06-01",
+        },
+        {
+            "company": "D",
+            "position": "P",
+            "date": "2020-05-01",
+        },
+    ]
+
+    cv = data.CurriculumVitae(
+        name="John Doe",
+        sections={"exp": entries},
+    )
+
+    settings = data.RenderCVSettings(date="2024-01-01", sort_entries=order)
+
+    return data.RenderCVDataModel(cv=cv, rendercv_settings=settings)
+
+
+@pytest.mark.parametrize(
+    ("order", "expected"),
+    [
+        (
+            "reverse-chronological",
+            ["C", "B", "A", "D"],
+        ),
+        (
+            "chronological",
+            ["D", "A", "B", "C"],
+        ),
+    ],
+)
+def test_sort_entries_with_ranges(order, expected):
+    data_model = _create_sorting_data_model_with_ranges(order)
+    entries = data_model.cv.sections[0].entries
+    companies = [e.company for e in entries]
+    assert companies == expected
+
+
+def _create_sorting_data_model_with_ties(order: str) -> data.RenderCVDataModel:
+    entries = [
+        {
+            "company": "A",
+            "position": "P",
+            "date": "2020-01-01",
+        },
+        {
+            "company": "B",
+            "position": "P",
+            "date": "2020-01-01",
+        },
+        {
+            "company": "C",
+            "position": "P",
+            "date": "2020-01-02",
+        },
+    ]
+
+    cv = data.CurriculumVitae(
+        name="John Doe",
+        sections={"exp": entries},
+    )
+
+    settings = data.RenderCVSettings(date="2024-01-01", sort_entries=order)
+
+    return data.RenderCVDataModel(cv=cv, rendercv_settings=settings)
+
+
+@pytest.mark.parametrize("order", ["reverse-chronological", "chronological"])
+def test_sort_entries_tie_keeps_order(order):
+    data_model = _create_sorting_data_model_with_ties(order)
+    entries = data_model.cv.sections[0].entries
+    companies = [e.company for e in entries]
+    if order == "reverse-chronological":
+        assert companies == ["C", "A", "B"]
+    else:
+        assert companies == ["A", "B", "C"]

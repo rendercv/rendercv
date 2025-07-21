@@ -75,5 +75,13 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
 
         return value
 
+    @pydantic.model_validator(mode="after")  # type: ignore
+    def apply_sort_entries(self) -> "RenderCVDataModel":
+        """Propagate sort order from settings to the CV."""
+
+        self.cv.sort_entries = self.rendercv_settings.sort_entries
+
+        return self
+
 
 rendercv_data_model_fields = tuple(RenderCVDataModel.model_fields.keys())

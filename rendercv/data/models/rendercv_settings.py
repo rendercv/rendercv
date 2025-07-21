@@ -5,12 +5,12 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 
 import datetime
 import pathlib
-from typing import Optional
+from typing import Literal
 
 import pydantic
 
+from . import computers
 from .base import RenderCVBaseModelWithoutExtraKeys
-from .computers import convert_string_to_path, replace_placeholders
 
 file_path_placeholder_description = (
     "The following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the"
@@ -40,7 +40,7 @@ DATE_INPUT = datetime.date.today()
 class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     """This class is the data model of the `render` command's settings."""
 
-    design: Optional[pathlib.Path] = pydantic.Field(
+    design: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`design` Field's YAML File",
         description=(
@@ -48,7 +48,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    rendercv_settings: Optional[pathlib.Path] = pydantic.Field(
+    rendercv_settings: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`rendercv_settings` Field's YAML File",
         description=(
@@ -57,7 +57,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    locale: Optional[pathlib.Path] = pydantic.Field(
+    locale: pathlib.Path | None = pydantic.Field(
         default=None,
         title="`locale` Field's YAML File",
         description=(
@@ -75,7 +75,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    pdf_path: Optional[pathlib.Path] = pydantic.Field(
+    pdf_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="PDF Path",
         description=(
@@ -84,7 +84,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    typst_path: Optional[pathlib.Path] = pydantic.Field(
+    typst_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Typst Path",
         description=(
@@ -93,7 +93,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    html_path: Optional[pathlib.Path] = pydantic.Field(
+    html_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="HTML Path",
         description=(
@@ -102,7 +102,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    png_path: Optional[pathlib.Path] = pydantic.Field(
+    png_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="PNG Path",
         description=(
@@ -111,7 +111,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
-    markdown_path: Optional[pathlib.Path] = pydantic.Field(
+    markdown_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Markdown Path",
         description=(
@@ -163,7 +163,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     @classmethod
     def replace_placeholders(cls, value: str) -> str:
         """Replaces the placeholders in a string with the corresponding values."""
-        return replace_placeholders(value)
+        return computers.replace_placeholders(value)
 
     @pydantic.field_validator(
         "design",
@@ -177,7 +177,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         mode="before",
     )
     @classmethod
-    def convert_string_to_path(cls, value: Optional[str]) -> Optional[pathlib.Path]:
+    def convert_string_to_path(cls, value: str | None) -> pathlib.Path | None:
         """Converts a string to a `pathlib.Path` object by replacing the placeholders
         with the corresponding values. If the path is not an absolute path, it is
         converted to an absolute path by prepending the current working directory.
@@ -185,7 +185,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         if value is None:
             return None
 
-        return convert_string_to_path(value)
+        return computers.convert_string_to_path(value)
 
 
 class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
@@ -205,7 +205,7 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             "default": None,
         },
     )
-    render_command: Optional[RenderCommandSettings] = pydantic.Field(
+    render_command: RenderCommandSettings | None = pydantic.Field(
         default=None,
         title="Render Command Settings",
         description=(
@@ -222,6 +222,17 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             " empty list."
         ),
     )
+    sort_entries: Literal["reverse-chronological", "chronological", "none"] = (
+        pydantic.Field(
+            default="none",
+            title="Sort Entries",
+            description=(
+                "How the entries should be sorted based on their dates."
+                " The available options are 'reverse-chronological', 'chronological', and 'none'."
+                " The default value is 'none'."
+            ),
+        )
+    )
 
     @pydantic.field_validator("date")
     @classmethod
@@ -233,3 +244,4 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
         DATE_INPUT = value
 
         return value
+
