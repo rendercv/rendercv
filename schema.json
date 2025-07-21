@@ -44,7 +44,8 @@
             "connections": "rgb(0, 79, 144)",
             "section_titles": "rgb(0, 79, 144)",
             "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
+            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
+            "custom": "rgb(0, 100, 20)"
           }
         },
         "text": {
@@ -515,7 +516,8 @@
             "connections": "rgb(0, 79, 144)",
             "section_titles": "rgb(0, 79, 144)",
             "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
+            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
+            "custom": "rgb(0, 100, 20)"
           }
         },
         "text": {
@@ -667,7 +669,8 @@
             "connections": "rgb(0, 0, 0)",
             "section_titles": "rgb(0, 0, 0)",
             "links": "rgb(0, 0, 0)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
+            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
+            "custom": "rgb(0, 100, 20)"
           },
           "description": "Color used throughout the CV."
         },
@@ -714,15 +717,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "XCharter",
             "font_size": "1.2em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.55cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -1206,7 +1208,8 @@
             "connections": "rgb(0, 79, 144)",
             "section_titles": "rgb(0, 79, 144)",
             "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
+            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
+            "custom": "rgb(0, 100, 20)"
           }
         },
         "text": {
@@ -1856,7 +1859,8 @@
             "connections": "rgb(0, 0, 0)",
             "section_titles": "rgb(0, 0, 0)",
             "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
+            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
+            "custom": "rgb(0, 100, 20)"
           },
           "description": "Color used throughout the CV."
         },
@@ -1903,15 +1907,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "New Computer Modern",
             "font_size": "1.4em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -2149,20 +2152,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -2216,20 +2219,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -2483,20 +2486,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -2551,20 +2554,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -2686,6 +2689,19 @@
           ],
           "format": "color",
           "title": "Color of Last Updated Date and Page Numbering",
+          "type": "string"
+        },
+        "custom": {
+          "default": "rgb(0, 100, 20)",
+          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Color of User-Specified text",
           "type": "string"
         }
       },
@@ -2886,20 +2902,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -2952,20 +2968,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -3194,7 +3210,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -3212,20 +3228,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3265,18 +3281,6 @@
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
           "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
         }
       },
       "title": "Section Titles",
@@ -3292,20 +3296,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3542,20 +3546,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -3608,20 +3612,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -3807,20 +3811,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3875,20 +3879,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4011,6 +4015,19 @@
           ],
           "format": "color",
           "title": "Color of Last Updated Date and Page Numbering",
+          "type": "string"
+        },
+        "custom": {
+          "default": "rgb(0, 100, 20)",
+          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Color of User-Specified text",
           "type": "string"
         }
       },
@@ -4158,20 +4175,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -4225,20 +4242,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -4497,20 +4514,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4566,20 +4583,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4701,6 +4718,19 @@
           ],
           "format": "color",
           "title": "Color of Last Updated Date and Page Numbering",
+          "type": "string"
+        },
+        "custom": {
+          "default": "rgb(0, 100, 20)",
+          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Color of User-Specified text",
           "type": "string"
         }
       },
@@ -4843,20 +4873,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -4910,20 +4940,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -5091,7 +5121,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -5109,20 +5139,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -5162,18 +5192,6 @@
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
           "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
         }
       },
       "title": "Section Titles",
@@ -5189,20 +5207,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -5267,6 +5285,7 @@
         },
         "colors": {
           "connections": "rgb(0, 79, 144)",
+          "custom": "rgb(0, 100, 20)",
           "last_updated_date_and_page_numbering": "rgb(128, 128, 128)",
           "links": "rgb(0, 79, 144)",
           "name": "rgb(0, 79, 144)",
@@ -5398,7 +5417,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-02-16",
+        "date": "2025-07-21",
         "render_command": null,
         "bold_keywords": []
       },

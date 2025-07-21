@@ -11,7 +11,7 @@ cv:
       username: john.doe
   sections:
     welcome_to_RenderCV!:
-      - '[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.'
+      - '[RenderCV](https://rendercv.com) is a ==Typst-based== CV framework designed for *academics and engineers*, with **Markdown syntax** support.'
       - Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
     education:
       - institution: Stanford University
@@ -127,6 +127,7 @@ design:
     section_titles: rgb(0, 0, 0)
     links: rgb(0, 0, 0)
     last_updated_date_and_page_numbering: rgb(128, 128, 128)
+    custom: rgb(0, 100, 20)
   text:
     font_family: XCharter
     font_size: 10pt

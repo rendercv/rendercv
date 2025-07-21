@@ -233,6 +233,15 @@ colors_last_updated_date_and_page_numbering_field_info = pydantic.Field(
     ),
     examples=color_common_examples,
 )
+colors_custom_field_info = pydantic.Field(
+    default="rgb(0, 100, 20)",
+    title="Color of User-Specified text",
+    description=(
+        "The color of the text enclosed by %% %%, specified by user."
+        + color_common_description
+    ),
+    examples=color_common_examples,
+)
 
 
 class Colors(RenderCVBaseModelWithoutExtraKeys):
@@ -248,6 +257,7 @@ class Colors(RenderCVBaseModelWithoutExtraKeys):
     last_updated_date_and_page_numbering: pydantic_color.Color = (
         colors_last_updated_date_and_page_numbering_field_info
     )
+    custom: pydantic_color.Color = colors_custom_field_info
 
     @pydantic.field_serializer(
         "text",
@@ -256,6 +266,7 @@ class Colors(RenderCVBaseModelWithoutExtraKeys):
         "section_titles",
         "links",
         "last_updated_date_and_page_numbering",
+        "custom",
     )
     def serialize_color(self, value: pydantic_color.Color) -> str:
         return value.as_rgb()
