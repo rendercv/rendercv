@@ -291,7 +291,7 @@ def return_a_value_for_a_field_type(
 
 def create_combinations_of_a_model(
     model: type[data.Entry],
-    ignore_fields: Optional[set[str]] | None = None,
+    ignore_fields: set[str] | None = None,
 ) -> list[data.Entry]:
     """Look at the required fields and optional fields of a model and create all
     possible combinations of them.
