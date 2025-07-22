@@ -79,6 +79,10 @@ def test_escape_typst_characters(string, expected_string):
         ("**My** Text", "#strong[My] Text"),
         ("*My* Text", "#emph[My] Text"),
         ("***My*** Text", "#strong[#emph[My]] Text"),
+        ("==My== Text", "#text(fill: design-colors-custom)[My] Text"),
+        ("==***My***== Text", "#text(fill: design-colors-custom)[#strong[#emph[My]]] Text"),
+        ("***==My==*** Text", "#strong[#emph[#text(fill: design-colors-custom)[My]]] Text"),
+        ("My Text==", "My Text=="),
         ("[My](https://myurl.com) Text", '#link("https://myurl.com")[My] Text'),
         ("`My` Text", "`My` Text"),
         (
