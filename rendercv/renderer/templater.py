@@ -651,6 +651,15 @@ def markdown_to_typst(markdown_string: str) -> str:
 
             markdown_string = markdown_string.replace(old_italic_text, new_italic_text)
 
+    # convert colors
+    colors = re.findall(r"==(.+?)==", markdown_string)
+    if colors is not None:
+        for color in colors:
+            old_color_string = f"=={color}=="
+            new_color_string = f'#text(fill: design-colors-custom)[{color}]'
+
+            markdown_string = markdown_string.replace(old_color_string, new_color_string)
+
     # Revert normal asterisks then convert them to Typst's asterisks
     markdown_string = markdown_string.replace(ONE_STAR, "*")
 

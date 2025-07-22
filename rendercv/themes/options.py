@@ -269,7 +269,7 @@ class Colors(RenderCVBaseModelWithoutExtraKeys):
         "section_titles",
         "links",
         "last_updated_date_and_page_numbering",
-        "custom"
+        "custom",
     )
     def serialize_color(self, value: pydantic_color.Color) -> str:
         return value.as_rgb()

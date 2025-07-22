@@ -129,6 +129,7 @@ design:
     section_titles: rgb(0, 0, 0)
     links: rgb(0, 79, 144)
     last_updated_date_and_page_numbering: rgb(128, 128, 128)
+    custom: rgb(0, 100, 20)
   text:
     font_family: New Computer Modern
     font_size: 10pt
