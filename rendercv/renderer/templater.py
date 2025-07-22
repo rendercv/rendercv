@@ -175,7 +175,7 @@ class TypstFile(TemplatedFile):
             for i, entry in enumerate(section.entries):
                 # Prepare placeholders:
                 placeholders = {}
-                for placeholder_key in placeholder_keys:
+                for placeholder_key in sorted(placeholder_keys):
                     components_path = (
                         pathlib.Path(__file__).parent.parent / "themes" / "components"
                     )
