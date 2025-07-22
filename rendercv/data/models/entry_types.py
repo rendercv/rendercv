@@ -579,6 +579,11 @@ class EducationEntryBase(RenderCVBaseModelWithExtraKeys):
         description="The type of the degree, such as BS, BA, PhD, MS.",
         examples=["BS", "BA", "PhD", "MS"],
     )
+    grade: Optional[str] = pydantic.Field(
+        default=None,
+        title="Grade",
+        examples=["GPA: 3.00/4.00"],
+    )
 
 
 class EducationEntry(EntryBase, EducationEntryBase, EntryType):

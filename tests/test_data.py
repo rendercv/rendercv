@@ -349,6 +349,12 @@ def test_invalid_publication_dates(publication_entry, date):
         data.PublicationEntry(**publication_entry)
 
 
+def test_education_entry_grade_field(education_entry):
+    education_entry["grade"] = "GPA: 3.00/4.00"
+    entry = data.EducationEntry(**education_entry)
+    assert entry.grade == "GPA: 3.00/4.00"
+
+
 @pytest.mark.parametrize(
     ("start_date", "end_date", "date"),
     [
