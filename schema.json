@@ -129,28 +129,30 @@
               "template": "**LABEL:** DETAILS"
             },
             "education_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "degree_column_template": "**DEGREE**",
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**, AREA",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "DEGREE || **INSTITUTION**, AREA || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "normal_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**NAME** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "experience_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "main_column_first_row_template": "**COMPANY**, POSITION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**COMPANY**, POSITION || DATE\nLOCATION",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "first_column_width": "1fr",
+              "first_row_template": "**TITLE** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_no_journal_template": "AUTHORS\nURL",
+              "second_row_no_url_template": "AUTHORS\nJOURNAL",
+              "second_row_template": "AUTHORS\nURL (JOURNAL)"
             }
           },
           "title": "Templates"
@@ -605,28 +607,30 @@
               "template": "**LABEL:** DETAILS"
             },
             "education_entry": {
-              "date_and_location_column_template": "DATE",
-              "degree_column_template": "**DEGREE**",
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**, AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**INSTITUTION**, AREA -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "normal_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**NAME** -- **LOCATION** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "experience_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "first_column_width": "1fr",
+              "first_row_template": "**TITLE** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_no_journal_template": "AUTHORS\nURL",
+              "second_row_no_url_template": "AUTHORS\nJOURNAL",
+              "second_row_template": "AUTHORS\nURL (JOURNAL)"
             }
           },
           "description": "Options related to the templates.",
@@ -714,15 +718,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "XCharter",
             "font_size": "1.2em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.55cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -760,28 +763,30 @@
               "template": "**LABEL:** DETAILS"
             },
             "education_entry": {
-              "date_and_location_column_template": "DATE",
-              "degree_column_template": null,
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "normal_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**NAME** -- **LOCATION** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "experience_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "first_column_width": "1fr",
+              "first_row_template": "**TITLE** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_no_journal_template": "AUTHORS\nURL",
+              "second_row_no_url_template": "AUTHORS\nJOURNAL",
+              "second_row_template": "AUTHORS\nURL (JOURNAL)"
             }
           },
           "description": "Options related to the templates.",
@@ -805,40 +810,42 @@
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__options__EducationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**INSTITUTION**, AREA",
-            "degree_column_template": "**DEGREE**",
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
+            "first_row_template": "DEGREE || **INSTITUTION**, AREA || DATE",
+            "first_column_width": "1fr",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "last_column_width": "4.15cm"
           },
           "title": "Education Entry"
         },
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__options__NormalEntryOptions",
           "default": {
-            "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
+            "first_row_template": "**NAME** || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "title": "Normal Entry"
         },
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__options__ExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**, POSITION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
+            "first_row_template": "**COMPANY**, POSITION || DATE\nLOCATION",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "title": "Experience Entry"
         },
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
+            "second_row_template": "AUTHORS\nURL (JOURNAL)",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm",
+            "first_row_template": "**TITLE** || DATE",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_no_journal_template": "AUTHORS\nURL"
           },
           "title": "Publication Entry"
         }
@@ -1297,28 +1304,30 @@
               "template": "**LABEL:** DETAILS"
             },
             "education_entry": {
-              "date_and_location_column_template": "DATE",
-              "degree_column_template": null,
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "normal_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**NAME** -- **LOCATION** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "experience_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "first_column_width": "1fr",
+              "first_row_template": "**TITLE** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_no_journal_template": "AUTHORS\nURL",
+              "second_row_no_url_template": "AUTHORS\nJOURNAL",
+              "second_row_template": "AUTHORS\nURL (JOURNAL)"
             }
           },
           "description": "Options related to the templates.",
@@ -1590,37 +1599,43 @@
       "type": "object"
     },
     "PublicationEntryOptions": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "description": "Options related to publication entries.",
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**TITLE**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "AUTHORS\nURL (JOURNAL)",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the Second Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second row",
           "type": "string"
         },
-        "main_column_second_row_without_journal_template": {
-          "default": "AUTHORS\nURL",
-          "description": "The content of the Main Column in case the journal is not given. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row Without Journal",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "type": "string"
         },
-        "main_column_second_row_without_url_template": {
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
+          "type": "string"
+        },
+        "first_row_template": {
+          "default": "**TITLE** || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
+          "type": "string"
+        },
+        "second_row_no_url_template": {
           "default": "AUTHORS\nJOURNAL",
-          "description": "The content of the Main Column in case the `doi` or `url is not given. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row Without URL",
+          "description": "The content of the Second Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "second_row_no_journal_template": {
+          "default": "AUTHORS\nURL",
+          "description": "The content of the Second Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second row",
           "type": "string"
         }
       },
@@ -1903,15 +1918,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "New Computer Modern",
             "font_size": "1.4em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -1948,28 +1962,30 @@
               "template": "**LABEL:** DETAILS"
             },
             "education_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "degree_column_template": null,
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**INSTITUTION**\n*DEGREE in AREA* || *LOCATION*\n*DATE*",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "normal_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**NAME** || *LOCATION*\n*DATE*",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "experience_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "main_column_first_row_template": "**POSITION**\n*COMPANY*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "first_column_width": "1fr",
+              "first_row_template": "**POSITION**\n*COMPANY* || *LOCATION*\n*DATE*",
+              "last_column_width": "4.15cm",
+              "second_row_template": "SUMMARY\nHIGHLIGHTS"
             },
             "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "first_column_width": "1fr",
+              "first_row_template": "**TITLE** || DATE",
+              "last_column_width": "4.15cm",
+              "second_row_no_journal_template": "AUTHORS\nURL",
+              "second_row_no_url_template": "AUTHORS\nJOURNAL",
+              "second_row_template": "AUTHORS\nURL (JOURNAL)"
             }
           },
           "description": "Options related to the templates.",
@@ -2016,41 +2032,28 @@
     "rendercv__themes__engineeringclassic__EducationEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**INSTITUTION**, AREA -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "degree_column_template": {
-          "default": "**DEGREE**",
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "degree_column_width": {
-          "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -2070,11 +2073,10 @@
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__EducationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**INSTITUTION**, AREA -- LOCATION",
-            "degree_column_template": "**DEGREE**",
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**INSTITUTION**, AREA -- LOCATION || DATE",
+            "first_column_width": "1fr",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to education entries.",
           "title": "Education Entry"
@@ -2082,9 +2084,10 @@
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__NormalEntryOptions",
           "default": {
-            "main_column_first_row_template": "**NAME** -- **LOCATION**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**NAME** -- **LOCATION** || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to normal entries.",
           "title": "Normal Entry"
@@ -2092,9 +2095,10 @@
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__ExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to experience entries.",
           "title": "Experience Entry"
@@ -2102,11 +2106,12 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
+            "second_row_template": "AUTHORS\nURL (JOURNAL)",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm",
+            "first_row_template": "**TITLE** || DATE",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_no_journal_template": "AUTHORS\nURL"
           },
           "title": "Publication Entry"
         }
@@ -2117,22 +2122,28 @@
     "rendercv__themes__engineeringclassic__ExperienceEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -2149,20 +2160,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -2216,20 +2227,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -2371,22 +2382,28 @@
     "rendercv__themes__engineeringclassic__NormalEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**NAME** -- **LOCATION** || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -2483,20 +2500,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -2551,20 +2568,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -2695,16 +2712,16 @@
     "rendercv__themes__engineeringresumes__EducationEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "degree_column_template": {
-          "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "oneOf": [
             {
               "type": "string"
@@ -2714,22 +2731,16 @@
             }
           ]
         },
-        "degree_column_width": {
-          "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -2807,11 +2818,10 @@
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__EducationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-            "degree_column_template": null,
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+            "first_column_width": "1fr",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to education entries.",
           "title": "Education Entry"
@@ -2819,9 +2829,10 @@
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__NormalEntryOptions",
           "default": {
-            "main_column_first_row_template": "**NAME** -- **LOCATION**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**NAME** -- **LOCATION** || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to normal entries.",
           "title": "Normal Entry"
@@ -2829,9 +2840,10 @@
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__ExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to experience entries.",
           "title": "Experience Entry"
@@ -2839,11 +2851,12 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
+            "second_row_template": "AUTHORS\nURL (JOURNAL)",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm",
+            "first_row_template": "**TITLE** || DATE",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_no_journal_template": "AUTHORS\nURL"
           },
           "title": "Publication Entry"
         }
@@ -2854,22 +2867,28 @@
     "rendercv__themes__engineeringresumes__ExperienceEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -2886,20 +2905,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -2952,20 +2971,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -3100,22 +3119,28 @@
     "rendercv__themes__engineeringresumes__NormalEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**NAME** -- **LOCATION** || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -3194,7 +3219,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -3212,20 +3237,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3265,18 +3290,6 @@
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
           "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
         }
       },
       "title": "Section Titles",
@@ -3292,20 +3305,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3351,41 +3364,28 @@
     "rendercv__themes__moderncv__EducationEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "degree_column_template": {
-          "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "degree_column_width": {
-          "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -3463,11 +3463,10 @@
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__EducationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-            "degree_column_template": null,
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE",
+            "first_column_width": "1fr",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to education entries.",
           "title": "Education Entry"
@@ -3475,9 +3474,10 @@
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__NormalEntryOptions",
           "default": {
-            "main_column_first_row_template": "**NAME** -- **LOCATION**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**NAME** -- **LOCATION** || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to normal entries.",
           "title": "Normal Entry"
@@ -3485,9 +3485,10 @@
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__ExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "DATE"
+            "first_row_template": "**POSITION**, COMPANY -- LOCATION || DATE",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to experience entries.",
           "title": "Experience Entry"
@@ -3495,11 +3496,12 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
+            "second_row_template": "AUTHORS\nURL (JOURNAL)",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm",
+            "first_row_template": "**TITLE** || DATE",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_no_journal_template": "AUTHORS\nURL"
           },
           "title": "Publication Entry"
         }
@@ -3510,22 +3512,28 @@
     "rendercv__themes__moderncv__ExperienceEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -3542,20 +3550,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -3608,20 +3616,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -3763,22 +3771,28 @@
     "rendercv__themes__moderncv__NormalEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**NAME** -- **LOCATION** || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -3807,20 +3821,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -3875,20 +3889,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4021,41 +4035,28 @@
       "additionalProperties": false,
       "description": "Options related to education entries.",
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, AREA",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "DEGREE || **INSTITUTION**, AREA || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "degree_column_template": {
-          "default": "**DEGREE**",
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "degree_column_width": {
-          "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -4125,22 +4126,28 @@
       "additionalProperties": false,
       "description": "Options related to experience entries.",
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**COMPANY**, POSITION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**COMPANY**, POSITION || DATE\nLOCATION",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -4158,20 +4165,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -4225,20 +4232,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -4383,22 +4390,28 @@
       "additionalProperties": false,
       "description": "Options related to normal entries.",
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**NAME** || DATE",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -4497,20 +4510,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4566,20 +4579,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -4710,41 +4723,28 @@
     "rendercv__themes__sb2nov__EducationEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**\n*DEGREE in AREA*",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**INSTITUTION**\n*DEGREE in AREA* || *LOCATION*\n*DATE*",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "degree_column_template": {
-          "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "degree_column_width": {
-          "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -4764,11 +4764,10 @@
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__EducationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
-            "degree_column_template": null,
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
+            "first_row_template": "**INSTITUTION**\n*DEGREE in AREA* || *LOCATION*\n*DATE*",
+            "first_column_width": "1fr",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to education entries.",
           "title": "Education Entry"
@@ -4776,9 +4775,10 @@
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__NormalEntryOptions",
           "default": {
-            "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
+            "first_row_template": "**NAME** || *LOCATION*\n*DATE*",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to normal entries.",
           "title": "Normal Entry"
@@ -4786,9 +4786,10 @@
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__ExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**POSITION**\n*COMPANY*",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
+            "first_row_template": "**POSITION**\n*COMPANY* || *LOCATION*\n*DATE*",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm"
           },
           "description": "Options related to experience entries.",
           "title": "Experience Entry"
@@ -4796,11 +4797,12 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
+            "second_row_template": "AUTHORS\nURL (JOURNAL)",
+            "first_column_width": "1fr",
+            "last_column_width": "4.15cm",
+            "first_row_template": "**TITLE** || DATE",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_no_journal_template": "AUTHORS\nURL"
           },
           "title": "Publication Entry"
         }
@@ -4811,22 +4813,28 @@
     "rendercv__themes__sb2nov__ExperienceEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**\n*COMPANY*",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**POSITION**\n*COMPANY* || *LOCATION*\n*DATE*",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -4843,20 +4851,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Name Font Family",
           "type": "string"
@@ -4910,20 +4918,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Connections Font Family",
           "type": "string"
@@ -5065,22 +5073,28 @@
     "rendercv__themes__sb2nov__NormalEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+        "first_row_template": {
+          "default": "**NAME** || *LOCATION*\n*DATE*",
+          "description": "The content of the First Row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "First Row",
           "type": "string"
         },
-        "main_column_second_row_template": {
+        "second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "Additional row shown under the first row. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Second Row",
           "type": "string"
         },
-        "date_and_location_column_template": {
-          "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+        "first_column_width": {
+          "default": "1fr",
+          "description": "The width of the first column or the only column if there is only one",
+          "title": "First Column Width",
+          "type": "string"
+        },
+        "last_column_width": {
+          "default": "4.15cm",
+          "description": "The width of the date and location in the entries.",
+          "title": "Width of Date and Location",
           "type": "string"
         }
       },
@@ -5091,7 +5105,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -5109,20 +5123,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -5162,18 +5176,6 @@
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
           "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
         }
       },
       "title": "Section Titles",
@@ -5189,20 +5191,20 @@
             "Libertinus Serif",
             "New Computer Modern",
             "DejaVu Sans Mono",
-            "Mukta",
-            "Open Sans",
             "Gentium Book Plus",
-            "Noto Sans",
             "Lato",
-            "Source Sans 3",
-            "EB Garamond",
-            "Open Sauce Sans",
             "Fontin",
+            "Noto Sans",
             "Roboto",
-            "Ubuntu",
-            "Poppins",
+            "Source Sans 3",
             "Raleway",
-            "XCharter"
+            "Open Sauce Sans",
+            "Poppins",
+            "EB Garamond",
+            "XCharter",
+            "Mukta",
+            "Ubuntu",
+            "Open Sans"
           ],
           "title": "Font Family",
           "type": "string"
@@ -5331,31 +5333,33 @@
         },
         "entry_types": {
           "education_entry": {
-            "date_and_location_column_template": "LOCATION\nDATE",
-            "degree_column_template": "**DEGREE**",
-            "degree_column_width": "1cm",
-            "main_column_first_row_template": "**INSTITUTION**, AREA",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "first_column_width": "1fr",
+            "first_row_template": "DEGREE || **INSTITUTION**, AREA || DATE",
+            "last_column_width": "4.15cm",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS"
           },
           "experience_entry": {
-            "date_and_location_column_template": "LOCATION\nDATE",
-            "main_column_first_row_template": "**COMPANY**, POSITION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "first_column_width": "1fr",
+            "first_row_template": "**COMPANY**, POSITION || DATE\nLOCATION",
+            "last_column_width": "4.15cm",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS"
           },
           "normal_entry": {
-            "date_and_location_column_template": "LOCATION\nDATE",
-            "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "first_column_width": "1fr",
+            "first_row_template": "**NAME** || DATE",
+            "last_column_width": "4.15cm",
+            "second_row_template": "SUMMARY\nHIGHLIGHTS"
           },
           "one_line_entry": {
             "template": "**LABEL:** DETAILS"
           },
           "publication_entry": {
-            "date_and_location_column_template": "DATE",
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            "first_column_width": "1fr",
+            "first_row_template": "**TITLE** || DATE",
+            "last_column_width": "4.15cm",
+            "second_row_no_journal_template": "AUTHORS\nURL",
+            "second_row_no_url_template": "AUTHORS\nJOURNAL",
+            "second_row_template": "AUTHORS\nURL (JOURNAL)"
           }
         }
       },
@@ -5398,7 +5402,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-02-16",
+        "date": "2025-07-21",
         "render_command": null,
         "bold_keywords": []
       },

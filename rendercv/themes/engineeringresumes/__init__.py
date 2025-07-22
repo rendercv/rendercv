@@ -112,50 +112,39 @@ class Highlights(o.Highlights):
     )
 
 
-o.education_entry_main_column_first_row_template_field_info.default = (
-    "**INSTITUTION**, DEGREE in AREA -- LOCATION"
+o.education_entry_first_row_template.default = (
+    "**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE"
 )
-o.education_entry_degree_column_template_field_info.default = None
-o.entry_base_with_date_date_and_location_column_template_field_info.default = "DATE"
 
 
 class EducationEntryOptions(o.EducationEntryOptions):
-    main_column_first_row_template: str = (
-        o.education_entry_main_column_first_row_template_field_info
+    first_row_template: str = (
+        o.education_entry_first_row_template
     )
-    degree_column_template: Optional[str] = (
-        o.education_entry_degree_column_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_column_width: Optional[str] = (
+        o.entry_base_first_column_width
     )
 
 
-o.normal_entry_main_column_first_row_template_field_info.default = (
-    "**NAME** -- **LOCATION**"
+o.normal_entry_first_row_template.default = (
+    "**NAME** -- **LOCATION** || DATE"
 )
 
 
 class NormalEntryOptions(o.NormalEntryOptions):
-    main_column_first_row_template: str = (
-        o.normal_entry_main_column_first_row_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_row_template: str = (
+        o.normal_entry_first_row_template
     )
 
 
-o.experience_entry_main_column_first_row_template_field_info.default = (
-    "**POSITION**, COMPANY -- LOCATION"
+o.experience_entry_first_row_template.default = (
+    "**POSITION**, COMPANY -- LOCATION || DATE"
 )
 
 
 class ExperienceEntryOptions(o.ExperienceEntryOptions):
-    main_column_first_row_template: str = (
-        o.experience_entry_main_column_first_row_template_field_info
-    )
-    date_and_location_column_template: str = (
-        o.entry_base_with_date_date_and_location_column_template_field_info
+    first_row_template: str = (
+        o.experience_entry_first_row_template
     )
 
 

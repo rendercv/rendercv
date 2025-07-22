@@ -347,7 +347,6 @@ class PublicationEntryBase(RenderCVBaseModelWithExtraKeys):
     def ignore_url_if_doi_is_given(self) -> "PublicationEntryBase":
         """Check if DOI is provided and ignore the URL if it is provided."""
         doi_is_provided = self.doi is not None
-
         if doi_is_provided:
             self.url = None
 

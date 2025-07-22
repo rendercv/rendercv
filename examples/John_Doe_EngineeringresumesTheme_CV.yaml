@@ -97,7 +97,6 @@ cv:
           - Samwise Gamgee
         doi: 10.1109/TASC.2023.3340648
         url:
-        journal:
         date: 2004-01
     extracurricular_activities:
       - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
@@ -181,37 +180,24 @@ design:
     one_line_entry:
       template: '**LABEL:** DETAILS'
     education_entry:
-      main_column_first_row_template: '**INSTITUTION**, DEGREE in AREA -- LOCATION'
-      degree_column_template:
-      degree_column_width: 1cm
-      main_column_second_row_template: |-
+      first_row_template: '**INSTITUTION**, DEGREE in AREA -- LOCATION || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     normal_entry:
-      main_column_first_row_template: '**NAME** -- **LOCATION**'
-      main_column_second_row_template: |-
+      first_row_template: '**NAME** -- **LOCATION** || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     experience_entry:
-      main_column_first_row_template: '**POSITION**, COMPANY -- LOCATION'
-      main_column_second_row_template: |-
+      first_row_template: '**POSITION**, COMPANY -- LOCATION || DATE'
+      second_row_template: |-
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column_template: DATE
     publication_entry:
-      main_column_first_row_template: '**TITLE**'
-      main_column_second_row_template: |-
-        AUTHORS
-        URL (JOURNAL)
-      main_column_second_row_without_journal_template: |-
-        AUTHORS
-        URL
-      main_column_second_row_without_url_template: |-
-        AUTHORS
-        JOURNAL
-      date_and_location_column_template: DATE
+      first_row_template: '**TITLE** \n AUTHORS'
+      second_row_template: "**Journal:** URL *JOURNAL* || DATE"
+      third_row_template: "**Conference:** CONFERENCE_URL *CONFERENCE* || CONFERENCE_DATE"
 locale:
   language: en
   phone_number_format: national
