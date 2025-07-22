@@ -2693,7 +2693,7 @@
         },
         "custom": {
           "default": "rgb(0, 100, 20)",
-          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color of the text enclosed by ==...==, specified by user. \nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4019,7 +4019,7 @@
         },
         "custom": {
           "default": "rgb(0, 100, 20)",
-          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color of the text enclosed by ==...==, specified by user. \nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4722,7 +4722,7 @@
         },
         "custom": {
           "default": "rgb(0, 100, 20)",
-          "description": "The color of the text enclosed by %% %%, specified by user.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color of the text enclosed by ==...==, specified by user. \nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",

@@ -237,7 +237,7 @@ colors_custom_field_info = pydantic.Field(
     default="rgb(0, 100, 20)",
     title="Color of User-Specified text",
     description=(
-        "The color of the text enclosed by %% %%, specified by user."
+        "The color of the text enclosed by ==...==, specified by user. "
         + color_common_description
     ),
     examples=color_common_examples,
