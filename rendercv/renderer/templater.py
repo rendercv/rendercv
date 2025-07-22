@@ -414,11 +414,7 @@ def input_template_to_typst(
     def clean(s):
         s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
         s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
-        # Remove trailing newline
-        s = s.rstrip('\n')
 
-        # Remove all occurrences of empty parentheses
-        s = re.sub(r"\(\)", "", s)
         return s  # noqa: RET504
 
     parts = output.split("||")

@@ -536,7 +536,8 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname])
+  #one-col-entry(content: [
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -550,25 +551,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
-
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com]])
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -582,23 +569,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)IEEE Transactions on Applied Superconductivity])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    Sept 2021
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname])
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] ()
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -612,9 +587,26 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]])
+#v(design-highlights-top-margin - design-text-leading) (IEEE Transactions on Applied Superconductivity)
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    Sept 2021
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -628,25 +620,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    Sept 2021
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
-
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]])
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -660,25 +638,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] (IEEE Transactions on Applied Superconductivity)])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    Sept 2021
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
-
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com]])
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -692,9 +656,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)IEEE Transactions on Applied Superconductivity])
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -708,25 +674,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    Sept 2021
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
-
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]])
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] (IEEE Transactions on Applied Superconductivity)
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -740,25 +692,11 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)])
-
-#v(design-entries-vertical-space-between-entries)
-
-#two-col-entry(
-  left-content: [
-    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
-],
-  right-content: [
-    Sept 2021
-  ],
-)
-
-  #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
-
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] (IEEE Transactions on Applied Superconductivity)])
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] ()
+])
 
 #v(design-entries-vertical-space-between-entries)
 
@@ -772,9 +710,101 @@
 )
 
   #v(design-highlights-top-margin)
-  #one-col-entry(content: [J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)])
+#v(design-highlights-top-margin - design-text-leading) (IEEE Transactions on Applied Superconductivity)
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    Sept 2021
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    Sept 2021
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    Sept 2021
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] (IEEE Transactions on Applied Superconductivity)
+])
+
+#v(design-entries-vertical-space-between-entries)
+
+#two-col-entry(
+  left-content: [
+    #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
+],
+  right-content: [
+    Sept 2021
+  ],
+)
+
+  #v(design-highlights-top-margin)
+  #one-col-entry(content: [
+        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
+
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] (IEEE Transactions on Applied Superconductivity)
+])
 
 
 

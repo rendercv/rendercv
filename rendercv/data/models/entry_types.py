@@ -232,7 +232,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
     """This class is the data model of `BulletEntry`."""
 
     model_config = pydantic.ConfigDict(title="Bullet Entry")
-    bullets: list[str] = pydantic.Field(
+    bullet: str = pydantic.Field(
         title="Bullet",
     )
 
@@ -245,7 +245,7 @@ class BulletEntry(RenderCVBaseModelWithExtraKeys, EntryType):
         Returns:
             A BulletEntry with the keywords made bold in the `bullet` field.
         """
-        self.bullets = [make_keywords_bold_in_a_string(bullet, keywords) for bullet in self.bullets]
+        self.bullet = make_keywords_bold_in_a_string(self.bullet, keywords)
         return self
 
 

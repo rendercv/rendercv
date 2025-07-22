@@ -11,7 +11,6 @@
 #let design-colors-name = rgb(0, 79, 144)
 #let design-colors-connections = rgb(0, 79, 144)
 #let design-colors-links = rgb(0, 79, 144)
-#let design-colors-custom = rgb(0, 100, 20)
 #let design-section-titles-font-family = "Raleway"
 #let design-section-titles-bold = false
 #let design-section-titles-line-thickness = 0.5pt

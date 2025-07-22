@@ -530,7 +530,7 @@
   left-content: [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
         #v(-design-text-leading)
-        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname],
+],
   right-content: [
     
   ],
@@ -545,7 +545,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()],
   right-content: [
     
   ],
@@ -560,7 +560,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] ()],
   right-content: [
     
   ],
@@ -575,7 +575,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)IEEE Transactions on Applied Superconductivity],
+#v(design-highlights-top-margin - design-text-leading) (IEEE Transactions on Applied Superconductivity)],
   right-content: [
     
   ],
@@ -588,7 +588,7 @@
   left-content: [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
         #v(-design-text-leading)
-        J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname],
+],
   right-content: [
     Sept 2021
   ],
@@ -603,7 +603,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()],
   right-content: [
     
   ],
@@ -633,7 +633,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()],
   right-content: [
     Sept 2021
   ],
@@ -663,7 +663,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://example.com")[example.com] ()],
   right-content: [
     Sept 2021
   ],
@@ -678,7 +678,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)IEEE Transactions on Applied Superconductivity],
+#v(design-highlights-top-margin - design-text-leading) (IEEE Transactions on Applied Superconductivity)],
   right-content: [
     Sept 2021
   ],
@@ -708,7 +708,7 @@
         #v(-design-text-leading)
         J. Doe, #strong[#emph[H. Tom]], S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname, S. Doe, A. Andsurname
 
-#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1]],
+#v(design-highlights-top-margin - design-text-leading)#link("https://doi.org/10.1007/978-3-319-69626-3_101-1")[10.1007/978-3-319-69626-3_101-1] ()],
   right-content: [
     Sept 2021
   ],

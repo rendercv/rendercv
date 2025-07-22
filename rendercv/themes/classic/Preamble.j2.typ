@@ -20,7 +20,6 @@
 #let design-colors-name = <<design.colors.name.as_rgb()>>
 #let design-colors-connections = <<design.colors.connections.as_rgb()>>
 #let design-colors-links = <<design.colors.links.as_rgb()>>
-#let design-colors-custom = <<design.colors.custom.as_rgb()>>
 #let design-section-titles-font-family = "<<design.section_titles.font_family>>"
 #let design-section-titles-bold = <<design.section_titles.bold|lower>>
 #let design-section-titles-line-thickness = <<design.section_titles.line_thickness>>
