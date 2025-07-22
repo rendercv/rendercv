@@ -190,7 +190,8 @@ class TypstFile(TemplatedFile):
                             section_title=section.title,
                         )
                     else:
-                        placeholder_value = getattr(entry, lowercase_placeholder_key, None)
+                        arbitrary_keys = getattr(entry, "model_extra", None)
+                        placeholder_value = arbitrary_keys.get(lowercase_placeholder_key, None) if isinstance(arbitrary_keys, dict) else None
 
                     placeholders[placeholder_key] = (
                         placeholder_value if placeholder_value != "None" else None
@@ -759,12 +760,13 @@ def replace_placeholders_with_actual_values(
         The string with actual values.
     """
     for placeholder, value in placeholders.items():
-        escaped = re.escape(placeholder)
-        if value:
-            text = re.sub(rf"\b{escaped}\b", str(value), text)
+        # Use regex only for whole-word placeholders like DATE, NAME, etc.
+        if re.fullmatch(r"\w+", placeholder):  # e.g., "DATE", "NAME"
+            pattern = rf"\b{placeholder}\b"
+            text = re.sub(pattern, str(value or ""), text)
         else:
-            text = re.sub(rf"\b{escaped}\b", "", text)
-
+            # Fall back to literal replacement if placeholder is not a word (e.g., "{name}")
+            text = text.replace(placeholder, str(value or ""))
     return text
 
 def split_and_trim(value: str, delimiter="||"):
