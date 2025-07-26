@@ -11,6 +11,14 @@ _The engine of the [RenderCV App](https://rendercv.com)_
 
 </div>
 
+### Changes from main rendercv repo
+
+This fork makes the following changes to the original rendercv repo:
+- Allows users to specify where they wish to add columns by specifying || as delimiter in the YAML file. # columns is the limit.
+- Allows users to change text enclosed in "==" to a specified color, specified by "custom" in the YAML file.
+- Fixes arbitrary keys in the YAML
+- Removes empty parentheses in the text, so that there is no need for e.g. "no_url" options in the backend.
+
 RenderCV engine is a Typst-based Python package with a command-line interface (CLI) that allows you to version-control your CV/resume as source code. It reads a CV written in a YAML file with Markdown syntax, converts it into a [Typst](https://typst.app) code, and generates a PDF.
 
 RenderCV engine's focus is to provide these three features:
