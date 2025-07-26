@@ -9,8 +9,7 @@
   middle-content: [
     << first_row_split[1] >>
     ((* if design.entries.short_second_row
-          or first_row_split[2].count("\n\n") > first_row_split[1].count("\n\n")
-          or design.section_titles.type == "moderncv" *))
+          or first_row_split[2].count("\n\n") > first_row_split[1].count("\n\n") *))
       ((* if second_row_split *))
             #v(-design-text-leading)
             ((* if entry.journal or entry.doi or entry.url *))
@@ -39,8 +38,7 @@
   left-content: [
     << first_row_split[0] >>
     ((* if design.entries.short_second_row
-          or first_row_split[1].count("\n\n") > first_row_split[0].count("\n\n")
-          or design.section_titles.type == "moderncv" *))
+          or first_row_split[1].count("\n\n") > first_row_split[0].count("\n\n") *))
       ((* if second_row_split *))
         #v(-design-text-leading)
         ((* if entry.journal or entry.doi or entry.url *))
@@ -65,7 +63,6 @@
     and (
       design.entries.short_second_row
       or first_row_split[-1].count("\n\n") > first_row_split[-2].count("\n\n")
-      or design.section_titles.type == "moderncv"
     )
     and second_row_template
   ) *))
