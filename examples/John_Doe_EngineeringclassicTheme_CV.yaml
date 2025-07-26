@@ -11,7 +11,7 @@ cv:
       username: john.doe
   sections:
     welcome_to_RenderCV!:
-      - '[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.'
+      - '[RenderCV](https://rendercv.com) is a ==Typst-based== CV framework designed for academics and engineers, with **Markdown syntax** support.'
       - Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
     education:
       - institution: Stanford University
@@ -99,6 +99,7 @@ cv:
         url:
         journal:
         date: 2004-01
+    extracurricular_activities:
       - bullets:
             - 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
       - bullets:
@@ -203,12 +204,6 @@ design:
       second_row_template: |-
         AUTHORS
         URL (JOURNAL)
-      second_row_no_journal_template: |-
-        AUTHORS
-        URL
-      second_row_no_url_template: |-
-        AUTHORS
-        JOURNAL
 locale:
   language: en
   phone_number_format: national

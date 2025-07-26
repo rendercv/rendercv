@@ -201,7 +201,6 @@ design:
     publication_entry:
       first_row_template: '**TITLE** \n AUTHORS'
       second_row_template: "**Journal:** URL *JOURNAL* || DATE"
-      third_row_template: "**Conference:** CONFERENCE_URL *CONFERENCE* || CONFERENCE_DATE"
 locale:
   language: en
   phone_number_format: national
