@@ -416,6 +416,7 @@ def input_template_to_typst(
         s = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", s)
         s = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", s)
 
+        s = re.sub(r"\(\)", "", s)
         return s  # noqa: RET504
 
     parts = output.split("||")
@@ -601,15 +602,6 @@ def markdown_to_typst(markdown_string: str) -> str:
             new_link_string = f'#link("{link_url}")[{link_text}]'
 
             markdown_string = markdown_string.replace(old_link_string, new_link_string)
-
-    # convert colors
-    colors = re.findall(r"%%(.+?)%%", markdown_string)
-    if colors is not None:
-        for color in colors:
-            old_color_string = f"%%{color}%%"
-            new_color_string = f'#text(fill: design-colors-custom)[{color}]'
-
-            markdown_string = markdown_string.replace(old_color_string, new_color_string)
 
     # Process escaped asterisks in the yaml (such that they are actual asterisks,
     # and not markers for bold/italics). We need to temporarily replace them with
