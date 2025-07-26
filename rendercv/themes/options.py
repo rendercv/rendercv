@@ -686,15 +686,6 @@ publication_entry_second_row_template = pydantic.Field(
         ),
     )
 
-publication_entry_third_row_template = pydantic.Field(
-        default="CONFERENCE_URL *CONFERENCE* || CONFERENCE_DATE",
-        title="Second row",
-        description=(
-            "The content of the Second Row. The available placeholders are all the keys"
-            " used in the entries (in uppercase)."
-        ),
-    )
-
 class PublicationEntryOptions(EntryBase):
     """Options related to publication entries."""
 
@@ -702,8 +693,6 @@ class PublicationEntryOptions(EntryBase):
 
     first_row_template: str = publication_entry_first_row_template
     second_row_template: str = publication_entry_second_row_template
-    third_row_template: str = publication_entry_third_row_template
-
 
 education_entry_degree_column_width_field_info = pydantic.Field(
     default="1cm",
