@@ -8,7 +8,7 @@ import copy
 import pathlib
 import re
 from collections.abc import Callable
-from typing import Optional, overload
+from typing import overload
 
 import jinja2
 import pydantic
@@ -42,7 +42,7 @@ class TemplatedFile:
         theme_name: str,
         template_name: str,
         extension: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -158,18 +158,31 @@ class TypstFile(TemplatedFile):
                 entry_type=section.entry_type,
             )
 
+            entry_type_snake = camel_to_snake(section.entry_type)
+            entry_type_options = getattr(
+                getattr(self.design, "entry_types", None),
+                entry_type_snake,
+                None,
+            )
+
             templates = {
                 template_name: getattr(
-                    getattr(
-                        getattr(self.design, "entry_types", None),
-                        camel_to_snake(section.entry_type),
-                        None,
-                    ),
+                    entry_type_options,
                     template_name,
                     None,
                 )
                 for template_name in all_template_names
             }
+
+            vertical_space_between_entries = getattr(
+                entry_type_options,
+                "vertical_space_between_entries",
+                None,
+            )
+            if vertical_space_between_entries is None:
+                vertical_space_between_entries = (
+                    "design-entries-vertical-space-between-entries"
+                )
 
             entries: list[str] = []
             for i, entry in enumerate(section.entries):
@@ -226,7 +239,13 @@ class TypstFile(TemplatedFile):
                 entry_type=section.entry_type,
             )
             sections.append(
-                (section_beginning, entries, section_ending, section.entry_type)
+                (
+                    section_beginning,
+                    entries,
+                    section_ending,
+                    section.entry_type,
+                    vertical_space_between_entries,
+                )
             )
 
         return preamble, header, sections
@@ -234,7 +253,7 @@ class TypstFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -316,7 +335,7 @@ class MarkdownFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -356,7 +375,7 @@ class MarkdownFile(TemplatedFile):
 
 
 def input_template_to_typst(
-    input_template: Optional[str], placeholders: dict[str, Optional[str]]
+    input_template: str | None, placeholders: dict[str, str | None]
 ) -> str:
     """Convert an input template to Typst.
 
@@ -429,7 +448,7 @@ def remove_typst_commands(string: None) -> None: ...
 def remove_typst_commands(string: str) -> str: ...
 
 
-def remove_typst_commands(string: Optional[str]) -> Optional[str]:
+def remove_typst_commands(string: str | None) -> str | None:
     """Remove Typst commands from a string.
 
     Args:
@@ -529,7 +548,7 @@ def escape_typst_characters(string: None) -> None: ...
 def escape_typst_characters(string: str) -> str: ...
 
 
-def escape_typst_characters(string: Optional[str]) -> Optional[str]:
+def escape_typst_characters(string: str | None) -> str | None:
     """Escape Typst characters in a string by adding a backslash before them.
 
     Example:
@@ -662,7 +681,7 @@ def markdown_to_typst(markdown_string: str) -> str:
 def transform_markdown_sections_to_something_else_sections(
     sections: dict[str, data.SectionContents],
     functions_to_apply: list[Callable],
-) -> Optional[dict[str, data.SectionContents]]:
+) -> dict[str, data.SectionContents] | None:
     """
     Recursively loop through sections and update all the strings by applying the
     `functions_to_apply` functions, given as an argument.
@@ -711,7 +730,7 @@ def transform_markdown_sections_to_something_else_sections(
 
 def transform_markdown_sections_to_typst_sections(
     sections: dict[str, data.SectionContents],
-) -> Optional[dict[str, data.SectionContents]]:
+) -> dict[str, data.SectionContents] | None:
     """
     Recursively loop through sections and convert all the Markdown strings (user input
     is in Markdown format) to Typst strings.
@@ -730,7 +749,7 @@ def transform_markdown_sections_to_typst_sections(
 
 def replace_placeholders_with_actual_values(
     text: str,
-    placeholders: dict[str, Optional[str]],
+    placeholders: dict[str, str | None],
 ) -> str:
     """Replace the placeholders in a string with actual values.
 
@@ -755,7 +774,7 @@ def replace_placeholders_with_actual_values(
 class Jinja2Environment:
     instance: "Jinja2Environment"
     environment: jinja2.Environment
-    current_working_directory: Optional[pathlib.Path] = None
+    current_working_directory: pathlib.Path | None = None
 
     def __new__(cls):
         if (
