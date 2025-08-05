@@ -129,7 +129,7 @@ SectionTitleType = Literal[
 ]
 
 
-page_size_field_info = pydantic.Field(
+page_size_field_info: PageSize = pydantic.Field(
     default="us-letter",
     title="Page Size",
     description="The page size of the CV.",
@@ -193,19 +193,19 @@ color_common_examples = ["Black", "7fffd4", "rgb(0,79,144)", "hsl(270, 60%, 70%)
 
 
 colors_text_field_info = pydantic.Field(
-    default="rgb(0,0,0)",
+    default=pydantic_color.Color("rgb(0,0,0)"),
     title="Color of Text",
     description="The color of the text." + color_common_description,
     examples=color_common_examples,
 )
 colors_name_field_info = pydantic.Field(
-    default="rgb(0,79,144)",
+    default=pydantic_color.Color("rgb(0,79,144)"),
     title="Color of Name",
     description=("The color of the name in the header." + color_common_description),
     examples=color_common_examples,
 )
 colors_connections_field_info = pydantic.Field(
-    default="rgb(0,79,144)",
+    default=pydantic_color.Color("rgb(0,79,144)"),
     title="Color of Connections",
     description=(
         "The color of the connections in the header." + color_common_description
@@ -213,19 +213,19 @@ colors_connections_field_info = pydantic.Field(
     examples=color_common_examples,
 )
 colors_section_titles_field_info = pydantic.Field(
-    default="rgb(0,79,144)",
+    default=pydantic_color.Color("rgb(0,79,144)"),
     title="Color of Section Titles",
     description=("The color of the section titles." + color_common_description),
     examples=color_common_examples,
 )
 colors_links_field_info = pydantic.Field(
-    default="rgb(0,79,144)",
+    default=pydantic_color.Color("rgb(0,79,144)"),
     title="Color of Links",
     description="The color of the links." + color_common_description,
     examples=color_common_examples,
 )
 colors_last_updated_date_and_page_numbering_field_info = pydantic.Field(
-    default="rgb(128,128,128)",
+    default=pydantic_color.Color("rgb(128,128,128)"),
     title="Color of Last Updated Date and Page Numbering",
     description=(
         "The color of the last updated date and page numbering."
@@ -276,12 +276,12 @@ text_leading_field_info = pydantic.Field(
     title="Leading",
     description="The vertical space between adjacent lines of text.",
 )
-text_alignment_field_info = pydantic.Field(
+text_alignment_field_info: TextAlignment = pydantic.Field(
     default="justified",
     title="Alignment of Text",
     description="The alignment of the text.",
 )
-text_date_and_location_column_alignment_field_info = pydantic.Field(
+text_date_and_location_column_alignment_field_info: Alignment = pydantic.Field(
     default="right",
     title="Alignment of Date and Location Column",
     description="The alignment of the date column in the entries.",
@@ -297,9 +297,7 @@ class Text(RenderCVBaseModelWithoutExtraKeys):
     font_size: TypstDimension = text_font_size_field_info
     leading: TypstDimension = text_leading_field_info
     alignment: TextAlignment = text_alignment_field_info
-    date_and_location_column_alignment: Alignment = (
-        text_date_and_location_column_alignment_field_info
-    )
+    date_and_location_column_alignment: Alignment = text_date_and_location_column_alignment_field_info
 
 
 links_underline_field_info = pydantic.Field(
@@ -402,7 +400,7 @@ make_connections_links_field_info = pydantic.Field(
     title="Make Connections Links",
     description='If this option is "true", the connections will be clickable links.',
 )
-header_alignment_field_info = pydantic.Field(
+header_alignment_field_info: Alignment = pydantic.Field(
     default="center",
     title="Alignment of the Header",
     description="The alignment of the header.",
@@ -460,7 +458,7 @@ section_titles_bold_field_info = pydantic.Field(
     title="Bold Section Titles",
     description='If this option is "true", the section titles will be bold.',
 )
-section_titles_type_field_info = pydantic.Field(
+section_titles_type_field_info: SectionTitleType = pydantic.Field(
     default="with-partial-line",
     title="Type",
     description="The type of the section titles.",
@@ -576,12 +574,12 @@ class Entries(RenderCVBaseModelWithoutExtraKeys):
     show_time_spans_in: list[str] = entries_show_time_spans_in_field_info
 
 
-highlights_bullet_field_info = pydantic.Field(
+highlights_bullet_field_info: BulletPoint = pydantic.Field(
     default="•",
     title="Bullet",
     description="The bullet used for the highlights and bullet entries.",
 )
-highlights_nested_bullet_field_info = pydantic.Field(
+highlights_nested_bullet_field_info: BulletPoint = pydantic.Field(
     default="-",
     title="Nested Bullet",
     description="The bullet used for the nested highlights.",
@@ -929,7 +927,7 @@ class ThemeOptions(RenderCVBaseModelWithoutExtraKeys):
     """Full design options."""
 
     model_config = pydantic.ConfigDict(title="Theme Options")
-    theme: Literal["tobeoverwritten"] = theme_options_theme_field_info
+    theme: str = theme_options_theme_field_info
     page: Page = theme_options_page_field_info
     colors: Colors = theme_options_colors_field_info
     text: Text = theme_options_text_field_info
