@@ -112,7 +112,7 @@ class TypstFile(TemplatedFile):
 
     def render_templates(
         self,
-    ) -> tuple[str, str, list[tuple[str, list[str], str, str]]]:
+    ) -> tuple[str, str, list[tuple[str, list[str], str, str, str]]]:
         """Render and return all the templates for the Typst file.
 
         Returns:
@@ -150,7 +150,7 @@ class TypstFile(TemplatedFile):
         # Template the preamble, header, and sections:
         preamble = self.template("Preamble")
         header = self.template("Header")
-        sections: list[tuple[str, list[str], str, str]] = []
+        sections: list[tuple[str, list[str], str, str, str]] = []
         for section in self.cv.sections:
             section_beginning = self.template(
                 "SectionBeginning",
