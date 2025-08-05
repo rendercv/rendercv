@@ -227,9 +227,9 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             default="none",
             title="Sort Entries",
             description=(
-                "How the entries should be sorted based on their dates."
-                " The available options are 'reverse-chronological', 'chronological', and 'none'."
-                " The default value is 'none'."
+                "How the entries should be sorted based on their dates. The available"
+                " options are 'reverse-chronological', 'chronological', and 'none'. The"
+                " default value is 'none'."
             ),
         )
     )
@@ -244,4 +244,3 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
         DATE_INPUT = value
 
         return value
-
