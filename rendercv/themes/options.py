@@ -297,7 +297,9 @@ class Text(RenderCVBaseModelWithoutExtraKeys):
     font_size: TypstDimension = text_font_size_field_info
     leading: TypstDimension = text_leading_field_info
     alignment: TextAlignment = text_alignment_field_info
-    date_and_location_column_alignment: Alignment = text_date_and_location_column_alignment_field_info
+    date_and_location_column_alignment: Alignment = (
+        text_date_and_location_column_alignment_field_info
+    )
 
 
 links_underline_field_info = pydantic.Field(

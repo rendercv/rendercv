@@ -331,7 +331,9 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
     return yaml_as_a_dictionary
 
 
-def read_a_yaml_file_with_coordinates(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
+def read_a_yaml_file_with_coordinates(
+    file_path_or_contents: pathlib.Path | str,
+) -> CommentedMap:
     """Read a YAML file and return its content as a CommentedMap with location information.
 
     Args:
