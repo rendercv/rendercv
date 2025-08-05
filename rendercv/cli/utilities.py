@@ -113,7 +113,10 @@ def copy_files(paths: list[pathlib.Path] | pathlib.Path, new_path: pathlib.Path)
         for i, file_path in enumerate(paths):
             # append a number to the end of the path:
             number = i + 1
-            png_path_with_page_number = pathlib.Path(new_path).parent / f"{pathlib.Path(new_path).stem}_{number}.png"
+            png_path_with_page_number = (
+                pathlib.Path(new_path).parent
+                / f"{pathlib.Path(new_path).stem}_{number}.png"
+            )
             shutil.copy2(file_path, png_path_with_page_number)
 
 
@@ -233,7 +236,11 @@ def get_default_render_command_cli_arguments() -> dict:
         The default values of the `render` command's CLI arguments.
     """
     sig = inspect.signature(commands.cli_command_render)
-    return {k: v.default for k, v in sig.parameters.items() if v.default is not inspect.Parameter.empty}
+    return {
+        k: v.default
+        for k, v in sig.parameters.items()
+        if v.default is not inspect.Parameter.empty
+    }
 
 
 def update_render_command_settings_of_the_input_file(
@@ -268,7 +275,10 @@ def update_render_command_settings_of_the_input_file(
 
     render_command_field = input_file_as_a_dict["rendercv_settings"]["render_command"]
     for key, value in render_command_cli_arguments.items():
-        if value != default_render_command_cli_arguments[key] or key not in render_command_field:
+        if (
+            value != default_render_command_cli_arguments[key]
+            or key not in render_command_field
+        ):
             render_command_field[key] = value
 
     input_file_as_a_dict["rendercv_settings"]["render_command"] = render_command_field
@@ -290,7 +300,9 @@ def run_rendercv_with_printer(
         working_directory: The working directory where the output files will be saved.
         input_file_path: The path of the input file.
     """
-    render_command_settings_dict = input_file_as_a_dict["rendercv_settings"]["render_command"]
+    render_command_settings_dict = input_file_as_a_dict["rendercv_settings"][
+        "render_command"
+    ]
 
     # Compute the number of steps
     # 1. Validate the input file.
@@ -326,14 +338,18 @@ def run_rendercv_with_printer(
         render_command_settings: data.models.RenderCommandSettings = (
             data_model.rendercv_settings.render_command  # type: ignore
         )
-        output_directory = working_directory / render_command_settings.output_folder_name
+        output_directory = (
+            working_directory / render_command_settings.output_folder_name
+        )
 
         progress.finish_the_current_step()
 
         progress.start_a_step("Generating the Typst file")
 
-        typst_file_path_in_output_folder = renderer.create_a_typst_file_and_copy_theme_files(
-            data_model, output_directory
+        typst_file_path_in_output_folder = (
+            renderer.create_a_typst_file_and_copy_theme_files(
+                data_model, output_directory
+            )
         )
         if render_command_settings.typst_path:
             copy_files(
@@ -359,7 +375,9 @@ def run_rendercv_with_printer(
         if not render_command_settings.dont_generate_png:
             progress.start_a_step("Rendering PNG files from the PDF")
 
-            png_file_paths_in_output_folder = renderer.render_pngs_from_typst(typst_file_path_in_output_folder)
+            png_file_paths_in_output_folder = renderer.render_pngs_from_typst(
+                typst_file_path_in_output_folder
+            )
             if render_command_settings.png_path:
                 copy_files(
                     png_file_paths_in_output_folder,
@@ -371,7 +389,9 @@ def run_rendercv_with_printer(
         if not render_command_settings.dont_generate_markdown:
             progress.start_a_step("Generating the Markdown file")
 
-            markdown_file_path_in_output_folder = renderer.create_a_markdown_file(data_model, output_directory)
+            markdown_file_path_in_output_folder = renderer.create_a_markdown_file(
+                data_model, output_directory
+            )
             if render_command_settings.markdown_path:
                 copy_files(
                     markdown_file_path_in_output_folder,
@@ -381,7 +401,9 @@ def run_rendercv_with_printer(
             progress.finish_the_current_step()
 
             if not render_command_settings.dont_generate_html:
-                progress.start_a_step("Rendering the Markdown file to a HTML (for Grammarly)")
+                progress.start_a_step(
+                    "Rendering the Markdown file to a HTML (for Grammarly)"
+                )
 
                 html_file_path_in_output_folder = renderer.render_an_html_from_markdown(
                     markdown_file_path_in_output_folder
@@ -420,7 +442,9 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
             if event.src_path != str(file_path.absolute()):
                 return
 
-            printer.information("\n\nThe input file has been updated. Re-running RenderCV...")
+            printer.information(
+                "\n\nThe input file has been updated. Re-running RenderCV..."
+            )
             self.function_to_call()
 
     event_handler = EventHandler(function)
@@ -467,9 +491,15 @@ def read_and_construct_the_input(
     # Update the input file if there are extra override arguments (for example,
     # --cv.phone "123-456-7890"):
     if extra_data_model_override_arguments:
-        key_and_values = parse_render_command_override_arguments(extra_data_model_override_arguments)
-        input_file_as_a_dict = set_or_update_values(input_file_as_a_dict, key_and_values)
+        key_and_values = parse_render_command_override_arguments(
+            extra_data_model_override_arguments
+        )
+        input_file_as_a_dict = set_or_update_values(
+            input_file_as_a_dict, key_and_values
+        )
 
     # If non-default CLI arguments are provided, override the
     # `rendercv_settings.render_command`:
-    return update_render_command_settings_of_the_input_file(input_file_as_a_dict, cli_render_arguments)
+    return update_render_command_settings_of_the_input_file(
+        input_file_as_a_dict, cli_render_arguments
+    )
