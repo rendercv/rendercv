@@ -270,7 +270,7 @@ def parse_validation_errors(
         }
 
         if yaml_file_as_string:
-            yaml_object = read_a_yaml_file(yaml_file_as_string)
+            yaml_object = read_a_yaml_file_with_coordinates(yaml_file_as_string)
             coordinates = get_coordinates_of_a_key_in_a_yaml_object(
                 yaml_object,
                 list(new_error["loc"]),  # type: ignore
@@ -329,6 +329,32 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
         raise ValueError(message)
 
     return yaml_as_a_dictionary
+
+
+def read_a_yaml_file_with_coordinates(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
+    """Read a YAML file and return its content as a CommentedMap with location information.
+
+    Args:
+        file_path_or_contents: The path to the YAML file or the contents of the YAML
+            file as a string.
+
+    Returns:
+        The content of the YAML file as a CommentedMap with location information.
+    """
+
+    if isinstance(file_path_or_contents, pathlib.Path):
+        file_content = file_path_or_contents.read_text(encoding="utf-8")
+    else:
+        file_content = file_path_or_contents
+
+    yaml = ruamel.yaml.YAML()
+    yaml_as_commented_map: CommentedMap = yaml.load(file_content)
+
+    if yaml_as_commented_map is None:
+        message = "The input file is empty!"
+        raise ValueError(message)
+
+    return yaml_as_commented_map
 
 
 def validate_input_dictionary_and_return_the_data_model(
