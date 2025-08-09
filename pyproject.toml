@@ -132,6 +132,7 @@ dependencies = [
     "pyright",             # to check the types
     "pre-commit",          # to run the checks before committing
     "pytest==8.3.4",       # to run the tests
+    "pytest-xdist>=3.8.0", # to run tests in parallel
     "coverage==7.6.10",    # to generate coverage reports
     "pypdf==5.1.0",        # to read PDF files
     "snakeviz==2.2.2",     # for profiling
@@ -279,5 +280,7 @@ addopts = [
     "-v",               # Increase verbosity
     "--strict-markers", # Don't allow unknown markers
     "--strict-config",  # Always fail if there are unknown configuration options
+    "--numprocesses",
+    "auto",
 ]
 testpaths = ["tests"]
