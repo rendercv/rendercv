@@ -4,6 +4,7 @@ import copy
 import filecmp
 import itertools
 import json
+import os
 import pathlib
 import shutil
 import typing
@@ -19,6 +20,26 @@ import ruamel.yaml
 
 from rendercv import data
 from rendercv.renderer import templater
+
+
+@pytest.fixture(scope="session", autouse=True)
+def setup_typst_cache_per_worker(tmp_path_factory):
+    """Set up separate Typst cache directories for each pytest-xdist worker.
+    
+    This prevents race conditions when multiple workers try to access the same
+    Typst package cache simultaneously, which can cause failures on Windows.
+    """
+    # Get the worker ID from pytest-xdist
+    worker_id = os.environ.get("PYTEST_XDIST_WORKER", "master")
+    
+    # Create a unique cache directory for this worker
+    cache_dir = tmp_path_factory.mktemp(f"typst_cache_{worker_id}")
+    
+    # Set the TYPST_CACHE environment variable to use our worker-specific cache
+    os.environ["TYPST_CACHE"] = str(cache_dir)
+    
+    return cache_dir
+
 
 # RenderCV is being tested by comparing the output to reference files. Therefore,
 # reference files should be updated when RenderCV is updated in a way that changes
