@@ -276,6 +276,11 @@ def validate_a_social_network_username(username: str, network: str) -> str:
         if not re.fullmatch(orcid_username_pattern, username):
             message = "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
             raise ValueError(message)
+    elif network == "IMDB":
+        imdb_username_pattern = r"nm\d{7}"
+        if not re.fullmatch(imdb_username_pattern, username):
+            message = "IMDB name should be in the format 'nmXXXXXXX'!"
+            raise ValueError(message)
 
     return username
 
@@ -306,6 +311,7 @@ SocialNetworkName = Literal[
     "LinkedIn",
     "GitHub",
     "GitLab",
+    "IMDB",
     "Instagram",
     "ORCID",
     "Mastodon",
@@ -379,6 +385,7 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
                 "LinkedIn": "https://linkedin.com/in/",
                 "GitHub": "https://github.com/",
                 "GitLab": "https://gitlab.com/",
+                "IMDB": "https://imdb.com/name/",
                 "Instagram": "https://instagram.com/",
                 "ORCID": "https://orcid.org/",
                 "StackOverflow": "https://stackoverflow.com/users/",
@@ -524,6 +531,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 "LinkedIn": "linkedin",
                 "GitHub": "github",
                 "GitLab": "gitlab",
+                "IMDB": "imdb",
                 "Instagram": "instagram",
                 "Mastodon": "mastodon",
                 "ORCID": "orcid",
@@ -548,6 +556,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                     connection["placeholder"] = username
                 if social_network.network == "Google Scholar":
                     connection["placeholder"] = "Google Scholar"
+                if social_network.network == "IMDB":
+                    connection["placeholder"] = "IMDB Profile"
 
                 connections.append(connection)  # type: ignore
 
