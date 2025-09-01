@@ -147,6 +147,15 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
+    dont_generate_pdf: bool = pydantic.Field(
+        default=False,
+        title="Don't Generate PDF",
+        description=(
+            "A boolean value to determine whether the PDF file will be generated. The"
+            " default value is False."
+        ),
+    )
+
     watch: bool = pydantic.Field(
         default=False,
         title="Re-run RenderCV When the Input File is Updated",
