@@ -126,31 +126,36 @@
           "$ref": "#/$defs/EntryTypes",
           "default": {
             "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
+              "template": "**LABEL:** DETAILS",
+              "vertical_space_between_entries": null
             },
             "education_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "degree_column_template": "**DEGREE**",
               "degree_column_width": "1cm",
               "main_column_first_row_template": "**INSTITUTION**, AREA",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "normal_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**, POSITION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "publication_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**TITLE**",
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+              "vertical_space_between_entries": null
             }
           },
           "title": "Templates"
@@ -602,31 +607,36 @@
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__EntryOptionsTypes",
           "default": {
             "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
+              "template": "**LABEL:** DETAILS",
+              "vertical_space_between_entries": null
             },
             "education_entry": {
               "date_and_location_column_template": "DATE",
               "degree_column_template": "**DEGREE**",
               "degree_column_width": "1cm",
               "main_column_first_row_template": "**INSTITUTION**, AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "normal_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "experience_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "publication_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**TITLE**",
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+              "vertical_space_between_entries": null
             }
           },
           "description": "Options related to the templates.",
@@ -714,15 +724,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "XCharter",
             "font_size": "1.2em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.55cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -757,31 +766,36 @@
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__EntryOptionsTypes",
           "default": {
             "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
+              "template": "**LABEL:** DETAILS",
+              "vertical_space_between_entries": null
             },
             "education_entry": {
               "date_and_location_column_template": "DATE",
               "degree_column_template": null,
               "degree_column_width": "1cm",
               "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "normal_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "experience_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "publication_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**TITLE**",
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+              "vertical_space_between_entries": null
             }
           },
           "description": "Options related to the templates.",
@@ -798,6 +812,7 @@
         "one_line_entry": {
           "$ref": "#/$defs/OneLineEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "template": "**LABEL:** DETAILS"
           },
           "title": "One-Line Entry"
@@ -808,6 +823,7 @@
             "main_column_first_row_template": "**INSTITUTION**, AREA",
             "degree_column_template": "**DEGREE**",
             "degree_column_width": "1cm",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE"
           },
@@ -817,6 +833,7 @@
           "$ref": "#/$defs/rendercv__themes__options__NormalEntryOptions",
           "default": {
             "main_column_first_row_template": "**NAME**",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE"
           },
@@ -826,6 +843,7 @@
           "$ref": "#/$defs/rendercv__themes__options__ExperienceEntryOptions",
           "default": {
             "main_column_first_row_template": "**COMPANY**, POSITION",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE"
           },
@@ -834,6 +852,7 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
@@ -1294,31 +1313,36 @@
           "$ref": "#/$defs/rendercv__themes__moderncv__EntryOptionsTypes",
           "default": {
             "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
+              "template": "**LABEL:** DETAILS",
+              "vertical_space_between_entries": null
             },
             "education_entry": {
               "date_and_location_column_template": "DATE",
               "degree_column_template": null,
               "degree_column_width": "1cm",
               "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "normal_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**NAME** -- **LOCATION**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "experience_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "publication_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**TITLE**",
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+              "vertical_space_between_entries": null
             }
           },
           "description": "Options related to the templates.",
@@ -1493,6 +1517,19 @@
       "additionalProperties": false,
       "description": "Options related to one-line entries.",
       "properties": {
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "template": {
           "default": "**LABEL:** DETAILS",
           "description": "The template of the one-line entry. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -1593,6 +1630,19 @@
       "additionalProperties": false,
       "description": "Options related to publication entries.",
       "properties": {
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_first_row_template": {
           "default": "**TITLE**",
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -1909,15 +1959,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "New Computer Modern",
             "font_size": "1.4em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -1951,31 +2000,36 @@
           "$ref": "#/$defs/rendercv__themes__sb2nov__EntryOptionsTypes",
           "default": {
             "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
+              "template": "**LABEL:** DETAILS",
+              "vertical_space_between_entries": null
             },
             "education_entry": {
               "date_and_location_column_template": "*LOCATION*\n*DATE*",
               "degree_column_template": null,
               "degree_column_width": "1cm",
               "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "normal_entry": {
               "date_and_location_column_template": "*LOCATION*\n*DATE*",
               "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "experience_entry": {
               "date_and_location_column_template": "*LOCATION*\n*DATE*",
               "main_column_first_row_template": "**POSITION**\n*COMPANY*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "vertical_space_between_entries": null
             },
             "publication_entry": {
               "date_and_location_column_template": "DATE",
               "main_column_first_row_template": "**TITLE**",
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+              "vertical_space_between_entries": null
             }
           },
           "description": "Options related to the templates.",
@@ -2047,6 +2101,19 @@
           "title": "Width of the Degree Column",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -2069,6 +2136,7 @@
         "one_line_entry": {
           "$ref": "#/$defs/OneLineEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "template": "**LABEL:** DETAILS"
           },
           "title": "One-Line Entry"
@@ -2079,6 +2147,7 @@
             "main_column_first_row_template": "**INSTITUTION**, AREA -- LOCATION",
             "degree_column_template": "**DEGREE**",
             "degree_column_width": "1cm",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2089,6 +2158,7 @@
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__NormalEntryOptions",
           "default": {
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2099,6 +2169,7 @@
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__ExperienceEntryOptions",
           "default": {
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2108,6 +2179,7 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
@@ -2128,6 +2200,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -2382,6 +2467,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -2726,6 +2824,19 @@
           "title": "Width of the Degree Column",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -2806,6 +2917,7 @@
         "one_line_entry": {
           "$ref": "#/$defs/OneLineEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "template": "**LABEL:** DETAILS"
           },
           "title": "One-Line Entry"
@@ -2816,6 +2928,7 @@
             "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
             "degree_column_template": null,
             "degree_column_width": "1cm",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2826,6 +2939,7 @@
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__NormalEntryOptions",
           "default": {
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2836,6 +2950,7 @@
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__ExperienceEntryOptions",
           "default": {
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -2845,6 +2960,7 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
@@ -2865,6 +2981,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -3112,6 +3241,19 @@
           "title": "Main Column, First Row",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -3200,7 +3342,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -3270,18 +3412,6 @@
           "default": "0.3cm",
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
-          "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
           "type": "string"
         }
       },
@@ -3382,6 +3512,19 @@
           "title": "Width of the Degree Column",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -3462,6 +3605,7 @@
         "one_line_entry": {
           "$ref": "#/$defs/OneLineEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "template": "**LABEL:** DETAILS"
           },
           "title": "One-Line Entry"
@@ -3472,6 +3616,7 @@
             "main_column_first_row_template": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
             "degree_column_template": null,
             "degree_column_width": "1cm",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -3482,6 +3627,7 @@
           "$ref": "#/$defs/rendercv__themes__moderncv__NormalEntryOptions",
           "default": {
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -3492,6 +3638,7 @@
           "$ref": "#/$defs/rendercv__themes__moderncv__ExperienceEntryOptions",
           "default": {
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
           },
@@ -3501,6 +3648,7 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
@@ -3521,6 +3669,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -3774,6 +3935,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -4052,6 +4226,19 @@
           "title": "Width of the Degree Column",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -4136,6 +4323,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -4394,6 +4594,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -4741,6 +4954,19 @@
           "title": "Width of the Degree Column",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -4763,6 +4989,7 @@
         "one_line_entry": {
           "$ref": "#/$defs/OneLineEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "template": "**LABEL:** DETAILS"
           },
           "title": "One-Line Entry"
@@ -4773,6 +5000,7 @@
             "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
             "degree_column_template": null,
             "degree_column_width": "1cm",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "*LOCATION*\n*DATE*"
           },
@@ -4783,6 +5011,7 @@
           "$ref": "#/$defs/rendercv__themes__sb2nov__NormalEntryOptions",
           "default": {
             "main_column_first_row_template": "**NAME**",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "*LOCATION*\n*DATE*"
           },
@@ -4793,6 +5022,7 @@
           "$ref": "#/$defs/rendercv__themes__sb2nov__ExperienceEntryOptions",
           "default": {
             "main_column_first_row_template": "**POSITION**\n*COMPANY*",
+            "vertical_space_between_entries": null,
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "*LOCATION*\n*DATE*"
           },
@@ -4802,6 +5032,7 @@
         "publication_entry": {
           "$ref": "#/$defs/PublicationEntryOptions",
           "default": {
+            "vertical_space_between_entries": null,
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
@@ -4822,6 +5053,19 @@
           "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Main Column, First Row",
           "type": "string"
+        },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
@@ -5077,6 +5321,19 @@
           "title": "Main Column, First Row",
           "type": "string"
         },
+        "vertical_space_between_entries": {
+          "default": null,
+          "description": "The vertical space between the entries of this entry type. If not given, `design.entries.vertical_space_between_entries` will be used.",
+          "title": "Vertical Space Between Entries",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
           "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
@@ -5097,7 +5354,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -5167,18 +5424,6 @@
           "default": "0.3cm",
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
-          "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
           "type": "string"
         }
       },
@@ -5341,27 +5586,32 @@
             "degree_column_template": "**DEGREE**",
             "degree_column_width": "1cm",
             "main_column_first_row_template": "**INSTITUTION**, AREA",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "vertical_space_between_entries": null
           },
           "experience_entry": {
             "date_and_location_column_template": "LOCATION\nDATE",
             "main_column_first_row_template": "**COMPANY**, POSITION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "vertical_space_between_entries": null
           },
           "normal_entry": {
             "date_and_location_column_template": "LOCATION\nDATE",
             "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "vertical_space_between_entries": null
           },
           "one_line_entry": {
-            "template": "**LABEL:** DETAILS"
+            "template": "**LABEL:** DETAILS",
+            "vertical_space_between_entries": null
           },
           "publication_entry": {
             "date_and_location_column_template": "DATE",
             "main_column_first_row_template": "**TITLE**",
             "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
             "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
+            "vertical_space_between_entries": null
           }
         }
       },
@@ -5404,7 +5654,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-02-16",
+        "date": "2025-08-05",
         "render_command": null,
         "bold_keywords": []
       },

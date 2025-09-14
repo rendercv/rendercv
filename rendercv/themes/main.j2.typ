@@ -2,13 +2,13 @@
 
 <<header>>
 
-((* for section_beginning, entries, section_ending, entry_type in sections *))
+((* for section_beginning, entries, section_ending, entry_type, vertical_space_between_entries in sections *))
 <<section_beginning>>
 
     ((* for entry in entries *))
 <<entry>>
       ((* if not loop.last and entry_type not in ["NumberedEntry", "ReversedNumberedEntry"] *))
-#v(design-entries-vertical-space-between-entries)
+#v(<<vertical_space_between_entries>>)
       ((* endif *))
     ((* endfor *))
 

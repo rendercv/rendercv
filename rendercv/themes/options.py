@@ -6,7 +6,7 @@ from these data models.
 
 import pathlib
 import re
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Literal
 
 import pydantic
 import pydantic_extra_types.color as pydantic_color
@@ -428,7 +428,7 @@ class Header(RenderCVBaseModelWithoutExtraKeys):
         header_horizontal_space_connections_field_info
     )
     connections_font_family: FontFamily = header_connections_font_family_field_info
-    separator_between_connections: Optional[str] = (
+    separator_between_connections: str | None = (
         header_separator_between_connections_field_info
     )
     use_icons_for_connections: bool = header_use_icons_for_connections_field_info
@@ -439,7 +439,7 @@ class Header(RenderCVBaseModelWithoutExtraKeys):
     alignment: Alignment = header_alignment_field_info
 
     @pydantic.field_validator("separator_between_connections")
-    def validate_separator_between_connections(cls, value: Optional[str]) -> str:
+    def validate_separator_between_connections(cls, value: str | None) -> str:
         if value is None:
             return ""
         return value
@@ -649,7 +649,25 @@ entry_base_with_date_date_and_location_column_template_field_info = pydantic.Fie
 )
 
 
-class EntryBaseWithDate(RenderCVBaseModelWithoutExtraKeys):
+entry_type_vertical_space_between_entries_field_info = pydantic.Field(
+    default=None,
+    title="Vertical Space Between Entries",
+    description=(
+        "The vertical space between the entries of this entry type."
+        " If not given, `design.entries.vertical_space_between_entries` will be used."
+    ),
+)
+
+
+class EntryTypeOptionsBase(RenderCVBaseModelWithoutExtraKeys):
+    """Base options for all entry types."""
+
+    vertical_space_between_entries: TypstDimension | None = (
+        entry_type_vertical_space_between_entries_field_info
+    )
+
+
+class EntryBaseWithDate(EntryTypeOptionsBase):
     """Base options for entries with a date."""
 
     main_column_second_row_template: str = (
@@ -702,7 +720,7 @@ publication_entry_date_and_location_column_template_field_info = pydantic.Field(
 )
 
 
-class PublicationEntryOptions(RenderCVBaseModelWithoutExtraKeys):
+class PublicationEntryOptions(EntryTypeOptionsBase):
     """Options related to publication entries."""
 
     model_config = pydantic.ConfigDict(title="Publication Entry Options")
@@ -756,7 +774,7 @@ class EducationEntryBase(RenderCVBaseModelWithoutExtraKeys):
     main_column_first_row_template: str = (
         education_entry_main_column_first_row_template_field_info
     )
-    degree_column_template: Optional[str] = (
+    degree_column_template: str | None = (
         education_entry_degree_column_template_field_info
     )
     degree_column_width: TypstDimension = education_entry_degree_column_width_field_info
@@ -826,7 +844,7 @@ one_line_entry_template_field_info = pydantic.Field(
 )
 
 
-class OneLineEntryOptions(RenderCVBaseModelWithoutExtraKeys):
+class OneLineEntryOptions(EntryTypeOptionsBase):
     """Options related to one-line entries."""
 
     model_config = pydantic.ConfigDict(title="One Line Entry Options")

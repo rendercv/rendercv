@@ -166,6 +166,18 @@ def test_transform_markdown_sections_to_typst_sections(rendercv_data_model):
     assert new_data_model.cv.sections != rendercv_data_model.cv.sections
 
 
+def test_entry_type_specific_vertical_space(rendercv_data_model, jinja2_environment):
+    data_model = copy.deepcopy(rendercv_data_model)
+    data_model.design.entries.vertical_space_between_entries = "1cm"
+    data_model.design.entry_types.one_line_entry.vertical_space_between_entries = "0.2cm"
+
+    typst_file = templater.TypstFile(data_model, jinja2_environment)
+    code = typst_file.get_full_code()
+
+    assert code.count("#v(0.2cm)") == 2
+    assert "#v(design-entries-vertical-space-between-entries)" in code
+
+
 @pytest.mark.parametrize(
     ("string", "placeholders", "expected_string"),
     [
