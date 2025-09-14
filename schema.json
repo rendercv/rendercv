@@ -362,6 +362,21 @@
             }
           ]
         },
+        "grade": {
+          "default": null,
+          "examples": [
+            "GPA: 3.00/4.00"
+          ],
+          "title": "Grade",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "date": {
           "default": null,
           "description": "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as an arbitrary string such as \"Fall 2023.\"",
@@ -714,15 +729,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "XCharter",
             "font_size": "1.2em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.55cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -1909,15 +1923,14 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles",
           "default": {
-            "type": "with-partial-line",
+            "type": "with-full-line",
             "font_family": "New Computer Modern",
             "font_size": "1.4em",
             "bold": true,
             "small_caps": false,
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm",
-            "line_type": "with-full-line"
+            "vertical_space_below": "0.3cm"
           },
           "description": "Options related to section titles."
         },
@@ -3200,7 +3213,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -3270,18 +3283,6 @@
           "default": "0.3cm",
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
-          "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
           "type": "string"
         }
       },
@@ -5097,7 +5098,7 @@
       "additionalProperties": false,
       "properties": {
         "type": {
-          "default": "with-partial-line",
+          "default": "with-full-line",
           "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
@@ -5167,18 +5168,6 @@
           "default": "0.3cm",
           "description": "The vertical space below the section titles.",
           "title": "Vertical Space Below Section Titles",
-          "type": "string"
-        },
-        "line_type": {
-          "default": "with-full-line",
-          "description": "The type of the section titles.",
-          "enum": [
-            "with-partial-line",
-            "with-full-line",
-            "without-line",
-            "moderncv"
-          ],
-          "title": "Type",
           "type": "string"
         }
       },
@@ -5404,7 +5393,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-02-16",
+        "date": "2025-08-05",
         "render_command": null,
         "bold_keywords": []
       },
