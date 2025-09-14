@@ -45,8 +45,27 @@ try:
         "New Computer Modern",
         "DejaVu Sans Mono",
         *rendercv_fonts.available_font_families,
+        # Common system fonts
+        "Arial",
+        "Helvetica",
+        "Tahoma",
+        "Times New Roman",
+        "Verdana",
+        "Calibri",
+        "Georgia",
+        "Aptos",
+        "Cambria",
+        "Inter",
+        "Garamond",
+        "Montserrat",
+        "Candara",
+        "Gill Sans",
+        "Didot",
+        "Playfair Display",
     ]
-    available_font_families.remove("Font Awesome 6")
+    if "Font Awesome 6" in available_font_families:
+        available_font_families.remove("Font Awesome 6")
+    available_font_families = sorted(set(available_font_families))
 except ImportError:
     available_font_families = [
         "Libertinus Serif",
@@ -66,7 +85,25 @@ except ImportError:
         "Poppins",
         "Raleway",
         "XCharter",
+        # Common system fonts
+        "Arial",
+        "Helvetica",
+        "Tahoma",
+        "Times New Roman",
+        "Verdana",
+        "Calibri",
+        "Georgia",
+        "Aptos",
+        "Cambria",
+        "Inter",
+        "Garamond",
+        "Montserrat",
+        "Candara",
+        "Gill Sans",
+        "Didot",
+        "Playfair Display",
     ]
+    available_font_families = sorted(set(available_font_families))
 font_family_validator = pydantic.TypeAdapter(Literal[tuple(available_font_families)])
 
 
