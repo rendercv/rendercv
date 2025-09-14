@@ -1796,6 +1796,12 @@
           "title": "Don't Generate Markdown",
           "type": "boolean"
         },
+        "dont_generate_pdf": {
+          "default": false,
+          "description": "A boolean value to determine whether the PDF file will be generated. The default value is False.",
+          "title": "Don't Generate PDF",
+          "type": "boolean"
+        },
         "dont_generate_png": {
           "default": false,
           "description": "A boolean value to determine whether the PNG file will be generated. The default value is False.",
