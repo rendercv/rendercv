@@ -9,4 +9,3 @@ WORKDIR /rendercv
 
 # Set the entrypoint to /bin/sh instead of Python
 ENTRYPOINT ["/bin/bash"]
-

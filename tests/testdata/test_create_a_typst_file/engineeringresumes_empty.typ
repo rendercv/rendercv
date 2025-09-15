@@ -475,5 +475,3 @@
 #one-col-entry(
   content: [test]
 )
-
-
