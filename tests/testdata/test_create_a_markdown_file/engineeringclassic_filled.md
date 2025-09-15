@@ -1490,5 +1490,3 @@ This is a *TextEntry*. It is only a text and can be useful for sections like **S
 # A Section & with % Special Characters
 
 ## A Section & with % Special Characters
-
-
