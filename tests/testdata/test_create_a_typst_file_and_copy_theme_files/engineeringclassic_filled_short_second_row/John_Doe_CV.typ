@@ -482,6 +482,7 @@
   [#box(original-link("https://example.com/")[#fa-icon("link", size: 0.9em) #h(0.05cm)example.com])],
   [#box(original-link("https://linkedin.com/in/johndoe")[#fa-icon("linkedin", size: 0.9em) #h(0.05cm)johndoe])],
   [#box(original-link("https://github.com/johndoe")[#fa-icon("github", size: 0.9em) #h(0.05cm)johndoe])],
+  [#box(original-link("https://imdb.com/name/nm0000001")[#fa-icon("imdb", size: 0.9em) #h(0.05cm)IMDB Profile])],
   [#box(original-link("https://instagram.com/johndoe")[#fa-icon("instagram", size: 0.9em) #h(0.05cm)johndoe])],
   [#box(original-link("https://orcid.org/0000-0000-0000-0000")[#fa-icon("orcid", size: 0.9em) #h(0.05cm)0000-0000-0000-0000])],
   [#box(original-link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ")[#fa-icon("graduation-cap", size: 0.9em) #h(0.05cm)Google Scholar])],

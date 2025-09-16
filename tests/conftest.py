@@ -350,6 +350,7 @@ def rendercv_filled_curriculum_vitae_data_model(
         social_networks=[
             data.SocialNetwork(network="LinkedIn", username="johndoe"),
             data.SocialNetwork(network="GitHub", username="johndoe"),
+            data.SocialNetwork(network="IMDB", username="nm0000001"),
             data.SocialNetwork(network="Instagram", username="johndoe"),
             data.SocialNetwork(network="ORCID", username="0000-0000-0000-0000"),
             data.SocialNetwork(network="Google Scholar", username="F8IyYrQAAAAJ"),
