@@ -1,6 +1,8 @@
 ---
 name: John Doe
 location: Location
+nationality: American
+birthdate: 1990-01-31
 email: john.doe@example.com
 phone: +1-609-999-9995
 social_networks:
