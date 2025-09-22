@@ -86,7 +86,7 @@ full = [
     "watchdog==6.0.0", # to poll files for updates
     "typst==0.13.1",   # to render PDF from Typst source files
     "rendercv-fonts",  # some font files for RenderCV
-    "packaging==24.2", # to validate the version number
+    "packaging==25.0", # to validate the version number
 ]
 
 [project.urls]
