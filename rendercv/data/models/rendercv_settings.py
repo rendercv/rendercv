@@ -138,6 +138,15 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
 
+    dont_generate_pdf: bool = pydantic.Field(
+        default=False,
+        title="Don't Generate PDF",
+        description=(
+            "A boolean value to determine whether the PDF file will be generated. The"
+            " default value is False."
+        ),
+    )
+
     dont_generate_png: bool = pydantic.Field(
         default=False,
         title="Don't Generate PNG",

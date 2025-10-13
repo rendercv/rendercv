@@ -26,12 +26,12 @@ jobs:
       contents: write
     steps:
       - name: Download the executables
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
 
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Hatch
         uses: pypa/hatch@install
@@ -60,13 +60,13 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Hatch
         uses: pypa/hatch@install
 
       - name: Check if the release tag matches the version
-        uses: samuelcolvin/check-python-version@v4.1
+        uses: samuelcolvin/check-python-version@v5
         with:
           version_file_path: rendercv/__init__.py
 
@@ -94,7 +94,7 @@ jobs:
       id-token: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -127,7 +127,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
