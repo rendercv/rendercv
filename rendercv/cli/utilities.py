@@ -11,15 +11,18 @@ import sys
 import time
 import urllib.request
 from collections.abc import Callable
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Optional
 
 import packaging.version
 import typer
-import watchdog.events
-import watchdog.observers
 
 from .. import data, renderer
 from . import printer
+
+
+if TYPE_CHECKING:
+    from watchdog.events import FileModifiedEvent, FileSystemEventHandler
+    from watchdog.observers import Observer
 
 
 def set_or_update_a_value(
@@ -428,6 +431,17 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
         file_path (pathlib.Path): The path of the file to watch for.
         function (Callable): The function to be called on file modification.
     """
+    try:
+        from watchdog.events import FileModifiedEvent, FileSystemEventHandler
+        from watchdog.observers import Observer
+    except ImportError as exc:
+        message = (
+            "Watching files requires the optional dependency 'watchdog'. Install it "
+            'with `pip install "rendercv[full]"` or `pip install watchdog`. '
+            "To run the render command without file watching, omit the --watch flag."
+        )
+        raise ImportError(message) from exc
+
     # Run the function immediately for the first time
     function()
 
@@ -436,12 +450,12 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
         # Windows does not support single file watching, so we watch the directory
         path_to_watch = str(file_path.parent.absolute())
 
-    class EventHandler(watchdog.events.FileSystemEventHandler):
+    class EventHandler(FileSystemEventHandler):
         def __init__(self, function: Callable):
             super().__init__()
             self.function_to_call = function
 
-        def on_modified(self, event: watchdog.events.FileModifiedEvent) -> None:
+        def on_modified(self, event: FileModifiedEvent) -> None:
             if event.src_path != str(file_path.absolute()):
                 return
 
@@ -452,7 +466,7 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
 
     event_handler = EventHandler(function)
 
-    observer = watchdog.observers.Observer()
+    observer = Observer()
     observer.schedule(event_handler, path_to_watch, recursive=True)
     observer.start()
     try:
