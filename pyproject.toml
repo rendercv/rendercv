@@ -57,11 +57,11 @@ requires-python = '>=3.10'
 # is installed:
 dependencies = [
     'Jinja2>=3.1.3',                # to generate Typst and Markdown files
-    'phonenumbers==9.0.0',        # to validate phone numbers
-    'email-validator==2.2.0',       # to validate email addresses
-    'pydantic==2.10.5',             # to validate and parse the input file
+    'phonenumbers==9.0.16',        # to validate phone numbers
+    'email-validator==2.3.0',       # to validate email addresses
+    'pydantic==2.11.9',             # to validate and parse the input file
     'pycountry==24.6.1',            # for ISO 639-3 validation
-    'pydantic-extra-types==2.10.2', # to validate some extra types
+    'pydantic-extra-types==2.10.6', # to validate some extra types
     'ruamel.yaml==0.18.6',          # to parse YAML files
 ]
 classifiers = [
@@ -82,11 +82,11 @@ dynamic = ["version"] # We will use hatchling to generate the version number
 [project.optional-dependencies]
 full = [
     'typer==0.16.0',   # to create the command-line interface
-    "markdown==3.7",   # to convert Markdown to HTML
+    "markdown==3.9",   # to convert Markdown to HTML
     "watchdog==6.0.0", # to poll files for updates
     "typst==0.13.1",   # to render PDF from Typst source files
     "rendercv-fonts",  # some font files for RenderCV
-    "packaging==24.2", # to validate the version number
+    "packaging==25.0", # to validate the version number
 ]
 
 [project.urls]

@@ -311,6 +311,9 @@ def run_rendercv_with_printer(
     # 5. Create the Markdown file.
     # 6. Render HTML from Markdown.
     number_of_steps = 6
+    if render_command_settings_dict["dont_generate_pdf"]:
+        number_of_steps -= 1
+
     if render_command_settings_dict["dont_generate_png"]:
         number_of_steps -= 1
 
@@ -358,18 +361,19 @@ def run_rendercv_with_printer(
 
         progress.finish_the_current_step()
 
-        progress.start_a_step("Rendering the Typst file to a PDF")
+        if not render_command_settings.dont_generate_pdf:
+            progress.start_a_step("Rendering the Typst file to a PDF")
 
-        pdf_file_path_in_output_folder = renderer.render_a_pdf_from_typst(
-            typst_file_path_in_output_folder,
-        )
-        if render_command_settings.pdf_path:
-            copy_files(
-                pdf_file_path_in_output_folder,
-                render_command_settings.pdf_path,
+            pdf_file_path_in_output_folder = renderer.render_a_pdf_from_typst(
+                typst_file_path_in_output_folder,
             )
+            if render_command_settings.pdf_path:
+                copy_files(
+                    pdf_file_path_in_output_folder,
+                    render_command_settings.pdf_path,
+                )
 
-        progress.finish_the_current_step()
+            progress.finish_the_current_step()
 
         if not render_command_settings.dont_generate_png:
             progress.start_a_step("Rendering PNG files from the PDF")

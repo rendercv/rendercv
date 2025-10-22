@@ -126,6 +126,14 @@ def cli_command_render(
             help="Don't generate the HTML file",
         ),
     ] = False,
+    dont_generate_pdf: Annotated[
+        bool,
+        typer.Option(
+            "--dont-generate-pdf",
+            "-nopdf",
+            help="Don't generate the PDF file",
+        ),
+    ] = False,
     dont_generate_png: Annotated[
         bool,
         typer.Option(
