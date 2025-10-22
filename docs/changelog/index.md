@@ -283,7 +283,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Changed
 
-- `sb2nov` theme's $\LaTeX$ code has been changed completly. There are slight changes in the looks.
+- `sb2nov` theme's $\LaTeX$ code has been changed completely. There are slight changes in the looks.
 - `classic`, `sb2nov`, and `engineeringresumes` use the same $\LaTeX$ code base now.
 - The design option `show_last_updated_date` has been renamed to `disable_last_updated_date` for consistency.
 - Mastodon links now use the original hostnames instead of `https://mastodon.social/`.

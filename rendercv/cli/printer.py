@@ -5,7 +5,6 @@ to print nice-looking messages to the terminal.
 
 import functools
 from collections.abc import Callable
-from typing import Optional
 
 import jinja2
 import packaging.version
@@ -167,7 +166,7 @@ def warning(text: str):
     print(f"[bold yellow]{text}")
 
 
-def error(text: Optional[str] = None, exception: Optional[Exception] = None):
+def error(text: str | None = None, exception: Exception | None = None):
     """Print an error message to the terminal and exit the program. If an exception is
     given, then print the exception's message as well. If neither text nor exception is
     given, then print an empty line and exit the program.

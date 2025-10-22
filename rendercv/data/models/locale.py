@@ -3,7 +3,7 @@ The `rendercv.models.locale` module contains the data model of the
 `locale` field of the input file.
 """
 
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Literal
 
 import annotated_types as at
 import pydantic
@@ -27,7 +27,7 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
             " patterns. The default value is 'en'."
         ),
     )
-    phone_number_format: Optional[Literal["national", "international", "E164"]] = (
+    phone_number_format: Literal["national", "international", "E164"] | None = (
         pydantic.Field(
             default="national",
             title="Phone Number Format",
@@ -58,7 +58,7 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
             ' default value is "Last updated in TODAY".'
         ),
     )
-    date_template: Optional[str] = pydantic.Field(
+    date_template: str | None = pydantic.Field(
         default="MONTH_ABBREVIATION YEAR",
         title="Date Template",
         description=(
@@ -70,32 +70,32 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
             ' default value is "MONTH_ABBREVIATION YEAR".'
         ),
     )
-    month: Optional[str] = pydantic.Field(
+    month: str | None = pydantic.Field(
         default="month",
         title='Translation of "month"',
         description='Translation of the word "month" in the locale.',
     )
-    months: Optional[str] = pydantic.Field(
+    months: str | None = pydantic.Field(
         default="months",
         title='Translation of "months"',
         description='Translation of the word "months" in the locale.',
     )
-    year: Optional[str] = pydantic.Field(
+    year: str | None = pydantic.Field(
         default="year",
         title='Translation of "year"',
         description='Translation of the word "year" in the locale.',
     )
-    years: Optional[str] = pydantic.Field(
+    years: str | None = pydantic.Field(
         default="years",
         title='Translation of "years"',
         description='Translation of the word "years" in the locale.',
     )
-    present: Optional[str] = pydantic.Field(
+    present: str | None = pydantic.Field(
         default="present",
         title='Translation of "present"',
         description='Translation of the word "present" in the locale.',
     )
-    to: Optional[str] = pydantic.Field(
+    to: str | None = pydantic.Field(
         default="–",  # NOQA: RUF001
         title='Translation of "to"',
         description=(
@@ -103,9 +103,9 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
             ' "2020 - 2021").'
         ),
     )
-    abbreviations_for_months: Optional[
-        Annotated[list[str], at.Len(min_length=12, max_length=12)]
-    ] = pydantic.Field(
+    abbreviations_for_months: (
+        Annotated[list[str], at.Len(min_length=12, max_length=12)] | None
+    ) = pydantic.Field(
         # Month abbreviations are taken from
         # https://web.library.yale.edu/cataloging/months:
         default=[
@@ -125,9 +125,9 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
         title="Abbreviations of Months",
         description="Abbreviations of the months in the locale.",
     )
-    full_names_of_months: Optional[
-        Annotated[list[str], at.Len(min_length=12, max_length=12)]
-    ] = pydantic.Field(
+    full_names_of_months: (
+        Annotated[list[str], at.Len(min_length=12, max_length=12)] | None
+    ) = pydantic.Field(
         default=[
             "January",
             "February",

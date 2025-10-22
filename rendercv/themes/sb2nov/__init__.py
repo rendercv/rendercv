@@ -1,4 +1,4 @@
-from typing import Literal, Optional
+from typing import Literal
 
 import pydantic_extra_types.color as pydantic_color
 
@@ -69,7 +69,7 @@ class EducationEntryOptions(o.EducationEntryOptions):
     main_column_first_row_template: str = (
         o.education_entry_main_column_first_row_template_field_info
     )
-    degree_column_template: Optional[str] = (
+    degree_column_template: str | None = (
         o.education_entry_degree_column_template_field_info
     )
     date_and_location_column_template: str = (

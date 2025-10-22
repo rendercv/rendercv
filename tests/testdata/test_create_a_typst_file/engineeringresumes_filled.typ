@@ -482,6 +482,7 @@
   [#box(original-link("https://example.com/")[example.com])],
   [#box(original-link("https://linkedin.com/in/johndoe")[linkedin.com\/in\/johndoe])],
   [#box(original-link("https://github.com/johndoe")[github.com\/johndoe])],
+  [#box(original-link("https://imdb.com/name/nm0000001")[imdb.com\/name\/nm0000001])],
   [#box(original-link("https://instagram.com/johndoe")[instagram.com\/johndoe])],
   [#box(original-link("https://orcid.org/0000-0000-0000-0000")[orcid.org\/0000-0000-0000-0000])],
   [#box(original-link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ")[scholar.google.com\/citations?user=F8IyYrQAAAAJ])],

@@ -22,14 +22,14 @@ import pytest
 )
 @pytest.mark.skip(reason="They fail on GitHub Actions")
 def test_scripts(script_name):
-    # If hatch is not installed, just pass the test (supress FileNotFoundError)
+    # If hatch is not installed, just pass the test (suppress FileNotFoundError)
     with contextlib.suppress(FileNotFoundError):
         subprocess.run(["hatch", "run", script_name], check=True)
 
 
 @pytest.mark.skip(reason="They fail on GitHub Actions")
 def test_executable():
-    # If hatch is not installed, just pass the test (supress FileNotFoundError)
+    # If hatch is not installed, just pass the test (suppress FileNotFoundError)
     with contextlib.suppress(FileNotFoundError):
         root = pathlib.Path(__file__).parent.parent
         bin_folder = root / "bin"
