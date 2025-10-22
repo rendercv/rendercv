@@ -689,7 +689,7 @@ def test_locale(
 def test_are_all_the_theme_files_the_same(theme_name):
     source_of_truth_theme = "classic"
 
-    # find the directiory of rendercv.themes.classic:
+    # find the directory of rendercv.themes.classic:
     source_of_truth_theme_folder = (
         pathlib.Path(__file__).parent.parent
         / "rendercv"
@@ -700,7 +700,7 @@ def test_are_all_the_theme_files_the_same(theme_name):
         file.read_text() for file in source_of_truth_theme_folder.rglob("*.j2.typ")
     ]
 
-    # find the directiory of rendercv.themes.{theme_name}:
+    # find the directory of rendercv.themes.{theme_name}:
     theme_folder = (
         pathlib.Path(__file__).parent.parent / "rendercv" / "themes" / theme_name
     )

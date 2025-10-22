@@ -1,14 +1,17 @@
 name: Publish a release
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
-  release:
-    types:
-      - published
+  push:
+    tags:
+      - "v*.*.*"
+      - "v*.*.*-*"
+  workflow_dispatch:
 
 jobs:
   call_test_workflow:
     name: Run Tests
+    if: ${{ github.ref_type == 'tag' && github.ref_name matches '^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$' }}
     uses: ./.github/workflows/test.yaml
 
   call_create_executables_workflow:
@@ -26,12 +29,12 @@ jobs:
       contents: write
     steps:
       - name: Download the executables
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
 
       - name: Checkout the repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Hatch
         uses: pypa/hatch@install
@@ -43,6 +46,8 @@ jobs:
       - name: Upload the executables as release assets
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
           files: |
             rendercv-*/rendercv-linux-ARM64
             rendercv-*/rendercv-linux-x86_64
@@ -60,13 +65,13 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Install Hatch
         uses: pypa/hatch@install
 
       - name: Check if the release tag matches the version
-        uses: samuelcolvin/check-python-version@v4.1
+        uses: samuelcolvin/check-python-version@v5
         with:
           version_file_path: rendercv/__init__.py
 
@@ -94,7 +99,7 @@ jobs:
       id-token: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -127,7 +132,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
       - name: Generate artifact attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v3
         with:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}

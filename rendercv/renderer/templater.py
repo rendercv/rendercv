@@ -8,7 +8,7 @@ import copy
 import pathlib
 import re
 from collections.abc import Callable
-from typing import overload
+from typing import get_args, get_origin, overload
 
 import jinja2
 import pydantic
@@ -67,9 +67,39 @@ class TemplatedFile:
         fields_to_ignore = ["start_date", "end_date", "date"]
 
         if entry is not None and not isinstance(entry, str):
-            entry_dictionary = entry.model_dump()
-            for key, value in entry_dictionary.items():
-                if value is None and key not in fields_to_ignore:
+            # Iterate over the model fields themselves (not the serialised dict) so
+            # we *never* coerce complex objects like `HttpUrl` into plain strings.
+            for key, model_field in entry.__class__.model_fields.items():
+                if key in fields_to_ignore:
+                    continue
+
+                value = getattr(entry, key)
+                if value is not None:
+                    continue
+
+                field_type = model_field.annotation
+                origin = get_origin(field_type)
+
+                # 1) Identify list-like annotations (e.g., list[str] | None)
+                is_list_field = (
+                    origin is list
+                    or field_type is list
+                    or any(
+                        get_origin(arg) is list or arg is list
+                        for arg in get_args(field_type)
+                    )
+                )
+
+                # 2) Identify *plain* string annotations (str | None)
+                is_string_field = field_type is str or (
+                    origin is not None
+                    and all(arg in {str, type(None)} for arg in get_args(field_type))
+                    and any(arg is str for arg in get_args(field_type))
+                )
+
+                if is_list_field:
+                    entry.__setattr__(key, [])
+                elif is_string_field:
                     entry.__setattr__(key, "")
 
         # The arguments of the template can be used in the template file:
@@ -138,8 +168,7 @@ class TypstFile(TemplatedFile):
                 for entry in section:
                     if isinstance(entry, str):
                         break
-                    entry_dictionary = entry.model_dump()
-                    for key in entry_dictionary:
+                    for key in entry.__class__.model_fields:
                         placeholder_keys.add(key.upper())
 
         pattern = re.compile(r"(?<!^)(?=[A-Z])")
@@ -708,19 +737,34 @@ def transform_markdown_sections_to_something_else_sections(
                 transformed_list.append(result)
             else:
                 # Then it means it's one of the other entries.
-                fields_to_skip = ["doi", "url"]
-                entry_as_dict = entry.model_dump()
-                for entry_key, inner_value in entry_as_dict.items():
+                # Fields whose *value* should never be string-processed / overwritten
+                # because they are stored as specialised objects (e.g. pydantic HttpUrl).
+                fields_to_skip = {"doi", "url", "website"}
+
+                for entry_key, _model_field in entry.__class__.model_fields.items():
                     if entry_key in fields_to_skip:
                         continue
+
+                    inner_value = getattr(entry, entry_key)
+
+                    # Process str
                     if isinstance(inner_value, str):
-                        result = apply_functions_to_string(inner_value)
-                        setattr(entry, entry_key, result)
+                        setattr(
+                            entry, entry_key, apply_functions_to_string(inner_value)
+                        )
+
+                    # Process list[str]
                     elif isinstance(inner_value, list):
-                        for j, item in enumerate(inner_value):
+                        new_list: list = []
+                        changed = False
+                        for item in inner_value:
                             if isinstance(item, str):
-                                inner_value[j] = apply_functions_to_string(item)
-                        setattr(entry, entry_key, inner_value)
+                                new_list.append(apply_functions_to_string(item))
+                                changed = True
+                            else:
+                                new_list.append(item)
+                        if changed:
+                            setattr(entry, entry_key, new_list)
                 transformed_list.append(entry)
 
         sections[key] = transformed_list
