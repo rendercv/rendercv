@@ -46,7 +46,8 @@ def validate_design_options(
     Returns:
         The validated design as a Pydantic data model.
     """
-    from .rendercv_data_model import INPUT_FILE_DIRECTORY
+    module = importlib.import_module(".rendercv_data_model", __package__)
+    INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
 
     original_working_directory = pathlib.Path.cwd()
 

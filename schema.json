@@ -2681,7 +2681,7 @@
       "additionalProperties": false,
       "properties": {
         "text": {
-          "default": "rgb(0,0,0)",
+          "default": "black",
           "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -2746,7 +2746,7 @@
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
-          "default": "rgb(128,128,128)",
+          "default": "grey",
           "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4122,7 +4122,7 @@
       "description": "Color used throughout the CV.",
       "properties": {
         "text": {
-          "default": "rgb(0,0,0)",
+          "default": "black",
           "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4135,7 +4135,7 @@
           "type": "string"
         },
         "name": {
-          "default": "rgb(0,79,144)",
+          "default": "#004f90",
           "description": "The color of the name in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4148,7 +4148,7 @@
           "type": "string"
         },
         "connections": {
-          "default": "rgb(0,79,144)",
+          "default": "#004f90",
           "description": "The color of the connections in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4161,7 +4161,7 @@
           "type": "string"
         },
         "section_titles": {
-          "default": "rgb(0,79,144)",
+          "default": "#004f90",
           "description": "The color of the section titles.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4174,7 +4174,7 @@
           "type": "string"
         },
         "links": {
-          "default": "rgb(0,79,144)",
+          "default": "#004f90",
           "description": "The color of the links.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4187,7 +4187,7 @@
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
-          "default": "rgb(128,128,128)",
+          "default": "grey",
           "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4876,7 +4876,7 @@
       "additionalProperties": false,
       "properties": {
         "text": {
-          "default": "rgb(0,0,0)",
+          "default": "black",
           "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4928,7 +4928,7 @@
           "type": "string"
         },
         "links": {
-          "default": "rgb(0,79,144)",
+          "default": "#004f90",
           "description": "The color of the links.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
@@ -4941,7 +4941,7 @@
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
-          "default": "rgb(128,128,128)",
+          "default": "grey",
           "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
