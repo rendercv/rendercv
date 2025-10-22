@@ -474,6 +474,7 @@ rendercv_settings:
     markdown_path: NAME.md
     dont_generate_html: false 
     dont_generate_markdown: false 
+    dont_generate_pdf: false
     dont_generate_png: false 
 ```
 

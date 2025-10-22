@@ -8,7 +8,6 @@ import pathlib
 import shutil
 import typing
 import urllib.request
-from typing import Optional
 
 import jinja2
 import pydantic
@@ -350,6 +349,7 @@ def rendercv_filled_curriculum_vitae_data_model(
         social_networks=[
             data.SocialNetwork(network="LinkedIn", username="johndoe"),
             data.SocialNetwork(network="GitHub", username="johndoe"),
+            data.SocialNetwork(network="IMDB", username="nm0000001"),
             data.SocialNetwork(network="Instagram", username="johndoe"),
             data.SocialNetwork(network="ORCID", username="0000-0000-0000-0000"),
             data.SocialNetwork(network="Google Scholar", username="F8IyYrQAAAAJ"),
@@ -483,8 +483,8 @@ def run_a_function_and_check_if_output_is_the_same_as_reference(
     def function(
         function: typing.Callable,
         reference_file_or_directory_name: str,
-        output_file_name: Optional[str] = None,
-        generate_reference_files_function: Optional[typing.Callable] = None,
+        output_file_name: str | None = None,
+        generate_reference_files_function: typing.Callable | None = None,
         **kwargs,
     ):
         output_is_a_single_file = output_file_name is not None
