@@ -2,6 +2,7 @@
 The `rendercv.cli.utilities` module contains utility functions that are required by CLI.
 """
 
+import contextlib
 import inspect
 import json
 import os
@@ -452,7 +453,13 @@ def run_a_function_if_a_file_changes(file_path: pathlib.Path, function: Callable
             printer.information(
                 "\n\nThe input file has been updated. Re-running RenderCV..."
             )
-            self.function_to_call()
+            with contextlib.suppress(Exception):
+                # Exceptions in the watchdog event handler thread should not
+                # crash the application. They are already handled by the
+                # decorated function, but we add this defensive check to ensure
+                # the watcher continues running even if an unexpected exception
+                # occurs in a background thread.
+                self.function_to_call()
 
     event_handler = EventHandler(function)
 
