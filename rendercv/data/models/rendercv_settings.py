@@ -5,6 +5,8 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 
 import datetime
 import pathlib
+from typing import Literal
+
 import pydantic
 
 from . import computers
