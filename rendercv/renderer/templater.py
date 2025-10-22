@@ -8,7 +8,7 @@ import copy
 import pathlib
 import re
 from collections.abc import Callable
-from typing import Optional, overload
+from typing import get_args, get_origin, overload
 
 import jinja2
 import pydantic
@@ -42,7 +42,7 @@ class TemplatedFile:
         theme_name: str,
         template_name: str,
         extension: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -67,9 +67,39 @@ class TemplatedFile:
         fields_to_ignore = ["start_date", "end_date", "date"]
 
         if entry is not None and not isinstance(entry, str):
-            entry_dictionary = entry.model_dump()
-            for key, value in entry_dictionary.items():
-                if value is None and key not in fields_to_ignore:
+            # Iterate over the model fields themselves (not the serialised dict) so
+            # we *never* coerce complex objects like `HttpUrl` into plain strings.
+            for key, model_field in entry.__class__.model_fields.items():
+                if key in fields_to_ignore:
+                    continue
+
+                value = getattr(entry, key)
+                if value is not None:
+                    continue
+
+                field_type = model_field.annotation
+                origin = get_origin(field_type)
+
+                # 1) Identify list-like annotations (e.g., list[str] | None)
+                is_list_field = (
+                    origin is list
+                    or field_type is list
+                    or any(
+                        get_origin(arg) is list or arg is list
+                        for arg in get_args(field_type)
+                    )
+                )
+
+                # 2) Identify *plain* string annotations (str | None)
+                is_string_field = field_type is str or (
+                    origin is not None
+                    and all(arg in {str, type(None)} for arg in get_args(field_type))
+                    and any(arg is str for arg in get_args(field_type))
+                )
+
+                if is_list_field:
+                    entry.__setattr__(key, [])
+                elif is_string_field:
                     entry.__setattr__(key, "")
 
         # The arguments of the template can be used in the template file:
@@ -138,8 +168,7 @@ class TypstFile(TemplatedFile):
                 for entry in section:
                     if isinstance(entry, str):
                         break
-                    entry_dictionary = entry.model_dump()
-                    for key in entry_dictionary:
+                    for key in entry.__class__.model_fields:
                         placeholder_keys.add(key.upper())
 
         pattern = re.compile(r"(?<!^)(?=[A-Z])")
@@ -234,7 +263,7 @@ class TypstFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -316,7 +345,7 @@ class MarkdownFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: Optional[data.Entry] = None,
+        entry: data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -356,7 +385,7 @@ class MarkdownFile(TemplatedFile):
 
 
 def input_template_to_typst(
-    input_template: Optional[str], placeholders: dict[str, Optional[str]]
+    input_template: str | None, placeholders: dict[str, str | None]
 ) -> str:
     """Convert an input template to Typst.
 
@@ -429,7 +458,7 @@ def remove_typst_commands(string: None) -> None: ...
 def remove_typst_commands(string: str) -> str: ...
 
 
-def remove_typst_commands(string: Optional[str]) -> Optional[str]:
+def remove_typst_commands(string: str | None) -> str | None:
     """Remove Typst commands from a string.
 
     Args:
@@ -529,7 +558,7 @@ def escape_typst_characters(string: None) -> None: ...
 def escape_typst_characters(string: str) -> str: ...
 
 
-def escape_typst_characters(string: Optional[str]) -> Optional[str]:
+def escape_typst_characters(string: str | None) -> str | None:
     """Escape Typst characters in a string by adding a backslash before them.
 
     Example:
@@ -662,7 +691,7 @@ def markdown_to_typst(markdown_string: str) -> str:
 def transform_markdown_sections_to_something_else_sections(
     sections: dict[str, data.SectionContents],
     functions_to_apply: list[Callable],
-) -> Optional[dict[str, data.SectionContents]]:
+) -> dict[str, data.SectionContents] | None:
     """
     Recursively loop through sections and update all the strings by applying the
     `functions_to_apply` functions, given as an argument.
@@ -689,19 +718,34 @@ def transform_markdown_sections_to_something_else_sections(
                 transformed_list.append(result)
             else:
                 # Then it means it's one of the other entries.
-                fields_to_skip = ["doi", "url"]
-                entry_as_dict = entry.model_dump()
-                for entry_key, inner_value in entry_as_dict.items():
+                # Fields whose *value* should never be string-processed / overwritten
+                # because they are stored as specialised objects (e.g. pydantic HttpUrl).
+                fields_to_skip = {"doi", "url", "website"}
+
+                for entry_key, _model_field in entry.__class__.model_fields.items():
                     if entry_key in fields_to_skip:
                         continue
+
+                    inner_value = getattr(entry, entry_key)
+
+                    # Process str
                     if isinstance(inner_value, str):
-                        result = apply_functions_to_string(inner_value)
-                        setattr(entry, entry_key, result)
+                        setattr(
+                            entry, entry_key, apply_functions_to_string(inner_value)
+                        )
+
+                    # Process list[str]
                     elif isinstance(inner_value, list):
-                        for j, item in enumerate(inner_value):
+                        new_list: list = []
+                        changed = False
+                        for item in inner_value:
                             if isinstance(item, str):
-                                inner_value[j] = apply_functions_to_string(item)
-                        setattr(entry, entry_key, inner_value)
+                                new_list.append(apply_functions_to_string(item))
+                                changed = True
+                            else:
+                                new_list.append(item)
+                        if changed:
+                            setattr(entry, entry_key, new_list)
                 transformed_list.append(entry)
 
         sections[key] = transformed_list
@@ -711,7 +755,7 @@ def transform_markdown_sections_to_something_else_sections(
 
 def transform_markdown_sections_to_typst_sections(
     sections: dict[str, data.SectionContents],
-) -> Optional[dict[str, data.SectionContents]]:
+) -> dict[str, data.SectionContents] | None:
     """
     Recursively loop through sections and convert all the Markdown strings (user input
     is in Markdown format) to Typst strings.
@@ -730,7 +774,7 @@ def transform_markdown_sections_to_typst_sections(
 
 def replace_placeholders_with_actual_values(
     text: str,
-    placeholders: dict[str, Optional[str]],
+    placeholders: dict[str, str | None],
 ) -> str:
     """Replace the placeholders in a string with actual values.
 
@@ -755,7 +799,7 @@ def replace_placeholders_with_actual_values(
 class Jinja2Environment:
     instance: "Jinja2Environment"
     environment: jinja2.Environment
-    current_working_directory: Optional[pathlib.Path] = None
+    current_working_directory: pathlib.Path | None = None
 
     def __new__(cls):
         if (

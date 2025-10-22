@@ -4,9 +4,10 @@ field of the input file.
 """
 
 import functools
+import importlib
 import pathlib
 import re
-from typing import Annotated, Any, Literal, Optional, get_args
+from typing import Annotated, Any, Literal, get_args
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
@@ -112,7 +113,7 @@ def get_characteristic_entry_attributes(
 
 
 def get_entry_type_name_and_section_validator(
-    entry: Optional[dict[str, str | list[str]] | str | type], entry_types: tuple[type]
+    entry: dict[str, str | list[str]] | str | type | None, entry_types: tuple[type]
 ) -> tuple[str, type[SectionBase]]:
     """Get the entry type name and the section validator based on the entry.
 
@@ -276,6 +277,11 @@ def validate_a_social_network_username(username: str, network: str) -> str:
         if not re.fullmatch(orcid_username_pattern, username):
             message = "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
             raise ValueError(message)
+    elif network == "IMDB":
+        imdb_username_pattern = r"nm\d{7}"
+        if not re.fullmatch(imdb_username_pattern, username):
+            message = "IMDB name should be in the format 'nmXXXXXXX'!"
+            raise ValueError(message)
 
     return username
 
@@ -298,7 +304,7 @@ SectionContents = Annotated[
 
 # Create a custom type named SectionInput, which is a dictionary where the keys are the
 # section titles and the values are the list of entries in that section.
-Sections = Optional[dict[str, SectionContents]]
+Sections = dict[str, SectionContents] | None
 
 # Create a custom type named SocialNetworkName, which is a literal type of the available
 # social networks.
@@ -306,6 +312,7 @@ SocialNetworkName = Literal[
     "LinkedIn",
     "GitHub",
     "GitLab",
+    "IMDB",
     "Instagram",
     "ORCID",
     "Mastodon",
@@ -314,6 +321,7 @@ SocialNetworkName = Literal[
     "YouTube",
     "Google Scholar",
     "Telegram",
+    "Leetcode",
     "X",
 ]
 
@@ -379,6 +387,7 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
                 "LinkedIn": "https://linkedin.com/in/",
                 "GitHub": "https://github.com/",
                 "GitLab": "https://gitlab.com/",
+                "IMDB": "https://imdb.com/name/",
                 "Instagram": "https://instagram.com/",
                 "ORCID": "https://orcid.org/",
                 "StackOverflow": "https://stackoverflow.com/users/",
@@ -386,6 +395,7 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
                 "YouTube": "https://youtube.com/@",
                 "Google Scholar": "https://scholar.google.com/citations?user=",
                 "Telegram": "https://t.me/",
+                "Leetcode": "https://leetcode.com/u/",
                 "X": "https://x.com/",
             }
             url = url_dictionary[self.network] + self.username
@@ -399,35 +409,35 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
     model_config = pydantic.ConfigDict(
         title="CV",
     )
-    name: Optional[str] = pydantic.Field(
+    name: str | None = pydantic.Field(
         default=None,
         title="Name",
     )
-    location: Optional[str] = pydantic.Field(
+    location: str | None = pydantic.Field(
         default=None,
         title="Location",
     )
-    email: Optional[pydantic.EmailStr] = pydantic.Field(
+    email: pydantic.EmailStr | None = pydantic.Field(
         default=None,
         title="Email",
     )
-    photo: Optional[pathlib.Path] = pydantic.Field(
+    photo: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Photo",
         description="Path to the photo of the person, relative to the input file.",
     )
-    phone: Optional[pydantic_phone_numbers.PhoneNumber] = pydantic.Field(
+    phone: pydantic_phone_numbers.PhoneNumber | None = pydantic.Field(
         default=None,
         title="Phone",
         description=(
             "Country code should be included. For example, +1 for the United States."
         ),
     )
-    website: Optional[pydantic.HttpUrl] = pydantic.Field(
+    website: pydantic.HttpUrl | None = pydantic.Field(
         default=None,
         title="Website",
     )
-    social_networks: Optional[list[SocialNetwork]] = pydantic.Field(
+    social_networks: list[SocialNetwork] | None = pydantic.Field(
         default=None,
         title="Social Networks",
     )
@@ -443,10 +453,11 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
     @pydantic.field_validator("photo")
     @classmethod
-    def update_photo_path(cls, value: Optional[pathlib.Path]) -> Optional[pathlib.Path]:
+    def update_photo_path(cls, value: pathlib.Path | None) -> pathlib.Path | None:
         """Cast `photo` to Path and make the path absolute"""
         if value:
-            from .rendercv_data_model import INPUT_FILE_DIRECTORY
+            module = importlib.import_module(".rendercv_data_model", __package__)
+            INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
 
             if INPUT_FILE_DIRECTORY is not None:
                 profile_picture_parent_folder = INPUT_FILE_DIRECTORY
@@ -467,7 +478,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         return value
 
     @functools.cached_property
-    def connections(self) -> list[dict[str, Optional[str]]]:
+    def connections(self) -> list[dict[str, str | None]]:
         """Return all the connections of the person as a list of dictionaries and cache
         `connections` as an attribute of the instance. The connections are used in the
         header of the CV.
@@ -476,7 +487,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             The connections of the person.
         """
 
-        connections: list[dict[str, Optional[str]]] = []
+        connections: list[dict[str, str | None]] = []
 
         if self.location is not None:
             connections.append(
@@ -525,6 +536,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 "LinkedIn": "linkedin",
                 "GitHub": "github",
                 "GitLab": "gitlab",
+                "IMDB": "imdb",
                 "Instagram": "instagram",
                 "Mastodon": "mastodon",
                 "ORCID": "orcid",
@@ -533,6 +545,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 "YouTube": "youtube",
                 "Google Scholar": "graduation-cap",
                 "Telegram": "telegram",
+                "Leetcode": "code",
                 "X": "x-twitter",
             }
             for social_network in self.social_networks:
@@ -549,6 +562,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                     connection["placeholder"] = username
                 if social_network.network == "Google Scholar":
                     connection["placeholder"] = "Google Scholar"
+                if social_network.network == "IMDB":
+                    connection["placeholder"] = "IMDB Profile"
 
                 connections.append(connection)  # type: ignore
 
@@ -596,8 +611,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
     @pydantic.field_serializer("phone")
     def serialize_phone(
-        self, phone: Optional[pydantic_phone_numbers.PhoneNumber]
-    ) -> Optional[str]:
+        self, phone: pydantic_phone_numbers.PhoneNumber | None
+    ) -> str | None:
         """Serialize the phone number."""
         if phone is not None:
             return phone.replace("tel:", "")

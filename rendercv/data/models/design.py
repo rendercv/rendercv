@@ -31,7 +31,7 @@ def validate_design_options(
     available_theme_options: dict[str, type],
     available_entry_type_names: list[str],
 ) -> Any:
-    """Chech if the design options are for a built-in theme or a custom theme. If it is
+    """Check if the design options are for a built-in theme or a custom theme. If it is
     a built-in theme, validate it with the corresponding data model. If it is a custom
     theme, check if the necessary files are provided and validate it with the custom
     theme data model, found in the `__init__.py` file of the custom theme folder.
@@ -46,7 +46,8 @@ def validate_design_options(
     Returns:
         The validated design as a Pydantic data model.
     """
-    from .rendercv_data_model import INPUT_FILE_DIRECTORY
+    module = importlib.import_module(".rendercv_data_model", __package__)
+    INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
 
     original_working_directory = pathlib.Path.cwd()
 

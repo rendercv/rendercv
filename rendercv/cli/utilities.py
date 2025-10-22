@@ -19,8 +19,8 @@ import typer
 import watchdog.events
 import watchdog.observers
 
-from .. import data, renderer
-from . import printer
+from .. import __version__, data, renderer
+from . import commands, printer
 
 
 def set_or_update_a_value(
@@ -135,7 +135,7 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
         The latest version number of RenderCV from PyPI. Returns None if the version
         number cannot be fetched.
     """
-    version = None
+    version: packaging.version.Version | None = None
     url = "https://pypi.org/pypi/rendercv/json"
     try:
         with urllib.request.urlopen(
@@ -148,6 +148,9 @@ def get_latest_version_number_from_pypi() -> packaging.version.Version | None:
             version = packaging.version.Version(version_string)
     except Exception:
         pass
+
+    if version is None:
+        return packaging.version.Version(__version__)
 
     return version
 
@@ -235,11 +238,7 @@ def get_default_render_command_cli_arguments() -> dict:
     Returns:
         The default values of the `render` command's CLI arguments.
     """
-    cli_command_render = __import__(
-        f"{__package__}.commands", fromlist=["cli_command_render"]
-    ).cli_command_render
-
-    sig = inspect.signature(cli_command_render)
+    sig = inspect.signature(commands.cli_command_render)
     return {
         k: v.default
         for k, v in sig.parameters.items()
@@ -316,6 +315,9 @@ def run_rendercv_with_printer(
     # 5. Create the Markdown file.
     # 6. Render HTML from Markdown.
     number_of_steps = 6
+    if render_command_settings_dict["dont_generate_pdf"]:
+        number_of_steps -= 1
+
     if render_command_settings_dict["dont_generate_png"]:
         number_of_steps -= 1
 
@@ -363,18 +365,19 @@ def run_rendercv_with_printer(
 
         progress.finish_the_current_step()
 
-        progress.start_a_step("Rendering the Typst file to a PDF")
+        if not render_command_settings.dont_generate_pdf:
+            progress.start_a_step("Rendering the Typst file to a PDF")
 
-        pdf_file_path_in_output_folder = renderer.render_a_pdf_from_typst(
-            typst_file_path_in_output_folder,
-        )
-        if render_command_settings.pdf_path:
-            copy_files(
-                pdf_file_path_in_output_folder,
-                render_command_settings.pdf_path,
+            pdf_file_path_in_output_folder = renderer.render_a_pdf_from_typst(
+                typst_file_path_in_output_folder,
             )
+            if render_command_settings.pdf_path:
+                copy_files(
+                    pdf_file_path_in_output_folder,
+                    render_command_settings.pdf_path,
+                )
 
-        progress.finish_the_current_step()
+            progress.finish_the_current_step()
 
         if not render_command_settings.dont_generate_png:
             progress.start_a_step("Rendering PNG files from the PDF")

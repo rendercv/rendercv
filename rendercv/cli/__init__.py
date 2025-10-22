@@ -22,6 +22,6 @@ try:
         "cli_command_render",
     ]
 except ImportError:
-    from .. import _parial_install_error_message
+    from .. import _partial_install_error_message
 
-    print(_parial_install_error_message)  # noqa: T201
+    print(_partial_install_error_message)  # noqa: T201

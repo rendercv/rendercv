@@ -5,8 +5,6 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 
 import datetime
 import pathlib
-from typing import Literal
-
 import pydantic
 
 from . import computers
@@ -135,6 +133,15 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         description=(
             "A boolean value to determine whether the Markdown file will be generated."
             ' The default value is "false".'
+        ),
+    )
+
+    dont_generate_pdf: bool = pydantic.Field(
+        default=False,
+        title="Don't Generate PDF",
+        description=(
+            "A boolean value to determine whether the PDF file will be generated. The"
+            " default value is False."
         ),
     )
 
