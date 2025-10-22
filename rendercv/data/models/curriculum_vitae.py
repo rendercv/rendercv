@@ -540,6 +540,14 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 "placeholder": self.location,
             }
 
+        def _email_connection():
+            return {
+                "typst_icon": "envelope",
+                "url": f"mailto:{self.email}",
+                "clean_url": self.email,
+                "placeholder": self.email,
+            }
+
         def _phone_connection():
             phone_placeholder = computers.format_phone_number(self.phone) # type: ignore
             return {
