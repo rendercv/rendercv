@@ -87,7 +87,7 @@ def copy_theme_files_to_output_directory(
         except TypeError:
             suffix = ""
 
-        if suffix not in dont_copy_files_with_these_extensions:
+        if suffix not in dont_copy_files_with_these_extensions and theme_file.name != "__pycache__":
             if theme_file.is_dir():
                 shutil.copytree(
                     str(theme_file),
