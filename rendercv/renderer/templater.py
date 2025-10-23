@@ -142,7 +142,7 @@ class TypstFile(TemplatedFile):
 
     def render_templates(
         self,
-    ) -> tuple[str, str, list[tuple[str, list[str], str, str]]]:
+    ) -> tuple[str, str, list[tuple[str, list[str], str, str, str]]]:
         """Render and return all the templates for the Typst file.
 
         Returns:
@@ -179,7 +179,7 @@ class TypstFile(TemplatedFile):
         # Template the preamble, header, and sections:
         preamble = self.template("Preamble")
         header = self.template("Header")
-        sections: list[tuple[str, list[str], str, str]] = []
+        sections: list[tuple[str, list[str], str, str, str]] = []
         for section in self.cv.sections:
             section_beginning = self.template(
                 "SectionBeginning",
@@ -187,18 +187,31 @@ class TypstFile(TemplatedFile):
                 entry_type=section.entry_type,
             )
 
+            entry_type_snake = camel_to_snake(section.entry_type)
+            entry_type_options = getattr(
+                getattr(self.design, "entry_types", None),
+                entry_type_snake,
+                None,
+            )
+
             templates = {
                 template_name: getattr(
-                    getattr(
-                        getattr(self.design, "entry_types", None),
-                        camel_to_snake(section.entry_type),
-                        None,
-                    ),
+                    entry_type_options,
                     template_name,
                     None,
                 )
                 for template_name in all_template_names
             }
+
+            vertical_space_between_entries = getattr(
+                entry_type_options,
+                "vertical_space_between_entries",
+                None,
+            )
+            if vertical_space_between_entries is None:
+                vertical_space_between_entries = (
+                    "design-entries-vertical-space-between-entries"
+                )
 
             entries: list[str] = []
             for i, entry in enumerate(section.entries):
@@ -256,7 +269,13 @@ class TypstFile(TemplatedFile):
                 entry_type=section.entry_type,
             )
             sections.append(
-                (section_beginning, entries, section_ending, section.entry_type)
+                (
+                    section_beginning,
+                    entries,
+                    section_ending,
+                    section.entry_type,
+                    vertical_space_between_entries,
+                )
             )
 
         return preamble, header, sections

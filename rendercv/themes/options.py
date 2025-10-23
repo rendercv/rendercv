@@ -686,7 +686,25 @@ entry_base_with_date_date_and_location_column_template_field_info = pydantic.Fie
 )
 
 
-class EntryBaseWithDate(RenderCVBaseModelWithoutExtraKeys):
+entry_type_vertical_space_between_entries_field_info = pydantic.Field(
+    default=None,
+    title="Vertical Space Between Entries",
+    description=(
+        "The vertical space between the entries of this entry type."
+        " If not given, `design.entries.vertical_space_between_entries` will be used."
+    ),
+)
+
+
+class EntryTypeOptionsBase(RenderCVBaseModelWithoutExtraKeys):
+    """Base options for all entry types."""
+
+    vertical_space_between_entries: TypstDimension | None = (
+        entry_type_vertical_space_between_entries_field_info
+    )
+
+
+class EntryBaseWithDate(EntryTypeOptionsBase):
     """Base options for entries with a date."""
 
     main_column_second_row_template: str = (
@@ -739,7 +757,7 @@ publication_entry_date_and_location_column_template_field_info = pydantic.Field(
 )
 
 
-class PublicationEntryOptions(RenderCVBaseModelWithoutExtraKeys):
+class PublicationEntryOptions(EntryTypeOptionsBase):
     """Options related to publication entries."""
 
     model_config = pydantic.ConfigDict(title="Publication Entry Options")
@@ -863,7 +881,7 @@ one_line_entry_template_field_info = pydantic.Field(
 )
 
 
-class OneLineEntryOptions(RenderCVBaseModelWithoutExtraKeys):
+class OneLineEntryOptions(EntryTypeOptionsBase):
     """Options related to one-line entries."""
 
     model_config = pydantic.ConfigDict(title="One Line Entry Options")
