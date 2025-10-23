@@ -19,17 +19,16 @@
 
 # To build RenderCV, we need to specify which build package we want to use. There are
 # many build packages like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
-# `hatchling`.
+# `uv_build`.
 requires = [
-    "hatchling==1.27.0",
+    "uv_build>=0.8.15,<0.9.0",
 ] # List of packages that are needed to build RenderCV
 
 # Python has a standard object format called build-backend object. Python standard asks
 # this object to have some specific methods that do a specific job. For example, it
-# should have a method called `build_wheel` that builds a wheel file. We use hatchling
-# to build RenderCV, and hatchling's build-backend object is `hatchling.build`.
+# should have a method called `build_wheel` that builds a wheel file.
 # See https://peps.python.org/pep-0517/
-build-backend = "hatchling.build" # A build-backend object for building RenderCV
+build-backend = "uv_build" # A build-backend object for building RenderCV
 
 [tool.hatch.build.targets.sdist]
 # In the sdist, what do we want to exclude? Gif files are huge.
@@ -38,12 +37,6 @@ exclude = ["*.gif"]
 [tool.hatch.build.targets.wheel]
 # In wheel, what do we want to include and exclude?
 packages = ["rendercv"]
-
-[tool.hatch.version]
-# We will use hatchling to generate the version number of RenderCV. It will go to the
-# `path` below and get the version number from there.
-# See https://hatch.pypa.io/latest/version/
-path = "rendercv/__init__.py"
 
 [project]
 # Under the `project` section, we specify the metadata about RenderCV.
@@ -56,13 +49,13 @@ requires-python = '>=3.10'
 # RenderCV depends on these packages. They will be installed automatically when RenderCV
 # is installed:
 dependencies = [
-    'Jinja2>=3.1.3',                # to generate Typst and Markdown files
-    'phonenumbers==9.0.16',        # to validate phone numbers
-    'email-validator==2.3.0',       # to validate email addresses
-    'pydantic==2.11.9',             # to validate and parse the input file
-    'pycountry==24.6.1',            # for ISO 639-3 validation
-    'pydantic-extra-types==2.10.6', # to validate some extra types
-    'ruamel.yaml==0.18.6',          # to parse YAML files
+    'Jinja2>=3.1.6',                 # to generate Typst and Markdown files
+    'phonenumbers>=9.0.16',          # to validate phone numbers
+    'email-validator>=2.3.0',        # to validate email addresses
+    'pydantic>=2.12.3',              # to validate and parse the input file
+    'pycountry>=24.6.1',             # for ISO 639-3 validation
+    'pydantic-extra-types>=2.10.6',  # to validate some extra types
+    'ruamel.yaml>=0.18.16',          # to parse YAML files
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -74,19 +67,19 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ] # go to https://pypi.org/classifiers/ to see all classifiers
-dynamic = ["version"] # We will use hatchling to generate the version number
 
 [project.optional-dependencies]
 full = [
-    'typer==0.16.0',   # to create the command-line interface
-    "markdown==3.9",   # to convert Markdown to HTML
-    "watchdog==6.0.0", # to poll files for updates
-    "typst==0.13.1",   # to render PDF from Typst source files
+    'typer>=0.20.0',   # to create the command-line interface
+    "markdown>=3.9",   # to convert Markdown to HTML
+    "watchdog>=6.0.0", # to poll files for updates
+    "typst>=0.13.7",   # to render PDF from Typst source files
+    "packaging>=25.0", # to validate the version number
     "rendercv-fonts",  # some font files for RenderCV
-    "packaging==25.0", # to validate the version number
 ]
 
 [project.urls]
@@ -108,36 +101,33 @@ Changelog = 'https://docs.rendercv.com/changelog'
 rendercv = 'rendercv.cli:app'
 
 # ======================================================================================
-# Virtual Environments Below ===========================================================
+# Virtual Environment Dependencies Below ===============================================
 # ======================================================================================
 
-# RenderCV depends on other packages, which are listed under the `project` section as
-# `dependencies`. However, for the development of RenderCV, we need some other packages
-# too (like `black`, `ruff`, `mkdocs`, etc.). We need these packages in our virtual
-# environments and we handle the environments with `hatchling`.
 
-# There will be three virtual environments for RenderCV: `default`, `docs`, and `test`.
-
-# `default` is the default virtual environment needed to develop RenderCV.
-# `docs` is the virtual environment needed to build the documentation of RenderCV.
-# `test` is the virtual environment needed to run the tests of RenderCV.
-
-[tool.hatch.envs.default]
-installer = "uv"
-python = "3.13"
-dependencies = [
-    "ruff",                # to lint and format the code
-    "black",               # to format the code
-    "ipython",             # for ipython shell
-    "pyright",             # to check the types
-    "pre-commit",          # to run the checks before committing
-    "pytest==8.3.4",       # to run the tests
-    "coverage==7.6.10",    # to generate coverage reports
-    "pypdf==5.1.0",        # to read PDF files
-    "snakeviz==2.2.2",     # for profiling
-    "pyinstaller==6.11.1", # to build the executable
+[dependency-groups]
+dev = [
+    "ruff>=0.14.1",        # to lint and format the code
+    "black>=25.9.0",       # to format the code
+    "pyright>=1.1.406",    # to check the types
+    "pre-commit>=4.3.0",   # to run the checks before committing
+    "pytest>=8.4.2",       # to run the tests
+    "coverage>=7.11.0",    # to generate coverage reports
+    "pypdf>=6.1.3",        # to read PDF files
+    "snakeviz>=2.2.2",     # for profiling
+    "pyinstaller>=6.16.0", # to build the executable
 ]
-features = ["full"] # to install full optional dependencies
+docs = [
+    "mkdocs-material>=9.6.20",
+    "mkdocstrings[python]>=0.30.1", # to build reference documentation from docstrings
+    "pdfCropMargins>=2.2.3",        # to generate entry figures for the documentation
+    "pillow>=10.4.0",               # lock the dependency of pdfCropMargins
+    "mkdocs-macros-plugin>=1.4.0",  # to be able to have dynamic content in the documentation
+    "PyMuPDF>=1.26.5",             # to convert PDF files to images    
+]
+exe = [
+    "pyinstaller>=6.16.0", # to build the executable
+]
 [tool.hatch.envs.default.scripts]
 # Hatch allows us to define scripts that can be run in the activated virtual environment
 # with `hatch run ENV_NAME:SCRIPT_NAME`.
@@ -160,25 +150,6 @@ update-schema = "python scripts/update_schema.py" # hatch run update-schema
 # Update `examples` folder:
 update-examples = "python scripts/update_examples.py" # hatch run update-examples
 
-[tool.hatch.envs.test]
-template = "default"
-[[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
-
-[tool.hatch.envs.docs]
-installer = "uv"
-python = "3.13"
-# Dependencies to be installed in the `docs` virtual environment.
-dependencies = [
-    "mkdocs-material==9.6.12",     # to build docs
-    "mkdocstrings-python==1.16.10", # to build reference documentation from docstrings
-    "pdfCropMargins==2.1.3",       # to generate entry figures for the documentation
-    "pillow==10.4.0",              # lock the dependency of pdfCropMargins
-    "mkdocs-macros-plugin==1.3.7", # to be able to have dynamic content in the documentation
-    "PyMuPDF==1.24.14",            # to convert PDF files to images    
-]
-features = ["full"] # to install full optional dependencies
-[tool.hatch.envs.docs.scripts]
 # Build the documentation with `mkdocs`:
 build = "mkdocs build --clean --strict" # hatch run docs:build
 # Start the development server for the documentation with `mkdocs`:
@@ -186,18 +157,9 @@ serve = "mkdocs serve" # hatch run docs:serve
 # Update entry figures in "Structure of the YAML File" page:
 update-entry-figures = "python scripts/update_entry_figures.py" # hatch run docs:update-entry-figures
 
-
-[tool.hatch.envs.exe]
-installer = "uv"
-python = "3.13"
-dependencies = [
-    "pyinstaller==6.11.1", # to build the executable
-]
-features = ["full"]
-[tool.hatch.envs.exe.scripts]
 create = "python scripts/create_executable.py" # hatch run exe:create
 # ======================================================================================
-# Virtual Environments Above ===========================================================
+# Virtual Environment Dependencies Above ===============================================
 # ======================================================================================
 
 # RenderCV uses different tools to check the code quality, format the code, build the
@@ -254,8 +216,13 @@ enable-unstable-feature = [
 ] # to break strings into multiple lines
 
 [tool.pyright]
-reportIncompatibleVariableOverride = false # disable this error type
-reportIncompatibleMethodOverride = false   # disable this error type
+typeCheckingMode = "standard"
+enableTypeIgnoreComments = false
+reportUnnecessaryTypeIgnoreComment = true
+reportIncompatibleVariableOverride = false
+reportIncompatibleMethodOverride = false
+reportMissingTypeStubs = false
+reportPrivateUsage = false
 exclude = ["rendercv/themes/*"]
 
 [tool.coverage.run]
@@ -274,6 +241,8 @@ omit = ["*.j2.*", "rendercv/__main__.py"]
 exclude_lines = ["if __name__ == .__main__.:"]
 
 [tool.pytest.ini_options]
+log_cli_level = "INFO"
+xfail_strict = true
 addopts = [
     "-ra",              # Show extra test summary info for all tests
     "-v",               # Increase verbosity
