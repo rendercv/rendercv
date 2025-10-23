@@ -372,6 +372,21 @@
             }
           ]
         },
+        "grade": {
+          "default": null,
+          "examples": [
+            "GPA: 3.00/4.00"
+          ],
+          "title": "Grade",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "date": {
           "default": null,
           "description": "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as an arbitrary string such as \"Fall 2023.\"",

@@ -290,6 +290,7 @@ def return_a_value_for_a_field_type(
 
 def create_combinations_of_a_model(
     model: type[data.Entry],
+    ignore_fields: set[str] | None  = None,
 ) -> list[data.Entry]:
     """Look at the required fields and optional fields of a model and create all
     possible combinations of them.
@@ -305,7 +306,11 @@ def create_combinations_of_a_model(
     required_fields = {}
     optional_fields = {}
 
+    ignore_fields = ignore_fields or set()
+
     for field, field_type in fields.items():
+        if field in ignore_fields:
+            continue
         value = return_a_value_for_a_field_type(field, field_type)
         if type(None) in typing.get_args(field_type):  # check if a field is optional
             optional_fields[field] = value
@@ -368,7 +373,10 @@ def rendercv_filled_curriculum_vitae_data_model(
                 data.PublicationEntry
             ),
             "Experience Entries": create_combinations_of_a_model(data.ExperienceEntry),
-            "Education Entries": create_combinations_of_a_model(data.EducationEntry),
+            "Education Entries": create_combinations_of_a_model(
+                data.EducationEntry,
+                ignore_fields={"grade"},
+            ),
             "Normal Entries": create_combinations_of_a_model(data.NormalEntry),
             "One Line Entries": create_combinations_of_a_model(data.OneLineEntry),
             "Numbered Entries": create_combinations_of_a_model(data.NumberedEntry),
