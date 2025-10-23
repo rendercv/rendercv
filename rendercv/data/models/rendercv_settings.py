@@ -5,11 +5,12 @@ The `rendercv.models.rendercv_settings` module contains the data model of the
 
 import datetime
 import pathlib
+from typing import Literal
 
 import pydantic
 
+from . import computers
 from .base import RenderCVBaseModelWithoutExtraKeys
-from .computers import convert_string_to_path, replace_placeholders
 
 file_path_placeholder_description = (
     "The following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the"
@@ -171,7 +172,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
     @classmethod
     def replace_placeholders(cls, value: str) -> str:
         """Replaces the placeholders in a string with the corresponding values."""
-        return replace_placeholders(value)
+        return computers.replace_placeholders(value)
 
     @pydantic.field_validator(
         "design",
@@ -193,7 +194,7 @@ class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
         if value is None:
             return None
 
-        return convert_string_to_path(value)
+        return computers.convert_string_to_path(value)
 
 
 class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
@@ -229,6 +230,17 @@ class RenderCVSettings(RenderCVBaseModelWithoutExtraKeys):
             "The keywords that will be bold in the output. The default value is an"
             " empty list."
         ),
+    )
+    sort_entries: Literal["reverse-chronological", "chronological", "none"] = (
+        pydantic.Field(
+            default="none",
+            title="Sort Entries",
+            description=(
+                "How the entries should be sorted based on their dates. The available"
+                " options are 'reverse-chronological', 'chronological', and 'none'. The"
+                " default value is 'none'."
+            ),
+        )
     )
 
     @pydantic.field_validator("date")

@@ -327,6 +327,16 @@
               "type": "null"
             }
           ]
+        },
+        "sort_entries": {
+          "default": "none",
+          "enum": [
+            "reverse-chronological",
+            "chronological",
+            "none"
+          ],
+          "title": "Sort Entries",
+          "type": "string"
         }
       },
       "title": "CV",
@@ -1657,6 +1667,17 @@
           },
           "title": "Bold Keywords",
           "type": "array"
+        },
+        "sort_entries": {
+          "default": "none",
+          "description": "How the entries should be sorted based on their dates. The available options are 'reverse-chronological', 'chronological', and 'none'. The default value is 'none'.",
+          "enum": [
+            "reverse-chronological",
+            "chronological",
+            "none"
+          ],
+          "title": "Sort Entries",
+          "type": "string"
         }
       },
       "title": "RenderCV Settings",
@@ -5702,7 +5723,8 @@
       "default": {
         "date": "2025-08-05",
         "render_command": null,
-        "bold_keywords": []
+        "bold_keywords": [],
+        "sort_entries": "none"
       },
       "description": "The settings of the RenderCV."
     }
