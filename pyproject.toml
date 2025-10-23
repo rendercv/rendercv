@@ -100,11 +100,7 @@ Changelog = 'https://docs.rendercv.com/changelog'
 # package `rendercv`.
 rendercv = 'rendercv.cli:app'
 
-# ======================================================================================
-# Virtual Environment Dependencies Below ===============================================
-# ======================================================================================
-
-
+# Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
     "ruff>=0.14.1",        # to lint and format the code
@@ -128,46 +124,14 @@ docs = [
 exe = [
     "pyinstaller>=6.16.0", # to build the executable
 ]
-[tool.hatch.envs.default.scripts]
-# Hatch allows us to define scripts that can be run in the activated virtual environment
-# with `hatch run ENV_NAME:SCRIPT_NAME`.
-# Format all the code in the `rendercv` package with `black`:
-format = "black rendercv docs tests && ruff check --fix && ruff format" # hatch run format
-# Lint the code in the `rendercv` package with `ruff`:
-lint = "ruff check" # hatch run lint
-# Check types in the `rendercv` package with `pyright`:
-check-types = "pyright rendercv tests" # hatch run check-types
-# Run pre-commit checks:
-precommit = "pre-commit run --all-files" # hatch run pre-commit
-# Run the tests:
-test = "pytest" # hatch run test
-# Run the tests and generate the coverage report as HTML:
-test-and-report = "coverage run -m pytest && coverage combine && coverage report && coverage html --show-contexts" # hatch run test-and-report
-# Profile render command
-profile-render-command = "python -m cProfile -o render_command.prof -m rendercv render examples/John_Doe_ClassicTheme_CV.yaml && snakeviz render_command.prof"
-# Update schema.json:
-update-schema = "python scripts/update_schema.py" # hatch run update-schema
-# Update `examples` folder:
-update-examples = "python scripts/update_examples.py" # hatch run update-examples
 
-# Build the documentation with `mkdocs`:
-build = "mkdocs build --clean --strict" # hatch run docs:build
-# Start the development server for the documentation with `mkdocs`:
-serve = "mkdocs serve" # hatch run docs:serve
-# Update entry figures in "Structure of the YAML File" page:
-update-entry-figures = "python scripts/update_entry_figures.py" # hatch run docs:update-entry-figures
-
-create = "python scripts/create_executable.py" # hatch run exe:create
-# ======================================================================================
-# Virtual Environment Dependencies Above ===============================================
-# ======================================================================================
+# Tools Settings:
 
 # RenderCV uses different tools to check the code quality, format the code, build the
 # documentation, build the package, etc. We can specify the settings for these tools in
 # `pyproject.toml` file under `[tool.name_of_the_tool]` so that new contributors can use
 # these tools easily. Generally, popular IDEs grab these settings from `pyproject.toml`
 # file automatically.
-
 
 [tool.ruff]
 line-length = 88
