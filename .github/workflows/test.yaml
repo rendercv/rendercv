@@ -1,6 +1,6 @@
 name: Test
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
   push:
     branches:
