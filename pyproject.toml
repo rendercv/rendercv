@@ -1,15 +1,14 @@
 # Every modern Python package today has a `pyproject.toml` file. It is a Python
-# standard. `pyproject.toml` file contains all the metadata about the package. It also
-# includes the dependencies and required information for building the package. For more
-# details, see https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/.
+# standard. The `pyproject.toml` file contains all the metadata about the package.
+# It also includes the dependencies and required information for building the package.
+# For more details, see https://pip.pypa.io/en/stable/reference/build-system/pyproject-toml/.
 
 [build-system]
-# If a code needs to be distributed, it might need to be compiled, or it might need to
-# be bundled with other files. This process of making a code ready for distribution is
-# called building.
+# If code needs to be distributed, it might need to be compiled or bundled with other files.
+# This process of making code ready for distribution is called building.
 
-# Python packages need to be built too, even though they are not compiled (mostly). At
-# the end of the building process, a source distribution package (sdist) and a built
+# Python packages need to be built too, even though they are not compiled (mostly).
+# At the end of the building process, a source distribution package (sdist) and a built
 # distribution package (in Wheel format) are created.
 # See https://packaging.python.org/en/latest/tutorials/packaging-projects/ for details.
 # Built Distribution:
@@ -17,52 +16,45 @@
 # Source Distribution:
 # https://packaging.python.org/en/latest/glossary/#term-Source-Distribution-or-sdist
 
-# To build RenderCV, we need to specify which build package we want to use. There are
-# many build packages like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
-# `hatchling`.
+# To build RenderCV, we need to specify which build package to use. There are
+# many build backends like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
+# `uv_build`.
 requires = [
-    "hatchling==1.27.0",
-] # List of packages that are needed to build RenderCV
+    "uv_build>=0.9.5,<0.10.0",
+] # Packages needed to build RenderCV
 
-# Python has a standard object format called build-backend object. Python standard asks
-# this object to have some specific methods that do a specific job. For example, it
-# should have a method called `build_wheel` that builds a wheel file. We use hatchling
-# to build RenderCV, and hatchling's build-backend object is `hatchling.build`.
+# Python has a standard object format called a build-backend object. This object must
+# implement specific methods that perform defined tasks. For example, it should have a
+# method called `build_wheel` that builds a wheel file.
 # See https://peps.python.org/pep-0517/
-build-backend = "hatchling.build" # A build-backend object for building RenderCV
+build-backend = "uv_build" # Build-backend object for building RenderCV
 
 [tool.hatch.build.targets.sdist]
-# In the sdist, what do we want to exclude? Gif files are huge.
+# In the sdist, what do we want to exclude? GIF files are large.
 exclude = ["*.gif"]
 
 [tool.hatch.build.targets.wheel]
-# In wheel, what do we want to include and exclude?
+# In the wheel, what do we want to include and exclude?
 packages = ["rendercv"]
 
-[tool.hatch.version]
-# We will use hatchling to generate the version number of RenderCV. It will go to the
-# `path` below and get the version number from there.
-# See https://hatch.pypa.io/latest/version/
-path = "rendercv/__init__.py"
-
 [project]
-# Under the `project` section, we specify the metadata about RenderCV.
+# Metadata about RenderCV.
 name = 'rendercv'
+version = '2.3'
 description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
 readme = "README.md"
 requires-python = '>=3.10'
-# RenderCV depends on these packages. They will be installed automatically when RenderCV
-# is installed:
+# RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
-    'Jinja2>=3.1.3',                # to generate Typst and Markdown files
-    'phonenumbers==9.0.16',        # to validate phone numbers
-    'email-validator==2.3.0',       # to validate email addresses
-    'pydantic==2.11.9',             # to validate and parse the input file
-    'pycountry==24.6.1',            # for ISO 639-3 validation
-    'pydantic-extra-types==2.10.6', # to validate some extra types
-    'ruamel.yaml==0.18.6',          # to parse YAML files
+    'Jinja2>=3.1.6',                 # Generate Typst and Markdown files
+    'phonenumbers>=9.0.16',          # Validate phone numbers
+    'email-validator>=2.3.0',        # Validate email addresses
+    'pydantic>=2.12.3',              # Validate and parse input files
+    'pycountry>=24.6.1',             # ISO 639-3 validation
+    'pydantic-extra-types>=2.10.6',  # Validate extra types
+    'ruamel.yaml>=0.18.16',          # Parse YAML files
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -74,138 +66,67 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
-] # go to https://pypi.org/classifiers/ to see all classifiers
-dynamic = ["version"] # We will use hatchling to generate the version number
+] # See all classifiers at https://pypi.org/classifiers/
 
 [project.optional-dependencies]
 full = [
-    'typer==0.16.0',   # to create the command-line interface
-    "markdown==3.9",   # to convert Markdown to HTML
-    "watchdog==6.0.0", # to poll files for updates
-    "typst==0.13.1",   # to render PDF from Typst source files
-    "rendercv-fonts",  # some font files for RenderCV
-    "packaging==25.0", # to validate the version number
+    'typer>=0.20.0',   # Command-line interface
+    'markdown>=3.9',   # Convert Markdown to HTML
+    'watchdog>=6.0.0', # Monitor files for updates
+    'typst>=0.13.7',   # Render PDF from Typst source files
+    'packaging>=25.0', # Validate version numbers
+    'rendercv-fonts',  # Font files for RenderCV
 ]
 
 [project.urls]
-# Here, we can specify the URLs related to RenderCV. They will be listed under the
-# "Project links" section in PyPI. See https://pypi.org/project/rendercv/
+# URLs related to RenderCV. Listed under the "Project links" section on PyPI.
 "Web App" = 'https://rendercv.com'
 Source = 'https://github.com/rendercv/rendercv'
 Documentation = 'https://docs.rendercv.com'
 Changelog = 'https://docs.rendercv.com/changelog'
 
 [project.scripts]
-# Here, we specify the entry points of RenderCV.
+# Entry points for RenderCV.
 # See https://packaging.python.org/en/latest/specifications/entry-points/#entry-points
 # See https://hatch.pypa.io/latest/config/metadata/#cli
 
-# The key and value below mean this: If someone installs RenderCV, then running
-# `rendercv` in the terminal will run the function `app` in the module `cli` in the
-# package `rendercv`.
+# The key and value below mean: when someone installs RenderCV,
+# running `rendercv` in the terminal executes the function `app` in the module `cli`
+# inside the package `rendercv`.
 rendercv = 'rendercv.cli:app'
 
-# ======================================================================================
-# Virtual Environments Below ===========================================================
-# ======================================================================================
-
-# RenderCV depends on other packages, which are listed under the `project` section as
-# `dependencies`. However, for the development of RenderCV, we need some other packages
-# too (like `black`, `ruff`, `mkdocs`, etc.). We need these packages in our virtual
-# environments and we handle the environments with `hatchling`.
-
-# There will be three virtual environments for RenderCV: `default`, `docs`, and `test`.
-
-# `default` is the default virtual environment needed to develop RenderCV.
-# `docs` is the virtual environment needed to build the documentation of RenderCV.
-# `test` is the virtual environment needed to run the tests of RenderCV.
-
-[tool.hatch.envs.default]
-installer = "uv"
-python = "3.13"
-dependencies = [
-    "ruff",                # to lint and format the code
-    "black",               # to format the code
-    "ipython",             # for ipython shell
-    "pyright",             # to check the types
-    "pre-commit",          # to run the checks before committing
-    "pytest==8.3.4",       # to run the tests
-    "coverage==7.6.10",    # to generate coverage reports
-    "pypdf==5.1.0",        # to read PDF files
-    "snakeviz==2.2.2",     # for profiling
-    "pyinstaller==6.11.1", # to build the executable
+# Virtual Environment Dependencies:
+[dependency-groups]
+dev = [
+    'ruff>=0.14.1',        # Lint and format the code
+    'black>=25.9.0',       # Format the code
+    'pyright>=1.1.406',    # Type checking
+    'pre-commit>=4.3.0',   # Run checks before committing
+    'pytest>=8.4.2',       # Run tests
+    'coverage>=7.11.0',    # Generate coverage reports
+    'pypdf>=6.1.3',        # Read PDF files
+    'snakeviz>=2.2.2',     # Profiling
+    'pyinstaller>=6.16.0', # Build executables
 ]
-features = ["full"] # to install full optional dependencies
-[tool.hatch.envs.default.scripts]
-# Hatch allows us to define scripts that can be run in the activated virtual environment
-# with `hatch run ENV_NAME:SCRIPT_NAME`.
-# Format all the code in the `rendercv` package with `black`:
-format = "black rendercv docs tests && ruff check --fix && ruff format" # hatch run format
-# Lint the code in the `rendercv` package with `ruff`:
-lint = "ruff check" # hatch run lint
-# Check types in the `rendercv` package with `pyright`:
-check-types = "pyright rendercv tests" # hatch run check-types
-# Run pre-commit checks:
-precommit = "pre-commit run --all-files" # hatch run pre-commit
-# Run the tests:
-test = "pytest" # hatch run test
-# Run the tests and generate the coverage report as HTML:
-test-and-report = "coverage run -m pytest && coverage combine && coverage report && coverage html --show-contexts" # hatch run test-and-report
-# Profile render command
-profile-render-command = "python -m cProfile -o render_command.prof -m rendercv render examples/John_Doe_ClassicTheme_CV.yaml && snakeviz render_command.prof"
-# Update schema.json:
-update-schema = "python scripts/update_schema.py" # hatch run update-schema
-# Update `examples` folder:
-update-examples = "python scripts/update_examples.py" # hatch run update-examples
-
-[tool.hatch.envs.test]
-template = "default"
-[[tool.hatch.envs.test.matrix]]
-python = ["3.10", "3.11", "3.12", "3.13"]
-
-[tool.hatch.envs.docs]
-installer = "uv"
-python = "3.13"
-# Dependencies to be installed in the `docs` virtual environment.
-dependencies = [
-    "mkdocs-material==9.6.12",     # to build docs
-    "mkdocstrings-python==1.16.10", # to build reference documentation from docstrings
-    "pdfCropMargins==2.1.3",       # to generate entry figures for the documentation
-    "pillow==10.4.0",              # lock the dependency of pdfCropMargins
-    "mkdocs-macros-plugin==1.3.7", # to be able to have dynamic content in the documentation
-    "PyMuPDF==1.24.14",            # to convert PDF files to images    
+docs = [
+    'mkdocs-material>=9.6.20',
+    'mkdocstrings[python]>=0.30.1', # Build reference docs from docstrings
+    'pdfCropMargins>=2.2.1',        # Generate entry figures for documentation
+    'pillow>=10.4.0',               # Lock dependency of pdfCropMargins
+    'mkdocs-macros-plugin>=1.4.0',  # Enable dynamic content in docs
+    'PyMuPDF>=1.26.5',              # Convert PDF files to images
 ]
-features = ["full"] # to install full optional dependencies
-[tool.hatch.envs.docs.scripts]
-# Build the documentation with `mkdocs`:
-build = "mkdocs build --clean --strict" # hatch run docs:build
-# Start the development server for the documentation with `mkdocs`:
-serve = "mkdocs serve" # hatch run docs:serve
-# Update entry figures in "Structure of the YAML File" page:
-update-entry-figures = "python scripts/update_entry_figures.py" # hatch run docs:update-entry-figures
-
-
-[tool.hatch.envs.exe]
-installer = "uv"
-python = "3.13"
-dependencies = [
-    "pyinstaller==6.11.1", # to build the executable
+exe = [
+    'pyinstaller>=6.16.0', # Build executables
 ]
-features = ["full"]
-[tool.hatch.envs.exe.scripts]
-create = "python scripts/create_executable.py" # hatch run exe:create
-# ======================================================================================
-# Virtual Environments Above ===========================================================
-# ======================================================================================
 
-# RenderCV uses different tools to check the code quality, format the code, build the
-# documentation, build the package, etc. We can specify the settings for these tools in
-# `pyproject.toml` file under `[tool.name_of_the_tool]` so that new contributors can use
-# these tools easily. Generally, popular IDEs grab these settings from `pyproject.toml`
-# file automatically.
+# Tools Settings:
 
+# RenderCV uses various tools to check code quality, format code, build docs, and package the project.
+# Their configurations are specified below so contributors and IDEs can pick them up automatically.
 
 [tool.ruff]
 line-length = 88
@@ -215,69 +136,54 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 extend-select = [
-    "B",   # flake8-bugbear
-    "I",   # isort
-    "ARG", # flake8-unused-arguments
-    "C4",  # flake8-comprehensions
-    "EM",  # flake8-errmsg
-    "ICN", # flake8-import-conventions
-    "ISC", # flake8-implicit-str-concat
-    "G",   # flake8-logging-format
-    "PGH", # pygrep-hooks
-    "PIE", # flake8-pie
-    "PL",  # pylint
-    "PT",  # flake8-pytest-style
-    "PTH", # flake8-use-pathlib
-    "RET", # flake8-return
-    "RUF", # Ruff-specific
-    "SIM", # flake8-simplify
-    "T20", # flake8-print
-    "UP",  # pyupgrade
-    "YTT", # flake8-2020
-    "EXE", # flake8-executable
-    "NPY", # NumPy specific rules
-    "PD",  # pandas-vet
+    'B', 'I', 'ARG', 'C4', 'EM', 'ICN', 'ISC', 'G', 'PGH', 'PIE', 'PL', 'PT', 'PTH', 'RET', 'RUF', 'SIM', 'T20', 'UP', 'YTT', 'EXE', 'NPY', 'PD',
 ]
 ignore = [
-    "PLR",    # Design related pylint codes
-    "ISC001", # Conflicts with formatter
-    "UP007",  # I like Optional type
-    "PGH003", # It would be nice to not ignore this
+    'PLR',    # Design-related pylint codes
+    'ISC001', # Conflicts with formatter
+    'UP007',  # Allow Optional type
+    'PGH003', # Prefer not to ignore this
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 
 [tool.black]
-line-length = 88 # maximum line length
-preview = true # to allow enable-unstable-feature
+line-length = 88 # Maximum line length
+preview = true # Enable preview features
 enable-unstable-feature = [
-    "string_processing",
-] # to break strings into multiple lines
+    'string_processing',
+] # Break strings into multiple lines
 
 [tool.pyright]
-reportIncompatibleVariableOverride = false # disable this error type
-reportIncompatibleMethodOverride = false   # disable this error type
-exclude = ["rendercv/themes/*"]
+typeCheckingMode = 'standard'
+enableTypeIgnoreComments = false
+reportUnnecessaryTypeIgnoreComment = true
+reportIncompatibleVariableOverride = false
+reportIncompatibleMethodOverride = false
+reportMissingTypeStubs = false
+reportPrivateUsage = false
+exclude = ['rendercv/themes/*']
 
 [tool.coverage.run]
-source = ['rendercv']             # The source to measure during execution
+source = ['rendercv']             # Measure coverage in this source
 concurrency = ['multiprocessing'] # For watcher tests
 
-# Use relative paths instead of absolute paths, this is useful for combining coverage
-# reports from different OSes:
+# Use relative paths for cross-platform coverage merging:
 relative_files = true
 
 [tool.coverage.report]
-# Don't include jinja templates in the coverage report:
-omit = ["*.j2.*", "rendercv/__main__.py"]
+# Exclude templates from coverage reports:
+omit = ['*.j2.*', 'rendercv/__main__.py']
 
-# Don't include these lines in the coverage report:
-exclude_lines = ["if __name__ == .__main__.:"]
+# Exclude specific lines from coverage:
+exclude_lines = ['if __name__ == .__main__.:']
 
 [tool.pytest.ini_options]
+log_cli_level = 'INFO'
+xfail_strict = true
 addopts = [
-    "-ra",              # Show extra test summary info for all tests
-    "-v",               # Increase verbosity
-    "--strict-markers", # Don't allow unknown markers
-    "--strict-config",  # Always fail if there are unknown configuration options
+    '-ra',              # Show extra test summary info
+    '-v',               # Increase verbosity
+    '--strict-markers', # Disallow unknown markers
+    '--strict-config',  # Fail on unknown config options
 ]
-testpaths = ["tests"]
+testpaths = ['tests']

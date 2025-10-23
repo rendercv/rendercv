@@ -4,46 +4,72 @@ name: Publish a release
 on:
   push:
     tags:
-      - "v*.*.*"
-      - "v*.*.*-*"
-  workflow_dispatch:
+      - "v*.*"
 
 jobs:
-  call_test_workflow:
+  test:
     name: Run Tests
-    if: ${{ github.ref_type == 'tag' && github.ref_name matches '^v[0-9]+\.[0-9]+\.[0-9]+(-.*)?$' }}
     uses: ./.github/workflows/test.yaml
 
-  call_create_executables_workflow:
+  update_files:
+    name: Update schema.json, examples, and entry figures
+    uses: ./.github/workflows/update-files.yaml
+    needs:
+      - test
+
+  build:
+    name: Build Package
+    needs:
+      - update_files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Check if the release tag matches the version
+        uses: samuelcolvin/check-python-version@v5
+        with:
+          version_file_path: src/rendercv/__init__.py
+
+      - name: Build
+        run: uv build
+
+      - name: Upload the wheel and source distribution as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+  create_executables:
     name: Create Executables
     needs:
-      - call_test_workflow
+      - update_files
     uses: ./.github/workflows/create-executables.yaml
 
-  upload_release_files:
-    name: Create release files
+  create_github_release:
+    name: Create GitHub Release
     needs:
-      - call_create_executables_workflow
+      - build
+      - create_executables
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Download the executables
         uses: actions/download-artifact@v5
+        with:
+          pattern: rendercv-*
+          merge-multiple: false
 
-      - name: Checkout the repository
-        uses: actions/checkout@v5
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist
 
-      - uses: actions/checkout@v5
-
-      - name: Install Hatch
-        uses: pypa/hatch@install
-
-      - name: Build
-        run: |
-          hatch build
-
-      - name: Upload the executables as release assets
+      - name: Create GitHub release with assets
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.ref_name }}
@@ -59,33 +85,20 @@ jobs:
   publish_to_pypi:
     name: Publish to PyPI
     needs:
-      - upload_release_files
+      - create_github_release
     runs-on: ubuntu-latest
     environment: release
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Install Hatch
-        uses: pypa/hatch@install
-
-      - name: Check if the release tag matches the version
-        uses: samuelcolvin/check-python-version@v5
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v5
         with:
-          version_file_path: rendercv/__init__.py
-
-      - name: Build
-        run: |
-          hatch build
+          name: dist
+          path: dist
 
       - name: Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-
-      - name: Upload the wheel and source distribution as artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: dist
 
   publish_to_dockerhub_and_ghcr:
     name: Push Docker image to Docker Hub and GitHub Container Registry
@@ -134,13 +147,6 @@ jobs:
       - name: Generate artifact attestation
         uses: actions/attest-build-provenance@v3
         with:
-          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
+          subject-name: ghcr.io/${{ github.repository }}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
-
-  call_update_files_workflow:
-    name: Update files
-    uses: ./.github/workflows/update-files.yaml
-    needs:
-      - publish_to_dockerhub_and_ghcr
-      - publish_to_pypi
