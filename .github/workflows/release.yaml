@@ -17,6 +17,31 @@ jobs:
     needs:
       - test
 
+  build:
+    name: Build Package
+    needs:
+      - update_files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Check if the release tag matches the version
+        uses: samuelcolvin/check-python-version@v5
+        with:
+          version_file_path: src/rendercv/__init__.py
+
+      - name: Build
+        run: uv build
+
+      - name: Upload the wheel and source distribution as artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+
   create_executables:
     name: Create Executables
     needs:
@@ -26,21 +51,23 @@ jobs:
   create_github_release:
     name: Create GitHub Release
     needs:
-      - update_files
+      - build
+      - create_executables
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Download the executables
         uses: actions/download-artifact@v5
+        with:
+          pattern: rendercv-*
+          merge-multiple: false
 
-      - uses: actions/checkout@v5
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-
-      - name: Build
-        run: uv build
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v5
+        with:
+          name: dist
+          path: dist
 
       - name: Create GitHub release with assets
         uses: softprops/action-gh-release@v2
@@ -64,26 +91,14 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v5
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-
-      - name: Check if the release tag matches the version
-        uses: samuelcolvin/check-python-version@v5
+      - name: Download the build artifacts
+        uses: actions/download-artifact@v5
         with:
-          version_file_path: src/rendercv/__init__.py
-
-      - name: Build
-        run: uv build
+          name: dist
+          path: dist
 
       - name: Upload package to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-
-      - name: Upload the wheel and source distribution as artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          path: dist
 
   publish_to_dockerhub_and_ghcr:
     name: Push Docker image to Docker Hub and GitHub Container Registry

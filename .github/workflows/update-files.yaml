@@ -28,26 +28,20 @@ jobs:
           git config --local user.name "GitHub Actions [Bot]"
 
       - name: Update schema.json
-        continue-on-error: true
-        run: |
-          just update-schema
-          git add schema.json
+        run: just update-schema
 
-      - name: Update `examples` folder
-        continue-on-error: true
-        run: |
-          just update-examples
-          git add examples/*
-          git add docs/assets/images/*.png
+      - name: Update examples folder
+        run: just update-examples
 
       - name: Update entry figures
-        continue-on-error: true
-        run: |
-          just update-entry-figures
-          git add docs/assets/images/**/*.png
+        run: just update-entry-figures
 
-      - name: Push changes
-        continue-on-error: true
+      - name: Commit and push changes
         run: |
-          git commit -m "Update schema.json, examples, and entry figures"
-          git push origin HEAD:main
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update schema.json, examples, and entry figures"
+            git push origin HEAD:main
+          fi

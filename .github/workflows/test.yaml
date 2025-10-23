@@ -75,9 +75,7 @@ jobs:
           uv run coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
 
       - name: Upload the coverage report to smokeshow
-        run: |
-          uv pip install smokeshow==0.4.0
-          smokeshow upload ./htmlcov
+        run: uv tool run smokeshow==0.4.0 upload ./htmlcov
         env:
           SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
