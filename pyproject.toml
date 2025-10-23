@@ -40,6 +40,7 @@ packages = ["rendercv"]
 [project]
 # Metadata about RenderCV.
 name = 'rendercv'
+version = '2.3'
 description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
@@ -113,7 +114,7 @@ dev = [
 docs = [
     'mkdocs-material>=9.6.20',
     'mkdocstrings[python]>=0.30.1', # Build reference docs from docstrings
-    'pdfCropMargins>=2.2.3',        # Generate entry figures for documentation
+    'pdfCropMargins>=2.2.1',        # Generate entry figures for documentation
     'pillow>=10.4.0',               # Lock dependency of pdfCropMargins
     'mkdocs-macros-plugin>=1.4.0',  # Enable dynamic content in docs
     'PyMuPDF>=1.26.5',              # Convert PDF files to images
