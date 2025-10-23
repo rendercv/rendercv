@@ -16,8 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install just
+        uses: taiki-e/install-action@just
 
       - name: Set Git credentials
         run: |
