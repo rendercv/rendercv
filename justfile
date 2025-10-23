@@ -40,10 +40,10 @@ build-docs:
 serve-docs:
   uv run mkdocs serve
 
-run-tests:
+test:
   uv run pytest
 
-run-tests-coverage:
+test-with-coverage:
   uv run -- coverage run -m pytest
 
 combine-coverage:

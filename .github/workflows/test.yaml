@@ -36,7 +36,7 @@ jobs:
         run: uv sync --locked --all-extras --dev
 
       - name: Test
-        run: just run-tests-coverage
+        run: just test-with-coverage
 
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
