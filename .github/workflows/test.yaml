@@ -33,7 +33,7 @@ jobs:
         uses: taiki-e/install-action@just
 
       - name: Install the project
-        run: uv sync --locked --all-extras --dev
+        run: uv sync --locked --all-extras --all-groups
 
       - name: Test
         run: just test-with-coverage
@@ -69,7 +69,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
 
       - name: Install the project
-        run: uv sync --locked --all-extras --dev
+        run: uv sync --locked --all-extras --all-groups
 
       - name: Install just
         uses: taiki-e/install-action@just
