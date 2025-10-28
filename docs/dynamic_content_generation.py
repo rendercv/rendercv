@@ -16,7 +16,7 @@ import rendercv.data as data
 import rendercv.themes.options as theme_options
 
 repository_root = pathlib.Path(__file__).parent.parent
-rendercv_path = repository_root / "rendercv"
+rendercv_path = repository_root / "src" / "rendercv"
 image_assets_directory = pathlib.Path(__file__).parent / "assets" / "images"
 
 
