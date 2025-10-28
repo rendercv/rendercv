@@ -19,9 +19,7 @@
 # To build RenderCV, we need to specify which build package to use. There are
 # many build backends like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
 # `uv_build`.
-requires = [
-    "uv_build>=0.9.5,<0.10.0",
-] # Packages needed to build RenderCV
+requires = ["uv_build>=0.9.5,<0.10.0"] # Packages needed to build RenderCV
 
 # Python has a standard object format called a build-backend object. This object must
 # implement specific methods that perform defined tasks. For example, it should have a
@@ -48,13 +46,13 @@ readme = "README.md"
 requires-python = '>=3.10'
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
-    'Jinja2>=3.1.6',                 # Generate Typst and Markdown files
-    'phonenumbers>=9.0.16',          # Validate phone numbers
-    'email-validator>=2.3.0',        # Validate email addresses
-    'pydantic>=2.12.3',              # Validate and parse input files
-    'pycountry>=24.6.1',             # ISO 639-3 validation
-    'pydantic-extra-types>=2.10.6',  # Validate extra types
-    'ruamel.yaml>=0.18.16',          # Parse YAML files
+    'Jinja2>=3.1.6',                # Generate Typst and Markdown files
+    'phonenumbers>=9.0.16',         # Validate phone numbers
+    'email-validator>=2.3.0',       # Validate email addresses
+    'pydantic>=2.12.3',             # Validate and parse input files
+    'pycountry>=24.6.1',            # ISO 639-3 validation
+    'pydantic-extra-types>=2.10.6', # Validate extra types
+    'ruamel.yaml>=0.18.16',         # Parse YAML files
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -136,7 +134,28 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 extend-select = [
-    'B', 'I', 'ARG', 'C4', 'EM', 'ICN', 'ISC', 'G', 'PGH', 'PIE', 'PL', 'PT', 'PTH', 'RET', 'RUF', 'SIM', 'T20', 'UP', 'YTT', 'EXE', 'NPY', 'PD',
+    'B',
+    'I',
+    'ARG',
+    'C4',
+    'EM',
+    'ICN',
+    'ISC',
+    'G',
+    'PGH',
+    'PIE',
+    'PL',
+    'PT',
+    'PTH',
+    'RET',
+    'RUF',
+    'SIM',
+    'T20',
+    'UP',
+    'YTT',
+    'EXE',
+    'NPY',
+    'PD',
 ]
 ignore = [
     'PLR',    # Design-related pylint codes
@@ -187,3 +206,7 @@ addopts = [
     '--strict-config',  # Fail on unknown config options
 ]
 testpaths = ['tests']
+
+
+[tool.codespell]
+skip = '*.md'
