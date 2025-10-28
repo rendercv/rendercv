@@ -2,10 +2,9 @@ name: Publish a release
 
 # GitHub events that trigger the workflow:
 on:
-  push:
-    tags:
-      - "v*.*"
-
+  release:
+    types:
+      - published
 jobs:
   test:
     name: Run Tests
@@ -69,12 +68,9 @@ jobs:
           name: dist
           path: dist
 
-      - name: Create GitHub release with assets
+      - name: Add assets to the GitHub release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: ${{ github.ref_name }}
-          generate_release_notes: true
           files: |
             rendercv-*/rendercv-linux-ARM64.zip
             rendercv-*/rendercv-linux-x86_64.zip

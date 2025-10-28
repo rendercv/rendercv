@@ -6,7 +6,7 @@ toc_depth: 1
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.2...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.3...HEAD)
 
 <!--
 ### Added
@@ -14,6 +14,29 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.3] - October 29, 2025
+
+> **Full Changelog**: [v2.2...v2.3]
+
+### Added
+
+- A new command-line option has been added: `--nopdf` to skip PDF generation ([#482](https://github.com/rendercv/rendercv/pull/482)).
+- Two new social networks have been added: `Leetcode` ([#483](https://github.com/rendercv/rendercv/pull/483)) and `IMDB` ([#479](https://github.com/rendercv/rendercv/pull/479)).
+- More system fonts have been added ([#466](https://github.com/rendercv/rendercv/pull/466)).
+- `grade` field has been added to `EducationEntry` ([#463](https://github.com/rendercv/rendercv/pull/463)).
+- Optional automatic sorting capabilities for entries have been added ([#461](https://github.com/rendercv/rendercv/pull/461)).
+
+### Changed
+
+- Docker image has been optimized for a smaller runtime size ([#511](https://github.com/rendercv/rendercv/pull/511)).
+- Header connection order now follows the YAML key order in the input file ([#455](https://github.com/rendercv/rendercv/pull/455)).
+
+### Fixed
+
+- Bold keywords now correctly ignore case and don't bold sub-words ([#348](https://github.com/rendercv/rendercv/pull/348)).
+- Typo "parial" has been corrected to "partial" throughout the codebase ([#380](https://github.com/rendercv/rendercv/pull/380)).
+- Arbitrary keys functionality has been fixed ([#457](https://github.com/rendercv/rendercv/pull/457)).
 
 ## [2.2] - January 25, 2025
 
@@ -509,6 +532,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.2...v2.3]: https://github.com/rendercv/rendercv/compare/v2.2...v2.3
 [v2.1...v2.2]: https://github.com/rendercv/rendercv/compare/v2.1...v2.2
 [v2.0...v2.1]: https://github.com/rendercv/rendercv/compare/v2.0...v2.1
 [v1.18...v2.0]: https://github.com/rendercv/rendercv/compare/v1.18...v2.0
@@ -539,6 +563,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.3]: https://github.com/rendercv/rendercv/releases/tag/v2.3
 [2.2]: https://github.com/rendercv/rendercv/releases/tag/v2.2
 [2.1]: https://github.com/rendercv/rendercv/releases/tag/v2.1
 [2.0]: https://github.com/rendercv/rendercv/releases/tag/v2.0
