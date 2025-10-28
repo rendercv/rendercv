@@ -58,13 +58,13 @@ jobs:
       contents: write
     steps:
       - name: Download the executables
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: rendercv-*
           merge-multiple: false
 
       - name: Download the build artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
@@ -92,7 +92,7 @@ jobs:
       id-token: write
     steps:
       - name: Download the build artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: dist
           path: dist
