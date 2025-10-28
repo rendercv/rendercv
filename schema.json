@@ -20,143 +20,38 @@
         "theme": {
           "const": "classic",
           "default": "classic",
-          "description": "The theme of the CV. It just changes the default values.",
           "title": "Theme",
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/rendercv__themes__options__Page",
-          "default": {
-            "size": "us-letter",
-            "top_margin": "2cm",
-            "bottom_margin": "2cm",
-            "left_margin": "2cm",
-            "right_margin": "2cm",
-            "show_page_numbering": true,
-            "show_last_updated_date": true
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Page"
         },
         "colors": {
-          "$ref": "#/$defs/rendercv__themes__options__Colors",
-          "default": {
-            "text": "rgb(0, 0, 0)",
-            "name": "rgb(0, 79, 144)",
-            "connections": "rgb(0, 79, 144)",
-            "section_titles": "rgb(0, 79, 144)",
-            "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Colors"
         },
         "text": {
-          "$ref": "#/$defs/rendercv__themes__options__Text",
-          "default": {
-            "font_family": "Source Sans 3",
-            "font_size": "10pt",
-            "leading": "0.6em",
-            "alignment": "justified",
-            "date_and_location_column_alignment": "right"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Text"
         },
         "links": {
-          "$ref": "#/$defs/rendercv__themes__options__Links",
-          "default": {
-            "underline": false,
-            "use_external_link_icon": true
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Links"
         },
         "header": {
-          "$ref": "#/$defs/rendercv__themes__options__Header",
-          "default": {
-            "name_font_family": "Source Sans 3",
-            "name_font_size": "30pt",
-            "name_bold": true,
-            "small_caps_for_name": false,
-            "photo_width": "3.5cm",
-            "vertical_space_between_name_and_connections": "0.7cm",
-            "vertical_space_between_connections_and_first_section": "0.7cm",
-            "horizontal_space_between_connections": "0.5cm",
-            "connections_font_family": "Source Sans 3",
-            "separator_between_connections": "",
-            "use_icons_for_connections": true,
-            "use_urls_as_placeholders_for_connections": false,
-            "make_connections_links": true,
-            "alignment": "center"
-          },
-          "title": "Headers"
+          "$ref": "#/$defs/rendercv__themes__options__Header"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__themes__options__SectionTitles",
-          "default": {
-            "type": "with-partial-line",
-            "font_family": "Source Sans 3",
-            "font_size": "1.4em",
-            "bold": true,
-            "small_caps": false,
-            "line_thickness": "0.5pt",
-            "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__SectionTitles"
         },
         "entries": {
-          "$ref": "#/$defs/rendercv__themes__options__Entries",
-          "default": {
-            "date_and_location_width": "4.15cm",
-            "left_and_right_margin": "0.2cm",
-            "horizontal_space_between_columns": "0.1cm",
-            "vertical_space_between_entries": "1.2em",
-            "allow_page_break_in_sections": true,
-            "allow_page_break_in_entries": true,
-            "short_second_row": false,
-            "show_time_spans_in": []
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Entries"
         },
         "highlights": {
-          "$ref": "#/$defs/rendercv__themes__options__Highlights",
-          "default": {
-            "bullet": "•",
-            "nested_bullet": "-",
-            "top_margin": "0.25cm",
-            "left_margin": "0.4cm",
-            "vertical_space_between_highlights": "0.25cm",
-            "horizontal_space_between_bullet_and_highlight": "0.5em",
-            "summary_left_margin": "0cm"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Highlights"
         },
         "entry_types": {
-          "$ref": "#/$defs/EntryTypes",
-          "default": {
-            "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
-            },
-            "education_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "degree_column_template": "**DEGREE**",
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**, AREA",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "normal_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "experience_entry": {
-              "date_and_location_column_template": "LOCATION\nDATE",
-              "main_column_first_row_template": "**COMPANY**, POSITION",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
-            }
-          },
-          "title": "Templates"
+          "$ref": "#/$defs/EntryTypes"
         }
       },
-      "title": "Theme Options",
+      "title": "ClassicThemeOptions",
       "type": "object"
     },
     "CurriculumVitae": {
@@ -514,8 +409,7 @@
       "properties": {
         "theme": {
           "const": "engineeringclassic",
-          "default": "engineeringresumes",
-          "description": "The theme of the CV. It just changes the default values.",
+          "default": "engineeringclassic",
           "title": "Theme",
           "type": "string"
         },
@@ -529,19 +423,10 @@
             "right_margin": "2cm",
             "show_page_numbering": false,
             "show_last_updated_date": true
-          },
-          "description": "Options related to the page."
+          }
         },
         "colors": {
-          "$ref": "#/$defs/rendercv__themes__options__Colors",
-          "default": {
-            "text": "rgb(0, 0, 0)",
-            "name": "rgb(0, 79, 144)",
-            "connections": "rgb(0, 79, 144)",
-            "section_titles": "rgb(0, 79, 144)",
-            "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Colors"
         },
         "text": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__Text",
@@ -551,16 +436,14 @@
             "leading": "0.6em",
             "alignment": "justified",
             "date_and_location_column_alignment": "right"
-          },
-          "description": "Options related to text."
+          }
         },
         "links": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__Links",
           "default": {
             "underline": false,
             "use_external_link_icon": false
-          },
-          "description": "Options related to links."
+          }
         },
         "header": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__Header",
@@ -579,9 +462,7 @@
             "use_urls_as_placeholders_for_connections": false,
             "make_connections_links": true,
             "alignment": "left"
-          },
-          "description": "Options related to headers.",
-          "title": "Headers"
+          }
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__SectionTitles",
@@ -594,21 +475,10 @@
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.5cm",
             "vertical_space_below": "0.3cm"
-          },
-          "description": "Options related to section titles."
+          }
         },
         "entries": {
-          "$ref": "#/$defs/rendercv__themes__options__Entries",
-          "default": {
-            "date_and_location_width": "4.15cm",
-            "left_and_right_margin": "0.2cm",
-            "horizontal_space_between_columns": "0.1cm",
-            "vertical_space_between_entries": "1.2em",
-            "allow_page_break_in_sections": true,
-            "allow_page_break_in_entries": true,
-            "short_second_row": false,
-            "show_time_spans_in": []
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Entries"
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__Highlights",
@@ -620,8 +490,7 @@
             "vertical_space_between_highlights": "0.25cm",
             "horizontal_space_between_bullet_and_highlight": "0.5em",
             "summary_left_margin": "0cm"
-          },
-          "description": "Options related to highlights."
+          }
         },
         "entry_types": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__EntryOptionsTypes",
@@ -653,12 +522,10 @@
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
             }
-          },
-          "description": "Options related to the templates.",
-          "title": "Templates"
+          }
         }
       },
-      "title": "Theme Options",
+      "title": "EngineeringclassicThemeOptions",
       "type": "object"
     },
     "EngineeringresumesThemeOptions": {
@@ -667,7 +534,6 @@
         "theme": {
           "const": "engineeringresumes",
           "default": "engineeringresumes",
-          "description": "The theme of the CV. It just changes the default values.",
           "title": "Theme",
           "type": "string"
         },
@@ -681,8 +547,7 @@
             "right_margin": "2cm",
             "show_page_numbering": false,
             "show_last_updated_date": true
-          },
-          "description": "Options related to the page."
+          }
         },
         "colors": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Colors",
@@ -693,8 +558,7 @@
             "section_titles": "rgb(0, 0, 0)",
             "links": "rgb(0, 0, 0)",
             "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
-          },
-          "description": "Color used throughout the CV."
+          }
         },
         "text": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Text",
@@ -704,16 +568,14 @@
             "leading": "0.6em",
             "alignment": "justified",
             "date_and_location_column_alignment": "right"
-          },
-          "description": "Options related to text."
+          }
         },
         "links": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Links",
           "default": {
             "underline": true,
             "use_external_link_icon": false
-          },
-          "description": "Options related to links."
+          }
         },
         "header": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Header",
@@ -732,9 +594,7 @@
             "use_urls_as_placeholders_for_connections": true,
             "make_connections_links": true,
             "alignment": "center"
-          },
-          "description": "Options related to headers.",
-          "title": "Headers"
+          }
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__SectionTitles",
@@ -747,8 +607,7 @@
             "line_thickness": "0.5pt",
             "vertical_space_above": "0.55cm",
             "vertical_space_below": "0.3cm"
-          },
-          "description": "Options related to section titles."
+          }
         },
         "entries": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Entries",
@@ -761,8 +620,7 @@
             "allow_page_break_in_entries": true,
             "short_second_row": false,
             "show_time_spans_in": []
-          },
-          "description": "Options related to entries."
+          }
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__Highlights",
@@ -774,8 +632,7 @@
             "vertical_space_between_highlights": "0.19cm",
             "horizontal_space_between_bullet_and_highlight": "0.3em",
             "summary_left_margin": "0cm"
-          },
-          "description": "Options related to highlights."
+          }
         },
         "entry_types": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__EntryOptionsTypes",
@@ -807,67 +664,32 @@
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
             }
-          },
-          "description": "Options related to the templates.",
-          "title": "Templates"
+          }
         }
       },
-      "title": "Theme Options",
+      "title": "EngineeringresumesThemeOptions",
       "type": "object"
     },
     "EntryTypes": {
       "additionalProperties": false,
-      "description": "Options related to the templates.",
       "properties": {
         "one_line_entry": {
-          "$ref": "#/$defs/OneLineEntryOptions",
-          "default": {
-            "template": "**LABEL:** DETAILS"
-          },
-          "title": "One-Line Entry"
+          "$ref": "#/$defs/OneLineEntryOptions"
         },
         "education_entry": {
-          "$ref": "#/$defs/rendercv__themes__options__EducationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**INSTITUTION**, AREA",
-            "degree_column_template": "**DEGREE**",
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
-          },
-          "title": "Education Entry"
+          "$ref": "#/$defs/rendercv__themes__options__EducationEntryOptions"
         },
         "normal_entry": {
-          "$ref": "#/$defs/rendercv__themes__options__NormalEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
-          },
-          "title": "Normal Entry"
+          "$ref": "#/$defs/rendercv__themes__options__NormalEntryOptions"
         },
         "experience_entry": {
-          "$ref": "#/$defs/rendercv__themes__options__ExperienceEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**COMPANY**, POSITION",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "LOCATION\nDATE"
-          },
-          "title": "Experience Entry"
+          "$ref": "#/$defs/rendercv__themes__options__ExperienceEntryOptions"
         },
         "publication_entry": {
-          "$ref": "#/$defs/PublicationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
-          },
-          "title": "Publication Entry"
+          "$ref": "#/$defs/PublicationEntryOptions"
         }
       },
-      "title": "Entry Types",
+      "title": "EntryTypes",
       "type": "object"
     },
     "ExperienceEntry": {
@@ -1206,32 +1028,14 @@
         "theme": {
           "const": "moderncv",
           "default": "moderncv",
-          "description": "The theme of the CV. It just changes the default values.",
           "title": "Theme",
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/rendercv__themes__options__Page",
-          "default": {
-            "size": "us-letter",
-            "top_margin": "2cm",
-            "bottom_margin": "2cm",
-            "left_margin": "2cm",
-            "right_margin": "2cm",
-            "show_page_numbering": true,
-            "show_last_updated_date": true
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Page"
         },
         "colors": {
-          "$ref": "#/$defs/rendercv__themes__options__Colors",
-          "default": {
-            "text": "rgb(0, 0, 0)",
-            "name": "rgb(0, 79, 144)",
-            "connections": "rgb(0, 79, 144)",
-            "section_titles": "rgb(0, 79, 144)",
-            "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Colors"
         },
         "text": {
           "$ref": "#/$defs/rendercv__themes__moderncv__Text",
@@ -1241,16 +1045,14 @@
             "leading": "0.6em",
             "alignment": "justified",
             "date_and_location_column_alignment": "right"
-          },
-          "description": "Options related to text."
+          }
         },
         "links": {
           "$ref": "#/$defs/rendercv__themes__moderncv__Links",
           "default": {
             "underline": true,
             "use_external_link_icon": false
-          },
-          "description": "Options related to links."
+          }
         },
         "header": {
           "$ref": "#/$defs/rendercv__themes__moderncv__Header",
@@ -1269,9 +1071,7 @@
             "use_urls_as_placeholders_for_connections": false,
             "make_connections_links": true,
             "alignment": "left"
-          },
-          "description": "Options related to headers.",
-          "title": "Headers"
+          }
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__themes__moderncv__SectionTitles",
@@ -1284,8 +1084,7 @@
             "line_thickness": "0.15cm",
             "vertical_space_above": "0.55cm",
             "vertical_space_below": "0.3cm"
-          },
-          "description": "Options related to section titles."
+          }
         },
         "entries": {
           "$ref": "#/$defs/rendercv__themes__moderncv__Entries",
@@ -1298,8 +1097,7 @@
             "allow_page_break_in_entries": true,
             "short_second_row": false,
             "show_time_spans_in": []
-          },
-          "description": "Options related to entries."
+          }
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__themes__moderncv__Highlights",
@@ -1311,8 +1109,7 @@
             "vertical_space_between_highlights": "0.19cm",
             "horizontal_space_between_bullet_and_highlight": "0.3em",
             "summary_left_margin": "0cm"
-          },
-          "description": "Options related to highlights."
+          }
         },
         "entry_types": {
           "$ref": "#/$defs/rendercv__themes__moderncv__EntryOptionsTypes",
@@ -1344,12 +1141,10 @@
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
             }
-          },
-          "description": "Options related to the templates.",
-          "title": "Templates"
+          }
         }
       },
-      "title": "Theme Options",
+      "title": "ModerncvThemeOptions",
       "type": "object"
     },
     "NormalEntry": {
@@ -1515,16 +1310,15 @@
     },
     "OneLineEntryOptions": {
       "additionalProperties": false,
-      "description": "Options related to one-line entries.",
       "properties": {
         "template": {
           "default": "**LABEL:** DETAILS",
-          "description": "The template of the one-line entry. The available placeholders are all the keys used in the entries (in uppercase).",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
           "title": "Template",
           "type": "string"
         }
       },
-      "title": "One Line Entry Options",
+      "title": "OneLineEntryOptions",
       "type": "object"
     },
     "PublicationEntry": {
@@ -1615,40 +1409,39 @@
     },
     "PublicationEntryOptions": {
       "additionalProperties": false,
-      "description": "Options related to publication entries.",
       "properties": {
         "main_column_first_row_template": {
           "default": "**TITLE**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "AUTHORS\nURL (JOURNAL)",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "main_column_second_row_without_journal_template": {
           "default": "AUTHORS\nURL",
-          "description": "The content of the Main Column in case the journal is not given. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row Without Journal",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Without Journal Template",
           "type": "string"
         },
         "main_column_second_row_without_url_template": {
           "default": "AUTHORS\nJOURNAL",
-          "description": "The content of the Main Column in case the `doi` or `url is not given. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row Without URL",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Without Url Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Publication Entry Options",
+      "title": "PublicationEntryOptions",
       "type": "object"
     },
     "RenderCVSettings": {
@@ -1873,150 +1666,38 @@
         "theme": {
           "const": "sb2nov",
           "default": "sb2nov",
-          "description": "The theme of the CV. It just changes the default values.",
           "title": "Theme",
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/rendercv__themes__options__Page",
-          "default": {
-            "size": "us-letter",
-            "top_margin": "2cm",
-            "bottom_margin": "2cm",
-            "left_margin": "2cm",
-            "right_margin": "2cm",
-            "show_page_numbering": true,
-            "show_last_updated_date": true
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Page"
         },
         "colors": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__Colors",
-          "default": {
-            "text": "rgb(0, 0, 0)",
-            "name": "rgb(0, 0, 0)",
-            "connections": "rgb(0, 0, 0)",
-            "section_titles": "rgb(0, 0, 0)",
-            "links": "rgb(0, 79, 144)",
-            "last_updated_date_and_page_numbering": "rgb(128, 128, 128)"
-          },
-          "description": "Color used throughout the CV."
+          "$ref": "#/$defs/rendercv__themes__sb2nov__Colors"
         },
         "text": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__Text",
-          "default": {
-            "font_family": "New Computer Modern",
-            "font_size": "10pt",
-            "leading": "0.6em",
-            "alignment": "justified",
-            "date_and_location_column_alignment": "right"
-          },
-          "description": "Options related to text."
+          "$ref": "#/$defs/rendercv__themes__sb2nov__Text"
         },
         "links": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__Links",
-          "default": {
-            "underline": true,
-            "use_external_link_icon": false
-          },
-          "description": "Options related to links."
+          "$ref": "#/$defs/rendercv__themes__sb2nov__Links"
         },
         "header": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__Header",
-          "default": {
-            "name_font_family": "New Computer Modern",
-            "name_font_size": "30pt",
-            "name_bold": true,
-            "small_caps_for_name": false,
-            "photo_width": "3.5cm",
-            "vertical_space_between_name_and_connections": "0.7cm",
-            "vertical_space_between_connections_and_first_section": "0.7cm",
-            "horizontal_space_between_connections": "0.5cm",
-            "connections_font_family": "New Computer Modern",
-            "separator_between_connections": "",
-            "use_icons_for_connections": true,
-            "use_urls_as_placeholders_for_connections": false,
-            "make_connections_links": true,
-            "alignment": "center"
-          },
-          "description": "Options related to headers.",
-          "title": "Headers"
+          "$ref": "#/$defs/rendercv__themes__sb2nov__Header"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles",
-          "default": {
-            "type": "with-full-line",
-            "font_family": "New Computer Modern",
-            "font_size": "1.4em",
-            "bold": true,
-            "small_caps": false,
-            "line_thickness": "0.5pt",
-            "vertical_space_above": "0.5cm",
-            "vertical_space_below": "0.3cm"
-          },
-          "description": "Options related to section titles."
+          "$ref": "#/$defs/rendercv__themes__sb2nov__SectionTitles"
         },
         "entries": {
-          "$ref": "#/$defs/rendercv__themes__options__Entries",
-          "default": {
-            "date_and_location_width": "4.15cm",
-            "left_and_right_margin": "0.2cm",
-            "horizontal_space_between_columns": "0.1cm",
-            "vertical_space_between_entries": "1.2em",
-            "allow_page_break_in_sections": true,
-            "allow_page_break_in_entries": true,
-            "short_second_row": false,
-            "show_time_spans_in": []
-          }
+          "$ref": "#/$defs/rendercv__themes__options__Entries"
         },
         "highlights": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__Highlights",
-          "default": {
-            "bullet": "◦",
-            "nested_bullet": "-",
-            "top_margin": "0.25cm",
-            "left_margin": "0.4cm",
-            "vertical_space_between_highlights": "0.25cm",
-            "horizontal_space_between_bullet_and_highlight": "0.5em",
-            "summary_left_margin": "0cm"
-          },
-          "description": "Options related to highlights."
+          "$ref": "#/$defs/rendercv__themes__sb2nov__Highlights"
         },
         "entry_types": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__EntryOptionsTypes",
-          "default": {
-            "one_line_entry": {
-              "template": "**LABEL:** DETAILS"
-            },
-            "education_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "degree_column_template": null,
-              "degree_column_width": "1cm",
-              "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "normal_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "main_column_first_row_template": "**NAME**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "experience_entry": {
-              "date_and_location_column_template": "*LOCATION*\n*DATE*",
-              "main_column_first_row_template": "**POSITION**\n*COMPANY*",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS"
-            },
-            "publication_entry": {
-              "date_and_location_column_template": "DATE",
-              "main_column_first_row_template": "**TITLE**",
-              "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-              "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-              "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
-            }
-          },
-          "description": "Options related to the templates.",
-          "title": "Templates"
+          "$ref": "#/$defs/rendercv__themes__sb2nov__EntryOptionsTypes"
         }
       },
-      "title": "Theme Options",
+      "title": "Sb2novThemeOptions",
       "type": "object"
     },
     "SocialNetwork": {
@@ -2060,14 +1741,13 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**INSTITUTION**, AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "degree_column_template": {
           "default": "**DEGREE**",
           "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+          "title": "Degree Column Template",
           "oneOf": [
             {
               "type": "string"
@@ -2079,35 +1759,30 @@
         },
         "degree_column_width": {
           "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Degree Column Width",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Education Entry Options",
+      "title": "EducationEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringclassic__EntryOptionsTypes": {
       "additionalProperties": false,
       "properties": {
         "one_line_entry": {
-          "$ref": "#/$defs/OneLineEntryOptions",
-          "default": {
-            "template": "**LABEL:** DETAILS"
-          },
-          "title": "One-Line Entry"
+          "$ref": "#/$defs/OneLineEntryOptions"
         },
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__EducationEntryOptions",
@@ -2117,9 +1792,7 @@
             "degree_column_width": "1cm",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to education entries.",
-          "title": "Education Entry"
+          }
         },
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__NormalEntryOptions",
@@ -2127,9 +1800,7 @@
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to normal entries.",
-          "title": "Normal Entry"
+          }
         },
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringclassic__ExperienceEntryOptions",
@@ -2137,23 +1808,13 @@
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to experience entries.",
-          "title": "Experience Entry"
+          }
         },
         "publication_entry": {
-          "$ref": "#/$defs/PublicationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
-          },
-          "title": "Publication Entry"
+          "$ref": "#/$defs/PublicationEntryOptions"
         }
       },
-      "title": "Entry Types",
+      "title": "EntryOptionsTypes",
       "type": "object"
     },
     "rendercv__themes__engineeringclassic__ExperienceEntryOptions": {
@@ -2161,24 +1822,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Experience Entry Options",
+      "title": "ExperienceEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringclassic__Header": {
@@ -2186,7 +1845,6 @@
       "properties": {
         "name_font_family": {
           "default": "Raleway",
-          "description": "The font family of the name in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -2227,49 +1885,41 @@
         },
         "name_font_size": {
           "default": "30pt",
-          "description": "The font size of the name in the header.",
           "title": "Name Font Size",
           "type": "string"
         },
         "name_bold": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be bold.",
-          "title": "Bold Name",
+          "title": "Name Bold",
           "type": "boolean"
         },
         "small_caps_for_name": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be in small caps.",
-          "title": "Small Caps for Name",
+          "title": "Small Caps For Name",
           "type": "boolean"
         },
         "photo_width": {
           "default": "3.5cm",
-          "description": "The width of the photo in the header.",
-          "title": "Width of the Photo",
+          "title": "Photo Width",
           "type": "string"
         },
         "vertical_space_between_name_and_connections": {
           "default": "0.7cm",
-          "description": "The vertical margin between the name of the person and the connections.",
-          "title": "Vertical Margin Between the Name and Connections",
+          "title": "Vertical Space Between Name And Connections",
           "type": "string"
         },
         "vertical_space_between_connections_and_first_section": {
           "default": "0.7cm",
-          "description": "The vertical margin between the connections and the first section title.",
-          "title": "Vertical Margin Between Connections and First Section",
+          "title": "Vertical Space Between Connections And First Section",
           "type": "string"
         },
         "horizontal_space_between_connections": {
           "default": "0.5cm",
-          "description": "The space between the connections (like phone, email, and website).",
-          "title": "Space Between Connections",
+          "title": "Horizontal Space Between Connections",
           "type": "string"
         },
         "connections_font_family": {
           "default": "Raleway",
-          "description": "The font family of the connections in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -2309,45 +1959,33 @@
           "type": "string"
         },
         "separator_between_connections": {
-          "default": null,
-          "description": "The separator between the connections in the header.",
+          "default": "",
           "title": "Separator Between Connections",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "type": "string"
         },
         "use_icons_for_connections": {
           "default": true,
-          "description": "If this option is \"true\", icons will be used for the connections (phone number, email, social networks, etc.) in the header.",
-          "title": "Use Icons for Connections",
+          "title": "Use Icons For Connections",
           "type": "boolean"
         },
         "use_urls_as_placeholders_for_connections": {
           "default": false,
-          "description": "If this option is \"true\", the URLs will be used as placeholders for the connections.",
-          "title": "Use URLs as Placeholders for Connections",
+          "title": "Use Urls As Placeholders For Connections",
           "type": "boolean"
         },
         "make_connections_links": {
           "default": true,
-          "description": "If this option is \"true\", the connections will be clickable links.",
           "title": "Make Connections Links",
           "type": "boolean"
         },
         "alignment": {
           "default": "left",
-          "description": "The alignment of the header.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of the Header",
+          "title": "Alignment",
           "type": "string"
         }
       },
@@ -2359,7 +1997,6 @@
       "properties": {
         "bullet": {
           "default": "•",
-          "description": "The bullet used for the highlights and bullet entries.",
           "enum": [
             "•",
             "◦",
@@ -2375,7 +2012,6 @@
         },
         "nested_bullet": {
           "default": "-",
-          "description": "The bullet used for the nested highlights.",
           "enum": [
             "•",
             "◦",
@@ -2391,32 +2027,31 @@
         },
         "top_margin": {
           "default": "0.25cm",
-          "description": "The top margin of the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "0cm",
-          "description": "The left margin of the highlights.",
           "title": "Left Margin",
           "type": "string"
         },
         "vertical_space_between_highlights": {
           "default": "0.25cm",
-          "description": "The vertical space between the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Vertical Space Between Highlights",
           "type": "string"
         },
         "horizontal_space_between_bullet_and_highlight": {
           "default": "0.5em",
-          "description": "The horizontal space between the bullet and the highlight.",
-          "title": "Horizontal Space Between Bullet and Highlight",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Horizontal Space Between Bullet And Highlight",
           "type": "string"
         },
         "summary_left_margin": {
           "default": "0cm",
-          "description": "The left margin of the summary.",
-          "title": "Left Margin of the Summary",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Summary Left Margin",
           "type": "string"
         }
       },
@@ -2428,13 +2063,11 @@
       "properties": {
         "underline": {
           "default": false,
-          "description": "If this option is \"true\", links will be underlined.",
-          "title": "Underline Links",
+          "title": "Underline",
           "type": "boolean"
         },
         "use_external_link_icon": {
           "default": false,
-          "description": "If this option is \"true\", an external link icon will be shown next to the links.",
           "title": "Use External Link Icon",
           "type": "boolean"
         }
@@ -2447,24 +2080,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Normal Entry Options",
+      "title": "NormalEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringclassic__Page": {
@@ -2472,7 +2103,6 @@
       "properties": {
         "size": {
           "default": "us-letter",
-          "description": "The page size of the CV.",
           "enum": [
             "a0",
             "a1",
@@ -2492,42 +2122,40 @@
             "presentation-16-9",
             "presentation-4-3"
           ],
-          "title": "Page Size",
+          "title": "Size",
           "type": "string"
         },
         "top_margin": {
           "default": "2cm",
-          "description": "The top margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "bottom_margin": {
           "default": "2cm",
-          "description": "The bottom margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Bottom Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "2cm",
-          "description": "The left margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Left Margin",
           "type": "string"
         },
         "right_margin": {
           "default": "2cm",
-          "description": "The right margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Right Margin",
           "type": "string"
         },
         "show_page_numbering": {
           "default": false,
-          "description": "If this option is \"true\", the page numbering will be shown in the footer.",
           "title": "Show Page Numbering",
           "type": "boolean"
         },
         "show_last_updated_date": {
           "default": true,
-          "description": "If this option is \"true\", the last updated date will be shown in the footer.",
           "title": "Show Last Updated Date",
           "type": "boolean"
         }
@@ -2540,7 +2168,6 @@
       "properties": {
         "type": {
           "default": "with-partial-line",
-          "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
             "with-full-line",
@@ -2552,7 +2179,6 @@
         },
         "font_family": {
           "default": "Raleway",
-          "description": "The font family of the section titles.",
           "enum": [
             "Aptos",
             "Arial",
@@ -2593,42 +2219,36 @@
         },
         "font_size": {
           "default": "1.4em",
-          "description": "The font size of the section titles.",
           "title": "Font Size",
           "type": "string"
         },
         "bold": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be bold.",
-          "title": "Bold Section Titles",
+          "title": "Bold",
           "type": "boolean"
         },
         "small_caps": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be in small caps.",
           "title": "Small Caps",
           "type": "boolean"
         },
         "line_thickness": {
           "default": "0.5pt",
-          "description": "The thickness of the line under the section titles.",
           "title": "Line Thickness",
           "type": "string"
         },
         "vertical_space_above": {
           "default": "0.5cm",
-          "description": "The vertical space above the section titles.",
-          "title": "Vertical Space Above Section Titles",
+          "title": "Vertical Space Above",
           "type": "string"
         },
         "vertical_space_below": {
           "default": "0.3cm",
-          "description": "The vertical space below the section titles.",
-          "title": "Vertical Space Below Section Titles",
+          "title": "Vertical Space Below",
           "type": "string"
         }
       },
-      "title": "Section Titles",
+      "title": "SectionTitles",
       "type": "object"
     },
     "rendercv__themes__engineeringclassic__Text": {
@@ -2636,7 +2256,6 @@
       "properties": {
         "font_family": {
           "default": "Raleway",
-          "description": "The font family.",
           "enum": [
             "Aptos",
             "Arial",
@@ -2677,7 +2296,6 @@
         },
         "font_size": {
           "default": "10pt",
-          "description": "The font size of the text.",
           "title": "Font Size",
           "type": "string"
         },
@@ -2689,24 +2307,22 @@
         },
         "alignment": {
           "default": "justified",
-          "description": "The alignment of the text.",
           "enum": [
             "left",
             "justified",
             "justified-with-no-hyphenation"
           ],
-          "title": "Alignment of Text",
+          "title": "Alignment",
           "type": "string"
         },
         "date_and_location_column_alignment": {
           "default": "right",
-          "description": "The alignment of the date column in the entries.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of Date and Location Column",
+          "title": "Date And Location Column Alignment",
           "type": "string"
         }
       },
@@ -2718,7 +2334,7 @@
       "properties": {
         "text": {
           "default": "black",
-          "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -2726,64 +2342,36 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Text",
+          "title": "Text",
           "type": "string"
         },
         "name": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the name in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "black",
           "format": "color",
-          "title": "Color of Name",
+          "title": "Name",
           "type": "string"
         },
         "connections": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the connections in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "black",
           "format": "color",
-          "title": "Color of Connections",
+          "title": "Connections",
           "type": "string"
         },
         "section_titles": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the section titles.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "black",
           "format": "color",
-          "title": "Color of Section Titles",
+          "title": "Section Titles",
           "type": "string"
         },
         "links": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the links.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "black",
           "format": "color",
-          "title": "Color of Links",
+          "title": "Links",
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
           "default": "grey",
-          "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -2791,7 +2379,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Last Updated Date and Page Numbering",
+          "title": "Last Updated Date And Page Numbering",
           "type": "string"
         }
       },
@@ -2803,14 +2391,12 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "degree_column_template": {
           "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+          "title": "Degree Column Template",
           "oneOf": [
             {
               "type": "string"
@@ -2822,24 +2408,23 @@
         },
         "degree_column_width": {
           "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Degree Column Width",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Education Entry Options",
+      "title": "EducationEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringresumes__Entries": {
@@ -2847,38 +2432,34 @@
       "properties": {
         "date_and_location_width": {
           "default": "4.15cm",
-          "description": "The width of the date and location in the entries.",
-          "title": "Width of Date and Location",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Date And Location Width",
           "type": "string"
         },
         "left_and_right_margin": {
           "default": "0cm",
-          "description": "The left and right margin of the entries.",
-          "title": "Left and Right Margin",
+          "title": "Left And Right Margin",
           "type": "string"
         },
         "horizontal_space_between_columns": {
           "default": "0.1cm",
-          "description": "The horizontal space between the columns in the entries.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Horizontal Space Between Columns",
           "type": "string"
         },
         "vertical_space_between_entries": {
           "default": "0.4cm",
-          "description": "The vertical space between the entries.",
           "title": "Vertical Space Between Entries",
           "type": "string"
         },
         "allow_page_break_in_sections": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the sections.",
-          "title": "Allow Page Break in Sections",
+          "title": "Allow Page Break In Sections",
           "type": "boolean"
         },
         "allow_page_break_in_entries": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the entries.",
-          "title": "Allow Page Break in Entries",
+          "title": "Allow Page Break In Entries",
           "type": "boolean"
         },
         "short_second_row": {
@@ -2888,12 +2469,11 @@
           "type": "boolean"
         },
         "show_time_spans_in": {
-          "default": [],
           "description": "The list of section titles where the time spans will be shown in the entries.",
           "items": {
             "type": "string"
           },
-          "title": "Show Time Spans in",
+          "title": "Show Time Spans In",
           "type": "array"
         }
       },
@@ -2904,11 +2484,7 @@
       "additionalProperties": false,
       "properties": {
         "one_line_entry": {
-          "$ref": "#/$defs/OneLineEntryOptions",
-          "default": {
-            "template": "**LABEL:** DETAILS"
-          },
-          "title": "One-Line Entry"
+          "$ref": "#/$defs/OneLineEntryOptions"
         },
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__EducationEntryOptions",
@@ -2918,9 +2494,7 @@
             "degree_column_width": "1cm",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to education entries.",
-          "title": "Education Entry"
+          }
         },
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__NormalEntryOptions",
@@ -2928,9 +2502,7 @@
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to normal entries.",
-          "title": "Normal Entry"
+          }
         },
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__engineeringresumes__ExperienceEntryOptions",
@@ -2938,23 +2510,13 @@
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to experience entries.",
-          "title": "Experience Entry"
+          }
         },
         "publication_entry": {
-          "$ref": "#/$defs/PublicationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
-          },
-          "title": "Publication Entry"
+          "$ref": "#/$defs/PublicationEntryOptions"
         }
       },
-      "title": "Entry Types",
+      "title": "EntryOptionsTypes",
       "type": "object"
     },
     "rendercv__themes__engineeringresumes__ExperienceEntryOptions": {
@@ -2962,24 +2524,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Experience Entry Options",
+      "title": "ExperienceEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringresumes__Header": {
@@ -2987,7 +2547,6 @@
       "properties": {
         "name_font_family": {
           "default": "XCharter",
-          "description": "The font family of the name in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3033,43 +2592,36 @@
         },
         "name_bold": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be bold.",
-          "title": "Bold Name",
+          "title": "Name Bold",
           "type": "boolean"
         },
         "small_caps_for_name": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be in small caps.",
-          "title": "Small Caps for Name",
+          "title": "Small Caps For Name",
           "type": "boolean"
         },
         "photo_width": {
           "default": "3.5cm",
-          "description": "The width of the photo in the header.",
-          "title": "Width of the Photo",
+          "title": "Photo Width",
           "type": "string"
         },
         "vertical_space_between_name_and_connections": {
           "default": "0.7cm",
-          "description": "The vertical margin between the name of the person and the connections.",
-          "title": "Vertical Margin Between the Name and Connections",
+          "title": "Vertical Space Between Name And Connections",
           "type": "string"
         },
         "vertical_space_between_connections_and_first_section": {
           "default": "0.7cm",
-          "description": "The vertical margin between the connections and the first section title.",
-          "title": "Vertical Margin Between Connections and First Section",
+          "title": "Vertical Space Between Connections And First Section",
           "type": "string"
         },
         "horizontal_space_between_connections": {
           "default": "0.5cm",
-          "description": "The space between the connections (like phone, email, and website).",
-          "title": "Space Between Connections",
+          "title": "Horizontal Space Between Connections",
           "type": "string"
         },
         "connections_font_family": {
           "default": "XCharter",
-          "description": "The font family of the connections in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3110,37 +2662,32 @@
         },
         "separator_between_connections": {
           "default": "|",
-          "description": "The separator between the connections in the header.",
           "title": "Separator Between Connections",
           "type": "string"
         },
         "use_icons_for_connections": {
           "default": false,
-          "description": "If this option is \"true\", icons will be used for the connections (phone number, email, social networks, etc.) in the header.",
-          "title": "Use Icons for Connections",
+          "title": "Use Icons For Connections",
           "type": "boolean"
         },
         "use_urls_as_placeholders_for_connections": {
           "default": true,
-          "description": "If this option is \"true\", the URLs will be used as placeholders for the connections.",
-          "title": "Use URLs as Placeholders for Connections",
+          "title": "Use Urls As Placeholders For Connections",
           "type": "boolean"
         },
         "make_connections_links": {
           "default": true,
-          "description": "If this option is \"true\", the connections will be clickable links.",
           "title": "Make Connections Links",
           "type": "boolean"
         },
         "alignment": {
           "default": "center",
-          "description": "The alignment of the header.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of the Header",
+          "title": "Alignment",
           "type": "string"
         }
       },
@@ -3152,7 +2699,6 @@
       "properties": {
         "bullet": {
           "default": "•",
-          "description": "The bullet used for the highlights and bullet entries.",
           "enum": [
             "•",
             "◦",
@@ -3168,7 +2714,6 @@
         },
         "nested_bullet": {
           "default": "-",
-          "description": "The bullet used for the nested highlights.",
           "enum": [
             "•",
             "◦",
@@ -3184,32 +2729,28 @@
         },
         "top_margin": {
           "default": "0.25cm",
-          "description": "The top margin of the highlights.",
           "title": "Top Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "0cm",
-          "description": "The left margin of the highlights.",
           "title": "Left Margin",
           "type": "string"
         },
         "vertical_space_between_highlights": {
           "default": "0.19cm",
-          "description": "The vertical space between the highlights.",
           "title": "Vertical Space Between Highlights",
           "type": "string"
         },
         "horizontal_space_between_bullet_and_highlight": {
           "default": "0.3em",
-          "description": "The horizontal space between the bullet and the highlight.",
-          "title": "Horizontal Space Between Bullet and Highlight",
+          "title": "Horizontal Space Between Bullet And Highlight",
           "type": "string"
         },
         "summary_left_margin": {
           "default": "0cm",
-          "description": "The left margin of the summary.",
-          "title": "Left Margin of the Summary",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Summary Left Margin",
           "type": "string"
         }
       },
@@ -3221,13 +2762,11 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "If this option is \"true\", links will be underlined.",
-          "title": "Underline Links",
+          "title": "Underline",
           "type": "boolean"
         },
         "use_external_link_icon": {
           "default": false,
-          "description": "If this option is \"true\", an external link icon will be shown next to the links.",
           "title": "Use External Link Icon",
           "type": "boolean"
         }
@@ -3240,24 +2779,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Normal Entry Options",
+      "title": "NormalEntryOptions",
       "type": "object"
     },
     "rendercv__themes__engineeringresumes__Page": {
@@ -3265,7 +2802,6 @@
       "properties": {
         "size": {
           "default": "us-letter",
-          "description": "The page size of the CV.",
           "enum": [
             "a0",
             "a1",
@@ -3285,42 +2821,40 @@
             "presentation-16-9",
             "presentation-4-3"
           ],
-          "title": "Page Size",
+          "title": "Size",
           "type": "string"
         },
         "top_margin": {
           "default": "2cm",
-          "description": "The top margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "bottom_margin": {
           "default": "2cm",
-          "description": "The bottom margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Bottom Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "2cm",
-          "description": "The left margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Left Margin",
           "type": "string"
         },
         "right_margin": {
           "default": "2cm",
-          "description": "The right margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Right Margin",
           "type": "string"
         },
         "show_page_numbering": {
           "default": false,
-          "description": "If this option is \"true\", the page numbering will be shown in the footer.",
           "title": "Show Page Numbering",
           "type": "boolean"
         },
         "show_last_updated_date": {
           "default": true,
-          "description": "If this option is \"true\", the last updated date will be shown in the footer.",
           "title": "Show Last Updated Date",
           "type": "boolean"
         }
@@ -3333,7 +2867,6 @@
       "properties": {
         "type": {
           "default": "with-full-line",
-          "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
             "with-full-line",
@@ -3345,7 +2878,6 @@
         },
         "font_family": {
           "default": "XCharter",
-          "description": "The font family of the section titles.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3386,42 +2918,36 @@
         },
         "font_size": {
           "default": "1.2em",
-          "description": "The font size of the section titles.",
           "title": "Font Size",
           "type": "string"
         },
         "bold": {
           "default": true,
-          "description": "If this option is \"true\", the section titles will be bold.",
-          "title": "Bold Section Titles",
+          "title": "Bold",
           "type": "boolean"
         },
         "small_caps": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be in small caps.",
           "title": "Small Caps",
           "type": "boolean"
         },
         "line_thickness": {
           "default": "0.5pt",
-          "description": "The thickness of the line under the section titles.",
           "title": "Line Thickness",
           "type": "string"
         },
         "vertical_space_above": {
           "default": "0.55cm",
-          "description": "The vertical space above the section titles.",
-          "title": "Vertical Space Above Section Titles",
+          "title": "Vertical Space Above",
           "type": "string"
         },
         "vertical_space_below": {
           "default": "0.3cm",
-          "description": "The vertical space below the section titles.",
-          "title": "Vertical Space Below Section Titles",
+          "title": "Vertical Space Below",
           "type": "string"
         }
       },
-      "title": "Section Titles",
+      "title": "SectionTitles",
       "type": "object"
     },
     "rendercv__themes__engineeringresumes__Text": {
@@ -3429,7 +2955,6 @@
       "properties": {
         "font_family": {
           "default": "XCharter",
-          "description": "The font family.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3470,36 +2995,32 @@
         },
         "font_size": {
           "default": "10pt",
-          "description": "The font size of the text.",
           "title": "Font Size",
           "type": "string"
         },
         "leading": {
           "default": "0.6em",
-          "description": "The vertical space between adjacent lines of text.",
           "title": "Leading",
           "type": "string"
         },
         "alignment": {
           "default": "justified",
-          "description": "The alignment of the text.",
           "enum": [
             "left",
             "justified",
             "justified-with-no-hyphenation"
           ],
-          "title": "Alignment of Text",
+          "title": "Alignment",
           "type": "string"
         },
         "date_and_location_column_alignment": {
           "default": "right",
-          "description": "The alignment of the date column in the entries.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of Date and Location Column",
+          "title": "Date And Location Column Alignment",
           "type": "string"
         }
       },
@@ -3511,14 +3032,12 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "degree_column_template": {
           "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+          "title": "Degree Column Template",
           "oneOf": [
             {
               "type": "string"
@@ -3530,24 +3049,23 @@
         },
         "degree_column_width": {
           "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Degree Column Width",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Education Entry Options",
+      "title": "EducationEntryOptions",
       "type": "object"
     },
     "rendercv__themes__moderncv__Entries": {
@@ -3555,38 +3073,33 @@
       "properties": {
         "date_and_location_width": {
           "default": "4.15cm",
-          "description": "The width of the date and location in the entries.",
-          "title": "Width of Date and Location",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Date And Location Width",
           "type": "string"
         },
         "left_and_right_margin": {
           "default": "0cm",
-          "description": "The left and right margin of the entries.",
-          "title": "Left and Right Margin",
+          "title": "Left And Right Margin",
           "type": "string"
         },
         "horizontal_space_between_columns": {
           "default": "0.4cm",
-          "description": "The horizontal space between the columns in the entries.",
           "title": "Horizontal Space Between Columns",
           "type": "string"
         },
         "vertical_space_between_entries": {
           "default": "0.4cm",
-          "description": "The vertical space between the entries.",
           "title": "Vertical Space Between Entries",
           "type": "string"
         },
         "allow_page_break_in_sections": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the sections.",
-          "title": "Allow Page Break in Sections",
+          "title": "Allow Page Break In Sections",
           "type": "boolean"
         },
         "allow_page_break_in_entries": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the entries.",
-          "title": "Allow Page Break in Entries",
+          "title": "Allow Page Break In Entries",
           "type": "boolean"
         },
         "short_second_row": {
@@ -3596,12 +3109,11 @@
           "type": "boolean"
         },
         "show_time_spans_in": {
-          "default": [],
           "description": "The list of section titles where the time spans will be shown in the entries.",
           "items": {
             "type": "string"
           },
-          "title": "Show Time Spans in",
+          "title": "Show Time Spans In",
           "type": "array"
         }
       },
@@ -3612,11 +3124,7 @@
       "additionalProperties": false,
       "properties": {
         "one_line_entry": {
-          "$ref": "#/$defs/OneLineEntryOptions",
-          "default": {
-            "template": "**LABEL:** DETAILS"
-          },
-          "title": "One-Line Entry"
+          "$ref": "#/$defs/OneLineEntryOptions"
         },
         "education_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__EducationEntryOptions",
@@ -3626,9 +3134,7 @@
             "degree_column_width": "1cm",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to education entries.",
-          "title": "Education Entry"
+          }
         },
         "normal_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__NormalEntryOptions",
@@ -3636,9 +3142,7 @@
             "main_column_first_row_template": "**NAME** -- **LOCATION**",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to normal entries.",
-          "title": "Normal Entry"
+          }
         },
         "experience_entry": {
           "$ref": "#/$defs/rendercv__themes__moderncv__ExperienceEntryOptions",
@@ -3646,23 +3150,13 @@
             "main_column_first_row_template": "**POSITION**, COMPANY -- LOCATION",
             "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
             "date_and_location_column_template": "DATE"
-          },
-          "description": "Options related to experience entries.",
-          "title": "Experience Entry"
+          }
         },
         "publication_entry": {
-          "$ref": "#/$defs/PublicationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
-          },
-          "title": "Publication Entry"
+          "$ref": "#/$defs/PublicationEntryOptions"
         }
       },
-      "title": "Entry Types",
+      "title": "EntryOptionsTypes",
       "type": "object"
     },
     "rendercv__themes__moderncv__ExperienceEntryOptions": {
@@ -3670,24 +3164,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Experience Entry Options",
+      "title": "ExperienceEntryOptions",
       "type": "object"
     },
     "rendercv__themes__moderncv__Header": {
@@ -3695,7 +3187,6 @@
       "properties": {
         "name_font_family": {
           "default": "Fontin",
-          "description": "The font family of the name in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3741,43 +3232,36 @@
         },
         "name_bold": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be bold.",
-          "title": "Bold Name",
+          "title": "Name Bold",
           "type": "boolean"
         },
         "small_caps_for_name": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be in small caps.",
-          "title": "Small Caps for Name",
+          "title": "Small Caps For Name",
           "type": "boolean"
         },
         "photo_width": {
           "default": "3.5cm",
-          "description": "The width of the photo in the header.",
-          "title": "Width of the Photo",
+          "title": "Photo Width",
           "type": "string"
         },
         "vertical_space_between_name_and_connections": {
           "default": "0.7cm",
-          "description": "The vertical margin between the name of the person and the connections.",
-          "title": "Vertical Margin Between the Name and Connections",
+          "title": "Vertical Space Between Name And Connections",
           "type": "string"
         },
         "vertical_space_between_connections_and_first_section": {
           "default": "0.7cm",
-          "description": "The vertical margin between the connections and the first section title.",
-          "title": "Vertical Margin Between Connections and First Section",
+          "title": "Vertical Space Between Connections And First Section",
           "type": "string"
         },
         "horizontal_space_between_connections": {
           "default": "0.5cm",
-          "description": "The space between the connections (like phone, email, and website).",
-          "title": "Space Between Connections",
+          "title": "Horizontal Space Between Connections",
           "type": "string"
         },
         "connections_font_family": {
           "default": "Fontin",
-          "description": "The font family of the connections in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -3817,45 +3301,33 @@
           "type": "string"
         },
         "separator_between_connections": {
-          "default": null,
-          "description": "The separator between the connections in the header.",
+          "default": "",
           "title": "Separator Between Connections",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "type": "string"
         },
         "use_icons_for_connections": {
           "default": true,
-          "description": "If this option is \"true\", icons will be used for the connections (phone number, email, social networks, etc.) in the header.",
-          "title": "Use Icons for Connections",
+          "title": "Use Icons For Connections",
           "type": "boolean"
         },
         "use_urls_as_placeholders_for_connections": {
           "default": false,
-          "description": "If this option is \"true\", the URLs will be used as placeholders for the connections.",
-          "title": "Use URLs as Placeholders for Connections",
+          "title": "Use Urls As Placeholders For Connections",
           "type": "boolean"
         },
         "make_connections_links": {
           "default": true,
-          "description": "If this option is \"true\", the connections will be clickable links.",
           "title": "Make Connections Links",
           "type": "boolean"
         },
         "alignment": {
           "default": "left",
-          "description": "The alignment of the header.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of the Header",
+          "title": "Alignment",
           "type": "string"
         }
       },
@@ -3867,7 +3339,6 @@
       "properties": {
         "bullet": {
           "default": "•",
-          "description": "The bullet used for the highlights and bullet entries.",
           "enum": [
             "•",
             "◦",
@@ -3883,7 +3354,6 @@
         },
         "nested_bullet": {
           "default": "-",
-          "description": "The bullet used for the nested highlights.",
           "enum": [
             "•",
             "◦",
@@ -3899,32 +3369,28 @@
         },
         "top_margin": {
           "default": "0.25cm",
-          "description": "The top margin of the highlights.",
           "title": "Top Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "0cm",
-          "description": "The left margin of the highlights.",
           "title": "Left Margin",
           "type": "string"
         },
         "vertical_space_between_highlights": {
           "default": "0.19cm",
-          "description": "The vertical space between the highlights.",
           "title": "Vertical Space Between Highlights",
           "type": "string"
         },
         "horizontal_space_between_bullet_and_highlight": {
           "default": "0.3em",
-          "description": "The horizontal space between the bullet and the highlight.",
-          "title": "Horizontal Space Between Bullet and Highlight",
+          "title": "Horizontal Space Between Bullet And Highlight",
           "type": "string"
         },
         "summary_left_margin": {
           "default": "0cm",
-          "description": "The left margin of the summary.",
-          "title": "Left Margin of the Summary",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Summary Left Margin",
           "type": "string"
         }
       },
@@ -3936,13 +3402,11 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "If this option is \"true\", links will be underlined.",
-          "title": "Underline Links",
+          "title": "Underline",
           "type": "boolean"
         },
         "use_external_link_icon": {
           "default": false,
-          "description": "If this option is \"true\", an external link icon will be shown next to the links.",
           "title": "Use External Link Icon",
           "type": "boolean"
         }
@@ -3955,24 +3419,22 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Normal Entry Options",
+      "title": "NormalEntryOptions",
       "type": "object"
     },
     "rendercv__themes__moderncv__SectionTitles": {
@@ -3980,7 +3442,6 @@
       "properties": {
         "type": {
           "default": "moderncv",
-          "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
             "with-full-line",
@@ -3992,7 +3453,6 @@
         },
         "font_family": {
           "default": "Fontin",
-          "description": "The font family of the section titles.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4033,42 +3493,36 @@
         },
         "font_size": {
           "default": "1.4em",
-          "description": "The font size of the section titles.",
           "title": "Font Size",
           "type": "string"
         },
         "bold": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be bold.",
-          "title": "Bold Section Titles",
+          "title": "Bold",
           "type": "boolean"
         },
         "small_caps": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be in small caps.",
           "title": "Small Caps",
           "type": "boolean"
         },
         "line_thickness": {
           "default": "0.15cm",
-          "description": "The thickness of the line under the section titles.",
           "title": "Line Thickness",
           "type": "string"
         },
         "vertical_space_above": {
           "default": "0.55cm",
-          "description": "The vertical space above the section titles.",
-          "title": "Vertical Space Above Section Titles",
+          "title": "Vertical Space Above",
           "type": "string"
         },
         "vertical_space_below": {
           "default": "0.3cm",
-          "description": "The vertical space below the section titles.",
-          "title": "Vertical Space Below Section Titles",
+          "title": "Vertical Space Below",
           "type": "string"
         }
       },
-      "title": "Section Titles",
+      "title": "SectionTitles",
       "type": "object"
     },
     "rendercv__themes__moderncv__Text": {
@@ -4076,7 +3530,6 @@
       "properties": {
         "font_family": {
           "default": "Fontin",
-          "description": "The font family.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4117,36 +3570,32 @@
         },
         "font_size": {
           "default": "10pt",
-          "description": "The font size of the text.",
           "title": "Font Size",
           "type": "string"
         },
         "leading": {
           "default": "0.6em",
-          "description": "The vertical space between adjacent lines of text.",
           "title": "Leading",
           "type": "string"
         },
         "alignment": {
           "default": "justified",
-          "description": "The alignment of the text.",
           "enum": [
             "left",
             "justified",
             "justified-with-no-hyphenation"
           ],
-          "title": "Alignment of Text",
+          "title": "Alignment",
           "type": "string"
         },
         "date_and_location_column_alignment": {
           "default": "right",
-          "description": "The alignment of the date column in the entries.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of Date and Location Column",
+          "title": "Date And Location Column Alignment",
           "type": "string"
         }
       },
@@ -4155,11 +3604,10 @@
     },
     "rendercv__themes__options__Colors": {
       "additionalProperties": false,
-      "description": "Color used throughout the CV.",
       "properties": {
         "text": {
           "default": "black",
-          "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4167,12 +3615,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Text",
+          "title": "Text",
           "type": "string"
         },
         "name": {
           "default": "#004f90",
-          "description": "The color of the name in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4180,12 +3628,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Name",
+          "title": "Name",
           "type": "string"
         },
         "connections": {
           "default": "#004f90",
-          "description": "The color of the connections in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4193,12 +3641,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Connections",
+          "title": "Connections",
           "type": "string"
         },
         "section_titles": {
           "default": "#004f90",
-          "description": "The color of the section titles.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4206,12 +3654,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Section Titles",
+          "title": "Section Titles",
           "type": "string"
         },
         "links": {
           "default": "#004f90",
-          "description": "The color of the links.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4219,12 +3667,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Links",
+          "title": "Links",
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
           "default": "grey",
-          "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4232,7 +3680,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Last Updated Date and Page Numbering",
+          "title": "Last Updated Date And Page Numbering",
           "type": "string"
         }
       },
@@ -4241,18 +3689,17 @@
     },
     "rendercv__themes__options__EducationEntryOptions": {
       "additionalProperties": false,
-      "description": "Options related to education entries.",
       "properties": {
         "main_column_first_row_template": {
           "default": "**INSTITUTION**, AREA",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "degree_column_template": {
           "default": "**DEGREE**",
           "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+          "title": "Degree Column Template",
           "oneOf": [
             {
               "type": "string"
@@ -4264,64 +3711,61 @@
         },
         "degree_column_width": {
           "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Degree Column Width",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Education Entry Options",
+      "title": "EducationEntryOptions",
       "type": "object"
     },
     "rendercv__themes__options__Entries": {
       "additionalProperties": false,
-      "description": "Options related to entries.",
       "properties": {
         "date_and_location_width": {
           "default": "4.15cm",
-          "description": "The width of the date and location in the entries.",
-          "title": "Width of Date and Location",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Date And Location Width",
           "type": "string"
         },
         "left_and_right_margin": {
           "default": "0.2cm",
-          "description": "The left and right margin of the entries.",
-          "title": "Left and Right Margin",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Left And Right Margin",
           "type": "string"
         },
         "horizontal_space_between_columns": {
           "default": "0.1cm",
-          "description": "The horizontal space between the columns in the entries.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Horizontal Space Between Columns",
           "type": "string"
         },
         "vertical_space_between_entries": {
           "default": "1.2em",
-          "description": "The vertical space between the entries.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Vertical Space Between Entries",
           "type": "string"
         },
         "allow_page_break_in_sections": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the sections.",
-          "title": "Allow Page Break in Sections",
+          "title": "Allow Page Break In Sections",
           "type": "boolean"
         },
         "allow_page_break_in_entries": {
           "default": true,
-          "description": "If this option is \"true\", a page break will be allowed in the entries.",
-          "title": "Allow Page Break in Entries",
+          "title": "Allow Page Break In Entries",
           "type": "boolean"
         },
         "short_second_row": {
@@ -4331,12 +3775,11 @@
           "type": "boolean"
         },
         "show_time_spans_in": {
-          "default": [],
           "description": "The list of section titles where the time spans will be shown in the entries.",
           "items": {
             "type": "string"
           },
-          "title": "Show Time Spans in",
+          "title": "Show Time Spans In",
           "type": "array"
         }
       },
@@ -4345,37 +3788,34 @@
     },
     "rendercv__themes__options__ExperienceEntryOptions": {
       "additionalProperties": false,
-      "description": "Options related to experience entries.",
       "properties": {
         "main_column_first_row_template": {
           "default": "**COMPANY**, POSITION",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Experience Entry Options",
+      "title": "ExperienceEntryOptions",
       "type": "object"
     },
     "rendercv__themes__options__Header": {
       "additionalProperties": false,
-      "description": "Options related to headers.",
       "properties": {
         "name_font_family": {
           "default": "Source Sans 3",
-          "description": "The font family of the name in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4416,49 +3856,41 @@
         },
         "name_font_size": {
           "default": "30pt",
-          "description": "The font size of the name in the header.",
           "title": "Name Font Size",
           "type": "string"
         },
         "name_bold": {
           "default": true,
-          "description": "If this option is \"true\", the name in the header will be bold.",
-          "title": "Bold Name",
+          "title": "Name Bold",
           "type": "boolean"
         },
         "small_caps_for_name": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be in small caps.",
-          "title": "Small Caps for Name",
+          "title": "Small Caps For Name",
           "type": "boolean"
         },
         "photo_width": {
           "default": "3.5cm",
-          "description": "The width of the photo in the header.",
-          "title": "Width of the Photo",
+          "title": "Photo Width",
           "type": "string"
         },
         "vertical_space_between_name_and_connections": {
           "default": "0.7cm",
-          "description": "The vertical margin between the name of the person and the connections.",
-          "title": "Vertical Margin Between the Name and Connections",
+          "title": "Vertical Space Between Name And Connections",
           "type": "string"
         },
         "vertical_space_between_connections_and_first_section": {
           "default": "0.7cm",
-          "description": "The vertical margin between the connections and the first section title.",
-          "title": "Vertical Margin Between Connections and First Section",
+          "title": "Vertical Space Between Connections And First Section",
           "type": "string"
         },
         "horizontal_space_between_connections": {
           "default": "0.5cm",
-          "description": "The space between the connections (like phone, email, and website).",
-          "title": "Space Between Connections",
+          "title": "Horizontal Space Between Connections",
           "type": "string"
         },
         "connections_font_family": {
           "default": "Source Sans 3",
-          "description": "The font family of the connections in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4498,45 +3930,33 @@
           "type": "string"
         },
         "separator_between_connections": {
-          "default": null,
-          "description": "The separator between the connections in the header.",
+          "default": "",
           "title": "Separator Between Connections",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "type": "string"
         },
         "use_icons_for_connections": {
           "default": true,
-          "description": "If this option is \"true\", icons will be used for the connections (phone number, email, social networks, etc.) in the header.",
-          "title": "Use Icons for Connections",
+          "title": "Use Icons For Connections",
           "type": "boolean"
         },
         "use_urls_as_placeholders_for_connections": {
           "default": false,
-          "description": "If this option is \"true\", the URLs will be used as placeholders for the connections.",
-          "title": "Use URLs as Placeholders for Connections",
+          "title": "Use Urls As Placeholders For Connections",
           "type": "boolean"
         },
         "make_connections_links": {
           "default": true,
-          "description": "If this option is \"true\", the connections will be clickable links.",
           "title": "Make Connections Links",
           "type": "boolean"
         },
         "alignment": {
           "default": "center",
-          "description": "The alignment of the header.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of the Header",
+          "title": "Alignment",
           "type": "string"
         }
       },
@@ -4545,11 +3965,9 @@
     },
     "rendercv__themes__options__Highlights": {
       "additionalProperties": false,
-      "description": "Options related to highlights.",
       "properties": {
         "bullet": {
           "default": "•",
-          "description": "The bullet used for the highlights and bullet entries.",
           "enum": [
             "•",
             "◦",
@@ -4565,7 +3983,6 @@
         },
         "nested_bullet": {
           "default": "-",
-          "description": "The bullet used for the nested highlights.",
           "enum": [
             "•",
             "◦",
@@ -4581,32 +3998,32 @@
         },
         "top_margin": {
           "default": "0.25cm",
-          "description": "The top margin of the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "0.4cm",
-          "description": "The left margin of the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Left Margin",
           "type": "string"
         },
         "vertical_space_between_highlights": {
           "default": "0.25cm",
-          "description": "The vertical space between the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Vertical Space Between Highlights",
           "type": "string"
         },
         "horizontal_space_between_bullet_and_highlight": {
           "default": "0.5em",
-          "description": "The horizontal space between the bullet and the highlight.",
-          "title": "Horizontal Space Between Bullet and Highlight",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Horizontal Space Between Bullet And Highlight",
           "type": "string"
         },
         "summary_left_margin": {
           "default": "0cm",
-          "description": "The left margin of the summary.",
-          "title": "Left Margin of the Summary",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Summary Left Margin",
           "type": "string"
         }
       },
@@ -4615,17 +4032,14 @@
     },
     "rendercv__themes__options__Links": {
       "additionalProperties": false,
-      "description": "Options related to links.",
       "properties": {
         "underline": {
           "default": false,
-          "description": "If this option is \"true\", links will be underlined.",
-          "title": "Underline Links",
+          "title": "Underline",
           "type": "boolean"
         },
         "use_external_link_icon": {
           "default": true,
-          "description": "If this option is \"true\", an external link icon will be shown next to the links.",
           "title": "Use External Link Icon",
           "type": "boolean"
         }
@@ -4635,37 +4049,34 @@
     },
     "rendercv__themes__options__NormalEntryOptions": {
       "additionalProperties": false,
-      "description": "Options related to normal entries.",
       "properties": {
         "main_column_first_row_template": {
           "default": "**NAME**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Normal Entry Options",
+      "title": "NormalEntryOptions",
       "type": "object"
     },
     "rendercv__themes__options__Page": {
       "additionalProperties": false,
-      "description": "Options related to the page.",
       "properties": {
         "size": {
           "default": "us-letter",
-          "description": "The page size of the CV.",
           "enum": [
             "a0",
             "a1",
@@ -4685,42 +4096,40 @@
             "presentation-16-9",
             "presentation-4-3"
           ],
-          "title": "Page Size",
+          "title": "Size",
           "type": "string"
         },
         "top_margin": {
           "default": "2cm",
-          "description": "The top margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "bottom_margin": {
           "default": "2cm",
-          "description": "The bottom margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Bottom Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "2cm",
-          "description": "The left margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Left Margin",
           "type": "string"
         },
         "right_margin": {
           "default": "2cm",
-          "description": "The right margin of the page with units (cm, in, pt, mm, ex, em)",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Right Margin",
           "type": "string"
         },
         "show_page_numbering": {
           "default": true,
-          "description": "If this option is \"true\", the page numbering will be shown in the footer.",
           "title": "Show Page Numbering",
           "type": "boolean"
         },
         "show_last_updated_date": {
           "default": true,
-          "description": "If this option is \"true\", the last updated date will be shown in the footer.",
           "title": "Show Last Updated Date",
           "type": "boolean"
         }
@@ -4730,11 +4139,9 @@
     },
     "rendercv__themes__options__SectionTitles": {
       "additionalProperties": false,
-      "description": "Options related to section titles.",
       "properties": {
         "type": {
           "default": "with-partial-line",
-          "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
             "with-full-line",
@@ -4746,7 +4153,6 @@
         },
         "font_family": {
           "default": "Source Sans 3",
-          "description": "The font family of the section titles.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4787,51 +4193,43 @@
         },
         "font_size": {
           "default": "1.4em",
-          "description": "The font size of the section titles.",
           "title": "Font Size",
           "type": "string"
         },
         "bold": {
           "default": true,
-          "description": "If this option is \"true\", the section titles will be bold.",
-          "title": "Bold Section Titles",
+          "title": "Bold",
           "type": "boolean"
         },
         "small_caps": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be in small caps.",
           "title": "Small Caps",
           "type": "boolean"
         },
         "line_thickness": {
           "default": "0.5pt",
-          "description": "The thickness of the line under the section titles.",
           "title": "Line Thickness",
           "type": "string"
         },
         "vertical_space_above": {
           "default": "0.5cm",
-          "description": "The vertical space above the section titles.",
-          "title": "Vertical Space Above Section Titles",
+          "title": "Vertical Space Above",
           "type": "string"
         },
         "vertical_space_below": {
           "default": "0.3cm",
-          "description": "The vertical space below the section titles.",
-          "title": "Vertical Space Below Section Titles",
+          "title": "Vertical Space Below",
           "type": "string"
         }
       },
-      "title": "Section Titles",
+      "title": "SectionTitles",
       "type": "object"
     },
     "rendercv__themes__options__Text": {
       "additionalProperties": false,
-      "description": "Options related to text.",
       "properties": {
         "font_family": {
           "default": "Source Sans 3",
-          "description": "The font family.",
           "enum": [
             "Aptos",
             "Arial",
@@ -4872,7 +4270,6 @@
         },
         "font_size": {
           "default": "10pt",
-          "description": "The font size of the text.",
           "title": "Font Size",
           "type": "string"
         },
@@ -4884,24 +4281,22 @@
         },
         "alignment": {
           "default": "justified",
-          "description": "The alignment of the text.",
           "enum": [
             "left",
             "justified",
             "justified-with-no-hyphenation"
           ],
-          "title": "Alignment of Text",
+          "title": "Alignment",
           "type": "string"
         },
         "date_and_location_column_alignment": {
           "default": "right",
-          "description": "The alignment of the date column in the entries.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of Date and Location Column",
+          "title": "Date And Location Column Alignment",
           "type": "string"
         }
       },
@@ -4913,7 +4308,7 @@
       "properties": {
         "text": {
           "default": "black",
-          "description": "The color of the text.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4921,12 +4316,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Text",
+          "title": "Text",
           "type": "string"
         },
         "name": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the name in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "default": "black",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4934,25 +4329,18 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Name",
+          "title": "Name",
           "type": "string"
         },
         "connections": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the connections in the header.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "black",
           "format": "color",
-          "title": "Color of Connections",
+          "title": "Connections",
           "type": "string"
         },
         "section_titles": {
-          "default": "rgb(0,0,0)",
-          "description": "The color of the section titles.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "default": "black",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4960,12 +4348,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Section Titles",
+          "title": "Section Titles",
           "type": "string"
         },
         "links": {
           "default": "#004f90",
-          "description": "The color of the links.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4973,12 +4361,12 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Links",
+          "title": "Links",
           "type": "string"
         },
         "last_updated_date_and_page_numbering": {
           "default": "grey",
-          "description": "The color of the last updated date and page numbering.\nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value.",
           "examples": [
             "Black",
             "7fffd4",
@@ -4986,7 +4374,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Color of Last Updated Date and Page Numbering",
+          "title": "Last Updated Date And Page Numbering",
           "type": "string"
         }
       },
@@ -4998,14 +4386,14 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**INSTITUTION**\n*DEGREE in AREA*",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "degree_column_template": {
           "default": null,
-          "description": "If given, a degree column will be added to the education entry. If \"null\", no degree column will be shown. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Template of the Degree Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Degree Column Template",
           "oneOf": [
             {
               "type": "string"
@@ -5017,81 +4405,46 @@
         },
         "degree_column_width": {
           "default": "1cm",
-          "description": "The width of the degree column if the \"degree_column_template\" is given.",
-          "title": "Width of the Degree Column",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Degree Column Width",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Education Entry Options",
+      "title": "EducationEntryOptions",
       "type": "object"
     },
     "rendercv__themes__sb2nov__EntryOptionsTypes": {
       "additionalProperties": false,
       "properties": {
         "one_line_entry": {
-          "$ref": "#/$defs/OneLineEntryOptions",
-          "default": {
-            "template": "**LABEL:** DETAILS"
-          },
-          "title": "One-Line Entry"
+          "$ref": "#/$defs/OneLineEntryOptions"
         },
         "education_entry": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__EducationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**INSTITUTION**\n*DEGREE in AREA*",
-            "degree_column_template": null,
-            "degree_column_width": "1cm",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
-          },
-          "description": "Options related to education entries.",
-          "title": "Education Entry"
+          "$ref": "#/$defs/rendercv__themes__sb2nov__EducationEntryOptions"
         },
         "normal_entry": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__NormalEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**NAME**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
-          },
-          "description": "Options related to normal entries.",
-          "title": "Normal Entry"
+          "$ref": "#/$defs/rendercv__themes__sb2nov__NormalEntryOptions"
         },
         "experience_entry": {
-          "$ref": "#/$defs/rendercv__themes__sb2nov__ExperienceEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**POSITION**\n*COMPANY*",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
-            "date_and_location_column_template": "*LOCATION*\n*DATE*"
-          },
-          "description": "Options related to experience entries.",
-          "title": "Experience Entry"
+          "$ref": "#/$defs/rendercv__themes__sb2nov__ExperienceEntryOptions"
         },
         "publication_entry": {
-          "$ref": "#/$defs/PublicationEntryOptions",
-          "default": {
-            "main_column_first_row_template": "**TITLE**",
-            "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
-            "main_column_second_row_without_journal_template": "AUTHORS\nURL",
-            "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL",
-            "date_and_location_column_template": "DATE"
-          },
-          "title": "Publication Entry"
+          "$ref": "#/$defs/PublicationEntryOptions"
         }
       },
-      "title": "Entry Types",
+      "title": "EntryOptionsTypes",
       "type": "object"
     },
     "rendercv__themes__sb2nov__ExperienceEntryOptions": {
@@ -5099,24 +4452,24 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**POSITION**\n*COMPANY*",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Experience Entry Options",
+      "title": "ExperienceEntryOptions",
       "type": "object"
     },
     "rendercv__themes__sb2nov__Header": {
@@ -5124,7 +4477,6 @@
       "properties": {
         "name_font_family": {
           "default": "New Computer Modern",
-          "description": "The font family of the name in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -5165,49 +4517,41 @@
         },
         "name_font_size": {
           "default": "30pt",
-          "description": "The font size of the name in the header.",
           "title": "Name Font Size",
           "type": "string"
         },
         "name_bold": {
           "default": true,
-          "description": "If this option is \"true\", the name in the header will be bold.",
-          "title": "Bold Name",
+          "title": "Name Bold",
           "type": "boolean"
         },
         "small_caps_for_name": {
           "default": false,
-          "description": "If this option is \"true\", the name in the header will be in small caps.",
-          "title": "Small Caps for Name",
+          "title": "Small Caps For Name",
           "type": "boolean"
         },
         "photo_width": {
           "default": "3.5cm",
-          "description": "The width of the photo in the header.",
-          "title": "Width of the Photo",
+          "title": "Photo Width",
           "type": "string"
         },
         "vertical_space_between_name_and_connections": {
           "default": "0.7cm",
-          "description": "The vertical margin between the name of the person and the connections.",
-          "title": "Vertical Margin Between the Name and Connections",
+          "title": "Vertical Space Between Name And Connections",
           "type": "string"
         },
         "vertical_space_between_connections_and_first_section": {
           "default": "0.7cm",
-          "description": "The vertical margin between the connections and the first section title.",
-          "title": "Vertical Margin Between Connections and First Section",
+          "title": "Vertical Space Between Connections And First Section",
           "type": "string"
         },
         "horizontal_space_between_connections": {
           "default": "0.5cm",
-          "description": "The space between the connections (like phone, email, and website).",
-          "title": "Space Between Connections",
+          "title": "Horizontal Space Between Connections",
           "type": "string"
         },
         "connections_font_family": {
           "default": "New Computer Modern",
-          "description": "The font family of the connections in the header.",
           "enum": [
             "Aptos",
             "Arial",
@@ -5247,45 +4591,33 @@
           "type": "string"
         },
         "separator_between_connections": {
-          "default": null,
-          "description": "The separator between the connections in the header.",
+          "default": "",
           "title": "Separator Between Connections",
-          "oneOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "type": "string"
         },
         "use_icons_for_connections": {
           "default": true,
-          "description": "If this option is \"true\", icons will be used for the connections (phone number, email, social networks, etc.) in the header.",
-          "title": "Use Icons for Connections",
+          "title": "Use Icons For Connections",
           "type": "boolean"
         },
         "use_urls_as_placeholders_for_connections": {
           "default": false,
-          "description": "If this option is \"true\", the URLs will be used as placeholders for the connections.",
-          "title": "Use URLs as Placeholders for Connections",
+          "title": "Use Urls As Placeholders For Connections",
           "type": "boolean"
         },
         "make_connections_links": {
           "default": true,
-          "description": "If this option is \"true\", the connections will be clickable links.",
           "title": "Make Connections Links",
           "type": "boolean"
         },
         "alignment": {
           "default": "center",
-          "description": "The alignment of the header.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of the Header",
+          "title": "Alignment",
           "type": "string"
         }
       },
@@ -5297,7 +4629,6 @@
       "properties": {
         "bullet": {
           "default": "◦",
-          "description": "The bullet used for the highlights and bullet entries.",
           "enum": [
             "•",
             "◦",
@@ -5313,7 +4644,6 @@
         },
         "nested_bullet": {
           "default": "-",
-          "description": "The bullet used for the nested highlights.",
           "enum": [
             "•",
             "◦",
@@ -5329,32 +4659,32 @@
         },
         "top_margin": {
           "default": "0.25cm",
-          "description": "The top margin of the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Top Margin",
           "type": "string"
         },
         "left_margin": {
           "default": "0.4cm",
-          "description": "The left margin of the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Left Margin",
           "type": "string"
         },
         "vertical_space_between_highlights": {
           "default": "0.25cm",
-          "description": "The vertical space between the highlights.",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
           "title": "Vertical Space Between Highlights",
           "type": "string"
         },
         "horizontal_space_between_bullet_and_highlight": {
           "default": "0.5em",
-          "description": "The horizontal space between the bullet and the highlight.",
-          "title": "Horizontal Space Between Bullet and Highlight",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Horizontal Space Between Bullet And Highlight",
           "type": "string"
         },
         "summary_left_margin": {
           "default": "0cm",
-          "description": "The left margin of the summary.",
-          "title": "Left Margin of the Summary",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, 0.1cm.",
+          "title": "Summary Left Margin",
           "type": "string"
         }
       },
@@ -5366,13 +4696,11 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "If this option is \"true\", links will be underlined.",
-          "title": "Underline Links",
+          "title": "Underline",
           "type": "boolean"
         },
         "use_external_link_icon": {
           "default": false,
-          "description": "If this option is \"true\", an external link icon will be shown next to the links.",
           "title": "Use External Link Icon",
           "type": "boolean"
         }
@@ -5385,24 +4713,24 @@
       "properties": {
         "main_column_first_row_template": {
           "default": "**NAME**",
-          "description": "The content of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, First Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column First Row Template",
           "type": "string"
         },
         "main_column_second_row_template": {
           "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Main Column, Second Row",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column Second Row Template",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "*LOCATION*\n*DATE*",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
-          "title": "Date and Location Column",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date And Location Column Template",
           "type": "string"
         }
       },
-      "title": "Normal Entry Options",
+      "title": "NormalEntryOptions",
       "type": "object"
     },
     "rendercv__themes__sb2nov__SectionTitles": {
@@ -5410,7 +4738,6 @@
       "properties": {
         "type": {
           "default": "with-full-line",
-          "description": "The type of the section titles.",
           "enum": [
             "with-partial-line",
             "with-full-line",
@@ -5422,7 +4749,6 @@
         },
         "font_family": {
           "default": "New Computer Modern",
-          "description": "The font family of the section titles.",
           "enum": [
             "Aptos",
             "Arial",
@@ -5463,42 +4789,36 @@
         },
         "font_size": {
           "default": "1.4em",
-          "description": "The font size of the section titles.",
           "title": "Font Size",
           "type": "string"
         },
         "bold": {
           "default": true,
-          "description": "If this option is \"true\", the section titles will be bold.",
-          "title": "Bold Section Titles",
+          "title": "Bold",
           "type": "boolean"
         },
         "small_caps": {
           "default": false,
-          "description": "If this option is \"true\", the section titles will be in small caps.",
           "title": "Small Caps",
           "type": "boolean"
         },
         "line_thickness": {
           "default": "0.5pt",
-          "description": "The thickness of the line under the section titles.",
           "title": "Line Thickness",
           "type": "string"
         },
         "vertical_space_above": {
           "default": "0.5cm",
-          "description": "The vertical space above the section titles.",
-          "title": "Vertical Space Above Section Titles",
+          "title": "Vertical Space Above",
           "type": "string"
         },
         "vertical_space_below": {
           "default": "0.3cm",
-          "description": "The vertical space below the section titles.",
-          "title": "Vertical Space Below Section Titles",
+          "title": "Vertical Space Below",
           "type": "string"
         }
       },
-      "title": "Section Titles",
+      "title": "SectionTitles",
       "type": "object"
     },
     "rendercv__themes__sb2nov__Text": {
@@ -5506,7 +4826,6 @@
       "properties": {
         "font_family": {
           "default": "New Computer Modern",
-          "description": "The font family.",
           "enum": [
             "Aptos",
             "Arial",
@@ -5547,7 +4866,6 @@
         },
         "font_size": {
           "default": "10pt",
-          "description": "The font size of the text.",
           "title": "Font Size",
           "type": "string"
         },
@@ -5559,24 +4877,22 @@
         },
         "alignment": {
           "default": "justified",
-          "description": "The alignment of the text.",
           "enum": [
             "left",
             "justified",
             "justified-with-no-hyphenation"
           ],
-          "title": "Alignment of Text",
+          "title": "Alignment",
           "type": "string"
         },
         "date_and_location_column_alignment": {
           "default": "right",
-          "description": "The alignment of the date column in the entries.",
           "enum": [
             "left",
             "center",
             "right"
           ],
-          "title": "Alignment of Date and Location Column",
+          "title": "Date And Location Column Alignment",
           "type": "string"
         }
       },
@@ -5736,7 +5052,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-08-05",
+        "date": "2025-10-28",
         "render_command": null,
         "bold_keywords": [],
         "sort_entries": "none"

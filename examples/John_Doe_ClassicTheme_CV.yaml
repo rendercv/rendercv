@@ -17,6 +17,7 @@ cv:
       - institution: Stanford University
         area: Computer Science
         degree: PhD
+        grade:
         date:
         start_date: 2023-09
         end_date: present
@@ -27,6 +28,7 @@ cv:
       - institution: Boğaziçi University
         area: Computer Engineering
         degree: BS
+        grade:
         date:
         start_date: 2018-09
         end_date: 2022-06
@@ -110,6 +112,7 @@ cv:
       - reversed_number: This is a reversed numbered entry.
       - reversed_number: This is another reversed numbered entry.
       - reversed_number: This is the third reversed numbered entry.
+  sort_entries: none
 design:
   theme: classic
   page:
@@ -257,5 +260,6 @@ locale:
     - November
     - December
 rendercv_settings:
-  date: '2025-03-01'
+  date: '2025-10-28'
   bold_keywords: []
+  sort_entries: none
