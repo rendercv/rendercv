@@ -44,10 +44,7 @@ test:
   uv run pytest
 
 test-with-coverage:
-  uv run -- coverage run -m pytest
-
-combine-coverage:
-  uv run -- coverage combine
+  uv run -- coverage run -m pytest; uv run -- coverage combine
 
 report-coverage:
   uv run -- coverage report && uv run -- coverage html --show-contexts
