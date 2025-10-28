@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v5
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
 
       - name: Install just
         uses: taiki-e/install-action@just
@@ -66,7 +66,7 @@ jobs:
           merge-multiple: true # download them in the same folder
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
 
       - name: Install the project
         run: uv sync --locked --all-extras --all-groups
