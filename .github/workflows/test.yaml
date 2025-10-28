@@ -1,14 +1,14 @@
 name: Test
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
   push:
     branches:
-      - "*"
+      - main
   pull_request:
     branches:
       - "*"
-  workflow_call: # to make the workflow triggerable from other workflows (publish-to-pypi.yaml)
+  workflow_call: # to make the workflow triggerable from other workflows
   workflow_dispatch: # to make the workflow triggerable manually
 
 # The workflow:
@@ -20,17 +20,23 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, windows, macos]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     runs-on: ${{ matrix.os }}-latest
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --all-groups
 
       - name: Test
-        run: hatch run test.py${{ matrix.python-version }}:test-and-report
+        run: just test-with-coverage
 
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
@@ -59,19 +65,23 @@ jobs:
           path: coverage
           merge-multiple: true # download them in the same folder
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --all-groups
+
+      - name: Install just
+        uses: taiki-e/install-action@just
 
       - name: Combine coverage files
         run: |
-          hatch run coverage combine coverage
-          hatch run coverage report
-          hatch run coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
+          uv run coverage combine coverage
+          uv run coverage report
+          uv run coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
 
       - name: Upload the coverage report to smokeshow
-        run: |
-          pip install smokeshow==0.4.0
-          smokeshow upload ./htmlcov
+        run: uv tool run smokeshow==0.4.0 upload ./htmlcov
         env:
           SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90

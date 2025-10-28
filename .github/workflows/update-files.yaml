@@ -1,6 +1,6 @@
 name: Update files
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
   workflow_call: # to make the workflow triggerable from other workflows (publish-a-release.yaml)
   workflow_dispatch: # to make the workflow triggerable manually
@@ -16,8 +16,14 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install the project
+        run: uv sync --locked --all-extras --all-groups
 
       - name: Set Git credentials
         run: |
@@ -25,26 +31,20 @@ jobs:
           git config --local user.name "GitHub Actions [Bot]"
 
       - name: Update schema.json
-        continue-on-error: true
-        run: |
-          hatch run update-schema
-          git add schema.json
+        run: just update-schema
 
-      - name: Update `examples` folder
-        continue-on-error: true
-        run: |
-          hatch run update-examples
-          git add examples/*
-          git add docs/assets/images/*.png
+      - name: Update examples folder
+        run: just update-examples
 
       - name: Update entry figures
-        continue-on-error: true
-        run: |
-          hatch run docs:update-entry-figures
-          git add docs/assets/images/**/*.png
+        run: just update-entry-figures
 
-      - name: Push changes
-        continue-on-error: true
+      - name: Commit and push changes
         run: |
-          git commit -m "Update schema.json, examples, and entry figures"
-          git push origin HEAD:main
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update schema.json, examples, and entry figures"
+            git push origin HEAD:main
+          fi
