@@ -42,7 +42,7 @@ jobs:
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
       - name: Upload coverage as an artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           include-hidden-files: true
           name: coverage-${{ matrix.python-version }}-${{ matrix.os }}

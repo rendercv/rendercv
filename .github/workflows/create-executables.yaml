@@ -34,7 +34,7 @@ jobs:
         run: just create-executable
 
       - name: Upload executable as an artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: rendercv-${{ matrix.os }}
           path: bin/*
