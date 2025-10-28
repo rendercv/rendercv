@@ -12,7 +12,7 @@ def create_executable():
 
     with tempfile.TemporaryDirectory() as temp_dir:
         # copy rendercv to temp directory
-        shutil.copytree(root / "rendercv", pathlib.Path(temp_dir) / "rendercv")
+        shutil.copytree(root / "src" / "rendercv", pathlib.Path(temp_dir) / "rendercv")
         temp_directory = pathlib.Path(temp_dir)
         rendercv_file_path = temp_directory / "rendercv.py"
         rendercv_file_path.touch()
