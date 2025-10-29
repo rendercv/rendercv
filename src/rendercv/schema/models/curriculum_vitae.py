@@ -32,23 +32,6 @@ class SectionBase(RenderCVBaseModelWithoutExtraKeys):
     entries: list[Any]
 
 
-# Create a URL validator:
-url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
-
-
-def validate_url(url: str) -> str:
-    """Validate a URL.
-
-    Args:
-        url: The URL to validate.
-
-    Returns:
-        The validated URL.
-    """
-    url_validator.validate_strings(url)
-    return url
-
-
 def create_a_section_validator(entry_type: type) -> type[SectionBase]:
     """Create a section model based on the entry type. See [Pydantic's documentation
     about dynamic model
@@ -243,49 +226,6 @@ def validate_a_section(
         raise ValueError(message)
     return sections_input
 
-
-def validate_a_social_network_username(username: str, network: str) -> str:
-    """Check if the `username` field in the `SocialNetwork` model is provided correctly.
-
-    Args:
-        username: The username to validate.
-
-    Returns:
-        The validated username.
-    """
-    if network == "Mastodon":
-        mastodon_username_pattern = r"@[^@]+@[^@]+"
-        if not re.fullmatch(mastodon_username_pattern, username):
-            message = 'Mastodon username should be in the format "@username@domain"!'
-            raise ValueError(message)
-    elif network == "StackOverflow":
-        stackoverflow_username_pattern = r"\d+\/[^\/]+"
-        if not re.fullmatch(stackoverflow_username_pattern, username):
-            message = (
-                'StackOverflow username should be in the format "user_id/username"!'
-            )
-            raise ValueError(message)
-    elif network == "YouTube":
-        if username.startswith("@"):
-            message = (
-                'YouTube username should not start with "@"! Remove "@" from the'
-                " beginning of the username."
-            )
-            raise ValueError(message)
-    elif network == "ORCID":
-        orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
-        if not re.fullmatch(orcid_username_pattern, username):
-            message = "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
-            raise ValueError(message)
-    elif network == "IMDB":
-        imdb_username_pattern = r"nm\d{7}"
-        if not re.fullmatch(imdb_username_pattern, username):
-            message = "IMDB name should be in the format 'nmXXXXXXX'!"
-            raise ValueError(message)
-
-    return username
-
-
 # ======================================================================================
 # Create custom types: =================================================================
 # ======================================================================================
@@ -306,101 +246,11 @@ SectionContents = Annotated[
 # section titles and the values are the list of entries in that section.
 Sections = dict[str, SectionContents] | None
 
-# Create a custom type named SocialNetworkName, which is a literal type of the available
-# social networks.
-SocialNetworkName = Literal[
-    "LinkedIn",
-    "GitHub",
-    "GitLab",
-    "IMDB",
-    "Instagram",
-    "ORCID",
-    "Mastodon",
-    "StackOverflow",
-    "ResearchGate",
-    "YouTube",
-    "Google Scholar",
-    "Telegram",
-    "Leetcode",
-    "X",
-]
-
-available_social_networks = get_args(SocialNetworkName)
 
 # ======================================================================================
 # Create the models: ===================================================================
 # ======================================================================================
 
-
-class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
-    """This class is the data model of a social network."""
-
-    model_config = pydantic.ConfigDict(
-        title="Social Network",
-    )
-    network: SocialNetworkName = pydantic.Field(
-        title="Social Network",
-    )
-    username: str = pydantic.Field(
-        title="Username",
-        description=(
-            "The username used in the social network. The link will be generated"
-            " automatically."
-        ),
-    )
-
-    @pydantic.field_validator("username")
-    @classmethod
-    def check_username(cls, username: str, info: pydantic.ValidationInfo) -> str:
-        """Check if the username is provided correctly."""
-        if "network" not in info.data:
-            # the network is either not provided or not one of the available social
-            # networks. In this case, don't check the username, since Pydantic will
-            # raise an error for the network.
-            return username
-
-        network = info.data["network"]
-
-        return validate_a_social_network_username(username, network)
-
-    @pydantic.model_validator(mode="after")  # type: ignore
-    def check_url(self) -> "SocialNetwork":
-        """Validate the URL of the social network."""
-        if self.network == "Mastodon":
-            # All the other social networks have valid URLs. Mastodon URLs contain both
-            # the username and the domain. So, we need to validate if the url is valid.
-            validate_url(self.url)
-
-        return self
-
-    @functools.cached_property
-    def url(self) -> str:
-        """Return the URL of the social network and cache `url` as an attribute of the
-        instance.
-        """
-        if self.network == "Mastodon":
-            # Split domain and username
-            _, username, domain = self.username.split("@")
-            url = f"https://{domain}/@{username}"
-        else:
-            url_dictionary = {
-                "LinkedIn": "https://linkedin.com/in/",
-                "GitHub": "https://github.com/",
-                "GitLab": "https://gitlab.com/",
-                "IMDB": "https://imdb.com/name/",
-                "Instagram": "https://instagram.com/",
-                "ORCID": "https://orcid.org/",
-                "StackOverflow": "https://stackoverflow.com/users/",
-                "ResearchGate": "https://researchgate.net/profile/",
-                "YouTube": "https://youtube.com/@",
-                "Google Scholar": "https://scholar.google.com/citations?user=",
-                "Telegram": "https://t.me/",
-                "Leetcode": "https://leetcode.com/u/",
-                "X": "https://x.com/",
-            }
-            url = url_dictionary[self.network] + self.username
-
-        return url
 
 
 class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
@@ -550,7 +400,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             }
 
         def _phone_connection():
-            phone_placeholder = computers.format_phone_number(self.phone) # type: ignore
+            phone_placeholder = computers.format_phone_number(self.phone)  # type: ignore
             return {
                 "typst_icon": "phone",
                 "url": self.phone,
@@ -619,7 +469,10 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             "email": (self.email is not None, _email_connection),
             "phone": (self.phone is not None, _phone_connection),
             "website": (self.website is not None, _website_connection),
-            "social_networks": (self.social_networks is not None, _social_networks_connections),
+            "social_networks": (
+                self.social_networks is not None,
+                _social_networks_connections,
+            ),
         }
 
         connections: list[dict[str, str | None]] = []
@@ -628,7 +481,9 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         # not captured, fall back to the traditional fixed ordering used before so
         # that existing behaviour remains unchanged.
         if self._yaml_key_order:
-            ordered_keys = [key for key in self._yaml_key_order if key in key_to_handler]
+            ordered_keys = [
+                key for key in self._yaml_key_order if key in key_to_handler
+            ]
         else:
             ordered_keys = list(key_to_handler.keys())
 
@@ -637,7 +492,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             if not present:
                 continue
             if key == "social_networks":
-                connections.extend(handler()) # type: ignore
+                connections.extend(handler())  # type: ignore
             else:
                 connections.append(handler())
 

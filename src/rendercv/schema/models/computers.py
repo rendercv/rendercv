@@ -42,14 +42,6 @@ def format_phone_number(phone_number: str) -> str:
     )
 
 
-def get_date_input() -> Date:
-    """Return the date input.
-
-    Returns:
-        The date input.
-    """
-    module = importlib.import_module(".rendercv_settings", __package__)
-    return module.DATE_INPUT
 
 
 def format_date(date: Date, date_template: str | None = None) -> str:
@@ -341,39 +333,6 @@ def make_a_url_clean(url: str) -> str:
 
     return url
 
-
-def get_date_object(date: str | int) -> Date:
-    """Parse a date string in YYYY-MM-DD, YYYY-MM, or YYYY format and return a
-    `datetime.date` object. This function is used throughout the validation process of
-    the data models.
-
-    Args:
-        date: The date string to parse.
-
-    Returns:
-        The parsed date.
-    """
-    if isinstance(date, int):
-        date_object = Date.fromisoformat(f"{date}-01-01")
-    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
-        # Then it is in YYYY-MM-DD format
-        date_object = Date.fromisoformat(date)
-    elif re.fullmatch(r"\d{4}-\d{2}", date):
-        # Then it is in YYYY-MM format
-        date_object = Date.fromisoformat(f"{date}-01")
-    elif re.fullmatch(r"\d{4}", date):
-        # Then it is in YYYY format
-        date_object = Date.fromisoformat(f"{date}-01-01")
-    elif date == "present":
-        date_object = get_date_input()
-    else:
-        message = (
-            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
-            " YYYY format."
-        )
-        raise ValueError(message)
-
-    return date_object
 
 
 def dictionary_key_to_proper_section_title(key: str) -> str:
