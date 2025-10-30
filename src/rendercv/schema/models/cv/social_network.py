@@ -4,13 +4,11 @@ from typing import Literal
 
 import pydantic
 
+from ...primitive_types.url import validate_url
+from ..base import BaseModelWithoutExtraKeys
 
-class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
-    """This class is the data model of a social network."""
 
-    model_config = pydantic.ConfigDict(
-        title="Social Network",
-    )
+class SocialNetwork(BaseModelWithoutExtraKeys):
     network: Literal[
         "LinkedIn",
         "GitHub",
@@ -26,21 +24,12 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
         "Telegram",
         "Leetcode",
         "X",
-    ] = pydantic.Field(
-        title="Social Network",
-    )
-    username: str = pydantic.Field(
-        title="Username",
-        description=(
-            "The username used in the social network. The link will be generated"
-            " automatically."
-        ),
-    )
+    ]
+    username: str
 
     @pydantic.field_validator("username")
     @classmethod
     def check_username(cls, username: str, info: pydantic.ValidationInfo) -> str:
-        """Check if the username is provided correctly."""
         if "network" not in info.data:
             # the network is either not provided or not one of the available social
             # networks. In this case, don't check the username, since Pydantic will
@@ -83,23 +72,15 @@ class SocialNetwork(RenderCVBaseModelWithoutExtraKeys):
 
         return username
 
-    @pydantic.model_validator(mode="after")  # type: ignore
+    @pydantic.model_validator(mode="after")
     def check_url(self) -> "SocialNetwork":
-        """Validate the URL of the social network."""
-        if self.network == "Mastodon":
-            # All the other social networks have valid URLs. Mastodon URLs contain both
-            # the username and the domain. So, we need to validate if the url is valid.
-            validate_url(self.url)
+        validate_url(self.url)
 
         return self
 
     @functools.cached_property
     def url(self) -> str:
-        """Return the URL of the social network and cache `url` as an attribute of the
-        instance.
-        """
         if self.network == "Mastodon":
-            # Split domain and username
             _, username, domain = self.username.split("@")
             url = f"https://{domain}/@{username}"
         else:

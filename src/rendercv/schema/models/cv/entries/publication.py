@@ -16,11 +16,9 @@ class PublicationEntryBase(Entry):
     )
     url: pydantic.HttpUrl | None = pydantic.Field(
         default=None,
-        description="If DOI is provided, it will be ignored.",
+        description="If DOI is provided, URL will be ignored.",
     )
-    journal: str | None = pydantic.Field(
-        default=None,
-    )
+    journal: str | None = None
 
     @pydantic.model_validator(mode="after")
     def ignore_url_if_doi_is_given(self) -> Self:
