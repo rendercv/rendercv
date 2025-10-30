@@ -6,7 +6,13 @@ from ....primitive_types.date import EndDate, StartDate, get_date_object
 from .entry_with_date import EntryWithDate
 
 
-class ComplexEntry(EntryWithDate):
+class EntryWithComplexFields(EntryWithDate):
+    """Parent class for entry types that uses common fields such as `start_date`,
+    `end_date`, `location`, `summary`, and `highlights`. It's not an entry type itself.
+    """
+
+    model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
+
     start_date: StartDate = pydantic.Field(
         default=None,
         description="Can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY.",

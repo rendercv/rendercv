@@ -1,10 +1,13 @@
-from ....foundation.base_models import BaseModelWithExtraKeys
+import pydantic
 
-# All entry types should inherit from this class.
-
-# This is done to ensure all the entry types use `BaseModelWithExtraKeys` as the
-# parent class. Also, other things can be added to all the entry types in the future.
+from ....base import BaseModelWithExtraKeys
 
 
 class Entry(BaseModelWithExtraKeys):
-    pass
+    """Parent class for all the entry types. It's not an entry type itself.
+
+    It is used to ensure all the entry types use `BaseModelWithExtraKeys` as the
+    parent class. Also, other things can be added to all the entry types in the future.
+    """
+
+    model_config = pydantic.ConfigDict(json_schema_extra={"description": None})

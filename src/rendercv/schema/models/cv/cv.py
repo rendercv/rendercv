@@ -1,30 +1,18 @@
-"""
-The `rendercv.data.models.curriculum_vitae` module contains the data model of the `cv`
-field of the input file.
-"""
-
 import functools
 import importlib
 import pathlib
-import re
-from typing import Annotated, Any, Literal, get_args
+from typing import Annotated, Any, Literal
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
-from . import computers, entry_types
-from .base import RenderCVBaseModelWithExtraKeys, RenderCVBaseModelWithoutExtraKeys
-
-# ======================================================================================
-# Create validator functions: ==========================================================
-# ======================================================================================
+from ..base import BaseModelWithoutExtraKeys
+from .social_network import SocialNetwork
 
 
-class SectionBase(RenderCVBaseModelWithoutExtraKeys):
+class SectionBase(BaseModelWithoutExtraKeys):
     """This class is the parent class of all the section types. It is being used
     in RenderCV internally, and it is not meant to be used directly by the users.
-    It is used by `rendercv.data_models.utilities.create_a_section_model` function to
-    create a section model based on any entry type.
     """
 
     title: str
@@ -77,7 +65,7 @@ def get_characteristic_entry_attributes(
     """
     # Look at all the entry types, collect their attributes with
     # EntryType.model_fields.keys() and find the common ones.
-    all_attributes = []
+    all_attributes: list[str] = []
     for EntryType in entry_types:
         all_attributes.extend(EntryType.model_fields.keys())
 
@@ -86,10 +74,10 @@ def get_characteristic_entry_attributes(
     }
 
     # Store each entry type's characteristic attributes in a dictionary:
-    characteristic_entry_attributes = {}
+    characteristic_entry_attributes: dict[type, set[str]] = {}
     for EntryType in entry_types:
         characteristic_entry_attributes[EntryType] = (
-            set(EntryType.model_fields.keys()) - common_attributes
+            set[str](EntryType.model_fields.keys()) - common_attributes
         )
 
     return characteristic_entry_attributes
@@ -226,6 +214,7 @@ def validate_a_section(
         raise ValueError(message)
     return sections_input
 
+
 # ======================================================================================
 # Create custom types: =================================================================
 # ======================================================================================
@@ -242,108 +231,28 @@ SectionContents = Annotated[
     ),
 ]
 
-# Create a custom type named SectionInput, which is a dictionary where the keys are the
-# section titles and the values are the list of entries in that section.
-Sections = dict[str, SectionContents] | None
-
-
 # ======================================================================================
 # Create the models: ===================================================================
 # ======================================================================================
 
 
-
-class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
-    """This class is the data model of the `cv` field."""
-
-    # ---------------------------------------------------------------------
-    # Private attributes
-    # ---------------------------------------------------------------------
-
-    # Store the order of the keys in the YAML `cv` mapping so that the header
-    # connections can be rendered in the same order that the user defines.
-    _yaml_key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
-
-    # ---------------------------------------------------------------------
-    # Model Validators
-    # ---------------------------------------------------------------------
-
-    @pydantic.model_validator(mode="before")
-    @classmethod
-    def _capture_yaml_key_order(cls, data: dict[str, Any]):  # type: ignore[override]
-        """Capture the order of the keys in the YAML *before* validation.
-
-        Pydantic gives us the raw input mapping during the *before* validation
-        stage.  At this point the order of the keys is still exactly how the
-        user wrote them in the YAML file (ruamel keeps the insertion order).
-        We copy that order into a dedicated key so that it becomes available
-        after validation.  The copied list is then assigned to a private
-        attribute in an *after* validator.
-        """
-
-        # The input can be a `CommentedMap` which keeps insertion order.  We
-        # convert to `dict` just in case but still preserve the order.
-        if isinstance(data, dict):
-            data["__yaml_key_order__"] = list(data.keys())
-
-        return data
-
-    @pydantic.model_validator(mode="after")  # type: ignore[override]
-    def _populate_yaml_key_order(self):
-        """Populate the private attribute that stores the YAML key order."""
-
-        # `__yaml_key_order__` lives in the *extra* values (`__pydantic_extra__`)
-        # because it is not a declared field.  Pop it if present.
-        extra: dict[str, Any] | None = getattr(self, "__pydantic_extra__", None)
-
-        if extra and "__yaml_key_order__" in extra:
-            self._yaml_key_order = extra.pop("__yaml_key_order__")  # type: ignore[assignment]
-
-        return self
-
-    model_config = pydantic.ConfigDict(
-        title="CV",
-    )
-    name: str | None = pydantic.Field(
-        default=None,
-        title="Name",
-    )
-    location: str | None = pydantic.Field(
-        default=None,
-        title="Location",
-    )
-    email: pydantic.EmailStr | None = pydantic.Field(
-        default=None,
-        title="Email",
-    )
+class CurriculumVitae(BaseModelWithoutExtraKeys):
+    name: str | None = None
+    location: str | None = None
+    email: pydantic.EmailStr | None = None
     photo: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="Photo",
         description="Path to the photo of the person, relative to the input file.",
     )
     phone: pydantic_phone_numbers.PhoneNumber | None = pydantic.Field(
         default=None,
-        title="Phone",
         description=(
             "Country code should be included. For example, +1 for the United States."
         ),
     )
-    website: pydantic.HttpUrl | None = pydantic.Field(
-        default=None,
-        title="Website",
-    )
-    social_networks: list[SocialNetwork] | None = pydantic.Field(
-        default=None,
-        title="Social Networks",
-    )
-    sections_input: Sections = pydantic.Field(
-        default=None,
-        title="Sections",
-        description="The sections of the CV, like Education, Experience, etc.",
-        # This is an alias to allow users to use `sections` in the YAML file:
-        # `sections` key is preserved for RenderCV's internal use.
-        alias="sections",
-    )
+    website: pydantic.HttpUrl | None = None
+    social_networks: list[SocialNetwork] | None = None
+    sections: dict[str, SectionContents] | None = None
     sort_entries: Literal["reverse-chronological", "chronological", "none"] = "none"
 
     @pydantic.field_validator("photo")
@@ -363,143 +272,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         return value
 
-    @pydantic.field_validator("name")
-    @classmethod
-    def update_curriculum_vitae(cls, value: str, info: pydantic.ValidationInfo) -> str:
-        """Update the `curriculum_vitae` dictionary."""
-        if value:
-            curriculum_vitae[info.field_name] = value  # type: ignore
-
-        return value
-
     @functools.cached_property
-    def connections(self) -> list[dict[str, str | None]]:
-        """Return all the connections of the person as a list of dictionaries and cache
-        `connections` as an attribute of the instance. The connections are used in the
-        header of the CV.
-
-        Returns:
-            The connections of the person.
-        """
-        # Helper functions to create each connection dictionary -----------------
-
-        def _location_connection():
-            return {
-                "typst_icon": "location-dot",
-                "url": None,
-                "clean_url": None,
-                "placeholder": self.location,
-            }
-
-        def _email_connection():
-            return {
-                "typst_icon": "envelope",
-                "url": f"mailto:{self.email}",
-                "clean_url": self.email,
-                "placeholder": self.email,
-            }
-
-        def _phone_connection():
-            phone_placeholder = computers.format_phone_number(self.phone)  # type: ignore
-            return {
-                "typst_icon": "phone",
-                "url": self.phone,
-                "clean_url": phone_placeholder,
-                "placeholder": phone_placeholder,
-            }
-
-        def _website_connection():
-            website_placeholder = computers.make_a_url_clean(str(self.website))
-            return {
-                "typst_icon": "link",
-                "url": str(self.website),
-                "clean_url": website_placeholder,
-                "placeholder": website_placeholder,
-            }
-
-        def _social_networks_connections():
-            icon_dictionary = {
-                "LinkedIn": "linkedin",
-                "GitHub": "github",
-                "GitLab": "gitlab",
-                "IMDB": "imdb",
-                "Instagram": "instagram",
-                "Mastodon": "mastodon",
-                "ORCID": "orcid",
-                "StackOverflow": "stack-overflow",
-                "ResearchGate": "researchgate",
-                "YouTube": "youtube",
-                "Google Scholar": "graduation-cap",
-                "Telegram": "telegram",
-                "Leetcode": "code",
-                "X": "x-twitter",
-            }
-
-            connections_list: list[dict[str, str | None]] = []
-            if self.social_networks is None:
-                return connections_list
-
-            for social_network in self.social_networks:
-                clean_url = computers.make_a_url_clean(social_network.url)
-                connection = {
-                    "typst_icon": icon_dictionary[social_network.network],
-                    "url": social_network.url,
-                    "clean_url": clean_url,
-                    "placeholder": social_network.username,
-                }
-
-                if social_network.network == "StackOverflow":
-                    username = social_network.username.split("/")[1]
-                    connection["placeholder"] = username
-                if social_network.network == "Google Scholar":
-                    connection["placeholder"] = "Google Scholar"
-                if social_network.network == "IMDB":
-                    connection["placeholder"] = "IMDB Profile"
-
-                connections_list.append(connection)  # type: ignore[arg-type]
-
-            return connections_list
-
-        # ------------------------------------------------------------------
-        # Build the connections list in the exact order of the YAML keys
-        # ------------------------------------------------------------------
-
-        key_to_handler = {
-            "location": (self.location is not None, _location_connection),
-            "email": (self.email is not None, _email_connection),
-            "phone": (self.phone is not None, _phone_connection),
-            "website": (self.website is not None, _website_connection),
-            "social_networks": (
-                self.social_networks is not None,
-                _social_networks_connections,
-            ),
-        }
-
-        connections: list[dict[str, str | None]] = []
-
-        # Prefer the order captured from the YAML file. If, for any reason, it was
-        # not captured, fall back to the traditional fixed ordering used before so
-        # that existing behaviour remains unchanged.
-        if self._yaml_key_order:
-            ordered_keys = [
-                key for key in self._yaml_key_order if key in key_to_handler
-            ]
-        else:
-            ordered_keys = list(key_to_handler.keys())
-
-        for key in ordered_keys:
-            present, handler = key_to_handler[key]
-            if not present:
-                continue
-            if key == "social_networks":
-                connections.extend(handler())  # type: ignore
-            else:
-                connections.append(handler())
-
-        return connections
-
-    @functools.cached_property
-    def sections(self) -> list[SectionBase]:
+    def sections_rendercv(self) -> list[SectionBase]:
         """Compute the sections of the CV based on the input sections.
 
         The original `sections` input is a dictionary where the keys are the section titles
@@ -512,8 +286,8 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         """
         sections: list[SectionBase] = []
 
-        if self.sections_input is not None:
-            for title, entries in self.sections_input.items():
+        if self.sections is not None:
+            for title, entries in self.sections.items():
                 formatted_title = computers.dictionary_key_to_proper_section_title(
                     title
                 )
@@ -548,7 +322,18 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
         return phone
 
+    # Store the order of the keys in the YAML `cv` mapping so that the header
+    # connections can be rendered in the same order that the user defines.
+    _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
 
-# The dictionary below will be overwritten by CurriculumVitae class, which will contain
-# some important data for the CV.
-curriculum_vitae: dict[str, str] = {}
+    @pydantic.model_validator(mode="wrap")
+    @classmethod
+    def capture_input_order(cls, data: Any, handler) -> "CurriculumVitae":
+        # Capture the input order before validation
+        key_order = list[str](data.keys()) if isinstance(data, dict) else []
+
+        # Let Pydantic do its validation
+        instance = handler(data)
+
+        # Set the private attribute on the instance
+        instance._key_order = key_order
