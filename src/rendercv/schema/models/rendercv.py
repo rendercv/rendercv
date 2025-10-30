@@ -17,11 +17,7 @@ from .rendercv_settings import RenderCVSettings
 INPUT_FILE_DIRECTORY: pathlib.Path | None = None
 
 
-class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
-    """This class binds both the CV and the design information together."""
-
-    # `cv` is normally required, but don't enforce it in JSON Schema to allow
-    # `design` or `locale` fields to have individual YAML files.
+class RenderCVModel(RenderCVBaseModelWithoutExtraKeys):
     model_config = pydantic.ConfigDict(json_schema_extra={"required": []})
     cv: CurriculumVitae = pydantic.Field(
         title="CV",
@@ -75,7 +71,7 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
         return value
 
     @pydantic.model_validator(mode="after")  # type: ignore
-    def apply_sort_entries(self) -> "RenderCVDataModel":
+    def apply_sort_entries(self) -> "RenderCVModel":
         """Propagate sort order from settings to the CV."""
 
         self.cv.sort_entries = self.rendercv_settings.sort_entries
@@ -83,4 +79,4 @@ class RenderCVDataModel(RenderCVBaseModelWithoutExtraKeys):
         return self
 
 
-rendercv_data_model_fields = tuple(RenderCVDataModel.model_fields.keys())
+rendercv_data_model_fields = tuple(RenderCVModel.model_fields.keys())

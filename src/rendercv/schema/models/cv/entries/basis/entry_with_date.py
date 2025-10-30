@@ -5,6 +5,12 @@ from .entry import Entry
 
 
 class EntryWithDate(Entry):
+    """Parent class for entry types that uses the `date` field. It's not an entry type
+    itself.
+    """
+
+    model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
+
     date: ArbitraryDate = pydantic.Field(
         default=None,
         description=(

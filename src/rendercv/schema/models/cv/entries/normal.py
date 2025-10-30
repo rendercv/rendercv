@@ -1,7 +1,7 @@
 import pydantic
 
-from .basis.complex_entry import ComplexEntry
 from .basis.entry import Entry
+from .basis.entry_with_complex_fields import EntryWithComplexFields
 
 
 class NormalEntryBase(Entry):
@@ -11,5 +11,6 @@ class NormalEntryBase(Entry):
     )
 
 
-class NormalEntry(NormalEntryBase, ComplexEntry):
+# This approach ensures NormalEntryBase keys appear first in the key order:
+class NormalEntry(NormalEntryBase, EntryWithComplexFields):
     pass

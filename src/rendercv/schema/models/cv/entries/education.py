@@ -1,7 +1,7 @@
 import pydantic
 
-from .basis.complex_entry import ComplexEntry
 from .basis.entry import Entry
+from .basis.entry_with_complex_fields import EntryWithComplexFields
 
 
 class EducationEntryBase(Entry):
@@ -20,6 +20,6 @@ class EducationEntryBase(Entry):
         examples=["BS", "BA", "PhD", "MS"],
     )
 
-
-class EducationEntry(EducationEntryBase, ComplexEntry):
+# This approach ensures EducationEntryBase keys appear first in the key order:
+class EducationEntry(EducationEntryBase, EntryWithComplexFields):
     pass

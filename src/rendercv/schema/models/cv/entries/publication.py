@@ -30,8 +30,6 @@ class PublicationEntryBase(Entry):
         return self
 
 
-# The following class is to ensure PublicationEntryBase keys come first,
-# then the keys of the EntryWithDate class. The only way to achieve this in Pydantic is
-# to do this. The same thing is done for the other classes as well.
+# This approach ensures PublicationEntryBase keys appear first in the key order:
 class PublicationEntry(PublicationEntryBase, EntryWithDate):
     pass
