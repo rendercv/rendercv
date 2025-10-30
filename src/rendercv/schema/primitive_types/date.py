@@ -107,58 +107,6 @@ def validate_start_and_end_date_fields(
     return date
 
 
-# See https://peps.python.org/pep-0484/#forward-references for more information about
-# the quotes around the type hints.
-def validate_and_adjust_dates_for_an_entry(
-    start_date: "StartDate",
-    end_date: "EndDate",
-    date: "ArbitraryDate",
-) -> tuple["StartDate", "EndDate", "ArbitraryDate"]:
-    """Check if the dates are provided correctly and make the necessary adjustments.
-
-    Args:
-        start_date: The start date of the event.
-        end_date: The end date of the event.
-        date: The date of the event.
-
-    Returns:
-        The validated and adjusted `start_date`, `end_date`, and `date`.
-    """
-    date_is_provided = date is not None
-    start_date_is_provided = start_date is not None
-    end_date_is_provided = end_date is not None
-
-    if date_is_provided:
-        # If only date is provided, ignore start_date and end_date:
-        start_date = None
-        end_date = None
-    elif not start_date_is_provided and end_date_is_provided:
-        # If only end_date is provided, assume it is a one-day event and act like
-        # only the date is provided:
-        date = end_date
-        start_date = None
-        end_date = None
-    elif start_date_is_provided:
-        start_date_object = get_date_object(start_date)
-        if not end_date_is_provided:
-            # If only start_date is provided, assume it is an ongoing event, i.e.,
-            # the end_date is present:
-            end_date = "present"
-
-        if end_date != "present":
-            end_date_object = get_date_object(end_date)
-
-            if start_date_object > end_date_object:
-                message = '"start_date" can not be after "end_date"!'
-
-                raise ValueError(
-                    message,
-                    "start_date",  # This is the location of the error
-                    str(start_date),  # This is value of the error
-                )
-
-    return start_date, end_date, date
-
 
 # See https://docs.pydantic.dev/2.7/concepts/types/#custom-types and
 # https://docs.pydantic.dev/2.7/concepts/validators/#annotated-validators
