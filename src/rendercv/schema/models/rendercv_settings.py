@@ -1,8 +1,3 @@
-"""
-The `rendercv.models.rendercv_settings` module contains the data model of the
-`rendercv_settings` field of the input file.
-"""
-
 import datetime
 import pathlib
 from typing import Literal
@@ -10,107 +5,87 @@ from typing import Literal
 import pydantic
 
 from . import computers
-from .base import RenderCVBaseModelWithoutExtraKeys
+from .base import BaseModelWithoutExtraKeys
+
+placeholders = {
+    "FULL_MONTH_NAME": "Full name of the month (e.g., January)",
+    "MONTH_ABBREVIATION": "Abbreviation of the month (e.g., Jan)",
+    "MONTH": "Month as a number (e.g., 1)",
+    "MONTH_IN_TWO_DIGITS": "Month as a number in two digits (e.g., 01)",
+    "YEAR": "Year as a number (e.g., 2024)",
+    "YEAR_IN_TWO_DIGITS": "Year as a number in two digits (e.g., 24)",
+    "NAME": "The name of the CV owner (e.g., John Doe)",
+    "NAME_IN_SNAKE_CASE": "The name of the CV owner in snake case (e.g., John_Doe)",
+    "NAME_IN_LOWER_SNAKE_CASE": (
+        "The name of the CV owner in lower snake case (e.g., john_doe)"
+    ),
+    "NAME_IN_UPPER_SNAKE_CASE": (
+        "The name of the CV owner in upper snake case (e.g., JOHN_DOE)"
+    ),
+    "NAME_IN_KEBAB_CASE": "The name of the CV owner in kebab case (e.g., john-doe)",
+    "NAME_IN_LOWER_KEBAB_CASE": (
+        "The name of the CV owner in lower kebab case (e.g., john-doe)"
+    ),
+    "NAME_IN_UPPER_KEBAB_CASE": (
+        "The name of the CV owner in upper kebab case (e.g., JOHN-DOE)"
+    ),
+}
 
 file_path_placeholder_description = (
-    "The following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the"
-    " month\n- MONTH_ABBREVIATION: Abbreviation of the month\n- MONTH: Month as a"
-    " number\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits\n- YEAR: Year as a"
-    " number\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits\n- NAME: The name of"
-    " the CV owner\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case\n-"
-    " NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case\n-"
-    " NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case\n-"
-    " NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case\n-"
-    " NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case\n-"
-    " NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case\n-"
-    " FULL_MONTH_NAME: Full name of the month\n- MONTH_ABBREVIATION: Abbreviation of"
-    " the month\n- MONTH: Month as a number\n- MONTH_IN_TWO_DIGITS: Month as a number"
-    " in two digits\n- YEAR: Year as a number\n- YEAR_IN_TWO_DIGITS: Year as a number"
-    ' in two digits\nThe default value is "MONTH_ABBREVIATION YEAR".\nThe default value'
-    " is null."
+    "\n\nThe following placeholders can be used:"
+    + "\n".join(
+        [
+            f"- {placeholder}: {description}"
+            for placeholder, description in placeholders.items()
+        ]
+    )
 )
 
-file_path_placeholder_description_without_default = (
-    file_path_placeholder_description.replace("\nThe default value is null.", "")
-)
 
-DATE_INPUT = datetime.date.today()
-
-
-class RenderCommandSettings(RenderCVBaseModelWithoutExtraKeys):
-    """This class is the data model of the `render` command's settings."""
-
+class RenderCommandSettings(BaseModelWithoutExtraKeys):
     design: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="`design` Field's YAML File",
-        description=(
-            "The file path to the yaml file containing the `design` field separately."
-        ),
+        description="The file path to the YAML file that contains the `design` field.",
     )
-
-    rendercv_settings: pathlib.Path | None = pydantic.Field(
-        default=None,
-        title="`rendercv_settings` Field's YAML File",
-        description=(
-            "The file path to the yaml file containing the `rendercv_settings` field"
-            " separately."
-        ),
-    )
-
     locale: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="`locale` Field's YAML File",
+        description="The file path to the YAML file that contains the `locale` field.",
+    )
+    output_folder_path: pathlib.Path = pydantic.Field(
+        default=pathlib.Path("rendercv_output"),
         description=(
-            "The file path to the yaml file containing the `locale` field separately."
+            "The path to the folder where the output files will be saved. "
+            f"{file_path_placeholder_description}"
         ),
     )
-
-    output_folder_name: str = pydantic.Field(
-        default="rendercv_output",
-        title="Output Folder Name",
-        description=(
-            "The name of the folder where the output files will be saved."
-            f" {file_path_placeholder_description_without_default}\nThe default value"
-            ' is "rendercv_output".'
-        ),
-    )
-
     pdf_path: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="PDF Path",
         description=(
             "The path to copy the PDF file to. If it is not provided, the PDF file will"
             f" not be copied. {file_path_placeholder_description}"
         ),
     )
-
     typst_path: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="Typst Path",
         description=(
             "The path to copy the Typst file to. If it is not provided, the Typst file"
             f" will not be copied. {file_path_placeholder_description}"
         ),
     )
-
     html_path: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="HTML Path",
         description=(
             "The path to copy the HTML file to. If it is not provided, the HTML file"
             f" will not be copied. {file_path_placeholder_description}"
         ),
     )
-
     png_path: pathlib.Path | None = pydantic.Field(
         default=None,
-        title="PNG Path",
         description=(
             "The path to copy the PNG file to. If it is not provided, the PNG file will"
             f" not be copied. {file_path_placeholder_description}"
         ),
     )
-
     markdown_path: pathlib.Path | None = pydantic.Field(
         default=None,
         title="Markdown Path",
