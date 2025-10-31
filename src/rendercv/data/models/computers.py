@@ -42,6 +42,14 @@ def format_phone_number(phone_number: str) -> str:
     )
 
 
+def get_date_input() -> Date:
+    """Return the date input.
+
+    Returns:
+        The date input.
+    """
+    module = importlib.import_module(".rendercv_settings", __package__)
+    return module.DATE_INPUT
 
 
 def format_date(date: Date, date_template: str | None = None) -> str:
@@ -334,3 +342,98 @@ def make_a_url_clean(url: str) -> str:
     return url
 
 
+def get_date_object(date: str | int) -> Date:
+    """Parse a date string in YYYY-MM-DD, YYYY-MM, or YYYY format and return a
+    `datetime.date` object. This function is used throughout the validation process of
+    the data models.
+
+    Args:
+        date: The date string to parse.
+
+    Returns:
+        The parsed date.
+    """
+    if isinstance(date, int):
+        date_object = Date.fromisoformat(f"{date}-01-01")
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        # Then it is in YYYY-MM-DD format
+        date_object = Date.fromisoformat(date)
+    elif re.fullmatch(r"\d{4}-\d{2}", date):
+        # Then it is in YYYY-MM format
+        date_object = Date.fromisoformat(f"{date}-01")
+    elif re.fullmatch(r"\d{4}", date):
+        # Then it is in YYYY format
+        date_object = Date.fromisoformat(f"{date}-01-01")
+    elif date == "present":
+        date_object = get_date_input()
+    else:
+        message = (
+            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
+            " YYYY format."
+        )
+        raise ValueError(message)
+
+    return date_object
+
+
+def dictionary_key_to_proper_section_title(key: str) -> str:
+    """Convert a dictionary key to a proper section title.
+
+    Example:
+        ```python
+        dictionary_key_to_proper_section_title("section_title")
+        ```
+        returns
+        `"Section Title"`
+
+    Args:
+        key: The key to convert to a proper section title.
+
+    Returns:
+        The proper section title.
+    """
+    title = key.replace("_", " ")
+    words = title.split(" ")
+
+    words_not_capitalized_in_a_title = [
+        "a",
+        "and",
+        "as",
+        "at",
+        "but",
+        "by",
+        "for",
+        "from",
+        "if",
+        "in",
+        "into",
+        "like",
+        "near",
+        "nor",
+        "of",
+        "off",
+        "on",
+        "onto",
+        "or",
+        "over",
+        "so",
+        "than",
+        "that",
+        "to",
+        "upon",
+        "when",
+        "with",
+        "yet",
+    ]
+
+    # loop through the words and if the word doesn't contain any uppercase letters,
+    # capitalize the first letter of the word. If the word contains uppercase letters,
+    # don't change the word.
+    return " ".join(
+        (
+            word.capitalize()
+            if (word.islower() and word not in words_not_capitalized_in_a_title)
+            else word
+        )
+        for word in words
+    )
