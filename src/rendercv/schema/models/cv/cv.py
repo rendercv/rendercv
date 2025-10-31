@@ -1,7 +1,7 @@
 import functools
 import importlib
 import pathlib
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, Self
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
@@ -137,7 +137,73 @@ def get_entry_type_name_and_section_validator(
         entry_type_name = entry.__class__.__name__
         section_type = create_a_section_validator(entry.__class__)
 
-    return entry_type_name, section_type  # type: ignore
+    return (
+        entry_type_name,
+        section_type,  # pyright: ignore[reportPossiblyUnboundVariable]
+    )
+
+
+def dictionary_key_to_proper_section_title(key: str) -> str:
+    """Convert a dictionary key to a proper section title.
+
+    Example:
+        ```python
+        dictionary_key_to_proper_section_title("section_title")
+        ```
+        returns
+        `"Section Title"`
+
+    Args:
+        key: The key to convert to a proper section title.
+
+    Returns:
+        The proper section title.
+    """
+    title = key.replace("_", " ")
+    words = title.split(" ")
+
+    words_not_capitalized_in_a_title = [
+        "a",
+        "and",
+        "as",
+        "at",
+        "but",
+        "by",
+        "for",
+        "from",
+        "if",
+        "in",
+        "into",
+        "like",
+        "near",
+        "nor",
+        "of",
+        "off",
+        "on",
+        "onto",
+        "or",
+        "over",
+        "so",
+        "than",
+        "that",
+        "to",
+        "upon",
+        "when",
+        "with",
+        "yet",
+    ]
+
+    # loop through the words and if the word doesn't contain any uppercase letters,
+    # capitalize the first letter of the word. If the word contains uppercase letters,
+    # don't change the word.
+    return " ".join(
+        (
+            word.capitalize()
+            if (word.islower() and word not in words_not_capitalized_in_a_title)
+            else word
+        )
+        for word in words
+    )
 
 
 def validate_a_section(
@@ -192,9 +258,7 @@ def validate_a_section(
         }
 
         try:
-            section_object = section_type.model_validate(
-                section,
-            )
+            section_object = section_type.model_validate(section)
             sections_input = section_object.entries
         except pydantic.ValidationError as e:
             new_error = ValueError(
@@ -222,7 +286,7 @@ def validate_a_section(
 # Create a custom type named SectionContents, which is a list of entries. The entries
 # can be any of the available entry types. The section is validated with the
 # `validate_a_section` function.
-SectionContents = Annotated[
+type SectionContents = Annotated[
     pydantic.json_schema.SkipJsonSchema[Any] | entry_types.ListOfEntries,
     pydantic.BeforeValidator(
         lambda entries: validate_a_section(
@@ -252,8 +316,14 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
     )
     website: pydantic.HttpUrl | None = None
     social_networks: list[SocialNetwork] | None = None
-    sections: dict[str, SectionContents] | None = None
-    sort_entries: Literal["reverse-chronological", "chronological", "none"] = "none"
+    sections: (
+        dict[str, pydantic.json_schema.SkipJsonSchema[Any] | entry_types.ListOfEntries]
+        | None
+    ) = None
+
+    # Store the order of the keys in the YAML `cv` mapping so that the header
+    # connections can be rendered in the same order that the user defines.
+    _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
 
     @pydantic.field_validator("photo")
     @classmethod
@@ -276,10 +346,10 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
     def sections_rendercv(self) -> list[SectionBase]:
         """Compute the sections of the CV based on the input sections.
 
-        The original `sections` input is a dictionary where the keys are the section titles
-        and the values are the list of entries in that section. This function converts the
-        input sections to a list of `SectionBase` objects. This makes it easier to work with
-        the sections in the rest of the code.
+        The original `sections` input is a dictionary where the keys are the section
+        titles and the values are the list of entries in that section. This function
+        converts the input sections to a list of `SectionBase` objects. This makes it
+        easier to work with the sections in the rest of the code.
 
         Returns:
             The computed sections.
@@ -288,9 +358,7 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
 
         if self.sections is not None:
             for title, entries in self.sections.items():
-                formatted_title = computers.dictionary_key_to_proper_section_title(
-                    title
-                )
+                formatted_title = dictionary_key_to_proper_section_title(title)
 
                 # The first entry can be used because all the entries in the section are
                 # already validated with the `validate_a_section` function:
@@ -299,36 +367,21 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
                     entry_types=entry_types.available_entry_models,
                 )
 
-                sort_order = self.sort_entries
-                sorted_entries = entry_types.sort_entries_by_date(entries, sort_order)
-
                 # SectionBase is used so that entries are not validated again:
                 section = SectionBase(
                     title=formatted_title,
                     entry_type=entry_type_name,
-                    entries=sorted_entries,
+                    entries=entries,
                 )
                 sections.append(section)
 
         return sections
 
-    @pydantic.field_serializer("phone")
-    def serialize_phone(
-        self, phone: pydantic_phone_numbers.PhoneNumber | None
-    ) -> str | None:
-        """Serialize the phone number."""
-        if phone is not None:
-            return phone.replace("tel:", "")
-
-        return phone
-
-    # Store the order of the keys in the YAML `cv` mapping so that the header
-    # connections can be rendered in the same order that the user defines.
-    _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
-
     @pydantic.model_validator(mode="wrap")
     @classmethod
-    def capture_input_order(cls, data: Any, handler) -> "CurriculumVitae":
+    def capture_input_order(
+        cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]
+    ) -> "CurriculumVitae":
         # Capture the input order before validation
         key_order = list[str](data.keys()) if isinstance(data, dict) else []
 
@@ -337,3 +390,14 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
 
         # Set the private attribute on the instance
         instance._key_order = key_order
+
+        return instance
+
+    @pydantic.field_serializer("phone")
+    def serialize_phone(
+        self, phone: pydantic_phone_numbers.PhoneNumber | None
+    ) -> str | None:
+        if phone is not None:
+            return phone.replace("tel:", "")
+
+        return phone
