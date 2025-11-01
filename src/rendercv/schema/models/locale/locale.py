@@ -1,26 +1,15 @@
-"""
-The `rendercv.models.locale` module contains the data model of the
-`locale` field of the input file.
-"""
-
 from typing import Annotated, Literal
 
 import annotated_types as at
 import pydantic
 import pydantic_extra_types.language_code
 
-from .base import RenderCVBaseModelWithoutExtraKeys
+from ..base import BaseModelWithoutExtraKeys
 
 
-class Locale(RenderCVBaseModelWithoutExtraKeys):
-    """This class is the data model of the locale catalog. The values of each field
-    updates the `locale` dictionary.
-    """
-
-    model_config = pydantic.ConfigDict(title="Locale")
-
+class Locale(BaseModelWithoutExtraKeys):
     language: pydantic_extra_types.language_code.LanguageAlpha2 = pydantic.Field(
-        default="en",  # type: ignore
+        default=pydantic_extra_types.language_code.LanguageAlpha2("en"),
         title="Language",
         description=(
             "The language as an ISO 639 alpha-2 code. It is used for hyphenation"

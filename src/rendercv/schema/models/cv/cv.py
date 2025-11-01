@@ -11,7 +11,7 @@ from .section import Section, get_sections_rendercv
 from .social_network import SocialNetwork
 
 
-class CurriculumVitae(BaseModelWithoutExtraKeys):
+class Cv(BaseModelWithoutExtraKeys):
     name: str | None = None
     location: str | None = None
     email: pydantic.EmailStr | None = None
@@ -58,7 +58,7 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
     @classmethod
     def capture_input_order(
         cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]
-    ) -> "CurriculumVitae":
+    ) -> "Cv":
         # Capture the input order before validation
         key_order = list[str](data.keys()) if isinstance(data, dict) else []
 
