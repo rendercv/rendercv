@@ -1,6 +1,6 @@
 import functools
 import re
-from typing import Literal
+from typing import Literal, Self
 
 import pydantic
 
@@ -107,3 +107,9 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
             url = url_dictionary[self.network] + self.username
 
         return url
+
+    @pydantic.model_validator(mode="after")
+    def validate_generated_url(self) -> Self:
+        """Validate that the generated URL is a valid HTTP URL."""
+        url_validator.validate_strings(self.url)
+        return self
