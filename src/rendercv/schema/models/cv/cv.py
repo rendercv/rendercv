@@ -29,8 +29,8 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
     social_networks: list[SocialNetwork] | None = None
     sections: dict[str, Section] | None = None
 
-    # Store the order of the keys in the YAML `cv` mapping so that the header
-    # connections can be rendered in the same order that the user defines.
+    # Store the order of the keys so that the header can be rendered in the same order
+    # that the user defines.
     _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
 
     @pydantic.field_validator("photo")
@@ -52,9 +52,6 @@ class CurriculumVitae(BaseModelWithoutExtraKeys):
 
     @functools.cached_property
     def sections_rendercv(self) -> list[Section]:
-        if self.sections is None:
-            return []
-
         return get_sections_rendercv(self.sections)
 
     @pydantic.model_validator(mode="wrap")

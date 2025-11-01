@@ -4,8 +4,8 @@ from typing import Literal
 
 import pydantic
 
-from ...primitive_types.url import validate_url
 from ..base import BaseModelWithoutExtraKeys
+from ..primitive_types.url import validate_url
 
 
 class SocialNetwork(BaseModelWithoutExtraKeys):
@@ -38,37 +38,41 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
 
         network = info.data["network"]
 
-        if network == "Mastodon":
-            mastodon_username_pattern = r"@[^@]+@[^@]+"
-            if not re.fullmatch(mastodon_username_pattern, username):
-                message = (
-                    'Mastodon username should be in the format "@username@domain"!'
-                )
-                raise ValueError(message)
-        elif network == "StackOverflow":
-            stackoverflow_username_pattern = r"\d+\/[^\/]+"
-            if not re.fullmatch(stackoverflow_username_pattern, username):
-                message = (
-                    'StackOverflow username should be in the format "user_id/username"!'
-                )
-                raise ValueError(message)
-        elif network == "YouTube":
-            if username.startswith("@"):
-                message = (
-                    'YouTube username should not start with "@"! Remove "@" from the'
-                    " beginning of the username."
-                )
-                raise ValueError(message)
-        elif network == "ORCID":
-            orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
-            if not re.fullmatch(orcid_username_pattern, username):
-                message = "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
-                raise ValueError(message)
-        elif network == "IMDB":
-            imdb_username_pattern = r"nm\d{7}"
-            if not re.fullmatch(imdb_username_pattern, username):
-                message = "IMDB name should be in the format 'nmXXXXXXX'!"
-                raise ValueError(message)
+        match network:
+            case "Mastodon":
+                mastodon_username_pattern = r"@[^@]+@[^@]+"
+                if not re.fullmatch(mastodon_username_pattern, username):
+                    message = (
+                        'Mastodon username should be in the format "@username@domain"!'
+                    )
+                    raise ValueError(message)
+            case "StackOverflow":
+                stackoverflow_username_pattern = r"\d+\/[^\/]+"
+                if not re.fullmatch(stackoverflow_username_pattern, username):
+                    message = (
+                        "StackOverflow username should be in the format"
+                        ' "user_id/username"!'
+                    )
+                    raise ValueError(message)
+            case "YouTube":
+                if username.startswith("@"):
+                    message = (
+                        'YouTube username should not start with "@"! Remove "@" from'
+                        " the beginning of the username."
+                    )
+                    raise ValueError(message)
+            case "ORCID":
+                orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
+                if not re.fullmatch(orcid_username_pattern, username):
+                    message = (
+                        "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
+                    )
+                    raise ValueError(message)
+            case "IMDB":
+                imdb_username_pattern = r"nm\d{7}"
+                if not re.fullmatch(imdb_username_pattern, username):
+                    message = "IMDB name should be in the format 'nmXXXXXXX'!"
+                    raise ValueError(message)
 
         return username
 

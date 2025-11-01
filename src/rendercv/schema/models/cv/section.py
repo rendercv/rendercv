@@ -1,4 +1,4 @@
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, get_args
 
 import pydantic
 
@@ -12,6 +12,10 @@ from .entries.one_line import OneLineEntry
 from .entries.publication import PublicationEntry
 from .entries.reversed_numbered import ReversedNumberedEntry
 
+########################################################################################
+# Below needs to be updated when new entry types are added.
+
+# str is an entry type (TextEntry) but not a model, so it's not included in EntryModel.
 type EntryModel = (
     OneLineEntry
     | NormalEntry
@@ -34,18 +38,8 @@ type ListOfEntries = (
     | list[ReversedNumberedEntry]
     | list[str]
 )
-
-
-available_entry_models: tuple[type[EntryModel], ...] = (
-    OneLineEntry,
-    NormalEntry,
-    ExperienceEntry,
-    EducationEntry,
-    PublicationEntry,
-    BulletEntry,
-    NumberedEntry,
-    ReversedNumberedEntry,
-)
+########################################################################################
+available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
 available_entry_type_names = tuple[str, ...](
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
@@ -93,7 +87,7 @@ class SectionBase(BaseModelWithoutExtraKeys):
     entries: list[Any]
 
 
-def create_section_model(
+def create_section_models(
     entry_type: type[EntryModel] | type[str],
 ) -> type[SectionBase]:
     """Create a section model based on the entry type.
@@ -119,6 +113,13 @@ def create_section_model(
     )
 
 
+section_models: dict[type[EntryModel] | type[str], type[SectionBase]] = {
+    entry_type: create_section_models(entry_type)
+    for entry_type in available_entry_models
+}
+section_models[str] = create_section_models(str)
+
+
 def get_entry_type_name_and_section_model(
     entry: dict[str, str | list[str]] | str | EntryModel | None,
 ) -> tuple[str, type[SectionBase]]:
@@ -137,37 +138,37 @@ def get_entry_type_name_and_section_model(
 
     if isinstance(entry, dict):
         entry_type_name = None
-        section_type = None
+        section_model = None
         for EntryType, characteristic_fields in characteristic_entry_fields.items():
             # If at least one of the characteristic_fields is in the entry,
             # then it means the entry is of this type:
             if characteristic_fields & set(entry.keys()):
                 entry_type_name = EntryType.__name__
-                section_type = create_section_model(EntryType)
+                section_model = section_models[EntryType]
                 break
 
-        if section_type is None or entry_type_name is None:
-            message = "The entry is not provided correctly."
+        if section_model is None or entry_type_name is None:
+            message = "The entry does not match any entry type."
             raise ValueError(message)
 
     elif isinstance(entry, str):
         # Then it is a TextEntry
         entry_type_name = "TextEntry"
-        section_type = create_section_model(str)
+        section_model = section_models[str]
 
     elif entry is None:
-        message = "The entry cannot be a null value."
+        message = "The entry cannot be None."
         raise ValueError(message)
 
     else:
         # Then the entry is already initialized with a data model:
         entry_type_name = entry.__class__.__name__
-        section_type = create_section_model(entry.__class__)
+        section_model = section_models[entry.__class__]
 
-    return entry_type_name, section_type
+    return entry_type_name, section_model
 
 
-def validate_section(sections_input: list[Any]) -> list[Any]:
+def validate_section(sections_input: Any) -> Any:
     """Validate a list of entries (a section) based on the entry types.
 
     Args:
@@ -202,7 +203,7 @@ def validate_section(sections_input: list[Any]) -> list[Any]:
             )
 
         section = {
-            "title": "Test Section",
+            "title": "Dummy Section for Validation",
             "entry_type": entry_type_name,
             "entries": sections_input,
         }
@@ -226,6 +227,7 @@ def validate_section(sections_input: list[Any]) -> list[Any]:
             " more information about the sections."
         )
         raise ValueError(message)
+
     return sections_input
 
 
@@ -254,6 +256,10 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
     Returns:
         The proper section title.
     """
+    # If there is either a space or an uppercase letter in the key, return it as is.
+    if " " in key or any(letter.isupper() for letter in key):
+        return key
+
     title = key.replace("_", " ")
     words = title.split(" ")
 
@@ -288,26 +294,22 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
         "yet",
     ]
 
-    # loop through the words and if the word doesn't contain any uppercase letters,
-    # capitalize the first letter of the word. If the word contains uppercase letters,
-    # don't change the word.
     return " ".join(
-        (
-            word.capitalize()
-            if (word.islower() and word not in words_not_capitalized_in_a_title)
-            else word
-        )
+        (word.capitalize() if (word not in words_not_capitalized_in_a_title) else word)
         for word in words
     )
 
 
-def get_sections_rendercv(sections: dict[str, list[Any]]) -> list[SectionBase]:
+def get_sections_rendercv(sections: dict[str, list[Any]] | None) -> list[SectionBase]:
     """Compute the sections of the CV based on the input sections.
 
     The original `sections` input is a dictionary where the keys are the section
     titles and the values are the list of entries in that section. This function
     converts the input sections to a list of `SectionBase` objects. This makes it
     easier to work with the sections in the rest of the code.
+
+    Args:
+        sections: The sections to compute.
 
     Returns:
         The computed sections.
