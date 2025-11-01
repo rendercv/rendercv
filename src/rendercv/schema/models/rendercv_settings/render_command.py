@@ -127,7 +127,6 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             " default value is False."
         ),
     )
-
     watch: bool = pydantic.Field(
         default=False,
         title="Re-run RenderCV When the Input File is Updated",
@@ -136,34 +135,3 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             'file is updated. The default value is "false".'
         ),
     )
-
-    @pydantic.field_validator(
-        "output_folder_name",
-        mode="before",
-    )
-    @classmethod
-    def replace_placeholders(cls, value: str) -> str:
-        """Replaces the placeholders in a string with the corresponding values."""
-        return computers.replace_placeholders(value)
-
-    @pydantic.field_validator(
-        "design",
-        "locale",
-        "rendercv_settings",
-        "pdf_path",
-        "typst_path",
-        "html_path",
-        "png_path",
-        "markdown_path",
-        mode="before",
-    )
-    @classmethod
-    def convert_string_to_path(cls, value: str | None) -> pathlib.Path | None:
-        """Converts a string to a `pathlib.Path` object by replacing the placeholders
-        with the corresponding values. If the path is not an absolute path, it is
-        converted to an absolute path by prepending the current working directory.
-        """
-        if value is None:
-            return None
-
-        return computers.convert_string_to_path(value)

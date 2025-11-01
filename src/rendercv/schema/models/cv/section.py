@@ -1,3 +1,6 @@
+"""CV sections with automatic entry type detection based on field intersection analysis."""
+
+from collections import Counter
 from typing import Annotated, Any, Literal, get_args
 
 import pydantic
@@ -40,7 +43,7 @@ type ListOfEntries = (
 )
 ########################################################################################
 available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
-available_entry_type_names = tuple[str, ...](
+available_entry_type_names: tuple[str, ...] = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
 
@@ -48,27 +51,21 @@ available_entry_type_names = tuple[str, ...](
 def get_characteristic_entry_fields(
     entry_types: tuple[type[EntryModel], ...],
 ) -> dict[type[EntryModel], set[str]]:
-    """Get the characteristic fields of the entry types, which are the fields that are
-    unique to the entry type. We use these fields to determine which entry type user has
-    chosen for an entry.
+    """Returns fields unique to each entry type, used for automatic type detection.
 
     Args:
         entry_types: The entry types to get their characteristic fields.
 
     Returns:
-        The characteristic fields of the entry types.
+        The characteristic fields of the entry types. 
     """
-    # Look at all the entry types, collect their attributes with
-    # EntryType.model_fields.keys() and find the common ones.
     all_attributes: list[str] = []
     for EntryType in entry_types:
         all_attributes.extend(EntryType.model_fields.keys())
 
-    common_attributes = {
-        attribute for attribute in all_attributes if all_attributes.count(attribute) > 1
-    }
+    attribute_counts = Counter(all_attributes)
+    common_attributes = {attr for attr, count in attribute_counts.items() if count > 1}
 
-    # Store each entry type's characteristic fields in a dictionary:
     characteristic_entry_fields: dict[type[EntryModel], set[str]] = {}
     for EntryType in entry_types:
         characteristic_entry_fields[EntryType] = (

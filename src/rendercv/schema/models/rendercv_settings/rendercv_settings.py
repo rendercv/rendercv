@@ -9,12 +9,12 @@ from .render_command import RenderCommand
 
 class RenderCVSettings(BaseModelWithoutExtraKeys):
     date: datetime.date = pydantic.Field(
-        default=datetime.date.today(),
+        default_factory=datetime.date.today,
         title="Date",
         description=(
             "The date that will be used everywhere (e.g., in the output file names,"
             " last updated date, computation of time spans for the events that are"
-            " currently happening, etc.). The default value is the current date."
+            " currently happening, etc.). The default value is the today's date."
         ),
         json_schema_extra={
             "default": None,
@@ -37,25 +37,14 @@ class RenderCVSettings(BaseModelWithoutExtraKeys):
             " empty list."
         ),
     )
-    sort_entries: Literal["reverse-chronological", "chronological", "none"] = (
+    sort_entries: Literal["reverse-chronological", "chronological"] | None = (
         pydantic.Field(
-            default="none",
+            default=None,
             title="Sort Entries",
             description=(
                 "How the entries should be sorted based on their dates. The available"
-                " options are 'reverse-chronological', 'chronological', and 'none'. The"
-                " default value is 'none'."
+                " options are 'reverse-chronological', 'chronological', or `null`. The"
+                " default value is `null`."
             ),
         )
     )
-
-    @pydantic.field_validator("date")
-    @classmethod
-    def mock_today(cls, value: datetime.date) -> datetime.date:
-        """Mocks the current date for testing."""
-
-        global DATE_INPUT  # NOQA: PLW0603
-
-        DATE_INPUT = value
-
-        return value

@@ -12,6 +12,7 @@ from .social_network import SocialNetwork
 
 
 class Cv(BaseModelWithoutExtraKeys):
+
     name: str | None = None
     location: str | None = None
     email: pydantic.EmailStr | None = None
@@ -36,7 +37,6 @@ class Cv(BaseModelWithoutExtraKeys):
     @pydantic.field_validator("photo")
     @classmethod
     def update_photo_path(cls, value: pathlib.Path | None) -> pathlib.Path | None:
-        """Cast `photo` to Path and make the path absolute"""
         if value:
             module = importlib.import_module(".rendercv_data_model", __package__)
             INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
@@ -60,7 +60,7 @@ class Cv(BaseModelWithoutExtraKeys):
         cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]
     ) -> "Cv":
         # Capture the input order before validation
-        key_order = list[str](data.keys()) if isinstance(data, dict) else []
+        key_order = list(data.keys()) if isinstance(data, dict) else []
 
         # Let Pydantic do its validation
         instance = handler(data)
