@@ -1,7 +1,8 @@
 import pydantic
 
-from ....primitive_types.date import ArbitraryDate
 from .entry import Entry
+
+type ArbitraryDate = int | str
 
 
 class EntryWithDate(Entry):
@@ -11,7 +12,7 @@ class EntryWithDate(Entry):
 
     model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 
-    date: ArbitraryDate = pydantic.Field(
+    date: ArbitraryDate | None = pydantic.Field(
         default=None,
         description=(
             "Can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as an"

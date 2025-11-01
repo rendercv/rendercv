@@ -5,7 +5,8 @@ from typing import Literal
 import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
-from ..primitive_types.url import validate_url
+
+url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
 
 
 class SocialNetwork(BaseModelWithoutExtraKeys):
@@ -78,7 +79,7 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
 
     @pydantic.model_validator(mode="after")
     def check_url(self) -> "SocialNetwork":
-        validate_url(self.url)
+        url_validator.validate_strings(self.url)
 
         return self
 
