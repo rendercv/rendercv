@@ -134,32 +134,3 @@ class Locale(BaseModelWithoutExtraKeys):
         title="Full Names of Months",
         description="Full names of the months in the locale.",
     )
-
-    @pydantic.field_validator(
-        "month",
-        "months",
-        "year",
-        "years",
-        "present",
-        "abbreviations_for_months",
-        "to",
-        "full_names_of_months",
-        "phone_number_format",
-        "date_template",
-    )
-    @classmethod
-    def update_locale(cls, value: str, info: pydantic.ValidationInfo) -> str:
-        """Update the `locale` dictionary."""
-        if value:
-            locale[info.field_name] = value  # type: ignore
-
-        return value
-
-
-# The dictionary below will be overwritten by Locale class, which will contain
-# month names, month abbreviations, and other locale-specific strings.
-locale: dict[str, str | list[str]] = {}
-
-# Initialize even if the RenderCVDataModel is not called (to make `format_date` function
-# work on its own):
-Locale()

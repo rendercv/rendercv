@@ -9,6 +9,9 @@ from .rendercv_settings.rendercv_settings import RenderCVSettings
 
 
 class RenderCVModel(BaseModelWithoutExtraKeys):
+    # Technically, `cv` is a required field, but we don't pass it to the JSON Schema
+    # so that the same schema can be used for standalone design, locale, and settings
+    # files.
     model_config = pydantic.ConfigDict(json_schema_extra={"required": []})
     cv: Cv = pydantic.Field(
         title="CV",
@@ -33,30 +36,3 @@ class RenderCVModel(BaseModelWithoutExtraKeys):
         title="RenderCV Settings",
         description="The settings of the RenderCV.",
     )
-
-    @pydantic.model_validator(mode="before")
-    @classmethod
-    def update_paths(
-        cls, model, info: pydantic.ValidationInfo
-    ) -> RenderCVSettings | None:
-        """Update the paths in the RenderCV settings."""
-        global INPUT_FILE_DIRECTORY  # NOQA: PLW0603
-
-        context = info.context
-        if context:
-            input_file_directory = context.get("input_file_directory", None)
-            INPUT_FILE_DIRECTORY = input_file_directory
-        else:
-            INPUT_FILE_DIRECTORY = None
-
-        return model
-
-    @pydantic.field_validator("locale", mode="before")
-    @classmethod
-    def update_locale(cls, value) -> Locale:
-        """Update the output folder name in the RenderCV settings."""
-        # Somehow, we need this for `test_if_local_catalog_resets` to pass.
-        if value is None:
-            return Locale()
-
-        return value
