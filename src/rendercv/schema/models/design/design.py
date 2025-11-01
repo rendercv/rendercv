@@ -1,35 +1,23 @@
-"""
-The `rendercv.data.models.design` module contains the data model of the `design` field
-of the input file.
-"""
-
 import importlib
 import importlib.util
-import os
 import pathlib
 from typing import Annotated, Any
 
 import pydantic
 
-from ...themes import (
+from ....themes import (
     ClassicThemeOptions,
     EngineeringclassicThemeOptions,
     EngineeringresumesThemeOptions,
     ModerncvThemeOptions,
     Sb2novThemeOptions,
 )
-from . import entry_types
-from .base import RenderCVBaseModelWithoutExtraKeys
-
-# ======================================================================================
-# Create validator functions: ==========================================================
-# ======================================================================================
+from ..base import BaseModelWithoutExtraKeys
 
 
 def validate_design_options(
     design: Any,
     available_theme_options: dict[str, type],
-    available_entry_type_names: list[str],
 ) -> Any:
     """Check if the design options are for a built-in theme or a custom theme. If it is
     a built-in theme, validate it with the corresponding data model. If it is a custom
@@ -40,18 +28,12 @@ def validate_design_options(
         design: The design options to validate.
         available_theme_options: The available theme options. The keys are the theme
             names and the values are the corresponding data models.
-        available_entry_type_names: The available entry type names. These are used to
-            validate if all the templates are provided in the custom theme folder.
 
     Returns:
         The validated design as a Pydantic data model.
     """
     module = importlib.import_module(".rendercv_data_model", __package__)
     INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
-
-    original_working_directory = pathlib.Path.cwd()
-
-    # Change the working directory to the input file directory:
 
     if isinstance(design, tuple(available_theme_options.values())):
         # Then it means it is an already validated built-in theme. Return it as it is:
@@ -94,31 +76,6 @@ def validate_design_options(
             theme_name,  # this is value of the error
         )
 
-    # check if all the necessary files are provided in the custom theme folder:
-    required_entry_files = [
-        custom_theme_folder / (entry_type_name + ".j2.typ")
-        for entry_type_name in available_entry_type_names
-    ]
-    required_files = [
-        custom_theme_folder / "SectionBeginning.j2.typ",  # section beginning template
-        custom_theme_folder / "SectionEnding.j2.typ",  # section ending template
-        custom_theme_folder / "Preamble.j2.typ",  # preamble template
-        custom_theme_folder / "Header.j2.typ",  # header template
-        *required_entry_files,
-    ]
-
-    for file in required_files:
-        if not file.exists():
-            message = (
-                f"You provided a custom theme, but the file `{file}` is not"
-                f" found in the folder `{custom_theme_folder}`."
-            )
-            raise ValueError(
-                message,
-                "",  # This is the location of the error
-                theme_name,  # This is value of the error
-            )
-
     # Import __init__.py file from the custom theme folder if it exists:
     path_to_init_file = custom_theme_folder / "__init__.py"
 
@@ -127,10 +84,12 @@ def validate_design_options(
             "theme",
             path_to_init_file,
         )
+        assert spec is not None
 
-        theme_module = importlib.util.module_from_spec(spec)  # type: ignore
+        theme_module = importlib.util.module_from_spec(spec)
         try:
-            spec.loader.exec_module(theme_module)  # type: ignore
+            assert spec.loader is not None
+            spec.loader.exec_module(theme_module)
         except SyntaxError as e:
             message = (
                 f"The custom theme {theme_name}'s __init__.py file has a syntax"
@@ -149,29 +108,30 @@ def validate_design_options(
 
             raise ValueError(message) from e
 
-        ThemeDataModel = getattr(
-            theme_module,
-            f"{theme_name.capitalize()}ThemeOptions",  # type: ignore
-        )
+        model_name = f"{theme_name.capitalize()}ThemeOptions"
+        try:
+            ThemeDataModel = getattr(
+                theme_module,
+                model_name,
+            )
+        except AttributeError as e:
+            message = (
+                f"The custom theme {theme_name} does not have a {model_name} class."
+            )
+            raise ValueError(message) from e
 
         # Initialize and validate the custom theme data model:
         theme_data_model = ThemeDataModel(**design)
     else:
         # Then it means there is no __init__.py file in the custom theme folder.
         # Create a dummy data model and use that instead.
-        class ThemeOptionsAreNotProvided(RenderCVBaseModelWithoutExtraKeys):
+        class ThemeOptionsAreNotProvided(BaseModelWithoutExtraKeys):
             theme: str = theme_name
 
         theme_data_model = ThemeOptionsAreNotProvided(theme=theme_name)
 
-    os.chdir(original_working_directory)
-
     return theme_data_model
 
-
-# ======================================================================================
-# Create custom types: =================================================================
-# ======================================================================================
 
 available_theme_options = {
     "classic": ClassicThemeOptions,
@@ -183,11 +143,10 @@ available_theme_options = {
 
 available_themes = list(available_theme_options.keys())
 
-# Create a custom type named RenderCVBuiltinDesign:
 # It is a union of all the design options and the correct design option is determined by
 # the theme field, thanks to Pydantic's discriminator feature.
 # See https://docs.pydantic.dev/2.7/concepts/fields/#discriminator for more information
-RenderCVBuiltinDesign = Annotated[
+BuiltinDesign = Annotated[
     ClassicThemeOptions
     | Sb2novThemeOptions
     | EngineeringresumesThemeOptions
@@ -196,17 +155,15 @@ RenderCVBuiltinDesign = Annotated[
     pydantic.Field(discriminator="theme"),
 ]
 
-# Create a custom type named RenderCVDesign:
 # RenderCV supports custom themes as well. Therefore, `Any` type is used to allow custom
 # themes. However, the JSON Schema generation is skipped, otherwise, the JSON Schema
 # would accept any `design` field in the YAML input file.
-RenderCVDesign = Annotated[
-    pydantic.json_schema.SkipJsonSchema[Any] | RenderCVBuiltinDesign,
+Design = Annotated[
+    pydantic.json_schema.SkipJsonSchema[Any] | BuiltinDesign,
     pydantic.BeforeValidator(
         lambda design: validate_design_options(
             design,
             available_theme_options=available_theme_options,
-            available_entry_type_names=entry_types.available_entry_type_names,  # type: ignore
         )
     ),
 ]

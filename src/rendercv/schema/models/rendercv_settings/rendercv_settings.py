@@ -3,7 +3,8 @@ from typing import Literal
 
 import pydantic
 
-from .base import BaseModelWithoutExtraKeys
+from ..base import BaseModelWithoutExtraKeys
+from .render_command import RenderCommand
 
 
 class RenderCVSettings(BaseModelWithoutExtraKeys):
@@ -19,7 +20,7 @@ class RenderCVSettings(BaseModelWithoutExtraKeys):
             "default": None,
         },
     )
-    render_command: RenderCommandSettings | None = pydantic.Field(
+    render_command: RenderCommand | None = pydantic.Field(
         default=None,
         title="Render Command Settings",
         description=(

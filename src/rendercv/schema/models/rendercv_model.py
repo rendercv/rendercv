@@ -1,29 +1,20 @@
-"""
-The `rendercv.data.models.rendercv_data_model` module contains the `RenderCVDataModel`
-data model, which is the main data model that defines the whole input file structure.
-"""
-
-import pathlib
-
 import pydantic
 
 from ...themes import ClassicThemeOptions
-from .base import RenderCVBaseModelWithoutExtraKeys
-from .curriculum_vitae import CurriculumVitae
-from .design import RenderCVDesign
-from .locale import Locale
-from .rendercv_settings import RenderCVSettings
-
-INPUT_FILE_DIRECTORY: pathlib.Path | None = None
+from .base import BaseModelWithoutExtraKeys
+from .cv.cv import Cv
+from .design.design import Design
+from .locale.locale import Locale
+from .rendercv_settings.rendercv_settings import RenderCVSettings
 
 
-class RenderCVModel(RenderCVBaseModelWithoutExtraKeys):
+class RenderCVModel(BaseModelWithoutExtraKeys):
     model_config = pydantic.ConfigDict(json_schema_extra={"required": []})
-    cv: CurriculumVitae = pydantic.Field(
+    cv: Cv = pydantic.Field(
         title="CV",
         description="The content of the CV.",
     )
-    design: RenderCVDesign = pydantic.Field(
+    design: Design = pydantic.Field(
         default=ClassicThemeOptions(theme="classic"),
         title="Design",
         description=(
@@ -31,7 +22,7 @@ class RenderCVModel(RenderCVBaseModelWithoutExtraKeys):
         ),
     )
     locale: Locale = pydantic.Field(
-        default=None,  # type: ignore
+        default=Locale(),
         title="Locale Catalog",
         description=(
             "The locale catalog of the CV to allow the support of multiple languages."
@@ -69,14 +60,3 @@ class RenderCVModel(RenderCVBaseModelWithoutExtraKeys):
             return Locale()
 
         return value
-
-    @pydantic.model_validator(mode="after")  # type: ignore
-    def apply_sort_entries(self) -> "RenderCVModel":
-        """Propagate sort order from settings to the CV."""
-
-        self.cv.sort_entries = self.rendercv_settings.sort_entries
-
-        return self
-
-
-rendercv_data_model_fields = tuple(RenderCVModel.model_fields.keys())

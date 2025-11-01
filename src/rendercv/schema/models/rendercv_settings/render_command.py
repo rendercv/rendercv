@@ -39,7 +39,7 @@ file_path_placeholder_description = (
 )
 
 
-class RenderCommandSettings(BaseModelWithoutExtraKeys):
+class RenderCommand(BaseModelWithoutExtraKeys):
     design: pathlib.Path | None = pydantic.Field(
         default=None,
         description="The file path to the YAML file that contains the `design` field.",
