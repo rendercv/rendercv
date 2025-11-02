@@ -172,11 +172,11 @@ extend-select = [
     'PD',
 ]
 ignore = [
-    'PLR',     # Design-related pylint codes
-    'ISC001',  # Conflicts with formatter
-    'UP007',   # Allow Optional type
-    'PGH003',  # Prefer not to ignore this
-    'RUFF001', # Allow other characters for locale
+    'PLR',    # Design-related pylint codes
+    'ISC001', # Conflicts with formatter
+    'UP007',  # Allow Optional type
+    'PGH003', # Prefer not to ignore this
+    'RUF001', # Allow other characters for locale
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 

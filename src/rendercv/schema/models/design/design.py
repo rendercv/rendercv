@@ -1,18 +1,156 @@
+"""Design system for RenderCV.
+
+This module provides theme support with dynamic model generation and auto-discovery.
+Themes are defined in simple data files and automatically discovered and converted
+into Pydantic models with full validation and discriminated union support.
+"""
+
 import importlib
 import importlib.util
 import pathlib
-from typing import Annotated, Any
+from pathlib import Path
+from typing import Annotated, Any, Literal, Union
 
 import pydantic
 
-from ....themes import (
-    ClassicThemeOptions,
-    EngineeringclassicThemeOptions,
-    EngineeringresumesThemeOptions,
-    ModerncvThemeOptions,
-    Sb2novThemeOptions,
-)
 from ..base import BaseModelWithoutExtraKeys
+from .classic_theme import ClassicTheme
+
+
+def create_theme_class(theme_name: str, defaults: dict[str, Any]) -> type[ClassicTheme]:
+    """Dynamically create a theme model class with the given defaults.
+
+    Args:
+        theme_name: Name of the theme (e.g., "engineeringresumes", "sb2nov")
+        defaults: Dictionary of field names to default values (supports nested dicts)
+
+    Returns:
+        A dynamically created Pydantic model class that inherits from ClassicTheme
+        with all field defaults applied from the defaults dictionary.
+
+    Example:
+        >>> theme_data = {"theme": "engineeringresumes", "page": {"show_page_numbering": False}, ...}
+        >>> engineeringresumes_theme = create_theme_class(
+        ...     "engineeringresumes", theme_data
+        ... )
+        >>> theme = engineeringresumes_theme()
+        >>> theme.theme
+        'engineeringresumes'
+    """
+    base_fields = ClassicTheme.model_fields
+    field_specs: dict[str, Any] = {}
+
+    for field_name, default_value in defaults.items():
+        if field_name not in base_fields:
+            message = (
+                f"Field {field_name} in defaults for {theme_name} "
+                "is not defined in ClassicTheme"
+            )
+            raise ValueError(message)
+
+        base_field_info = base_fields[field_name]
+
+        # For discriminator field
+        if field_name == "theme":
+            field_specs[field_name] = (
+                Literal[default_value],  # type: ignore
+                pydantic.Field(default=default_value),
+            )
+        # For nested objects (dict values mean we need to override nested fields)
+        elif isinstance(default_value, dict):
+            # Get the base nested object's default
+            base_default = base_field_info.default
+
+            if base_field_info.default_factory is None:
+                # If no default_factory, use the default value directly
+                new_field = pydantic.Field(default=default_value)
+            else:
+                # Get the default factory and create an instance
+                base_nested_obj = base_field_info.default_factory()
+
+                # Override specific nested fields
+                modified_nested = base_nested_obj.model_copy(update=default_value)
+
+                new_field = pydantic.Field(default=modified_nested)
+
+            field_specs[field_name] = (base_field_info.annotation, new_field)
+        # For simple field overrides
+        else:
+            new_field = pydantic.Field(default=default_value)
+            field_specs[field_name] = (base_field_info.annotation, new_field)
+
+    model_class_name = f"{theme_name.replace('_', ' ').title().replace(' ', '')}Theme"
+
+    return pydantic.create_model(
+        model_class_name,
+        __base__=ClassicTheme,
+        __module__="rendercv.schema.models.design",
+        **field_specs,
+    )
+
+
+def discover_themes() -> dict[str, type[ClassicTheme]]:
+    """Auto-discover and load all theme files from other_themes/ directory.
+
+    Returns:
+        Dictionary mapping class names (e.g., "EngineeringresumesTheme") to dynamically
+        created Pydantic model classes.
+    """
+    themes_dir = Path(__file__).parent / "other_themes"
+    discovered: dict[str, type[ClassicTheme]] = {}
+
+    # Always include ClassicTheme as the base
+    discovered["ClassicTheme"] = ClassicTheme
+
+    for py_file in sorted(themes_dir.glob("*.py")):
+        if py_file.stem.startswith("_") or py_file.stem == "__init__":
+            continue
+
+        theme_name = py_file.stem
+
+        module = importlib.import_module(
+            f"rendercv.schema.models.design.other_themes.{theme_name}"
+        )
+
+        if not hasattr(module, "THEME_DATA"):
+            message = f"Module {theme_name} is missing required THEME_DATA attribute"
+            raise ValueError(message)
+
+        theme_data = module.THEME_DATA
+        theme_class = create_theme_class(theme_name, theme_data)
+        discovered[theme_class.__name__] = theme_class
+
+    if len(discovered) == 1:  # Only ClassicTheme
+        message = "No theme variants discovered in other_themes/ directory"
+        raise RuntimeError(message)
+
+    return discovered
+
+
+# Discover themes at module import time
+discovered_themes = discover_themes()
+theme_classes = tuple(discovered_themes.values())
+
+# Build discriminated union dynamically
+BuiltInDesign = Annotated[
+    Union[theme_classes],  # type: ignore
+    pydantic.Field(discriminator="theme"),
+]
+
+# Export individual theme classes for convenience
+globals().update(discovered_themes)
+
+# Build available_theme_options dict for validate_design_options
+available_theme_options = {
+    theme_class.model_fields["theme"].default: theme_class
+    for theme_class in theme_classes
+}
+
+available_built_in_themes = list(available_theme_options.keys())
+
+# Build __all__ with explicit strings
+__all__ = ["BuiltInDesign", "ClassicTheme", "Design"]
+__all__.extend(discovered_themes.keys())
 
 
 def validate_design_options(
@@ -41,8 +179,8 @@ def validate_design_options(
     if design["theme"] in available_theme_options:
         # Then it is a built-in theme, but it is not validated yet. Validate it and
         # return it:
-        ThemeDataModel = available_theme_options[design["theme"]]
-        return ThemeDataModel(**design)
+        theme_data_model = available_theme_options[design["theme"]]
+        return theme_data_model(**design)
     # It is a custom theme. Validate it:
     theme_name: str = str(design["theme"])
 
@@ -110,7 +248,7 @@ def validate_design_options(
 
         model_name = f"{theme_name.capitalize()}ThemeOptions"
         try:
-            ThemeDataModel = getattr(
+            theme_data_model_class = getattr(
                 theme_module,
                 model_name,
             )
@@ -121,7 +259,7 @@ def validate_design_options(
             raise ValueError(message) from e
 
         # Initialize and validate the custom theme data model:
-        theme_data_model = ThemeDataModel(**design)
+        theme_data_model = theme_data_model_class(**design)
     else:
         # Then it means there is no __init__.py file in the custom theme folder.
         # Create a dummy data model and use that instead.
@@ -133,33 +271,11 @@ def validate_design_options(
     return theme_data_model
 
 
-available_theme_options = {
-    "classic": ClassicThemeOptions,
-    "sb2nov": Sb2novThemeOptions,
-    "engineeringresumes": EngineeringresumesThemeOptions,
-    "engineeringclassic": EngineeringclassicThemeOptions,
-    "moderncv": ModerncvThemeOptions,
-}
-
-available_themes = list(available_theme_options.keys())
-
-# It is a union of all the design options and the correct design option is determined by
-# the theme field, thanks to Pydantic's discriminator feature.
-# See https://docs.pydantic.dev/2.7/concepts/fields/#discriminator for more information
-BuiltinDesign = Annotated[
-    ClassicThemeOptions
-    | Sb2novThemeOptions
-    | EngineeringresumesThemeOptions
-    | EngineeringclassicThemeOptions
-    | ModerncvThemeOptions,
-    pydantic.Field(discriminator="theme"),
-]
-
 # RenderCV supports custom themes as well. Therefore, `Any` type is used to allow custom
 # themes. However, the JSON Schema generation is skipped, otherwise, the JSON Schema
 # would accept any `design` field in the YAML input file.
 Design = Annotated[
-    pydantic.json_schema.SkipJsonSchema[Any] | BuiltinDesign,
+    pydantic.json_schema.SkipJsonSchema[Any] | BuiltInDesign,
     pydantic.BeforeValidator(
         lambda design: validate_design_options(
             design,

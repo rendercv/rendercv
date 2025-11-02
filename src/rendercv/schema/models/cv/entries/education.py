@@ -20,6 +20,7 @@ class BaseEducationEntry(BaseEntry):
         examples=["BS", "BA", "PhD", "MS"],
     )
 
+
 # This approach ensures EducationEntryBase keys appear first in the key order:
 class EducationEntry(BaseEducationEntry, BaseEntryWithComplexFields):
     pass
