@@ -1,5 +1,5 @@
-from .basis.entry import Entry
+from .basis.entry import BaseEntry
 
 
-class BulletEntry(Entry):
+class BulletEntry(BaseEntry):
     bullet: str

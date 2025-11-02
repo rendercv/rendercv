@@ -1,10 +1,10 @@
 import pydantic
 
-from .basis.entry import Entry
-from .basis.entry_with_complex_fields import EntryWithComplexFields
+from .basis.entry import BaseEntry
+from .basis.entry_with_complex_fields import BaseEntryWithComplexFields
 
 
-class ExperienceEntryBase(Entry):
+class BaseExperienceEntry(BaseEntry):
     company: str = pydantic.Field(
         examples=["Microsoft", "Google", "Princeton Plasma Physics Laboratory"],
     )
@@ -14,5 +14,5 @@ class ExperienceEntryBase(Entry):
 
 
 # This approach ensures ExperienceEntryBase keys appear first in the key order:
-class ExperienceEntry(ExperienceEntryBase, EntryWithComplexFields):
+class ExperienceEntry(BaseExperienceEntry, BaseEntryWithComplexFields):
     pass

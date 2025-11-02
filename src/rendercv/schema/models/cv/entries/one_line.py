@@ -1,6 +1,6 @@
-from .basis.entry import Entry
+from .basis.entry import BaseEntry
 
 
-class OneLineEntry(Entry):
+class OneLineEntry(BaseEntry):
     label: str
     details: str

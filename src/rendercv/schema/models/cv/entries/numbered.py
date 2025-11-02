@@ -1,5 +1,5 @@
-from .basis.entry import Entry
+from .basis.entry import BaseEntry
 
 
-class NumberedEntry(Entry):
+class NumberedEntry(BaseEntry):
     number: str

@@ -3,7 +3,7 @@ import pydantic
 from ....base import BaseModelWithExtraKeys
 
 
-class Entry(BaseModelWithExtraKeys):
+class BaseEntry(BaseModelWithExtraKeys):
     """Parent class for all the entry types. It's not an entry type itself.
 
     It is used to ensure all the entry types use `BaseModelWithExtraKeys` as the

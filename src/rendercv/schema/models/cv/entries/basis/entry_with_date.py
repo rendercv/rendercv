@@ -1,11 +1,11 @@
 import pydantic
 
-from .entry import Entry
+from .entry import BaseEntry
 
 type ArbitraryDate = int | str
 
 
-class EntryWithDate(Entry):
+class BaseEntryWithDate(BaseEntry):
     """Parent class for entry types that uses the `date` field. It's not an entry type
     itself.
     """
