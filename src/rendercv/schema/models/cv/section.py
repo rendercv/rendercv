@@ -57,7 +57,7 @@ def get_characteristic_entry_fields(
         entry_types: The entry types to get their characteristic fields.
 
     Returns:
-        The characteristic fields of the entry types. 
+        The characteristic fields of the entry types.
     """
     all_attributes: list[str] = []
     for EntryType in entry_types:

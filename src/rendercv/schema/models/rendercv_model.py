@@ -1,6 +1,6 @@
 import pydantic
 
-from ...themes import ClassicThemeOptions
+from ...themes import ClassicTheme
 from .base import BaseModelWithoutExtraKeys
 from .cv.cv import Cv
 from .design.design import Design
@@ -18,7 +18,7 @@ class RenderCVModel(BaseModelWithoutExtraKeys):
         description="The content of the CV.",
     )
     design: Design = pydantic.Field(
-        default_factory=ClassicThemeOptions,
+        default_factory=ClassicTheme,
         title="Design",
         description=(
             "The design information of the CV. The default is the `classic` theme."

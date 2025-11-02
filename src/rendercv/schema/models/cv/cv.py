@@ -12,7 +12,6 @@ from .social_network import SocialNetwork
 
 
 class Cv(BaseModelWithoutExtraKeys):
-
     name: str | None = None
     location: str | None = None
     email: pydantic.EmailStr | None = None
