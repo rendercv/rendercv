@@ -2,7 +2,7 @@ from typing import Annotated, Literal, Self
 
 import pydantic
 
-from .entry_with_date import EntryWithDate
+from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (
     Annotated[
@@ -15,7 +15,7 @@ type ExactDate = (
 )
 
 
-class EntryWithComplexFields(EntryWithDate):
+class BaseEntryWithComplexFields(BaseEntryWithDate):
     """Parent class for entry types that uses common fields such as `start_date`,
     `end_date`, `location`, `summary`, and `highlights`. It's not an entry type itself.
     """

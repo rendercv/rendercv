@@ -4,7 +4,7 @@ from ...themes import ClassicThemeOptions
 from .base import BaseModelWithoutExtraKeys
 from .cv.cv import Cv
 from .design.design import Design
-from .locale.locale import Locale
+from .locale.locale import EnglishLocale, Locale
 from .rendercv_settings.rendercv_settings import RenderCVSettings
 
 
@@ -18,21 +18,21 @@ class RenderCVModel(BaseModelWithoutExtraKeys):
         description="The content of the CV.",
     )
     design: Design = pydantic.Field(
-        default=ClassicThemeOptions(theme="classic"),
+        default_factory=ClassicThemeOptions,
         title="Design",
         description=(
             "The design information of the CV. The default is the `classic` theme."
         ),
     )
     locale: Locale = pydantic.Field(
-        default=Locale(),
+        default_factory=EnglishLocale,
         title="Locale Catalog",
         description=(
             "The locale catalog of the CV to allow the support of multiple languages."
         ),
     )
     rendercv_settings: RenderCVSettings = pydantic.Field(
-        default=RenderCVSettings(),
+        default_factory=RenderCVSettings,
         title="RenderCV Settings",
         description="The settings of the RenderCV.",
     )

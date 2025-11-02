@@ -1,5 +1,5 @@
-from .basis.entry import Entry
+from .basis.entry import BaseEntry
 
 
-class ReversedNumberedEntry(Entry):
+class ReversedNumberedEntry(BaseEntry):
     reversed_number: str

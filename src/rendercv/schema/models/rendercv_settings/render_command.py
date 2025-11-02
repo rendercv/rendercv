@@ -4,7 +4,7 @@ import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
 
-placeholders = {
+file_path_placeholders = {
     "FULL_MONTH_NAME": "Full name of the month (e.g., January)",
     "MONTH_ABBREVIATION": "Abbreviation of the month (e.g., Jan)",
     "MONTH": "Month as a number (e.g., 1)",
@@ -33,7 +33,7 @@ file_path_placeholder_description = (
     + "\n".join(
         [
             f"- {placeholder}: {description}"
-            for placeholder, description in placeholders.items()
+            for placeholder, description in file_path_placeholders.items()
         ]
     )
 )
