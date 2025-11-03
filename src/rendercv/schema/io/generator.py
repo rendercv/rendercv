@@ -1,8 +1,3 @@
-"""
-The `rendercv.data.generator` module contains all the functions for generating the JSON
-Schema of the input data format and a sample YAML input file.
-"""
-
 import io
 import json
 import pathlib
@@ -10,8 +5,10 @@ import pathlib
 import pydantic
 import ruamel.yaml
 
-from .. import __version__
-from . import models, reader
+from rendercv import __version__
+
+from ..models.rendercv_model import RenderCVModel
+from . import reader
 
 
 def dictionary_to_yaml(dictionary: dict) -> str:
@@ -41,9 +38,9 @@ def dictionary_to_yaml(dictionary: dict) -> str:
         return string_stream.getvalue()
 
 
-def create_a_sample_data_model(
+def create_sample_rendercv_pydantic_model(
     name: str = "John Doe", theme: str = "classic"
-) -> models.RenderCVDataModel:
+) -> RenderCVModel:
     """Return a sample data model for new users to start with.
 
     Args:
@@ -91,7 +88,7 @@ def create_a_sample_yaml_input_file(
     Returns:
         The sample YAML input file as a string.
     """
-    data_model = create_a_sample_data_model(name=name, theme=theme)
+    data_model = create_sample_rendercv_pydantic_model(name=name, theme=theme)
 
     # Instead of getting the dictionary with data_model.model_dump() directly, we
     # convert it to JSON and then to a dictionary. Because the YAML library we are
@@ -139,11 +136,11 @@ def generate_json_schema() -> dict:
     [JSON Schema Store](https://www.schemastore.org/).
 
     Returns:
-        The JSON schema of RenderCV.
+        The JSON schema of RenderCV as a dictionary.
     """
 
     class RenderCVSchemaGenerator(pydantic.json_schema.GenerateJsonSchema):
-        def generate(self, schema, mode="validation"):  # type: ignore
+        def generate(self, schema, mode="validation"):
             json_schema = super().generate(schema, mode=mode)
 
             # Basic information about the schema:

@@ -4,14 +4,14 @@ import pydantic
 import pytest
 
 from rendercv.schema.utils.variant_class_generator import (
-    _create_discriminator_field_spec,
-    _create_nested_field_spec,
-    _create_simple_field_spec,
-    _create_variant_class,
-    _deep_merge_nested_object,
-    _generate_class_name,
-    _update_description_with_new_default,
-    _validate_defaults_against_base,
+    create_discriminator_field_spec,
+    create_nested_field_spec,
+    create_simple_field_spec,
+    create_variant_class,
+    deep_merge_nested_object,
+    generate_class_name,
+    update_description_with_new_default,
+    validate_defaults_against_base,
 )
 
 
@@ -105,9 +105,9 @@ def test_validate_defaults_against_base(
 ):
     if expected_error:
         with pytest.raises(expected_error, match=match_pattern):
-            _validate_defaults_against_base(defaults, SimpleModel, variant_name)
+            validate_defaults_against_base(defaults, SimpleModel, variant_name)
     else:
-        _validate_defaults_against_base(defaults, SimpleModel, variant_name)
+        validate_defaults_against_base(defaults, SimpleModel, variant_name)
 
 
 @pytest.mark.parametrize(
@@ -137,7 +137,7 @@ def test_validate_defaults_against_base(
     ],
 )
 def test_generate_class_name(variant_name, suffix, expected_class_name):
-    result = _generate_class_name(variant_name, suffix)
+    result = generate_class_name(variant_name, suffix)
     assert result == expected_class_name
 
 
@@ -154,7 +154,7 @@ def test_create_discriminator_field_spec(discriminator_value: Any):
     """Test discriminator field spec creation with various value types."""
     field_info = SimpleModel.model_fields["discriminator"]
 
-    annotation, field = _create_discriminator_field_spec(
+    annotation, field = create_discriminator_field_spec(
         discriminator_value, field_info
     )
 
@@ -179,7 +179,7 @@ def test_deep_merge_nested_object_shallow_merge():
     base = Simple()
     updates = {"a": 100}
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.a == 100
     assert result.b == "original"
@@ -208,7 +208,7 @@ def test_deep_merge_nested_object_deep_merge():
         }
     }
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.middle.inner.x == 100
     assert result.middle.inner.y == 2  # Preserved
@@ -225,7 +225,7 @@ def test_deep_merge_nested_object_dict_field():
     base = WithDict()
     updates = {"data": {"new_key": "new_value"}}
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.data == {"new_key": "new_value"}
 
@@ -242,7 +242,7 @@ def test_deep_merge_nested_object_multiple_fields():
         "field2": 999,
     }
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.field1 == "updated"
     assert result.field2 == 999
@@ -256,7 +256,7 @@ def test_deep_merge_nested_object_empty_updates():
     base = Simple()
     updates: dict[str, Any] = {}
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.value == 42
     assert result is not base
@@ -275,7 +275,7 @@ def test_deep_merge_nested_object_three_levels_deep():
     base = Level1()
     updates = {"level2": {"level3": {"value": 999}}}
 
-    result = _deep_merge_nested_object(base, updates)
+    result = deep_merge_nested_object(base, updates)
 
     assert result.level2.level3.value == 999
 
@@ -293,7 +293,7 @@ def test_create_nested_field_spec_with_default():
         "x": 100,
     }
 
-    _annotation, field = _create_nested_field_spec(updates, field_info)
+    _annotation, field = create_nested_field_spec(updates, field_info)
 
     # Check that the merged object is in the field default
     assert field.default.x == 100  # type: ignore
@@ -308,7 +308,7 @@ def test_create_nested_field_spec_with_default_factory():
         "count": 20,
     }
 
-    _annotation, field = _create_nested_field_spec(updates, field_info)
+    _annotation, field = create_nested_field_spec(updates, field_info)
 
     assert field.default.value == "updated"  # type: ignore
     assert field.default.count == 20  # type: ignore
@@ -326,7 +326,7 @@ def test_create_nested_field_spec_preserves_metadata():
     field_info = Outer.model_fields["inner"]
     updates = {"x": 50}
 
-    _annotation, field = _create_nested_field_spec(updates, field_info)
+    _annotation, field = create_nested_field_spec(updates, field_info)
 
     assert field.description == "Inner model"
     assert field.title == "Inner Title"
@@ -344,7 +344,7 @@ def test_create_nested_field_spec_partial_update():
     field_info = Outer.model_fields["nested"]
     updates = {"field1": "updated"}
 
-    _annotation, field = _create_nested_field_spec(updates, field_info)
+    _annotation, field = create_nested_field_spec(updates, field_info)
 
     assert field.default.field1 == "updated"  # type: ignore
     assert field.default.field2 == "b"  # type: ignore
@@ -365,7 +365,7 @@ def test_create_simple_field_spec(
     """Test creating field spec for simple fields with various types."""
     field_info = SimpleModel.model_fields[field_name]
 
-    annotation, field = _create_simple_field_spec(new_value, field_info)
+    annotation, field = create_simple_field_spec(new_value, field_info)
 
     # Check default value is set correctly
     assert field.default == new_value
@@ -386,7 +386,7 @@ def test_create_variant_class_simple_fields():
         "field2": 100,
     }
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="my_variant",
         defaults=defaults,
         base_class=SimpleModel,
@@ -419,7 +419,7 @@ def test_create_variant_class_nested_models():
         "simple": "updated",
     }
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="custom",
         defaults=defaults,
         base_class=NestedModel,
@@ -446,7 +446,7 @@ def test_create_variant_class_discriminator_is_literal():
         "value": 42,
     }
 
-    CustomClass = _create_variant_class(
+    CustomClass = create_variant_class(
         variant_name="custom",
         defaults=defaults,
         base_class=Base,
@@ -466,7 +466,7 @@ def test_create_variant_class_discriminator_is_literal():
 def test_create_variant_class_empty_defaults():
     defaults: dict[str, Any] = {}
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="empty",
         defaults=defaults,
         base_class=SimpleModel,
@@ -497,7 +497,7 @@ def test_create_variant_class_class_name_generation(
     class Base(pydantic.BaseModel):
         disc: str = "base"
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name=variant_name,
         defaults={"disc": variant_name},
         base_class=Base,
@@ -513,7 +513,7 @@ def test_create_variant_class_module_assignment():
         "discriminator": "test",
     }
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="test",
         defaults=defaults,
         base_class=SimpleModel,
@@ -531,7 +531,7 @@ def test_create_variant_class_preserves_field_metadata():
         "field1": "new_value",
     }
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="test",
         defaults=defaults,
         base_class=SimpleModel,
@@ -563,7 +563,7 @@ def test_create_variant_class_deep_nesting():
         },
     }
 
-    DeepVariant = _create_variant_class(
+    DeepVariant = create_variant_class(
         variant_name="deep",
         defaults=defaults,
         base_class=Level1,
@@ -594,7 +594,7 @@ def test_create_variant_class_multiple_nested_fields():
         "nested2": {"y": 20},
     }
 
-    MultiVariant = _create_variant_class(
+    MultiVariant = create_variant_class(
         variant_name="multi",
         defaults=defaults,
         base_class=Multi,
@@ -635,7 +635,7 @@ def test_create_variant_class_validation_errors(
     defaults: dict[str, Any], variant_name: str, match_pattern: str
 ):
     with pytest.raises(ValueError, match=match_pattern):
-        _create_variant_class(
+        create_variant_class(
             variant_name=variant_name,
             defaults=defaults,
             base_class=SimpleModel,
@@ -655,7 +655,7 @@ def test_create_variant_class_can_override_defaults_at_instantiation():
         "value": 100,
     }
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="variant",
         defaults=defaults,
         base_class=Base,
@@ -739,14 +739,14 @@ def test_create_variant_class_can_override_defaults_at_instantiation():
 def test_update_description_with_new_default(
     description: str, old_default: Any, new_default: Any, expected: str
 ):
-    updated = _update_description_with_new_default(
+    updated = update_description_with_new_default(
         description, old_default, new_default
     )
     assert updated == expected
 
 
 def test_update_description_with_none_description():
-    updated = _update_description_with_new_default(None, "old", "new")
+    updated = update_description_with_new_default(None, "old", "new")
     assert updated is None
 
 
@@ -816,7 +816,7 @@ def test_variant_class_updates_field_descriptions(
     Base = pydantic.create_model("Base", **base_fields)
 
     # Create variant class
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="custom",
         defaults={"disc": "custom", field_name: new_default},
         base_class=Base,
@@ -837,7 +837,7 @@ def test_variant_class_updates_discriminator_description():
         )
         value: int = 1
 
-    VariantClass = _create_variant_class(
+    VariantClass = create_variant_class(
         variant_name="custom",
         defaults={"variant": "custom", "value": 42},
         base_class=Base,
