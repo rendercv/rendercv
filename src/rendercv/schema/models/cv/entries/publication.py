@@ -1,9 +1,12 @@
+import functools
 from typing import Self
 
 import pydantic
 
 from .basis.entry import BaseEntry
 from .basis.entry_with_date import BaseEntryWithDate
+
+url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
 
 
 class BasePublicationEntry(BaseEntry):
@@ -24,8 +27,8 @@ class BasePublicationEntry(BaseEntry):
     doi: str | None = pydantic.Field(
         default=None,
         description=(
-            "The DOI (Digital Object Identifier) of the publication. If provided, it will"
-            " be used as the link instead of the URL."
+            "The DOI (Digital Object Identifier) of the publication. If provided, it"
+            " will be used as the link instead of the URL."
         ),
         examples=["10.48550/arXiv.2310.03138"],
         pattern=r"\b10\..*",
@@ -39,7 +42,9 @@ class BasePublicationEntry(BaseEntry):
     )
     journal: str | None = pydantic.Field(
         default=None,
-        description="The name of the journal, conference, or venue where it was published.",
+        description=(
+            "The name of the journal, conference, or venue where it was published."
+        ),
         examples=["Nature", "IEEE Conference on Computer Vision", "arXiv preprint"],
     )
 
@@ -51,6 +56,22 @@ class BasePublicationEntry(BaseEntry):
             self.url = None
 
         return self
+
+    @pydantic.model_validator(mode="after")
+    def validate_doi_url(self) -> Self:
+        if self.doi_url:
+            url_validator.validate_strings(self.doi_url)
+
+        return self
+
+    @functools.cached_property
+    def doi_url(self) -> str | None:
+        doi_is_provided = self.doi is not None
+
+        if doi_is_provided:
+            return f"https://doi.org/{self.doi}"
+
+        return None
 
 
 # This approach ensures PublicationEntryBase keys appear first in the key order:
