@@ -48,3 +48,4 @@ type BuiltInDesign = Annotated[
     ClassicTheme | reduce(or_, discover_other_themes()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="theme"),
 ]
+built_in_design_adapter = pydantic.TypeAdapter(BuiltInDesign)

@@ -4,21 +4,22 @@ import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
 
-file_path_placeholders_description = (
-    "\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the"
-    " month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g.,"
-    " Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a"
-    " number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n-"
-    " YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name"
-    " of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner"
-    " in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV"
-    " owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name"
-    " of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The"
-    " name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE:"
-    " The name of the CV owner in lower kebab case (e.g., john-doe)\n-"
-    " NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g.,"
-    " JOHN-DOE)"
-)
+file_path_placeholders_description = """The following placeholders can be used:
+
+- FULL_MONTH_NAME: Full name of the month (e.g., January)
+- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)
+- MONTH: Month as a number (e.g., 1)
+- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)
+- YEAR: Year as a number (e.g., 2024)
+- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)
+- NAME: The name of the CV owner (e.g., John Doe)
+- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)
+- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)
+- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)
+- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)
+- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)
+- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)
+"""
 
 
 class RenderCommand(BaseModelWithoutExtraKeys):
