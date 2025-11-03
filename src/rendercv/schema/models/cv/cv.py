@@ -7,7 +7,7 @@ import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ...utils.context import get_input_file_path
 from ..base import BaseModelWithoutExtraKeys
-from .section import Section, get_sections_rendercv
+from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
 
@@ -41,8 +41,8 @@ class Cv(BaseModelWithoutExtraKeys):
     phone: pydantic_phone_numbers.PhoneNumber | None = pydantic.Field(
         default=None,
         description=(
-            "Your phone number with country code. Use international format starting with"
-            " '+' (e.g., +1 for USA, +44 for UK)."
+            "Your phone number with country code. Use international format starting"
+            " with '+' (e.g., +1 for USA, +44 for UK)."
         ),
         examples=["+1-234-567-8900", "+44 20 1234 5678"],
     )
@@ -54,8 +54,8 @@ class Cv(BaseModelWithoutExtraKeys):
     social_networks: list[SocialNetwork] | None = pydantic.Field(
         default=None,
         description=(
-            "List of your social network profiles (e.g., LinkedIn, GitHub). These appear"
-            " as clickable links in your CV header."
+            "List of your social network profiles (e.g., LinkedIn, GitHub). These"
+            " appear as clickable links in your CV header."
         ),
     )
     sections: dict[str, Section] | None = pydantic.Field(
@@ -91,8 +91,8 @@ class Cv(BaseModelWithoutExtraKeys):
         return value
 
     @functools.cached_property
-    def sections_rendercv(self) -> list[Section]:
-        return get_sections_rendercv(self.sections)
+    def rendercv_sections(self) -> list[BaseRenderCVSection]:
+        return get_rendercv_sections(self.sections)
 
     @pydantic.model_validator(mode="wrap")
     @classmethod

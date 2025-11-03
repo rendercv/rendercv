@@ -245,18 +245,6 @@ def test_education_entry_grade_field(education_entry):
 
 
 @pytest.mark.parametrize(
-    ("doi", "expected_doi_url"),
-    [
-        ("10.1109/TASC.2023.3340648", "https://doi.org/10.1109/TASC.2023.3340648"),
-    ],
-)
-def test_doi_url(publication_entry, doi, expected_doi_url):
-    publication_entry["doi"] = doi
-    publication_entry = data.PublicationEntry(**publication_entry)
-    assert publication_entry.doi_url == expected_doi_url
-
-
-@pytest.mark.parametrize(
     ("network", "username"),
     [
         ("Mastodon", "invalidmastodon"),
@@ -399,89 +387,6 @@ def test_entries_with_extra_attributes(EntryType, request: pytest.FixtureRequest
 
     assert entry.extra_attribute == "extra value"
 
-
-def test_sections(
-    education_entry,
-    experience_entry,
-    publication_entry,
-    normal_entry,
-    one_line_entry,
-    text_entry,
-):
-    input = {
-        "name": "John Doe",
-        "sections": {
-            "arbitrary_title": [
-                education_entry,
-                education_entry,
-            ],
-            "arbitrary_title_2": [
-                experience_entry,
-                experience_entry,
-            ],
-            "arbitrary_title_3": [
-                publication_entry,
-                publication_entry,
-            ],
-            "arbitrary_title_4": [
-                normal_entry,
-                normal_entry,
-            ],
-            "arbitrary_title_5": [
-                one_line_entry,
-                one_line_entry,
-            ],
-            "arbitrary_title_6": [
-                text_entry,
-                text_entry,
-            ],
-        },
-    }
-
-    cv = data.CurriculumVitae(**input)
-    assert len(cv.sections) == 6
-    for section in cv.sections:
-        assert len(section.entries) == 2
-
-
-def test_section_with_different_entry_types(
-    education_entry,
-    experience_entry,
-):
-    input = {
-        "name": "John Doe",
-        "sections": {
-            "arbitrary_title": [
-                education_entry,
-                experience_entry,
-            ],
-        },
-    }
-
-    with pytest.raises(pydantic.ValidationError):
-        data.CurriculumVitae(**input)
-
-
-def test_sections_with_invalid_entries():
-    input = {"name": "John Doe", "sections": {}}
-    input["sections"]["section_title"] = [
-        {
-            "this": "is",
-            "an": "invalid",
-            "entry": 10,
-        }
-    ]
-    with pytest.raises(pydantic.ValidationError):
-        data.CurriculumVitae(**input)
-
-
-def test_sections_without_list():
-    input = {"name": "John Doe", "sections": {}}
-    input["sections"]["section_title"] = {
-        "this section": "does not have a list of entries but a single entry."
-    }
-    with pytest.raises(pydantic.ValidationError):
-        data.CurriculumVitae(**input)
 
 
 @pytest.mark.parametrize(

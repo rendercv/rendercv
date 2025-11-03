@@ -70,7 +70,7 @@ def get_characteristic_entry_fields(
 characteristic_entry_fields = get_characteristic_entry_fields(available_entry_models)
 
 
-class SectionBase(BaseModelWithoutExtraKeys):
+class BaseRenderCVSection(BaseModelWithoutExtraKeys):
     title: str
     entry_type: str
     entries: list[Any]
@@ -78,7 +78,7 @@ class SectionBase(BaseModelWithoutExtraKeys):
 
 def create_section_models(
     entry_type: type[EntryModel] | type[str],
-) -> type[SectionBase]:
+) -> type[BaseRenderCVSection]:
     """Create a section model based on the entry type.
 
     Args:
@@ -98,11 +98,11 @@ def create_section_models(
         model_name,
         entry_type=(Literal[entry_type_name], ...),
         entries=(list[entry_type], ...),
-        __base__=SectionBase,
+        __base__=BaseRenderCVSection,
     )
 
 
-section_models: dict[type[EntryModel] | type[str], type[SectionBase]] = {
+section_models: dict[type[EntryModel] | type[str], type[BaseRenderCVSection]] = {
     entry_type: create_section_models(entry_type)
     for entry_type in available_entry_models
 }
@@ -111,7 +111,7 @@ section_models[str] = create_section_models(str)
 
 def get_entry_type_name_and_section_model(
     entry: dict[str, str | list[str]] | str | EntryModel | None,
-) -> tuple[str, type[SectionBase]]:
+) -> tuple[str, type[BaseRenderCVSection]]:
     """Get the entry type name and the section model based on the entry.
 
     It takes an entry (as a dictionary or a string) and a list of entry types. Then
@@ -289,7 +289,7 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
     )
 
 
-def get_sections_rendercv(sections: dict[str, list[Any]] | None) -> list[SectionBase]:
+def get_rendercv_sections(sections: dict[str, list[Any]] | None) -> list[BaseRenderCVSection]:
     """Compute the sections of the CV based on the input sections.
 
     The original `sections` input is a dictionary where the keys are the section
@@ -303,7 +303,7 @@ def get_sections_rendercv(sections: dict[str, list[Any]] | None) -> list[Section
     Returns:
         The computed sections.
     """
-    sections_rendercv: list[SectionBase] = []
+    sections_rendercv: list[BaseRenderCVSection] = []
 
     if sections is not None:
         for title, entries in sections.items():
@@ -316,7 +316,7 @@ def get_sections_rendercv(sections: dict[str, list[Any]] | None) -> list[Section
             )
 
             # SectionBase is used so that entries are not validated again:
-            section = SectionBase(
+            section = BaseRenderCVSection(
                 title=formatted_title,
                 entry_type=entry_type_name,
                 entries=entries,
