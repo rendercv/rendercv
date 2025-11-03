@@ -44,8 +44,6 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "The template of the last updated date at the top right corner of the"
             " page.\n\nThe following placeholders can be used:"
             "\n- NAME: The name of the person"
-            "\n- PAGE_NUMBER: The current page number"
-            "\n- TOTAL_PAGES: The total number of pages"
             "\n- TODAY: Today's date with `locale.date_template`"
         ),
     )

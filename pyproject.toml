@@ -177,6 +177,7 @@ ignore = [
     'UP007',  # Allow Optional type
     'PGH003', # Prefer not to ignore this
     'RUF001', # Allow other characters for locale
+    'EM101',  # Allow
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 

@@ -1,8 +1,8 @@
 import pydantic
 
-from ...themes import ClassicTheme
 from .base import BaseModelWithoutExtraKeys
 from .cv.cv import Cv
+from .design.classic_theme import ClassicTheme
 from .design.design import Design
 from .locale.locale import EnglishLocale, Locale
 from .rendercv_settings.rendercv_settings import RenderCVSettings
