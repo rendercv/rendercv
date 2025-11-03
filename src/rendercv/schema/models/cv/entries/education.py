@@ -6,9 +6,11 @@ from .basis.entry_with_complex_fields import BaseEntryWithComplexFields
 
 class BaseEducationEntry(BaseEntry):
     institution: str = pydantic.Field(
+        description="The name of the educational institution.",
         examples=["Boğaziçi University", "MIT", "Harvard University"],
     )
     area: str = pydantic.Field(
+        description="Your field of study or major.",
         examples=[
             "Mechanical Engineering",
             "Computer Science",
@@ -17,6 +19,9 @@ class BaseEducationEntry(BaseEntry):
     )
     degree: str | None = pydantic.Field(
         default=None,
+        description=(
+            "Your degree type (e.g., BS, MS, PhD). Leave empty if not applicable."
+        ),
         examples=["BS", "BA", "PhD", "MS"],
     )
 

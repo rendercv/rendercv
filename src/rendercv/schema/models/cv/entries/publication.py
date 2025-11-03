@@ -7,18 +7,41 @@ from .basis.entry_with_date import BaseEntryWithDate
 
 
 class BasePublicationEntry(BaseEntry):
-    title: str
-    authors: list[str]
+    title: str = pydantic.Field(
+        description="The title of the publication.",
+        examples=[
+            "Deep Learning for Computer Vision",
+            "Advances in Quantum Computing",
+        ],
+    )
+    authors: list[str] = pydantic.Field(
+        description=(
+            "List of authors. You can bold your own name by wrapping it with **double"
+            " asterisks**."
+        ),
+        examples=[["John Doe", "**Jane Smith**", "Bob Johnson"]],
+    )
     doi: str | None = pydantic.Field(
         default=None,
+        description=(
+            "The DOI (Digital Object Identifier) of the publication. If provided, it will"
+            " be used as the link instead of the URL."
+        ),
         examples=["10.48550/arXiv.2310.03138"],
         pattern=r"\b10\..*",
     )
     url: pydantic.HttpUrl | None = pydantic.Field(
         default=None,
-        description="If DOI is provided, URL will be ignored.",
+        description=(
+            "A URL link to the publication. Note: If DOI is provided, this URL will be"
+            " ignored."
+        ),
     )
-    journal: str | None = None
+    journal: str | None = pydantic.Field(
+        default=None,
+        description="The name of the journal, conference, or venue where it was published.",
+        examples=["Nature", "IEEE Conference on Computer Vision", "arXiv preprint"],
+    )
 
     @pydantic.model_validator(mode="after")
     def ignore_url_if_doi_is_given(self) -> Self:

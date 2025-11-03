@@ -26,8 +26,15 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         "Telegram",
         "Leetcode",
         "X",
-    ]
-    username: str
+    ] = pydantic.Field(
+        description="The name of the social network or platform.",
+    )
+    username: str = pydantic.Field(
+        description=(
+            "Your username on the platform."
+        ),
+        examples=["john_doe", "@johndoe@mastodon.social", "12345/john-doe"],
+    )
 
     @pydantic.field_validator("username")
     @classmethod

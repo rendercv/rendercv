@@ -12,22 +12,68 @@ from .social_network import SocialNetwork
 
 
 class Cv(BaseModelWithoutExtraKeys):
-    name: str | None = None
-    location: str | None = None
-    email: pydantic.EmailStr | None = None
+    name: str | None = pydantic.Field(
+        default=None,
+        description="Your full name as you want it to appear on your CV.",
+        examples=["John Doe", "Jane Smith"],
+    )
+    location: str | None = pydantic.Field(
+        default=None,
+        description=(
+            "Your location (city, state/country, or full address). This appears in your"
+            " CV header."
+        ),
+        examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],
+    )
+    email: pydantic.EmailStr | None = pydantic.Field(
+        default=None,
+        description="Your email address.",
+        examples=["john.doe@example.com"],
+    )
     photo: pathlib.Path | None = pydantic.Field(
         default=None,
-        description="Path to the photo of the person, relative to the input file.",
+        description=(
+            "Path to your photo file, relative to your CV YAML file. The photo will"
+            " appear in your CV header."
+        ),
+        examples=["photo.jpg", "images/profile.png"],
     )
     phone: pydantic_phone_numbers.PhoneNumber | None = pydantic.Field(
         default=None,
         description=(
-            "Country code should be included. For example, +1 for the United States."
+            "Your phone number with country code. Use international format starting with"
+            " '+' (e.g., +1 for USA, +44 for UK)."
+        ),
+        examples=["+1-234-567-8900", "+44 20 1234 5678"],
+    )
+    website: pydantic.HttpUrl | None = pydantic.Field(
+        default=None,
+        description="Your personal website or portfolio URL.",
+        examples=["https://johndoe.com", "https://www.janesmith.dev"],
+    )
+    social_networks: list[SocialNetwork] | None = pydantic.Field(
+        default=None,
+        description=(
+            "List of your social network profiles (e.g., LinkedIn, GitHub). These appear"
+            " as clickable links in your CV header."
         ),
     )
-    website: pydantic.HttpUrl | None = None
-    social_networks: list[SocialNetwork] | None = None
-    sections: dict[str, Section] | None = None
+    sections: dict[str, Section] | None = pydantic.Field(
+        default=None,
+        description=(
+            "The sections of your CV (e.g., Experience, Education, Projects). The keys"
+            " are section titles, and the values are lists of entries. Entries are"
+            " automatically typed based on their fields."
+        ),
+        examples=[
+            {
+                "Experience": "...",
+                "Education": "...",
+                "Projects": "...",
+                "Skills": "...",
+            }
+        ],
+    )
 
     # Store the order of the keys so that the header can be rendered in the same order
     # that the user defines.
