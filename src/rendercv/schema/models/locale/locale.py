@@ -21,13 +21,6 @@ def create_other_locale_class(
     Returns:
         A dynamically created Pydantic model class that inherits from BaseLocale
         with all field defaults applied from the defaults dictionary.
-
-    Example:
-        >>> locale_data = {"language": "english", "month": "month", ...}
-        >>> english_locale = create_locale_class("english", locale_data)
-        >>> locale = english_locale()
-        >>> locale.language
-        'english'
     """
     base_fields = EnglishLocale.model_fields
     field_specs: dict[str, Any] = {}
@@ -73,10 +66,10 @@ def discover_other_locales() -> dict[str, type[EnglishLocale]]:
         Dictionary mapping class names (e.g., "EnglishLocale") to dynamically
         created Pydantic model classes.
     """
-    locales_dir = Path(__file__).parent / "other_locales"
+    other_locales_dir = Path(__file__).parent / "other_locales"
     discovered: dict[str, type[EnglishLocale]] = {}
 
-    for py_file in sorted(locales_dir.glob("*.py")):
+    for py_file in sorted(other_locales_dir.glob("*.py")):
         if py_file.stem == "__init__":
             continue
 
@@ -93,6 +86,6 @@ def discover_other_locales() -> dict[str, type[EnglishLocale]]:
 
 # Build discriminated union dynamically
 type Locale = Annotated[
-    reduce(or_, discover_other_locales().values()),  # pyright: ignore[reportInvalidTypeForm]
+    EnglishLocale | reduce(or_, discover_other_locales().values()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="language"),
 ]

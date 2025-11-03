@@ -1,15 +1,10 @@
-"""Design system for RenderCV.
-
-This module provides theme support with dynamic model generation and auto-discovery.
-Themes are defined in simple data files and automatically discovered and converted
-into Pydantic models with full validation and discriminated union support.
-"""
-
 import importlib
 import importlib.util
 import pathlib
+from functools import reduce
+from operator import or_
 from pathlib import Path
-from typing import Annotated, Any, Literal, Union
+from typing import Annotated, Any, Literal
 
 import pydantic
 
@@ -17,7 +12,9 @@ from ..base import BaseModelWithoutExtraKeys
 from .classic_theme import ClassicTheme
 
 
-def create_theme_class(theme_name: str, defaults: dict[str, Any]) -> type[ClassicTheme]:
+def create_other_theme_class(
+    theme_name: str, defaults: dict[str, Any]
+) -> type[ClassicTheme]:
     """Dynamically create a theme model class with the given defaults.
 
     Args:
@@ -89,56 +86,37 @@ def create_theme_class(theme_name: str, defaults: dict[str, Any]) -> type[Classi
     )
 
 
-def discover_themes() -> dict[str, type[ClassicTheme]]:
+def discover_other_themes() -> dict[str, type[ClassicTheme]]:
     """Auto-discover and load all theme files from other_themes/ directory.
 
     Returns:
         Dictionary mapping class names (e.g., "EngineeringresumesTheme") to dynamically
         created Pydantic model classes.
     """
-    themes_dir = Path(__file__).parent / "other_themes"
+    other_themes_dir = Path(__file__).parent / "other_themes"
     discovered: dict[str, type[ClassicTheme]] = {}
 
-    # Always include ClassicTheme as the base
-    discovered["ClassicTheme"] = ClassicTheme
-
-    for py_file in sorted(themes_dir.glob("*.py")):
-        if py_file.stem.startswith("_") or py_file.stem == "__init__":
+    for py_file in sorted(other_themes_dir.glob("*.py")):
+        if py_file.stem == "__init__":
             continue
 
         theme_name = py_file.stem
-
         module = importlib.import_module(
             f"rendercv.schema.models.design.other_themes.{theme_name}"
         )
-
-        if not hasattr(module, "THEME_DATA"):
-            message = f"Module {theme_name} is missing required THEME_DATA attribute"
-            raise ValueError(message)
-
-        theme_data = module.THEME_DATA
-        theme_class = create_theme_class(theme_name, theme_data)
+        theme_data = getattr(module, f"{theme_name}_theme")
+        theme_class = create_other_theme_class(theme_name, theme_data)
         discovered[theme_class.__name__] = theme_class
-
-    if len(discovered) == 1:  # Only ClassicTheme
-        message = "No theme variants discovered in other_themes/ directory"
-        raise RuntimeError(message)
 
     return discovered
 
 
-# Discover themes at module import time
-discovered_themes = discover_themes()
-theme_classes = tuple(discovered_themes.values())
-
 # Build discriminated union dynamically
-BuiltInDesign = Annotated[
-    Union[theme_classes],  # type: ignore
+type BuiltInDesign = Annotated[
+    ClassicTheme | reduce(or_, discover_other_themes().values()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="theme"),
 ]
 
-# Export individual theme classes for convenience
-globals().update(discovered_themes)
 
 # Build available_theme_options dict for validate_design_options
 available_theme_options = {
