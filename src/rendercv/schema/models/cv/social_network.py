@@ -1,8 +1,9 @@
 import functools
 import re
-from typing import Literal, Self
+from typing import Literal
 
 import pydantic
+import pydantic_core
 
 from ..base import BaseModelWithoutExtraKeys
 
@@ -43,44 +44,45 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
             case "Mastodon":
                 mastodon_username_pattern = r"@[^@]+@[^@]+"
                 if not re.fullmatch(mastodon_username_pattern, username):
-                    message = (
-                        'Mastodon username should be in the format "@username@domain"!'
+                    raise pydantic_core.PydanticCustomError(
+                        "rendercv_custom_error",
+                        'Mastodon username should be in the format "@username@domain"!',
                     )
-                    raise ValueError(message)
             case "StackOverflow":
                 stackoverflow_username_pattern = r"\d+\/[^\/]+"
                 if not re.fullmatch(stackoverflow_username_pattern, username):
-                    message = (
+                    raise pydantic_core.PydanticCustomError(
+                        "rendercv_custom_error",
                         "StackOverflow username should be in the format"
-                        ' "user_id/username"!'
+                        ' "user_id/username"!',
                     )
-                    raise ValueError(message)
             case "YouTube":
                 if username.startswith("@"):
-                    message = (
+                    raise pydantic_core.PydanticCustomError(
+                        "rendercv_custom_error",
                         'YouTube username should not start with "@"! Remove "@" from'
-                        " the beginning of the username."
+                        ' the beginning of the username."',
                     )
-                    raise ValueError(message)
             case "ORCID":
                 orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
                 if not re.fullmatch(orcid_username_pattern, username):
-                    message = (
-                        "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!"
+                    raise pydantic_core.PydanticCustomError(
+                        "rendercv_custom_error",
+                        "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!",
                     )
-                    raise ValueError(message)
             case "IMDB":
                 imdb_username_pattern = r"nm\d{7}"
                 if not re.fullmatch(imdb_username_pattern, username):
-                    message = "IMDB name should be in the format 'nmXXXXXXX'!"
-                    raise ValueError(message)
+                    raise pydantic_core.PydanticCustomError(
+                        "rendercv_custom_error",
+                        "IMDB name should be in the format 'nmXXXXXXX'!",
+                    )
 
         return username
 
     @pydantic.model_validator(mode="after")
-    def check_url(self) -> "SocialNetwork":
+    def validate_generated_url(self) -> "SocialNetwork":
         url_validator.validate_strings(self.url)
-
         return self
 
     @functools.cached_property
@@ -107,9 +109,3 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
             url = url_dictionary[self.network] + self.username
 
         return url
-
-    @pydantic.model_validator(mode="after")
-    def validate_generated_url(self) -> Self:
-        """Validate that the generated URL is a valid HTTP URL."""
-        url_validator.validate_strings(self.url)
-        return self

@@ -1,5 +1,5 @@
 mandarin_chineese_locale = {
-    "language": "mandarin_chinese",
+    "language": "mandarin_chineese",
     "page_numbering_template": "NAME - 第 PAGE_NUMBER 页，共 TOTAL_PAGES 页",
     "last_updated_date_template": "最后更新于 TODAY",
     "date_template": "YEAR 年 MONTH_ABBREVIATION",

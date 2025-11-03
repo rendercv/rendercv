@@ -23,24 +23,14 @@ def generate_json_schema() -> dict:
 
             # Basic information about the schema:
             json_schema["title"] = "RenderCV"
-            json_schema["description"] = "RenderCV data model."
+            json_schema["description"] = (
+                "RenderCV allows you to version-control CVs/resumes as JSON or YAML"
+                " files."
+            )
             json_schema["$id"] = (
                 "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json"
             )
             json_schema["$schema"] = "http://json-schema.org/draft-07/schema#"
-
-            # Loop through $defs and remove docstring descriptions and fix optional
-            # fields
-            for _, value in json_schema["$defs"].items():
-                for _, field in value["properties"].items():
-                    if "anyOf" in field:
-                        field["oneOf"] = field["anyOf"]
-                        del field["anyOf"]
-
-                if "description" in value and value["description"].startswith(
-                    "This class is"
-                ):
-                    del value["description"]
 
             return json_schema
 

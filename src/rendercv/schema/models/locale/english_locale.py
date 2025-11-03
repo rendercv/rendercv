@@ -7,12 +7,6 @@ from ..base import BaseModelWithoutExtraKeys
 
 
 class EnglishLocale(BaseModelWithoutExtraKeys):
-    """Base class for all locale variants.
-
-    All fields are required to ensure that each locale implementation provides
-    complete translations and formatting.
-    """
-
     language: Literal["english"] = pydantic.Field(
         default="english",
         description="The language of the locale. The default value is 'english'.",

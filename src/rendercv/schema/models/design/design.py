@@ -1,16 +1,17 @@
 import importlib
 import importlib.util
 import pathlib
-from typing import Annotated, Any
+from typing import Annotated, Any, cast
 
 import pydantic
 import pydantic_core
 
+from ...utils.context import ValidationContext
 from ..base import BaseModelWithoutExtraKeys
 from .built_in_design import BuiltInDesign
 
 
-def validate_design_for_custom_theme(design: Any) -> Any:
+def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo) -> Any:
     """Check if the design options are for a built-in theme or a custom theme. If it is
     a built-in theme, validate it with the corresponding data model. If it is a custom
     theme, check if the necessary files are provided and validate it with the custom
@@ -18,13 +19,17 @@ def validate_design_for_custom_theme(design: Any) -> Any:
 
     Args:
         design: The design options to validate.
-        available_theme_options: The available theme options. The keys are the theme
-            names and the values are the corresponding data models.
+        info: The validation information.
 
     Returns:
         The validated design as a Pydantic data model.
     """
-    # TODO: Context
+    if isinstance(info.context, dict) and "context":
+        context = cast(ValidationContext, info.context["context"])
+        input_file_path = context.input_file_path
+    else:
+        input_file_path = pathlib.Path.cwd()
+
     theme_name = str(design["theme"])
 
     # Custom theme should only contain letters and digits:
@@ -37,7 +42,7 @@ def validate_design_for_custom_theme(design: Any) -> Any:
             {"theme_name": theme_name},
         )
 
-    custom_theme_folder = pathlib.Path.cwd() / theme_name
+    custom_theme_folder = input_file_path / theme_name
     # Check if the custom theme folder exists:
     if not custom_theme_folder.exists():
         raise pydantic_core.PydanticCustomError(

@@ -1,11 +1,11 @@
 import functools
-import importlib
 import pathlib
 from typing import Any, Self
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
+from ...utils.context import get_input_file_path
 from ..base import BaseModelWithoutExtraKeys
 from .section import Section, get_sections_rendercv
 from .social_network import SocialNetwork
@@ -35,17 +35,12 @@ class Cv(BaseModelWithoutExtraKeys):
 
     @pydantic.field_validator("photo")
     @classmethod
-    def update_photo_path(cls, value: pathlib.Path | None) -> pathlib.Path | None:
-        if value:
-            module = importlib.import_module(".rendercv_data_model", __package__)
-            INPUT_FILE_DIRECTORY = module.INPUT_FILE_DIRECTORY
-
-            if INPUT_FILE_DIRECTORY is not None:
-                profile_picture_parent_folder = INPUT_FILE_DIRECTORY
-            else:
-                profile_picture_parent_folder = pathlib.Path.cwd()
-
-            return profile_picture_parent_folder / str(value)
+    def update_photo_path(
+        cls, value: pathlib.Path | None, info: pydantic.ValidationInfo
+    ) -> pathlib.Path | None:
+        if value and not value.is_absolute():
+            input_file_path = get_input_file_path(info)
+            return input_file_path / str(value)
 
         return value
 

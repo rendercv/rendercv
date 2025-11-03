@@ -1,5 +1,6 @@
 import pathlib
 import re
+from datetime import date as Date
 
 import pydantic
 import ruamel.yaml
@@ -293,7 +294,7 @@ def read_a_yaml_file(
     return yaml_as_a_dictionary
 
 
-def validate_input_dictionary_and_return_the_data_model(
+def validate_input_dictionary_and_return_rendercv_pydantic_model(
     input_dictionary: dict,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
@@ -312,6 +313,9 @@ def validate_input_dictionary_and_return_the_data_model(
         context={
             "context": ValidationContext(
                 input_file_path=input_file_path or pathlib.Path(),
+                date_today=input_dictionary.get("rendercv_settings", {}).get(
+                    "date", Date.today()
+                ),
             )
         },
     )
@@ -330,4 +334,6 @@ def read_input_file(file_path_or_contents: pathlib.Path | str) -> RenderCVModel:
     """
     input_as_dictionary = read_a_yaml_file(file_path_or_contents)
 
-    return validate_input_dictionary_and_return_the_data_model(input_as_dictionary)
+    return validate_input_dictionary_and_return_rendercv_pydantic_model(
+        input_as_dictionary
+    )
