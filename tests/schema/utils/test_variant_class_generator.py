@@ -10,6 +10,7 @@ from rendercv.schema.utils.variant_class_generator import (
     _create_variant_class,
     _deep_merge_nested_object,
     _generate_class_name,
+    _update_description_with_new_default,
     _validate_defaults_against_base,
 )
 
@@ -463,7 +464,6 @@ def test_create_variant_class_discriminator_is_literal():
 
 
 def test_create_variant_class_empty_defaults():
-    """Test creating variant with empty defaults (edge case)."""
     defaults: dict[str, Any] = {}
 
     VariantClass = _create_variant_class(
@@ -509,7 +509,6 @@ def test_create_variant_class_class_name_generation(
 
 
 def test_create_variant_class_module_assignment():
-    """Test that module name is correctly assigned."""
     defaults = {
         "discriminator": "test",
     }
@@ -527,7 +526,6 @@ def test_create_variant_class_module_assignment():
 
 
 def test_create_variant_class_preserves_field_metadata():
-    """Test that field descriptions and titles are preserved."""
     defaults = {
         "discriminator": "test",
         "field1": "new_value",
@@ -548,8 +546,6 @@ def test_create_variant_class_preserves_field_metadata():
 
 
 def test_create_variant_class_deep_nesting():
-    """Test with deeply nested structures (3+ levels)."""
-
     class Level3(pydantic.BaseModel):
         value: int = 1
 
@@ -581,8 +577,6 @@ def test_create_variant_class_deep_nesting():
 
 
 def test_create_variant_class_multiple_nested_fields():
-    """Test with multiple nested fields being updated."""
-
     class Nested1(pydantic.BaseModel):
         x: int = 1
 
@@ -677,3 +671,180 @@ def test_create_variant_class_can_override_defaults_at_instantiation():
     # Override at instantiation
     custom_instance = VariantClass(value=999)
     assert custom_instance.value == 999
+
+
+@pytest.mark.parametrize(
+    ("description", "old_default", "new_default", "expected"),
+    [
+        pytest.param(
+            "The language of the locale. The default value is `english`.",
+            "english",
+            "turkish",
+            "The language of the locale. The default value is `turkish`.",
+            id="string_replacement",
+        ),
+        pytest.param(
+            "The count value. The default value is `42`.",
+            42,
+            100,
+            "The count value. The default value is `100`.",
+            id="integer_replacement",
+        ),
+        pytest.param(
+            "Enable feature X. The default value is `False`.",
+            False,
+            True,
+            "Enable feature X. The default value is `True`.",
+            id="boolean_replacement",
+        ),
+        pytest.param(
+            "This field has no default value mentioned in backticks.",
+            "old",
+            "new",
+            "This field has no default value mentioned in backticks.",
+            id="no_backticks_unchanged",
+        ),
+        pytest.param(
+            "",
+            "old",
+            "new",
+            "",
+            id="empty_string",
+        ),
+        pytest.param(
+            "This is a long description.\n\nIt has multiple lines.\nThe default value"
+            " is `old`.",
+            "old",
+            "new",
+            "This is a long description.\n\nIt has multiple lines.\nThe default value"
+            " is `new`.",
+            id="multiline_description",
+        ),
+        pytest.param(
+            "The value is `42`. Another mention: `42`.",
+            42,
+            100,
+            "The value is `100`. Another mention: `100`.",
+            id="multiple_occurrences",
+        ),
+        pytest.param(
+            "Optional field. The default value is `None`.",
+            None,
+            "something",
+            "Optional field. The default value is `something`.",
+            id="null_value",
+        ),
+    ],
+)
+def test_update_description_with_new_default(
+    description: str, old_default: Any, new_default: Any, expected: str
+):
+    updated = _update_description_with_new_default(
+        description, old_default, new_default
+    )
+    assert updated == expected
+
+
+def test_update_description_with_none_description():
+    updated = _update_description_with_new_default(None, "old", "new")
+    assert updated is None
+
+
+@pytest.mark.parametrize(
+    (
+        "field_name",
+        "field_type",
+        "old_default",
+        "new_default",
+        "base_description",
+        "expected_description",
+    ),
+    [
+        pytest.param(
+            "language",
+            str,
+            "english",
+            "turkish",
+            "The language of the locale. The default value is `english`.",
+            "The language of the locale. The default value is `turkish`.",
+            id="string_field",
+        ),
+        pytest.param(
+            "count",
+            int,
+            10,
+            50,
+            "The count field. The default value is `10`.",
+            "The count field. The default value is `50`.",
+            id="integer_field",
+        ),
+        pytest.param(
+            "enabled",
+            bool,
+            False,
+            True,
+            "Enable this feature. The default value is `False`.",
+            "Enable this feature. The default value is `True`.",
+            id="boolean_field",
+        ),
+        pytest.param(
+            "field",
+            str,
+            "original",
+            "new_value",
+            "A simple field without default mention.",
+            "A simple field without default mention.",
+            id="unchanged_description",
+        ),
+    ],
+)
+def test_variant_class_updates_field_descriptions(
+    field_name: str,
+    field_type: type,
+    old_default: Any,
+    new_default: Any,
+    base_description: str,
+    expected_description: str,
+):
+    base_fields = {
+        "disc": (str, pydantic.Field(default="base")),
+        field_name: (
+            field_type,
+            pydantic.Field(default=old_default, description=base_description),
+        ),
+    }
+    Base = pydantic.create_model("Base", **base_fields)
+
+    # Create variant class
+    VariantClass = _create_variant_class(
+        variant_name="custom",
+        defaults={"disc": "custom", field_name: new_default},
+        base_class=Base,
+        discriminator_field="disc",
+        class_name_suffix="Class",
+        module_name="test",
+    )
+
+    # Check description was updated correctly
+    field_info = VariantClass.model_fields[field_name]
+    assert field_info.description == expected_description
+
+
+def test_variant_class_updates_discriminator_description():
+    class Base(pydantic.BaseModel):
+        variant: str = pydantic.Field(
+            default="base", description="The variant type. The default value is `base`."
+        )
+        value: int = 1
+
+    VariantClass = _create_variant_class(
+        variant_name="custom",
+        defaults={"variant": "custom", "value": 42},
+        base_class=Base,
+        discriminator_field="variant",
+        class_name_suffix="Class",
+        module_name="test",
+    )
+
+    field_info = VariantClass.model_fields["variant"]
+    assert field_info.description == "The variant type. The default value is `custom`."
