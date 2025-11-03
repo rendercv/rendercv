@@ -66,28 +66,49 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
 
     start_date: ExactDate | None = pydantic.Field(
         default=None,
-        description="Can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY.",
-        examples=["2020-09-24"],
+        description=(
+            "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format."
+        ),
+        examples=["2020-09-24", "2020-09", "2020"],
     )
     end_date: ExactDate | Literal["present"] | None = pydantic.Field(
         default=None,
         description=(
-            "Can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY. If the event"
-            ' is ongoing, write "present" or provide only the `start_date`.'
+            'The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use'
+            ' "present" for ongoing events, or simply omit `end_date` to automatically'
+            ' indicate the event is ongoing.'
         ),
-        examples=["2020-09-24", "present"],
+        examples=["2024-05-20", "2024-05", "2024", "present"],
     )
     location: str | None = pydantic.Field(
         default=None,
-        examples=["Istanbul, Türkiye"],
+        description="The location of this event (e.g., city and country).",
+        examples=["Istanbul, Türkiye", "New York, NY", "Remote"],
     )
     summary: str | None = pydantic.Field(
         default=None,
-        examples=["Did this and that."],
+        description=(
+            "A brief summary or description of this role/event. This appears before the"
+            " highlights."
+        ),
+        examples=[
+            "Led a team of 5 engineers to develop innovative solutions.",
+            "Completed advanced coursework in machine learning and artificial intelligence.",
+        ],
     )
     highlights: list[str] | None = pydantic.Field(
         default=None,
-        examples=[["Did this.", "Did that."]],
+        description=(
+            "A list of bullet points highlighting your key achievements, responsibilities,"
+            " or contributions."
+        ),
+        examples=[
+            [
+                "Increased system performance by 40% through optimization.",
+                "Mentored 3 junior developers and conducted code reviews.",
+                "Implemented CI/CD pipeline reducing deployment time by 60%.",
+            ]
+        ],
     )
 
     @pydantic.model_validator(mode="after")
