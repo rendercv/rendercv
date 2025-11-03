@@ -1,5 +1,4 @@
 import importlib
-import importlib.util
 from functools import reduce
 from operator import or_
 from pathlib import Path

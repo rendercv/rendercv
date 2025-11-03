@@ -1,9 +1,10 @@
-"""CV sections with automatic entry type detection based on field intersection analysis."""
-
 from collections import Counter
+from functools import reduce
+from operator import or_
 from typing import Annotated, Any, Literal, get_args
 
 import pydantic
+import pydantic_core
 
 from ..base import BaseModelWithoutExtraKeys
 from .entries.bullet import BulletEntry
@@ -29,22 +30,13 @@ type EntryModel = (
     | NumberedEntry
     | ReversedNumberedEntry
 )
-
-type ListOfEntries = (
-    list[OneLineEntry]
-    | list[NormalEntry]
-    | list[ExperienceEntry]
-    | list[EducationEntry]
-    | list[PublicationEntry]
-    | list[BulletEntry]
-    | list[NumberedEntry]
-    | list[ReversedNumberedEntry]
-    | list[str]
-)
 ########################################################################################
 available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
 available_entry_type_names: tuple[str, ...] = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
+)
+type ListOfEntries = list[str] | reduce(  # pyright: ignore[reportInvalidTypeForm]
+    or_, [list[entry_type] for entry_type in available_entry_models]
 )
 
 
@@ -145,8 +137,10 @@ def get_entry_type_name_and_section_model(
                 break
 
         if section_model is None or entry_type_name is None:
-            message = "The entry does not match any entry type."
-            raise ValueError(message)
+            raise pydantic_core.PydanticCustomError(
+                "rendercv_custom_error",
+                "The entry does not match any entry type.",
+            )
 
     elif isinstance(entry, str):
         # Then it is a TextEntry
@@ -154,8 +148,10 @@ def get_entry_type_name_and_section_model(
         section_model = section_models[str]
 
     elif entry is None:
-        message = "The entry cannot be None."
-        raise ValueError(message)
+        raise pydantic_core.PydanticCustomError(
+            "rendercv_custom_error",
+            "The entry cannot be None.",
+        )
 
     else:
         # Then the entry is already initialized with a data model:
@@ -184,19 +180,15 @@ def validate_section(sections_input: Any) -> Any:
                     entry
                 )
                 break
-            except ValueError:
+            except pydantic_core.PydanticCustomError:
                 # If the entry type cannot be determined, try the next entry:
-                pass
+                continue
 
         if entry_type_name is None or section_type is None:
-            message = (
+            raise pydantic_core.PydanticCustomError(
+                "rendercv_custom_error",
                 "RenderCV couldn't match this section with any entry types! Please"
-                " check the entries and make sure they are provided correctly."
-            )
-            raise ValueError(
-                message,
-                "",  # This is the location of the error
-                "",  # This is value of the error
+                " check the entries and make sure they are provided correctly.",
             )
 
         section = {
@@ -209,28 +201,28 @@ def validate_section(sections_input: Any) -> Any:
             section_object = section_type.model_validate(section)
             sections_input = section_object.entries
         except pydantic.ValidationError as e:
-            new_error = ValueError(
+            new_error = pydantic_core.PydanticCustomError(
+                "rendercv_custom_error",
                 "There are problems with the entries. RenderCV detected the entry type"
-                f" of this section to be {entry_type_name}! The problems are shown"
+                " of this section to be {entry_type_name}! The problems are shown"
                 " below.",
-                "",  # This is the location of the error
-                "",  # This is value of the error
+                {"entry_type_name": entry_type_name},
             )
             raise new_error from e
 
     else:
-        message = (
+        raise pydantic_core.PydanticCustomError(
+            "rendercv_custom_error",
             "Each section should be a list of entries! Please see the documentation for"
-            " more information about the sections."
+            " more information about the sections.",
         )
-        raise ValueError(message)
 
     return sections_input
 
 
-# Create a custom type named Section, which is a list of entries. The entries
-# can be any of the available entry types. The section is validated with the
-# `validate_section` function.
+# Create a custom type named Section, which is a list of entries. The entries can be any
+# of the available entry types. The section is validated with the `validate_section`
+# function.
 type Section = Annotated[
     pydantic.json_schema.SkipJsonSchema[Any] | ListOfEntries,
     pydantic.BeforeValidator(lambda entries: validate_section(entries)),

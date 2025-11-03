@@ -2,7 +2,7 @@
 
 import pathlib
 
-import rendercv.data as data
+from rendercv.schema.utils.json_schema_generator import generate_json_schema_file
 
 repository_root = pathlib.Path(__file__).parent.parent
 
@@ -10,7 +10,7 @@ repository_root = pathlib.Path(__file__).parent.parent
 def generate_schema():
     """Generate the schema."""
     json_schema_file_path = repository_root / "schema.json"
-    data.generate_json_schema_file(json_schema_file_path)
+    generate_json_schema_file(json_schema_file_path)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,11 @@
+import re
+from datetime import date as Date
 from typing import Annotated, Literal, Self
 
 import pydantic
+import pydantic_core
 
+from .....utils.context import get_todays_date
 from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (
@@ -13,6 +17,44 @@ type ExactDate = (
     ]
     | int
 )
+
+
+def get_date_object(date: str | int, today: Date | None = None) -> Date:
+    """Parse a date string in YYYY-MM-DD, YYYY-MM, or YYYY format and return a
+    `datetime.date` object.
+
+    Args:
+        date: The date string to parse.
+        today: The today's date for "present" dates. If not provided, the current date
+            will be used.
+
+    Returns:
+        The parsed date.
+    """
+    if isinstance(date, int):
+        date_object = Date.fromisoformat(f"{date}-01-01")
+    elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
+        # Then it is in YYYY-MM-DD format
+        date_object = Date.fromisoformat(date)
+    elif re.fullmatch(r"\d{4}-\d{2}", date):
+        # Then it is in YYYY-MM format
+        date_object = Date.fromisoformat(f"{date}-01")
+    elif re.fullmatch(r"\d{4}", date):
+        # Then it is in YYYY format
+        date_object = Date.fromisoformat(f"{date}-01-01")
+    elif date == "present":
+        if today is None:
+            today = Date.today()
+
+        date_object = today
+    else:
+        message = (
+            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
+            " YYYY format."
+        )
+        raise ValueError(message)
+
+    return date_object
 
 
 class BaseEntryWithComplexFields(BaseEntryWithDate):
@@ -49,7 +91,7 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
     )
 
     @pydantic.model_validator(mode="after")
-    def check_and_adjust_dates(self) -> Self:
+    def check_and_adjust_dates(self, info: pydantic.ValidationInfo) -> Self:
         date_is_provided = self.date is not None
         start_date_is_provided = self.start_date is not None
         end_date_is_provided = self.end_date is not None
@@ -64,9 +106,26 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
             self.date = self.end_date
             self.start_date = None
             self.end_date = None
-        elif start_date_is_provided and self.end_date is None:
+        elif start_date_is_provided and not end_date_is_provided:
             # If only start_date is provided, assume it is an ongoing event, i.e., the
             # end_date is present:
             self.end_date = "present"
+
+        if self.start_date and self.end_date:
+            # If both start_date and end_date are provided, check if the start_date is
+            # after the end_date:
+            today = get_todays_date(info)
+            start_date_object = get_date_object(self.start_date, today)
+            end_date_object = get_date_object(self.end_date, today)
+            if start_date_object > end_date_object:
+                raise pydantic_core.PydanticCustomError(
+                    "rendercv_custom_error",
+                    '"start_date" cannot be after "end_date"! The start_date is'
+                    " {start_date} and the end_date is {end_date}.",
+                    {
+                        "start_date": self.start_date,
+                        "end_date": self.end_date,
+                    },
+                )
 
         return self
