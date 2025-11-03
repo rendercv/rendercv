@@ -1,13 +1,9 @@
-import os
-import shutil
 from datetime import date as Date
 
 import pydantic
 import pytest
-import ruamel.yaml
 
 from rendercv import data
-from rendercv.data import generator
 from rendercv.data.models import (
     computers,
     curriculum_vitae,
@@ -243,10 +239,6 @@ def test_education_entry_grade_field(education_entry):
     assert entry.grade == "GPA: 3.00/4.00"
 
 
-
-
-
-
 def test_locale():
     data_model = data.create_a_sample_data_model("John Doe")
     data_model.locale = data.Locale(
@@ -323,43 +315,6 @@ def test_if_curriculum_vitae_resets():
     data.create_a_sample_data_model("John Doe")
 
     assert curriculum_vitae.curriculum_vitae["name"] == "John Doe"
-
-
-def test_dictionary_to_yaml():
-    input_dictionary = {
-        "test_list": [
-            "a",
-            "b",
-            "c",
-        ],
-        "test_dict": {
-            "a": 1,
-            "b": 2,
-        },
-    }
-    yaml_string = generator.dictionary_to_yaml(input_dictionary)
-
-    # load the yaml string
-    yaml_object = ruamel.yaml.YAML()
-    output_dictionary = yaml_object.load(yaml_string)
-
-    assert input_dictionary == output_dictionary
-
-
-@pytest.mark.parametrize(
-    ("key", "expected_section_title"),
-    [
-        ("this_is_a_test", "This Is a Test"),
-        ("welcome_to_RenderCV!", "Welcome to RenderCV!"),
-        ("\\faGraduationCap_education", "\\faGraduationCap Education"),
-        ("Hello_World", "Hello World"),
-        ("Hello World", "Hello World"),
-    ],
-)
-def test_dictionary_key_to_proper_section_title(key, expected_section_title):
-    assert (
-        computers.dictionary_key_to_proper_section_title(key) == expected_section_title
-    )
 
 
 @pytest.mark.parametrize(
@@ -519,19 +474,6 @@ def test_bold_keywords():
                 assert "**test_keyword_3**" in entry.details
                 assert "**test_keyword_4**" in entry.details
 
-
-def test_none_entries():
-    with pytest.raises(pydantic.ValidationError):
-        data.RenderCVDataModel(
-            cv=data.CurriculumVitae(
-                name="John Doe",
-                sections={
-                    "test": [
-                        None,
-                    ],
-                },
-            )
-        )
 
 
 def _create_sorting_data_model(order: str) -> data.RenderCVDataModel:

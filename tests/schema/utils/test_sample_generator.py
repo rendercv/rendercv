@@ -1,4 +1,5 @@
 import pytest
+import ruamel.yaml
 
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
@@ -6,6 +7,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.utils.sample_generator import (
     create_sample_rendercv_pydantic_model,
     create_sample_yaml_input_file,
+    dictionary_to_yaml,
 )
 
 
@@ -51,3 +53,24 @@ def test_create_a_sample_yaml_input_file(tmp_path, theme, locale):
 
     assert dummy_file_path.exists()
     assert yaml_contents == dummy_file_path.read_text(encoding="utf-8")
+
+
+def test_dictionary_to_yaml():
+    input_dictionary = {
+        "test_list": [
+            "a",
+            "b",
+            "c",
+        ],
+        "test_dict": {
+            "a": 1,
+            "b": 2,
+        },
+    }
+    yaml_string = dictionary_to_yaml(input_dictionary)
+
+    # load the yaml string
+    yaml_object = ruamel.yaml.YAML()
+    output_dictionary = yaml_object.load(yaml_string)
+
+    assert input_dictionary == output_dictionary
