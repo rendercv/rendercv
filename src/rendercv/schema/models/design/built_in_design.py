@@ -2,7 +2,7 @@ import importlib
 from functools import reduce
 from operator import or_
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, get_args
 
 import pydantic
 
@@ -46,5 +46,9 @@ def discover_other_themes() -> list[type[ClassicTheme]]:
 type BuiltInDesign = Annotated[
     ClassicTheme | reduce(or_, discover_other_themes()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="theme"),
+]
+available_themes = [
+    ThemeClass.model_fields["theme"].default
+    for ThemeClass in get_args(get_args(BuiltInDesign.__value__)[0])
 ]
 built_in_design_adapter = pydantic.TypeAdapter(BuiltInDesign)
