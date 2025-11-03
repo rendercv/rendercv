@@ -1,9 +1,3 @@
-"""
-The `rendercv.data.reader` module contains the functions that are used to read the input
-file (YAML or JSON) and return them as an instance of `RenderCVDataModel`, which is a
-Pydantic data model of RenderCV's data format.
-"""
-
 import pathlib
 import re
 
@@ -11,35 +5,8 @@ import pydantic
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from . import models
-from .models import entry_types
-
-
-def make_given_keywords_bold_in_sections(
-    sections_input: models.Sections, keywords: list[str]
-) -> models.Sections:
-    """Iterate over the dictionary recursively and make the given keywords bold.
-
-    Args:
-        sections_input: The sections input as a Pydantic model.
-        keywords: The keywords to make bold.
-
-    Returns:
-        The dictionary with the given keywords bold.
-    """
-    if sections_input is None:
-        return None
-
-    for entries in sections_input.values():
-        for i, entry in enumerate(entries):
-            if isinstance(entry, str):
-                entries[i] = entry_types.make_keywords_bold_in_a_string(  # type: ignore
-                    entry, keywords
-                )
-            elif callable(getattr(entry, "make_keywords_bold", None)):
-                entries[i] = entry.make_keywords_bold(keywords)  # type: ignore
-
-    return sections_input
+from ..models.rendercv_model import RenderCVModel
+from .context import ValidationContext
 
 
 def get_error_message_and_location_and_value_from_a_custom_error(
@@ -124,7 +91,7 @@ def get_coordinates_of_a_key_in_a_yaml_object(
 
 
 def parse_validation_errors(
-    exception: pydantic.ValidationError, yaml_file_as_string: str | None = None
+    exception: pydantic.ValidationError, user_input_as_commented_map: CommentedMap
 ) -> list[dict[str, str]]:
     """Take a Pydantic validation error, parse it, and return a list of error
     dictionaries that contain the error messages, locations, and the input values.
@@ -135,7 +102,7 @@ def parse_validation_errors(
 
     Args:
         exception: The Pydantic validation error object.
-        yaml_file_as_string: The YAML file as a string.
+        user_input_as_commented_map: The user input as a CommentedMap.
 
     Returns:
         A list of error dictionaries that contain the error messages, locations, and the
@@ -269,10 +236,9 @@ def parse_validation_errors(
             "input": str(input),
         }
 
-        if yaml_file_as_string:
-            yaml_object = read_a_yaml_file_with_coordinates(yaml_file_as_string)
+        if user_input_as_commented_map:
             coordinates = get_coordinates_of_a_key_in_a_yaml_object(
-                yaml_object,
+                user_input_as_commented_map,
                 list(new_error["loc"]),  # type: ignore
             )
             new_error["yaml_loc"] = coordinates
@@ -284,7 +250,9 @@ def parse_validation_errors(
     return new_errors
 
 
-def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
+def read_a_yaml_file(
+    file_path_or_contents: pathlib.Path | str,
+) -> CommentedMap:
     """Read a YAML file and return its content as a dictionary. The YAML file can be
     given as a path to the file or as the contents of the file as a string.
 
@@ -305,15 +273,9 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
         # Check the file extension:
         accepted_extensions = [".yaml", ".yml", ".json", ".json5"]
         if file_path_or_contents.suffix not in accepted_extensions:
-            user_friendly_accepted_extensions = [
-                f"[green]{ext}[/green]" for ext in accepted_extensions
-            ]
-            user_friendly_accepted_extensions = ", ".join(
-                user_friendly_accepted_extensions
-            )
             message = (
                 "The input file should have one of the following extensions:"
-                f" {user_friendly_accepted_extensions}. The input file is"
+                f" {', '.join(accepted_extensions)}. The input file is"
                 f" {file_path_or_contents}."
             )
             raise ValueError(message)
@@ -322,7 +284,7 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
     else:
         file_content = file_path_or_contents
 
-    yaml_as_a_dictionary: dict = ruamel.yaml.YAML().load(file_content)
+    yaml_as_a_dictionary: CommentedMap = ruamel.yaml.YAML().load(file_content)
 
     if yaml_as_a_dictionary is None:
         message = "The input file is empty!"
@@ -331,69 +293,31 @@ def read_a_yaml_file(file_path_or_contents: pathlib.Path | str) -> dict:
     return yaml_as_a_dictionary
 
 
-def read_a_yaml_file_with_coordinates(
-    file_path_or_contents: pathlib.Path | str,
-) -> CommentedMap:
-    """Read a YAML file and return its content as a CommentedMap with location information.
-
-    Args:
-        file_path_or_contents: The path to the YAML file or the contents of the YAML
-            file as a string.
-
-    Returns:
-        The content of the YAML file as a CommentedMap with location information.
-    """
-
-    if isinstance(file_path_or_contents, pathlib.Path):
-        file_content = file_path_or_contents.read_text(encoding="utf-8")
-    else:
-        file_content = file_path_or_contents
-
-    yaml = ruamel.yaml.YAML()
-    yaml_as_commented_map: CommentedMap = yaml.load(file_content)
-
-    if yaml_as_commented_map is None:
-        message = "The input file is empty!"
-        raise ValueError(message)
-
-    return yaml_as_commented_map
-
-
 def validate_input_dictionary_and_return_the_data_model(
     input_dictionary: dict,
-    context: dict | None = None,
-) -> models.RenderCVDataModel:
-    """Validate the input dictionary by creating an instance of `RenderCVDataModel`,
+    input_file_path: pathlib.Path | None = None,
+) -> RenderCVModel:
+    """Validate the input dictionary by creating an instance of `RenderCVModel`,
     which is a Pydantic data model of RenderCV's data format.
 
     Args:
         input_dictionary: The input dictionary.
-        context: The context dictionary that is used to validate the input dictionary.
-            It's used to send the input file path with the context object, but it's not
-            required.
+        input_file_path: The path to the input file, to pass to the validation context.
 
     Returns:
         The data model.
     """
-    # Validate the parsed dictionary by creating an instance of RenderCVDataModel:
-    data_model = models.RenderCVDataModel.model_validate(
-        input_dictionary, context=context
+    return RenderCVModel.model_validate(
+        input_dictionary,
+        context={
+            "context": ValidationContext(
+                input_file_path=input_file_path or pathlib.Path(),
+            )
+        },
     )
 
-    # If the `bold_keywords` field is provided in the `rendercv_settings`, make the
-    # given keywords bold in the `cv.sections` field:
-    if data_model.rendercv_settings and data_model.rendercv_settings.bold_keywords:
-        data_model.cv.sections_input = make_given_keywords_bold_in_sections(
-            data_model.cv.sections_input,
-            data_model.rendercv_settings.bold_keywords,
-        )
 
-    return data_model
-
-
-def read_input_file(
-    file_path_or_contents: pathlib.Path | str,
-) -> models.RenderCVDataModel:
+def read_input_file(file_path_or_contents: pathlib.Path | str) -> RenderCVModel:
     """Read the input file (YAML or JSON) and return them as an instance of
     `RenderCVDataModel`, which is a Pydantic data model of RenderCV's data format.
 

@@ -47,3 +47,4 @@ type Locale = Annotated[
     EnglishLocale | reduce(or_, discover_other_locales()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="language"),
 ]
+locale_adapter = pydantic.TypeAdapter(Locale)
