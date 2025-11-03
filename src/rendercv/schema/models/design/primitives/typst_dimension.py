@@ -1,3 +1,5 @@
+"""Typst dimension validation (e.g., "1.5cm", "10pt")."""
+
 import re
 from typing import Annotated
 
@@ -6,14 +8,7 @@ import pydantic_core
 
 
 def validate_typst_dimension(dimension: str) -> str:
-    """Check if the input string is a valid dimension for Typst.
-
-    Args:
-        dimension: The input string to be validated.
-
-    Returns:
-        The input string itself if it is a valid dimension.
-    """
+    """Validate format: number + unit (cm, in, pt, mm, em, ex)."""
     if not re.fullmatch(r"\d+\.?\d*(cm|in|pt|mm|ex|em)", dimension):
         raise pydantic_core.PydanticCustomError(
             "rendercv_custom_error",

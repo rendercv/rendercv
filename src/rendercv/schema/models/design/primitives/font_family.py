@@ -1,16 +1,19 @@
-import pathlib
+"""Font family validation. Allows custom fonts if 'fonts/' directory exists."""
+
 from typing import Annotated, Literal
 
 import pydantic
 import pydantic_core
 
+from ....utils.context import get_input_file_path
+
 available_font_families = sorted(
     [
-        # Typst fonts:
+        # Typst built-ins
         "Libertinus Serif",
         "New Computer Modern",
         "DejaVu Sans Mono",
-        # Rendercv fonts:
+        # RenderCV bundled
         "Mukta",
         "Open Sans",
         "Gentium Book Plus",
@@ -25,7 +28,7 @@ available_font_families = sorted(
         "Poppins",
         "Raleway",
         "XCharter",
-        # Common system fonts:
+        # Common system fonts
         "Arial",
         "Helvetica",
         "Tahoma",
@@ -46,18 +49,10 @@ available_font_families = sorted(
 )
 
 
-def validate_font_family(font_family: str) -> str:
-    """Check if the input string is a valid font family.
-
-    Args:
-        font_family: The input string to be validated.
-
-    Returns:
-        The input string itself if it is a valid font family.
-    """
-    # TODO: CONTEXT
-    if (pathlib.Path("fonts")).exists():
-        # Then allow any font family.
+def validate_font_family(font_family: str, info: pydantic.ValidationInfo) -> str:
+    """Validate against available fonts. Skips validation if fonts/ dir exists."""
+    input_file_path = get_input_file_path(info)
+    if (input_file_path / "fonts").exists():
         return font_family
 
     if font_family not in available_font_families:
