@@ -167,7 +167,6 @@ cython_debug/
 
 # Personal CVs
 *_CV.yaml
-*_cv.py
 *_CV.typ
 rendercv_output/
 

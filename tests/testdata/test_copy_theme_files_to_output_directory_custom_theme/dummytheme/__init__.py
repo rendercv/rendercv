@@ -3,5 +3,5 @@ from typing import Literal
 import pydantic
 
 
-class DummythemeThemeOptions(pydantic.BaseModel):
+class DummythemeTheme(pydantic.BaseModel):
     theme: Literal["dummytheme"]

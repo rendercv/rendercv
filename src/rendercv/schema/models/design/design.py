@@ -51,6 +51,14 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
             " be in the working directory as the input file.",
             {"custom_theme_folder": custom_theme_folder.absolute()},
         )
+    # Check if at least there is one *.j2.typ file in the custom theme folder:
+    if not any(custom_theme_folder.glob("*.j2.typ")):
+        raise pydantic_core.PydanticCustomError(
+            "rendercv_custom_error",
+            "The custom theme folder `{custom_theme_folder}` does not contain any"
+            " *.j2.typ files. It should contain at least one *.j2.typ file.",
+            {"custom_theme_folder": custom_theme_folder.absolute()},
+        )
 
     # Import __init__.py file from the custom theme folder if it exists:
     path_to_init_file = custom_theme_folder / "__init__.py"
@@ -88,8 +96,7 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
             )
         except AttributeError as e:
             message = (
-                f"The custom theme {theme_name} does not have a {model_name} class. It"
-                f" has the following classes: {theme_module.__dict__}."
+                f"The custom theme {theme_name} does not have a {model_name} class."
             )
             raise ValueError(message) from e
 
