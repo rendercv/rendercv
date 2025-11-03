@@ -1,3 +1,5 @@
+"""Entry with single date field. Accepts structured dates or freeform text."""
+
 import re
 from datetime import date as Date
 from typing import Annotated
@@ -8,20 +10,13 @@ from .entry import BaseEntry
 
 
 def validate_arbitrary_date(date: int | str) -> int | str:
-    """Validate an arbitrary date.
+    """Validate YYYY-MM-DD, YYYY-MM, YYYY formats. Pass through custom text."""
+    date_str = str(date)
 
-    Args:
-        date: The date to validate.
-
-    Returns:
-        The validated date.
-    """
-    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", str(date)):
-        # Then it is in YYYY-MM-DD format
-        Date.fromisoformat(str(date))
-    elif re.fullmatch(r"\d{4}-\d{2}", str(date)):
-        # Then it is in YYYY-MM format
-        Date.fromisoformat(f"{date}-01")
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
+        Date.fromisoformat(date_str)
+    elif re.fullmatch(r"\d{4}-\d{2}", date_str):
+        Date.fromisoformat(f"{date_str}-01")
 
     return date
 
@@ -32,9 +27,7 @@ type ArbitraryDate = Annotated[
 
 
 class BaseEntryWithDate(BaseEntry):
-    """Parent class for entry types that uses the `date` field. It's not an entry type
-    itself.
-    """
+    """Base for entries with a single date. For ranges, use BaseEntryWithComplexFields."""
 
     model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 

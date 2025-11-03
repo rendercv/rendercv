@@ -1,3 +1,10 @@
+"""Dynamic variant class creation for themes and locales.
+
+Creates Pydantic model variants with different defaults from a base class. Powers both:
+- Theme system: ClassicTheme, ModernCVTheme, etc. with different colors, fonts, spacing
+- Locale system: EnglishLocale, TurkishLocale, etc. with different translations
+"""
+
 from typing import Any, Literal
 
 import pydantic
@@ -13,60 +20,47 @@ def create_variant_class[T: pydantic.BaseModel](
     class_name_suffix: str,
     module_name: str,
 ) -> type[T]:
-    """Dynamically create a variant Pydantic model class with the given defaults.
+    """Create a Pydantic model variant with customized field defaults.
 
-    This is a general-purpose function for creating Pydantic model variants
-    from a base class with overridden field defaults. It supports:
-    - Simple field overrides (strings, numbers, lists, etc.)
-    - Recursive deep merging of nested Pydantic models
-    - Automatic conversion of discriminator fields to Literal types
-    - Preservation of field metadata (description, title)
+    Handles three override types:
+    - Discriminator fields: converted to Literal types
+    - Nested dicts: deep-merged into nested Pydantic models
+    - Simple values: direct default replacement
 
     Args:
-        variant_name: Name of the variant. Used to generate the class name (converted to
-            PascalCase)
-        defaults: Dictionary of field names to default values. Supports nested dicts for
-            partial updates of nested models
-        base_class: The base Pydantic model class to inherit from
-        discriminator_field: Name of the discriminator field. This field will be
-            converted to a Literal type with the variant value
-        class_name_suffix: Suffix for the generated class name.
-        module_name: Module name for the generated class.
+        variant_name: Snake_case name (e.g., "modern_cv") → class name "ModernCvTheme"
+        defaults: Field overrides. Nested dicts enable partial updates.
+        base_class: Base model to inherit from
+        discriminator_field: Field to constrain as Literal for tagged unions
+        class_name_suffix: Appended to generated class name
+        module_name: Module path for the generated class
 
     Returns:
-        A dynamically created Pydantic model class that inherits from `base_class` with
-        all field defaults applied from the defaults dictionary
+        New model class with all overrides applied
     """
-    # Step 1: Validate all fields exist in `base_class`
     validate_defaults_against_base(defaults, base_class, variant_name)
 
-    # Step 2: Build field specifications for each override.
     field_specs: dict[str, Any] = {}
     base_fields = base_class.model_fields
 
     for field_name, default_value in defaults.items():
         base_field_info = base_fields[field_name]
 
-        # Handle discriminator field
         if field_name == discriminator_field:
             field_specs[field_name] = create_discriminator_field_spec(
                 default_value, base_field_info
             )
-        # Handle nested objects (dict values)
         elif isinstance(default_value, dict):
             field_specs[field_name] = create_nested_field_spec(
                 default_value, base_field_info
             )
-        # Handle simple fields
         else:
             field_specs[field_name] = create_simple_field_spec(
                 default_value, base_field_info
             )
 
-    # Step 3: Generate the class name
     class_name = generate_class_name(variant_name, class_name_suffix)
 
-    # Step 4: Create and return the dynamic model
     return pydantic.create_model(
         class_name,
         __base__=base_class,
