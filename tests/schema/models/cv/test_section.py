@@ -1,3 +1,4 @@
+import pydantic
 import pytest
 
 # They are called dynamically in the test with `eval(f"{entry_type}(**entry)")`.
@@ -8,7 +9,9 @@ from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
 from rendercv.schema.models.cv.section import (
+    Section,
     available_entry_models,
+    dictionary_key_to_proper_section_title,
     get_entry_type_name_and_section_model,
 )
 
@@ -78,3 +81,27 @@ def test_entries_with_extra_attributes(EntryType, request: pytest.FixtureRequest
     entry = EntryType(**entry_contents)
 
     assert entry.extra_attribute == "extra value"
+
+
+@pytest.mark.parametrize(
+    ("key", "expected_section_title"),
+    [
+        ("this_is_a_test", "This Is a Test"),
+        ("welcome_to_rendercv!", "Welcome to Rendercv!"),
+        ("Welcome to RenderCV!", "Welcome to RenderCV!"),
+        ("\\faGraduationCap_education", "\\faGraduationCap_education"),
+        ("\\faGraduationCap Education", "\\faGraduationCap Education"),
+        ("Hello_World", "Hello_World"),
+        ("Hello World", "Hello World"),
+    ],
+)
+def test_dictionary_key_to_proper_section_title(key, expected_section_title):
+    assert dictionary_key_to_proper_section_title(key) == expected_section_title
+
+
+section_adapter = pydantic.TypeAdapter(Section)
+
+
+def test_none_entries():
+    with pytest.raises(pydantic.ValidationError):
+        section_adapter.validate_python([None])
