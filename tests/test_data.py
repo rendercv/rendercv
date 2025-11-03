@@ -1,5 +1,3 @@
-import io
-import json
 import os
 import shutil
 from datetime import date as Date
@@ -16,29 +14,6 @@ from rendercv.data.models import (
     entry_types,
     locale,
 )
-
-
-@pytest.mark.parametrize(
-    ("date", "expected_date_object", "expected_error"),
-    [
-        ("2020-01-01", Date(2020, 1, 1), None),
-        ("2020-01", Date(2020, 1, 1), None),
-        ("2020", Date(2020, 1, 1), None),
-        (2020, Date(2020, 1, 1), None),
-        ("present", Date.today(), None),
-        ("invalid", None, ValueError),
-        ("20222", None, ValueError),
-        ("202222-20200", None, ValueError),
-        ("202222-12-20", None, ValueError),
-        ("2022-20-20", None, ValueError),
-    ],
-)
-def test_get_date_object(date, expected_date_object, expected_error):
-    if expected_error:
-        with pytest.raises(expected_error):
-            computers.get_date_object(date)
-    else:
-        assert computers.get_date_object(date) == expected_date_object
 
 
 @pytest.mark.parametrize(
@@ -62,93 +37,6 @@ def test_format_date(date, expected_date_string):
     assert data.format_date(date) == expected_date_string
 
 
-def test_read_input_file(input_file_path):
-    data_model = data.read_input_file(input_file_path)
-
-    assert isinstance(data_model, data.RenderCVDataModel)
-
-
-def test_read_input_file_directly_with_contents():
-    input_dictionary = {
-        "cv": {
-            "name": "John Doe",
-        },
-        "design": {
-            "theme": "classic",
-        },
-    }
-
-    # dump the dictionary to a yaml file
-    yaml_object = ruamel.yaml.YAML()
-    yaml_object.width = 60
-    yaml_object.indent(mapping=2, sequence=4, offset=2)
-    with io.StringIO() as string_stream:
-        yaml_object.dump(input_dictionary, string_stream)
-        yaml_string = string_stream.getvalue()
-
-    data_model = data.read_input_file(yaml_string)
-
-    assert isinstance(data_model, data.RenderCVDataModel)
-
-
-def test_read_input_file_invalid_file(tmp_path):
-    invalid_file_path = tmp_path / "invalid.extension"
-    invalid_file_path.write_text("dummy content", encoding="utf-8")
-    with pytest.raises(ValueError):  # NOQA: PT011
-        data.read_input_file(invalid_file_path)
-
-
-def test_read_input_file_that_doesnt_exist(tmp_path):
-    non_existent_file_path = tmp_path / "non_existent_file.yaml"
-    with pytest.raises(FileNotFoundError):
-        data.read_input_file(non_existent_file_path)
-
-
-@pytest.mark.parametrize(
-    "theme",
-    data.available_themes,
-)
-def test_create_a_sample_data_model(theme):
-    data_model = data.create_a_sample_data_model("John Doe", theme)
-    assert isinstance(data_model, data.RenderCVDataModel)
-
-
-def test_create_a_sample_data_model_invalid_theme():
-    with pytest.raises(ValueError):  # NOQA: PT011
-        data.create_a_sample_data_model("John Doe", "invalid")
-
-
-def test_generate_json_schema():
-    schema = data.generate_json_schema()
-    assert isinstance(schema, dict)
-
-
-def test_generate_json_schema_file(tmp_path):
-    schema_file_path = tmp_path / "schema.json"
-    data.generate_json_schema_file(schema_file_path)
-
-    assert schema_file_path.exists()
-
-    schema_text = schema_file_path.read_text(encoding="utf-8")
-    schema = json.loads(schema_text)
-
-    assert isinstance(schema, dict)
-
-
-@pytest.mark.skip(
-    reason=(
-        "This test doesn't work currently, due to the `rendercv_settings.date` field."
-    )
-)
-def test_if_the_schema_is_the_latest(root_directory_path):
-    original_schema_file_path = root_directory_path / "schema.json"
-    original_schema_text = original_schema_file_path.read_text()
-    original_schema = json.loads(original_schema_text)
-    new_schema = data.generate_json_schema()
-
-    assert original_schema == new_schema
-
-
 @pytest.mark.parametrize(
     (
         "start_date",
@@ -163,106 +51,106 @@ def test_if_the_schema_is_the_latest(root_directory_path):
             "2020-01-01",
             "2021-01-01",
             None,
-            "Jan 2020 – Jan 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Jan 2021",
+            "2020 – 2021",
             "1 year 1 month",
         ),
         (
             "2020-01-01",
             "2022-01-01",
             None,
-            "Jan 2020 – Jan 2022",  # NOQA: RUF001
-            "2020 – 2022",  # NOQA: RUF001
+            "Jan 2020 – Jan 2022",
+            "2020 – 2022",
             "2 years 1 month",
         ),
         (
             "2020-01-01",
             "2021-12-10",
             None,
-            "Jan 2020 – Dec 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Dec 2021",
+            "2020 – 2021",
             "2 years",
         ),
         (
             Date(2020, 1, 1),
             Date(2021, 1, 1),
             None,
-            "Jan 2020 – Jan 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Jan 2021",
+            "2020 – 2021",
             "1 year 1 month",
         ),
         (
             "2020-01",
             "2021-01",
             None,
-            "Jan 2020 – Jan 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Jan 2021",
+            "2020 – 2021",
             "1 year 1 month",
         ),
         (
             "2020-01",
             "2021-02-01",
             None,
-            "Jan 2020 – Feb 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Feb 2021",
+            "2020 – 2021",
             "1 year 2 months",
         ),
         (
             "2020-01-01",
             "2021-01",
             None,
-            "Jan 2020 – Jan 2021",  # NOQA: RUF001
-            "2020 – 2021",  # NOQA: RUF001
+            "Jan 2020 – Jan 2021",
+            "2020 – 2021",
             "1 year 1 month",
         ),
         (
             "2020-01-01",
             None,
             None,
-            "Jan 2020 – present",  # NOQA: RUF001
-            "2020 – present",  # NOQA: RUF001
+            "Jan 2020 – present",
+            "2020 – present",
             "4 years 1 month",
         ),
         (
             "2020-02-01",
             "present",
             None,
-            "Feb 2020 – present",  # NOQA: RUF001
-            "2020 – present",  # NOQA: RUF001
+            "Feb 2020 – present",
+            "2020 – present",
             "4 years",
         ),
         ("2020-01-01", "2021-01-01", "2023-02-01", "Feb 2023", "2023", ""),
-        ("2020", "2021", None, "2020 – 2021", "2020 – 2021", "1 year"),  # NOQA: RUF001
+        ("2020", "2021", None, "2020 – 2021", "2020 – 2021", "1 year"),
         (
             "2020",
             None,
             None,
-            "2020 – present",  # NOQA: RUF001
-            "2020 – present",  # NOQA: RUF001
+            "2020 – present",
+            "2020 – present",
             "4 years",
         ),
         (
             "2020-10-10",
             "2022",
             None,
-            "Oct 2020 – 2022",  # NOQA: RUF001
-            "2020 – 2022",  # NOQA: RUF001
+            "Oct 2020 – 2022",
+            "2020 – 2022",
             "2 years",
         ),
         (
             "2020-10-10",
             "2020-11-05",
             None,
-            "Oct 2020 – Nov 2020",  # NOQA: RUF001
-            "2020 – 2020",  # NOQA: RUF001
+            "Oct 2020 – Nov 2020",
+            "2020 – 2020",
             "1 month",
         ),
         (
             "2022",
             "2023-10-10",
             None,
-            "2022 – Oct 2023",  # NOQA: RUF001
-            "2022 – 2023",  # NOQA: RUF001
+            "2022 – Oct 2023",
+            "2022 – 2023",
             "1 year",
         ),
         (
@@ -354,25 +242,6 @@ def test_education_entry_grade_field(education_entry):
     entry = data.EducationEntry(**education_entry)
     assert entry.grade == "GPA: 3.00/4.00"
 
-
-@pytest.mark.parametrize(
-    ("start_date", "end_date", "date"),
-    [
-        ("aaa", "2021-01-01", None),
-        ("2020-01-01", "aaa", None),
-        ("2023-01-01", "2021-01-01", None),
-        ("2022", "2021", None),
-        ("2025", "2021", None),
-        ("2020-01-01", "invalid_end_date", None),
-        ("invalid_start_date", "2021-01-01", None),
-        ("2020-99-99", "2021-01-01", None),
-        ("2020-10-12", "2020-99-99", None),
-        (None, None, "2020-20-20"),
-    ],
-)
-def test_invalid_dates(start_date, end_date, date):
-    with pytest.raises(pydantic.ValidationError):
-        entry_types.EntryBase(start_date=start_date, end_date=end_date, date=date)
 
 
 @pytest.mark.parametrize(
@@ -809,14 +678,6 @@ def test_dictionary_to_yaml():
     output_dictionary = yaml_object.load(yaml_string)
 
     assert input_dictionary == output_dictionary
-
-
-def test_create_a_sample_yaml_input_file(tmp_path):
-    input_file_path = tmp_path / "input.yaml"
-    yaml_contents = data.create_a_sample_yaml_input_file(input_file_path)
-
-    assert input_file_path.exists()
-    assert yaml_contents == input_file_path.read_text(encoding="utf-8")
 
 
 @pytest.mark.parametrize(

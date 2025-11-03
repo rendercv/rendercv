@@ -41,7 +41,7 @@ def dictionary_to_yaml(dictionary: dict) -> str:
 
 
 def create_sample_rendercv_pydantic_model(
-    name: str = "John Doe", theme: str = "classic", locale: str = "english"
+    *, name: str = "John Doe", theme: str = "classic", locale: str = "english"
 ) -> RenderCVModel:
     """Return a sample data model for new users to start with.
 
@@ -59,14 +59,15 @@ def create_sample_rendercv_pydantic_model(
     name = name.encode().decode("unicode-escape")
     cv.name = name
 
-    design = built_in_design_adapter.validate_python(theme)
-    locale = locale_adapter.validate_python(locale)
+    design = built_in_design_adapter.validate_python({"theme": theme})
+    locale = locale_adapter.validate_python({"language": locale})
 
     return RenderCVModel(cv=cv, design=design, locale=locale)
 
 
-def create_a_sample_yaml_input_file(
-    input_file_path: pathlib.Path | None = None,
+def create_sample_yaml_input_file(
+    file_path: pathlib.Path | None = None,
+    *,
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
@@ -117,7 +118,7 @@ def create_a_sample_yaml_input_file(
     )
     yaml_string = comment_to_add + yaml_string
 
-    if input_file_path is not None:
-        input_file_path.write_text(yaml_string, encoding="utf-8")
+    if file_path is not None:
+        file_path.write_text(yaml_string, encoding="utf-8")
 
     return yaml_string

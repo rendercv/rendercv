@@ -2,7 +2,7 @@ import importlib
 from functools import reduce
 from operator import or_
 from pathlib import Path
-from typing import Annotated
+from typing import Annotated, get_args
 
 import pydantic
 
@@ -46,5 +46,9 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
 type Locale = Annotated[
     EnglishLocale | reduce(or_, discover_other_locales()),  # pyright: ignore[reportInvalidTypeForm]
     pydantic.Field(discriminator="language"),
+]
+available_locales = [
+    LocaleClass.model_fields["language"].default
+    for LocaleClass in get_args(get_args(Locale.__value__)[0])
 ]
 locale_adapter = pydantic.TypeAdapter(Locale)

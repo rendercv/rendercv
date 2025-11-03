@@ -48,11 +48,14 @@ def get_date_object(date: str | int, today: Date | None = None) -> Date:
 
         date_object = today
     else:
-        message = (
+        raise pydantic_core.PydanticCustomError(
+            "rendercv_custom_error",
             "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
-            " YYYY format."
+            " YYYY format.",
+            {
+                "date": date,
+            },
         )
-        raise ValueError(message)
 
     return date_object
 
@@ -74,9 +77,9 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
     end_date: ExactDate | Literal["present"] | None = pydantic.Field(
         default=None,
         description=(
-            'The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use'
+            "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use"
             ' "present" for ongoing events, or simply omit `end_date` to automatically'
-            ' indicate the event is ongoing.'
+            " indicate the event is ongoing."
         ),
         examples=["2024-05-20", "2024-05", "2024", "present"],
     )
@@ -93,14 +96,17 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
         ),
         examples=[
             "Led a team of 5 engineers to develop innovative solutions.",
-            "Completed advanced coursework in machine learning and artificial intelligence.",
+            (
+                "Completed advanced coursework in machine learning and artificial"
+                " intelligence."
+            ),
         ],
     )
     highlights: list[str] | None = pydantic.Field(
         default=None,
         description=(
-            "A list of bullet points highlighting your key achievements, responsibilities,"
-            " or contributions."
+            "A list of bullet points highlighting your key achievements,"
+            " responsibilities, or contributions."
         ),
         examples=[
             [
