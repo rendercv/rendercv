@@ -47,6 +47,34 @@ def _generate_class_name(variant_name: str, class_name_suffix: str) -> str:
     return f"{pascal_case}{class_name_suffix}"
 
 
+def _update_description_with_new_default(
+    original_description: str | None,
+    old_default: Any,
+    new_default: Any,
+) -> str | None:
+    """Update field description to reflect new default value.
+
+    If the description contains the string representation of the old default value,
+    replace it with the string representation of the new default value.
+
+    Args:
+        original_description: Original field description
+        old_default: Old default value
+        new_default: New default value to replace with
+
+    Returns:
+        Updated description or None if no description exists
+    """
+    if original_description is None:
+        return None
+
+    # Simple string replacement of old default with new default
+    old_default_str = str(old_default)
+    new_default_str = str(new_default)
+
+    return original_description.replace(f"`{old_default_str}`", f"`{new_default_str}`")
+
+
 def _create_discriminator_field_spec(
     discriminator_value: Any,
     base_field_info: pydantic.fields.FieldInfo,
@@ -61,9 +89,17 @@ def _create_discriminator_field_spec(
         Tuple of (Literal type annotation, Field with default value)
     """
     field_annotation = Literal[discriminator_value]  # type: ignore
+
+    # Update description with new default value
+    updated_description = _update_description_with_new_default(
+        base_field_info.description,
+        base_field_info.default,
+        discriminator_value,
+    )
+
     new_field = pydantic.Field(
         default=discriminator_value,
-        description=base_field_info.description,
+        description=updated_description,
         title=base_field_info.title,
     )
     return (field_annotation, new_field)
@@ -170,9 +206,16 @@ def _create_simple_field_spec(
     Returns:
         Tuple of (field annotation, Field with default value)
     """
+    # Update description with new default value
+    updated_description = _update_description_with_new_default(
+        base_field_info.description,
+        base_field_info.default,
+        default_value,
+    )
+
     new_field = pydantic.Field(
         default=default_value,
-        description=base_field_info.description,
+        description=updated_description,
         title=base_field_info.title,
     )
     return (base_field_info.annotation, new_field)
