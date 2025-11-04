@@ -475,7 +475,6 @@ def test_bold_keywords():
                 assert "**test_keyword_4**" in entry.details
 
 
-
 def _create_sorting_data_model(order: str) -> data.RenderCVDataModel:
     entries = [
         {

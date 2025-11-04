@@ -154,9 +154,7 @@ def test_create_discriminator_field_spec(discriminator_value: Any):
     """Test discriminator field spec creation with various value types."""
     field_info = SimpleModel.model_fields["discriminator"]
 
-    annotation, field = create_discriminator_field_spec(
-        discriminator_value, field_info
-    )
+    annotation, field = create_discriminator_field_spec(discriminator_value, field_info)
 
     # Check Literal type is created
     assert get_args(annotation) == (discriminator_value,)
@@ -739,9 +737,7 @@ def test_create_variant_class_can_override_defaults_at_instantiation():
 def test_update_description_with_new_default(
     description: str, old_default: Any, new_default: Any, expected: str
 ):
-    updated = update_description_with_new_default(
-        description, old_default, new_default
-    )
+    updated = update_description_with_new_default(description, old_default, new_default)
     assert updated == expected
 
 

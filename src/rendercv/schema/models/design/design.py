@@ -1,17 +1,17 @@
 import importlib
 import importlib.util
-import pathlib
-from typing import Annotated, Any, cast
+from typing import Annotated, Any
 
 import pydantic
 import pydantic_core
 
-from ...utils.context import ValidationContext
+from ...utils.context import get_input_file_path
+from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
-from .built_in_design import BuiltInDesign
+from .built_in_design import BuiltInDesign, built_in_design_adapter
 
 
-def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo) -> Any:
+def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
     """Check if the design options are for a built-in theme or a custom theme. If it is
     a built-in theme, validate it with the corresponding data model. If it is a custom
     theme, check if the necessary files are provided and validate it with the custom
@@ -24,29 +24,34 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
     Returns:
         The validated design as a Pydantic data model.
     """
-    if isinstance(info.context, dict) and "context":
-        context = cast(ValidationContext, info.context["context"])
-        input_file_path = context.input_file_path
-    else:
-        input_file_path = pathlib.Path.cwd()
+    try:
+        return built_in_design_adapter.validate_python(design)
+    except pydantic.ValidationError:
+        pass
 
+    # Then it's a custom theme:
+    input_file_path = get_input_file_path(info)
     theme_name = str(design["theme"])
 
     # Custom theme should only contain letters and digits:
     if not theme_name.isalnum():
         message = "The custom theme name should only contain letters and digits."
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "The custom theme name should only contain letters and digits. The provided"
-            " value is {theme_name}.",
-            {"theme_name": theme_name},
+            " value is `{theme_name}`.",
+            {
+                "theme_name": theme_name,
+                "loc": ("design", "theme"),
+                "input": theme_name,
+            },
         )
 
     custom_theme_folder = input_file_path / theme_name
     # Check if the custom theme folder exists:
     if not custom_theme_folder.exists():
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "The custom theme folder `{custom_theme_folder}` does not exist. It should"
             " be in the working directory as the input file.",
             {"custom_theme_folder": custom_theme_folder.absolute()},
@@ -54,7 +59,7 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
     # Check if at least there is one *.j2.typ file in the custom theme folder:
     if not any(custom_theme_folder.glob("*.j2.typ")):
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "The custom theme folder `{custom_theme_folder}` does not contain any"
             " *.j2.typ files. It should contain at least one *.j2.typ file.",
             {"custom_theme_folder": custom_theme_folder.absolute()},
@@ -75,14 +80,14 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
             spec.loader.exec_module(theme_module)
         except SyntaxError as e:
             raise pydantic_core.PydanticCustomError(
-                "rendercv_custom_error",
+                CustomPydanticErrorTypes.other.value,
                 "The custom theme {theme_name}'s __init__.py file has a syntax"
                 " error. Please fix it.",
                 {"theme_name": theme_name},
             ) from e
         except ImportError as e:
             raise pydantic_core.PydanticCustomError(
-                "rendercv_custom_error",
+                CustomPydanticErrorTypes.other.value,
                 "The custom theme {theme_name}'s __init__.py file has an import error!"
                 " Check the import statements.",
                 {"theme_name": theme_name},
@@ -117,9 +122,6 @@ def validate_design_for_custom_theme(design: Any, info: pydantic.ValidationInfo)
 # themes. However, the JSON Schema generation is skipped, otherwise, the JSON Schema
 # would accept any `design` field in the YAML input file.
 Design = Annotated[
-    BuiltInDesign
-    | pydantic.json_schema.SkipJsonSchema[
-        Annotated[Any, pydantic.PlainValidator(validate_design_for_custom_theme)]
-    ],
-    pydantic.Field(union_mode="left_to_right"),
+    BuiltInDesign | pydantic.json_schema.SkipJsonSchema[Any],
+    pydantic.PlainValidator(validate_design),
 ]

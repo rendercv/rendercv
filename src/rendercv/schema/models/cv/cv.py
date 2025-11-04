@@ -3,9 +3,11 @@ import pathlib
 from typing import Any, Self
 
 import pydantic
+import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ...utils.context import get_input_file_path
+from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
@@ -84,9 +86,17 @@ class Cv(BaseModelWithoutExtraKeys):
     def update_photo_path(
         cls, value: pathlib.Path | None, info: pydantic.ValidationInfo
     ) -> pathlib.Path | None:
-        if value and not value.is_absolute():
-            input_file_path = get_input_file_path(info)
-            return input_file_path / str(value)
+        if value:
+            if not value.is_absolute():
+                input_file_path = get_input_file_path(info)
+                value = input_file_path / str(value)
+
+            if not value.exists():
+                raise pydantic_core.PydanticCustomError(
+                    CustomPydanticErrorTypes.other.value,
+                    "The photo file `{photo_file}` does not exist.",
+                    {"photo_file": value.absolute()},
+                )
 
         return value
 

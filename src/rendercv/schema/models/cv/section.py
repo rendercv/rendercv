@@ -6,6 +6,7 @@ from typing import Annotated, Any, Literal, get_args
 import pydantic
 import pydantic_core
 
+from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .entries.bullet import BulletEntry
 from .entries.education import EducationEntry
@@ -138,7 +139,7 @@ def get_entry_type_name_and_section_model(
 
         if section_model is None or entry_type_name is None:
             raise pydantic_core.PydanticCustomError(
-                "rendercv_custom_error",
+                CustomPydanticErrorTypes.other.value,
                 "The entry does not match any entry type.",
             )
 
@@ -149,7 +150,7 @@ def get_entry_type_name_and_section_model(
 
     elif entry is None:
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "The entry cannot be None.",
         )
 
@@ -186,8 +187,8 @@ def validate_section(sections_input: Any) -> Any:
 
         if entry_type_name is None or section_type is None:
             raise pydantic_core.PydanticCustomError(
-                "rendercv_custom_error",
-                "RenderCV couldn't match this section with any entry types! Please"
+                CustomPydanticErrorTypes.other.value,
+                "RenderCV couldn't match this section with any entry types. Please"
                 " check the entries and make sure they are provided correctly.",
             )
 
@@ -202,19 +203,18 @@ def validate_section(sections_input: Any) -> Any:
             sections_input = section_object.entries
         except pydantic.ValidationError as e:
             new_error = pydantic_core.PydanticCustomError(
-                "rendercv_custom_error",
+                CustomPydanticErrorTypes.entry_validation.value,
                 "There are problems with the entries. RenderCV detected the entry type"
-                " of this section to be {entry_type_name}! The problems are shown"
+                " of this section to be {entry_type_name}. The problems are shown"
                 " below.",
-                {"entry_type_name": entry_type_name},
+                {"entry_type_name": entry_type_name, "caused_by": e.errors()},
             )
             raise new_error from e
 
     else:
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
-            "Each section should be a list of entries! Please see the documentation for"
-            " more information about the sections.",
+            CustomPydanticErrorTypes.other.value,
+            "Each section should be a list of entries! This is not a list.",
         )
 
     return sections_input
@@ -289,7 +289,9 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
     )
 
 
-def get_rendercv_sections(sections: dict[str, list[Any]] | None) -> list[BaseRenderCVSection]:
+def get_rendercv_sections(
+    sections: dict[str, list[Any]] | None,
+) -> list[BaseRenderCVSection]:
     """Compute the sections of the CV based on the input sections.
 
     The original `sections` input is a dictionary where the keys are the section
