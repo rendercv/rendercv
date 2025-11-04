@@ -1,0 +1,179 @@
+[
+    {
+        "location": ("cv", "email"),
+        "message": "An email address must have an @-sign.",
+        "input": "not_a_valid_email",
+        "yaml_location": ((6, 3), (6, 9)),
+    },
+    {
+        "location": ("cv", "photo"),
+        "message": (
+            "The photo file `/Users/sina/GIT/rendercv/photo_doesnt_exist.jpg` does not"
+            " exist."
+        ),
+        "input": "photo_doesnt_exist.jpg",
+        "yaml_location": ((7, 3), (7, 9)),
+    },
+    {
+        "location": ("cv", "phone"),
+        "message": "This is not a valid phone number!",
+        "input": "not_a_valid_phone_number",
+        "yaml_location": ((5, 3), (5, 9)),
+    },
+    {
+        "location": ("cv", "website"),
+        "message": "Input should be a valid URL, relative URL without a base",
+        "input": "not_a_valid_url",
+        "yaml_location": ((4, 3), (4, 11)),
+    },
+    {
+        "location": ("cv", "social_networks", "1", "username"),
+        "message": "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!",
+        "input": "not_a_valid_orcid_id",
+        "yaml_location": ((12, 7), (12, 16)),
+    },
+    {
+        "location": ("cv", "social_networks", "2", "username"),
+        "message": "IMDB name should be in the format 'nmXXXXXXX'!",
+        "input": "not_a_valid_imdb_id",
+        "yaml_location": ((14, 7), (14, 16)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests"),
+        "message": (
+            "RenderCV couldn't match this section with any entry types! Please check"
+            " the entries and make sure they are provided correctly."
+        ),
+        "input": "...",
+        "yaml_location": ((16, 5), (17, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_2"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be EducationEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((18, 5), (19, 6)),
+    },
+    {
+        "location": (
+            "cv",
+            "sections",
+            "welcome_to_rendercv_tests_2",
+            "1",
+            "institution",
+        ),
+        "message": "This field is required!",
+        "input": "...",
+        "yaml_location": ((21, 7), (21, 8)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_2", "1", "area"),
+        "message": "This field is required!",
+        "input": "...",
+        "yaml_location": ((21, 7), (21, 8)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_3"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be ExperienceEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((23, 5), (24, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_3", "0", "position"),
+        "message": "This field is required!",
+        "input": "...",
+        "yaml_location": ((24, 7), (24, 8)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_4"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be PublicationEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((27, 5), (28, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_4", "0", "date"),
+        "message": "The month must be between 1 and 12!",
+        "input": "2025-13-01",
+        "yaml_location": ((31, 9), (31, 14)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_6"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be NormalEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((37, 5), (38, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_6", "0", "date"),
+        "message": "The day is out of range for the month!",
+        "input": "2025-01-50",
+        "yaml_location": ((39, 9), (39, 14)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_7"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be NormalEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((41, 5), (42, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_7", "0", "name"),
+        "message": "This field should be provided or removed to use the default value!",
+        "input": "...",
+        "yaml_location": ((42, 9), (43, 10)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_8"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be ExperienceEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((44, 5), (45, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_8", "0"),
+        "message": (
+            '"start_date" cannot be after "end_date"! The start_date is 2025-01-01 and'
+            " the end_date is 2020-01-01."
+        ),
+        "input": "...",
+        "yaml_location": ((45, 7), (45, 8)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_9"),
+        "message": (
+            "There are problems with the entries. RenderCV detected the entry type of"
+            " this section to be PublicationEntry! The problems are shown below."
+        ),
+        "input": "...",
+        "yaml_location": ((52, 5), (53, 6)),
+    },
+    {
+        "location": ("cv", "sections", "welcome_to_rendercv_tests_9", "0", "authors"),
+        "message": "This field should contain a list of items but it doesn't!",
+        "input": "I'm the author! But should this be a list?",
+        "yaml_location": ((54, 9), (54, 17)),
+    },
+    {
+        "location": ("design",),
+        "message": (
+            "The custom theme name should only contain letters and digits. The provided"
+            " value is not_a_valid_theme."
+        ),
+        "input": "...",
+        "yaml_location": ((55, 1), (56, 2)),
+    },
+]

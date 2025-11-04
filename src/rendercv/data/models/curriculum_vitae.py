@@ -550,7 +550,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             }
 
         def _phone_connection():
-            phone_placeholder = computers.format_phone_number(self.phone) # type: ignore
+            phone_placeholder = computers.format_phone_number(self.phone)  # type: ignore
             return {
                 "typst_icon": "phone",
                 "url": self.phone,
@@ -619,7 +619,10 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             "email": (self.email is not None, _email_connection),
             "phone": (self.phone is not None, _phone_connection),
             "website": (self.website is not None, _website_connection),
-            "social_networks": (self.social_networks is not None, _social_networks_connections),
+            "social_networks": (
+                self.social_networks is not None,
+                _social_networks_connections,
+            ),
         }
 
         connections: list[dict[str, str | None]] = []
@@ -628,7 +631,9 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
         # not captured, fall back to the traditional fixed ordering used before so
         # that existing behaviour remains unchanged.
         if self._yaml_key_order:
-            ordered_keys = [key for key in self._yaml_key_order if key in key_to_handler]
+            ordered_keys = [
+                key for key in self._yaml_key_order if key in key_to_handler
+            ]
         else:
             ordered_keys = list(key_to_handler.keys())
 
@@ -637,7 +642,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
             if not present:
                 continue
             if key == "social_networks":
-                connections.extend(handler()) # type: ignore
+                connections.extend(handler())  # type: ignore
             else:
                 connections.append(handler())
 

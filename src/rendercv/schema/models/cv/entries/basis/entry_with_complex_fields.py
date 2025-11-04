@@ -6,6 +6,7 @@ import pydantic
 import pydantic_core
 
 from .....utils.context import get_todays_date
+from .....utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (
@@ -49,7 +50,7 @@ def get_date_object(date: str | int, today: Date | None = None) -> Date:
         date_object = today
     else:
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
             " YYYY format.",
             {
@@ -146,9 +147,9 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
             end_date_object = get_date_object(self.end_date, today)
             if start_date_object > end_date_object:
                 raise pydantic_core.PydanticCustomError(
-                    "rendercv_custom_error",
-                    '"start_date" cannot be after "end_date"! The start_date is'
-                    " {start_date} and the end_date is {end_date}.",
+                    CustomPydanticErrorTypes.other.value,
+                    "`start_date` cannot be after `end_date`. The `start_date` is"
+                    " {start_date} and the `end_date` is {end_date}.",
                     {
                         "start_date": self.start_date,
                         "end_date": self.end_date,

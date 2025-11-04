@@ -5,6 +5,7 @@ from typing import Literal
 import pydantic
 import pydantic_core
 
+from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
 url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
@@ -30,9 +31,7 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         description="The name of the social network or platform.",
     )
     username: str = pydantic.Field(
-        description=(
-            "Your username on the platform."
-        ),
+        description="Your username on the platform.",
         examples=["john_doe", "@johndoe@mastodon.social", "12345/john-doe"],
     )
 
@@ -52,37 +51,37 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                 mastodon_username_pattern = r"@[^@]+@[^@]+"
                 if not re.fullmatch(mastodon_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
-                        "rendercv_custom_error",
-                        'Mastodon username should be in the format "@username@domain"!',
+                        CustomPydanticErrorTypes.other.value,
+                        'Mastodon username should be in the format "@username@domain".',
                     )
             case "StackOverflow":
                 stackoverflow_username_pattern = r"\d+\/[^\/]+"
                 if not re.fullmatch(stackoverflow_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
-                        "rendercv_custom_error",
+                        CustomPydanticErrorTypes.other.value,
                         "StackOverflow username should be in the format"
-                        ' "user_id/username"!',
+                        ' "user_id/username".',
                     )
             case "YouTube":
                 if username.startswith("@"):
                     raise pydantic_core.PydanticCustomError(
-                        "rendercv_custom_error",
-                        'YouTube username should not start with "@"! Remove "@" from'
+                        CustomPydanticErrorTypes.other.value,
+                        'YouTube username should not start with "@". Remove "@" from'
                         ' the beginning of the username."',
                     )
             case "ORCID":
                 orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
                 if not re.fullmatch(orcid_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
-                        "rendercv_custom_error",
-                        "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'!",
+                        CustomPydanticErrorTypes.other.value,
+                        "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'.",
                     )
             case "IMDB":
                 imdb_username_pattern = r"nm\d{7}"
                 if not re.fullmatch(imdb_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
-                        "rendercv_custom_error",
-                        "IMDB name should be in the format 'nmXXXXXXX'!",
+                        CustomPydanticErrorTypes.other.value,
+                        "IMDB name should be in the format 'nmXXXXXXX'.",
                     )
 
         return username

@@ -6,6 +6,7 @@ import pydantic
 import pydantic_core
 
 from ....utils.context import get_input_file_path
+from ....utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 
 available_font_families = sorted(
     [
@@ -57,9 +58,9 @@ def validate_font_family(font_family: str, info: pydantic.ValidationInfo) -> str
 
     if font_family not in available_font_families:
         raise pydantic_core.PydanticCustomError(
-            "rendercv_custom_error",
+            CustomPydanticErrorTypes.other.value,
             "The font family must be one of the following: {available_font_families}."
-            " The provided value is {font_family}.",
+            " The provided value is `{font_family}`.",
             {
                 "font_family": font_family,
                 "available_font_families": ", ".join(available_font_families),

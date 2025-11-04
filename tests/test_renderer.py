@@ -709,11 +709,7 @@ def test_are_all_the_theme_files_the_same(theme_name):
             {},
             '#link("https://myurl.com")[#strong[#emph[My]]]',
         ),
-        (
-            "**GRADE**",
-            {"GRADE": "GPA: 3.00/4.00"},
-            '#strong[GPA: 3.00/4.00]'
-        ),
+        ("**GRADE**", {"GRADE": "GPA: 3.00/4.00"}, "#strong[GPA: 3.00/4.00]"),
     ],
 )
 def test_input_template_to_typst(

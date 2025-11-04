@@ -96,7 +96,7 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
         description='Translation of the word "present" in the locale.',
     )
     to: str | None = pydantic.Field(
-        default="–",  # NOQA: RUF001
+        default="–",
         title='Translation of "to"',
         description=(
             "The word or character used to indicate a range in the locale (e.g.,"
