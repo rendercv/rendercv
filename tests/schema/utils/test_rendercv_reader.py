@@ -4,7 +4,7 @@ import pytest
 import ruamel.yaml
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
-from rendercv.schema.utils.reader import read_input_file
+from rendercv.schema.utils.rendercv_reader import read_input_file
 
 
 def test_read_input_file(input_file_path):
