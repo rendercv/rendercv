@@ -314,7 +314,7 @@ def get_rendercv_sections(
             # The first entry can be used because all the entries in the section are
             # already validated with the `validate_a_section` function:
             entry_type_name, _ = get_entry_type_name_and_section_model(
-                entries[0],  # type: ignore
+                entries[0],
             )
 
             # SectionBase is used so that entries are not validated again:

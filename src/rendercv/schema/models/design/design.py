@@ -118,10 +118,9 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
     return theme_data_model
 
 
-# RenderCV supports custom themes as well. Therefore, `Any` type is used to allow custom
-# themes. However, the JSON Schema generation is skipped, otherwise, the JSON Schema
-# would accept any `design` field in the YAML input file.
+# RenderCV supports custom themes as well. For JSON schema, expose only BuiltInDesign.
+# The validator runs after the built-in validation to support custom themes.
 Design = Annotated[
-    BuiltInDesign | pydantic.json_schema.SkipJsonSchema[Any],
-    pydantic.PlainValidator(validate_design),
+    BuiltInDesign,
+    pydantic.WrapValidator(lambda v, _, info: validate_design(v, info)),
 ]

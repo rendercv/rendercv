@@ -10,7 +10,7 @@ from ..models.cv.cv import Cv
 from ..models.design.built_in_design import built_in_design_adapter
 from ..models.locale.locale import locale_adapter
 from ..models.rendercv_model import RenderCVModel
-from . import reader
+from .rendercv_reader import read_yaml
 
 
 def dictionary_to_yaml(dictionary: dict) -> str:
@@ -53,7 +53,7 @@ def create_sample_rendercv_pydantic_model(
         A sample data model.
     """
     sample_content = pathlib.Path(__file__).parent / "sample_content.yaml"
-    sample_content_dictionary = reader.read_a_yaml_file(sample_content)
+    sample_content_dictionary = read_yaml(sample_content)
     cv = Cv(**sample_content_dictionary)
 
     name = name.encode().decode("unicode-escape")

@@ -1,0 +1,30 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: engineeringclassic
+  page:
+    show_page_numbering: false
+  header:
+    name_font_family: Raleway
+    name_bold: false
+    connections_font_family: Raleway
+    alignment: left
+  links:
+    use_external_link_icon: false
+  text:
+    font_family: Raleway
+  section_titles:
+    font_family: Raleway
+    bold: false
+  highlights:
+    left_margin: "0cm"
+  entry_types:
+    education_entry:
+      main_column_first_row_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION"
+      date_and_location_column_template: DATE
+      degree_column_template: null
+    normal_entry:
+      main_column_first_row_template: "**NAME** -- **LOCATION**"
+      date_and_location_column_template: DATE
+    experience_entry:
+      main_column_first_row_template: "**POSITION**, COMPANY -- LOCATION"
+      date_and_location_column_template: DATE

@@ -1,5 +1,3 @@
-"""JSON Schema generation for IDE autocomplete and validation."""
-
 import json
 import pathlib
 

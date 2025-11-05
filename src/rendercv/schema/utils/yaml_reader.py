@@ -1,60 +1,13 @@
 import pathlib
-from datetime import date as Date
+from typing import Literal
 
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from ..models.rendercv_model import RenderCVModel
-from .context import ValidationContext
 
-
-def read_input_file(file_path_or_contents: pathlib.Path | str) -> RenderCVModel:
-    """Read the input file (YAML or JSON) and return them as an instance of
-    `RenderCVDataModel`, which is a Pydantic data model of RenderCV's data format.
-
-    Args:
-        file_path_or_contents: The path to the input file or the contents of the input
-            file as a string.
-
-    Returns:
-        The data model.
-    """
-    input_as_dictionary = read_a_yaml_file(file_path_or_contents)
-    
-    return validate_input_dictionary_and_return_rendercv_pydantic_model(
-        input_as_dictionary
-    )
-
-
-def validate_input_dictionary_and_return_rendercv_pydantic_model(
-    input_dictionary: dict,
-    input_file_path: pathlib.Path | None = None,
-) -> RenderCVModel:
-    """Validate the input dictionary by creating an instance of `RenderCVModel`,
-    which is a Pydantic data model of RenderCV's data format.
-
-    Args:
-        input_dictionary: The input dictionary.
-        input_file_path: The path to the input file, to pass to the validation context.
-
-    Returns:
-        The data model.
-    """
-    return RenderCVModel.model_validate(
-        input_dictionary,
-        context={
-            "context": ValidationContext(
-                input_file_path=input_file_path or pathlib.Path(),
-                date_today=input_dictionary.get("rendercv_settings", {}).get(
-                    "date", Date.today()
-                ),
-            )
-        },
-    )
-
-
-def read_a_yaml_file(
+def read_yaml(
     file_path_or_contents: pathlib.Path | str,
+    read_type: Literal["safe"] | None = None,
 ) -> CommentedMap:
     """Read a YAML file and return its content as a dictionary. The YAML file can be
     given as a path to the file or as the contents of the file as a string.
@@ -64,7 +17,8 @@ def read_a_yaml_file(
             file as a string.
 
     Returns:
-        The content of the YAML file as a dictionary.
+        The content of the YAML file as a CommentedMap (Python dictionary with
+        additional information about the location of the keys in the YAML file).
     """
 
     if isinstance(file_path_or_contents, pathlib.Path):
@@ -87,7 +41,7 @@ def read_a_yaml_file(
     else:
         file_content = file_path_or_contents
 
-    yaml = ruamel.yaml.YAML()
+    yaml = ruamel.yaml.YAML(typ=read_type)
 
     # Disable ISO date parsing, keep it as a string:
     yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
