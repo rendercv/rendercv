@@ -8,7 +8,7 @@ from ruamel.yaml.comments import CommentedMap
 from typing_extensions import TypedDict
 
 from .custom_pydantic_error_types import CustomPydanticErrorTypes
-from .reader import read_a_yaml_file
+from .yaml_reader import read_yaml
 
 
 class RenderCVValidationError(TypedDict):
@@ -20,7 +20,7 @@ class RenderCVValidationError(TypedDict):
 
 error_dictionary = cast(
     dict[str, str],
-    read_a_yaml_file(pathlib.Path(__file__).parent / "error_dictionary.yaml"),
+    read_yaml(pathlib.Path(__file__).parent / "error_dictionary.yaml"),
 )
 unwanted_texts = ("value is not a valid email address: ", "Value error, ")
 unwanted_locations = (

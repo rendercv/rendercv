@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: mandarin_chineese
+  abbreviations_for_months: 
+    - 1月
+    - 2月
+    - 3月
+    - 4月
+    - 5月
+    - 6月
+    - 7月
+    - 8月
+    - 9月
+    - 10月
+    - 11月
+    - 12月
+  date_template: YEAR 年 MONTH_ABBREVIATION
+  full_names_of_months: 
+    - 一月
+    - 二月
+    - 三月
+    - 四月
+    - 五月
+    - 六月
+    - 七月
+    - 八月
+    - 九月
+    - 十月
+    - 十一月
+    - 十二月
+  last_updated_date_template: 最后更新于 TODAY
+  month: 个月
+  months: 个月
+  page_numbering_template: NAME - 第 PAGE_NUMBER 页，共 TOTAL_PAGES 页
+  phone_number_format: national
+  present: 至今
+  to: –
+  year: 年
+  years: 年
+  

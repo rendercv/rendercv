@@ -5,11 +5,13 @@ Creates Pydantic model variants with different defaults from a base class. Power
 - Locale system: EnglishLocale, TurkishLocale, etc. with different translations
 """
 
-from typing import Any, Literal
+from collections.abc import Callable
+from typing import Any, Literal, cast
 
 import pydantic
+from pydantic.fields import FieldInfo
 
-__all__ = ["create_variant_class"]
+type FieldSpec = tuple[type[Any], FieldInfo]
 
 
 def create_variant_class[T: pydantic.BaseModel](
@@ -141,8 +143,8 @@ def update_description_with_new_default(
 
 def create_discriminator_field_spec(
     discriminator_value: Any,
-    base_field_info: pydantic.fields.FieldInfo,
-) -> tuple[Any, pydantic.fields.FieldInfo]:
+    base_field_info: FieldInfo,
+) -> FieldSpec:
     """Create field spec for a discriminator field (converts to Literal type).
 
     Args:
@@ -152,7 +154,7 @@ def create_discriminator_field_spec(
     Returns:
         Tuple of (Literal type annotation, Field with default value)
     """
-    field_annotation = Literal[discriminator_value]  # type: ignore
+    field_annotation = Literal[discriminator_value]
 
     # Update description with new default value
     updated_description = update_description_with_new_default(
@@ -161,12 +163,15 @@ def create_discriminator_field_spec(
         discriminator_value,
     )
 
-    new_field = pydantic.Field(
-        default=discriminator_value,
-        description=updated_description,
-        title=base_field_info.title,
+    new_field = cast(
+        FieldInfo,
+        pydantic.Field(
+            default=discriminator_value,
+            description=updated_description,
+            title=base_field_info.title,
+        ),
     )
-    return (field_annotation, new_field)
+    return (cast(type[Any], field_annotation), new_field)
 
 
 def deep_merge_nested_object[T: pydantic.BaseModel](
@@ -209,58 +214,132 @@ def deep_merge_nested_object[T: pydantic.BaseModel](
     return base_nested_obj.model_copy(update=merged_updates)
 
 
+def create_nested_model_variant_class(
+    base_model_class: type[pydantic.BaseModel],
+    updates: dict[str, Any],
+) -> type[pydantic.BaseModel]:
+    """Create a variant class for a nested model with updated field descriptions.
+
+    Recursively processes nested updates to ensure field descriptions are updated
+    at all levels of nesting.
+
+    Args:
+        base_model_class: The base nested model class
+        updates: Dictionary of field updates (can contain nested dicts)
+
+    Returns:
+        New model class with updated field descriptions and defaults
+    """
+    field_specs: dict[str, Any] = {}
+    base_fields = base_model_class.model_fields
+
+    for field_name, new_value in updates.items():
+        if field_name not in base_fields:
+            # Skip fields that don't exist in the base model
+            continue
+
+        base_field_info = base_fields[field_name]
+
+        if isinstance(new_value, dict):
+            # Check if this field is a nested Pydantic model
+            nested_obj = None
+            if base_field_info.default_factory is not None:
+                factory = cast(Callable[[], Any], base_field_info.default_factory)
+                nested_obj = factory()
+            elif isinstance(base_field_info.default, pydantic.BaseModel):
+                nested_obj = base_field_info.default
+
+            if nested_obj is not None and isinstance(nested_obj, pydantic.BaseModel):
+                # Recursively create nested field spec
+                field_specs[field_name] = create_nested_field_spec(
+                    new_value, base_field_info
+                )
+            else:
+                # Not a nested model, just a dict field - treat as simple value
+                field_specs[field_name] = create_simple_field_spec(
+                    new_value, base_field_info
+                )
+        else:
+            # Simple value - update description
+            field_specs[field_name] = create_simple_field_spec(
+                new_value, base_field_info
+            )
+
+    # Create variant class inheriting from base
+    return pydantic.create_model(
+        base_model_class.__name__,
+        __base__=base_model_class,
+        __module__=base_model_class.__module__,
+        **field_specs,
+    )
+
+
 def create_nested_field_spec(
     default_value: dict[str, Any],
-    base_field_info: pydantic.fields.FieldInfo,
-) -> tuple[Any, pydantic.fields.FieldInfo]:
+    base_field_info: FieldInfo,
+) -> FieldSpec:
     """Create field spec for a nested Pydantic model with partial overrides.
 
-    This handles the case where default_value is a dict that should be merged into a
-    nested Pydantic model field.
+    Creates a variant class for the nested model to ensure field descriptions
+    are updated to reflect new default values.
 
     Args:
         default_value: Dictionary of updates to apply to the nested model
         base_field_info: The base model's field info for this field
 
     Returns:
-        Tuple of (field annotation, Field with merged default)
+        Tuple of (variant class annotation, Field with default_factory)
     """
     # Get the base nested object - could be from default or default_factory
     base_nested_obj: pydantic.BaseModel | None = None
 
     if base_field_info.default_factory is not None:
         # Create an instance using the factory
-        # Type ignore needed because default_factory is a generic callable
-        base_nested_obj = base_field_info.default_factory()  # pyright: ignore[reportCallIssue]
+        # Cast to proper callable type to satisfy type checker
+        factory = cast(Callable[[], Any], base_field_info.default_factory)
+        base_nested_obj = cast(pydantic.BaseModel, factory())
     elif isinstance(base_field_info.default, pydantic.BaseModel):
         # The default is already a Pydantic model instance
         base_nested_obj = base_field_info.default
 
     if base_nested_obj is not None:
-        # We have a Pydantic model to merge with
-        modified_nested = deep_merge_nested_object(base_nested_obj, default_value)
-
-        new_field = pydantic.Field(
-            default=modified_nested,
-            description=base_field_info.description,
-            title=base_field_info.title,
+        # Create a variant class with updated field specs and descriptions
+        base_model_class = type(base_nested_obj)
+        variant_class = create_nested_model_variant_class(
+            base_model_class, default_value
         )
-    else:
-        # No Pydantic model found, just use the dict directly
-        # (This should be rare - it means the field type is just dict)
-        new_field = pydantic.Field(
+
+        new_field = cast(
+            FieldInfo,
+            pydantic.Field(
+                default_factory=variant_class,
+                description=base_field_info.description,
+                title=base_field_info.title,
+            ),
+        )
+
+        return (variant_class, new_field)
+    # No Pydantic model found, just use the dict directly
+    # (This should be rare - it means the field type is just dict)
+    new_field = cast(
+        FieldInfo,
+        pydantic.Field(
             default=default_value,
             description=base_field_info.description,
             title=base_field_info.title,
-        )
+        ),
+    )
 
-    return (base_field_info.annotation, new_field)  # pyright: ignore[reportReturnType]
+    return (
+        cast(type[Any], base_field_info.annotation),
+        new_field,
+    )
 
 
 def create_simple_field_spec(
     default_value: Any,
-    base_field_info: pydantic.fields.FieldInfo,
-) -> tuple[Any, pydantic.fields.FieldInfo]:
+    base_field_info: FieldInfo,
+) -> FieldSpec:
     """Create field spec for a simple field (non-nested, non-discriminator).
 
     Args:
@@ -277,9 +356,12 @@ def create_simple_field_spec(
         default_value,
     )
 
-    new_field = pydantic.Field(
-        default=default_value,
-        description=updated_description,
-        title=base_field_info.title,
+    new_field = cast(
+        FieldInfo,
+        pydantic.Field(
+            default=default_value,
+            description=updated_description,
+            title=base_field_info.title,
+        ),
     )
-    return (base_field_info.annotation, new_field)
+    return (cast(type[Any], base_field_info.annotation), new_field)

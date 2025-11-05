@@ -291,11 +291,20 @@ def test_create_nested_field_spec_with_default():
         "x": 100,
     }
 
-    _annotation, field = create_nested_field_spec(updates, field_info)
+    annotation, field = create_nested_field_spec(updates, field_info)
 
-    # Check that the merged object is in the field default
-    assert field.default.x == 100  # type: ignore
-    assert field.default.y == 2  # type: ignore
+    # Check that a variant class was created with default_factory
+    assert field.default_factory is not None
+    assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+
+    # Instantiate to check default values
+    instance = field.default_factory()
+    assert isinstance(instance, Inner)
+    assert instance.x == 100
+    assert instance.y == 2
+
+    # Check that the annotation is the variant class
+    assert annotation == field.default_factory
 
 
 def test_create_nested_field_spec_with_default_factory():
@@ -306,10 +315,17 @@ def test_create_nested_field_spec_with_default_factory():
         "count": 20,
     }
 
-    _annotation, field = create_nested_field_spec(updates, field_info)
+    _, field = create_nested_field_spec(updates, field_info)
 
-    assert field.default.value == "updated"  # type: ignore
-    assert field.default.count == 20  # type: ignore
+    # Check that a variant class was created with default_factory
+    assert field.default_factory is not None
+    assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+
+    # Instantiate to check default values
+    instance = field.default_factory()
+    assert isinstance(instance, NestedWithFactory)
+    assert instance.value == "updated"
+    assert instance.count == 20
 
 
 def test_create_nested_field_spec_preserves_metadata():
@@ -342,11 +358,18 @@ def test_create_nested_field_spec_partial_update():
     field_info = Outer.model_fields["nested"]
     updates = {"field1": "updated"}
 
-    _annotation, field = create_nested_field_spec(updates, field_info)
+    _, field = create_nested_field_spec(updates, field_info)
 
-    assert field.default.field1 == "updated"  # type: ignore
-    assert field.default.field2 == "b"  # type: ignore
-    assert field.default.field3 == "c"  # type: ignore
+    # Check that a variant class was created with default_factory
+    assert field.default_factory is not None
+    assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+
+    # Instantiate to check default values
+    instance = field.default_factory()
+    assert isinstance(instance, Nested)
+    assert instance.field1 == "updated"
+    assert instance.field2 == "b"
+    assert instance.field3 == "c"
 
 
 @pytest.mark.parametrize(
@@ -844,3 +867,177 @@ def test_variant_class_updates_discriminator_description():
 
     field_info = VariantClass.model_fields["variant"]
     assert field_info.description == "The variant type. The default value is `custom`."
+
+
+def test_nested_field_descriptions_are_updated():
+    """Test that field descriptions within nested models are updated correctly."""
+
+    class NestedConfig(pydantic.BaseModel):
+        font_family: str = pydantic.Field(
+            default="Arial",
+            description="The font family. The default value is `Arial`.",
+        )
+        font_size: str = pydantic.Field(
+            default="12pt", description="The font size. The default value is `12pt`."
+        )
+
+    class Config(pydantic.BaseModel):
+        disc: str = "base"
+        nested: NestedConfig = NestedConfig()
+
+    defaults = {
+        "disc": "custom",
+        "nested": {
+            "font_family": "Helvetica",
+            "font_size": "14pt",
+        },
+    }
+
+    VariantClass = create_variant_class(
+        variant_name="custom",
+        defaults=defaults,
+        base_class=Config,
+        discriminator_field="disc",
+        class_name_suffix="Variant",
+        module_name="test",
+    )
+
+    # Check that the nested field descriptions are updated
+    nested_annotation = VariantClass.model_fields["nested"].annotation
+    assert nested_annotation is not None
+    assert issubclass(nested_annotation, pydantic.BaseModel)
+    nested_font_family_field = nested_annotation.model_fields["font_family"]
+    nested_font_size_field = nested_annotation.model_fields["font_size"]
+
+    assert (
+        nested_font_family_field.description
+        == "The font family. The default value is `Helvetica`."
+    )
+    assert (
+        nested_font_size_field.description
+        == "The font size. The default value is `14pt`."
+    )
+
+    # Also verify the actual default values are correct
+    instance = VariantClass()
+    assert instance.nested.font_family == "Helvetica"
+    assert instance.nested.font_size == "14pt"
+
+
+def test_deeply_nested_field_descriptions_are_updated():
+    """Test that field descriptions are updated at multiple levels of nesting."""
+
+    class Level3(pydantic.BaseModel):
+        value: int = pydantic.Field(
+            default=1, description="The value. The default value is `1`."
+        )
+
+    class Level2(pydantic.BaseModel):
+        level3: Level3 = Level3()
+        name: str = pydantic.Field(
+            default="level2", description="The name. The default value is `level2`."
+        )
+
+    class Level1(pydantic.BaseModel):
+        disc: str = "base"
+        level2: Level2 = Level2()
+
+    defaults = {
+        "disc": "deep",
+        "level2": {
+            "name": "custom_level2",
+            "level3": {"value": 999},
+        },
+    }
+
+    VariantClass = create_variant_class(
+        variant_name="deep",
+        defaults=defaults,
+        base_class=Level1,
+        discriminator_field="disc",
+        class_name_suffix="Variant",
+        module_name="test",
+    )
+
+    # Check Level 2 field description
+    level2_annotation = VariantClass.model_fields["level2"].annotation
+    assert level2_annotation is not None
+    assert issubclass(level2_annotation, pydantic.BaseModel)
+    level2_name_field = level2_annotation.model_fields["name"]
+    assert (
+        level2_name_field.description
+        == "The name. The default value is `custom_level2`."
+    )
+
+    # Check Level 3 field description
+    level3_annotation = level2_annotation.model_fields["level3"].annotation
+    assert level3_annotation is not None
+    assert issubclass(level3_annotation, pydantic.BaseModel)
+    level3_value_field = level3_annotation.model_fields["value"]
+    assert level3_value_field.description == "The value. The default value is `999`."
+
+    # Verify actual default values
+    instance = VariantClass()
+    assert instance.level2.name == "custom_level2"
+    assert instance.level2.level3.value == 999
+
+
+def test_nested_field_partial_update_preserves_descriptions():
+    """Test that partial updates to nested models preserve non-updated field descriptions."""
+
+    class Nested(pydantic.BaseModel):
+        field1: str = pydantic.Field(
+            default="a", description="Field 1. The default value is `a`."
+        )
+        field2: str = pydantic.Field(
+            default="b", description="Field 2. The default value is `b`."
+        )
+        field3: str = pydantic.Field(
+            default="c", description="Field 3. The default value is `c`."
+        )
+
+    class Outer(pydantic.BaseModel):
+        disc: str = "base"
+        nested: Nested = Nested()
+
+    defaults = {
+        "disc": "partial",
+        "nested": {
+            "field1": "updated",
+        },
+    }
+
+    VariantClass = create_variant_class(
+        variant_name="partial",
+        defaults=defaults,
+        base_class=Outer,
+        discriminator_field="disc",
+        class_name_suffix="Variant",
+        module_name="test",
+    )
+
+    nested_annotation = VariantClass.model_fields["nested"].annotation
+    assert nested_annotation is not None
+    assert issubclass(nested_annotation, pydantic.BaseModel)
+
+    # Updated field should have new description
+    assert (
+        nested_annotation.model_fields["field1"].description
+        == "Field 1. The default value is `updated`."
+    )
+
+    # Non-updated fields should preserve original descriptions
+    assert (
+        nested_annotation.model_fields["field2"].description
+        == "Field 2. The default value is `b`."
+    )
+    assert (
+        nested_annotation.model_fields["field3"].description
+        == "Field 3. The default value is `c`."
+    )
+
+    # Verify values
+    instance = VariantClass()
+    assert instance.nested.field1 == "updated"
+    assert instance.nested.field2 == "b"
+    assert instance.nested.field3 == "c"

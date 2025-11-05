@@ -1,4 +1,3 @@
-import importlib
 from functools import reduce
 from operator import or_
 from pathlib import Path
@@ -7,6 +6,7 @@ from typing import Annotated, get_args
 import pydantic
 
 from ...utils.variant_class_generator import create_variant_class
+from ...utils.yaml_reader import read_yaml
 from .english_locale import EnglishLocale
 
 
@@ -20,18 +20,10 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
     other_locales_dir = Path(__file__).parent / "other_locales"
     discovered: list[type[EnglishLocale]] = []
 
-    for py_file in sorted(other_locales_dir.glob("*.py")):
-        if py_file.stem == "__init__":
-            continue
-
-        locale_name = py_file.stem
-        module = importlib.import_module(
-            f"rendercv.schema.models.locale.other_locales.{locale_name}"
-        )
-        locale_data = getattr(module, f"{locale_name}_locale")
+    for yaml_file in sorted(other_locales_dir.glob("*.yaml")):
         locale_class = create_variant_class(
-            variant_name=locale_name,
-            defaults=locale_data,
+            variant_name=yaml_file.stem,
+            defaults=read_yaml(yaml_file, read_type="safe")["locale"],
             base_class=EnglishLocale,
             discriminator_field="language",
             class_name_suffix="Locale",

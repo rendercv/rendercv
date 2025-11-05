@@ -1,5 +1,3 @@
-"""Validation context for resolving paths and dates during model validation."""
-
 import pathlib
 from dataclasses import dataclass
 from datetime import date as Date
