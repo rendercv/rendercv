@@ -1,7 +1,19 @@
+from typing import get_args
+
 import pydantic
 import pytest
 
-from rendercv.schema.models.cv.social_network import SocialNetwork
+from rendercv.schema.models.cv.social_network import (
+    SocialNetwork,
+    SocialNetworkName,
+    url_dictionary,
+)
+
+
+def test_all_urls_are_present():
+    assert set(url_dictionary.keys()) == (
+        set(get_args(SocialNetworkName.__value__)) - {"Mastodon"}
+    )
 
 
 @pytest.mark.parametrize(

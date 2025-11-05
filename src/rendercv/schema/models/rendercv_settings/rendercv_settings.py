@@ -1,5 +1,4 @@
 import datetime
-from typing import Literal
 
 import pydantic
 
@@ -36,15 +35,4 @@ class RenderCVSettings(BaseModelWithoutExtraKeys):
             "The keywords that will be bold in the output. The default value is an"
             " empty list."
         ),
-    )
-    sort_entries: Literal["reverse-chronological", "chronological"] | None = (
-        pydantic.Field(
-            default=None,
-            title="Sort Entries",
-            description=(
-                "How the entries should be sorted based on their dates. The available"
-                " options are 'reverse-chronological', 'chronological', or `null`. The"
-                " default value is `null`."
-            ),
-        )
     )

@@ -9,25 +9,41 @@ from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
 url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
+type SocialNetworkName = Literal[
+    "LinkedIn",
+    "GitHub",
+    "GitLab",
+    "IMDB",
+    "Instagram",
+    "ORCID",
+    "Mastodon",
+    "StackOverflow",
+    "ResearchGate",
+    "YouTube",
+    "Google Scholar",
+    "Telegram",
+    "Leetcode",
+    "X",
+]
+url_dictionary = {
+    "LinkedIn": "https://linkedin.com/in/",
+    "GitHub": "https://github.com/",
+    "GitLab": "https://gitlab.com/",
+    "IMDB": "https://imdb.com/name/",
+    "Instagram": "https://instagram.com/",
+    "ORCID": "https://orcid.org/",
+    "StackOverflow": "https://stackoverflow.com/users/",
+    "ResearchGate": "https://researchgate.net/profile/",
+    "YouTube": "https://youtube.com/@",
+    "Google Scholar": "https://scholar.google.com/citations?user=",
+    "Telegram": "https://t.me/",
+    "Leetcode": "https://leetcode.com/u/",
+    "X": "https://x.com/",
+}
 
 
 class SocialNetwork(BaseModelWithoutExtraKeys):
-    network: Literal[
-        "LinkedIn",
-        "GitHub",
-        "GitLab",
-        "IMDB",
-        "Instagram",
-        "ORCID",
-        "Mastodon",
-        "StackOverflow",
-        "ResearchGate",
-        "YouTube",
-        "Google Scholar",
-        "Telegram",
-        "Leetcode",
-        "X",
-    ] = pydantic.Field(
+    network: SocialNetworkName = pydantic.Field(
         description="The name of the social network or platform.",
     )
     username: str = pydantic.Field(
@@ -97,21 +113,6 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
             _, username, domain = self.username.split("@")
             url = f"https://{domain}/@{username}"
         else:
-            url_dictionary = {
-                "LinkedIn": "https://linkedin.com/in/",
-                "GitHub": "https://github.com/",
-                "GitLab": "https://gitlab.com/",
-                "IMDB": "https://imdb.com/name/",
-                "Instagram": "https://instagram.com/",
-                "ORCID": "https://orcid.org/",
-                "StackOverflow": "https://stackoverflow.com/users/",
-                "ResearchGate": "https://researchgate.net/profile/",
-                "YouTube": "https://youtube.com/@",
-                "Google Scholar": "https://scholar.google.com/citations?user=",
-                "Telegram": "https://t.me/",
-                "Leetcode": "https://leetcode.com/u/",
-                "X": "https://x.com/",
-            }
             url = url_dictionary[self.network] + self.username
 
         return url
