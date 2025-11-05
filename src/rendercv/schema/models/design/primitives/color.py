@@ -1,5 +1,3 @@
-"""Color type that outputs RGB strings for Typst templates."""
-
 from pydantic_extra_types.color import Color as PydanticColor
 
 

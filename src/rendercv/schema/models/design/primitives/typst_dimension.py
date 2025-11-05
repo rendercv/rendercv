@@ -1,5 +1,3 @@
-"""Typst dimension validation (e.g., "1.5cm", "10pt")."""
-
 import re
 from typing import Annotated
 

@@ -1,5 +1,3 @@
-"""Font family validation. Allows custom fonts if 'fonts/' directory exists."""
-
 from typing import Annotated, Literal
 
 import pydantic
