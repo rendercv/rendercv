@@ -1,1 +1,1 @@
-[{{entry.reversed_number}}],
++ {{entry.reversed_number}}
