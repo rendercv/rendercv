@@ -43,7 +43,7 @@ description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
 readme = "README.md"
-requires-python = '>=3.10'
+requires-python = '>=3.12'
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
     'Jinja2>=3.1.6',                # Generate Typst and Markdown files
@@ -99,14 +99,14 @@ rendercv = 'rendercv.cli:app'
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-    'ruff>=0.14.1', # Lint and format the code
-    'black>=25.9.0', # Format the code
-    'pyright>=1.1.406', # Type checking
-    'pre-commit>=4.3.0', # Run checks before committing
-    'pytest>=8.4.2', # Run tests
-    'coverage>=7.11.0', # Generate coverage reports
-    'pypdf>=6.1.3', # Read PDF files
-    'snakeviz>=2.2.2', # Profiling
+    'ruff>=0.14.1',        # Lint and format the code
+    'black>=25.9.0',       # Format the code
+    'pyright>=1.1.406',    # Type checking
+    'pre-commit>=4.3.0',   # Run checks before committing
+    'pytest>=8.4.2',       # Run tests
+    'coverage>=7.11.0',    # Generate coverage reports
+    'pypdf>=6.1.3',        # Read PDF files
+    'snakeviz>=2.2.2',     # Profiling
     'pyinstaller>=6.16.0', # Build executables
     "pytest-xdist>=3.8.0",
 ]
@@ -163,6 +163,8 @@ ignore = [
     'ISC001', # Conflicts with formatter
     'UP007',  # Allow Optional type
     'PGH003', # Prefer not to ignore this
+    'RUF001', # Allow other characters for locale
+    'EM101',  # Allow
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 

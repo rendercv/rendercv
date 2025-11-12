@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=../../../../../schema.json
+cv:
+  name: John Doe
+  website: not_a_valid_url
+  phone: not_a_valid_phone_number
+  email: not_a_valid_email
+  photo: photo_doesnt_exist.jpg
+  social_networks:
+    - network: LinkedIn
+      username: not a valid %%^&*()
+    - network: ORCID
+      username: not_a_valid_orcid_id
+    - network: IMDB
+      username: not_a_valid_imdb_id
+  sections:
+    welcome_to_rendercv_tests:
+      - does_this_entry_exist: no
+    welcome_to_rendercv_tests_2:
+      - institution: Boğaziçi University
+        area: Computer Engineering
+      - company: Can you use two different entry types in the same section?
+        position: No.
+    welcome_to_rendercv_tests_3:
+      - company: Company C
+        location: Can there be an experience entry without a position?
+        date: No.
+    welcome_to_rendercv_tests_4:
+      - title: Can you provide an invalid date in ISO format?
+        authors:
+          - I don't think so.
+        date: 2025-13-01
+    welcome_to_rendercv_tests_5:
+      - title: Can you provide any string as a date?
+        authors:
+          - Sure.
+        date: "Fall 2025"
+    welcome_to_rendercv_tests_6:
+      - name: Is this a valid ISO date?
+        date: 2025-01-50
+        summary: It doesn't look like it.
+    welcome_to_rendercv_tests_7:
+      - name:
+          date: Is this even a string?
+    welcome_to_rendercv_tests_8:
+      - company: Apple
+        position: CEO
+        start_date: 2025-01-01
+        end_date: 2020-01-01
+        highlights:
+          - The end date is before the start date.
+          - Are you sure you are the CEO of Apple?
+    welcome_to_rendercv_tests_9:
+      - title: Can you provide a date in YYYY-MM format?
+        authors: I'm the author! But should this be a list?
+design:
+  theme: not_a_valid_theme
+  extra_field_in_design: I don't think this is allowed.
