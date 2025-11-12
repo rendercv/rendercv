@@ -1360,6 +1360,7 @@ full = [
 [package.dev-dependencies]
 dev = [
     { name = "black" },
+    { name = "coverage" },
     { name = "pre-commit" },
     { name = "pyinstaller" },
     { name = "pypdf" },
@@ -1403,6 +1404,7 @@ provides-extras = ["full"]
 [package.metadata.requires-dev]
 dev = [
     { name = "black", specifier = ">=25.9.0" },
+    { name = "coverage", specifier = ">=7.11.0" },
     { name = "pre-commit", specifier = ">=4.3.0" },
     { name = "pyinstaller", specifier = ">=6.16.0" },
     { name = "pypdf", specifier = ">=6.1.3" },

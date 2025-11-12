@@ -109,6 +109,7 @@ dev = [
     'pyinstaller>=6.16.0', # Build executables
     "pytest-xdist>=3.8.0",
     "pytest-cov>=7.0.0",
+    "coverage>=7.11.0",
 ]
 docs = [
     'mkdocs-material>=9.6.20',
