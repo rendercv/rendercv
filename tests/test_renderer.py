@@ -553,40 +553,8 @@ def test_render_html_from_markdown_nonexistent_markdown_file():
         renderer.render_an_html_from_markdown(file_path)
 
 
-# def test_render_pngs_from_typst(
-#     run_a_function_and_check_if_output_is_the_same_as_reference,
-# ):
-#     reference_directory_name = "pngs"
-
-#     def generate_pngs(output_directory_path, reference_file_or_directory_path):
-#         typst_folder_path = (
-#             reference_file_or_directory_path.parent.parent
-#             / "test_create_a_typst_file_and_copy_theme_files"
-#             / "classic_filled_long_second_row"
-#         )
-
-#         # copy typst folder to the output path
-#         shutil.copytree(typst_folder_path, output_directory_path, dirs_exist_ok=True)
-
-#         # convert pdf to pngs
-#         renderer.render_pngs_from_typst(
-#             output_directory_path / "John_Doe_CV.typ", ppi=20
-#         )
-
-#         # remove everything except the pngs
-#         for file in output_directory_path.glob("*"):
-#             if file.suffix == ".jpg" or file.suffix == ".typ":
-#                 file.unlink()
-
-#     assert run_a_function_and_check_if_output_is_the_same_as_reference(
-#         generate_pngs, reference_directory_name
-#     )
-
-
-@pytest.mark.parametrize("tolerance", [0, 5, 10])
 def test_render_pngs_from_typst(
     run_a_function_and_check_if_output_is_the_same_as_reference,
-    tolerance: int,
 ):
     reference_directory_name = "pngs"
 
@@ -597,18 +565,23 @@ def test_render_pngs_from_typst(
             / "classic_filled_long_second_row"
         )
 
+        # copy typst folder to the output path
         shutil.copytree(typst_folder_path, output_directory_path, dirs_exist_ok=True)
+
+        # convert pdf to pngs
         renderer.render_pngs_from_typst(
             output_directory_path / "John_Doe_CV.typ", ppi=20
         )
 
+        # remove everything except the pngs
         for file in output_directory_path.glob("*"):
-            if file.suffix in (".jpg", ".typ"):
+            if file.suffix == ".jpg" or file.suffix == ".typ":
                 file.unlink()
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
-        generate_pngs, reference_directory_name, tolerance=tolerance
+        generate_pngs, reference_directory_name
     )
+
 
 def test_render_pdf_invalid_typst_file(tmp_path):
     typst_file_path = tmp_path / "invalid_typst_file.typ"
