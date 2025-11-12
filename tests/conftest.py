@@ -4,11 +4,11 @@ import copy
 import filecmp
 import itertools
 import json
+import os
 import pathlib
 import shutil
 import typing
 import urllib.request
-import os
 
 import jinja2
 import pydantic
