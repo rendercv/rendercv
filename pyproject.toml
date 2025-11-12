@@ -104,11 +104,11 @@ dev = [
     'pyright>=1.1.406', # Type checking
     'pre-commit>=4.3.0', # Run checks before committing
     'pytest>=8.4.2', # Run tests
-    'coverage>=7.11.0', # Generate coverage reports
     'pypdf>=6.1.3', # Read PDF files
     'snakeviz>=2.2.2', # Profiling
     'pyinstaller>=6.16.0', # Build executables
     "pytest-xdist>=3.8.0",
+    "pytest-cov>=7.0.0",
 ]
 docs = [
     'mkdocs-material>=9.6.20',
