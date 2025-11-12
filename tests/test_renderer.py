@@ -15,6 +15,8 @@ folder_name_dictionary = {
     "rendercv_filled_curriculum_vitae_data_model": "filled",
 }
 
+pytestmark = pytest.mark.xdist_group("cli_serial")
+
 
 def test_typst_file_class(tmp_path, rendercv_data_model, jinja2_environment):
     typst_file = templater.TypstFile(rendercv_data_model, jinja2_environment)

@@ -206,7 +206,7 @@ addopts = [
     '-v',                  # Increase verbosity
     '--strict-markers',    # Disallow unknown markers
     '--strict-config',     # Fail on unknown config options
-    '--numprocesses=1', # Number of processes in parallel
+    '--numprocesses=auto', # Number of processes in parallel
 ]
 testpaths = ['tests']
 
