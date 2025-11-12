@@ -25,6 +25,8 @@ import rendercv.data.generator as generator
 import rendercv.data.reader as reader
 from rendercv import __version__
 
+pytestmark = pytest.mark.xdist_group("cli_serial")
+
 
 def run_render_command(input_file_path, working_path, extra_arguments=None):
     if extra_arguments is None:
