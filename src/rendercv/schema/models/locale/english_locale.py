@@ -11,15 +11,13 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         default="english",
         description="The language of the locale. The default value is 'english'.",
     )
-    phone_number_format: Literal["national", "international", "E164"] | None = (
-        pydantic.Field(
-            default="national",
-            description=(
-                "If 'national', phone numbers are formatted without the country code."
-                " If 'international', phone numbers are formatted with the country"
-                " code. The default value is 'national'."
-            ),
-        )
+    phone_number_format: Literal["national", "international", "E164"] = pydantic.Field(
+        default="national",
+        description=(
+            "If 'national', phone numbers are formatted without the country code."
+            " If 'international', phone numbers are formatted with the country"
+            " code. The default value is 'national'."
+        ),
     )
     page_numbering_template: str = pydantic.Field(
         default="NAME - Page PAGE_NUMBER of TOTAL_PAGES",
@@ -41,7 +39,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "\n- TODAY: Today's date with `locale.date_template`"
         ),
     )
-    date_template: str | None = pydantic.Field(
+    date_template: str = pydantic.Field(
         default="MONTH_ABBREVIATION YEAR",
         description=(
             "The template of the date.\n\nThe following placeholders can be used:"
@@ -53,27 +51,27 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)"
         ),
     )
-    month: str | None = pydantic.Field(
+    month: str = pydantic.Field(
         default="month",
         description='Translation of the word "month" in the locale.',
     )
-    months: str | None = pydantic.Field(
+    months: str = pydantic.Field(
         default="months",
         description='Translation of the word "months" in the locale.',
     )
-    year: str | None = pydantic.Field(
+    year: str = pydantic.Field(
         default="year",
         description='Translation of the word "year" in the locale.',
     )
-    years: str | None = pydantic.Field(
+    years: str = pydantic.Field(
         default="years",
         description='Translation of the word "years" in the locale.',
     )
-    present: str | None = pydantic.Field(
+    present: str = pydantic.Field(
         default="present",
         description='Translation of the word "present" in the locale.',
     )
-    to: str | None = pydantic.Field(
+    to: str = pydantic.Field(
         default="–",
         description=(
             "The word or character used to indicate a range in the locale (e.g.,"
