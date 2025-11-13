@@ -44,7 +44,7 @@ test:
   uv run pytest
 
 test-with-coverage:
-  uv run -- pytest --cov
+  uv run --all-extras --all-groups -- pytest --cov
 
 report-coverage:
   uv run -- pytest --cov --cov-report=html
