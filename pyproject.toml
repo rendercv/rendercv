@@ -207,7 +207,7 @@ addopts = [
     '--strict-markers',    # Disallow unknown markers
     '--strict-config',     # Fail on unknown config options
     '--numprocesses=auto', # Number of processes in parallel
-    '--dist loadgroup',    # Make sure specific jobs are grouped
+    '--dist=loadgroup',    # Make sure specific jobs are grouped
 ]
 testpaths = ['tests']
 
