@@ -110,6 +110,7 @@ dev = [
     "pytest-xdist>=3.8.0",
     "pytest-cov>=7.0.0",
     "coverage>=7.11.0",
+    "pytest-rerunfailures>=16.1",
 ]
 docs = [
     'mkdocs-material>=9.6.20',
@@ -208,6 +209,7 @@ addopts = [
     '--strict-config',     # Fail on unknown config options
     '--numprocesses=auto', # Number of processes in parallel
     '--dist=loadfile',     # Make sure specific jobs are grouped
+    '--reruns=5',          # Rerun flaky tests
 ]
 testpaths = ['tests']
 
