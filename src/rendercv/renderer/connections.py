@@ -5,59 +5,6 @@ import pydantic
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-typst_fa_icons = {
-    "LinkedIn": "linkedin",
-    "GitHub": "github",
-    "GitLab": "gitlab",
-    "IMDB": "imdb",
-    "Instagram": "instagram",
-    "Mastodon": "mastodon",
-    "ORCID": "orcid",
-    "StackOverflow": "stack-overflow",
-    "ResearchGate": "researchgate",
-    "YouTube": "youtube",
-    "Google Scholar": "graduation-cap",
-    "Telegram": "telegram",
-    "Leetcode": "code",
-    "X": "x-twitter",
-    "location": "location-dot",
-    "email": "envelope",
-    "phone": "phone",
-    "website": "link",
-}
-
-
-def clean_url(url: str | pydantic.HttpUrl) -> str:
-    """Make a URL clean by removing the protocol, www, and trailing slashes.
-
-    Example:
-        ```python
-        make_a_url_clean("https://www.example.com/")
-        ```
-        returns
-        `"example.com"`
-
-    Args:
-        url: The URL to make clean.
-
-    Returns:
-        The clean URL.
-    """
-    url = str(url).replace("https://", "").replace("http://", "")
-    if url.endswith("/"):
-        url = url[:-1]
-
-    return url
-
-
-# def build_typst_connection(icon_specifier: str, url: str | None, body: str) -> str:
-#     if rendercv_model.design.header.use_icons_for_connections:
-#         body = f"#connection-with-icon({typst_fa_icons[icon_specifier]}, {body})"
-#     if rendercv_model.design.header.make_connections_links and url:
-#         return f"#link({url}, {body}, icon: false)"
-
-#     return body
-
 
 class Connection(TypedDict):
     icon_specifier: str
@@ -65,9 +12,7 @@ class Connection(TypedDict):
     body: str
 
 
-def compute_typst_connections(
-    rendercv_model: RenderCVModel,
-) -> list[Connection]:
+def compute_connections(rendercv_model: RenderCVModel) -> list[Connection]:
     connections: list[Connection] = []
     for key in rendercv_model.cv._key_order:
         match key:
@@ -105,3 +50,86 @@ def compute_typst_connections(
             )
 
     return connections
+
+
+def clean_url(url: str | pydantic.HttpUrl) -> str:
+    """Make a URL clean by removing the protocol, www, and trailing slashes.
+
+    Example:
+        ```python
+        make_a_url_clean("https://www.example.com/")
+        ```
+        returns
+        `"example.com"`
+
+    Args:
+        url: The URL to make clean.
+
+    Returns:
+        The clean URL.
+    """
+    url = str(url).replace("https://", "").replace("http://", "")
+    if url.endswith("/"):
+        url = url[:-1]
+
+    return url
+
+
+typst_fa_icons = {
+    "LinkedIn": "linkedin",
+    "GitHub": "github",
+    "GitLab": "gitlab",
+    "IMDB": "imdb",
+    "Instagram": "instagram",
+    "Mastodon": "mastodon",
+    "ORCID": "orcid",
+    "StackOverflow": "stack-overflow",
+    "ResearchGate": "researchgate",
+    "YouTube": "youtube",
+    "Google Scholar": "graduation-cap",
+    "Telegram": "telegram",
+    "Leetcode": "code",
+    "X": "x-twitter",
+    "location": "location-dot",
+    "email": "envelope",
+    "phone": "phone",
+    "website": "link",
+}
+
+
+def compute_typst_connections(rendercv_model: RenderCVModel) -> list[str]:
+    connections = compute_connections(rendercv_model)
+
+    use_icon = rendercv_model.design.header.use_icons_for_connections
+    make_links = rendercv_model.design.header.make_connections_links
+
+    placeholders = [
+        (
+            f"#connection-with-icon({typst_fa_icons[icon_specifier]}, {body})"
+            if use_icon
+            else body
+        )
+        for icon_specifier, _, body in connections
+    ]
+
+    return [
+        (
+            f"#link({connection['url']}, {placeholder}, icon: false)"
+            if connection["url"] and make_links
+            else placeholder
+        )
+        for connection, placeholder in zip(connections, placeholders, strict=True)
+    ]
+
+
+def compute_markdown_connections(rendercv_model: RenderCVModel) -> list[str]:
+    connections = compute_connections(rendercv_model)
+
+    return [
+        (
+            f"[{connection['body']}]({connection['url']})"
+            if connection["url"]
+            else connection["body"]
+        )
+        for connection in connections
+    ]
