@@ -31,6 +31,7 @@ type EntryModel = (
     | NumberedEntry
     | ReversedNumberedEntry
 )
+type Entry = EntryModel | str
 ########################################################################################
 available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
 available_entry_type_names: tuple[str, ...] = tuple(
