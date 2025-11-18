@@ -15,7 +15,7 @@ pre-commit:
 
 count-lines:
   wc -l `find src -name '*.py'`
-  
+
 update-schema:
   uv run scripts/update_schema.py
 
@@ -44,10 +44,10 @@ test:
   uv run pytest
 
 test-with-coverage:
-  uv run -- coverage run -m pytest; uv run -- coverage combine
+  uv run -- pytest --cov
 
 report-coverage:
-  uv run -- coverage report && uv run -- coverage html --show-contexts
+  uv run -- pytest --cov --cov-report=html
 
 open video_path:
   uv run scripts/open.py {{video_path}}
