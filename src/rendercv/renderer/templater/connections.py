@@ -1,4 +1,4 @@
-from typing import TypedDict
+from typing import Literal, TypedDict
 
 import phonenumbers
 import pydantic
@@ -12,7 +12,7 @@ class Connection(TypedDict):
     body: str
 
 
-def compute_connections(rendercv_model: RenderCVModel) -> list[Connection]:
+def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
     connections: list[Connection] = []
     for key in rendercv_model.cv._key_order:
         match key:
@@ -97,8 +97,8 @@ typst_fa_icons = {
 }
 
 
-def compute_typst_connections(rendercv_model: RenderCVModel) -> list[str]:
-    connections = compute_connections(rendercv_model)
+def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
+    connections = parse_connections(rendercv_model)
 
     use_icon = rendercv_model.design.header.use_icons_for_connections
     make_links = rendercv_model.design.header.make_connections_links
@@ -122,8 +122,8 @@ def compute_typst_connections(rendercv_model: RenderCVModel) -> list[str]:
     ]
 
 
-def compute_markdown_connections(rendercv_model: RenderCVModel) -> list[str]:
-    connections = compute_connections(rendercv_model)
+def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]:
+    connections = parse_connections(rendercv_model)
 
     return [
         (
@@ -133,3 +133,12 @@ def compute_markdown_connections(rendercv_model: RenderCVModel) -> list[str]:
         )
         for connection in connections
     ]
+
+
+def compute_connections(
+    rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
+) -> list[str]:
+    return {
+        "typst": compute_connections_for_typst,
+        "markdown": compute_connections_for_markdown,
+    }[file_type](rendercv_model)

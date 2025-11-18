@@ -5,7 +5,7 @@ import jinja2
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .connections import compute_markdown_connections, compute_typst_connections
+from .model_preprocessor import preprocess_model
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
 jinja2_environment = jinja2.Environment(
@@ -42,30 +42,24 @@ def template_rendercv_file(
         "typst": "typ",
         "markdown": "md",
     }[file_type]
-    compute_connections = {
-        "typst": compute_typst_connections,
-        "markdown": compute_markdown_connections,
-    }[file_type]
+
+    rendercv_model = preprocess_model(rendercv_model, file_type)
 
     preamble = render_template(f"{file_type}/Preamble.j2.{extension}", rendercv_model)
-
-    connections = compute_connections(rendercv_model)
-    header = render_template(
-        f"{file_type}/Header.j2.{extension}",
-        rendercv_model,
-        connections=connections,
-    )
+    header = render_template(f"{file_type}/Header.j2.{extension}", rendercv_model)
 
     code = preamble + header
     for rendercv_section in rendercv_model.cv.rendercv_sections:
         section_beginning = render_template(
             f"{file_type}/SectionBeginning.j2.{extension}",
             rendercv_model,
+            section_title=rendercv_section.title,
             entry_type=rendercv_section.entry_type,
         )
         section_ending = render_template(
             f"{file_type}/SectionEnding.j2.{extension}",
             rendercv_model,
+            section_title=rendercv_section.title,
             entry_type=rendercv_section.entry_type,
         )
         entries_code = ""

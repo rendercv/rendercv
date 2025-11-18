@@ -3,7 +3,7 @@ import pathlib
 
 import pydantic
 
-from ..models.rendercv_model import RenderCVModel
+from .models.rendercv_model import RenderCVModel
 
 
 def generate_json_schema() -> dict:

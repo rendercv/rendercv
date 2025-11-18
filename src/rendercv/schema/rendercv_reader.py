@@ -1,7 +1,7 @@
 import pathlib
 from datetime import date as Date
 
-from ..models.rendercv_model import RenderCVModel
+from .models.rendercv_model import RenderCVModel
 from .context import ValidationContext
 from .yaml_reader import read_yaml
 
