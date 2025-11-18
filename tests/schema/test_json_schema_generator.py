@@ -1,6 +1,6 @@
 import json
 
-from rendercv.schema.utils.json_schema_generator import (
+from rendercv.schema.json_schema_generator import (
     generate_json_schema,
     generate_json_schema_file,
 )

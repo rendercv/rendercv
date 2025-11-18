@@ -3,7 +3,7 @@ from datetime import date as Date
 
 import pydantic
 
-from rendercv.schema.utils.context import (
+from rendercv.schema.context import (
     ValidationContext,
     get_input_file_path,
     get_todays_date,

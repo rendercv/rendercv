@@ -3,7 +3,7 @@ from typing import Any, get_args
 import pydantic
 import pytest
 
-from rendercv.schema.utils.variant_class_generator import (
+from rendercv.schema.variant_class_generator import (
     create_discriminator_field_spec,
     create_nested_field_spec,
     create_simple_field_spec,

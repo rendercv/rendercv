@@ -2,7 +2,7 @@
 
 import pathlib
 
-from rendercv.schema.utils.json_schema_generator import generate_json_schema_file
+from rendercv.schema.json_schema_generator import generate_json_schema_file
 
 repository_root = pathlib.Path(__file__).parent.parent
 
