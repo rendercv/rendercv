@@ -2,11 +2,11 @@ import pathlib
 
 import pydantic
 
-from rendercv.schema.utils.pydantic_error_handling import parse_validation_errors
-from rendercv.schema.utils.rendercv_reader import (
+from rendercv.schema.pydantic_error_handling import parse_validation_errors
+from rendercv.schema.rendercv_reader import (
     validate_input_dictionary_and_return_rendercv_pydantic_model,
 )
-from rendercv.schema.utils.yaml_reader import read_yaml
+from rendercv.schema.yaml_reader import read_yaml
 
 
 def test_parse_validation_errors():

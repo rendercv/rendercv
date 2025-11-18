@@ -4,7 +4,7 @@ import ruamel.yaml
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.models.rendercv_model import RenderCVModel
-from rendercv.schema.utils.sample_generator import (
+from rendercv.schema.sample_generator import (
     create_sample_rendercv_pydantic_model,
     create_sample_yaml_input_file,
     dictionary_to_yaml,
