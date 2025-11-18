@@ -6,8 +6,8 @@ import pydantic
 import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
-from ...utils.context import get_input_file_path
-from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
+from ...context import get_input_file_path
+from ...custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork

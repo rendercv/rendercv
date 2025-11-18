@@ -4,7 +4,7 @@ from typing import Annotated
 import pydantic
 import pydantic_core
 
-from ....utils.custom_pydantic_error_types import CustomPydanticErrorTypes
+from ....custom_pydantic_error_types import CustomPydanticErrorTypes
 
 
 def validate_typst_dimension(dimension: str) -> str:
