@@ -7,8 +7,8 @@ import jinja2
 import pytest
 
 from rendercv import data, renderer
-from rendercv.renderer import renderer as renderer_module
-from rendercv.renderer import templater
+from rendercv.renderer_old import renderer as renderer_module
+from rendercv.renderer_old import templater
 
 folder_name_dictionary = {
     "rendercv_empty_curriculum_vitae_data_model": "empty",
@@ -710,11 +710,7 @@ def test_are_all_the_theme_files_the_same(theme_name):
             {},
             '#link("https://myurl.com")[#strong[#emph[My]]]',
         ),
-        (
-            "**GRADE**",
-            {"GRADE": "GPA: 3.00/4.00"},
-            '#strong[GPA: 3.00/4.00]'
-        ),
+        ("**GRADE**", {"GRADE": "GPA: 3.00/4.00"}, "#strong[GPA: 3.00/4.00]"),
     ],
 )
 def test_input_template_to_typst(

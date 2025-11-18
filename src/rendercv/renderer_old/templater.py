@@ -221,7 +221,11 @@ class TypstFile(TemplatedFile):
                         )
                     else:
                         arbitrary_keys = getattr(entry, "model_extra", None)
-                        placeholder_value = arbitrary_keys.get(lowercase_placeholder_key, None) if isinstance(arbitrary_keys, dict) else None
+                        placeholder_value = (
+                            arbitrary_keys.get(lowercase_placeholder_key, None)
+                            if isinstance(arbitrary_keys, dict)
+                            else None
+                        )
 
                     placeholders[placeholder_key] = (
                         placeholder_value if placeholder_value != "None" else None
