@@ -4,7 +4,7 @@ from functools import lru_cache
 
 
 @lru_cache(maxsize=64)
-def _build_regex(keywords_frozen: frozenset[str]) -> re.Pattern:
+def build_regex(keywords_frozen: frozenset[str]) -> re.Pattern:
     uniq = {k for k in keywords_frozen if k}
     if not uniq:
         # compile a regex that never matches
@@ -17,5 +17,5 @@ def _build_regex(keywords_frozen: frozenset[str]) -> re.Pattern:
 
 
 def make_keywords_bold(string: str, keywords: Iterable[str]) -> str:
-    regex = _build_regex(frozenset(keywords))
+    regex = build_regex(frozenset(keywords))
     return regex.sub(lambda m: f"**{m.group(0)}**", string)
