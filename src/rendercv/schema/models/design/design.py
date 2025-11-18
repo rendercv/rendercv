@@ -5,8 +5,8 @@ from typing import Annotated, Any
 import pydantic
 import pydantic_core
 
-from ...utils.context import get_input_file_path
-from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
+from ...context import get_input_file_path
+from ...custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .built_in_design import BuiltInDesign, built_in_design_adapter
 

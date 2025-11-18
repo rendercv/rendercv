@@ -5,8 +5,8 @@ from typing import Annotated, get_args
 
 import pydantic
 
-from ...utils.variant_class_generator import create_variant_class
-from ...utils.yaml_reader import read_yaml
+from ...variant_class_generator import create_variant_class
+from ...yaml_reader import read_yaml
 from .english_locale import EnglishLocale
 
 

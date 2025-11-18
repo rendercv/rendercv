@@ -5,8 +5,8 @@ from typing import Annotated, Literal, Self
 import pydantic
 import pydantic_core
 
-from .....utils.context import get_todays_date
-from .....utils.custom_pydantic_error_types import CustomPydanticErrorTypes
+from .....context import get_todays_date
+from .....custom_pydantic_error_types import CustomPydanticErrorTypes
 from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (

@@ -5,7 +5,7 @@ from typing import Literal
 import pydantic
 import pydantic_core
 
-from ...utils.custom_pydantic_error_types import CustomPydanticErrorTypes
+from ...custom_pydantic_error_types import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
 url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
