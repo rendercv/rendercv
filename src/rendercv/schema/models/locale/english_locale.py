@@ -79,9 +79,9 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         ),
     )
     # From https://web.library.yale.edu/cataloging/months
-    abbreviations_for_months: (
-        Annotated[list[str], at.Len(min_length=12, max_length=12)] | None
-    ) = pydantic.Field(
+    abbreviations_for_months: Annotated[
+        list[str], at.Len(min_length=12, max_length=12)
+    ] = pydantic.Field(
         default=[
             "Jan",
             "Feb",
@@ -98,22 +98,22 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         ],
         description="Abbreviations of the months in the locale.",
     )
-    full_names_of_months: (
-        Annotated[list[str], at.Len(min_length=12, max_length=12)] | None
-    ) = pydantic.Field(
-        default=[
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ],
-        description="Full names of the months in the locale.",
+    full_names_of_months: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
+        pydantic.Field(
+            default=[
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+            ],
+            description="Full names of the months in the locale.",
+        )
     )
