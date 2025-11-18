@@ -5,7 +5,7 @@ import jinja2
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .model_preprocessor import preprocess_model
+from .model_processor import process_model
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
 jinja2_environment = jinja2.Environment(
@@ -43,7 +43,7 @@ def template_rendercv_file(
         "markdown": "md",
     }[file_type]
 
-    rendercv_model = preprocess_model(rendercv_model, file_type)
+    rendercv_model = process_model(rendercv_model, file_type)
 
     preamble = render_template(f"{file_type}/Preamble.j2.{extension}", rendercv_model)
     header = render_template(f"{file_type}/Header.j2.{extension}", rendercv_model)
