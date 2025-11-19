@@ -27,10 +27,15 @@ class Cv(BaseModelWithoutExtraKeys):
         ),
         examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],
     )
-    email: pydantic.EmailStr | None = pydantic.Field(
+    email: pydantic.EmailStr | list[pydantic.EmailStr] | None = pydantic.Field(
         default=None,
-        description="Your email address.",
-        examples=["john.doe@example.com"],
+        description=(
+            "Your email address. Multiple email addresses may be provided as a list."
+        ),
+        examples=[
+            "john.doe@example.com",
+            ["john.doe.1@example.com", "john.doe.2@example.com"],
+        ],
     )
     photo: pathlib.Path | None = pydantic.Field(
         default=None,
@@ -40,18 +45,32 @@ class Cv(BaseModelWithoutExtraKeys):
         ),
         examples=["photo.jpg", "images/profile.png"],
     )
-    phone: pydantic_phone_numbers.PhoneNumber | None = pydantic.Field(
+    phone: (
+        pydantic_phone_numbers.PhoneNumber
+        | list[pydantic_phone_numbers.PhoneNumber]
+        | None
+    ) = pydantic.Field(
         default=None,
         description=(
             "Your phone number with country code. Use international format starting"
-            " with '+' (e.g., +1 for USA, +44 for UK)."
+            " with '+' (e.g., +1 for USA, +44 for UK). Multiple phone numbers may be"
+            " provided as a list."
         ),
-        examples=["+1-234-567-8900", "+44 20 1234 5678"],
+        examples=[
+            "+1-234-567-8900",
+            ["+1-234-567-8900", "+44 20 1234 5678"],
+        ],
     )
-    website: pydantic.HttpUrl | None = pydantic.Field(
+    website: pydantic.HttpUrl | list[pydantic.HttpUrl] | None = pydantic.Field(
         default=None,
-        description="Your personal website or portfolio URL.",
-        examples=["https://johndoe.com", "https://www.janesmith.dev"],
+        description=(
+            "Your personal website or portfolio URL. Multiple websites may be provided"
+            " as a list."
+        ),
+        examples=[
+            "https://johndoe.com",
+            ["https://johndoe.com", "https://www.janesmith.dev"],
+        ],
     )
     social_networks: list[SocialNetwork] | None = pydantic.Field(
         default=None,

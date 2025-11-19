@@ -17,29 +17,56 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
     for key in rendercv_model.cv._key_order:
         match key:
             case "email":
-                url = f"mailto:{rendercv_model.cv.email}"
-                body = str(rendercv_model.cv.email)
+                emails = rendercv_model.cv.email
+                if not isinstance(emails, list):
+                    emails = [emails]
+
+                for email in emails:
+                    url = f"mailto:{email}"
+                    body = str(email)
+                    connections.append(
+                        Connection(icon_specifier=key, url=url, body=body)
+                    )
+
             case "phone":
-                assert rendercv_model.cv.phone
-                url = str(rendercv_model.cv.phone)
-                body = phonenumbers.format_number(
-                    phonenumbers.parse(rendercv_model.cv.phone, None),
-                    getattr(
-                        phonenumbers.PhoneNumberFormat,
-                        rendercv_model.locale.phone_number_format.upper(),
-                    ),
-                )
+                phones = rendercv_model.cv.phone
+                assert phones is not None
+                if not isinstance(phones, list):
+                    phones = [phones]
+
+                for phone in phones:
+                    url = str(rendercv_model.cv.phone)
+                    body = phonenumbers.format_number(
+                        phonenumbers.parse(phone, None),
+                        getattr(
+                            phonenumbers.PhoneNumberFormat,
+                            rendercv_model.locale.phone_number_format.upper(),
+                        ),
+                    )
+                    connections.append(
+                        Connection(icon_specifier=key, url=url, body=body)
+                    )
+
             case "website":
-                assert rendercv_model.cv.website
-                url = str(rendercv_model.cv.website)
-                body = clean_url(rendercv_model.cv.website)
+                websites = rendercv_model.cv.website
+                assert websites
+                if not isinstance(websites, list):
+                    websites = [websites]
+
+                for website in websites:
+                    url = str(website)
+                    body = clean_url(website)
+                    connections.append(
+                        Connection(icon_specifier=key, url=url, body=body)
+                    )
+
             case "location":
                 url = None
                 body = str(rendercv_model.cv.location)
+                connections.append(Connection(icon_specifier=key, url=None, body=body))
+
             case _:
                 continue
-
-        connections.append(Connection(icon_specifier=key, url=url, body=body))
 
     if rendercv_model.cv.social_networks:
         for social_network in rendercv_model.cv.social_networks:

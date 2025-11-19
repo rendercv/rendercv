@@ -6,14 +6,14 @@ from ..base import BaseModelWithoutExtraKeys
 from .render_command import RenderCommand
 
 
-class RenderCVSettings(BaseModelWithoutExtraKeys):
-    date: datetime.date = pydantic.Field(
+class Settings(BaseModelWithoutExtraKeys):
+    current_date: datetime.date = pydantic.Field(
         default_factory=datetime.date.today,
         title="Date",
         description=(
-            "The date that will be used everywhere (e.g., in the output file names,"
-            " last updated date, computation of time spans for the events that are"
-            " currently happening, etc.). The default value is the today's date."
+            'The date RenderCV should treat as "today."It is used for output filenames,'
+            ' the "last updated" label, and any calculations that depend on the current'
+            " date (such as ongoing time spans). Defaults to the real current date."
         ),
         json_schema_extra={
             "default": None,
@@ -36,3 +36,8 @@ class RenderCVSettings(BaseModelWithoutExtraKeys):
             " empty list."
         ),
     )
+
+    @pydantic.field_validator("bold_keywords")
+    @classmethod
+    def keep_unique_keywords(cls, value: list[str]) -> list[str]:
+        return list(set(value))

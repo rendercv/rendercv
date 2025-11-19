@@ -5,12 +5,14 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
-from .date import compute_date_string
+from .date import compute_date_string, compute_last_updated_date
 from .text_processor import make_keywords_bold
 from .user_templates import get_user_templates
 
 
-def process_fields(entry: Entry, string_processors: list[Callable[[str], str]]) -> Entry:
+def process_fields(
+    entry: Entry, string_processors: list[Callable[[str], str]]
+) -> Entry:
     skipped_fields = ["start_date", "end_date", "date", "doi", "url"]
     for processor in string_processors:
         if isinstance(entry, str):
@@ -37,17 +39,19 @@ def process_model(
     rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
 ) -> RenderCVModel:
     string_processors = [
-        lambda string: make_keywords_bold(
-            string, rendercv_model.rendercv_settings.bold_keywords
-        )
+        lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keywords)
     ]
     if file_type == "typst":
         string_processors.extend([])
     elif file_type == "markdown":
         string_processors.extend([lambda string: string])
 
-    rendercv_model.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
-
+    rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
+    rendercv_model.cv.last_updated_date = compute_last_updated_date(  # pyright: ignore[reportAttributeAccessIssue]
+        rendercv_model.locale,
+        rendercv_model.settings.current_date,
+        rendercv_model.cv.name,
+    )
     if rendercv_model.cv.sections is None:
         return rendercv_model
 
@@ -58,7 +62,7 @@ def process_model(
                 string_processors,
             )
 
-            date_string = compute_date_string(entry)
+            date_string = compute_date_string(entry, rendercv_model.locale)
             if date_string:
                 entry.date_string = date_string  # pyright: ignore[reportAttributeAccessIssue]
 
