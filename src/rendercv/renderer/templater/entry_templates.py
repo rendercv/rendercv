@@ -50,7 +50,14 @@ def compute_entry_templates(
         placeholders["AUTHORS"] = handle_authors(placeholders["AUTHORS"])
 
     if "DATE" in placeholders:
-        placeholders["DATE"] = handle_date(entry, locale, show_time_spans, today)
+        placeholders["DATE"] = handle_date(
+            getattr(entry, "date", None),
+            getattr(entry, "start_date", None),
+            getattr(entry, "end_date", None),
+            locale,
+            show_time_spans,
+            today,
+        )
 
     if "URL" in placeholders:
         placeholders["URL"] = handle_url(entry)
@@ -74,11 +81,18 @@ def handle_authors(authors: list[str]) -> str:
 
 
 def handle_date(
-    entry: Entry, locale: Locale, show_time_spans: bool, today: Date | None
+    date: str | int | None,
+    start_date: str | int | None,
+    end_date: str | int | None,
+    locale: Locale,
+    show_time_spans: bool,
+    today: Date | None,
 ) -> str:
-    date_string = compute_date_string(entry, locale)
+    date_string = compute_date_string(date, start_date, end_date, locale)
     if show_time_spans:
-        time_span_string = compute_time_span_string(entry, locale, today)
+        time_span_string = compute_time_span_string(
+            date, start_date, end_date, locale, today
+        )
         if time_span_string:
             return f"{date_string}\n\n{time_span_string}"
     if date_string:
