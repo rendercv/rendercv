@@ -1,3 +1,4 @@
+import re
 from datetime import date as Date
 
 import pydantic
@@ -7,8 +8,7 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
 from .date import compute_date_string, compute_time_span_string
-from .regex import build_keyword_matcher_pattern
-from .text_processor import clean_url
+from .text_processor import build_keyword_matcher_pattern, clean_url
 
 
 def compute_entry_templates(
@@ -24,9 +24,23 @@ def compute_entry_templates(
     templates = {
         key: value.replace("\n", "\n\n")
         for key, value in entry_options.model_dump().items()
-        if key.endswith("_template") and isinstance(value, str)
+        if key.endswith("template") and isinstance(value, str)
     }
     placeholders = {key.upper(): value for key, value in entry.model_dump().items()}
+
+    not_provided_placeholders = find_uppercase_words(
+        " ".join(templates.values())
+    ) - set(placeholders.keys())
+
+    # Remove the not provided placeholders from the templates, including characters
+    # around them:
+    not_provided_placeholders_pattern = re.compile(
+        rf"\S*{'|'.join(not_provided_placeholders)}\S*"
+    )
+    templates = {
+        key: not_provided_placeholders_pattern.sub("", value)
+        for key, value in templates.items()
+    }
 
     # Handle special placeholders:
     if "HIGHLIGHTS" in placeholders:
@@ -42,6 +56,8 @@ def compute_entry_templates(
         placeholders["URL"] = handle_url(entry)
 
     pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
+
+    # All the uppercase placeholders in values of templates dict that are not in placeholders dict:
 
     return {
         key: pattern.sub(lambda match: placeholders[match.group(0)], value)
@@ -77,3 +93,10 @@ def handle_url(entry: Entry) -> str:
     if entry.url:
         return f"[{clean_url(entry.url)}]({entry.url})"
     return ""
+
+
+uppercase_word_pattern = re.compile(r"\b[A-Z]+\b")
+
+
+def find_uppercase_words(text: str) -> set[str]:
+    return set(uppercase_word_pattern.findall(text))

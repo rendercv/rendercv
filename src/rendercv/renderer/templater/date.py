@@ -8,7 +8,7 @@ from rendercv.schema.models.cv.entries.basis.entry_with_date import BaseEntryWit
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
-from .regex import build_keyword_matcher_pattern
+from .text_processor import build_keyword_matcher_pattern
 
 
 def compute_date_string(
@@ -154,24 +154,6 @@ def compute_last_updated_date(locale: Locale, today: Date, name: str | None) -> 
 
 
 def format_date(date: Date, locale: Locale) -> str:
-    """Formats a `Date` object to a string based on the `locale`.
-
-    Example:
-        ```python
-        format_date(Date(2024, 5, 1), EnglishLocale())
-        ```
-
-        will return
-
-        `"May 2024"`
-
-    Args:
-        date: The date to format.
-        locale: The locale to use for formatting the date.
-
-    Returns:
-        The formatted date.
-    """
     full_month_names = locale.full_names_of_months
     short_month_names = locale.abbreviations_for_months
 
