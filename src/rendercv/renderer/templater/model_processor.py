@@ -55,6 +55,11 @@ def process_model(
     if rendercv_model.cv.sections is None:
         return rendercv_model
 
+    sections_to_show_time_spans = [
+        section.title.lower().replace(" ", "_")
+        for section in rendercv_model.cv.rendercv_sections
+    ]
+
     for section in rendercv_model.cv.rendercv_sections:
         for entry in section.entries:
             entry_options = getattr(
@@ -63,8 +68,16 @@ def process_model(
                 None,
             )
             if entry_options:
+                show_time_spans = (
+                    section.title.lower().replace(" ", "_")
+                    in sections_to_show_time_spans
+                )
                 entry_templates = compute_entry_templates(
-                    entry, entry_options, rendercv_model.locale
+                    entry,
+                    entry_options,
+                    rendercv_model.locale,
+                    show_time_spans,
+                    rendercv_model.settings.current_date,
                 )
                 for template_name, template in entry_templates.items():
                     setattr(entry, template_name, template)

@@ -7,6 +7,15 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from .text_processor import clean_url
 
 
+def compute_connections(
+    rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
+) -> list[str]:
+    return {
+        "typst": compute_connections_for_typst,
+        "markdown": compute_connections_for_markdown,
+    }[file_type](rendercv_model)
+
+
 class Connection(TypedDict):
     icon_specifier: str
     url: str | None
@@ -138,12 +147,3 @@ def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]
         )
         for connection in connections
     ]
-
-
-def compute_connections(
-    rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
-) -> list[str]:
-    return {
-        "typst": compute_connections_for_typst,
-        "markdown": compute_connections_for_markdown,
-    }[file_type](rendercv_model)

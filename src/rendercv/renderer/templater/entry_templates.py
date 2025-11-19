@@ -1,10 +1,12 @@
+from datetime import date as Date
+
 import pydantic
 
 from rendercv.data import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import compute_date_string
+from .date import compute_date_string, compute_time_span_string
 from .regex import build_keyword_matcher_pattern
 from .text_processor import clean_url
 
@@ -13,6 +15,8 @@ def compute_entry_templates(
     entry: Entry,
     entry_options: pydantic.BaseModel,
     locale: Locale,
+    show_time_spans: bool,
+    today: Date | None,
 ) -> dict[str, str]:
     if isinstance(entry, str):
         return {}
@@ -32,7 +36,7 @@ def compute_entry_templates(
         placeholders["AUTHORS"] = handle_authors(placeholders["AUTHORS"])
 
     if "DATE" in placeholders:
-        placeholders["DATE"] = handle_date(entry, locale)
+        placeholders["DATE"] = handle_date(entry, locale, show_time_spans, today)
 
     if "URL" in placeholders:
         placeholders["URL"] = handle_url(entry)
@@ -53,8 +57,14 @@ def handle_authors(authors: list[str]) -> str:
     return ", ".join(authors)
 
 
-def handle_date(entry: Entry, locale: Locale) -> str:
+def handle_date(
+    entry: Entry, locale: Locale, show_time_spans: bool, today: Date | None
+) -> str:
     date_string = compute_date_string(entry, locale)
+    if show_time_spans:
+        time_span_string = compute_time_span_string(entry, locale, today)
+        if time_span_string:
+            return f"{date_string}\n\n{time_span_string}"
     if date_string:
         return date_string
     return ""
