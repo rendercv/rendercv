@@ -5,7 +5,7 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
-from .date import compute_date_string, compute_last_updated_date
+from .date import compute_last_updated_date
 from .entry_templates import compute_entry_templates
 from .text_processor import make_keywords_bold, markdown_to_typst
 
@@ -57,18 +57,21 @@ def process_model(
 
     for section in rendercv_model.cv.rendercv_sections:
         for entry in section.entries:
+            entry_options = getattr(
+                rendercv_model.design.entry_types,
+                section.entry_type,
+                None,
+            )
+            if entry_options:
+                entry_templates = compute_entry_templates(
+                    entry, entry_options, rendercv_model.locale
+                )
+                for template_name, template in entry_templates.items():
+                    setattr(entry, template_name, template)
+
             entry = process_fields(  # NOQA: PLW2901
                 entry,
                 string_processors,
             )
-
-            date_string = compute_date_string(entry, rendercv_model.locale)
-            if date_string:
-                entry.date_string = date_string  # pyright: ignore[reportAttributeAccessIssue]
-
-            user_templates = compute_entry_templates(entry)
-            if user_templates:
-                for template_name, template in user_templates.items():
-                    setattr(entry, template_name, template)
 
     return rendercv_model

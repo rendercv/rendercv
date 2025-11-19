@@ -1,5 +1,7 @@
 import re
 
+import pydantic
+
 from .regex import build_keyword_matcher_pattern
 
 
@@ -71,3 +73,26 @@ def process_formatting(text: str) -> str:
 
     # *text* -> #emph[text] (italic)
     return re.sub(r"\*(?!\s)(.+?)(?<!\s)\*", r"#emph[\1]", text, flags=re.DOTALL)
+
+
+def clean_url(url: str | pydantic.HttpUrl) -> str:
+    """Make a URL clean by removing the protocol, www, and trailing slashes.
+
+    Example:
+        ```python
+        make_a_url_clean("https://www.example.com/")
+        ```
+        returns
+        `"example.com"`
+
+    Args:
+        url: The URL to make clean.
+
+    Returns:
+        The clean URL.
+    """
+    url = str(url).replace("https://", "").replace("http://", "")
+    if url.endswith("/"):
+        url = url[:-1]
+
+    return url
