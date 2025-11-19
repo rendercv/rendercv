@@ -19,12 +19,12 @@ def read_input_file(file_path_or_contents: pathlib.Path | str) -> RenderCVModel:
     """
     input_as_dictionary = read_yaml(file_path_or_contents)
 
-    return validate_input_dictionary_and_return_rendercv_pydantic_model(
+    return validate_input_dictionary_and_return_rendercv_model(
         input_as_dictionary
     )
 
 
-def validate_input_dictionary_and_return_rendercv_pydantic_model(
+def validate_input_dictionary_and_return_rendercv_model(
     input_dictionary: dict,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:

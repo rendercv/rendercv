@@ -159,19 +159,14 @@
           "title": "Location"
         },
         "email": {
-          "anyOf": [
-            {
-              "format": "email",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": null,
-          "description": "Your email address.",
+          "description": "Your email address. Multiple email addresses may be provided as a list.",
           "examples": [
-            "john.doe@example.com"
+            "john.doe@example.com",
+            [
+              "john.doe.1@example.com",
+              "john.doe.2@example.com"
+            ]
           ],
           "title": "Email"
         },
@@ -194,40 +189,26 @@
           "title": "Photo"
         },
         "phone": {
-          "anyOf": [
-            {
-              "format": "phone",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": null,
-          "description": "Your phone number with country code. Use international format starting with '+' (e.g., +1 for USA, +44 for UK).",
+          "description": "Your phone number with country code. Use international format starting with '+' (e.g., +1 for USA, +44 for UK). Multiple phone numbers may be provided as a list.",
           "examples": [
             "+1-234-567-8900",
-            "+44 20 1234 5678"
+            [
+              "+1-234-567-8900",
+              "+44 20 1234 5678"
+            ]
           ],
           "title": "Phone"
         },
         "website": {
-          "anyOf": [
-            {
-              "format": "uri",
-              "maxLength": 2083,
-              "minLength": 1,
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": null,
-          "description": "Your personal website or portfolio URL.",
+          "description": "Your personal website or portfolio URL. Multiple websites may be provided as a list.",
           "examples": [
             "https://johndoe.com",
-            "https://www.janesmith.dev"
+            [
+              "https://johndoe.com",
+              "https://www.janesmith.dev"
+            ]
           ],
           "title": "Website"
         },
@@ -534,22 +515,15 @@
           "type": "string"
         },
         "phone_number_format": {
-          "anyOf": [
-            {
-              "enum": [
-                "national",
-                "international",
-                "E164"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "national",
           "description": "If 'national', phone numbers are formatted without the country code. If 'international', phone numbers are formatted with the country code. The default value is 'national'.",
-          "title": "Phone Number Format"
+          "enum": [
+            "national",
+            "international",
+            "E164"
+          ],
+          "title": "Phone Number Format",
+          "type": "string"
         },
         "page_numbering_template": {
           "default": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
@@ -564,110 +538,48 @@
           "type": "string"
         },
         "date_template": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "MONTH_ABBREVIATION YEAR",
           "description": "The template of the date.\n\nThe following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)",
-          "title": "Date Template"
+          "title": "Date Template",
+          "type": "string"
         },
         "month": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "month",
           "description": "Translation of the word \"month\" in the locale.",
-          "title": "Month"
+          "title": "Month",
+          "type": "string"
         },
         "months": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "months",
           "description": "Translation of the word \"months\" in the locale.",
-          "title": "Months"
+          "title": "Months",
+          "type": "string"
         },
         "year": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "year",
           "description": "Translation of the word \"year\" in the locale.",
-          "title": "Year"
+          "title": "Year",
+          "type": "string"
         },
         "years": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "years",
           "description": "Translation of the word \"years\" in the locale.",
-          "title": "Years"
+          "title": "Years",
+          "type": "string"
         },
         "present": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "present",
           "description": "Translation of the word \"present\" in the locale.",
-          "title": "Present"
+          "title": "Present",
+          "type": "string"
         },
         "to": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "–",
           "description": "The word or character used to indicate a range in the locale (e.g., \"2020 - 2021\").",
-          "title": "To"
+          "title": "To",
+          "type": "string"
         },
         "abbreviations_for_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "Jan",
             "Feb",
@@ -683,22 +595,15 @@
             "Dec"
           ],
           "description": "Abbreviations of the months in the locale.",
-          "title": "Abbreviations For Months"
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Abbreviations For Months",
+          "type": "array"
         },
         "full_names_of_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "January",
             "February",
@@ -714,7 +619,13 @@
             "December"
           ],
           "description": "Full names of the months in the locale.",
-          "title": "Full Names Of Months"
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Full Names Of Months",
+          "type": "array"
         }
       },
       "title": "EnglishLocale",
@@ -1008,22 +919,15 @@
           "type": "string"
         },
         "phone_number_format": {
-          "anyOf": [
-            {
-              "enum": [
-                "national",
-                "international",
-                "E164"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "national",
           "description": "If 'national', phone numbers are formatted without the country code. If 'international', phone numbers are formatted with the country code. The default value is 'national'.",
-          "title": "Phone Number Format"
+          "enum": [
+            "national",
+            "international",
+            "E164"
+          ],
+          "title": "Phone Number Format",
+          "type": "string"
         },
         "page_numbering_template": {
           "default": "NAME - 第 PAGE_NUMBER 页，共 TOTAL_PAGES 页",
@@ -1038,110 +942,48 @@
           "type": "string"
         },
         "date_template": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "YEAR 年 MONTH_ABBREVIATION",
           "description": "The template of the date.\n\nThe following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)",
-          "title": "Date Template"
+          "title": "Date Template",
+          "type": "string"
         },
         "month": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "个月",
           "description": "Translation of the word \"month\" in the locale.",
-          "title": "Month"
+          "title": "Month",
+          "type": "string"
         },
         "months": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "个月",
           "description": "Translation of the word \"months\" in the locale.",
-          "title": "Months"
+          "title": "Months",
+          "type": "string"
         },
         "year": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "年",
           "description": "Translation of the word \"year\" in the locale.",
-          "title": "Year"
+          "title": "Year",
+          "type": "string"
         },
         "years": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "年",
           "description": "Translation of the word \"years\" in the locale.",
-          "title": "Years"
+          "title": "Years",
+          "type": "string"
         },
         "present": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "至今",
           "description": "Translation of the word \"present\" in the locale.",
-          "title": "Present"
+          "title": "Present",
+          "type": "string"
         },
         "to": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "–",
           "description": "The word or character used to indicate a range in the locale (e.g., \"2020 - 2021\").",
-          "title": "To"
+          "title": "To",
+          "type": "string"
         },
         "abbreviations_for_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "1月",
             "2月",
@@ -1157,22 +999,13 @@
             "12月"
           ],
           "description": "Abbreviations of the months in the locale.",
-          "title": "Abbreviations For Months"
+          "items": {
+            "type": "string"
+          },
+          "title": "Abbreviations For Months",
+          "type": "array"
         },
         "full_names_of_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "一月",
             "二月",
@@ -1188,7 +1021,11 @@
             "十二月"
           ],
           "description": "Full names of the months in the locale.",
-          "title": "Full Names Of Months"
+          "items": {
+            "type": "string"
+          },
+          "title": "Full Names Of Months",
+          "type": "array"
         }
       },
       "title": "MandarinChineeseLocale",
@@ -1546,28 +1383,10 @@
     "PublicationEntryOptions": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**TITLE**",
+        "main_column_template": {
+          "default": "**TITLE**\nAUTHORS\nURL (JOURNAL)",
           "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**TITLE**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "AUTHORS\nURL (JOURNAL)",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `AUTHORS\nURL (JOURNAL)`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_without_journal_template": {
-          "default": "AUTHORS\nURL",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `AUTHORS\nURL`.",
-          "title": "Main Column Second Row Without Journal Template",
-          "type": "string"
-        },
-        "main_column_second_row_without_url_template": {
-          "default": "AUTHORS\nJOURNAL",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `AUTHORS\nJOURNAL`.",
-          "title": "Main Column Second Row Without Url Template",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -1578,59 +1397,6 @@
         }
       },
       "title": "PublicationEntryOptions",
-      "type": "object"
-    },
-    "RenderCVSettings": {
-      "additionalProperties": false,
-      "properties": {
-        "date": {
-          "default": null,
-          "description": "The date that will be used everywhere (e.g., in the output file names, last updated date, computation of time spans for the events that are currently happening, etc.). The default value is the today's date.",
-          "format": "date",
-          "title": "Date",
-          "type": "string"
-        },
-        "render_command": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/RenderCommand"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "RenderCV's `render` command settings. They are the same as the command line arguments. CLI arguments have higher priority than the settings in the input file.",
-          "title": "Render Command Settings"
-        },
-        "bold_keywords": {
-          "default": [],
-          "description": "The keywords that will be bold in the output. The default value is an empty list.",
-          "items": {
-            "type": "string"
-          },
-          "title": "Bold Keywords",
-          "type": "array"
-        },
-        "sort_entries": {
-          "anyOf": [
-            {
-              "enum": [
-                "reverse-chronological",
-                "chronological"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "How the entries should be sorted based on their dates. The available options are 'reverse-chronological', 'chronological', or `null`. The default value is `null`.",
-          "title": "Sort Entries"
-        }
-      },
-      "title": "RenderCVSettings",
       "type": "object"
     },
     "RenderCommand": {
@@ -1838,29 +1604,48 @@
     "Section": {
       "$ref": "#/$defs/ListOfEntries"
     },
+    "Settings": {
+      "additionalProperties": false,
+      "properties": {
+        "current_date": {
+          "default": null,
+          "description": "The date RenderCV should treat as \"today.\"It is used for output filenames, the \"last updated\" label, and any calculations that depend on the current date (such as ongoing time spans). Defaults to the real current date.",
+          "format": "date",
+          "title": "Date",
+          "type": "string"
+        },
+        "render_command": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RenderCommand"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "RenderCV's `render` command settings. They are the same as the command line arguments. CLI arguments have higher priority than the settings in the input file.",
+          "title": "Render Command Settings"
+        },
+        "bold_keywords": {
+          "default": [],
+          "description": "The keywords that will be bold in the output. The default value is an empty list.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Bold Keywords",
+          "type": "array"
+        }
+      },
+      "title": "Settings",
+      "type": "object"
+    },
     "SocialNetwork": {
       "additionalProperties": false,
       "properties": {
         "network": {
-          "description": "The name of the social network or platform.",
-          "enum": [
-            "LinkedIn",
-            "GitHub",
-            "GitLab",
-            "IMDB",
-            "Instagram",
-            "ORCID",
-            "Mastodon",
-            "StackOverflow",
-            "ResearchGate",
-            "YouTube",
-            "Google Scholar",
-            "Telegram",
-            "Leetcode",
-            "X"
-          ],
-          "title": "Network",
-          "type": "string"
+          "$ref": "#/$defs/SocialNetworkName",
+          "description": "The name of the social network or platform."
         },
         "username": {
           "description": "Your username on the platform.",
@@ -1880,6 +1665,25 @@
       "title": "SocialNetwork",
       "type": "object"
     },
+    "SocialNetworkName": {
+      "enum": [
+        "LinkedIn",
+        "GitHub",
+        "GitLab",
+        "IMDB",
+        "Instagram",
+        "ORCID",
+        "Mastodon",
+        "StackOverflow",
+        "ResearchGate",
+        "YouTube",
+        "Google Scholar",
+        "Telegram",
+        "Leetcode",
+        "X"
+      ],
+      "type": "string"
+    },
     "TurkishLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1891,22 +1695,15 @@
           "type": "string"
         },
         "phone_number_format": {
-          "anyOf": [
-            {
-              "enum": [
-                "national",
-                "international",
-                "E164"
-              ],
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "national",
           "description": "If 'national', phone numbers are formatted without the country code. If 'international', phone numbers are formatted with the country code. The default value is 'national'.",
-          "title": "Phone Number Format"
+          "enum": [
+            "national",
+            "international",
+            "E164"
+          ],
+          "title": "Phone Number Format",
+          "type": "string"
         },
         "page_numbering_template": {
           "default": "NAME - Sayfa PAGE_NUMBER / TOTAL_PAGES",
@@ -1921,110 +1718,48 @@
           "type": "string"
         },
         "date_template": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "MONTH_ABBREVIATION YEAR",
           "description": "The template of the date.\n\nThe following placeholders can be used:\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)",
-          "title": "Date Template"
+          "title": "Date Template",
+          "type": "string"
         },
         "month": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "ay",
           "description": "Translation of the word \"month\" in the locale.",
-          "title": "Month"
+          "title": "Month",
+          "type": "string"
         },
         "months": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "ay",
           "description": "Translation of the word \"months\" in the locale.",
-          "title": "Months"
+          "title": "Months",
+          "type": "string"
         },
         "year": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "yıl",
           "description": "Translation of the word \"year\" in the locale.",
-          "title": "Year"
+          "title": "Year",
+          "type": "string"
         },
         "years": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "yıl",
           "description": "Translation of the word \"years\" in the locale.",
-          "title": "Years"
+          "title": "Years",
+          "type": "string"
         },
         "present": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "halen",
           "description": "Translation of the word \"present\" in the locale.",
-          "title": "Present"
+          "title": "Present",
+          "type": "string"
         },
         "to": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": "–",
           "description": "The word or character used to indicate a range in the locale (e.g., \"2020 - 2021\").",
-          "title": "To"
+          "title": "To",
+          "type": "string"
         },
         "abbreviations_for_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "Oca",
             "Şub",
@@ -2040,22 +1775,13 @@
             "Ara"
           ],
           "description": "Abbreviations of the months in the locale.",
-          "title": "Abbreviations For Months"
+          "items": {
+            "type": "string"
+          },
+          "title": "Abbreviations For Months",
+          "type": "array"
         },
         "full_names_of_months": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "maxItems": 12,
-              "minItems": 12,
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
           "default": [
             "Ocak",
             "Şubat",
@@ -2071,7 +1797,11 @@
             "Aralık"
           ],
           "description": "Full names of the months in the locale.",
-          "title": "Full Names Of Months"
+          "items": {
+            "type": "string"
+          },
+          "title": "Full Names Of Months",
+          "type": "array"
         }
       },
       "title": "TurkishLocale",
@@ -2296,10 +2026,10 @@
     "rendercv__schema__models__design__classic_theme__EducationEntryOptions__1": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, AREA",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, AREA`.",
-          "title": "Main Column First Row Template",
+        "main_column_template": {
+          "default": "**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "degree_column_template": {
@@ -2320,12 +2050,6 @@
           "default": "1cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
-        },
         "date_and_location_column_template": {
           "default": "LOCATION\nDATE",
           "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `LOCATION\nDATE`.",
@@ -2339,10 +2063,10 @@
     "rendercv__schema__models__design__classic_theme__EducationEntryOptions__2": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION`.",
-          "title": "Main Column First Row Template",
+        "main_column_template": {
+          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "degree_column_template": {
@@ -2362,12 +2086,6 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
@@ -2382,10 +2100,10 @@
     "rendercv__schema__models__design__classic_theme__EducationEntryOptions__3": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION`.",
-          "title": "Main Column First Row Template",
+        "main_column_template": {
+          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "degree_column_template": {
@@ -2405,12 +2123,6 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
@@ -2425,10 +2137,10 @@
     "rendercv__schema__models__design__classic_theme__EducationEntryOptions__4": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION`.",
-          "title": "Main Column First Row Template",
+        "main_column_template": {
+          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "degree_column_template": {
@@ -2448,12 +2160,6 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
         },
         "date_and_location_column_template": {
           "default": "DATE",
@@ -2468,10 +2174,10 @@
     "rendercv__schema__models__design__classic_theme__EducationEntryOptions__5": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**INSTITUTION**\n*DEGREE in AREA*",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**\n*DEGREE in AREA*`.",
-          "title": "Main Column First Row Template",
+        "main_column_template": {
+          "default": "**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "degree_column_template": {
@@ -2491,12 +2197,6 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
-          "type": "string"
         },
         "date_and_location_column_template": {
           "default": "*LOCATION*\n*DATE*",
@@ -2807,16 +2507,10 @@
     "rendercv__schema__models__design__classic_theme__ExperienceEntryOptions__1": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**COMPANY**, POSITION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**COMPANY**, POSITION`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -2832,16 +2526,10 @@
     "rendercv__schema__models__design__classic_theme__ExperienceEntryOptions__2": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -2857,16 +2545,10 @@
     "rendercv__schema__models__design__classic_theme__ExperienceEntryOptions__3": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -2882,16 +2564,10 @@
     "rendercv__schema__models__design__classic_theme__ExperienceEntryOptions__4": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**, COMPANY -- LOCATION",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -2907,16 +2583,10 @@
     "rendercv__schema__models__design__classic_theme__ExperienceEntryOptions__5": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**POSITION**\n*COMPANY*",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**\n*COMPANY*`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**POSITION**\n*COMPANY*\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**POSITION**\n*COMPANY*\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -3652,16 +3322,10 @@
     "rendercv__schema__models__design__classic_theme__NormalEntryOptions__1": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME**",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**NAME**\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME**\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -3677,16 +3341,10 @@
     "rendercv__schema__models__design__classic_theme__NormalEntryOptions__2": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -3702,16 +3360,10 @@
     "rendercv__schema__models__design__classic_theme__NormalEntryOptions__3": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -3727,16 +3379,10 @@
     "rendercv__schema__models__design__classic_theme__NormalEntryOptions__4": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME** -- **LOCATION**",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -3752,16 +3398,10 @@
     "rendercv__schema__models__design__classic_theme__NormalEntryOptions__5": {
       "additionalProperties": false,
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**NAME**",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME**`.",
-          "title": "Main Column First Row Template",
-          "type": "string"
-        },
-        "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `SUMMARY\nHIGHLIGHTS`.",
-          "title": "Main Column Second Row Template",
+        "main_column_template": {
+          "default": "**NAME**\nSUMMARY\nHIGHLIGHTS",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**NAME**\nSUMMARY\nHIGHLIGHTS`.",
+          "title": "Main Column Template",
           "type": "string"
         },
         "date_and_location_column_template": {
@@ -4454,8 +4094,8 @@
       "description": "The locale catalog of the CV to allow the support of multiple languages.",
       "title": "Locale Catalog"
     },
-    "rendercv_settings": {
-      "$ref": "#/$defs/RenderCVSettings",
+    "settings": {
+      "$ref": "#/$defs/Settings",
       "description": "The settings of the RenderCV.",
       "title": "RenderCV Settings"
     }

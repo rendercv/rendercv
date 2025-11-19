@@ -20,11 +20,11 @@ design:
     bullet: "◦"
   entry_types:
     education_entry:
-      main_column_first_row_template: "**INSTITUTION**\n*DEGREE in AREA*"
+      main_column_template: "**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS"
       degree_column_template: null
       date_and_location_column_template: "*LOCATION*\n*DATE*"
     normal_entry:
       date_and_location_column_template: "*LOCATION*\n*DATE*"
     experience_entry:
-      main_column_first_row_template: "**POSITION**\n*COMPANY*"
+      main_column_template: "**POSITION**\n*COMPANY*\nSUMMARY\nHIGHLIGHTS"
       date_and_location_column_template: "*LOCATION*\n*DATE*"

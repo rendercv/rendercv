@@ -32,12 +32,12 @@ design:
     vertical_space_between_highlights: "0.19cm"
   entry_types:
     education_entry:
-      main_column_first_row_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION"
+      main_column_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
       date_and_location_column_template: DATE
       degree_column_template: null
     normal_entry:
-      main_column_first_row_template: "**NAME** -- **LOCATION**"
+      main_column_template: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
       date_and_location_column_template: DATE
     experience_entry:
-      main_column_first_row_template: "**POSITION**, COMPANY -- LOCATION"
+      main_column_template: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
       date_and_location_column_template: DATE

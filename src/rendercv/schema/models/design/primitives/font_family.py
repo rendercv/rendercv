@@ -4,7 +4,7 @@ import pydantic
 import pydantic_core
 
 from ....context import get_input_file_path
-from ....custom_pydantic_error_types import CustomPydanticErrorTypes
+from ....pydantic_error_handling import CustomPydanticErrorTypes
 
 available_font_families = sorted(
     [

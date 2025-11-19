@@ -3,7 +3,9 @@ cv:
   name: John Doe
   website: not_a_valid_url
   phone: not_a_valid_phone_number
-  email: not_a_valid_email
+  email: 
+    - not_a_valid_email
+    - not_a_valid_email_2
   photo: photo_doesnt_exist.jpg
   social_networks:
     - network: LinkedIn
