@@ -6,7 +6,7 @@ from typing import Annotated, Any, Literal, get_args
 import pydantic
 import pydantic_core
 
-from ...custom_pydantic_error_types import CustomPydanticErrorTypes
+from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .entries.bullet import BulletEntry
 from .entries.education import EducationEntry

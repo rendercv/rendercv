@@ -7,10 +7,17 @@ import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ...context import get_input_file_path
-from ...custom_pydantic_error_types import CustomPydanticErrorTypes
+from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
+
+email_validator = pydantic.TypeAdapter(pydantic.EmailStr)
+emails_validator = pydantic.TypeAdapter(list[pydantic.EmailStr])
+website_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
+websites_validator = pydantic.TypeAdapter(list[pydantic.HttpUrl])
+phone_validator = pydantic.TypeAdapter(pydantic_phone_numbers.PhoneNumber)
+phones_validator = pydantic.TypeAdapter(list[pydantic_phone_numbers.PhoneNumber])
 
 
 class Cv(BaseModelWithoutExtraKeys):
@@ -139,6 +146,47 @@ class Cv(BaseModelWithoutExtraKeys):
         instance._key_order = [key for key in key_order if data.get(key) is not None]
 
         return instance
+
+    @pydantic.field_validator("website", "email", "phone", mode="plain")
+    @classmethod
+    def validate_list_or_scalar_fields(
+        cls, value: Any, info: pydantic.ValidationInfo
+    ) -> (
+        pydantic.EmailStr
+        | pydantic.HttpUrl
+        | pydantic_phone_numbers.PhoneNumber
+        | list[pydantic.EmailStr]
+        | list[pydantic.HttpUrl]
+        | list[pydantic_phone_numbers.PhoneNumber]
+    ):
+        """We have this custom plain validator to have better error messages. For
+        example, we don't want to raise regular email validation error, when the input
+        is clearly a list."""
+        assert info.field_name is not None
+        validators: tuple[
+            pydantic.TypeAdapter[pydantic.EmailStr]
+            | pydantic.TypeAdapter[pydantic.HttpUrl]
+            | pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber],
+            (
+                pydantic.TypeAdapter[list[pydantic.EmailStr]]
+                | pydantic.TypeAdapter[list[pydantic.HttpUrl]]
+                | pydantic.TypeAdapter[list[pydantic_phone_numbers.PhoneNumber]]
+            ),
+        ] = {
+            "website": (website_validator, websites_validator),
+            "email": (email_validator, emails_validator),
+            "phone": (phone_validator, phones_validator),
+        }[info.field_name]
+
+        if isinstance(value, list):
+            return validators[1].validate_python(value)
+        if isinstance(value, str):
+            return validators[0].validate_strings(value)
+        raise pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.other.value,
+            "`{field_name}` must be provided as a string or a list of strings.",
+            {"field_name": info.field_name},
+        )
 
     @pydantic.field_serializer("phone")
     def serialize_phone(
