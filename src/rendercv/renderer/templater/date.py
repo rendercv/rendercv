@@ -1,53 +1,48 @@
 from datetime import date as Date
 
 from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
-    BaseEntryWithComplexFields,
     get_date_object,
 )
-from rendercv.schema.models.cv.entries.basis.entry_with_date import BaseEntryWithDate
-from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
 from .text_processor import build_keyword_matcher_pattern
 
 
 def compute_date_string(
-    entry: Entry,
+    date: str | int | None,
+    start_date: str | int | None,
+    end_date: str | int | None,
     locale: Locale,
 ) -> str | None:
-    if isinstance(entry, BaseEntryWithDate) and entry.date is not None:
-        if isinstance(entry.date, int):
+    if date is not None:
+        if isinstance(date, int):
             # Only year is provided
-            date_string = str(entry.date)
+            date_string = str(date)
         else:
             try:
-                date_object = get_date_object(entry.date)
+                date_object = get_date_object(date)
                 date_string = format_date(date_object, locale)
             except ValueError:
                 # Then it is a custom date string (e.g., "My Custom Date")
-                date_string = str(entry.date)
+                date_string = str(date)
 
-    elif (
-        isinstance(entry, BaseEntryWithComplexFields)
-        and entry.start_date is not None
-        and entry.end_date is not None
-    ):
-        if isinstance(entry.start_date, int):
+    elif start_date is not None and end_date is not None:
+        if isinstance(start_date, int):
             # Then it means only the year is provided
-            start_date = str(entry.start_date)
+            start_date = str(start_date)
         else:
             # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
-            date_object = get_date_object(entry.start_date)
+            date_object = get_date_object(start_date)
             start_date = format_date(date_object, locale)
 
-        if entry.end_date == "present":
+        if end_date == "present":
             end_date = locale.present
-        elif isinstance(entry.end_date, int):
+        elif isinstance(end_date, int):
             # Then it means only the year is provided
-            end_date = str(entry.end_date)
+            end_date = str(end_date)
         else:
             # Then it means end_date is either in YYYY-MM-DD or YYYY-MM format
-            date_object = get_date_object(entry.end_date)
+            date_object = get_date_object(end_date)
             end_date = format_date(date_object, locale)
 
         if locale.to:
@@ -62,23 +57,16 @@ def compute_date_string(
 
 
 def compute_time_span_string(
-    entry: Entry,
+    date: str | int | None,
+    start_date: str | int | None,
+    end_date: str | int | None,
     locale: Locale,
     today: Date | None,
 ) -> str | None:
-    if not isinstance(entry, BaseEntryWithComplexFields):
-        return None
-
-    date = entry.date
-    start_date = entry.start_date
-    end_date = entry.end_date
-
-    if date is not None:
+    if date is not None or start_date is None or end_date is None:
         # If only the date is provided, the time span is irrelevant. So, return an
         # empty string.
-        return None
 
-    if start_date is None or end_date is None:
         # If neither start_date nor end_date is provided, return an empty string.
         return None
 
