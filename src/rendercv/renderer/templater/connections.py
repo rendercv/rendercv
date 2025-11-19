@@ -1,9 +1,10 @@
 from typing import Literal, TypedDict
 
 import phonenumbers
-import pydantic
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
+
+from .text_processor import clean_url
 
 
 class Connection(TypedDict):
@@ -77,29 +78,6 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
             )
 
     return connections
-
-
-def clean_url(url: str | pydantic.HttpUrl) -> str:
-    """Make a URL clean by removing the protocol, www, and trailing slashes.
-
-    Example:
-        ```python
-        make_a_url_clean("https://www.example.com/")
-        ```
-        returns
-        `"example.com"`
-
-    Args:
-        url: The URL to make clean.
-
-    Returns:
-        The clean URL.
-    """
-    url = str(url).replace("https://", "").replace("http://", "")
-    if url.endswith("/"):
-        url = url[:-1]
-
-    return url
 
 
 typst_fa_icons = {
