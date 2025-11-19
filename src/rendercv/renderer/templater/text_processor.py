@@ -1,8 +1,7 @@
+import functools
 import re
 
 import pydantic
-
-from .regex import build_keyword_matcher_pattern
 
 
 def make_keywords_bold(string: str, keywords: list[str]) -> str:
@@ -60,19 +59,22 @@ def markdown_to_typst(markdown_string: str) -> str:
     return text
 
 
+bold_and_italic_pattern = re.compile(r"\*\*\*(?!\s)(.+?)(?<!\s)\*\*\*")
+bold_pattern = re.compile(r"\*\*(?!\s)(.+?)(?<!\s)\*\*")
+italic_pattern = re.compile(r"\*(?!\s)(.+?)(?<!\s)\*")
+
+
 def process_formatting(text: str) -> str:
     # Order matters! Process longer patterns first to avoid conflicts
 
     # ***text*** -> #strong[#emph[text]] (bold + italic)
-    text = re.sub(
-        r"\*\*\*(?!\s)(.+?)(?<!\s)\*\*\*", r"#strong[#emph[\1]]", text, flags=re.DOTALL
-    )
+    text = re.sub(bold_and_italic_pattern, r"#strong[#emph[\1]]", text, flags=re.DOTALL)
 
     # **text** -> #strong[text] (bold)
-    text = re.sub(r"\*\*(?!\s)(.+?)(?<!\s)\*\*", r"#strong[\1]", text, flags=re.DOTALL)
+    text = re.sub(bold_pattern, r"#strong[\1]", text, flags=re.DOTALL)
 
     # *text* -> #emph[text] (italic)
-    return re.sub(r"\*(?!\s)(.+?)(?<!\s)\*", r"#emph[\1]", text, flags=re.DOTALL)
+    return re.sub(italic_pattern, r"#emph[\1]", text, flags=re.DOTALL)
 
 
 def clean_url(url: str | pydantic.HttpUrl) -> str:
@@ -96,3 +98,13 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
         url = url[:-1]
 
     return url
+
+
+@functools.lru_cache(maxsize=64)
+def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
+    pattern = (
+        r"\b("
+        + "|".join(sorted(map(re.escape, keywords), key=len, reverse=True))
+        + r")\b"
+    )
+    return re.compile(pattern)

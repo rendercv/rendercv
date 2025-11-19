@@ -453,11 +453,6 @@ template_common_description = (
 
 
 class BaseEntryWithDateOptions(BaseModelWithoutExtraKeys):
-    main_column_second_row_template: str = pydantic.Field(
-        default="SUMMARY\nHIGHLIGHTS",
-        description=template_common_description
-        + " The default value is `SUMMARY\nHIGHLIGHTS`.",
-    )
     date_and_location_column_template: str = pydantic.Field(
         default="LOCATION\nDATE",
         description=template_common_description
@@ -466,24 +461,9 @@ class BaseEntryWithDateOptions(BaseModelWithoutExtraKeys):
 
 
 class PublicationEntryOptions(BaseModelWithoutExtraKeys):
-    main_column_first_row_template: str = pydantic.Field(
-        default="**TITLE**",
+    main_column_template: str = pydantic.Field(
+        default="**TITLE**\nAUTHORS\nURL (JOURNAL)",
         description=template_common_description + " The default value is `**TITLE**`.",
-    )
-    main_column_second_row_template: str = pydantic.Field(
-        default="AUTHORS\nURL (JOURNAL)",
-        description=template_common_description
-        + " The default value is `AUTHORS\nURL (JOURNAL)`.",
-    )
-    main_column_second_row_without_journal_template: str = pydantic.Field(
-        default="AUTHORS\nURL",
-        description=template_common_description
-        + " The default value is `AUTHORS\nURL`.",
-    )
-    main_column_second_row_without_url_template: str = pydantic.Field(
-        default="AUTHORS\nJOURNAL",
-        description=template_common_description
-        + " The default value is `AUTHORS\nJOURNAL`.",
     )
     date_and_location_column_template: str = pydantic.Field(
         default="DATE",
@@ -492,10 +472,10 @@ class PublicationEntryOptions(BaseModelWithoutExtraKeys):
 
 
 class BaseEducationEntryOptions(BaseModelWithoutExtraKeys):
-    main_column_first_row_template: str = pydantic.Field(
-        default="**INSTITUTION**, AREA",
+    main_column_template: str = pydantic.Field(
+        default="**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS",
         description=template_common_description
-        + " The default value is `**INSTITUTION**, AREA`.",
+        + " The default value is `**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS`.",
     )
     degree_column_template: str | None = pydantic.Field(
         default="**DEGREE**",
@@ -517,9 +497,10 @@ class EducationEntryOptions(BaseEntryWithDateOptions, BaseEducationEntryOptions)
 
 
 class BaseNormalEntryOptions(BaseModelWithoutExtraKeys):
-    main_column_first_row_template: str = pydantic.Field(
-        default="**NAME**",
-        description=template_common_description + " The default value is `**NAME**`.",
+    main_column_template: str = pydantic.Field(
+        default="**NAME**\nSUMMARY\nHIGHLIGHTS",
+        description=template_common_description
+        + " The default value is `**NAME**\nSUMMARY\nHIGHLIGHTS`.",
     )
 
 
@@ -528,10 +509,10 @@ class NormalEntryOptions(BaseEntryWithDateOptions, BaseNormalEntryOptions):
 
 
 class BaseExperienceEntryOptions(BaseModelWithoutExtraKeys):
-    main_column_first_row_template: str = pydantic.Field(
-        default="**COMPANY**, POSITION",
+    main_column_template: str = pydantic.Field(
+        default="**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS",
         description=template_common_description
-        + " The default value is `**COMPANY**, POSITION`.",
+        + " The default value is `**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS`.",
     )
 
 
