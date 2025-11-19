@@ -6,8 +6,8 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
 from .date import compute_date_string, compute_last_updated_date
-from .text_processor import make_keywords_bold
-from .user_templates import get_user_templates
+from .entry_templates import compute_entry_templates
+from .text_processor import make_keywords_bold, markdown_to_typst
 
 
 def process_fields(
@@ -38,13 +38,13 @@ def process_fields(
 def process_model(
     rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
 ) -> RenderCVModel:
-    string_processors = [
+    string_processors: list[Callable[[str], str]] = [
         lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keywords)
     ]
     if file_type == "typst":
-        string_processors.extend([])
+        string_processors.extend([markdown_to_typst])
     elif file_type == "markdown":
-        string_processors.extend([lambda string: string])
+        string_processors.extend([])
 
     rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
     rendercv_model.cv.last_updated_date = compute_last_updated_date(  # pyright: ignore[reportAttributeAccessIssue]
@@ -66,7 +66,7 @@ def process_model(
             if date_string:
                 entry.date_string = date_string  # pyright: ignore[reportAttributeAccessIssue]
 
-            user_templates = get_user_templates(entry)
+            user_templates = compute_entry_templates(entry)
             if user_templates:
                 for template_name, template in user_templates.items():
                     setattr(entry, template_name, template)
