@@ -30,7 +30,7 @@ def render_template(
         cv=rendercv_model.cv,
         design=rendercv_model.design,
         locale=rendercv_model.locale,
-        rendercv_settings=rendercv_model.rendercv_settings,
+        rendercv_settings=rendercv_model.settings,
         **kwargs,
     )
 
