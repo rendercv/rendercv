@@ -140,8 +140,7 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
             self.end_date = "present"
 
         if self.start_date and self.end_date:
-            # If both start_date and end_date are provided, check if the start_date is
-            # after the end_date:
+            # Check if the start_date is before the end_date:
             today = get_todays_date(info)
             start_date_object = get_date_object(self.start_date, today)
             end_date_object = get_date_object(self.end_date, today)

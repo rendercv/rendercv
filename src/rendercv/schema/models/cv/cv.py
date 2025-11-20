@@ -8,7 +8,7 @@ import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ...context import get_input_file_path
 from ...pydantic_error_handling import CustomPydanticErrorTypes
-from ..base import BaseModelWithoutExtraKeys
+from ..base import BaseModelWithExtraKeys
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
@@ -20,7 +20,7 @@ phone_validator = pydantic.TypeAdapter(pydantic_phone_numbers.PhoneNumber)
 phones_validator = pydantic.TypeAdapter(list[pydantic_phone_numbers.PhoneNumber])
 
 
-class Cv(BaseModelWithoutExtraKeys):
+class Cv(BaseModelWithExtraKeys):
     name: str | None = pydantic.Field(
         default=None,
         description="Your full name as you want it to appear on your CV.",

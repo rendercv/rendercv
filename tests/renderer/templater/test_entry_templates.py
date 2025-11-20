@@ -1,0 +1,228 @@
+import pydantic
+import pytest
+
+from rendercv.renderer.templater.entry_templates import (
+    compute_entry_templates,
+    handle_authors,
+    handle_date,
+    handle_doi,
+    handle_highlights,
+    handle_start_or_end_date,
+    handle_url,
+)
+from rendercv.schema.models.cv.entries.normal import NormalEntry
+from rendercv.schema.models.cv.entries.publication import PublicationEntry
+from rendercv.schema.models.design.classic_theme import NormalEntryOptions
+from rendercv.schema.models.locale.english_locale import EnglishLocale
+
+
+class TestHandleHighlights:
+    def test_formats_and_indents_nested_items(self):
+        highlights = ["First line", "Second line\n- Nested"]
+
+        result = handle_highlights(highlights)
+
+        assert result == "- First line\n- Second line\n  - Nested"
+
+
+class TestHandleAuthors:
+    def test_joins_authors_with_commas(self):
+        assert handle_authors(["Alice", "Bob", "Charlie"]) == "Alice, Bob, Charlie"
+
+
+class TestHandleDate:
+    def test_appends_time_span_when_requested(self):
+        result = handle_date(
+            None,
+            "2020-01-01",
+            "2021-02-01",
+            EnglishLocale(),
+            show_time_spans=True,
+            today=None,
+        )
+
+        assert result == "Jan 2020 – Feb 2021\n\n1 year 2 months"
+
+    def test_skips_time_span_when_disabled(self):
+        result = handle_date(
+            None,
+            "2020-01-01",
+            "2021-02-01",
+            EnglishLocale(),
+            show_time_spans=False,
+            today=None,
+        )
+
+        assert result == "Jan 2020 – Feb 2021"
+
+    def test_without_start_and_end_date(self):
+        result = handle_date(
+            "2023-05", None, None, EnglishLocale(), show_time_spans=True, today=None
+        )
+
+        assert result == "May 2023"
+
+    def test_returns_empty_string_when_no_dates_exist(self):
+        result = handle_date(None, None, None, EnglishLocale(), True, today=None)
+
+        assert result == ""
+
+
+class TestHandleStartOrEndDate:
+    @pytest.mark.parametrize(
+        ("value", "expected"),
+        [
+            ("2020-05-10", "May 2020"),
+            (2023, "2023"),
+            (None, ""),
+        ],
+    )
+    def test_formats_start_or_end_date(self, value, expected):
+        assert handle_start_or_end_date(value, EnglishLocale()) == expected
+
+
+class TestHandleUrl:
+    def test_publication_prefers_doi_over_url(self):
+        entry = PublicationEntry(
+            title="Paper",
+            authors=["Author"],
+            doi="10.1/abc",
+            url=pydantic.HttpUrl("https://example.com"),
+        )
+
+        result = handle_url(entry)
+
+        assert result == "[10.1/abc](https://doi.org/10.1/abc)"
+
+    def test_returns_markdown_link_for_generic_url(self):
+        entry = NormalEntry.model_validate(
+            {"name": "Linked", "url": pydantic.HttpUrl("https://example.com/path/")}
+        )
+
+        result = handle_url(entry)
+
+        assert result == "[example.com/path](https://example.com/path/)"
+
+    def test_returns_empty_string_when_no_url_is_given(self):
+        entry = NormalEntry(name="No link here")
+
+        result = handle_url(entry)
+
+        assert result == ""
+
+
+class TestHandleDoi:
+    def test_returns_doi_link_when_present(self):
+        entry = PublicationEntry(title="Paper", authors=["Author"], doi="10.1/abc")
+
+        result = handle_doi(entry)
+
+        assert result == "[10.1/abc](https://doi.org/10.1/abc)"
+
+    def test_returns_empty_string_when_doi_missing(self):
+        entry = PublicationEntry(
+            title="Paper without DOI",
+            authors=["Author"],
+            url=pydantic.HttpUrl("https://example.com"),
+        )
+
+        result = handle_doi(entry)
+
+        assert result == ""
+
+
+class TestComputeEntryTemplates:
+    def test_returns_empty_dict_for_text_entries(self):
+        templates = compute_entry_templates(
+            "Plain text entry", NormalEntryOptions(), EnglishLocale(), True, today=None
+        )
+
+        assert templates == {}
+
+    def test_removes_missing_placeholders_and_doubles_newlines(self):
+        entry = NormalEntry(name="Solo")
+
+        templates = compute_entry_templates(
+            entry, NormalEntryOptions(), EnglishLocale(), False, today=None
+        )
+
+        assert templates == {
+            "main_column_template": "**Solo**\n\n\n\n",
+            "date_and_location_column_template": "\n\n",
+        }
+
+    def test_populates_highlights_and_date_placeholders(self):
+        entry = NormalEntry(
+            name="Project",
+            date="2023-05",
+            highlights=["Alpha", "Beta"],
+            location="Remote",
+        )
+
+        templates = compute_entry_templates(
+            entry, NormalEntryOptions(), EnglishLocale(), True, today=None
+        )
+
+        assert templates == {
+            "main_column_template": "**Project**\n\n\n\n- Alpha\n- Beta",
+            "date_and_location_column_template": "Remote\n\nMay 2023",
+        }
+
+    def test_formats_start_and_end_dates_in_custom_template(self):
+        class TimelineOptions(pydantic.BaseModel):
+            timeline_template: str = "START_DATE / END_DATE /LOCATION"
+
+        entry = NormalEntry(
+            name="Timeline",
+            start_date="2020-01-01",
+            end_date="2021-03-01",
+        )
+
+        templates = compute_entry_templates(
+            entry, TimelineOptions(), EnglishLocale(), False, today=None
+        )
+
+        assert templates == {"timeline_template": "Jan 2020 / Mar 2021 "}
+
+    def test_handles_authors_doi_and_date_placeholders(self):
+        class PublicationTemplates(pydantic.BaseModel):
+            citation_template: str = "AUTHORS | DOI | DATE | OPTIONAL"
+
+        entry = PublicationEntry(
+            title="My Paper",
+            authors=["Alice", "Bob"],
+            doi="10.1000/xyz123",
+            date="2024-02-01",
+        )
+
+        templates = compute_entry_templates(
+            entry, PublicationTemplates(), EnglishLocale(), False, today=None
+        )
+
+        assert templates == {
+            "citation_template": (
+                "Alice, Bob | [10.1000/xyz123](https://doi.org/10.1000/xyz123)"
+                " | Feb 2024 | "
+            )
+        }
+
+    def test_creates_links_for_url_placeholders(self):
+        class LinkTemplates(pydantic.BaseModel):
+            link_template: str = "NAME URL OPTIONAL"
+
+        entry = NormalEntry.model_validate(
+            {
+                "name": "Linked Item",
+                "url": pydantic.HttpUrl("https://example.com/page/"),
+            }
+        )
+
+        templates = compute_entry_templates(
+            entry, LinkTemplates(), EnglishLocale(), False, today=None
+        )
+
+        assert templates == {
+            "link_template": (
+                "Linked Item [example.com/page](https://example.com/page/) "
+            )
+        }
