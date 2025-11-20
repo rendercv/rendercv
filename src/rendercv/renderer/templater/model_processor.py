@@ -7,7 +7,8 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from .connections import compute_connections
 from .date import compute_last_updated_date
 from .entry_templates import compute_entry_templates
-from .string_processor import make_keywords_bold, markdown_to_typst
+from .markdown_parser import markdown_to_typst
+from .string_processor import make_keywords_bold
 
 
 def process_fields(
@@ -43,8 +44,6 @@ def process_model(
     ]
     if file_type == "typst":
         string_processors.extend([markdown_to_typst])
-    elif file_type == "markdown":
-        string_processors.extend([])
 
     rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
     rendercv_model.cv.last_updated_date = compute_last_updated_date(  # pyright: ignore[reportAttributeAccessIssue]
