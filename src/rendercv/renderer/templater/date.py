@@ -5,7 +5,7 @@ from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
 )
 from rendercv.schema.models.locale.locale import Locale
 
-from .text_processor import build_keyword_matcher_pattern
+from .string_processor import substitute_placeholders
 
 
 def compute_date_string(
@@ -135,10 +135,7 @@ def compute_last_updated_date(locale: Locale, today: Date, name: str | None) -> 
         "TODAY": format_date(today, locale),
         "NAME": name or "",
     }
-    pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
-    return pattern.sub(
-        lambda match: placeholders[match.group(0)], locale.last_updated_date_template
-    )
+    return substitute_placeholders(locale.last_updated_date_template, placeholders)
 
 
 def format_date(date: Date, locale: Locale) -> str:
@@ -157,6 +154,4 @@ def format_date(date: Date, locale: Locale) -> str:
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
     }
 
-    pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
-
-    return pattern.sub(lambda match: placeholders[match.group(0)], locale.date_template)
+    return substitute_placeholders(locale.date_template, placeholders)

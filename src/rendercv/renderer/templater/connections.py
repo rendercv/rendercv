@@ -4,7 +4,7 @@ import phonenumbers
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .text_processor import clean_url
+from .string_processor import clean_url
 
 
 def compute_connections(
