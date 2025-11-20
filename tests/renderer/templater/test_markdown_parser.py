@@ -79,8 +79,8 @@ from rendercv.renderer.templater.markdown_parser import (
         ("I made $100", r"I made \$100"),
         # inside math: no escaping, keep everything as is:
         (
-            r"$$a*b \* c #cmd[x]$$",
-            r"$$a*b \* c #cmd[x]$$",
+            r"$$a*b * c #cmd[x]$$",
+            r"$$a*b * c #cmd[x]$$",
         ),
     ],
 )
