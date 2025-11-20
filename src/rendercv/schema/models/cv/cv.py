@@ -135,6 +135,10 @@ class Cv(BaseModelWithoutExtraKeys):
     def capture_input_order(
         cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]
     ) -> "Cv":
+        # If data is already a Cv instance, preserve its _key_order
+        if isinstance(data, cls):
+            return data
+
         # Capture the input order before validation
         key_order = list(data.keys()) if isinstance(data, dict) else []
 
@@ -158,11 +162,17 @@ class Cv(BaseModelWithoutExtraKeys):
         | list[pydantic.EmailStr]
         | list[pydantic.HttpUrl]
         | list[pydantic_phone_numbers.PhoneNumber]
+        | None
     ):
         """We have this custom plain validator to have better error messages. For
         example, we don't want to raise regular email validation error, when the input
         is clearly a list."""
+        # Allow None values since these fields are optional
+        if value is None:
+            return None
+
         assert info.field_name is not None
+
         validators: tuple[
             pydantic.TypeAdapter[pydantic.EmailStr]
             | pydantic.TypeAdapter[pydantic.HttpUrl]

@@ -45,7 +45,7 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     phones = [phones]
 
                 for phone in phones:
-                    url = str(rendercv_model.cv.phone)
+                    url = str(phone)
                     body = phonenumbers.format_number(
                         phonenumbers.parse(phone, None),
                         getattr(
@@ -119,11 +119,11 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
     placeholders = [
         (
-            f"#connection-with-icon({typst_fa_icons[icon_specifier]}, {body})"
+            f"#connection-with-icon({typst_fa_icons[connection['icon_specifier']]}, {connection['body']})"
             if use_icon
-            else body
+            else connection["body"]
         )
-        for icon_specifier, _, body in connections
+        for connection in connections
     ]
 
     return [
