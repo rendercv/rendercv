@@ -3,15 +3,20 @@ from datetime import date as Date
 
 import pydantic
 
-from rendercv.data import PublicationEntry
+from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
+    get_date_object,
+)
+from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import compute_date_string, compute_time_span_string
+from .date import compute_date_string, compute_time_span_string, format_date
 from .string_processor import (
     clean_url,
     substitute_placeholders,
 )
+
+uppercase_word_pattern = re.compile(r"\b[A-Z]+\b")
 
 
 def compute_entry_templates(
@@ -29,11 +34,15 @@ def compute_entry_templates(
         for key, value in entry_options.model_dump().items()
         if key.endswith("template") and isinstance(value, str)
     }
-    placeholders = {key.upper(): value for key, value in entry.model_dump().items()}
+    placeholders = {
+        key.upper(): value
+        for key, value in entry.model_dump().items()
+        if value is not None
+    }
 
-    not_provided_placeholders = find_uppercase_words(
-        " ".join(templates.values())
-    ) - set(placeholders.keys())
+    uppercase_words = set(uppercase_word_pattern.findall(" ".join(templates.values())))
+
+    not_provided_placeholders = uppercase_words - set(placeholders.keys())
 
     # Remove the not provided placeholders from the templates, including characters
     # around them:
@@ -62,8 +71,23 @@ def compute_entry_templates(
             today,
         )
 
+    if "START_DATE" in placeholders:
+        placeholders["START_DATE"] = handle_start_or_end_date(
+            getattr(entry, "start_date", None),
+            locale,
+        )
+
+    if "END_DATE" in placeholders:
+        placeholders["END_DATE"] = handle_start_or_end_date(
+            getattr(entry, "end_date", None),
+            locale,
+        )
+
     if "URL" in placeholders:
         placeholders["URL"] = handle_url(entry)
+
+    if "DOI" in placeholders:
+        placeholders["DOI"] = handle_doi(entry)
 
     return {
         key: substitute_placeholders(value, placeholders)
@@ -72,7 +96,10 @@ def compute_entry_templates(
 
 
 def handle_highlights(highlights: list[str]) -> str:
-    return "- ".join([highlight.replace("\n- ", "\n  - ") for highlight in highlights])
+    highlights[0] = "- " + highlights[0]
+    return "\n- ".join(
+        [highlight.replace("\n- ", "\n  - ") for highlight in highlights]
+    )
 
 
 def handle_authors(authors: list[str]) -> str:
@@ -99,17 +126,25 @@ def handle_date(
     return ""
 
 
+def handle_start_or_end_date(
+    start_or_end_date: str | int | None,
+    locale: Locale,
+) -> str:
+    if start_or_end_date is None:
+        return ""
+    return format_date(get_date_object(start_or_end_date), locale)
+
+
 def handle_url(entry: Entry) -> str:
-    assert isinstance(entry, PublicationEntry)
-    if entry.doi:
-        return f"[{entry.doi}]({entry.doi_url})"
-    if entry.url:
-        return f"[{clean_url(entry.url)}]({entry.url})"
+    if isinstance(entry, PublicationEntry):
+        return handle_doi(entry)
+    if hasattr(entry, "url") and entry.url:  # pyright: ignore[reportAttributeAccessIssue]
+        url = entry.url  # pyright: ignore[reportAttributeAccessIssue]
+        return f"[{clean_url(url)}]({url})"
     return ""
 
 
-uppercase_word_pattern = re.compile(r"\b[A-Z]+\b")
-
-
-def find_uppercase_words(text: str) -> set[str]:
-    return set(uppercase_word_pattern.findall(text))
+def handle_doi(entry: Entry) -> str:
+    if isinstance(entry, PublicationEntry) and entry.doi:
+        return f"[{entry.doi}]({entry.doi_url})"
+    return ""
