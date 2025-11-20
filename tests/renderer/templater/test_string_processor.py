@@ -18,6 +18,18 @@ def test_make_keywords_bold():
 
 
 @pytest.mark.parametrize(
+    ("string", "placeholders", "expected_string"),
+    [
+        ("Hello, NAME!", {"NAME": "World"}, "Hello, World!"),
+        ("Hello, NAME!", {"NAME": None}, "Hello, !"),
+        ("No placeholders here.", {}, "No placeholders here."),
+    ],
+)
+def test_substitute_placeholders(string, placeholders, expected_string):
+    assert substitute_placeholders(string, placeholders) == expected_string
+
+
+@pytest.mark.parametrize(
     ("url", "expected_clean_url"),
     [
         ("https://example.com", "example.com"),
@@ -29,15 +41,3 @@ def test_make_keywords_bold():
 )
 def test_clean_url(url, expected_clean_url):
     assert clean_url(url) == expected_clean_url
-
-
-@pytest.mark.parametrize(
-    ("string", "placeholders", "expected_string"),
-    [
-        ("Hello, NAME!", {"NAME": "World"}, "Hello, World!"),
-        ("Hello, NAME!", {"NAME": None}, "Hello, !"),
-        ("No placeholders here.", {}, "No placeholders here."),
-    ],
-)
-def test_substitute_placeholders(string, placeholders, expected_string):
-    assert substitute_placeholders(string, placeholders) == expected_string

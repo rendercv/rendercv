@@ -130,14 +130,6 @@ def compute_time_span_string(
     return time_span_string.strip()
 
 
-def compute_last_updated_date(locale: Locale, today: Date, name: str | None) -> str:
-    placeholders: dict[str, str] = {
-        "TODAY": format_date(today, locale),
-        "NAME": name or "",
-    }
-    return substitute_placeholders(locale.last_updated_date_template, placeholders)
-
-
 def format_date(date: Date, locale: Locale) -> str:
     full_month_names = locale.full_names_of_months
     short_month_names = locale.abbreviations_for_months
@@ -155,3 +147,11 @@ def format_date(date: Date, locale: Locale) -> str:
     }
 
     return substitute_placeholders(locale.date_template, placeholders)
+
+
+def compute_last_updated_date(locale: Locale, today: Date, name: str | None) -> str:
+    placeholders: dict[str, str] = {
+        "TODAY": format_date(today, locale),
+        "NAME": name or "",
+    }
+    return substitute_placeholders(locale.last_updated_date_template, placeholders)
