@@ -5,7 +5,7 @@ import jinja2
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .markdown_parser import markdown_to_typst
+from .markdown_parser import markdown_to_html, markdown_to_typst
 from .model_processor import process_model
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
@@ -63,6 +63,11 @@ def render_full_template(
         code += section_code
 
     return code
+
+
+def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:
+    html_body = markdown_to_html(markdown)
+    return render_single_template("html/Full.html", rendercv_model, html_body=html_body)
 
 
 def render_single_template(

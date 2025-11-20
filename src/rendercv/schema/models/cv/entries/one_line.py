@@ -9,9 +9,6 @@ class OneLineEntry(BaseEntry):
         examples=["Languages", "Citizenship", "Security Clearance"],
     )
     details: str = pydantic.Field(
-        description=(
-            "The details/value for this item. This appears after the label on the same"
-            " line."
-        ),
+        description="The details/value for this item.",
         examples=["English (native), Spanish (fluent)", "US Citizen", "Top Secret"],
     )

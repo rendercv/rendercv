@@ -2,7 +2,8 @@ import itertools
 import re
 from xml.etree.ElementTree import Element
 
-from markdown.core import Markdown
+import markdown
+import markdown.core
 
 
 def to_typst_string(elem: Element) -> str:
@@ -108,7 +109,7 @@ def escape_typst_characters(string: str) -> str:
 
 
 # Create a Markdown instance
-md = Markdown()
+md = markdown.core.Markdown()
 md.output_formats["typst"] = to_typst_string  # pyright: ignore[reportArgumentType]
 md.set_output_format("typst")  # pyright: ignore[reportArgumentType]
 md.parser.blockprocessors.deregister("hashheader")
@@ -123,7 +124,4 @@ def markdown_to_typst(markdown_string: str) -> str:
 
 
 def markdown_to_html(markdown_string: str) -> str:
-    # Start with a fresh Markdown instance, because of deregistered parsers:
-    md = Markdown()
-    md.set_output_format("html")
-    return md.convert(markdown_string)
+    return markdown.markdown(markdown_string)

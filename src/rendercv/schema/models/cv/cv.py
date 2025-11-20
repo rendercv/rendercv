@@ -1,14 +1,13 @@
 import functools
-import pathlib
 from typing import Any, Self
 
 import pydantic
 import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
-from ...context import get_input_file_path
 from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithExtraKeys
+from ..path import ExistingInputRelativePath
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
@@ -23,33 +22,26 @@ phones_validator = pydantic.TypeAdapter(list[pydantic_phone_numbers.PhoneNumber]
 class Cv(BaseModelWithExtraKeys):
     name: str | None = pydantic.Field(
         default=None,
-        description="Your full name as you want it to appear on your CV.",
         examples=["John Doe", "Jane Smith"],
     )
     location: str | None = pydantic.Field(
         default=None,
-        description=(
-            "Your location (city, state/country, or full address). This appears in your"
-            " CV header."
-        ),
         examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],
     )
     email: pydantic.EmailStr | list[pydantic.EmailStr] | None = pydantic.Field(
         default=None,
         description=(
-            "Your email address. Multiple email addresses may be provided as a list."
+            "Accepts either a single email address (string) or a list of email"
+            " addresses."
         ),
         examples=[
             "john.doe@example.com",
             ["john.doe.1@example.com", "john.doe.2@example.com"],
         ],
     )
-    photo: pathlib.Path | None = pydantic.Field(
+    photo: ExistingInputRelativePath | None = pydantic.Field(
         default=None,
-        description=(
-            "Path to your photo file, relative to your CV YAML file. The photo will"
-            " appear in your CV header."
-        ),
+        description="Path to the photo file, relative to the input YAML file.",
         examples=["photo.jpg", "images/profile.png"],
     )
     phone: (
@@ -59,9 +51,9 @@ class Cv(BaseModelWithExtraKeys):
     ) = pydantic.Field(
         default=None,
         description=(
-            "Your phone number with country code. Use international format starting"
-            " with '+' (e.g., +1 for USA, +44 for UK). Multiple phone numbers may be"
-            " provided as a list."
+            "Phone number with country code. Use international format starting"
+            " with '+' (e.g., +1 for USA, +44 for UK). Accepts either a single phone"
+            " number as a string or a list of phone numbers."
         ),
         examples=[
             "+1-234-567-8900",
@@ -71,7 +63,7 @@ class Cv(BaseModelWithExtraKeys):
     website: pydantic.HttpUrl | list[pydantic.HttpUrl] | None = pydantic.Field(
         default=None,
         description=(
-            "Your personal website or portfolio URL. Multiple websites may be provided"
+            "Personal website or portfolio URL. Accepts either a single website URL as"
             " as a list."
         ),
         examples=[
@@ -81,10 +73,7 @@ class Cv(BaseModelWithExtraKeys):
     )
     social_networks: list[SocialNetwork] | None = pydantic.Field(
         default=None,
-        description=(
-            "List of your social network profiles (e.g., LinkedIn, GitHub). These"
-            " appear as clickable links in your CV header."
-        ),
+        description="List of social network profiles (e.g., LinkedIn, GitHub).",
     )
     sections: dict[str, Section] | None = pydantic.Field(
         default=None,
@@ -106,25 +95,6 @@ class Cv(BaseModelWithExtraKeys):
     # Store the order of the keys so that the header can be rendered in the same order
     # that the user defines.
     _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)
-
-    @pydantic.field_validator("photo")
-    @classmethod
-    def update_photo_path(
-        cls, value: pathlib.Path | None, info: pydantic.ValidationInfo
-    ) -> pathlib.Path | None:
-        if value:
-            if not value.is_absolute():
-                input_file_path = get_input_file_path(info)
-                value = input_file_path / str(value)
-
-            if not value.exists():
-                raise pydantic_core.PydanticCustomError(
-                    CustomPydanticErrorTypes.other.value,
-                    "The photo file `{photo_file}` does not exist.",
-                    {"photo_file": value.absolute()},
-                )
-
-        return value
 
     @functools.cached_property
     def rendercv_sections(self) -> list[BaseRenderCVSection]:
