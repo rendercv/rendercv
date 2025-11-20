@@ -134,7 +134,7 @@ class TestComputeDateString:
 
 class TestComputeTimeSpanString:
     @pytest.fixture
-    def today(self):
+    def current_date(self):
         return Date(2024, 1, 1)
 
     # Test cases that should return None
@@ -148,10 +148,10 @@ class TestComputeTimeSpanString:
             (None, None, "2021-01-01"),  # missing start_date
         ],
     )
-    def test_returns_none_for_invalid_inputs(self, today, date, start_date, end_date):
+    def test_returns_none_for_invalid_inputs(self, current_date, date, start_date, end_date):
         """Should return None when date is provided or dates are incomplete."""
         result = compute_time_span_string(
-            date, start_date, end_date, EnglishLocale(), today
+            date, start_date, end_date, EnglishLocale(), current_date
         )
         assert result is None
 
@@ -166,10 +166,10 @@ class TestComputeTimeSpanString:
             (2022, "2023-10-10", "1 year"),  # Mixed: int and date
         ],
     )
-    def test_year_only_calculations(self, today, start_date, end_date, expected):
+    def test_year_only_calculations(self, current_date, start_date, end_date, expected):
         """When either date is an int (year), calculate time span in years only."""
         result = compute_time_span_string(
-            None, start_date, end_date, EnglishLocale(), today
+            None, start_date, end_date, EnglishLocale(), current_date
         )
         assert result == expected
 
@@ -184,11 +184,11 @@ class TestComputeTimeSpanString:
         ],
     )
     def test_full_date_with_years_and_months(
-        self, today, start_date, end_date, expected
+        self, current_date, start_date, end_date, expected
     ):
         """Calculate time spans with both years and months."""
         result = compute_time_span_string(
-            None, start_date, end_date, EnglishLocale(), today
+            None, start_date, end_date, EnglishLocale(), current_date
         )
         assert result == expected
 
@@ -200,10 +200,10 @@ class TestComputeTimeSpanString:
             ("2020-01-01", "2020-03-15", "3 months"),  # Multiple months
         ],
     )
-    def test_months_only_no_years(self, today, start_date, end_date, expected):
+    def test_months_only_no_years(self, current_date, start_date, end_date, expected):
         """Calculate time spans with months only when less than a year."""
         result = compute_time_span_string(
-            None, start_date, end_date, EnglishLocale(), today
+            None, start_date, end_date, EnglishLocale(), current_date
         )
         assert result == expected
 
@@ -215,10 +215,10 @@ class TestComputeTimeSpanString:
             ("2020-02-01", "2024-01-01", "4 years"),  # Multiple years, no months
         ],
     )
-    def test_years_only_no_months(self, today, start_date, end_date, expected):
+    def test_years_only_no_months(self, current_date, start_date, end_date, expected):
         """Calculate time spans with years only when months round to zero."""
         result = compute_time_span_string(
-            None, start_date, end_date, EnglishLocale(), today
+            None, start_date, end_date, EnglishLocale(), current_date
         )
         assert result == expected
 
@@ -231,39 +231,39 @@ class TestComputeTimeSpanString:
             (2020, "4 years"),
         ],
     )
-    def test_present_as_end_date(self, today, start_date, expected):
-        """Handle 'present' or None as end_date (uses today's date)."""
-        # "present" should use today's date
+    def test_present_as_end_date(self, current_date, start_date, expected):
+        """Handle 'present' or None as end_date (uses current_date's date)."""
+        # "present" should use current_date's date
         result_present = compute_time_span_string(
-            None, start_date, "present", EnglishLocale(), today
+            None, start_date, "present", EnglishLocale(), current_date
         )
 
         assert result_present == expected
 
     # Test custom locale (different translations)
-    def test_custom_locale_translations(self, today):
+    def test_custom_locale_translations(self, current_date):
         """Test that locale translations are used correctly."""
         custom_locale = EnglishLocale(
             year="año", years="años", month="mes", months="meses"
         )
 
         result = compute_time_span_string(
-            None, "2020-01-01", "2021-02-01", custom_locale, today
+            None, "2020-01-01", "2021-02-01", custom_locale, current_date
         )
         assert result == "1 año 2 meses"
 
         result_years_only = compute_time_span_string(
-            None, 2020, 2022, custom_locale, today
+            None, 2020, 2022, custom_locale, current_date
         )
         assert result_years_only == "2 años"
 
     # Test overflow handling (12 months → 1 year)
-    def test_month_overflow_handling(self, today):
+    def test_month_overflow_handling(self, current_date):
         """Test that 12+ months correctly overflow into years."""
         # This would depend on exact dates, but the function handles overflow
         # The +1 month logic and modulo operations should prevent "1 year 12 months"
         result = compute_time_span_string(
-            None, "2020-01-01", "2021-01-15", EnglishLocale(), today
+            None, "2020-01-01", "2021-01-15", EnglishLocale(), current_date
         )
         # Should be "1 year 1 month", not "1 year 0 months" or "0 years 13 months"
         assert isinstance(result, str)
@@ -351,8 +351,8 @@ class TestFormatDate:
 
 
 def test_compute_last_updated_date():
-    locale = EnglishLocale(last_updated_date_template="Last updated in TODAY by NAME")
-    today = Date(2024, 1, 1)
+    locale = EnglishLocale(last_updated_date_template="Last updated in current_date by NAME")
+    current_date = Date(2024, 1, 1)
     name = "John Doe"
-    result = compute_last_updated_date(locale, today, name)
+    result = compute_last_updated_date(locale, current_date, name)
     assert result == "Last updated in Jan 2024 by John Doe"

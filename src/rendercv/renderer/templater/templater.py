@@ -1,3 +1,4 @@
+import functools
 import pathlib
 from typing import Literal
 
@@ -9,16 +10,20 @@ from .markdown_parser import markdown_to_html, markdown_to_typst
 from .model_processor import process_model
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
-jinja2_environment = jinja2.Environment(
-    loader=jinja2.FileSystemLoader(
-        [
-            pathlib.Path.cwd(),  # To allow users to override the templates
-            templates_directory,
-        ]
-    ),
-    trim_blocks=True,
-    lstrip_blocks=True,
-)
+
+
+@functools.lru_cache(maxsize=1)
+def get_jinja2_environment(input_file_path: pathlib.Path) -> jinja2.Environment:
+    return jinja2.Environment(
+        loader=jinja2.FileSystemLoader(
+            [
+                input_file_path.parent,  # To allow users to override the templates
+                templates_directory,
+            ]
+        ),
+        trim_blocks=True,
+        lstrip_blocks=True,
+    )
 
 
 def render_full_template(
@@ -75,7 +80,9 @@ def render_single_template(
     rendercv_model: RenderCVModel,
     **kwargs,
 ) -> str:
-    template = jinja2_environment.get_template(relative_template_path)
+    template = get_jinja2_environment(rendercv_model._input_file_path).get_template(
+        relative_template_path
+    )
     return template.render(
         cv=rendercv_model.cv,
         design=rendercv_model.design,

@@ -65,7 +65,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    markdown_path: PlannedInputRelativePath | None = pydantic.Field(
+    markdown_path: PlannedInputRelativePath = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.md"),
         title="Markdown Path",
         description=(

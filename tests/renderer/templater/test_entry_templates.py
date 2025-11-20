@@ -1,3 +1,5 @@
+from datetime import date as Date
+
 import pydantic
 import pytest
 
@@ -16,6 +18,11 @@ from rendercv.schema.models.design.classic_theme import NormalEntryOptions
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 
 
+@pytest.fixture
+def current_date():
+    return Date(2024, 1, 1)
+
+
 class TestHandleHighlights:
     def test_formats_and_indents_nested_items(self):
         highlights = ["First line", "Second line\n- Nested"]
@@ -31,39 +38,39 @@ class TestHandleAuthors:
 
 
 class TestHandleDate:
-    def test_appends_time_span_when_requested(self):
+    def test_appends_time_span_when_requested(self, current_date):
         result = handle_date(
             None,
             "2020-01-01",
             "2021-02-01",
             EnglishLocale(),
             show_time_spans=True,
-            today=None,
+            current_date=current_date,
         )
 
         assert result == "Jan 2020 – Feb 2021\n\n1 year 2 months"
 
-    def test_skips_time_span_when_disabled(self):
+    def test_skips_time_span_when_disabled(self, current_date):
         result = handle_date(
             None,
             "2020-01-01",
             "2021-02-01",
             EnglishLocale(),
             show_time_spans=False,
-            today=None,
+            current_date=current_date,
         )
 
         assert result == "Jan 2020 – Feb 2021"
 
-    def test_without_start_and_end_date(self):
+    def test_without_start_and_end_date(self, current_date):
         result = handle_date(
-            "2023-05", None, None, EnglishLocale(), show_time_spans=True, today=None
+            "2023-05", None, None, EnglishLocale(), show_time_spans=True, current_date=current_date
         )
 
         assert result == "May 2023"
 
-    def test_returns_empty_string_when_no_dates_exist(self):
-        result = handle_date(None, None, None, EnglishLocale(), True, today=None)
+    def test_returns_empty_string_when_no_dates_exist(self, current_date):
+        result = handle_date(None, None, None, EnglishLocale(), True, current_date=current_date)
 
         assert result == ""
 
@@ -132,18 +139,18 @@ class TestHandleDoi:
 
 
 class TestComputeEntryTemplates:
-    def test_returns_empty_dict_for_text_entries(self):
+    def test_returns_empty_dict_for_text_entries(self, current_date):
         templates = compute_entry_templates(
-            "Plain text entry", NormalEntryOptions(), EnglishLocale(), True, today=None
+            "Plain text entry", NormalEntryOptions(), EnglishLocale(), True, current_date=current_date
         )
 
         assert templates == {}
 
-    def test_removes_missing_placeholders_and_doubles_newlines(self):
+    def test_removes_missing_placeholders_and_doubles_newlines(self, current_date):
         entry = NormalEntry(name="Solo")
 
         templates = compute_entry_templates(
-            entry, NormalEntryOptions(), EnglishLocale(), False, today=None
+            entry, NormalEntryOptions(), EnglishLocale(), False, current_date=current_date
         )
 
         assert templates == {
@@ -151,7 +158,7 @@ class TestComputeEntryTemplates:
             "date_and_location_column_template": "\n\n",
         }
 
-    def test_populates_highlights_and_date_placeholders(self):
+    def test_populates_highlights_and_date_placeholders(self, current_date):
         entry = NormalEntry(
             name="Project",
             date="2023-05",
@@ -160,7 +167,7 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, NormalEntryOptions(), EnglishLocale(), True, today=None
+            entry, NormalEntryOptions(), EnglishLocale(), True, current_date=current_date
         )
 
         assert templates == {
@@ -168,7 +175,7 @@ class TestComputeEntryTemplates:
             "date_and_location_column_template": "Remote\n\nMay 2023",
         }
 
-    def test_formats_start_and_end_dates_in_custom_template(self):
+    def test_formats_start_and_end_dates_in_custom_template(self, current_date):
         class TimelineOptions(pydantic.BaseModel):
             timeline_template: str = "START_DATE / END_DATE /LOCATION"
 
@@ -179,12 +186,12 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, TimelineOptions(), EnglishLocale(), False, today=None
+            entry, TimelineOptions(), EnglishLocale(), False, current_date=current_date
         )
 
         assert templates == {"timeline_template": "Jan 2020 / Mar 2021 "}
 
-    def test_handles_authors_doi_and_date_placeholders(self):
+    def test_handles_authors_doi_and_date_placeholders(self, current_date):
         class PublicationTemplates(pydantic.BaseModel):
             citation_template: str = "AUTHORS | DOI | DATE | OPTIONAL"
 
@@ -196,7 +203,7 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, PublicationTemplates(), EnglishLocale(), False, today=None
+            entry, PublicationTemplates(), EnglishLocale(), False, current_date=current_date
         )
 
         assert templates == {
@@ -206,7 +213,7 @@ class TestComputeEntryTemplates:
             )
         }
 
-    def test_creates_links_for_url_placeholders(self):
+    def test_creates_links_for_url_placeholders(self, current_date):
         class LinkTemplates(pydantic.BaseModel):
             link_template: str = "NAME URL OPTIONAL"
 
@@ -218,7 +225,7 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, LinkTemplates(), EnglishLocale(), False, today=None
+            entry, LinkTemplates(), EnglishLocale(), False, current_date=current_date
         )
 
         assert templates == {
