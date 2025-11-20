@@ -11,7 +11,6 @@ url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
 
 class BasePublicationEntry(BaseEntry):
     title: str = pydantic.Field(
-        description="The title of the publication.",
         examples=[
             "Deep Learning for Computer Vision",
             "Advances in Quantum Computing",
@@ -19,7 +18,7 @@ class BasePublicationEntry(BaseEntry):
     )
     authors: list[str] = pydantic.Field(
         description=(
-            "List of authors. You can bold your own name by wrapping it with **double"
+            "List of authors. A name can be bolded by wrapping it with **double"
             " asterisks**."
         ),
         examples=[["John Doe", "**Jane Smith**", "Bob Johnson"]],

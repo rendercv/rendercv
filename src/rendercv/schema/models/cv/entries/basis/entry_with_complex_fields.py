@@ -86,15 +86,10 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
     )
     location: str | None = pydantic.Field(
         default=None,
-        description="The location of this event (e.g., city and country).",
         examples=["Istanbul, Türkiye", "New York, NY", "Remote"],
     )
     summary: str | None = pydantic.Field(
         default=None,
-        description=(
-            "A brief summary or description of this role/event. This appears before the"
-            " highlights."
-        ),
         examples=[
             "Led a team of 5 engineers to develop innovative solutions.",
             (

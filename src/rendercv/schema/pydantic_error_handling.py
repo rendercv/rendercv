@@ -1,5 +1,4 @@
 import pathlib
-from enum import Enum
 from typing import cast
 
 import pydantic
@@ -8,6 +7,7 @@ import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 from typing_extensions import TypedDict
 
+from .models.custom_error_types import CustomPydanticErrorTypes
 from .yaml_reader import read_yaml
 
 
@@ -16,11 +16,6 @@ class RenderCVValidationError(TypedDict):
     yaml_location: tuple[tuple[int, int], tuple[int, int]]
     message: str
     input: str
-
-
-class CustomPydanticErrorTypes(str, Enum):
-    entry_validation = "rendercv_entry_validation_error"
-    other = "rendercv_other_error"
 
 
 error_dictionary = cast(

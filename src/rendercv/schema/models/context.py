@@ -8,23 +8,19 @@ import pydantic
 
 @dataclass
 class ValidationContext:
-    """Context passed to validators for path resolution and date calculations."""
-
-    input_file_path: pathlib.Path
-    date_today: Date
+    input_file_path: pathlib.Path | None = None
+    date_today: Date | None = None
 
 
 def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path:
-    """Get input file path from context, or cwd if not available."""
     if isinstance(info.context, dict):
         context = cast(ValidationContext, info.context["context"])
-        return context.input_file_path
+        return context.input_file_path or pathlib.Path.cwd()
     return pathlib.Path.cwd()
 
 
 def get_todays_date(info: pydantic.ValidationInfo) -> Date:
-    """Get reference date from context, or actual today if not available."""
     if isinstance(info.context, dict):
         context = cast(ValidationContext, info.context["context"])
-        return context.date_today
+        return context.date_today or Date.today()
     return Date.today()

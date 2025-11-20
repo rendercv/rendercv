@@ -47,7 +47,7 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         description="The name of the social network or platform.",
     )
     username: str = pydantic.Field(
-        description="Your username on the platform.",
+        description="Username on the platform.",
         examples=["john_doe", "@johndoe@mastodon.social", "12345/john-doe"],
     )
 
