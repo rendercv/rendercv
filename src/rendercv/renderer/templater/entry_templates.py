@@ -18,7 +18,7 @@ def compute_entry_templates(
     entry_options: pydantic.BaseModel,
     locale: Locale,
     show_time_spans: bool,
-    today: Date | None,
+    current_date: Date,
 ) -> dict[str, str]:
     if isinstance(entry, str):
         return {}
@@ -62,7 +62,7 @@ def compute_entry_templates(
             getattr(entry, "end_date", None),
             locale,
             show_time_spans,
-            today,
+            current_date,
         )
 
     if "START_DATE" in placeholders:
@@ -106,12 +106,12 @@ def handle_date(
     end_date: str | int | None,
     locale: Locale,
     show_time_spans: bool,
-    today: Date | None,
+    current_date: Date,
 ) -> str:
     date_string = compute_date_string(date, start_date, end_date, locale)
     if show_time_spans:
         time_span_string = compute_time_span_string(
-            date, start_date, end_date, locale, today
+            date, start_date, end_date, locale, current_date
         )
         if time_span_string:
             return f"{date_string}\n\n{time_span_string}"

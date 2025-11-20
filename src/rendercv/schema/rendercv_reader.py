@@ -36,7 +36,7 @@ def validate_input_dictionary_and_return_rendercv_model(
     Returns:
         The data model.
     """
-    return RenderCVModel.model_validate(
+    model = RenderCVModel.model_validate(
         input_dictionary,
         context={
             "context": ValidationContext(
@@ -47,3 +47,5 @@ def validate_input_dictionary_and_return_rendercv_model(
             )
         },
     )
+    model._input_file_path = input_file_path
+    return model

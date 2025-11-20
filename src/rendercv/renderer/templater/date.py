@@ -61,7 +61,7 @@ def compute_time_span_string(
     start_date: str | int | None,
     end_date: str | int | None,
     locale: Locale,
-    today: Date | None,
+    current_date: Date,
 ) -> str | None:
     if date is not None or start_date is None or end_date is None:
         # If only the date is provided, the time span is irrelevant. So, return an
@@ -73,8 +73,8 @@ def compute_time_span_string(
     if isinstance(start_date, int) or isinstance(end_date, int):
         # Then it means one of the dates is year, so time span cannot be more
         # specific than years.
-        start_year = get_date_object(start_date, today).year
-        end_year = get_date_object(end_date, today).year
+        start_year = get_date_object(start_date, current_date).year
+        end_year = get_date_object(end_date, current_date).year
 
         time_span_in_years = end_year - start_year
 
@@ -87,8 +87,8 @@ def compute_time_span_string(
 
     # Then it means both start_date and end_date are in YYYY-MM-DD or YYYY-MM
     # format.
-    end_date_object = get_date_object(end_date, today)
-    start_date_object = get_date_object(start_date, today)
+    end_date_object = get_date_object(end_date, current_date)
+    start_date_object = get_date_object(start_date, current_date)
 
     # Calculate the number of days between start_date and end_date:
     timespan_in_days = (end_date_object - start_date_object).days
@@ -149,9 +149,9 @@ def format_date(date: Date, locale: Locale) -> str:
     return substitute_placeholders(locale.date_template, placeholders)
 
 
-def compute_last_updated_date(locale: Locale, today: Date, name: str | None) -> str:
+def compute_last_updated_date(locale: Locale, current_date: Date, name: str | None) -> str:
     placeholders: dict[str, str] = {
-        "TODAY": format_date(today, locale),
+        "current_date": format_date(current_date, locale),
         "NAME": name or "",
     }
     return substitute_placeholders(locale.last_updated_date_template, placeholders)

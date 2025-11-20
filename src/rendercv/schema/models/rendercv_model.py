@@ -1,3 +1,5 @@
+import pathlib
+
 import pydantic
 
 from .base import BaseModelWithExtraKeys
@@ -36,3 +38,5 @@ class RenderCVModel(BaseModelWithExtraKeys):
         title="RenderCV Settings",
         description="The settings of the RenderCV.",
     )
+
+    _input_file_path: pathlib.Path | None = pydantic.PrivateAttr(default=None)

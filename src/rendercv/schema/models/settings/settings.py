@@ -19,8 +19,8 @@ class Settings(BaseModelWithoutExtraKeys):
             "default": None,
         },
     )
-    render_command: RenderCommand | None = pydantic.Field(
-        default=None,
+    render_command: RenderCommand = pydantic.Field(
+        default_factory=RenderCommand,
         title="Render Command Settings",
         description=(
             "RenderCV's `render` command settings. They are the same as the command"
