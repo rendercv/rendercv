@@ -80,7 +80,27 @@ from rendercv.renderer.templater.markdown_parser import (
         # inside math: no escaping, keep everything as is:
         (
             r"$$a*b * c #cmd[x]$$",
-            r"$$a*b * c #cmd[x]$$",
+            r"$a*b * c #cmd[x]$",
+        ),
+        ("My # Text", "My \\# Text"),
+        ("My % Text", "My \\% Text"),
+        ("My ~ Text", "My \\~ Text"),
+        ("My _ Text", "My \\_ Text"),
+        ("My $ Text", "My \\$ Text"),
+        ("My [ Text", "My \\[ Text"),
+        ("My ] Text", "My \\] Text"),
+        ("My ( Text", "My \\( Text"),
+        ("My ) Text", "My \\) Text"),
+        ("My \\ Text", "My \\\\ Text"),
+        ('My " Text', 'My \\" Text'),
+        ("My @ Text", "My \\@ Text"),
+        (
+            "[link_test#](Shouldn't be escaped in here & % # ~)",
+            '#link("Shouldn\'t be escaped in here & % # ~")[link\\_test\\#]',
+        ),
+        (
+            "$$a=5_4^3 % & #$$ # $$aaaa ___ &&$$",
+            "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
         ),
     ],
 )

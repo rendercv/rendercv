@@ -119,7 +119,8 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
     placeholders = [
         (
-            f"#connection-with-icon({typst_fa_icons[connection['icon_specifier']]}, {connection['body']})"
+            f"#connection-with-icon({typst_fa_icons[connection['icon_specifier']]},"
+            f" {connection['body']})"
             if use_icon
             else connection["body"]
         )

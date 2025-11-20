@@ -1,127 +1,16 @@
-import copy
 import os
 import pathlib
 import shutil
 
-import jinja2
 import pytest
 
 from rendercv import data, renderer
 from rendercv.renderer_old import renderer as renderer_module
-from rendercv.renderer_old import templater
 
 folder_name_dictionary = {
     "rendercv_empty_curriculum_vitae_data_model": "empty",
     "rendercv_filled_curriculum_vitae_data_model": "filled",
 }
-
-
-def test_typst_file_class(tmp_path, rendercv_data_model, jinja2_environment):
-    typst_file = templater.TypstFile(rendercv_data_model, jinja2_environment)
-    typst_file.get_full_code()
-    typst_file.create_file(tmp_path / "test.typ")
-
-
-def test_markdown_file_class(tmp_path, rendercv_data_model, jinja2_environment):
-    typst_file = templater.MarkdownFile(rendercv_data_model, jinja2_environment)
-    typst_file.get_full_code()
-    typst_file.create_file(tmp_path / "test.typ")
-
-
-@pytest.mark.parametrize(
-    ("string", "expected_string"),
-    [
-        ("My Text", "My Text"),
-        ("My # Text", "My \\# Text"),
-        ("My % Text", "My \\% Text"),
-        ("My ~ Text", "My \\~ Text"),
-        ("My _ Text", "My \\_ Text"),
-        ("My $ Text", "My \\$ Text"),
-        ("My [ Text", "My \\[ Text"),
-        ("My ] Text", "My \\] Text"),
-        ("My ( Text", "My \\( Text"),
-        ("My ) Text", "My \\) Text"),
-        ("My \\ Text", "My \\\\ Text"),
-        ('My " Text', 'My \\" Text'),
-        ("My @ Text", "My \\@ Text"),
-        (
-            (
-                "[link_test#](you shouldn't escape whatever is in here & % # ~) [second"
-                " link](https://myurl.com)"
-            ),
-            (
-                "[link\\_test\\#](you shouldn't escape whatever is in here & % # ~)"
-                " [second link](https://myurl.com)"
-            ),
-        ),
-        (
-            "$$a=5_4^3 % & #$$ # $$aaaa ___ &&$$",
-            "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
-        ),
-        (
-            "$###$////",
-            "\\$\\#\\#\\#\\$\\/\\/\\/\\/",
-        ),
-        (
-            "#test-typst-command[argument]",
-            "#test-typst-command[argument]",
-        ),
-    ],
-)
-def test_escape_typst_characters(string, expected_string):
-    assert templater.escape_typst_characters(string) == expected_string
-
-
-
-def test_transform_markdown_sections_to_typst_sections(rendercv_data_model):
-    new_data_model = copy.deepcopy(rendercv_data_model)
-    new_sections_input = templater.transform_markdown_sections_to_typst_sections(
-        new_data_model.cv.sections_input
-    )
-    new_data_model.cv.sections_input = new_sections_input
-
-    assert isinstance(new_data_model, data.RenderCVDataModel)
-    assert new_data_model.cv.name == rendercv_data_model.cv.name
-    assert new_data_model.design == rendercv_data_model.design
-    assert new_data_model.cv.sections != rendercv_data_model.cv.sections
-
-
-@pytest.mark.parametrize(
-    ("string", "placeholders", "expected_string"),
-    [
-        ("Hello, {name}!", {"{name}": None}, "Hello, !"),
-        (
-            "{greeting}, {name}!",
-            {"{greeting}": "Hello", "{name}": "World"},
-            "Hello, World!",
-        ),
-        ("No placeholders here.", {}, "No placeholders here."),
-        (
-            "{missing} placeholder.",
-            {"{not_missing}": "value"},
-            "{missing} placeholder.",
-        ),
-        ("", {"{placeholder}": "value"}, ""),
-    ],
-)
-def test_replace_placeholders_with_actual_values(string, placeholders, expected_string):
-    result = templater.replace_placeholders_with_actual_values(string, placeholders)
-    assert result == expected_string
-
-
-def test_setup_jinja2_environment():
-    env = templater.Jinja2Environment().environment
-
-    # Check if the returned object is a jinja2.Environment instance
-    assert isinstance(env, jinja2.Environment)
-
-    # Check if the custom delimiters are correctly set
-    assert env.block_start_string == "((*"
-    assert env.block_end_string == "*))"
-    assert env.variable_start_string == "<<"
-    assert env.variable_end_string == ">>"
-    assert env.comment_start_string == "((#"
-    assert env.comment_end_string == "#))"
 
 
 @pytest.mark.parametrize(
@@ -513,87 +402,6 @@ def test_render_pdf_invalid_typst_file(tmp_path):
     "theme_name",
     data.available_themes,
 )
-def test_locale(
-    theme_name,
-    tmp_path,
-):
-    data.RenderCVSettings(date="2024-01-01")  # type: ignore
-    cv = data.CurriculumVitae(
-        name="Test",
-        sections={
-            "Normal Entries": [
-                data.NormalEntry(
-                    name="Test",
-                    start_date="2024-01-01",
-                    end_date="present",
-                ),
-            ]
-        },
-    )
-
-    # "The style of the date. The following placeholders can be"
-    # " used:\n-FULL_MONTH_NAME: Full name of the month\n- MONTH_ABBREVIATION:"
-    # " Abbreviation of the month\n- MONTH: Month as a number\n-"
-    # " MONTH_IN_TWO_DIGITS: Month as a number in two digits\n- YEAR: Year as a"
-    # " number\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits\nThe"
-    # ' default value is "MONTH_ABBREVIATION YEAR".'
-    locale = data.Locale(
-        abbreviations_for_months=[
-            "Abbreviation of Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
-        full_names_of_months=[
-            "Full name of January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ],
-        present="this is present",
-        to="this is to",
-        date_template=(
-            "FULL_MONTH_NAME MONTH_ABBREVIATION MONTH MONTH_IN_TWO_DIGITS YEAR"
-            " YEAR_IN_TWO_DIGITS"
-        ),
-    )
-
-    data_model = data.RenderCVDataModel(
-        cv=cv,
-        design={"theme": theme_name},
-        locale=locale,
-    )
-
-    file = renderer.create_a_typst_file(data_model, tmp_path)
-
-    contents = file.read_text()
-
-    assert "Full name of January" in contents
-    assert "Abbreviation of Jan" in contents
-    assert "this is present" in contents
-    assert "this is to" in contents
-
-
-@pytest.mark.parametrize(
-    "theme_name",
-    data.available_themes,
-)
 def test_are_all_the_theme_files_the_same(theme_name):
     source_of_truth_theme = "classic"
 
@@ -615,35 +423,6 @@ def test_are_all_the_theme_files_the_same(theme_name):
     theme_file_contents = [file.read_text() for file in theme_folder.rglob("*.j2.typ")]
 
     assert source_of_truth_file_contents == theme_file_contents
-
-
-@pytest.mark.parametrize(
-    ("input_template", "placeholders", "expected_output"),
-    [
-        # ("Hello, {name}!", {"{name}": None}, "Hello, "), # currently does not work
-        # ("Hello, {name}!", {"{name}": "World"}, "Hello, World!"), # currently does not work
-        # ("No placeholders here.", {}, "No placeholders here."),  # currently does not work
-        ("*[My](https://myurl.com)*", {}, '#link("https://myurl.com")[#emph[My]]'),
-        ("**[My](https://myurl.com)**", {}, '#link("https://myurl.com")[#strong[My]]'),
-        (
-            "***[My](https://myurl.com)***",
-            {},
-            '#link("https://myurl.com")[#strong[#emph[My]]]',
-        ),
-        ("**GRADE**", {"GRADE": "GPA: 3.00/4.00"}, "#strong[GPA: 3.00/4.00]"),
-    ],
-)
-def test_input_template_to_typst(
-    input_template,
-    placeholders,
-    expected_output,
-):
-    output = templater.input_template_to_typst(
-        input_template,
-        placeholders,
-    )
-
-    assert output == expected_output
 
 
 def test_render_a_typst_file_with_none_name(tmp_path):

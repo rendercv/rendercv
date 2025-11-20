@@ -1,8 +1,8 @@
 import pathlib
 from datetime import date as Date
 
-from .models.rendercv_model import RenderCVModel
 from .context import ValidationContext
+from .models.rendercv_model import RenderCVModel
 from .yaml_reader import read_yaml
 
 
@@ -19,9 +19,7 @@ def read_input_file(file_path_or_contents: pathlib.Path | str) -> RenderCVModel:
     """
     input_as_dictionary = read_yaml(file_path_or_contents)
 
-    return validate_input_dictionary_and_return_rendercv_model(
-        input_as_dictionary
-    )
+    return validate_input_dictionary_and_return_rendercv_model(input_as_dictionary)
 
 
 def validate_input_dictionary_and_return_rendercv_model(

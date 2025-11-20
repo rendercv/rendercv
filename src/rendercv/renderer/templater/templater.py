@@ -5,6 +5,7 @@ import jinja2
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
+from .markdown_parser import markdown_to_typst
 from .model_processor import process_model
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
@@ -42,13 +43,12 @@ def render_full_template(
         section_beginning = render_single_template(
             f"{file_type}/SectionBeginning.j2.{extension}",
             rendercv_model,
-            section_title=rendercv_section.title,
+            section_title=markdown_to_typst(rendercv_section.title),
             entry_type=rendercv_section.entry_type,
         )
         section_ending = render_single_template(
             f"{file_type}/SectionEnding.j2.{extension}",
             rendercv_model,
-            section_title=rendercv_section.title,
             entry_type=rendercv_section.entry_type,
         )
         entries_code = ""
