@@ -1,3 +1,4 @@
+import itertools
 import re
 from xml.etree.ElementTree import Element
 
@@ -48,31 +49,27 @@ def to_typst_string(elem: Element) -> str:
 
 
 typst_command_pattern = re.compile(r"#([A-Za-z][^\s()\[]*)(\([^)]*\))?(\[[^\]]*\])?")
+math_pattern = re.compile(r"(\$\$.*?\$\$)")
 
 
 def escape_typst_characters(string: str) -> str:
+    if string == "\n":
+        return string
+
     # Find all the Typst commands, and keep them seperate so that nothing is escaped
     # inside the commands.
     typst_command_mapping = {}
-    result = []
-    last_end = 0
-    for i, match in enumerate(typst_command_pattern.finditer(string)):
-        # Add text before this match
-        start, end = match.span()
-        result.append(string[last_end:start])
-
-        dummy_name = f"RENDERCVTYPSTCOMMAND{i}"
-        result.append(dummy_name)
-
-        # Store the full matched command
+    for i, match in enumerate(
+        itertools.chain(
+            math_pattern.finditer(string),
+            typst_command_pattern.finditer(string),
+        )
+    ):
+        dummy_name = f"RENDERCVTYPSTCOMMANDORMATH{i}"
         typst_command_mapping[dummy_name] = match.group(0)
-
-        last_end = end
+        string = string.replace(typst_command_mapping[dummy_name], dummy_name)
 
     # Add the tail after the last match
-    result.append(string[last_end:])
-    string = "".join(result)
-
     escape_dictionary = {
         "[": "\\[",
         "]": "\\]",
@@ -109,19 +106,21 @@ def escape_typst_characters(string: str) -> str:
 
 # Create a Markdown instance
 md = Markdown()
-
-# Disable stripping of top-level tags since Typst doesn't use HTML wrapper tags
-md.stripTopLevelTags = False
-
-# Register the Typst serializer
 md.output_formats["typst"] = to_typst_string  # pyright: ignore[reportArgumentType]
+md.set_output_format("typst")  # pyright: ignore[reportArgumentType]
+md.parser.blockprocessors.deregister("hashheader")
+md.parser.blockprocessors.deregister("setextheader")
+md.parser.blockprocessors.deregister("olist")
+md.parser.blockprocessors.deregister("ulist")
+md.stripTopLevelTags = False
 
 
 def markdown_to_typst(markdown_string: str) -> str:
-    md.set_output_format("typst")  # pyright: ignore[reportArgumentType]
     return md.convert(markdown_string)
 
 
 def markdown_to_html(markdown_string: str) -> str:
+    # Start with a fresh Markdown instance, because of deregistered parsers:
+    md = Markdown()
     md.set_output_format("html")
     return md.convert(markdown_string)
