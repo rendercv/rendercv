@@ -8,7 +8,10 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
 from .date import compute_date_string, compute_time_span_string
-from .text_processor import build_keyword_matcher_pattern, clean_url
+from .string_processor import (
+    clean_url,
+    substitute_placeholders,
+)
 
 
 def compute_entry_templates(
@@ -62,12 +65,8 @@ def compute_entry_templates(
     if "URL" in placeholders:
         placeholders["URL"] = handle_url(entry)
 
-    pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
-
-    # All the uppercase placeholders in values of templates dict that are not in placeholders dict:
-
     return {
-        key: pattern.sub(lambda match: placeholders[match.group(0)], value)
+        key: substitute_placeholders(value, placeholders)
         for key, value in templates.items()
     }
 

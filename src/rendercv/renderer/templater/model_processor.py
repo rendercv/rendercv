@@ -7,7 +7,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from .connections import compute_connections
 from .date import compute_last_updated_date
 from .entry_templates import compute_entry_templates
-from .text_processor import make_keywords_bold, markdown_to_typst
+from .string_processor import make_keywords_bold, markdown_to_typst
 
 
 def process_fields(
