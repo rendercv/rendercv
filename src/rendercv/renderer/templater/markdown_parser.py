@@ -68,6 +68,9 @@ def escape_typst_characters(string: str) -> str:
         dummy_name = f"RENDERCVTYPSTCOMMANDORMATH{i}"
         typst_command_mapping[dummy_name] = match.group(0)
         string = string.replace(typst_command_mapping[dummy_name], dummy_name)
+        typst_command_mapping[dummy_name] = typst_command_mapping[dummy_name].replace(
+            "$$", "$"
+        )
 
     # Add the tail after the last match
     escape_dictionary = {

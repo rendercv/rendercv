@@ -1,20 +1,18 @@
-import copy
 import os
 import pathlib
 import shutil
 
-import jinja2
 import pytest
 
 from rendercv import data, renderer
 from rendercv.renderer_old import renderer as renderer_module
-from rendercv.renderer_old import templater
 
 folder_name_dictionary = {
     "rendercv_empty_curriculum_vitae_data_model": "empty",
     "rendercv_filled_curriculum_vitae_data_model": "filled",
 }
 
+<<<<<<< HEAD
 def test_typst_file_class(tmp_path, rendercv_data_model, jinja2_environment):
     typst_file = templater.TypstFile(rendercv_data_model, jinja2_environment)
     typst_file.get_full_code()
@@ -122,6 +120,8 @@ def test_setup_jinja2_environment():
     assert env.comment_start_string == "((#"
     assert env.comment_end_string == "#))"
 
+=======
+>>>>>>> 9907ea6 (Improve templater)
 
 @pytest.mark.parametrize(
     "theme_name",
@@ -512,87 +512,6 @@ def test_render_pdf_invalid_typst_file(tmp_path):
     "theme_name",
     data.available_themes,
 )
-def test_locale(
-    theme_name,
-    tmp_path,
-):
-    data.RenderCVSettings(date="2024-01-01")  # type: ignore
-    cv = data.CurriculumVitae(
-        name="Test",
-        sections={
-            "Normal Entries": [
-                data.NormalEntry(
-                    name="Test",
-                    start_date="2024-01-01",
-                    end_date="present",
-                ),
-            ]
-        },
-    )
-
-    # "The style of the date. The following placeholders can be"
-    # " used:\n-FULL_MONTH_NAME: Full name of the month\n- MONTH_ABBREVIATION:"
-    # " Abbreviation of the month\n- MONTH: Month as a number\n-"
-    # " MONTH_IN_TWO_DIGITS: Month as a number in two digits\n- YEAR: Year as a"
-    # " number\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits\nThe"
-    # ' default value is "MONTH_ABBREVIATION YEAR".'
-    locale = data.Locale(
-        abbreviations_for_months=[
-            "Abbreviation of Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
-        full_names_of_months=[
-            "Full name of January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December",
-        ],
-        present="this is present",
-        to="this is to",
-        date_template=(
-            "FULL_MONTH_NAME MONTH_ABBREVIATION MONTH MONTH_IN_TWO_DIGITS YEAR"
-            " YEAR_IN_TWO_DIGITS"
-        ),
-    )
-
-    data_model = data.RenderCVDataModel(
-        cv=cv,
-        design={"theme": theme_name},
-        locale=locale,
-    )
-
-    file = renderer.create_a_typst_file(data_model, tmp_path)
-
-    contents = file.read_text()
-
-    assert "Full name of January" in contents
-    assert "Abbreviation of Jan" in contents
-    assert "this is present" in contents
-    assert "this is to" in contents
-
-
-@pytest.mark.parametrize(
-    "theme_name",
-    data.available_themes,
-)
 def test_are_all_the_theme_files_the_same(theme_name):
     source_of_truth_theme = "classic"
 
@@ -614,35 +533,6 @@ def test_are_all_the_theme_files_the_same(theme_name):
     theme_file_contents = [file.read_text() for file in theme_folder.rglob("*.j2.typ")]
 
     assert source_of_truth_file_contents == theme_file_contents
-
-
-@pytest.mark.parametrize(
-    ("input_template", "placeholders", "expected_output"),
-    [
-        # ("Hello, {name}!", {"{name}": None}, "Hello, "), # currently does not work
-        # ("Hello, {name}!", {"{name}": "World"}, "Hello, World!"), # currently does not work
-        # ("No placeholders here.", {}, "No placeholders here."),  # currently does not work
-        ("*[My](https://myurl.com)*", {}, '#link("https://myurl.com")[#emph[My]]'),
-        ("**[My](https://myurl.com)**", {}, '#link("https://myurl.com")[#strong[My]]'),
-        (
-            "***[My](https://myurl.com)***",
-            {},
-            '#link("https://myurl.com")[#strong[#emph[My]]]',
-        ),
-        ("**GRADE**", {"GRADE": "GPA: 3.00/4.00"}, "#strong[GPA: 3.00/4.00]"),
-    ],
-)
-def test_input_template_to_typst(
-    input_template,
-    placeholders,
-    expected_output,
-):
-    output = templater.input_template_to_typst(
-        input_template,
-        placeholders,
-    )
-
-    assert output == expected_output
 
 
 def test_render_a_typst_file_with_none_name(tmp_path):

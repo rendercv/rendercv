@@ -36,6 +36,7 @@ def test_get_date_object_with_today():
     today = Date(2025, 11, 3)
     assert get_date_object("present", today=today) == today
 
+
 @pytest.mark.parametrize(
     ("start_date", "end_date", "date"),
     [
