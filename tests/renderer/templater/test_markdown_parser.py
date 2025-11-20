@@ -1,84 +1,95 @@
 import pytest
 
-from rendercv.renderer.templater.markdown_parser import markdown_to_typst
+from rendercv.renderer.templater.markdown_parser import (
+    markdown_to_html,
+    markdown_to_typst,
+)
 
 
 @pytest.mark.parametrize(
     ("markdown_string", "expected_typst_string"),
     [
-        ("My Text", "My Text"),
-        ("**My** Text", "#strong[My] Text"),
-        ("*My* Text", "#emph[My] Text"),
-        ("***My*** Text", "#strong[#emph[My]] Text"),
-        ("[My](https://myurl.com) Text", '#link("https://myurl.com")[My] Text'),
-        ("`My` Text", "`My` Text"),
+        ("plain", "plain"),
+        ("**b**", "#strong[b]"),
+        ("*i*", "#emph[i]"),
+        ("***x***", "#strong[#emph[x]]"),
+        ("`c`", "`c`"),
+        ("[x](https://myurl.com)", '#link("https://myurl.com")[x]'),
         (
-            "[**My** *Text* ***Is*** `Here`](https://myurl.com)",
+            "[**b** *i* ***bi*** `c`](https://myurl.com)",
+            '#link("https://myurl.com")[#strong[b] #emph[i] #strong[#emph[bi]] `c`]',
+        ),
+        ("**a *b* c**", "#strong[a #emph[b] c]"),
+        (
+            "quote*",
+            "quote#sym.ast.basic#h(0pt, weak: true)",
+        ),
+        (
+            "asteri*sks",
+            "asteri#sym.ast.basic#h(0pt, weak: true) sks",
+        ),
+        (
+            "* test",
+            "#sym.ast.basic test",
+        ),
+        (
+            "*test",
+            "#sym.ast.basic#h(0pt, weak: true) test",
+        ),
+        (
+            r"\*'s",
+            "#sym.ast.basic#h(0pt, weak: true) 's",
+        ),
+        (
+            r"\* x",
+            "#sym.ast.basic x",
+        ),
+        (
+            r"\*.x",
+            "#sym.ast.basic#h(0pt, weak: true) .x",
+        ),
+        (
+            r"\*\*bold\*\*",
             (
-                '#link("https://myurl.com")[#strong[My] #emph[Text] #strong[#emph[Is]]'
-                " `Here`]"
+                "#sym.ast.basic#h(0pt, weak: true) "
+                "#sym.ast.basic#h(0pt, weak: true) "
+                "bold#sym.ast.basic#h(0pt, weak: true) "
+                "#sym.ast.basic#h(0pt, weak: true)"
             ),
         ),
+        # Typst commands should be preserved
         (
-            "Some other **tests, which should be *tricky* to parse!**",
-            "Some other #strong[tests, which should be #emph[tricky] to parse!]",
+            "#test-typst-command[argument]",
+            "#test-typst-command[argument]",
         ),
-        # (
-        #     "One asterisk does not a quote* maketh",
-        #     "One asterisk does not a quote#sym.ast.basic maketh",
-        # ),
-        # (
-        #     "We can put asteri*sks in the middle of words",
-        #     (
-        #         "We can put asteri#sym.ast.basic#h(0pt, weak: true) sks in the middle"
-        #         " of words"
-        #     ),
-        # ),
-        # (
-        #     (
-        #         "If we want to escape \\*'s such that they don't become bold, we use a"
-        #         " backslash: \\*"
-        #     ),
-        #     (
-        #         "If we want to escape #sym.ast.basic#h(0pt, weak: true) 's such that"
-        #         " they don't become bold, we use a backslash: #sym.ast.basic#h(0pt,"
-        #         " weak: true) "
-        #     ),
-        # ),
-        # (
-        #     "Asterisk with a space after it does not need a zero-width space: * test",
-        #     (
-        #         "Asterisk with a space after it does not need a zero-width space:"
-        #         " #sym.ast.basic test"
-        #     ),
-        # ),
-        # (
-        #     "Asterisk with a space after it does not need a zero-width space: *test",
-        #     (
-        #         "Asterisk with a space after it does not need a zero-width space:"
-        #         " #sym.ast.basic#h(0pt, weak: true) test"
-        #     ),
-        # ),
-        # (
-        #     "\\* Asterisk should not be escaped\\*.Hey?",
-        #     (
-        #         "#sym.ast.basic Asterisk should not be escaped#sym.ast.basic#h(0pt,"
-        #         " weak: true) .Hey?"
-        #     ),
-        # ),
-        # (
-        #     "I would like to not have any \\*\\*bold\\*\\* text",
-        #     (
-        #         "I would like to not have any #sym.ast.basic#h(0pt, weak: true)"
-        #         " #sym.ast.basic#h(0pt, weak: true) bold#sym.ast.basic#h(0pt,"
-        #         " weak: true) #sym.ast.basic text"
-        #     ),
-        # ),
-        # (
-        #     "Keep Typst commands #test-typst-command[argument] as they are.",
-        #     "Keep Typst commands #test-typst-command[argument] as they are.",
-        # ),
+        (
+            "#test-typst-command",
+            "#test-typst-command",
+        ),
+        (
+            "#test-typst-command(a, b)",
+            "#test-typst-command(a, b)",
+        ),
+        (
+            "#test-typst-command(a, b)[c, d]",
+            "#test-typst-command(a, b)[c, d]",
+        ),
+        # things that look like commands but aren't:
+        ("#1", r"\#1"),
+        ("I made $100", r"I made \$100"),
+        # inside math: no escaping, keep everything as is:
+        (
+            r"$$a*b \* c #cmd[x]$$",
+            r"$$a*b \* c #cmd[x]$$",
+        ),
     ],
 )
 def test_markdown_to_typst(markdown_string, expected_typst_string):
     assert markdown_to_typst(markdown_string) == expected_typst_string
+
+
+def test_markdown_to_html():
+    assert (
+        markdown_to_html("Hello, **world**!")
+        == "<div>\n<p>Hello, <strong>world</strong>!</p>\n</div>"
+    )
