@@ -90,6 +90,5 @@ def test_markdown_to_typst(markdown_string, expected_typst_string):
 
 def test_markdown_to_html():
     assert (
-        markdown_to_html("Hello, **world**!")
-        == "<div>\n<p>Hello, <strong>world</strong>!</p>\n</div>"
+        markdown_to_html("Hello, **world**!") == "<p>Hello, <strong>world</strong>!</p>"
     )

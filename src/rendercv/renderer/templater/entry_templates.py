@@ -3,18 +3,12 @@ from datetime import date as Date
 
 import pydantic
 
-from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
-    get_date_object,
-)
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import compute_date_string, compute_time_span_string, format_date
-from .string_processor import (
-    clean_url,
-    substitute_placeholders,
-)
+from .date import compute_date_string, compute_time_span_string
+from .string_processor import clean_url, substitute_placeholders
 
 uppercase_word_pattern = re.compile(r"\b[A-Z]+\b")
 
@@ -96,10 +90,10 @@ def compute_entry_templates(
 
 
 def handle_highlights(highlights: list[str]) -> str:
-    highlights[0] = "- " + highlights[0]
-    return "\n- ".join(
-        [highlight.replace("\n- ", "\n  - ") for highlight in highlights]
-    )
+    highlights = [
+        "- " + highlight.replace("\n- ", "\n  - ") for highlight in highlights
+    ]
+    return "\n".join(highlights)
 
 
 def handle_authors(authors: list[str]) -> str:
@@ -130,9 +124,12 @@ def handle_start_or_end_date(
     start_or_end_date: str | int | None,
     locale: Locale,
 ) -> str:
-    if start_or_end_date is None:
-        return ""
-    return format_date(get_date_object(start_or_end_date), locale)
+    date_string = compute_date_string(
+        date=start_or_end_date, start_date=None, end_date=None, locale=locale
+    )
+    if date_string:
+        return date_string
+    return ""
 
 
 def handle_url(entry: Entry) -> str:

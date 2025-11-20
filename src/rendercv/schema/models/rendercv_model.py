@@ -1,6 +1,6 @@
 import pydantic
 
-from .base import BaseModelWithoutExtraKeys
+from .base import BaseModelWithExtraKeys
 from .cv.cv import Cv
 from .design.classic_theme import ClassicTheme
 from .design.design import Design
@@ -8,7 +8,7 @@ from .locale.locale import EnglishLocale, Locale
 from .settings.settings import Settings
 
 
-class RenderCVModel(BaseModelWithoutExtraKeys):
+class RenderCVModel(BaseModelWithExtraKeys):
     # Technically, `cv` is a required field, but we don't pass it to the JSON Schema
     # so that the same schema can be used for standalone design, locale, and settings
     # files.

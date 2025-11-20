@@ -19,7 +19,7 @@ def process_fields(
         if isinstance(entry, str):
             entry = processor(entry)
         else:
-            for field_name, field_value in vars(entry).items():
+            for field_name, field_value in entry.model_dump(exclude_none=True).items():
                 if field_name in skipped_fields or field_name.startswith("_"):
                     continue
 
