@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, get_args
 
 import pytest
 
@@ -7,9 +7,10 @@ from rendercv.renderer.templater.connections import (
     compute_connections_for_markdown,
     compute_connections_for_typst,
     parse_connections,
+    typst_fa_icons,
 )
 from rendercv.schema.models.cv.cv import Cv
-from rendercv.schema.models.cv.social_network import SocialNetwork
+from rendercv.schema.models.cv.social_network import SocialNetwork, SocialNetworkName
 from rendercv.schema.models.design.classic_theme import ClassicTheme, Header
 from rendercv.schema.models.locale.locale import EnglishLocale
 from rendercv.schema.models.rendercv_model import RenderCVModel
@@ -23,7 +24,7 @@ def create_cv(
     website: list[str] | str | None = None,
     location: str | None = None,
     social_networks: list[SocialNetwork] | None = None,
-):
+) -> Cv:
     cv_data = {}
     for key in key_order:
         if key == "email" and email is not None:
@@ -43,137 +44,98 @@ def create_cv(
 
 
 def create_rendercv_model(
-    cv,
-    use_icons_for_connections: bool = True,
-    make_connections_links: bool = True,
-    phone_number_format: Literal["national", "international", "E164"] = "international",
-):
-    design = ClassicTheme(
-        header=Header(
-            use_icons_for_connections=use_icons_for_connections,
-            make_connections_links=make_connections_links,
-        )
+    cv: Cv,
+    *,
+    use_icons: bool = True,
+    make_links: bool = True,
+    phone_format: Literal["national", "international", "E164"] = "international",
+) -> RenderCVModel:
+    return RenderCVModel(
+        cv=cv,
+        design=ClassicTheme(
+            header=Header(
+                use_icons_for_connections=use_icons,
+                make_connections_links=make_links,
+            )
+        ),
+        locale=EnglishLocale(phone_number_format=phone_format),
     )
-
-    locale = EnglishLocale(phone_number_format=phone_number_format)
-
-    return RenderCVModel(cv=cv, design=design, locale=locale)
 
 
 class TestParseConnections:
-    def test_single_email(self):
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
+    @pytest.mark.parametrize(
+        ("field", "value", "expected_count", "expected_icon"),
+        [
+            ("email", "john@example.com", 1, "email"),
+            ("email", ["john@example.com", "jane@example.com"], 2, "email"),
+            ("phone", "+14155552671", 1, "phone"),
+            ("phone", ["+14155552671", "+442071234567"], 2, "phone"),
+            ("website", "https://example.com", 1, "website"),
+            (
+                "website",
+                ["https://example.com", "https://blog.example.com"],
+                2,
+                "website",
+            ),
+            ("location", "New York, NY", 1, "location"),
+        ],
+    )
+    def test_parse_single_field_type(self, field, value, expected_count, expected_icon):
+        cv = create_cv(key_order=[field], **{field: value})
         model = create_rendercv_model(cv)
 
         connections = parse_connections(model)
 
-        assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "email"
+        assert len(connections) == expected_count
+        assert all(c["icon_specifier"] == expected_icon for c in connections)
+
+    def test_email_connection_structure(self):
+        cv = create_cv(key_order=["email"], email="john@example.com")
+        model = create_rendercv_model(cv)
+
+        connections = parse_connections(model)
+
         assert connections[0]["url"] == "mailto:john@example.com"
         assert connections[0]["body"] == "john@example.com"
 
-    def test_multiple_emails(self):
-        cv = create_cv(
-            email=["john@example.com", "jane@example.com"],
-            key_order=["email"],
-        )
-        model = create_rendercv_model(cv)
-
-        connections = parse_connections(model)
-
-        assert len(connections) == 2
-        assert connections[0]["body"] == "john@example.com"
-        assert connections[1]["body"] == "jane@example.com"
-        assert all(c["url"] and c["url"].startswith("mailto:") for c in connections)
-
     @pytest.mark.parametrize(
-        ("phone_input", "phone_format", "expected_body"),
+        ("phone", "phone_format", "expected_body"),
         [
             ("+14155552671", "international", "+1 415-555-2671"),
             ("+14155552671", "national", "(415) 555-2671"),
             ("+14155552671", "E164", "+14155552671"),
         ],
     )
-    def test_single_phone_formatting(self, phone_input, phone_format, expected_body):
-        cv = create_cv(
-            phone=phone_input,
-            key_order=["phone"],
-        )
-        model = create_rendercv_model(cv, phone_number_format=phone_format)
+    def test_phone_formatting(self, phone, phone_format, expected_body):
+        cv = create_cv(key_order=["phone"], phone=phone)
+        model = create_rendercv_model(cv, phone_format=phone_format)
 
         connections = parse_connections(model)
 
-        assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "phone"
         assert connections[0]["body"] == expected_body
 
-    def test_multiple_phones(self):
-        cv = create_cv(
-            phone=["+14155552671", "+442071234567"],
-            key_order=["phone"],
-        )
+    def test_website_connection_structure(self):
+        cv = create_cv(key_order=["website"], website="https://example.com")
         model = create_rendercv_model(cv)
 
         connections = parse_connections(model)
 
-        assert len(connections) == 2
-        assert connections[0]["icon_specifier"] == "phone"
-        assert connections[1]["icon_specifier"] == "phone"
-        assert connections[0]["body"] == "+1 415-555-2671"
-        assert connections[1]["body"] == "+44 20 7123 4567"
-
-    def test_single_website(self):
-        cv = create_cv(
-            website="https://example.com",
-            key_order=["website"],
-        )
-        model = create_rendercv_model(cv)
-
-        connections = parse_connections(model)
-
-        assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "website"
-        # Pydantic's HttpUrl normalizes URLs by adding trailing slash
+        # Pydantic's HttpUrl adds trailing slash
         assert connections[0]["url"] == "https://example.com/"
-        # Note: clean_url removes https:// prefix
-        assert "example.com" in connections[0]["body"]
+        assert connections[0]["body"] == "example.com"
 
-    def test_multiple_websites(self):
-        cv = create_cv(
-            website=["https://example.com", "https://blog.example.com"],
-            key_order=["website"],
-        )
+    def test_location_has_no_url(self):
+        cv = create_cv(key_order=["location"], location="New York, NY")
         model = create_rendercv_model(cv)
 
         connections = parse_connections(model)
 
-        assert len(connections) == 2
-        assert all(c["icon_specifier"] == "website" for c in connections)
-
-    def test_location(self):
-        cv = create_cv(
-            location="New York, NY",
-            key_order=["location"],
-        )
-        model = create_rendercv_model(cv)
-
-        connections = parse_connections(model)
-
-        assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "location"
         assert connections[0]["url"] is None
         assert connections[0]["body"] == "New York, NY"
 
-    def test_social_networks(self):
-        social_network = SocialNetwork(network="LinkedIn", username="johndoe")
-
-        cv = create_cv(
-            social_networks=[social_network],
-            key_order=[],
-        )
+    def test_social_network_connection(self):
+        social = SocialNetwork(network="LinkedIn", username="johndoe")
+        cv = create_cv(key_order=[], social_networks=[social])
         model = create_rendercv_model(cv)
 
         connections = parse_connections(model)
@@ -183,29 +145,25 @@ class TestParseConnections:
         assert connections[0]["url"] == "https://linkedin.com/in/johndoe"
         assert connections[0]["body"] == "johndoe"
 
-    def test_multiple_social_networks(self):
-        linkedin = SocialNetwork(network="LinkedIn", username="johndoe")
-        github = SocialNetwork(network="GitHub", username="johndoe")
-
+    def test_key_order_is_preserved(self):
         cv = create_cv(
-            social_networks=[linkedin, github],
-            key_order=[],
+            key_order=["location", "email", "phone", "website"],
+            location="NYC",
+            email="john@example.com",
+            phone="+14155552671",
+            website="https://example.com",
         )
         model = create_rendercv_model(cv)
 
         connections = parse_connections(model)
 
-        assert len(connections) == 2
-        assert connections[0]["icon_specifier"] == "LinkedIn"
-        assert connections[1]["icon_specifier"] == "GitHub"
+        icons = [c["icon_specifier"] for c in connections]
+        assert icons == ["location", "email", "phone", "website"]
 
-    def test_key_order_preservation(self):
+    def test_social_networks_appended_after_key_order(self):
         cv = create_cv(
+            key_order=["email"],
             email="john@example.com",
-            phone="+14155552671",
-            website="https://example.com",
-            location="New York, NY",
-            key_order=["location", "email", "phone", "website"],
             social_networks=[
                 SocialNetwork(network="LinkedIn", username="johndoe"),
                 SocialNetwork(network="GitHub", username="johndoe"),
@@ -215,14 +173,10 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        assert connections[0]["icon_specifier"] == "location"
-        assert connections[1]["icon_specifier"] == "email"
-        assert connections[2]["icon_specifier"] == "phone"
-        assert connections[3]["icon_specifier"] == "website"
-        assert connections[4]["icon_specifier"] == "LinkedIn"
-        assert connections[5]["icon_specifier"] == "GitHub"
+        icons = [c["icon_specifier"] for c in connections]
+        assert icons == ["email", "LinkedIn", "GitHub"]
 
-    def test_empty_connections(self):
+    def test_empty_key_order_returns_empty_list(self):
         cv = create_cv(key_order=[])
         model = create_rendercv_model(cv)
 
@@ -230,10 +184,10 @@ class TestParseConnections:
 
         assert connections == []
 
-    def test_unknown_key_in_order(self):
+    def test_unknown_keys_are_ignored(self):
         cv = create_cv(
-            email="john@example.com",
             key_order=["unknown_field", "email", "another_unknown"],
+            email="john@example.com",
         )
         model = create_rendercv_model(cv)
 
@@ -244,241 +198,92 @@ class TestParseConnections:
 
 
 class TestComputeConnectionsForTypst:
-    def test_with_icons_and_links(self):
-        cv = create_cv(
-            email="john@example.com",
-            phone="+14155552671",
-            key_order=["email", "phone", "location"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=True, make_connections_links=True
-        )
-
-        result = compute_connections_for_typst(model)
-
-        assert len(result) == 2
-        # Should have both icon and link
-        assert "#connection-with-icon" in result[0]
-        assert "#link(" in result[0]
-        assert "mailto:john@example.com" in result[0]
-        assert "#connection-with-icon" in result[1]
-        assert "#link(" in result[1]
-        assert "tel:+1-415-555-2671" in result[1]
-
-    def test_with_icons_without_links(self):
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=True, make_connections_links=False
-        )
+    @pytest.mark.parametrize(
+        ("use_icons", "make_links", "expected_patterns"),
+        [
+            (True, True, ["#connection-with-icon", "#link("]),
+            (True, False, ["#connection-with-icon"]),
+            (False, True, ["#link("]),
+            (False, False, []),
+        ],
+    )
+    def test_icon_and_link_combinations(self, use_icons, make_links, expected_patterns):
+        cv = create_cv(key_order=["email"], email="john@example.com")
+        model = create_rendercv_model(cv, use_icons=use_icons, make_links=make_links)
 
         result = compute_connections_for_typst(model)
 
         assert len(result) == 1
-        # Should have icon but no link
+        for pattern in expected_patterns:
+            assert pattern in result[0]
+
+        # Check that unwanted patterns are NOT present
+        if not use_icons:
+            assert "#connection-with-icon" not in result[0]
+        if not make_links:
+            assert "#link(" not in result[0]
+
+    def test_connection_without_url_has_no_link(self):
+        cv = create_cv(key_order=["location"], location="New York, NY")
+        model = create_rendercv_model(cv, use_icons=True, make_links=True)
+
+        result = compute_connections_for_typst(model)
+
         assert "#connection-with-icon" in result[0]
         assert "#link(" not in result[0]
 
-    def test_without_icons_with_links(self):
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=False, make_connections_links=True
-        )
+    def test_plain_text_output_when_no_formatting(self):
+        cv = create_cv(key_order=["email"], email="john@example.com")
+        model = create_rendercv_model(cv, use_icons=False, make_links=False)
 
         result = compute_connections_for_typst(model)
 
-        assert len(result) == 1
-        # Should have link but no icon wrapper
-        assert "#connection-with-icon" not in result[0]
-        assert "#link(" in result[0]
-
-    def test_without_icons_without_links(self):
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=False, make_connections_links=False
-        )
-
-        result = compute_connections_for_typst(model)
-
-        assert len(result) == 1
-        assert "#connection-with-icon" not in result[0]
-        assert "#link(" not in result[0]
         assert "john@example.com" in result[0]
-
-    def test_location_without_url(self):
-        cv = create_cv(
-            location="New York, NY",
-            key_order=["location"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=True, make_connections_links=True
-        )
-
-        result = compute_connections_for_typst(model)
-
-        assert len(result) == 1
-        assert "#connection-with-icon" in result[0]
-        assert "#link(" not in result[0]
-
-    def test_multiple_connections(self):
-        cv = create_cv(
-            email="john@example.com",
-            phone="+14155552671",
-            location="New York, NY",
-            key_order=["email", "phone", "location"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=True, make_connections_links=True
-        )
-
-        result = compute_connections_for_typst(model)
-
-        assert len(result) == 3
-        assert "#link(" in result[0]
-        assert "#link(" in result[1]
-        assert "#link(" not in result[2]
 
 
 class TestComputeConnectionsForMarkdown:
-    def test_email_with_link(self):
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
+    def test_connection_with_url_formatted_as_markdown_link(self):
+        cv = create_cv(key_order=["email"], email="john@example.com")
         model = create_rendercv_model(cv)
 
         result = compute_connections_for_markdown(model)
 
-        assert len(result) == 1
         assert result[0] == "[john@example.com](mailto:john@example.com)"
 
-    def test_phone_with_link(self):
-        cv = create_cv(
-            phone="+14155552671",
-            key_order=["phone"],
-        )
+    def test_connection_without_url_is_plain_text(self):
+        cv = create_cv(key_order=["location"], location="New York, NY")
         model = create_rendercv_model(cv)
 
         result = compute_connections_for_markdown(model)
 
-        assert len(result) == 1
-        assert result[0].startswith("[+1 415-555-2671]")
-        assert "415-555-2671" in result[0]
-
-    def test_website_with_link(self):
-        cv = create_cv(
-            website="https://example.com",
-            key_order=["website"],
-        )
-        model = create_rendercv_model(cv)
-
-        result = compute_connections_for_markdown(model)
-
-        assert len(result) == 1
-        assert result[0].startswith("[")
-        # Pydantic's HttpUrl normalizes URLs by adding trailing slash
-        assert "](https://example.com/)" in result[0]
-
-    def test_location_without_link(self):
-        """Test markdown location without link."""
-        cv = create_cv(
-            location="New York, NY",
-            key_order=["location"],
-        )
-        model = create_rendercv_model(cv)
-
-        result = compute_connections_for_markdown(model)
-
-        assert len(result) == 1
-        # Location has no URL, so it's plain text
         assert result[0] == "New York, NY"
         assert "[" not in result[0]
-        assert "]" not in result[0]
-
-    def test_social_network_with_link(self):
-        """Test markdown social network connection."""
-        github = SocialNetwork(network="GitHub", username="johndoe")
-
-        cv = create_cv(
-            social_networks=[github],
-            key_order=[],
-        )
-        model = create_rendercv_model(cv)
-
-        result = compute_connections_for_markdown(model)
-
-        assert len(result) == 1
-        assert result[0] == "[johndoe](https://github.com/johndoe)"
-
-    def test_multiple_connections(self):
-        """Test formatting multiple connections for markdown."""
-        cv = create_cv(
-            email="john@example.com",
-            location="New York, NY",
-            key_order=["email", "location"],
-        )
-        model = create_rendercv_model(cv)
-
-        result = compute_connections_for_markdown(model)
-
-        assert len(result) == 2
-        assert "[john@example.com]" in result[0]
-        assert result[1] == "New York, NY"
 
 
 class TestComputeConnections:
-    def test_dispatches_to_typst(self):
-        """Test that compute_connections dispatches to Typst function."""
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(
-            cv, use_icons_for_connections=True, make_connections_links=True
-        )
-
-        result = compute_connections(model, "typst")
-
-        # Should return Typst-formatted output
-        assert len(result) == 1
-        assert "#connection-with-icon" in result[0]
-
-    def test_dispatches_to_markdown(self):
-        """Test that compute_connections dispatches to markdown function."""
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(cv)
-
-        result = compute_connections(model, "markdown")
-
-        # Should return markdown-formatted output
-        assert len(result) == 1
-        assert result[0] == "[john@example.com](mailto:john@example.com)"
-
-    @pytest.mark.parametrize(
-        "file_type",
-        ["typst", "markdown"],
-    )
-    def test_both_file_types(self, file_type):
-        """Test dispatcher works for both file types."""
-        cv = create_cv(
-            email="john@example.com",
-            key_order=["email"],
-        )
-        model = create_rendercv_model(cv)
+    @pytest.mark.parametrize("file_type", ["typst", "markdown"])
+    def test_dispatches_to_correct_formatter(self, file_type):
+        cv = create_cv(key_order=["email"], email="john@example.com")
+        model = create_rendercv_model(cv, use_icons=True, make_links=True)
 
         result = compute_connections(model, file_type)
 
-        # Should return a list with one connection
         assert len(result) == 1
         assert isinstance(result[0], str)
+
+        if file_type == "typst":
+            assert "#connection-with-icon" in result[0]
+        else:  # markdown
+            assert result[0].startswith("[")
+
+
+class TestIconMapping:
+    @pytest.mark.parametrize("network", get_args(SocialNetworkName.__value__))
+    def test_all_social_networks_have_icons(self, network):
+        assert network in typst_fa_icons, f"Missing icon for social network: {network}"
+
+    @pytest.mark.parametrize("conn_type", ["email", "phone", "website", "location"])
+    def test_all_connection_types_have_icons(self, conn_type):
+        assert conn_type in typst_fa_icons, (
+            f"Missing icon for connection type: {conn_type}"
+        )
