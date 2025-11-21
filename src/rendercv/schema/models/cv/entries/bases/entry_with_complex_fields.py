@@ -6,7 +6,7 @@ import pydantic
 import pydantic_core
 
 from .....pydantic_error_handling import CustomPydanticErrorTypes
-from ....context import get_todays_date
+from ....context import get_current_date
 from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (
@@ -20,7 +20,7 @@ type ExactDate = (
 )
 
 
-def get_date_object(date: str | int, today: Date | None = None) -> Date:
+def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
     if isinstance(date, int):
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
@@ -33,10 +33,9 @@ def get_date_object(date: str | int, today: Date | None = None) -> Date:
         # Then it is in YYYY format
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif date == "present":
-        if today is None:
-            today = Date.today()
-
-        date_object = today
+        if current_date is None:
+            raise ValueError("`current_date` is required when `date` is 'present'.")
+        date_object = current_date
     else:
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
@@ -125,9 +124,9 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
 
         if self.start_date and self.end_date:
             # Check if the start_date is before the end_date:
-            today = get_todays_date(info)
-            start_date_object = get_date_object(self.start_date, today)
-            end_date_object = get_date_object(self.end_date, today)
+            current_date = get_current_date(info)
+            start_date_object = get_date_object(self.start_date, current_date)
+            end_date_object = get_date_object(self.end_date, current_date)
             if start_date_object > end_date_object:
                 raise pydantic_core.PydanticCustomError(
                     CustomPydanticErrorTypes.other.value,

@@ -153,7 +153,7 @@ def compute_last_updated_date(
     locale: Locale, current_date: Date, name: str | None
 ) -> str:
     placeholders: dict[str, str] = {
-        "current_date": format_date(current_date, locale),
+        "CURRENT_DATE": format_date(current_date, locale),
         "NAME": name or "",
     }
     return substitute_placeholders(locale.last_updated_date_template, placeholders)
