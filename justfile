@@ -1,21 +1,46 @@
+# Development:
+install:
+  uv sync --locked --all-extras --all-groups
+  
 format:
   uv run black src tests ; uv run ruff check --fix src tests ; uv run ruff format src tests
 
 format-file target:
-  uv run -- black {{target}}; uv run -- ruff check --fix {{target}}; uv run -- ruff format {{target}}
+  uv run black {{target}}; uv run ruff check --fix {{target}}; uv run ruff format {{target}}
 
 lint:
-  uv run -- ruff check src tests
+  uv run ruff check src tests
 
 check-types:
-  uv run -- pyright src tests
+  uv run pyright src tests
 
 pre-commit:
-  uv run -- pre-commit run --all-files
+  uv run pre-commit run --all-files
 
+<<<<<<< HEAD
 count-lines:
   wc -l `find src -name '*.py'`
 
+=======
+# Testing:
+test:
+  uv run pytest
+
+test-with-coverage:
+  uv run coverage run -m pytest; uv run coverage combine
+
+report-coverage:
+  uv run coverage report && uv run coverage html --show-contexts
+
+# Docs:
+build-docs:
+  uv run mkdocs build --clean --strict
+
+serve-docs:
+  uv run mkdocs serve
+
+# Scipts
+>>>>>>> ceea296 (Start working on new CLI)
 update-schema:
   uv run scripts/update_schema.py
 
@@ -28,11 +53,13 @@ update-examples:
 create-executable:
   uv run scripts/create_executable.py
 
-profile-render-command:
-  uv run -- python -m cProfile -o render_command.prof -m rendercv render examples/John_Doe_ClassicTheme_CV.yaml && snakeviz render_command.prof
-
+# Utilities:
+count-lines:
+  wc -l `find src -name '*.py'`
+  
 src-tree:
   tree src/rendercv --gitignore
+<<<<<<< HEAD
 
 build-docs:
   uv run mkdocs build --clean --strict
@@ -57,3 +84,5 @@ profile target:
 
 pull-data:
   uv run scripts/pull_data.py
+=======
+>>>>>>> ceea296 (Start working on new CLI)
