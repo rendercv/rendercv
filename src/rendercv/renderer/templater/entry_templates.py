@@ -24,7 +24,7 @@ def compute_entry_templates(
         return {}
 
     templates = {
-        key: value.replace("\n", "\n\n")
+        key: value
         for key, value in entry_options.model_dump().items()
         if key.endswith("template") and isinstance(value, str)
     }
@@ -41,7 +41,7 @@ def compute_entry_templates(
     # Remove the not provided placeholders from the templates, including characters
     # around them:
     not_provided_placeholders_pattern = re.compile(
-        rf"\S*{'|'.join(not_provided_placeholders)}\S*"
+        r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
     )
     templates = {
         key: not_provided_placeholders_pattern.sub("", value)
@@ -84,9 +84,22 @@ def compute_entry_templates(
         placeholders["DOI"] = handle_doi(entry)
 
     return {
-        key: substitute_placeholders(value, placeholders)
+        key: clean_trailing_parts(substitute_placeholders(value, placeholders))
         for key, value in templates.items()
     }
+
+
+unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_]+$")
+
+
+def clean_trailing_parts(text: str) -> str:
+    new_lines = []
+    for line in text.splitlines():
+        new_line = line.strip()
+        if new_line == "":
+            continue
+        new_lines.append(unwanted_trailing_parts_pattern.sub("", new_line).strip())
+    return "\n".join(new_lines)
 
 
 def handle_highlights(highlights: list[str]) -> str:

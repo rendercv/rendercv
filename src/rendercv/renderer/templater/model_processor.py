@@ -1,3 +1,5 @@
+import functools
+import re
 from collections.abc import Callable
 from typing import Literal
 
@@ -14,26 +16,32 @@ from .string_processor import make_keywords_bold
 def process_fields(
     entry: Entry, string_processors: list[Callable[[str], str]]
 ) -> Entry:
-    skipped_fields = ["start_date", "end_date", "date", "doi", "url"]
-    for processor in string_processors:
-        if isinstance(entry, str):
-            entry = processor(entry)
+    skipped = {"start_date", "end_date", "date", "doi", "url"}
+
+    # Collapse list of processors into one function
+    def apply_all(s: str) -> str:
+        return functools.reduce(lambda v, f: f(v), string_processors, s)
+
+    if isinstance(entry, str):
+        return apply_all(entry)
+
+    data = entry.model_dump(exclude_none=True)
+    for field, value in data.items():
+        if field in skipped or field.startswith("_"):
+            continue
+
+        if isinstance(value, str):
+            setattr(entry, field, apply_all(value))
+        elif isinstance(value, list):
+            setattr(entry, field, [apply_all(v) for v in value])
         else:
-            for field_name, field_value in entry.model_dump(exclude_none=True).items():
-                if field_name in skipped_fields or field_name.startswith("_"):
-                    continue
-
-                if isinstance(field_value, str):
-                    new_field_value = processor(field_value)
-                elif isinstance(field_value, list):
-                    new_field_value = [processor(item) for item in field_value]
-                else:
-                    message = f"Unhandled field type: {type(field_value)}"
-                    raise ValueError(message)
-
-                field_value = new_field_value  # NOQA: PLW2901
+            message = f"Unhandled field type: {type(value)}"
+            raise ValueError(message)
 
     return entry
+
+
+entry_type_to_snake_case_pattern = re.compile(r"(?<!^)(?=[A-Z])")
 
 
 def process_model(
@@ -61,9 +69,14 @@ def process_model(
 
     for section in rendercv_model.cv.rendercv_sections:
         for entry in section.entries:
+            # Convert PascalCase to snake_case (e.g., "EducationEntry" -> "education_entry")
+            entry_type_snake_case = entry_type_to_snake_case_pattern.sub(
+                "_", section.entry_type
+            ).lower()
+
             entry_options = getattr(
                 rendercv_model.design.entry_types,
-                section.entry_type,
+                entry_type_snake_case,
                 None,
             )
             if entry_options:

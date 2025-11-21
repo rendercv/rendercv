@@ -6,6 +6,9 @@ import pydantic
 
 @functools.lru_cache(maxsize=64)
 def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
+    if not keywords:
+        message = "Keywords cannot be empty"
+        raise ValueError(message)
     pattern = (
         r"\b("
         + "|".join(sorted(map(re.escape, keywords), key=len, reverse=True))
@@ -15,6 +18,8 @@ def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
 
 
 def make_keywords_bold(string: str, keywords: list[str]) -> str:
+    if not keywords:
+        return string
     pattern = build_keyword_matcher_pattern(frozenset(keywords))
     return pattern.sub(lambda m: f"**{m.group(0)}**", string)
 

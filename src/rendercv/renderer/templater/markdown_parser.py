@@ -77,8 +77,6 @@ def escape_typst_characters(string: str) -> str:
     escape_dictionary = {
         "[": "\\[",
         "]": "\\]",
-        "(": "\\(",
-        ")": "\\)",
         "\\": "\\\\",
         '"': '\\"',
         "#": "\\#",

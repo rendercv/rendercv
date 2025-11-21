@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.0.1": *
+#import "lib.typ": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(

@@ -238,7 +238,7 @@ class TestComputeConnectionsForTypst:
 
         result = compute_connections_for_typst(model)
 
-        assert "john@example.com" in result[0]
+        assert "john\\@example.com" in result[0]
 
 
 class TestComputeConnectionsForMarkdown:

@@ -89,8 +89,6 @@ from rendercv.renderer.templater.markdown_parser import (
         ("My $ Text", "My \\$ Text"),
         ("My [ Text", "My \\[ Text"),
         ("My ] Text", "My \\] Text"),
-        ("My ( Text", "My \\( Text"),
-        ("My ) Text", "My \\) Text"),
         ("My \\ Text", "My \\\\ Text"),
         ('My " Text', 'My \\" Text'),
         ("My @ Text", "My \\@ Text"),
