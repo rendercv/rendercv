@@ -104,7 +104,7 @@ def create_sample_yaml_input_file(
         by_alias=True,
         exclude={
             "cv": {"sections", "photo"},
-            "rendercv_settings": {"render_command"},
+            "settings": {"render_command"},
         },
     )
     data_model_as_dictionary = json.loads(data_model_as_json)

@@ -84,7 +84,7 @@ def build_rendercv_model_from_dictionary(
         context={
             "context": ValidationContext(
                 input_file_path=input_file_path or pathlib.Path(),
-                current_date=input_dictionary.get("rendercv_settings", {}).get(
+                current_date=input_dictionary.get("settings", {}).get(
                     "current_date", Date.today()
                 ),
             )
