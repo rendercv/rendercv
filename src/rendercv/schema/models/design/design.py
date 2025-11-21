@@ -47,7 +47,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
             },
         )
 
-    custom_theme_folder = input_file_path / theme_name
+    custom_theme_folder = input_file_path.parent / theme_name
     # Check if the custom theme folder exists:
     if not custom_theme_folder.exists():
         raise pydantic_core.PydanticCustomError(

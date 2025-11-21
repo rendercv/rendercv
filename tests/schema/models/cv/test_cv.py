@@ -2,48 +2,32 @@ import pydantic
 import pytest
 
 from rendercv.schema.models.cv.cv import Cv
+from rendercv.schema.models.cv.section import available_entry_type_names
 
 
 def test_rendercv_sections(
-    education_entry,
-    experience_entry,
-    publication_entry,
-    normal_entry,
-    one_line_entry,
-    text_entry,
+    request: pytest.FixtureRequest,
 ):
+    entry_type_names = [
+        "".join(
+            ["_" + c.lower() if c.isupper() else c for c in entry_type_name]
+        ).lstrip("_")
+        for entry_type_name in available_entry_type_names
+    ]
+    sections = {
+        f"arbitrary_title_{i}": [
+            request.getfixturevalue(entry_type_name),
+            request.getfixturevalue(entry_type_name),
+        ]
+        for i, entry_type_name in enumerate(entry_type_names)
+    }
     input = {
         "name": "John Doe",
-        "sections": {
-            "arbitrary_title": [
-                education_entry,
-                education_entry,
-            ],
-            "arbitrary_title_2": [
-                experience_entry,
-                experience_entry,
-            ],
-            "arbitrary_title_3": [
-                publication_entry,
-                publication_entry,
-            ],
-            "arbitrary_title_4": [
-                normal_entry,
-                normal_entry,
-            ],
-            "arbitrary_title_5": [
-                one_line_entry,
-                one_line_entry,
-            ],
-            "arbitrary_title_6": [
-                text_entry,
-                text_entry,
-            ],
-        },
+        "sections": sections,
     }
 
     cv = Cv(**input)
-    assert len(cv.rendercv_sections) == 6
+    assert len(cv.rendercv_sections) == len(available_entry_type_names)
     for section in cv.rendercv_sections:
         assert len(section.entries) == 2
 

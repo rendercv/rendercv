@@ -1,28 +1,6 @@
-<<<<<<< HEAD
-"""This module contains fixtures and other helpful functions for the tests."""
-
 import copy
-import filecmp
-import itertools
-import json
-import os
-=======
->>>>>>> f16aca9 (Rename old tests)
-import pathlib
 
 import pytest
-<<<<<<< HEAD
-import ruamel.yaml
-
-from rendercv import old_data as data
-from rendercv.renderer import templater
-
-# RenderCV is being tested by comparing the output to reference files. Therefore,
-# reference files should be updated when RenderCV is updated in a way that changes
-# the output. Setting update_testdata to True will update the reference files with
-# the latest RenderCV. This should be done with caution, as it will overwrite the
-# reference files with the latest output.
-update_testdata = os.getenv("UPDATE_TESTDATA", "false").lower() == "true"
 
 education_entry_dictionary = {
     "institution": "Boğaziçi University",
@@ -89,28 +67,61 @@ numbered_entry_dictionary = {
 reversed_numbered_entry_dictionary = {
     "reversed_number": "This is a reversed numbered entry.",
 }
-=======
->>>>>>> f16aca9 (Rename old tests)
 
 
-def pytest_addoption(parser: pytest.Parser) -> None:
-    parser.addoption(
-        "--update-testdata",
-        action="store_true",
-        default=False,
-        help="Update the updatable testdata",
+@pytest.fixture
+def publication_entry() -> dict[str, str | list[str]]:
+    """Return a sample publication entry."""
+    return copy.deepcopy(publication_entry_dictionary)
+
+
+@pytest.fixture
+def experience_entry() -> dict[str, str]:
+    """Return a sample experience entry."""
+    return copy.deepcopy(experience_entry_dictionary)
+
+
+@pytest.fixture
+def education_entry() -> dict[str, str]:
+    """Return a sample education entry."""
+    return copy.deepcopy(education_entry_dictionary)
+
+
+@pytest.fixture
+def normal_entry() -> dict[str, str]:
+    """Return a sample normal entry."""
+    return copy.deepcopy(normal_entry_dictionary)
+
+
+@pytest.fixture
+def one_line_entry() -> dict[str, str]:
+    """Return a sample one line entry."""
+    return copy.deepcopy(one_line_entry_dictionary)
+
+
+@pytest.fixture
+def bullet_entry() -> dict[str, str]:
+    """Return a sample bullet entry."""
+    return copy.deepcopy(bullet_entry_dictionary)
+
+
+@pytest.fixture
+def numbered_entry() -> dict[str, str]:
+    """Return a sample numbered entry."""
+    return copy.deepcopy(numbered_entry_dictionary)
+
+
+@pytest.fixture
+def reversed_numbered_entry() -> dict[str, str]:
+    """Return a sample reversed numbered entry."""
+    return copy.deepcopy(reversed_numbered_entry_dictionary)
+
+
+@pytest.fixture
+def text_entry() -> str:
+    """Return a sample text entry."""
+    return (
+        "This is a *TextEntry*. It is only a text and can be useful for sections like"
+        " **Summary**. To showcase the TextEntry completely, this sentence is added,"
+        " but it doesn't contain any information."
     )
-
-
-@pytest.fixture
-def update_testdata(request: pytest.FixtureRequest) -> bool:
-    return request.config.getoption("--update-testdata")
-
-
-@pytest.fixture
-def testdata_dir(request: pytest.FixtureRequest) -> pathlib.Path:
-    module_path = pathlib.Path(request.node.module.__file__)
-    module_name = module_path.stem
-    base_dir = module_path.parent
-
-    return base_dir / "testdata" / module_name
