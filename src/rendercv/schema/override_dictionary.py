@@ -33,22 +33,29 @@ def update_value_by_location(
             recursive calls. Defaults to None.
     """
     keys = key.split(".")
-    last_key: str | int = keys[-1]
-    remaining_key = ".".join(keys[:-1])
-    previous_key = ".".join(full_key.split(".")[:-1])
+    first_key: str | int = keys[0]
+    remaining_key = ".".join(keys[1:])
+
+    # Calculate the parent path for error messages
+    processed_count = len(full_key.split(".")) - len(key.split("."))
+    previous_key = (
+        ".".join(full_key.split(".")[:processed_count]) if processed_count > 0 else ""
+    )
 
     if isinstance(dict_or_list, list):
         try:
-            last_key = int(last_key)
+            first_key = int(first_key)
         except ValueError as e:
             message = (
-                f"`{previous_key}` corresponds to a list, but `{key}` is not an"
+                f"`{previous_key}` corresponds to a list, but `{keys[0]}` is not an"
                 " integer."
             )
             raise ValueError(message) from e
 
-        if last_key >= len(dict_or_list):
-            message = f"Index {last_key} is out of range for the list `{previous_key}`."
+        if first_key >= len(dict_or_list):
+            message = (
+                f"Index {first_key} is out of range for the list `{previous_key}`."
+            )
             raise IndexError(message)
     elif not isinstance(dict_or_list, dict):
         message = f"It seems like there's something wrong with {full_key}."
@@ -58,13 +65,13 @@ def update_value_by_location(
         new_value = value
     else:
         new_value = update_value_by_location(
-            dict_or_list[last_key],  # pyright: ignore[reportArgumentType, reportCallIssue]
+            dict_or_list[first_key],  # pyright: ignore[reportArgumentType, reportCallIssue]
             remaining_key,
             value,
             full_key=full_key,
         )
 
-    dict_or_list[last_key] = new_value  # pyright: ignore[reportArgumentType, reportCallIssue]
+    dict_or_list[first_key] = new_value  # pyright: ignore[reportArgumentType, reportCallIssue]
 
     return dict_or_list
 
