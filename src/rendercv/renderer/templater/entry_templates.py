@@ -95,17 +95,15 @@ unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_]+$")
 def clean_trailing_parts(text: str) -> str:
     new_lines = []
     for line in text.splitlines():
-        new_line = line.strip()
+        new_line = line.rstrip()
         if new_line == "":
             continue
-        new_lines.append(unwanted_trailing_parts_pattern.sub("", new_line).strip())
+        new_lines.append(unwanted_trailing_parts_pattern.sub("", new_line).rstrip())
     return "\n".join(new_lines)
 
 
 def handle_highlights(highlights: list[str]) -> str:
-    highlights = [
-        "- " + highlight.replace("\n- ", "\n  - ") for highlight in highlights
-    ]
+    highlights = ["- " + highlight.replace(" - ", "\n  - ") for highlight in highlights]
     return "\n".join(highlights)
 
 

@@ -40,6 +40,12 @@
     
     - The app is made open-source (3,000+ stars #link("https://github.com")[on GitHub])
     
+      - The app is made open-source (3,000+ stars #link("https://github.com")[on GitHub]) with #link("https://github.com")[on GitHub]
+    
+      - The app is made open-source (3,000+ stars #link("https://github.com")[on GitHub]) with #link("https://github.com")[on GitHub]
+    
+      - The app is made open-source (3,000+ stars #link("https://github.com")[on GitHub]) with #link("https://github.com")[on GitHub]
+    
   ],
   [
     
