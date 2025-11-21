@@ -16,7 +16,7 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
         ("2020-01", Date(2020, 1, 1), None),
         ("2020", Date(2020, 1, 1), None),
         (2020, Date(2020, 1, 1), None),
-        ("present", Date.today(), None),
+        ("present", None, ValueError),
         ("invalid", None, ValueError),
         ("20222", None, ValueError),
         ("202222-20200", None, ValueError),
@@ -32,9 +32,9 @@ def test_get_date_object(date, expected_date_object, expected_error):
         assert get_date_object(date) == expected_date_object
 
 
-def test_get_date_object_with_today():
-    today = Date(2025, 11, 3)
-    assert get_date_object("present", today=today) == today
+def test_get_date_object_with_current_date():
+    current_date = Date(2025, 11, 3)
+    assert get_date_object("present", current_date=current_date) == current_date
 
 
 @pytest.mark.parametrize(

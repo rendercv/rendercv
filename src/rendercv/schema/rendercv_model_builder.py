@@ -52,11 +52,11 @@ def build_rendercv_dictionary(
         "dont_generate_png": kwargs.get("dont_generate_png"),
     }
 
-    input_dict = input_dict.setdefault("settings", {}).setdefault("render_command", {})
+    input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     for key, value in render_overrides.items():
         if value:
-            input_dict[key] = value
+            input_dict["settings"]["render_command"][key] = value
 
     return input_dict
 
@@ -84,8 +84,8 @@ def build_rendercv_model_from_dictionary(
         context={
             "context": ValidationContext(
                 input_file_path=input_file_path or pathlib.Path(),
-                date_today=input_dictionary.get("rendercv_settings", {}).get(
-                    "date", Date.today()
+                current_date=input_dictionary.get("rendercv_settings", {}).get(
+                    "current_date", Date.today()
                 ),
             )
         },

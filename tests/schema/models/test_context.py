@@ -6,7 +6,7 @@ import pydantic
 from rendercv.schema.models.context import (
     ValidationContext,
     get_input_file_path,
-    get_todays_date,
+    get_current_date,
 )
 
 
@@ -23,15 +23,15 @@ class DummyModel(pydantic.BaseModel):
 
     @pydantic.field_validator("date_field")
     @classmethod
-    def capture_todays_date(cls, _value: str, info: pydantic.ValidationInfo) -> str:
-        resolved_date = get_todays_date(info)
+    def capture_current_date(cls, _value: str, info: pydantic.ValidationInfo) -> str:
+        resolved_date = get_current_date(info)
         return resolved_date.isoformat()
 
 
 def test_model_validation_with_context():
     test_path = pathlib.Path("/test/input/file.yaml")
     context_date = Date(2008, 1, 15)
-    context = ValidationContext(input_file_path=test_path, date_today=context_date)
+    context = ValidationContext(input_file_path=test_path, current_date=context_date)
 
     model = DummyModel.model_validate(
         {"name": "test", "path_field": "dummy", "date_field": "dummy"},

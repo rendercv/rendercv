@@ -351,7 +351,7 @@ class TestFormatDate:
 
 
 def test_compute_last_updated_date():
-    locale = EnglishLocale(last_updated_date_template="Last updated in current_date by NAME")
+    locale = EnglishLocale(last_updated_date_template="Last updated in CURRENT_DATE by NAME")
     current_date = Date(2024, 1, 1)
     name = "John Doe"
     result = compute_last_updated_date(locale, current_date, name)

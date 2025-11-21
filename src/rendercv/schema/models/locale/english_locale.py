@@ -27,16 +27,16 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "\n- NAME: The name of the person"
             "\n- PAGE_NUMBER: The current page number"
             "\n- TOTAL_PAGES: The total number of pages"
-            "\n- TODAY: Today's date with `locale.date_template`"
+            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
         ),
     )
     last_updated_date_template: str = pydantic.Field(
-        default="Last updated in TODAY",
+        default="Last updated in CURRENT_DATE",
         description=(
             "The template of the last updated date at the top right corner of the"
             " page.\n\nThe following placeholders can be used:"
             "\n- NAME: The name of the person"
-            "\n- TODAY: Today's date with `locale.date_template`"
+            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
         ),
     )
     date_template: str = pydantic.Field(
