@@ -5,8 +5,8 @@ import pydantic
 
 from rendercv.schema.models.context import (
     ValidationContext,
-    get_input_file_path,
     get_current_date,
+    get_input_file_path,
 )
 
 

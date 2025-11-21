@@ -1,10 +1,3 @@
-"""Dynamic variant class creation for themes and locales.
-
-Creates Pydantic model variants with different defaults from a base class. Powers both:
-- Theme system: ClassicTheme, ModernCVTheme, etc. with different colors, fonts, spacing
-- Locale system: EnglishLocale, TurkishLocale, etc. with different translations
-"""
-
 from collections.abc import Callable
 from typing import Any, Literal, cast
 
