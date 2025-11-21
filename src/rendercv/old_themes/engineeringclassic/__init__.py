@@ -1,6 +1,6 @@
 from typing import Literal
 
-import rendercv.themes.options as o
+import rendercv.old_themes.options as o
 
 
 class Page(o.Page):

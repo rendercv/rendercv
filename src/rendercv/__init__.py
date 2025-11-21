@@ -5,7 +5,7 @@ you to version-control your CV/resume as source code.
 
 __version__ = "2.3"
 
-from .api import (
+from .old_api import (
     create_a_markdown_file_from_a_python_dictionary,
     create_a_markdown_file_from_a_yaml_string,
     create_a_pdf_from_a_python_dictionary,

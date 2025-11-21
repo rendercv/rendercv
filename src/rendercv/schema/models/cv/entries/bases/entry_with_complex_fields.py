@@ -5,8 +5,8 @@ from typing import Annotated, Literal, Self
 import pydantic
 import pydantic_core
 
-from .....context import get_todays_date
 from .....pydantic_error_handling import CustomPydanticErrorTypes
+from ....context import get_todays_date
 from .entry_with_date import BaseEntryWithDate
 
 type ExactDate = (
@@ -21,17 +21,6 @@ type ExactDate = (
 
 
 def get_date_object(date: str | int, today: Date | None = None) -> Date:
-    """Parse a date string in YYYY-MM-DD, YYYY-MM, or YYYY format and return a
-    `datetime.date` object.
-
-    Args:
-        date: The date string to parse.
-        today: The today's date for "present" dates. If not provided, the current date
-            will be used.
-
-    Returns:
-        The parsed date.
-    """
     if isinstance(date, int):
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):

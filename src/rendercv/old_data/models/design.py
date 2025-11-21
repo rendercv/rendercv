@@ -11,7 +11,7 @@ from typing import Annotated, Any
 
 import pydantic
 
-from ...themes import (
+from ...old_themes import (
     ClassicThemeOptions,
     EngineeringclassicThemeOptions,
     EngineeringresumesThemeOptions,

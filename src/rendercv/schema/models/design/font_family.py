@@ -3,8 +3,8 @@ from typing import Annotated, Literal
 import pydantic
 import pydantic_core
 
-from ....context import get_input_file_path
-from ....pydantic_error_handling import CustomPydanticErrorTypes
+from ...pydantic_error_handling import CustomPydanticErrorTypes
+from ..context import get_input_file_path
 
 available_font_families = sorted(
     [

@@ -20,7 +20,9 @@ import typer
 import watchdog.events
 import watchdog.observers
 
-from .. import __version__, data, renderer
+from .. import __version__
+from .. import old_data as data
+from .. import old_renderer as renderer
 from . import commands, printer
 
 

@@ -1,6 +1,6 @@
 import pydantic
 
-from .basis.entry import BaseEntry
+from .bases.entry import BaseEntry
 
 
 class BulletEntry(BaseEntry):

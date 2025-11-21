@@ -10,7 +10,7 @@ from collections.abc import Callable
 
 import pydantic
 
-from .. import data, renderer
+from .. import old_data, old_renderer
 
 
 def _create_contents_of_a_something_from_something(
@@ -33,8 +33,8 @@ def _create_contents_of_a_something_from_something(
         data_model = parser(input)
     except pydantic.ValidationError as e:
         if isinstance(input, str):
-            return data.parse_validation_errors(e, input)
-        return data.parse_validation_errors(e)
+            return old_data.parse_validation_errors(e, input)
+        return old_data.parse_validation_errors(e)
 
     return renderer(data_model)
 
@@ -60,7 +60,7 @@ def _create_a_file_from_something(
     try:
         data_model = parser(input)
     except pydantic.ValidationError as e:
-        return data.parse_validation_errors(e)
+        return old_data.parse_validation_errors(e)
 
     with tempfile.TemporaryDirectory() as temp_dir:
         temporary_output_path = pathlib.Path(temp_dir)
@@ -72,7 +72,7 @@ def _create_a_file_from_something(
 
 def read_a_python_dictionary_and_return_a_data_model(
     input_file_as_a_dict: dict,
-) -> data.RenderCVDataModel:
+) -> old_data.RenderCVDataModel:
     """
     Validate the input dictionary and return the data model.
 
@@ -82,14 +82,14 @@ def read_a_python_dictionary_and_return_a_data_model(
     Returns:
         The data model.
     """
-    return data.validate_input_dictionary_and_return_the_data_model(
+    return old_data.validate_input_dictionary_and_return_the_data_model(
         input_file_as_a_dict,
     )
 
 
 def read_a_yaml_string_and_return_a_data_model(
     yaml_file_as_string: str,
-) -> data.RenderCVDataModel:
+) -> old_data.RenderCVDataModel:
     """
     Validate the YAML input file given as a string and return the data model.
 
@@ -99,7 +99,7 @@ def read_a_yaml_string_and_return_a_data_model(
     Returns:
         The data model.
     """
-    input_file_as_a_dict = data.read_a_yaml_file(yaml_file_as_string)
+    input_file_as_a_dict = old_data.read_a_yaml_file(yaml_file_as_string)
     return read_a_python_dictionary_and_return_a_data_model(input_file_as_a_dict)
 
 
@@ -120,7 +120,7 @@ def create_contents_of_a_typst_file_from_a_python_dictionary(
     return _create_contents_of_a_something_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        renderer.create_contents_of_a_typst_file,
+        old_renderer.create_contents_of_a_typst_file,
     )
 
 
@@ -142,7 +142,7 @@ def create_contents_of_a_typst_file_from_a_yaml_string(
     return _create_contents_of_a_something_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        renderer.create_contents_of_a_typst_file,
+        old_renderer.create_contents_of_a_typst_file,
     )
 
 
@@ -163,7 +163,7 @@ def create_contents_of_a_markdown_file_from_a_python_dictionary(
     return _create_contents_of_a_something_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        renderer.create_contents_of_a_markdown_file,
+        old_renderer.create_contents_of_a_markdown_file,
     )
 
 
@@ -184,7 +184,7 @@ def create_contents_of_a_markdown_file_from_a_yaml_string(
     return _create_contents_of_a_something_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        renderer.create_contents_of_a_markdown_file,
+        old_renderer.create_contents_of_a_markdown_file,
     )
 
 
@@ -207,7 +207,7 @@ def create_a_typst_file_from_a_yaml_string(
     return _create_a_file_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        renderer.create_a_typst_file,
+        old_renderer.create_a_typst_file,
         output_file_path,
     )
 
@@ -230,7 +230,7 @@ def create_a_typst_file_from_a_python_dictionary(
     return _create_a_file_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        renderer.create_a_typst_file,
+        old_renderer.create_a_typst_file,
         output_file_path,
     )
 
@@ -253,7 +253,7 @@ def create_a_markdown_file_from_a_python_dictionary(
     return _create_a_file_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        renderer.create_a_markdown_file,
+        old_renderer.create_a_markdown_file,
         output_file_path,
     )
 
@@ -276,7 +276,7 @@ def create_a_markdown_file_from_a_yaml_string(
     return _create_a_file_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        renderer.create_a_markdown_file,
+        old_renderer.create_a_markdown_file,
         output_file_path,
     )
 
@@ -299,8 +299,8 @@ def create_an_html_file_from_a_python_dictionary(
     return _create_a_file_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        lambda x, y: renderer.render_an_html_from_markdown(
-            renderer.create_a_markdown_file(x, y),
+        lambda x, y: old_renderer.render_an_html_from_markdown(
+            old_renderer.create_a_markdown_file(x, y),
         ),
         output_file_path,
     )
@@ -324,8 +324,8 @@ def create_an_html_file_from_a_yaml_string(
     return _create_a_file_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        lambda x, y: renderer.render_an_html_from_markdown(
-            renderer.create_a_markdown_file(x, y),
+        lambda x, y: old_renderer.render_an_html_from_markdown(
+            old_renderer.create_a_markdown_file(x, y),
         ),
         output_file_path,
     )
@@ -349,8 +349,8 @@ def create_a_pdf_from_a_yaml_string(
     return _create_a_file_from_something(
         yaml_file_as_string,
         read_a_yaml_string_and_return_a_data_model,
-        lambda x, y: renderer.render_a_pdf_from_typst(
-            renderer.create_a_typst_file(x, y)
+        lambda x, y: old_renderer.render_a_pdf_from_typst(
+            old_renderer.create_a_typst_file(x, y)
         ),
         output_file_path,
     )
@@ -374,8 +374,8 @@ def create_a_pdf_from_a_python_dictionary(
     return _create_a_file_from_something(
         input_file_as_a_dict,
         read_a_python_dictionary_and_return_a_data_model,
-        lambda x, y: renderer.render_a_pdf_from_typst(
-            renderer.create_a_typst_file(x, y),
+        lambda x, y: old_renderer.render_a_pdf_from_typst(
+            old_renderer.create_a_typst_file(x, y),
         ),
         output_file_path,
     )

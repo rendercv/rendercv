@@ -13,28 +13,28 @@ from typing import get_args, get_origin, overload
 import jinja2
 import pydantic
 
-from .. import data
+from .. import old_data
 
 
 class TemplatedFile:
     """This class is a base class for `TypstFile`, and `MarkdownFile` classes. It
     contains the common methods and attributes for both classes. These classes are used
-    to generate the Typst and Markdown files with the data model and Jinja2
+    to generate the Typst and Markdown files with the old_data model and Jinja2
     templates.
 
     Args:
-        data_model: The data model.
+        old_data_model: The old_data model.
         environment: The Jinja2 environment.
     """
 
     def __init__(
         self,
-        data_model: data.RenderCVDataModel,
+        old_data_model: old_data.RenderCVDataModel,
         environment: jinja2.Environment,
     ):
-        self.cv = data_model.cv
-        self.design = data_model.design
-        self.locale = data_model.locale
+        self.cv = old_data_model.cv
+        self.design = old_data_model.design
+        self.locale = old_data_model.locale
         self.environment = environment
 
     def template(
@@ -42,7 +42,7 @@ class TemplatedFile:
         theme_name: str,
         template_name: str,
         extension: str,
-        entry: data.Entry | None = None,
+        entry: old_data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
@@ -122,12 +122,12 @@ class TemplatedFile:
 
 class TypstFile(TemplatedFile):
     """This class represents a Typst file. It generates the Typst code with the
-    data model and Jinja2 templates.
+    old_data model and Jinja2 templates.
     """
 
     def __init__(
         self,
-        data_model: data.RenderCVDataModel,
+        old_data_model: old_data.RenderCVDataModel,
         environment: jinja2.Environment,
     ):
         typst_file_data_model = copy.deepcopy(data_model)
@@ -268,14 +268,14 @@ class TypstFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: data.Entry | None = None,
+        entry: old_data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
 
         Args:
             template_name: The name of the template file.
-            entry: The data model of the entry.
+            entry: The old_data model of the entry.
 
         Returns:
             The templated file.
@@ -310,7 +310,7 @@ class TypstFile(TemplatedFile):
 
 class MarkdownFile(TemplatedFile):
     """This class represents a Markdown file. It generates the Markdown code with the
-    data model and Jinja2 templates. Markdown files are generated to produce an HTML
+    old_data model and Jinja2 templates. Markdown files are generated to produce an HTML
     which can be copy-pasted to [Grammarly](https://app.grammarly.com/) for
     proofreading.
     """
@@ -350,14 +350,14 @@ class MarkdownFile(TemplatedFile):
     def template(
         self,
         template_name: str,
-        entry: data.Entry | None = None,
+        entry: old_data.Entry | None = None,
         **kwargs,
     ) -> str:
         """Template one of the files in the `themes` directory.
 
         Args:
             template_name: The name of the template file.
-            entry: The data model of the entry.
+            entry: The old_data model of the entry.
 
         Returns:
             The templated file.
@@ -694,9 +694,9 @@ def markdown_to_typst(markdown_string: str) -> str:
 
 
 def transform_markdown_sections_to_something_else_sections(
-    sections: dict[str, data.SectionContents],
+    sections: dict[str, old_data.SectionContents],
     functions_to_apply: list[Callable],
-) -> dict[str, data.SectionContents] | None:
+) -> dict[str, old_data.SectionContents] | None:
     """
     Recursively loop through sections and update all the strings by applying the
     `functions_to_apply` functions, given as an argument.
@@ -759,8 +759,8 @@ def transform_markdown_sections_to_something_else_sections(
 
 
 def transform_markdown_sections_to_typst_sections(
-    sections: dict[str, data.SectionContents],
-) -> dict[str, data.SectionContents] | None:
+    sections: dict[str, old_data.SectionContents],
+) -> dict[str, old_data.SectionContents] | None:
     """
     Recursively loop through sections and convert all the Markdown strings (user input
     is in Markdown format) to Typst strings.
@@ -839,7 +839,7 @@ class Jinja2Environment:
             )
             environment.filters["escape_typst_characters"] = escape_typst_characters
             environment.filters["markdown_to_typst"] = markdown_to_typst
-            environment.filters["make_a_url_clean"] = data.make_a_url_clean
+            environment.filters["make_a_url_clean"] = old_data.make_a_url_clean
             environment.filters["remove_typst_commands"] = remove_typst_commands
 
             cls.environment = environment

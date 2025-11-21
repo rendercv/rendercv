@@ -3,7 +3,7 @@ from datetime import date as Date
 import pydantic
 import pytest
 
-from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
+from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     BaseEntryWithComplexFields,
     get_date_object,
 )
