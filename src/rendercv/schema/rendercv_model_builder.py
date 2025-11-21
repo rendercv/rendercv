@@ -4,6 +4,7 @@ from typing import TypedDict, Unpack
 
 from .models.context import ValidationContext
 from .models.rendercv_model import RenderCVModel
+from .override_dictionary import apply_overrides_to_dictionary
 from .yaml_reader import read_yaml
 
 
@@ -20,6 +21,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     dont_generate_markdown: bool | None
     dont_generate_pdf: bool | None
     dont_generate_png: bool | None
+    overrides: dict[str, str] | None
 
 
 def build_rendercv_dictionary(
@@ -57,6 +59,10 @@ def build_rendercv_dictionary(
     for key, value in render_overrides.items():
         if value:
             input_dict["settings"]["render_command"][key] = value
+
+    overrides = kwargs.get("overrides")
+    if overrides:
+        input_dict = apply_overrides_to_dictionary(input_dict, overrides)
 
     return input_dict
 

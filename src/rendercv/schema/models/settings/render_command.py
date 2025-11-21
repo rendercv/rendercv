@@ -78,31 +78,31 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         default=False,
         title="Don't Generate HTML",
         description=(
-            "A boolean value to determine whether the HTML file will be generated. The"
-            " default value is `False`."
+            "If `True`, the HTML file will not be generated. The default value is"
+            " `False`."
         ),
     )
     dont_generate_markdown: bool = pydantic.Field(
         default=False,
         title="Don't Generate Markdown",
         description=(
-            "A boolean value to determine whether the Markdown file will be generated."
-            " The default value is `False`."
+            "If `True`, the Markdown file will not be generated. The default value is"
+            " `False`."
         ),
     )
     dont_generate_pdf: bool = pydantic.Field(
         default=False,
         title="Don't Generate PDF",
         description=(
-            "A boolean value to determine whether the PDF file will be generated. The"
-            " default value is `False`."
+            "If `True`, the PDF file will not be generated. The default value is"
+            " `False`."
         ),
     )
     dont_generate_png: bool = pydantic.Field(
         default=False,
         title="Don't Generate PNG",
         description=(
-            "A boolean value to determine whether the PNG file will be generated. The"
-            " default value is `False`."
+            "If `True`, the PNG file will not be generated. The default value is"
+            " `False`."
         ),
     )
