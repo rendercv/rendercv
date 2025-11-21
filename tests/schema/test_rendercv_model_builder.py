@@ -205,6 +205,62 @@ class TestBuildRendercvDictionary:
         assert result["settings"]["render_command"]["pdf_path"] == "custom.pdf"
         assert result["settings"]["render_command"]["dont_generate_png"] is True
 
+    @pytest.mark.parametrize(
+        ("overrides", "expected_checks"),
+        [
+            (
+                {"cv.name": "Jane Doe"},
+                [("cv", "name", "Jane Doe")],
+            ),
+            (
+                {"design.theme": "sb2nov"},
+                [("design", "theme", "sb2nov")],
+            ),
+            (
+                {"cv.name": "Jane Doe", "design.theme": "engineeringresumes"},
+                [("cv", "name", "Jane Doe"), ("design", "theme", "engineeringresumes")],
+            ),
+        ],
+    )
+    def test_overrides_parameter(
+        self, minimal_input_dict, overrides, expected_checks
+    ):
+        yaml_input = dictionary_to_yaml(minimal_input_dict)
+
+        result = build_rendercv_dictionary(yaml_input, overrides=overrides)
+
+        for path_and_value in expected_checks:
+            value = result
+            for key in path_and_value[:-1]:
+                value = value[key]
+            assert value == path_and_value[-1]
+
+    def test_overrides_with_nested_paths(self, minimal_input_dict):
+        input_dict = {
+            **minimal_input_dict,
+            "cv": {
+                "name": "John Doe",
+                "sections": {
+                    "education": [
+                        {"institution": "MIT", "degree": "PhD"}
+                    ]
+                },
+            },
+        }
+        yaml_input = dictionary_to_yaml(input_dict)
+
+        result = build_rendercv_dictionary(
+            yaml_input,
+            overrides={
+                "cv.sections.education.0.institution": "Harvard",
+                "cv.sections.education.0.degree": "MS",
+            },
+        )
+
+        assert result["cv"]["sections"]["education"][0]["institution"] == "Harvard"
+        assert result["cv"]["sections"]["education"][0]["degree"] == "MS"
+        assert result["cv"]["name"] == "John Doe"  # Unchanged
+
 
 class TestBuildRendercvModelFromDictionary:
     def test_basic_model_creation_without_optionals(self, minimal_input_dict):
@@ -393,6 +449,23 @@ class TestBuildRendercvModel:
         # When using file path, paths are resolved relative to input file
         assert model.settings.render_command.pdf_path.name == "output.pdf"
         assert model.settings.render_command.dont_generate_html is True
+
+    @pytest.mark.parametrize(
+        ("overrides", "expected_name"),
+        [
+            ({"cv.name": "Jane Doe"}, "Jane Doe"),
+            ({"cv.name": "Bob Smith"}, "Bob Smith"),
+        ],
+    )
+    def test_with_overrides_parameter(
+        self, minimal_input_dict, overrides, expected_name
+    ):
+        yaml_input = dictionary_to_yaml(minimal_input_dict)
+
+        model = build_rendercv_model(yaml_input, overrides=overrides)
+
+        assert isinstance(model, RenderCVModel)
+        assert model.cv.name == expected_name
 
     def test_with_fixture_input_file(self, input_file_path):
         model = build_rendercv_model(input_file_path)
