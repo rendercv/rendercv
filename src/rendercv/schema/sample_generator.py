@@ -103,7 +103,7 @@ def create_sample_yaml_input_file(
         exclude_none=False,
         by_alias=True,
         exclude={
-            "cv": {"sections", "photo"},
+            "cv": {},
             "settings": {"render_command"},
         },
     )

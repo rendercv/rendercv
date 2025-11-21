@@ -262,57 +262,58 @@
   last-updated-date-text: "Last updated in Oct 2025",
   locale-catalog-language: "en",
   page-size: "us-letter",
+  page-top-margin: 2cm,
+  page-bottom-margin: 2cm,
+  page-left-margin: 2cm,
+  page-right-margin: 2cm,
+  page-show-page-numbering: true,
+  page-show-last-updated-date: true,
   colors-text: rgb(0, 0, 0),
-  colors-section-titles: rgb(0, 79, 144),
-  colors-last-updated-date-and-page-numbering: rgb(128, 128, 128),
   colors-name: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
+  colors-section-titles: rgb(0, 79, 144),
   colors-links: rgb(0, 79, 144),
-  section-titles-font-family: "Source Sans 3",
-  section-titles-bold: true,
-  section-titles-line-thickness: 0.5pt,
-  section-titles-font-size: 1.4em,
-  section-titles-type: "with-partial-line",
-  section-titles-vertical-space-above: 0.5cm,
-  section-titles-vertical-space-below: 0.3cm,
-  section-titles-small-caps: false,
-  links-use-external-link-icon: true,
+  colors-last-updated-date-and-page-numbering: rgb(128, 128, 128),
+  text-font-family: "Source Sans 3",
   text-font-size: 10pt,
   text-leading: 0.6em,
-  text-font-family: "Source Sans 3",
   text-alignment: "justified",
   text-date-and-location-column-alignment: right,
-  header-photo-width: 3.5cm,
-  header-use-icons-for-connections: true,
+  links-underline: false,
+  links-use-external-link-icon: true,
   header-name-font-family: "Source Sans 3",
   header-name-font-size: 30pt,
   header-name-bold: true,
   header-small-caps-for-name: false,
+  header-photo-width: 3.5cm,
   header-connections-font-family: "Source Sans 3",
   header-vertical-space-between-name-and-connections: 0.7cm,
   header-vertical-space-between-connections-and-first-section: 0.7cm,
   header-horizontal-space-between-connections: 0.5cm,
   header-separator-between-connections: "",
   header-alignment: center,
-  highlights-summary-left-margin: 0cm,
+  section-titles-type: "with-partial-line",
+  section-titles-font-family: "Source Sans 3",
+  section-titles-font-size: 1.4em,
+  section-titles-bold: true,
+  section-titles-small-caps: false,
+  section-titles-line-thickness: 0.5pt,
+  section-titles-vertical-space-above: 0.5cm,
+  section-titles-vertical-space-below: 0.3cm,
+  entries-date-and-location-width: 4.15cm,
+  entries-left-and-right-margin: 0.2cm,
+  entries-horizontal-space-between-columns: 0.1cm,
+  entries-vertical-space-between-entries: 1.2em,
+  entries-allow-page-break-in-sections: true,
+  entries-allow-page-break-in-entries: true,
+  entries-short-second-row: false,
   highlights-bullet: "•",
   highlights-nested-bullet: "-",
   highlights-top-margin: 0.25cm,
   highlights-left-margin: 0.4cm,
   highlights-vertical-space-between-highlights: 0.25cm,
   highlights-horizontal-space-between-bullet-and-highlights: 0.5em,
-  entries-vertical-space-between-entries: 1.2em,
-  entries-date-and-location-width: 4.15cm,
-  entries-allow-page-break-in-entries: true,
-  entries-horizontal-space-between-columns: 0.1cm,
-  entries-left-and-right-margin: 0.2cm,
-  page-top-margin: 2cm,
-  page-bottom-margin: 2cm,
-  page-left-margin: 2cm,
-  page-right-margin: 2cm,
-  page-show-last-updated-date: true,
-  page-show-page-numbering: true,
-  links-underline: false,
+  highlights-summary-left-margin: 0cm,
   entry-types-education-entry-degree-column-width: 1cm,
   date: datetime.today(),
 ) = [
@@ -393,15 +394,19 @@
     #set align(header-alignment)
     #set text(
       font: header-name-font-family,
-      weight: if header-name-bold { 700 } else { 400 },
       size: header-name-font-size,
       fill: colors-name,
     )
-    #if header-small-caps-for-name [
-      #smallcaps(it.body)
-    ] else [
-      #it.body
-    ]
+    #let body
+    #if header-small-caps-for-name {
+      body = [#smallcaps(it.body)]
+    } else {
+      body = [#it.body]
+    }
+    #if header-name-bold {
+      body = [#strong(body)]
+    }
+    #body
     // Vertical space after the name
     #v(header-vertical-space-between-name-and-connections, weak: true)
   ]

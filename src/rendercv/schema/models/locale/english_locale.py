@@ -1,3 +1,4 @@
+import functools
 from typing import Annotated, Literal
 
 import annotated_types as at
@@ -117,3 +118,20 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             description="Full names of the months in the locale.",
         )
     )
+
+    @functools.cached_property
+    def language_iso_639_1(self) -> str:
+        return {
+            "english": "en",
+            "mandarin_chineese": "zh",
+            "hindi": "hi",
+            "spanish": "es",
+            "french": "fr",
+            "portuguese": "pt",
+            "german": "de",
+            "turkish": "tr",
+            "italian": "it",
+            "russian": "ru",
+            "japanese": "ja",
+            "korean": "ko",
+        }[self.language]

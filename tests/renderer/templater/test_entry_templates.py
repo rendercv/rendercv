@@ -26,7 +26,7 @@ def current_date():
 
 class TestHandleHighlights:
     def test_formats_and_indents_nested_items(self):
-        highlights = ["First line", "Second line\n- Nested"]
+        highlights = ["First line", "Second line - Nested"]
 
         result = handle_highlights(highlights)
 

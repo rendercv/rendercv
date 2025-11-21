@@ -230,23 +230,21 @@ class TestBuildRendercvModelFromDictionary:
         assert model._input_file_path is None
 
     @pytest.mark.parametrize(
-        "rendercv_settings",
+        "settings",
         [
             # Custom date provided
             {"current_date": Date(2023, 6, 15)},
-            # No rendercv_settings at all
+            # No settings at all
             None,
-            # Empty rendercv_settings
+            # Empty settings
             {},
         ],
     )
-    def test_validation_context_current_date(
-        self, minimal_input_dict, rendercv_settings
-    ):
+    def test_validation_context_current_date(self, minimal_input_dict, settings):
         input_dict = minimal_input_dict.copy()
 
-        if rendercv_settings is not None:
-            input_dict["rendercv_settings"] = rendercv_settings
+        if settings is not None:
+            input_dict["settings"] = settings
 
         # Should create model successfully regardless of current_date source
         model = build_rendercv_model_from_dictionary(input_dict)
@@ -263,7 +261,7 @@ class TestBuildRendercvModelFromDictionary:
 
         input_dict = {
             **minimal_input_dict,
-            "rendercv_settings": {"current_date": custom_date},
+            "settings": {"current_date": custom_date},
         }
 
         model = build_rendercv_model_from_dictionary(input_dict, input_file_path)

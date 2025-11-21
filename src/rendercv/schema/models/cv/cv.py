@@ -24,6 +24,10 @@ class Cv(BaseModelWithExtraKeys):
         default=None,
         examples=["John Doe", "Jane Smith"],
     )
+    headline: str | None = pydantic.Field(
+        default=None,
+        examples=["Software Engineer", "Data Scientist", "Product Manager"],
+    )
     location: str | None = pydantic.Field(
         default=None,
         examples=["New York, NY", "London, UK", "Istanbul, Türkiye"],
