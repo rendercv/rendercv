@@ -87,7 +87,8 @@ class TestProcessFields:
 def model(request: pytest.FixtureRequest) -> RenderCVModel:
     cv_data = {
         # Order matters for connections
-        "name": "Jane Doe",
+        "name": "Jane Doe @",
+        "headline": "Software Engineer @",
         "email": "jane@example.com",
         "website": "https://janedoe.dev",
         "sections": {
@@ -116,12 +117,15 @@ class TestProcessModel:
     def test_process_model_for_markdown_populates_fields(self, model):
         result = process_model(model, "markdown")
 
+        assert result.cv.name == "Jane Doe @"
+        assert result.cv.headline == "Software Engineer @"
+
         # Connections and last updated date are added to cv
         assert result.cv.connections == [  # pyright: ignore[reportAttributeAccessIssue]
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
-        assert result.cv.last_updated_date == "Last updated in Feb 2024"  # pyright: ignore[reportAttributeAccessIssue]
+        assert result.cv.last_updated_date_template == "Last updated in Feb 2024"  # pyright: ignore[reportAttributeAccessIssue]
 
         entry = result.cv.rendercv_sections[0].entries[0]
         assert entry.main_column_template.startswith("**Backend Work**")
@@ -143,6 +147,9 @@ class TestProcessModel:
 
     def test_process_model_for_typst_converts_markdown_and_bolds_keywords(self, model):
         result = process_model(model, "typst")
+
+        result.cv.name = "Jane Doe \\@"
+        result.cv.headline = "Software Engineer \\@"
 
         entry = result.cv.rendercv_sections[0].entries[0]
         assert entry.main_column_template.startswith("#strong[Backend Work]")

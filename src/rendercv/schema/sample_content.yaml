@@ -1,4 +1,3 @@
----
 name: John Doe
 location: Location
 email: john.doe@example.com
@@ -9,7 +8,7 @@ social_networks:
   - network: GitHub
     username: john.doe
 sections:
-  welcome_to_RenderCV!:
+  Welcome to RenderCV!:
     - "[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support."
     - "Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from."
   education:

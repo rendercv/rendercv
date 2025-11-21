@@ -1,13 +1,11 @@
 import pathlib
-from dataclasses import dataclass
 from datetime import date as Date
 from typing import cast
 
 import pydantic
 
 
-@dataclass
-class ValidationContext:
+class ValidationContext(pydantic.BaseModel):
     input_file_path: pathlib.Path | None = None
     current_date: Date | None = None
 
