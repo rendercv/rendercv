@@ -47,12 +47,10 @@ requires-python = '>=3.12'
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
     'Jinja2>=3.1.6',                # Generate Typst and Markdown files
-    'phonenumbers>=9.0.16',         # Validate phone numbers
-    'email-validator>=2.3.0',       # Validate email addresses
-    'pydantic>=2.12.3',             # Validate and parse input files
-    'pycountry>=24.6.1',            # ISO 639-3 validation
+    'phonenumbers>=9.0.19',         # Validate phone numbers
+    'pydantic[email]>=2.10.6',      # Validate and parse input files
     'pydantic-extra-types>=2.10.6', # Validate extra types
-    'ruamel.yaml>=0.18.16',         # Parse YAML files
+    'ruamel.yaml>=0.18.10',         # Parse YAML files
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -71,12 +69,11 @@ classifiers = [
 
 [project.optional-dependencies]
 full = [
-    'typer>=0.20.0',   # Command-line interface
-    'markdown>=3.9',   # Convert Markdown to HTML
-    'watchdog>=6.0.0', # Monitor files for updates
-    'typst>=0.13.7',   # Render PDF from Typst source files
-    'packaging>=25.0', # Validate version numbers
-    'rendercv-fonts',  # Font files for RenderCV
+    'typer>=0.20.0',         # Command-line interface
+    'markdown>=3.10',        # Convert Markdown to HTML
+    'watchdog>=6.0.0',       # Monitor files for updates
+    'typst>=0.14.1',         # Render PDF from Typst source files
+    'rendercv-fonts>=0.4.0', # Font files for RenderCV
 ]
 
 [project.urls]

@@ -148,7 +148,9 @@ class TestComputeTimeSpanString:
             (None, None, "2021-01-01"),  # missing start_date
         ],
     )
-    def test_returns_none_for_invalid_inputs(self, current_date, date, start_date, end_date):
+    def test_returns_none_for_invalid_inputs(
+        self, current_date, date, start_date, end_date
+    ):
         """Should return None when date is provided or dates are incomplete."""
         result = compute_time_span_string(
             date, start_date, end_date, EnglishLocale(), current_date
@@ -351,7 +353,9 @@ class TestFormatDate:
 
 
 def test_compute_last_updated_date():
-    locale = EnglishLocale(last_updated_date_template="Last updated in CURRENT_DATE by NAME")
+    locale = EnglishLocale(
+        last_updated_date_template="Last updated in CURRENT_DATE by NAME"
+    )
     current_date = Date(2024, 1, 1)
     name = "John Doe"
     result = compute_last_updated_date(locale, current_date, name)

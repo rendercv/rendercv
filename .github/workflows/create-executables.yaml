@@ -28,7 +28,7 @@ jobs:
         uses: taiki-e/install-action@just
 
       - name: Install the project
-        run: uv sync --locked --all-extras --all-groups
+        run: just install
 
       - name: Create executable
         run: just create-executable

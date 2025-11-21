@@ -253,9 +253,7 @@ class TestComputeEntryTemplates:
         )
 
         assert templates == {
-            "link_template": (
-                "Linked Item [example.com/page](https://example.com/page/)"
-            )
+            "link_template": "Linked Item [example.com/page](https://example.com/page/)"
         }
 
 
