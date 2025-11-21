@@ -4,6 +4,7 @@ import pydantic
 import pytest
 
 from rendercv.renderer.templater.entry_templates import (
+    clean_trailing_parts,
     compute_entry_templates,
     handle_authors,
     handle_date,
@@ -64,13 +65,20 @@ class TestHandleDate:
 
     def test_without_start_and_end_date(self, current_date):
         result = handle_date(
-            "2023-05", None, None, EnglishLocale(), show_time_spans=True, current_date=current_date
+            "2023-05",
+            None,
+            None,
+            EnglishLocale(),
+            show_time_spans=True,
+            current_date=current_date,
         )
 
         assert result == "May 2023"
 
     def test_returns_empty_string_when_no_dates_exist(self, current_date):
-        result = handle_date(None, None, None, EnglishLocale(), True, current_date=current_date)
+        result = handle_date(
+            None, None, None, EnglishLocale(), True, current_date=current_date
+        )
 
         assert result == ""
 
@@ -141,7 +149,11 @@ class TestHandleDoi:
 class TestComputeEntryTemplates:
     def test_returns_empty_dict_for_text_entries(self, current_date):
         templates = compute_entry_templates(
-            "Plain text entry", NormalEntryOptions(), EnglishLocale(), True, current_date=current_date
+            "Plain text entry",
+            NormalEntryOptions(),
+            EnglishLocale(),
+            True,
+            current_date=current_date,
         )
 
         assert templates == {}
@@ -150,12 +162,16 @@ class TestComputeEntryTemplates:
         entry = NormalEntry(name="Solo")
 
         templates = compute_entry_templates(
-            entry, NormalEntryOptions(), EnglishLocale(), False, current_date=current_date
+            entry,
+            NormalEntryOptions(),
+            EnglishLocale(),
+            False,
+            current_date=current_date,
         )
 
         assert templates == {
-            "main_column_template": "**Solo**\n\n\n\n",
-            "date_and_location_column_template": "\n\n",
+            "main_column_template": "**Solo**",
+            "date_and_location_column_template": "",
         }
 
     def test_populates_highlights_and_date_placeholders(self, current_date):
@@ -167,12 +183,16 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, NormalEntryOptions(), EnglishLocale(), True, current_date=current_date
+            entry,
+            NormalEntryOptions(),
+            EnglishLocale(),
+            True,
+            current_date=current_date,
         )
 
         assert templates == {
-            "main_column_template": "**Project**\n\n\n\n- Alpha\n- Beta",
-            "date_and_location_column_template": "Remote\n\nMay 2023",
+            "main_column_template": "**Project**\n- Alpha\n- Beta",
+            "date_and_location_column_template": "Remote\nMay 2023",
         }
 
     def test_formats_start_and_end_dates_in_custom_template(self, current_date):
@@ -189,7 +209,7 @@ class TestComputeEntryTemplates:
             entry, TimelineOptions(), EnglishLocale(), False, current_date=current_date
         )
 
-        assert templates == {"timeline_template": "Jan 2020 / Mar 2021 "}
+        assert templates == {"timeline_template": "Jan 2020 / Mar 2021"}
 
     def test_handles_authors_doi_and_date_placeholders(self, current_date):
         class PublicationTemplates(pydantic.BaseModel):
@@ -203,13 +223,17 @@ class TestComputeEntryTemplates:
         )
 
         templates = compute_entry_templates(
-            entry, PublicationTemplates(), EnglishLocale(), False, current_date=current_date
+            entry,
+            PublicationTemplates(),
+            EnglishLocale(),
+            False,
+            current_date=current_date,
         )
 
         assert templates == {
             "citation_template": (
                 "Alice, Bob | [10.1000/xyz123](https://doi.org/10.1000/xyz123)"
-                " | Feb 2024 | "
+                " | Feb 2024"
             )
         }
 
@@ -230,6 +254,26 @@ class TestComputeEntryTemplates:
 
         assert templates == {
             "link_template": (
-                "Linked Item [example.com/page](https://example.com/page/) "
+                "Linked Item [example.com/page](https://example.com/page/)"
             )
         }
+
+
+@pytest.mark.parametrize(
+    ("input_text", "expected"),
+    [
+        ("Hello---", "Hello"),
+        ("World**", "World**"),  # ** is allowed
+        ("Name_", "Name_"),  # underscore allowed
+        ("Foo bar!!!???///", "Foo bar!!!???"),  # only trailing junk removed
+        ("Ok..--", "Ok.."),  # trims only the trailing --
+        ("(Test)]}", "(Test)]"),  # allowed chars kept
+        ("Line!!***", "Line!!***"),  # trailing *** removed
+        ("Just fine!", "Just fine!"),
+        ("EndsWithDash - ", "EndsWithDash"),
+        ("***", "***"),  # remains
+        ("Mix\nBad+++", "Mix\nBad"),  # multiline behavior
+    ],
+)
+def test_clean_trailing_parts(input_text, expected):
+    assert clean_trailing_parts(input_text) == expected

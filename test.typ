@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.0.1": *
+#import "lib.typ": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -16,130 +16,32 @@
   header-separator-between-connections: "|",
   page-left-margin: 2cm,
   page-right-margin: 2cm,
-)= John Doe
+)
 
-
+= John Doe
 
 #connections(
   [Location],
-  [#link(mailto:john.doe@example.com, john.doe@example.com, icon: false)],
-  [#link(tel:+1-609-999-9995, (609) 999-9995, icon: false)],
-  [#link(https://linkedin.com/in/john.doe, john.doe, icon: false)],
-  [#link(https://github.com/john.doe, john.doe, icon: false)],
-)== welcome\_to\_RenderCV!
-
-
-
-[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.
-Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
-== Education
-
-
-
-#education-entry(
-  [
-    
-  ],
-  [
-    
-  ],
+  [#link("mailto:john.doe@example.com", icon: false)[john.doe\@example.com]],
+  [#link("tel:+1-609-999-9995", icon: false)[(609) 999-9995]],
+  [#link("https://linkedin.com/in/john.doe", icon: false)[john.doe]],
+  [#link("https://github.com/john.doe", icon: false)[john.doe]],
 )
-#education-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
-== Experience
 
-
-
-#regular-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
-#regular-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
-#regular-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
 == Projects
 
-
-
 #regular-entry(
   [
+    #strong[#link("https://example.com")[Example Project]]
+    
+    A web application for writing essays
+    
+    - Launched an #link("https://example.com")[iOS app] in 09\/2024 that currently has 10k+ monthly active users
+    
+    - The app is made open-source (3,000+ stars #link("https://github.com")[on GitHub])
     
   ],
   [
     
-  ],
-)
-#regular-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
-== Skills
-
-
-
-
-
-
-== Publications
-
-
-
-#regular-entry(
-  [
-    
-  ],
-  [
-    
-  ],
-)
-== Extracurricular Activities
-
-
-
-- There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.
-- Each entry type has a different structure and layout. This document demonstrates all of them.
-== Numbered Entries
-
-
-
-+ This is a numbered entry.
-+ This is another numbered entry.
-+ This is the third numbered entry.
-== Reversed Numbered Entries
-
-#reversed-numbered-entries(
-  [
-
-
-+ This is a reversed numbered entry.
-+ This is another reversed numbered entry.
-+ This is the third reversed numbered entry.
   ],
 )

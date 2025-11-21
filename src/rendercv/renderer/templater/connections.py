@@ -4,6 +4,7 @@ import phonenumbers
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
+from .markdown_parser import markdown_to_typst
 from .string_processor import clean_url
 
 
@@ -120,16 +121,16 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
     placeholders = [
         (
             f"#connection-with-icon({typst_fa_icons[connection['icon_specifier']]},"
-            f" {connection['body']})"
+            f" {markdown_to_typst(connection['body'])})"
             if use_icon
-            else connection["body"]
+            else markdown_to_typst(connection["body"])
         )
         for connection in connections
     ]
 
     return [
         (
-            f"#link({connection['url']}, {placeholder}, icon: false)"
+            f'#link("{connection["url"]}", icon: false)[{placeholder}]'
             if connection["url"] and make_links
             else placeholder
         )

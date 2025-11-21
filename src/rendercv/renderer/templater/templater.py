@@ -13,11 +13,15 @@ templates_directory = pathlib.Path(__file__).parent / "templates"
 
 
 @functools.lru_cache(maxsize=1)
-def get_jinja2_environment(input_file_path: pathlib.Path) -> jinja2.Environment:
+def get_jinja2_environment(
+    input_file_path: pathlib.Path | None = None,
+) -> jinja2.Environment:
     return jinja2.Environment(
         loader=jinja2.FileSystemLoader(
             [
-                input_file_path.parent,  # To allow users to override the templates
+                (  # To allow users to override the templates:
+                    input_file_path.parent if input_file_path else pathlib.Path.cwd()
+                ),
                 templates_directory,
             ]
         ),
@@ -43,7 +47,7 @@ def render_full_template(
         f"{file_type}/Header.j2.{extension}", rendercv_model
     )
 
-    code = preamble + header
+    code = f"{preamble}\n\n{header}\n"
     for rendercv_section in rendercv_model.cv.rendercv_sections:
         section_beginning = render_single_template(
             f"{file_type}/SectionBeginning.j2.{extension}",
@@ -56,16 +60,17 @@ def render_full_template(
             rendercv_model,
             entry_type=rendercv_section.entry_type,
         )
-        entries_code = ""
+        entry_codes = []
         for entry in rendercv_section.entries:
             entry_code = render_single_template(
                 f"{file_type}/entries/{rendercv_section.entry_type}.j2.{extension}",
                 rendercv_model,
                 entry=entry,
             )
-            entries_code += f"\n{entry_code}"
+            entry_codes.append(entry_code)
+        entries_code = "\n\n".join(entry_codes)
         section_code = f"{section_beginning}\n{entries_code}\n{section_ending}"
-        code += section_code
+        code += f"\n{section_code}"
 
     return code
 
