@@ -121,7 +121,7 @@
       "type": "object"
     },
     "Cv": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "name": {
           "anyOf": [
@@ -133,7 +133,6 @@
             }
           ],
           "default": null,
-          "description": "Your full name as you want it to appear on your CV.",
           "examples": [
             "John Doe",
             "Jane Smith"
@@ -150,7 +149,6 @@
             }
           ],
           "default": null,
-          "description": "Your location (city, state/country, or full address). This appears in your CV header.",
           "examples": [
             "New York, NY",
             "London, UK",
@@ -160,7 +158,7 @@
         },
         "email": {
           "default": null,
-          "description": "Your email address. Multiple email addresses may be provided as a list.",
+          "description": "Accepts either a single email address (string) or a list of email addresses.",
           "examples": [
             "john.doe@example.com",
             [
@@ -173,24 +171,22 @@
         "photo": {
           "anyOf": [
             {
-              "format": "path",
-              "type": "string"
+              "$ref": "#/$defs/ExistingInputRelativePath"
             },
             {
               "type": "null"
             }
           ],
           "default": null,
-          "description": "Path to your photo file, relative to your CV YAML file. The photo will appear in your CV header.",
+          "description": "Path to the photo file, relative to the input YAML file.",
           "examples": [
             "photo.jpg",
             "images/profile.png"
-          ],
-          "title": "Photo"
+          ]
         },
         "phone": {
           "default": null,
-          "description": "Your phone number with country code. Use international format starting with '+' (e.g., +1 for USA, +44 for UK). Multiple phone numbers may be provided as a list.",
+          "description": "Phone number with country code. Use international format starting with '+' (e.g., +1 for USA, +44 for UK). Accepts either a single phone number as a string or a list of phone numbers.",
           "examples": [
             "+1-234-567-8900",
             [
@@ -202,7 +198,7 @@
         },
         "website": {
           "default": null,
-          "description": "Your personal website or portfolio URL. Multiple websites may be provided as a list.",
+          "description": "Personal website or portfolio URL. Accepts either a single website URL as as a list.",
           "examples": [
             "https://johndoe.com",
             [
@@ -225,7 +221,7 @@
             }
           ],
           "default": null,
-          "description": "List of your social network profiles (e.g., LinkedIn, GitHub). These appear as clickable links in your CV header.",
+          "description": "List of social network profiles (e.g., LinkedIn, GitHub).",
           "title": "Social Networks"
         },
         "sections": {
@@ -329,7 +325,6 @@
             }
           ],
           "default": null,
-          "description": "The location of this event (e.g., city and country).",
           "examples": [
             "Istanbul, Türkiye",
             "New York, NY",
@@ -347,7 +342,6 @@
             }
           ],
           "default": null,
-          "description": "A brief summary or description of this role/event. This appears before the highlights.",
           "examples": [
             "Led a team of 5 engineers to develop innovative solutions.",
             "Completed advanced coursework in machine learning and artificial intelligence."
@@ -388,7 +382,7 @@
           "type": "string"
         },
         "area": {
-          "description": "Your field of study or major.",
+          "description": "Field of study or major.",
           "examples": [
             "Mechanical Engineering",
             "Computer Science",
@@ -407,7 +401,7 @@
             }
           ],
           "default": null,
-          "description": "Your degree type (e.g., BS, MS, PhD). Leave empty if not applicable.",
+          "description": "Degree type (e.g., BS, MS, PhD). Leave empty if not applicable.",
           "examples": [
             "BS",
             "BA",
@@ -527,13 +521,13 @@
         },
         "page_numbering_template": {
           "default": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
-          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- TODAY: Today's date with `locale.date_template`",
+          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Page Numbering Template",
           "type": "string"
         },
         "last_updated_date_template": {
-          "default": "Last updated in TODAY",
-          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- TODAY: Today's date with `locale.date_template`",
+          "default": "Last updated in CURRENT_DATE",
+          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Last Updated Date Template",
           "type": "string"
         },
@@ -642,6 +636,10 @@
         }
       ]
     },
+    "ExistingInputRelativePath": {
+      "format": "path",
+      "type": "string"
+    },
     "ExperienceEntry": {
       "additionalProperties": true,
       "description": null,
@@ -715,7 +713,6 @@
             }
           ],
           "default": null,
-          "description": "The location of this event (e.g., city and country).",
           "examples": [
             "Istanbul, Türkiye",
             "New York, NY",
@@ -733,7 +730,6 @@
             }
           ],
           "default": null,
-          "description": "A brief summary or description of this role/event. This appears before the highlights.",
           "examples": [
             "Led a team of 5 engineers to develop innovative solutions.",
             "Completed advanced coursework in machine learning and artificial intelligence."
@@ -764,7 +760,7 @@
           "title": "Highlights"
         },
         "company": {
-          "description": "The name of the company or organization.",
+          "description": "Name of the company or organization.",
           "examples": [
             "Microsoft",
             "Google",
@@ -774,7 +770,7 @@
           "type": "string"
         },
         "position": {
-          "description": "Your job title or role at the company.",
+          "description": "Job title or role at the company.",
           "examples": [
             "Software Engineer",
             "Research Assistant",
@@ -931,13 +927,13 @@
         },
         "page_numbering_template": {
           "default": "NAME - 第 PAGE_NUMBER 页，共 TOTAL_PAGES 页",
-          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- TODAY: Today's date with `locale.date_template`",
+          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Page Numbering Template",
           "type": "string"
         },
         "last_updated_date_template": {
           "default": "最后更新于 TODAY",
-          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- TODAY: Today's date with `locale.date_template`",
+          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Last Updated Date Template",
           "type": "string"
         },
@@ -1144,7 +1140,6 @@
             }
           ],
           "default": null,
-          "description": "The location of this event (e.g., city and country).",
           "examples": [
             "Istanbul, Türkiye",
             "New York, NY",
@@ -1162,7 +1157,6 @@
             }
           ],
           "default": null,
-          "description": "A brief summary or description of this role/event. This appears before the highlights.",
           "examples": [
             "Led a team of 5 engineers to develop innovative solutions.",
             "Completed advanced coursework in machine learning and artificial intelligence."
@@ -1193,7 +1187,7 @@
           "title": "Highlights"
         },
         "name": {
-          "description": "The name of the entry, such as Some Project, Some Event, etc.",
+          "description": "The name of the entry, such as `Some Project`, `Some Event`, etc.",
           "examples": [
             "Some Project",
             "Some Event",
@@ -1244,7 +1238,7 @@
           "type": "string"
         },
         "details": {
-          "description": "The details/value for this item. This appears after the label on the same line.",
+          "description": "The details/value for this item.",
           "examples": [
             "English (native), Spanish (fluent)",
             "US Citizen",
@@ -1274,6 +1268,10 @@
       "title": "OneLineEntryOptions",
       "type": "object"
     },
+    "PlannedInputRelativePath": {
+      "format": "path",
+      "type": "string"
+    },
     "PublicationEntry": {
       "additionalProperties": true,
       "description": null,
@@ -1298,7 +1296,6 @@
           ]
         },
         "title": {
-          "description": "The title of the publication.",
           "examples": [
             "Deep Learning for Computer Vision",
             "Advances in Quantum Computing"
@@ -1307,7 +1304,7 @@
           "type": "string"
         },
         "authors": {
-          "description": "List of authors. You can bold your own name by wrapping it with **double asterisks**.",
+          "description": "List of authors. A name can be bolded by wrapping it with **double asterisks**.",
           "examples": [
             [
               "John Doe",
@@ -1405,107 +1402,52 @@
         "design": {
           "anyOf": [
             {
-              "format": "path",
-              "type": "string"
+              "$ref": "#/$defs/ExistingInputRelativePath"
             },
             {
               "type": "null"
             }
           ],
           "default": null,
-          "description": "The file path to the YAML file that contains the `design` field.",
-          "title": "Design"
+          "description": "The file path to the YAML file that contains the `design` field."
         },
         "locale": {
           "anyOf": [
             {
-              "format": "path",
-              "type": "string"
+              "$ref": "#/$defs/ExistingInputRelativePath"
             },
             {
               "type": "null"
             }
           ],
           "default": null,
-          "description": "The file path to the YAML file that contains the `locale` field.",
-          "title": "Locale"
-        },
-        "output_folder_path": {
-          "default": "rendercv_output",
-          "description": "The path to the folder where the output files will be saved. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
-          "format": "path",
-          "title": "Output Folder Path",
-          "type": "string"
-        },
-        "pdf_path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The path to copy the PDF file to. If it is not provided, the PDF file will not be copied. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
-          "title": "Pdf Path"
+          "description": "The file path to the YAML file that contains the `locale` field."
         },
         "typst_path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The path to copy the Typst file to. If it is not provided, the Typst file will not be copied. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
-          "title": "Typst Path"
+          "$ref": "#/$defs/PlannedInputRelativePath",
+          "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.typ",
+          "description": "Path to the output Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
-        "html_path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The path to copy the HTML file to. If it is not provided, the HTML file will not be copied. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
-          "title": "Html Path"
-        },
-        "png_path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The path to copy the PNG file to. If it is not provided, the PNG file will not be copied. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
-          "title": "Png Path"
+        "pdf_path": {
+          "$ref": "#/$defs/PlannedInputRelativePath",
+          "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf",
+          "description": "Path to the output PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
-          "anyOf": [
-            {
-              "format": "path",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The path to copy the Markdown file to. If it is not provided, the Markdown file will not be copied. The following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
+          "$ref": "#/$defs/PlannedInputRelativePath",
+          "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.md",
+          "description": "Path to the output Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
+        },
+        "html_path": {
+          "$ref": "#/$defs/PlannedInputRelativePath",
+          "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.html",
+          "description": "Path to the output HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+        },
+        "png_path": {
+          "$ref": "#/$defs/PlannedInputRelativePath",
+          "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.png",
+          "description": "Path to the output PNG file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_html": {
           "default": false,
@@ -1529,12 +1471,6 @@
           "default": false,
           "description": "A boolean value to determine whether the PNG file will be generated. The default value is `False`.",
           "title": "Don't Generate PNG",
-          "type": "boolean"
-        },
-        "watch": {
-          "default": false,
-          "description": "A boolean value to determine whether to re-run RenderCV when the inputfile is updated. The default value is `False`.",
-          "title": "Re-run RenderCV When the Input File is Updated",
           "type": "boolean"
         }
       },
@@ -1615,15 +1551,7 @@
           "type": "string"
         },
         "render_command": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/RenderCommand"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
+          "$ref": "#/$defs/RenderCommand",
           "description": "RenderCV's `render` command settings. They are the same as the command line arguments. CLI arguments have higher priority than the settings in the input file.",
           "title": "Render Command Settings"
         },
@@ -1648,7 +1576,7 @@
           "description": "The name of the social network or platform."
         },
         "username": {
-          "description": "Your username on the platform.",
+          "description": "Username on the platform.",
           "examples": [
             "john_doe",
             "@johndoe@mastodon.social",
@@ -1707,13 +1635,13 @@
         },
         "page_numbering_template": {
           "default": "NAME - Sayfa PAGE_NUMBER / TOTAL_PAGES",
-          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- TODAY: Today's date with `locale.date_template`",
+          "description": "The template of the page numbering at the bottom of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Page Numbering Template",
           "type": "string"
         },
         "last_updated_date_template": {
           "default": "Son güncelleme TODAY",
-          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- TODAY: Today's date with `locale.date_template`",
+          "description": "The template of the last updated date at the top right corner of the page.\n\nThe following placeholders can be used:\n- NAME: The name of the person\n- CURRENT_DATE: Current date in the format of `locale.date_template`",
           "title": "Last Updated Date Template",
           "type": "string"
         },
@@ -4077,7 +4005,7 @@
       "type": "object"
     }
   },
-  "additionalProperties": false,
+  "additionalProperties": true,
   "properties": {
     "cv": {
       "$ref": "#/$defs/Cv",

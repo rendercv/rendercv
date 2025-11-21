@@ -63,8 +63,8 @@ def render_full_template(
                 rendercv_model,
                 entry=entry,
             )
-            entries_code += entry_code
-        section_code = section_beginning + entries_code + section_ending
+            entries_code += f"\n{entry_code}"
+        section_code = f"{section_beginning}\n{entries_code}\n{section_ending}"
         code += section_code
 
     return code

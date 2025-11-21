@@ -14,7 +14,7 @@ def resolve_relative_path(
     if path:
         if not path.is_absolute():
             input_file_path = get_input_file_path(info)
-            path = input_file_path / path
+            path = input_file_path.parent / path
 
         if must_exist and not path.exists():
             raise pydantic_core.PydanticCustomError(
