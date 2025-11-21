@@ -3,7 +3,7 @@ from typing import Literal
 import pydantic
 import pydantic_extra_types.color as pydantic_color
 
-import rendercv.themes.options as o
+import rendercv.old_themes.options as o
 
 
 class Colors(o.Colors):

@@ -11,7 +11,7 @@ from typing import Annotated, Literal
 import pydantic
 import pydantic_extra_types.color as pydantic_color
 
-from ..data.models.base import RenderCVBaseModelWithoutExtraKeys
+from ..old_data.models.base import RenderCVBaseModelWithoutExtraKeys
 
 
 # Custom field types:

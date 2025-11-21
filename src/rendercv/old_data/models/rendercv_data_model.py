@@ -7,7 +7,7 @@ import pathlib
 
 import pydantic
 
-from ...themes import ClassicThemeOptions
+from ...old_themes import ClassicThemeOptions
 from .base import RenderCVBaseModelWithoutExtraKeys
 from .curriculum_vitae import CurriculumVitae
 from .design import RenderCVDesign

@@ -19,7 +19,9 @@ import ruamel.yaml
 import typer
 from rich import print
 
-from .. import __version__, data
+from rendercv import __version__
+from rendercv import old_data as data
+
 from . import utilities
 
 

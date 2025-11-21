@@ -17,12 +17,12 @@ import pytest
 import ruamel.yaml
 import typer.testing
 
-import rendercv.cli as cli
-import rendercv.cli.printer as printer
-import rendercv.cli.utilities as utilities
-import rendercv.data as data
-import rendercv.data.generator as generator
-import rendercv.data.reader as reader
+import rendercv.old_cli as cli
+import rendercv.old_cli.printer as printer
+import rendercv.old_cli.utilities as utilities
+import rendercv.old_data as data
+import rendercv.old_data.generator as generator
+import rendercv.old_data.reader as reader
 from rendercv import __version__
 
 

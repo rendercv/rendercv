@@ -1,6 +1,6 @@
 import pytest
 
-from rendercv import data
+from rendercv import old_data as data
 
 
 @pytest.mark.parametrize(

@@ -1,6 +1,6 @@
 from datetime import date as Date
 
-from rendercv.schema.models.cv.entries.basis.entry_with_complex_fields import (
+from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     get_date_object,
 )
 from rendercv.schema.models.locale.locale import Locale
@@ -149,7 +149,9 @@ def format_date(date: Date, locale: Locale) -> str:
     return substitute_placeholders(locale.date_template, placeholders)
 
 
-def compute_last_updated_date(locale: Locale, current_date: Date, name: str | None) -> str:
+def compute_last_updated_date(
+    locale: Locale, current_date: Date, name: str | None
+) -> str:
     placeholders: dict[str, str] = {
         "current_date": format_date(current_date, locale),
         "NAME": name or "",

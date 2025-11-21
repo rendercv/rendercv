@@ -4,8 +4,8 @@ import shutil
 
 import pytest
 
-from rendercv import data, renderer
-from rendercv.renderer_old import renderer as renderer_module
+from rendercv import old_data, old_renderer
+from rendercv.old_renderer import renderer as old_renderer_module
 
 folder_name_dictionary = {
     "rendercv_empty_curriculum_vitae_data_model": "empty",
@@ -125,7 +125,7 @@ def test_setup_jinja2_environment():
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 @pytest.mark.parametrize(
     "curriculum_vitae_data_model",
@@ -141,7 +141,7 @@ def test_create_a_typst_file(
     curriculum_vitae_data_model,
 ):
     cv_data_model = request.getfixturevalue(curriculum_vitae_data_model)
-    data_model = data.RenderCVDataModel(
+    old_data_model = old_data.RenderCVDataModel(
         cv=cv_data_model,
         design={"theme": theme_name},
         rendercv_settings=data.RenderCVSettings(date="2024-01-01"),  # type: ignore
@@ -150,12 +150,12 @@ def test_create_a_typst_file(
     reference_file_name = (
         f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}.typ"
     )
-    if theme_name in data.available_themes:
+    if theme_name in old_data.available_themes:
         output_file_name = output_file_name.replace(".typ", ".typ")
         reference_file_name = reference_file_name.replace(".typ", ".typ")
 
     def create_a_typst_file(output_directory_path, _):
-        renderer.create_a_typst_file(data_model, output_directory_path)
+        old_renderer.create_a_typst_file(data_model, output_directory_path)
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
         create_a_typst_file,
@@ -169,14 +169,16 @@ def test_if_create_a_typst_file_can_create_a_new_directory(
 ):
     new_directory = tmp_path / "new_directory"
 
-    typst_file_path = renderer.create_a_typst_file(rendercv_data_model, new_directory)
+    typst_file_path = old_renderer.create_a_typst_file(
+        rendercv_data_model, new_directory
+    )
 
     assert typst_file_path.exists()
 
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 @pytest.mark.parametrize(
     "curriculum_vitae_data_model",
@@ -191,9 +193,9 @@ def test_create_a_markdown_file(
     theme_name,
     curriculum_vitae_data_model,
 ):
-    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+    old_data.RenderCVSettings(date="2024-01-01")  # type: ignore
     cv_data_model = request.getfixturevalue(curriculum_vitae_data_model)
-    data_model = data.RenderCVDataModel(
+    data_model = old_data.RenderCVDataModel(
         cv=cv_data_model,
         design={"theme": theme_name},
     )
@@ -204,7 +206,7 @@ def test_create_a_markdown_file(
     )
 
     def create_a_markdown_file(output_directory_path, _):
-        renderer.create_a_markdown_file(data_model, output_directory_path)
+        old_renderer.create_a_markdown_file(data_model, output_directory_path)
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
         create_a_markdown_file,
@@ -218,7 +220,7 @@ def test_if_create_a_markdown_file_can_create_a_new_directory(
 ):
     new_directory = tmp_path / "new_directory"
 
-    typst_file_path = renderer.create_a_markdown_file(
+    typst_file_path = old_renderer.create_a_markdown_file(
         rendercv_data_model, new_directory
     )
 
@@ -227,7 +229,7 @@ def test_if_create_a_markdown_file_can_create_a_new_directory(
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 def test_copy_theme_files_to_output_directory(
     run_a_function_and_check_if_output_is_the_same_as_reference, theme_name
@@ -235,7 +237,7 @@ def test_copy_theme_files_to_output_directory(
     reference_directory_name = theme_name
 
     def copy_theme_files_to_output_directory(output_directory_path, _):
-        renderer_module.copy_theme_files_to_output_directory(
+        old_renderer_module.copy_theme_files_to_output_directory(
             theme_name, output_directory_path
         )
 
@@ -260,7 +262,7 @@ def test_copy_theme_files_to_output_directory_custom_theme(
             dummytheme_path.mkdir(parents=True, exist_ok=True)
 
         # create a txt file called test.txt in the custom theme directory:
-        for entry_type_name in data.available_entry_type_names:
+        for entry_type_name in old_data.available_entry_type_names:
             pathlib.Path(dummytheme_path / f"{entry_type_name}.j2.typ").touch()
 
         pathlib.Path(dummytheme_path / "Header.j2.typ").touch()
@@ -283,7 +285,7 @@ def test_copy_theme_files_to_output_directory_custom_theme(
 
         # create reference_directory_path:
         os.chdir(dummytheme_path.parent)
-        renderer_module.copy_theme_files_to_output_directory(
+        old_renderer_module.copy_theme_files_to_output_directory(
             theme_name=theme_name,
             output_directory_path=reference_directory_path,
         )
@@ -295,7 +297,7 @@ def test_copy_theme_files_to_output_directory_custom_theme(
 
         # copy the auxiliary theme files to tmp_path:
         os.chdir(dummytheme_path.parent)
-        renderer_module.copy_theme_files_to_output_directory(
+        old_renderer_module.copy_theme_files_to_output_directory(
             theme_name=theme_name,
             output_directory_path=output_directory_path,
         )
@@ -309,14 +311,14 @@ def test_copy_theme_files_to_output_directory_custom_theme(
 
 def test_copy_theme_files_to_output_directory_nonexistent_theme():
     with pytest.raises(FileNotFoundError):
-        renderer_module.copy_theme_files_to_output_directory(
+        old_renderer_module.copy_theme_files_to_output_directory(
             "nonexistent_theme", pathlib.Path()
         )
 
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 @pytest.mark.parametrize(
     "short_second_row",
@@ -338,14 +340,14 @@ def test_create_a_typst_file_and_copy_theme_files(
 ):
     short_s_r = "short_second_row" if short_second_row else "long_second_row"
     reference_directory_name = f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}_{short_s_r}"
-    data_model = data.RenderCVDataModel(
+    data_model = old_data.RenderCVDataModel(
         cv=request.getfixturevalue(curriculum_vitae_data_model),
         design={"theme": theme_name, "entries": {"short_second_row": short_second_row}},
-        rendercv_settings=data.RenderCVSettings(date="2024-01-01"),  # type: ignore
+        rendercv_settings=old_data.RenderCVSettings(date="2024-01-01"),  # type: ignore
     )
 
     def create_a_typst_file_and_copy_theme_files(output_directory_path, _):
-        renderer.create_a_typst_file_and_copy_theme_files(
+        old_renderer.create_a_typst_file_and_copy_theme_files(
             data_model, output_directory_path
         )
 
@@ -357,7 +359,7 @@ def test_create_a_typst_file_and_copy_theme_files(
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 @pytest.mark.parametrize(
     "short_second_row",
@@ -377,7 +379,7 @@ def test_render_a_pdf_from_typst(
     curriculum_vitae_data_model,
     short_second_row,
 ):
-    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+    old_data.RenderCVSettings(date="2024-01-01")  # type: ignore
     name = request.getfixturevalue(curriculum_vitae_data_model).name
     name = str(name).replace(" ", "_")
 
@@ -388,7 +390,7 @@ def test_render_a_pdf_from_typst(
 
     file_name = f"{name}_CV.typ"
 
-    if theme_name in data.available_themes:
+    if theme_name in old_data.available_themes:
         file_name = file_name.replace(".typ", ".typ")
 
     def generate_pdf_file(output_directory_path, reference_file_or_directory_path):
@@ -400,7 +402,7 @@ def test_render_a_pdf_from_typst(
 
         shutil.copytree(typst_sources_path, output_directory_path, dirs_exist_ok=True)
 
-        renderer.render_a_pdf_from_typst(output_directory_path / file_name)
+        old_renderer.render_a_pdf_from_typst(output_directory_path / file_name)
 
     assert run_a_function_and_check_if_output_is_the_same_as_reference(
         function=generate_pdf_file,
@@ -412,12 +414,12 @@ def test_render_a_pdf_from_typst(
 def test_render_pdf_from_typst_nonexistent_typst_file():
     file_path = pathlib.Path("file_doesnt_exist.typ")
     with pytest.raises(FileNotFoundError):
-        renderer.render_a_pdf_from_typst(file_path)
+        old_renderer.render_a_pdf_from_typst(file_path)
 
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 @pytest.mark.parametrize(
     "curriculum_vitae_data_model",
@@ -431,7 +433,7 @@ def test_render_an_html_from_markdown(
     theme_name,
     curriculum_vitae_data_model,
 ):
-    data.RenderCVSettings(date="2024-01-01")  # type: ignore
+    old_data.RenderCVSettings(date="2024-01-01")  # type: ignore
     reference_name = (
         f"{theme_name}_{folder_name_dictionary[curriculum_vitae_data_model]}"
     )
@@ -453,7 +455,7 @@ def test_render_an_html_from_markdown(
         shutil.copy(markdown_source_path, output_directory_path)
 
         # convert markdown to html
-        renderer.render_an_html_from_markdown(
+        old_renderer.render_an_html_from_markdown(
             output_directory_path / markdown_file_name
         )
 
@@ -467,7 +469,7 @@ def test_render_an_html_from_markdown(
 def test_render_html_from_markdown_nonexistent_markdown_file():
     file_path = pathlib.Path("file_doesnt_exist.md")
     with pytest.raises(FileNotFoundError):
-        renderer.render_an_html_from_markdown(file_path)
+        old_renderer.render_an_html_from_markdown(file_path)
 
 
 def test_render_pngs_from_typst(
@@ -486,7 +488,7 @@ def test_render_pngs_from_typst(
         shutil.copytree(typst_folder_path, output_directory_path, dirs_exist_ok=True)
 
         # convert pdf to pngs
-        renderer.render_pngs_from_typst(
+        old_renderer.render_pngs_from_typst(
             output_directory_path / "John_Doe_CV.typ", ppi=20
         )
 
@@ -505,12 +507,12 @@ def test_render_pdf_invalid_typst_file(tmp_path):
     typst_file_path.write_text("# Invalid Typst code")
 
     with pytest.raises(RuntimeError):
-        renderer.render_a_pdf_from_typst(typst_file_path)
+        old_renderer.render_a_pdf_from_typst(typst_file_path)
 
 
 @pytest.mark.parametrize(
     "theme_name",
-    data.available_themes,
+    old_data.available_themes,
 )
 def test_are_all_the_theme_files_the_same(theme_name):
     source_of_truth_theme = "classic"
@@ -536,11 +538,11 @@ def test_are_all_the_theme_files_the_same(theme_name):
 
 
 def test_render_a_typst_file_with_none_name(tmp_path):
-    cv = data.CurriculumVitae(
+    cv = old_data.CurriculumVitae(
         name=None,
         sections={
             "Normal Entries": [
-                data.NormalEntry(
+                old_data.NormalEntry(
                     name="Test",
                     start_date="2024-01-01",
                     end_date="present",
@@ -549,12 +551,12 @@ def test_render_a_typst_file_with_none_name(tmp_path):
         },
     )
 
-    data_model = data.RenderCVDataModel(
+    old_data_model = old_data.RenderCVDataModel(
         cv=cv,
         design={"theme": "classic"},
     )
 
-    file = renderer.create_a_typst_file(data_model, tmp_path)
+    file = old_renderer.create_a_typst_file(data_model, tmp_path)
 
     contents = file.read_text()
 

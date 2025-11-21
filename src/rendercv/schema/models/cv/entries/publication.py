@@ -3,8 +3,8 @@ from typing import Self
 
 import pydantic
 
-from .basis.entry import BaseEntry
-from .basis.entry_with_date import BaseEntryWithDate
+from .bases.entry import BaseEntry
+from .bases.entry_with_date import BaseEntryWithDate
 
 url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
 

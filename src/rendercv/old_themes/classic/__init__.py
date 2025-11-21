@@ -1,6 +1,6 @@
 from typing import Literal
 
-from rendercv.themes.options import ThemeOptions
+from rendercv.old_themes.options import ThemeOptions
 
 
 class ClassicThemeOptions(ThemeOptions):

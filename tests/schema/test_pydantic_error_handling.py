@@ -3,8 +3,8 @@ import pathlib
 import pydantic
 
 from rendercv.schema.pydantic_error_handling import parse_validation_errors
-from rendercv.schema.rendercv_reader import (
-    validate_input_dictionary_and_return_rendercv_model,
+from rendercv.schema.rendercv_model_builder import (
+    build_rendercv_model_from_dictionary,
 )
 from rendercv.schema.yaml_reader import read_yaml
 
@@ -24,7 +24,7 @@ def test_parse_validation_errors():
     expected_errors = read_yaml(expected_errors_file_path)["expected_errors"]
 
     try:
-        validate_input_dictionary_and_return_rendercv_model(wrong_input_dictionary)
+        build_rendercv_model_from_dictionary(wrong_input_dictionary)
     except pydantic.ValidationError as e:
         validation_errors = parse_validation_errors(e, wrong_input_dictionary)
         for validation_error, expected_error in zip(

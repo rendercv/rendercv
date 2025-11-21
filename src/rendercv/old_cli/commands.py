@@ -12,7 +12,7 @@ import typer
 from click.core import Parameter  # NEW: needed for monkey-patch
 from rich import print
 
-from .. import __version__, data
+from .. import __version__, old_data
 from . import printer, utilities
 
 _orig_make_metavar = Parameter.make_metavar  # preserve original implementation
@@ -74,7 +74,7 @@ app = typer.Typer(
         "Render a YAML input file. Example: [yellow]rendercv render"
         " John_Doe_CV.yaml[/yellow]. Details: [cyan]rendercv render --help[/cyan]"
     ),
-    # allow extra arguments for updating the data model (for overriding the values of
+    # allow extra arguments for updating the old_data model (for overriding the values of
     # the input file):
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
 )
@@ -230,7 +230,7 @@ def cli_command_render(
         def run_rendercv():
             input_file_as_a_dict = (
                 utilities.update_render_command_settings_of_the_input_file(
-                    data.read_a_yaml_file(input_file_path), cli_render_arguments
+                    old_data.read_a_yaml_file(input_file_path), cli_render_arguments
                 )
             )
             utilities.run_rendercv_with_printer(
@@ -258,7 +258,7 @@ def cli_command_new(
         typer.Option(
             help=(
                 "The name of the theme (available themes are:"
-                f" {', '.join(data.available_themes)})"
+                f" {', '.join(old_data.available_themes)})"
             )
         ),
     ] = "classic",
@@ -292,7 +292,7 @@ def cli_command_new(
         )
     else:
         try:
-            data.create_a_sample_yaml_input_file(
+            old_data.create_a_sample_yaml_input_file(
                 input_file_path, name=full_name, theme=theme
             )
             created_files_and_folders.append(input_file_path.name)
@@ -348,16 +348,16 @@ def cli_command_create_theme(
         typer.Option(
             help=(
                 "The name of the existing theme to base the new theme on (available"
-                f" themes are: {', '.join(data.available_themes)})"
+                f" themes are: {', '.join(old_data.available_themes)})"
             )
         ),
     ] = "classic",
 ):
     """Create a custom theme based on an existing theme"""
-    if based_on not in data.available_themes:
+    if based_on not in old_data.available_themes:
         printer.error(
             f'The theme "{based_on}" is not in the list of available themes:'
-            f" {', '.join(data.available_themes)}"
+            f" {', '.join(old_data.available_themes)}"
         )
 
     theme_folder = utilities.copy_templates(

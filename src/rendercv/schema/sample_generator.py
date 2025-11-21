@@ -10,7 +10,7 @@ from .models.cv.cv import Cv
 from .models.design.built_in_design import built_in_design_adapter
 from .models.locale.locale import locale_adapter
 from .models.rendercv_model import RenderCVModel
-from .rendercv_reader import read_yaml
+from .rendercv_model_builder import read_yaml
 
 
 def dictionary_to_yaml(dictionary: dict) -> str:

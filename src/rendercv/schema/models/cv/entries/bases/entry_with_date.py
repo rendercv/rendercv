@@ -1,5 +1,3 @@
-"""Entry with single date field. Accepts structured dates or freeform text."""
-
 import re
 from datetime import date as Date
 from typing import Annotated
@@ -10,7 +8,6 @@ from .entry import BaseEntry
 
 
 def validate_arbitrary_date(date: int | str) -> int | str:
-    """Validate YYYY-MM-DD, YYYY-MM, YYYY formats. Pass through custom text."""
     date_str = str(date)
 
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):

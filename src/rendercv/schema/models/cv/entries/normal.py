@@ -1,7 +1,7 @@
 import pydantic
 
-from .basis.entry import BaseEntry
-from .basis.entry_with_complex_fields import BaseEntryWithComplexFields
+from .bases.entry import BaseEntry
+from .bases.entry_with_complex_fields import BaseEntryWithComplexFields
 
 
 class BaseNormalEntry(BaseEntry):

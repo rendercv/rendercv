@@ -17,7 +17,7 @@ import pypdf
 import pytest
 import ruamel.yaml
 
-from rendercv import data
+from rendercv import old_data as data
 from rendercv.renderer import templater
 
 # RenderCV is being tested by comparing the output to reference files. Therefore,

@@ -32,6 +32,15 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         default=None,
         description="The file path to the YAML file that contains the `locale` field.",
     )
+    typst_path: PlannedInputRelativePath = pydantic.Field(
+        default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.typ"),
+        description=(
+            "Path to the output Typst file, relative to the input YAML file. The"
+            " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
+            " `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
+            f"{file_path_placeholders_description}"
+        ),
+    )
     pdf_path: PlannedInputRelativePath = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf"),
         description=(
@@ -40,12 +49,12 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    typst_path: PlannedInputRelativePath = pydantic.Field(
-        default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.typ"),
+    markdown_path: PlannedInputRelativePath = pydantic.Field(
+        default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.md"),
+        title="Markdown Path",
         description=(
-            "Path to the output Typst file, relative to the input YAML file. The"
-            " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
-            " `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
+            "Path to the output Markdown file, relative to the input YAML file. The"
+            " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\n"
             f"{file_path_placeholders_description}"
         ),
     )
@@ -62,15 +71,6 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         description=(
             "Path to the output PNG file, relative to the input YAML file. The default"
             " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\n"
-            f"{file_path_placeholders_description}"
-        ),
-    )
-    markdown_path: PlannedInputRelativePath = pydantic.Field(
-        default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.md"),
-        title="Markdown Path",
-        description=(
-            "Path to the output Markdown file, relative to the input YAML file. The"
-            " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\n"
             f"{file_path_placeholders_description}"
         ),
     )
@@ -104,13 +104,5 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         description=(
             "A boolean value to determine whether the PNG file will be generated. The"
             " default value is `False`."
-        ),
-    )
-    watch: bool = pydantic.Field(
-        default=False,
-        title="Re-run RenderCV When the Input File is Updated",
-        description=(
-            "A boolean value to determine whether to re-run RenderCV when the input"
-            "file is updated. The default value is `False`."
         ),
     )

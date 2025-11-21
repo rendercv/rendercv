@@ -11,7 +11,7 @@ import shutil
 import sys
 from typing import Any, Literal
 
-from .. import data
+from .. import old_data
 from . import templater
 
 
@@ -63,7 +63,7 @@ def copy_theme_files_to_output_directory(
         theme_name: The name of the theme.
         output_directory_path: Path to the output directory.
     """
-    if theme_name in data.available_themes:
+    if theme_name in old_data.available_themes:
         theme_directory_path = importlib.resources.files(
             f"rendercv.themes.{theme_name}"
         )
@@ -105,12 +105,12 @@ def copy_theme_files_to_output_directory(
 
 
 def create_contents_of_a_typst_file(
-    rendercv_data_model: data.RenderCVDataModel,
+    rendercv_data_model: old_data.RenderCVDataModel,
 ) -> str:
-    """Create a Typst file with the given data model and return it as a string.
+    """Create a Typst file with the given old_data model and return it as a string.
 
     Args:
-        rendercv_data_model: The data model.
+        rendercv_data_model: The old_data model.
 
     Returns:
         The path to the generated Typst file.
@@ -126,14 +126,14 @@ def create_contents_of_a_typst_file(
 
 
 def create_a_typst_file(
-    rendercv_data_model: data.RenderCVDataModel,
+    rendercv_data_model: old_data.RenderCVDataModel,
     output_directory: pathlib.Path,
 ) -> pathlib.Path:
-    """Create a Typst file (depending on the theme) with the given data model and write
+    """Create a Typst file (depending on the theme) with the given old_data model and write
     it to the output directory.
 
     Args:
-        rendercv_data_model: The data model.
+        rendercv_data_model: The old_data model.
         output_directory: Path to the output directory. If not given, the Typst file
             will be returned as a string.
 
@@ -156,12 +156,12 @@ def create_a_typst_file(
 
 
 def create_contents_of_a_markdown_file(
-    rendercv_data_model: data.RenderCVDataModel,
+    rendercv_data_model: old_data.RenderCVDataModel,
 ) -> str:
-    """Create a Markdown file with the given data model and return it as a string.
+    """Create a Markdown file with the given old_data model and return it as a string.
 
     Args:
-        rendercv_data_model: The data model.
+        rendercv_data_model: The old_data model.
 
     Returns:
         The path to the generated Markdown file.
@@ -177,13 +177,13 @@ def create_contents_of_a_markdown_file(
 
 
 def create_a_markdown_file(
-    rendercv_data_model: data.RenderCVDataModel, output_directory: pathlib.Path
+    rendercv_data_model: old_data.RenderCVDataModel, output_directory: pathlib.Path
 ) -> pathlib.Path:
-    """Render the Markdown file with the given data model and write it to the output
+    """Render the Markdown file with the given old_data model and write it to the output
     directory.
 
     Args:
-        rendercv_data_model: The data model.
+        rendercv_data_model: The old_data model.
         output_directory: Path to the output directory.
 
     Returns:
@@ -204,13 +204,13 @@ def create_a_markdown_file(
 
 
 def create_a_typst_file_and_copy_theme_files(
-    rendercv_data_model: data.RenderCVDataModel, output_directory: pathlib.Path
+    rendercv_data_model: old_data.RenderCVDataModel, output_directory: pathlib.Path
 ) -> pathlib.Path:
-    """Render the Typst file with the given data model in the output directory and
+    """Render the Typst file with the given old_data model in the output directory and
     copy the auxiliary theme files to the output directory.
 
     Args:
-        rendercv_data_model: The data model.
+        rendercv_data_model: The old_data model.
         output_directory: Path to the output directory.
 
     Returns:

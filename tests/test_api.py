@@ -1,5 +1,5 @@
 import rendercv
-import rendercv.data
+import rendercv.old_data
 
 
 def test_create_contents_of_a_typst_file(input_file_path):
@@ -13,7 +13,7 @@ def test_create_contents_of_a_typst_file_with_errors(
     rendercv_data_as_python_dictionary,
 ):
     rendercv_data_as_python_dictionary["cv"]["email"] = "invalid-email"
-    yaml_string = rendercv.data.generator.dictionary_to_yaml(
+    yaml_string = rendercv.old_data.generator.dictionary_to_yaml(
         rendercv_data_as_python_dictionary
     )
     assert isinstance(
@@ -124,10 +124,10 @@ def test_read_a_python_dictionary_and_return_a_data_model(
     result = rendercv.read_a_python_dictionary_and_return_a_data_model(
         rendercv_data_as_python_dictionary
     )
-    assert isinstance(result, rendercv.data.RenderCVDataModel)
+    assert isinstance(result, rendercv.old_data.RenderCVDataModel)
 
 
 def test_read_a_yaml_string_and_return_a_data_model(input_file_path):
     yaml_string = input_file_path.read_text()
     result = rendercv.read_a_yaml_string_and_return_a_data_model(yaml_string)
-    assert isinstance(result, rendercv.data.RenderCVDataModel)
+    assert isinstance(result, rendercv.old_data.RenderCVDataModel)

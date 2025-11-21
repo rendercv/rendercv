@@ -3,9 +3,9 @@ from typing import Literal
 import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
-from .primitives.color import Color
-from .primitives.font_family import FontFamily
-from .primitives.typst_dimension import TypstDimension
+from .color import Color
+from .font_family import FontFamily
+from .typst_dimension import TypstDimension
 
 type BulletPoint = Literal["•", "◦", "-", "◆", "★", "■", "—", "○"]
 type Alignment = Literal["left", "center", "right"]
