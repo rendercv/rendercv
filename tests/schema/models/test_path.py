@@ -19,7 +19,7 @@ def existing_file(tmp_path):
 
 @pytest.fixture
 def context_with_input_file(tmp_path):
-    return {"context": ValidationContext(input_file_path=tmp_path)}
+    return {"context": ValidationContext(input_file_path=tmp_path / "input.yaml")}
 
 
 existing_input_relative_path_adapter = pydantic.TypeAdapter(ExistingInputRelativePath)

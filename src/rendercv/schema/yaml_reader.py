@@ -20,7 +20,6 @@ def read_yaml(
         The content of the YAML file as a CommentedMap (Python dictionary with
         additional information about the location of the keys in the YAML file).
     """
-
     if isinstance(file_path_or_contents, pathlib.Path):
         # Check if the file exists:
         if not file_path_or_contents.exists():
@@ -48,10 +47,17 @@ def read_yaml(
         lambda loader, node: loader.construct_scalar(node)
     )
 
-    yaml_as_a_dictionary: CommentedMap = yaml.load(file_content)
+    yaml_as_dictionary: CommentedMap = yaml.load(file_content)
 
-    if yaml_as_a_dictionary is None:
+    if yaml_as_dictionary is None:
         message = "The input file is empty!"
         raise ValueError(message)
 
-    return yaml_as_a_dictionary
+    if isinstance(yaml_as_dictionary, str):
+        message = (
+            "You probably meant to pass a path to the YAML file, but you passed as a"
+            " string and RenderCV interpreted it as the contents of the YAML file."
+            f" Pass the path using `pathlib.Path({file_path_or_contents})`."
+        )
+        raise ValueError(message)
+    return yaml_as_dictionary
