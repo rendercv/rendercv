@@ -4,6 +4,8 @@ from typing import Literal
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
+from rendercv.exception import RenderCVCliUserError
+
 
 def read_yaml(
     file_path_or_contents: pathlib.Path | str,
@@ -23,8 +25,8 @@ def read_yaml(
     if isinstance(file_path_or_contents, pathlib.Path):
         # Check if the file exists:
         if not file_path_or_contents.exists():
-            message = f"The input file {file_path_or_contents} doesn't exist!"
-            raise FileNotFoundError(message)
+            message = f"The input file `{file_path_or_contents}` doesn't exist!"
+            raise RenderCVCliUserError(message)
 
         # Check the file extension:
         accepted_extensions = [".yaml", ".yml", ".json", ".json5"]
@@ -32,9 +34,9 @@ def read_yaml(
             message = (
                 "The input file should have one of the following extensions:"
                 f" {', '.join(accepted_extensions)}. The input file is"
-                f" {file_path_or_contents}."
+                f" {file_path_or_contents.name}."
             )
-            raise ValueError(message)
+            raise RenderCVCliUserError(message)
 
         file_content = file_path_or_contents.read_text(encoding="utf-8")
     else:
@@ -51,7 +53,7 @@ def read_yaml(
 
     if yaml_as_dictionary is None:
         message = "The input file is empty!"
-        raise ValueError(message)
+        raise RenderCVCliUserError(message)
 
     if isinstance(yaml_as_dictionary, str):
         message = (
@@ -60,4 +62,5 @@ def read_yaml(
             f" Pass the path using `pathlib.Path({file_path_or_contents})`."
         )
         raise ValueError(message)
+
     return yaml_as_dictionary

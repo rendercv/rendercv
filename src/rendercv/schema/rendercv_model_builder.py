@@ -2,6 +2,8 @@ import pathlib
 from datetime import date as Date
 from typing import TypedDict, Unpack
 
+from ruamel.yaml.comments import CommentedMap
+
 from .models.context import ValidationContext
 from .models.rendercv_model import RenderCVModel
 from .override_dictionary import apply_overrides_to_dictionary
@@ -17,6 +19,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     markdown_path: pathlib.Path | str | None
     html_path: pathlib.Path | str | None
     png_path: pathlib.Path | str | None
+    dont_generate_typst: bool | None
     dont_generate_html: bool | None
     dont_generate_markdown: bool | None
     dont_generate_pdf: bool | None
@@ -27,7 +30,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
 def build_rendercv_dictionary(
     main_input_file_path_or_contents: pathlib.Path | str,
     **kwargs: Unpack[BuildRendercvModelArguments],
-) -> dict:
+) -> CommentedMap:
     input_dict = read_yaml(main_input_file_path_or_contents)
 
     # Optional YAML overlays
@@ -48,6 +51,7 @@ def build_rendercv_dictionary(
         "markdown_path": kwargs.get("markdown_path"),
         "html_path": kwargs.get("html_path"),
         "png_path": kwargs.get("png_path"),
+        "dont_generate_typst": kwargs.get("dont_generate_typst"),
         "dont_generate_html": kwargs.get("dont_generate_html"),
         "dont_generate_markdown": kwargs.get("dont_generate_markdown"),
         "dont_generate_pdf": kwargs.get("dont_generate_pdf"),
@@ -67,22 +71,8 @@ def build_rendercv_dictionary(
     return input_dict
 
 
-def build_rendercv_model(
-    main_input_file_path_or_contents: pathlib.Path | str,
-    **kwargs: Unpack[BuildRendercvModelArguments],
-) -> RenderCVModel:
-    return build_rendercv_model_from_dictionary(
-        build_rendercv_dictionary(main_input_file_path_or_contents, **kwargs),
-        (
-            main_input_file_path_or_contents
-            if isinstance(main_input_file_path_or_contents, pathlib.Path)
-            else None
-        ),
-    )
-
-
 def build_rendercv_model_from_dictionary(
-    input_dictionary: dict,
+    input_dictionary: CommentedMap,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
     model = RenderCVModel.model_validate(
@@ -98,3 +88,17 @@ def build_rendercv_model_from_dictionary(
     )
     model._input_file_path = input_file_path
     return model
+
+
+def build_rendercv_dictionary_and_model(
+    main_input_file_path_or_contents: pathlib.Path | str,
+    **kwargs: Unpack[BuildRendercvModelArguments],
+) -> tuple[CommentedMap, RenderCVModel]:
+    d = build_rendercv_dictionary(main_input_file_path_or_contents, **kwargs)
+    input_file_path = (
+        main_input_file_path_or_contents
+        if isinstance(main_input_file_path_or_contents, pathlib.Path)
+        else None
+    )
+    m = build_rendercv_model_from_dictionary(d, input_file_path)
+    return d, m
