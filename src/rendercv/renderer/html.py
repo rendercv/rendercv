@@ -6,7 +6,7 @@ from .path_resolver import resolve_rendercv_file_path
 from .templater.templater import render_html
 
 
-def render_html_to_file(
+def generate_html(
     rendercv_model: RenderCVModel, markdown_path: pathlib.Path | None
 ) -> pathlib.Path | None:
     if (
