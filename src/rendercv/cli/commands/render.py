@@ -278,11 +278,11 @@ def timed_step[T, **P](
         elif isinstance(result, list) and all(
             isinstance(item, pathlib.Path) for item in result
         ):
-            path = ", ".join([item.absolute() for item in result])
+            message += "s"
+            path = ", ".join([str(item.absolute()) for item in result])
 
-        printer.information(
-            f"{message} took {time_taken} ms" + (f": {path}" if path else ".")
-        )
+        message_body = f"{message}" + (f": {path}" if path else ".")
+        printer.information(f"{time_taken:>5} ms    {message_body}")
     return result
 
 
@@ -295,40 +295,40 @@ def run_rendercv(
     error = True
     try:
         rendercv_dictionary_as_commented_map, rendercv_model = timed_step(
-            "Validating the input file",
+            "Validated the input file",
             quiet,
             build_rendercv_dictionary_and_model,
             main_input_file_path_or_contents,
             **kwargs,
         )
         typst_path = timed_step(
-            "Rendering Typst",
+            "Rendered Typst",
             quiet,
             render_typst_to_file,
             rendercv_model,
         )
         _ = timed_step(
-            "Rendering PDF",
+            "Rendered PDF",
             quiet,
             render_pdf_to_file,
             rendercv_model,
             typst_path,
         )
         _ = timed_step(
-            "Rendering PNG",
+            "Rendered PNG",
             quiet,
             render_png_to_file,
             rendercv_model,
             typst_path,
         )
         md_path = timed_step(
-            "Rendering Markdown",
+            "Rendered Markdown",
             quiet,
             render_markdown_to_file,
             rendercv_model,
         )
         _ = timed_step(
-            "Rendering HTML",
+            "Rendered HTML",
             quiet,
             render_html_to_file,
             rendercv_model,
