@@ -1,3 +1,5 @@
+import importlib
+import pathlib
 from typing import Annotated
 
 import typer
@@ -21,7 +23,25 @@ def cli_command_no_args(
         bool | None, typer.Option("--version", "-v", help="Show the version")
     ] = None,
 ):
+    printer.warn_if_new_version_is_available()
     if version_requested:
-        there_is_a_new_version = printer.warn_if_new_version_is_available()
-        if not there_is_a_new_version:
-            printer.print(f"RenderCV v{__version__}")
+        printer.print(f"RenderCV v{__version__}")
+
+
+# Auto import all commands so that they are registered with the app:
+cli_folder_path = pathlib.Path(__file__).parent
+for file in cli_folder_path.rglob("*_command.py"):
+    # Enforce folder structure: ./name_command/name_command.py
+    folder_name = file.parent.name  # e.g. "foo_command"
+    py_file_name = file.stem  # e.g. "foo_command"
+
+    if folder_name != py_file_name:
+        message = (
+            f"Package name {folder_name} does not match module name {py_file_name}"
+        )
+        raise ValueError(message)
+
+    # Build full module path: <parent_pkg>.foo_command.foo_command
+    full_module = f"{__package__}.{folder_name}.{py_file_name}"
+
+    module = importlib.import_module(full_module)

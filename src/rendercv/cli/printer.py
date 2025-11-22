@@ -38,8 +38,8 @@ def warn_if_new_version_is_available() -> None:
 
 
 def warning(text: str):
-    print(f"[bold yellow]{text}")
+    print(f"[bold yellow]{text}[/bold yellow]")
 
 
 def error(text: str):
-    print(f"[bold red]{text}")
+    print(f"[bold red]{text}[/bold red]")

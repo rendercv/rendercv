@@ -2,5 +2,5 @@ from dataclasses import dataclass
 
 
 @dataclass
-class RenderCVCliUserError(Exception):
+class RenderCVUserError(Exception):
     message: str

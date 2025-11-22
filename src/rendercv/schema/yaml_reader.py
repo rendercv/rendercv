@@ -4,7 +4,7 @@ from typing import Literal
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from rendercv.exception import RenderCVCliUserError
+from rendercv.exception import RenderCVUserError
 
 
 def read_yaml(
@@ -26,7 +26,7 @@ def read_yaml(
         # Check if the file exists:
         if not file_path_or_contents.exists():
             message = f"The input file `{file_path_or_contents}` doesn't exist!"
-            raise RenderCVCliUserError(message)
+            raise RenderCVUserError(message)
 
         # Check the file extension:
         accepted_extensions = [".yaml", ".yml", ".json", ".json5"]
@@ -36,7 +36,7 @@ def read_yaml(
                 f" {', '.join(accepted_extensions)}. The input file is"
                 f" {file_path_or_contents.name}."
             )
-            raise RenderCVCliUserError(message)
+            raise RenderCVUserError(message)
 
         file_content = file_path_or_contents.read_text(encoding="utf-8")
     else:
@@ -53,7 +53,7 @@ def read_yaml(
 
     if yaml_as_dictionary is None:
         message = "The input file is empty!"
-        raise RenderCVCliUserError(message)
+        raise RenderCVUserError(message)
 
     if isinstance(yaml_as_dictionary, str):
         message = (

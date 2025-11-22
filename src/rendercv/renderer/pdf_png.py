@@ -31,10 +31,19 @@ def generate_png(
     png_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.png_path
     )
-    png_path = png_path.parent / (png_path.stem + "_{p}.png")
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
-    typst_compiler.compile(format="png", output=png_path)
-    png_files = list(png_path.parent.glob(f"{png_path.stem.replace('_{p}', '')}_*.png"))
+    png_files_bytes = typst_compiler.compile(format="png")
+
+    if not isinstance(png_files_bytes, list):
+        png_files_bytes = [png_files_bytes]
+
+    png_files = []
+    for i, png_file_bytes in enumerate(png_files_bytes):
+        assert png_file_bytes is not None
+        png_file = png_path.parent / (png_path.stem + f"_{i + 1}.png")
+        png_file.write_bytes(png_file_bytes)
+        png_files.append(png_file)
+
     return png_files if png_files else None
 
 

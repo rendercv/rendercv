@@ -11,7 +11,7 @@ import rich.panel
 import ruamel.yaml
 import typer
 
-from rendercv.exception import RenderCVCliUserError
+from rendercv.exception import RenderCVUserError
 from rendercv.renderer.html import generate_html
 from rendercv.renderer.markdown import generate_markdown
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
@@ -82,6 +82,8 @@ def timed_step[T, **P](
         if isinstance(result, pathlib.Path):
             paths = [result]
         elif isinstance(result, list) and result:
+            if len(result) > 1:
+                message = f"{message}s"
             paths = result
 
         progress.completed_steps.append(CompletedStep(timing_ms, message, paths))
@@ -159,7 +161,7 @@ def run_rendercv(
                 live.update(progress.build_panel(title="Your CV is ready"))
         printer.print()
         error = False
-    except RenderCVCliUserError as e:
+    except RenderCVUserError as e:
         printer.error(e.message)
     except ruamel.yaml.YAMLError as e:
         printer.error(f"This is not a valid YAML file!\n\n{e}")

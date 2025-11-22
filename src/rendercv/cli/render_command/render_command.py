@@ -13,15 +13,13 @@ from .print_welcome import print_welcome
 from .run_rendercv import run_rendercv
 from .watcher import run_function_if_file_changes
 
-help_message = (
-    "Render a YAML input file. Example: [yellow]rendercv render"
-    " John_Doe_CV.yaml[/yellow]. Details: [cyan]rendercv render --help[/cyan]"
-)
-
 
 @app.command(
     name="render",
-    help=help_message,
+    help=(
+        "Render a YAML input file. Example: [yellow]rendercv render"
+        " John_Doe_CV.yaml[/yellow]. Details: [cyan]rendercv render --help[/cyan]"
+    ),
     # allow extra arguments for updating the old_data model (for overriding the values of
     # the input file):
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},

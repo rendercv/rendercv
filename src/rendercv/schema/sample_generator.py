@@ -5,10 +5,11 @@ import pathlib
 import ruamel.yaml
 
 from rendercv import __version__
+from rendercv.exception import RenderCVUserError
 
 from .models.cv.cv import Cv
-from .models.design.built_in_design import built_in_design_adapter
-from .models.locale.locale import locale_adapter
+from .models.design.built_in_design import available_themes, built_in_design_adapter
+from .models.locale.locale import available_locales, locale_adapter
 from .models.rendercv_model import RenderCVModel
 from .rendercv_model_builder import read_yaml
 
@@ -83,6 +84,21 @@ def create_sample_yaml_input_file(
     Returns:
         The sample YAML input file as a string.
     """
+    if theme not in available_themes:
+        message = (
+            f"The theme {theme} is not available. The available themes are:"
+            f" {available_themes}"
+        )
+        raise RenderCVUserError(message)
+
+    if locale not in available_locales:
+        message = (
+            f"The locale {locale} is not available. The available locales are:"
+            f" {available_locales}. \n\nBut you can continue with `English`, and then"
+            " write your own `locale` field in the input file."
+        )
+        raise RenderCVUserError(message)
+
     data_model = create_sample_rendercv_pydantic_model(
         name=name, theme=theme, locale=locale
     )

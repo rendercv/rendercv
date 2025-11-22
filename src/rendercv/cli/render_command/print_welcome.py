@@ -7,8 +7,6 @@ from .. import printer
 
 
 def print_welcome():
-    printer.warn_if_new_version_is_available()
-
     printer.print(
         f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n"
     )
