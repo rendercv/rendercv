@@ -25,14 +25,17 @@ def render_pdf_to_file(
 
 def render_png_to_file(
     rendercv_model: RenderCVModel, typst_path: pathlib.Path | None
-) -> list[pathlib.Path]:
+) -> list[pathlib.Path] | None:
+    if rendercv_model.settings.render_command.dont_generate_png or typst_path is None:
+        return None
     png_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.png_path
     )
     png_path = png_path.parent / (png_path.stem + "_{p}.png")
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
     typst_compiler.compile(format="png", output=png_path)
-    return list(png_path.parent.glob(f"{png_path.stem}_*.png"))
+    png_files = list(png_path.parent.glob(f"{png_path.stem.replace('_{p}', '')}_*.png"))
+    return png_files if png_files else None
 
 
 @functools.lru_cache(maxsize=1)
