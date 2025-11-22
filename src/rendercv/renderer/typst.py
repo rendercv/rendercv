@@ -6,7 +6,7 @@ from .path_resolver import resolve_rendercv_file_path
 from .templater.templater import render_full_template
 
 
-def render_typst_to_file(rendercv_model: RenderCVModel) -> pathlib.Path | None:
+def generate_typst(rendercv_model: RenderCVModel) -> pathlib.Path | None:
     if rendercv_model.settings.render_command.dont_generate_typst:
         return None
     typst_path = resolve_rendercv_file_path(

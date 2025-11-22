@@ -9,7 +9,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from .path_resolver import resolve_rendercv_file_path
 
 
-def render_pdf_to_file(
+def generate_pdf(
     rendercv_model: RenderCVModel, typst_path: pathlib.Path | None
 ) -> pathlib.Path | None:
     if rendercv_model.settings.render_command.dont_generate_pdf or typst_path is None:
@@ -23,7 +23,7 @@ def render_pdf_to_file(
     return pdf_path
 
 
-def render_png_to_file(
+def generate_png(
     rendercv_model: RenderCVModel, typst_path: pathlib.Path | None
 ) -> list[pathlib.Path] | None:
     if rendercv_model.settings.render_command.dont_generate_png or typst_path is None:
