@@ -389,14 +389,3 @@ def cli_command_create_theme(
 
     printer.information(f'The theme folder "{theme_folder.name}" has been created.')
 
-
-@app.callback()
-def cli_command_no_args(
-    version_requested: Annotated[
-        bool | None, typer.Option("--version", "-v", help="Show the version")
-    ] = None,
-):
-    if version_requested:
-        there_is_a_new_version = printer.warn_if_new_version_is_available()
-        if not there_is_a_new_version:
-            print(f"RenderCV v{__version__}")

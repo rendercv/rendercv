@@ -5,7 +5,7 @@ here so that we can invoke the CLI from the command line with `python -m renderc
 """
 
 from .cli.app import app
-from .cli.commands import *
+from .cli.render_command import *
 
 if __name__ == "__main__":
     app()

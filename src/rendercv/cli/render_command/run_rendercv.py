@@ -1,11 +1,11 @@
 import pathlib
 import time
 from collections.abc import Callable
+from dataclasses import dataclass, field
 from typing import Unpack
 
 import jinja2
 import pydantic
-import rich
 import rich.live
 import rich.panel
 import ruamel.yaml
@@ -26,8 +26,47 @@ from .. import printer
 from .print_validation_errors import print_validation_errors
 
 
+@dataclass
+class CompletedStep:
+    timing_ms: str
+    message: str
+    paths: list[pathlib.Path]
+
+
+@dataclass
+class RenderProgress:
+    completed_steps: list[CompletedStep] = field(default_factory=list)
+
+    def build_panel(self, title: str = "Rendering your CV...") -> rich.panel.Panel:
+        lines: list[str] = []
+
+        for step in self.completed_steps:
+            paths_str = ""
+            if step.paths:
+                paths_as_strings = [
+                    f"./{path.relative_to(pathlib.Path.cwd())}" for path in step.paths
+                ]
+                paths_str = "; ".join(paths_as_strings)
+
+            timing = f"[bold green]{step.timing_ms + ' ms':<8}[/bold green]"
+            message = step.message + (": " if paths_str else ".")
+            paths_display = f"[purple]{paths_str}[/purple]" if paths_str else ""
+            lines.append(f"[green]✓[/green] {timing} {message:<26} {paths_display}")
+
+        content = "\n".join(lines) if lines else "Rendering..."
+
+        return rich.panel.Panel(
+            content,
+            title=title,
+            title_align="left",
+            border_style="bright_black",
+        )
+
+
 def timed_step[T, **P](
     message: str,
+    progress: RenderProgress,
+    live: rich.live.Live,
     quiet: bool,
     func: Callable[P, T],
     *args: P.args,
@@ -36,31 +75,18 @@ def timed_step[T, **P](
     start = time.perf_counter()
     result = func(*args, **kwargs)
     end = time.perf_counter()
-    time_taken = f"{(end - start) * 1000:.0f}"
-    if not quiet and result:
+    timing_ms = f"{(end - start) * 1000:.0f}"
+
+    if not quiet:
         paths: list[pathlib.Path] = []
         if isinstance(result, pathlib.Path):
             paths = [result]
-        elif isinstance(result, list):
+        elif isinstance(result, list) and result:
             paths = result
-            assert all(isinstance(item, pathlib.Path) for item in paths)
 
-        paths_as_strings = [
-            f"{'./' + str(path.relative_to(pathlib.Path.cwd()))}" for path in paths
-        ]
-        path = "; ".join(paths_as_strings)
+        progress.completed_steps.append(CompletedStep(timing_ms, message, paths))
+        live.update(progress.build_panel())
 
-        message = message + (": " if path else ".")
-        path = f"[purple]{path}[/purple]" if path else ""
-        printer.print(
-            rich.panel.Panel(
-                f"[bold green]{time_taken + ' ms':<8}[/bold green] {message:<26}"
-                f" {path}",
-                title="Rendered",
-                title_align="left",
-                border_style="bright_black",
-            )
-        )
     return result
 
 
@@ -71,17 +97,16 @@ def run_rendercv(
 ):
     rendercv_dictionary_as_commented_map = None
     error = True
+    progress = RenderProgress()
+
     try:
-        panel = rich.panel.Panel(
-            "Rendering...",
-            title="Rendered",
-            title_align="left",
-            border_style="bright_black",
-        )
-        # Use Live context to enable updates
-        with rich.live.Live(panel, refresh_per_second=4) as live:
+        with rich.live.Live(
+            progress.build_panel(), refresh_per_second=4, console=printer.console
+        ) as live:
             rendercv_dictionary_as_commented_map, rendercv_model = timed_step(
                 "Validated the input file",
+                progress,
+                live,
                 quiet,
                 build_rendercv_dictionary_and_model,
                 main_input_file_path_or_contents,
@@ -89,12 +114,16 @@ def run_rendercv(
             )
             typst_path = timed_step(
                 "Generated Typst",
+                progress,
+                live,
                 quiet,
                 generate_typst,
                 rendercv_model,
             )
             _ = timed_step(
                 "Generated PDF",
+                progress,
+                live,
                 quiet,
                 generate_pdf,
                 rendercv_model,
@@ -102,6 +131,8 @@ def run_rendercv(
             )
             _ = timed_step(
                 "Generated PNG",
+                progress,
+                live,
                 quiet,
                 generate_png,
                 rendercv_model,
@@ -109,17 +140,23 @@ def run_rendercv(
             )
             md_path = timed_step(
                 "Generated Markdown",
+                progress,
+                live,
                 quiet,
                 generate_markdown,
                 rendercv_model,
             )
             _ = timed_step(
                 "Generated HTML",
+                progress,
+                live,
                 quiet,
                 generate_html,
                 rendercv_model,
                 md_path,
             )
+            if not quiet:
+                live.update(progress.build_panel(title="Your CV is ready"))
         printer.print()
         error = False
     except RenderCVCliUserError as e:

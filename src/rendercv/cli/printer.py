@@ -3,12 +3,12 @@ import ssl
 import urllib.request
 
 import packaging.version
-import rich
-import rich.panel
-from rich import print
+import rich.console
 
 from rendercv import __version__
 
+console = rich.console.Console()
+print = console.print
 
 
 def warn_if_new_version_is_available() -> None:
