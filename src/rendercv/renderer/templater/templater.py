@@ -40,13 +40,16 @@ def render_full_template(
 
     rendercv_model = process_model(rendercv_model, file_type)
 
-    preamble = render_single_template(
-        f"{file_type}/Preamble.j2.{extension}", rendercv_model
-    )
+    if file_type == "typst":
+        preamble = render_single_template(
+            f"{file_type}/Preamble.j2.{extension}", rendercv_model
+        )
+    else:
+        preamble = ""
+
     header = render_single_template(
         f"{file_type}/Header.j2.{extension}", rendercv_model
     )
-
     code = f"{preamble}\n\n{header}\n"
     for rendercv_section in rendercv_model.cv.rendercv_sections:
         section_beginning = render_single_template(

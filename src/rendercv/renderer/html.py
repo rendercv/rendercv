@@ -7,10 +7,16 @@ from .templater.templater import render_html
 
 
 def render_html_to_file(
-    rendercv_model: RenderCVModel, markdown_path: pathlib.Path
-) -> None:
+    rendercv_model: RenderCVModel, markdown_path: pathlib.Path | None
+) -> pathlib.Path | None:
+    if (
+        rendercv_model.settings.render_command.dont_generate_html
+        or markdown_path is None
+    ):
+        return None
     html_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.html_path
     )
     html_contents = render_html(rendercv_model, markdown_path.read_text())
     html_path.write_text(html_contents)
+    return html_path

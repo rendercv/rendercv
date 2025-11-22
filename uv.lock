@@ -1147,6 +1147,7 @@ version = "2.3"
 source = { editable = "." }
 dependencies = [
     { name = "jinja2" },
+    { name = "packaging" },
     { name = "phonenumbers" },
     { name = "pydantic", extra = ["email"] },
     { name = "pydantic-extra-types" },
@@ -1193,6 +1194,7 @@ exe = [
 requires-dist = [
     { name = "jinja2", specifier = ">=3.1.6" },
     { name = "markdown", marker = "extra == 'full'", specifier = ">=3.10" },
+    { name = "packaging", specifier = ">=25.0" },
     { name = "phonenumbers", specifier = ">=9.0.19" },
     { name = "pydantic", extras = ["email"], specifier = ">=2.10.6" },
     { name = "pydantic-extra-types", specifier = ">=2.10.6" },

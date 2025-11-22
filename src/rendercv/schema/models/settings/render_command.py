@@ -74,6 +74,15 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
+    dont_generate_markdown: bool = pydantic.Field(
+        default=False,
+        title="Don't Generate Markdown",
+        description=(
+            "If `True`, the Markdown file will not be generated. Disabling Markdown"
+            " generation implicitly disables HTML. The default value is"
+            " `False`."
+        ),
+    )
     dont_generate_html: bool = pydantic.Field(
         default=False,
         title="Don't Generate HTML",
@@ -82,11 +91,12 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             " `False`."
         ),
     )
-    dont_generate_markdown: bool = pydantic.Field(
+    dont_generate_typst: bool = pydantic.Field(
         default=False,
-        title="Don't Generate Markdown",
+        title="Don't Generate Typst",
         description=(
-            "If `True`, the Markdown file will not be generated. The default value is"
+            "If `True`, the Typst file will not be generated. Disabling Typst"
+            " generation implicitly disables PDF and PNG. The default value is"
             " `False`."
         ),
     )

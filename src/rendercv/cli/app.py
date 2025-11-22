@@ -7,3 +7,8 @@ app = typer.Typer(
     no_args_is_help=True,
     context_settings={"help_option_names": ["-h", "--help"]},
 )
+
+
+@app.command()
+def version():
+    print(f"RenderCV v{__version__}")

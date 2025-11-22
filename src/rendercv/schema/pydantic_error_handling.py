@@ -75,7 +75,8 @@ def parse_plain_pydantic_error(
 
 
 def parse_validation_errors(
-    exception: pydantic.ValidationError, user_input_as_commented_map: CommentedMap
+    exception: pydantic.ValidationError,
+    rendercv_dictionary_as_commented_map: CommentedMap,
 ) -> list[RenderCVValidationError]:
     """Take a Pydantic validation error, parse it, and return a list of error
     dictionaries that contain the error messages, locations, and the input values.
@@ -97,7 +98,9 @@ def parse_validation_errors(
 
     for plain_error in all_plain_errors:
         all_final_errors.append(
-            parse_plain_pydantic_error(plain_error, user_input_as_commented_map)
+            parse_plain_pydantic_error(
+                plain_error, rendercv_dictionary_as_commented_map
+            )
         )
 
         if plain_error["type"] == CustomPydanticErrorTypes.entry_validation.value:
@@ -109,7 +112,7 @@ def parse_validation_errors(
                 )
                 all_final_errors.append(
                     parse_plain_pydantic_error(
-                        plain_cause_error, user_input_as_commented_map
+                        plain_cause_error, rendercv_dictionary_as_commented_map
                     )
                 )
 

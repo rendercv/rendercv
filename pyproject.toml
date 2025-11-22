@@ -51,6 +51,7 @@ dependencies = [
     'pydantic[email]>=2.10.6',      # Validate and parse input files
     'pydantic-extra-types>=2.10.6', # Validate extra types
     'ruamel.yaml>=0.18.10',         # Parse YAML files
+    "packaging>=25.0",              # For version checking
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
