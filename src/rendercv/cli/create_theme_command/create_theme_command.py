@@ -1,6 +1,7 @@
 import pathlib
 from typing import Annotated
 
+import rich.panel
 import typer
 
 from rendercv.schema.models.design.design import custom_theme_name_pattern
@@ -27,7 +28,7 @@ def cli_command_create_theme(
     if not custom_theme_name_pattern.match(theme_name):
         printer.error(
             "The custom theme name should only contain lowercase letters and digits."
-            " The provided value is `{theme_name}`."
+            f" The provided value is `{theme_name}`."
         )
         return
 
@@ -35,6 +36,7 @@ def cli_command_create_theme(
 
     if new_theme_folder.exists():
         printer.error(f'The theme folder "{theme_name}" already exists!')
+        return
 
     copy_templates("typst", new_theme_folder)
 
@@ -58,4 +60,26 @@ def cli_command_create_theme(
     )
     (new_theme_folder / "__init__.py").write_text(new_init_file_contents)
 
-    printer.print(f'The theme folder "{new_theme_folder.name}" has been created.')
+    # Build the panel
+    lines: list[str] = [
+        f"[green]✓[/green] Created your custom theme: [purple]./{theme_name}[/purple]",
+        "",
+        "What you can do with this theme:",
+        f"  1. Modify the Typst templates in [purple]./{theme_name}/[/purple]",
+        f"  2. Edit [purple]./{theme_name}/__init__.py[/purple] to:",
+        "     - Add your own design options to use in the YAML input file",
+        "     - Change the default values of existing options",
+        "     - Or simply delete it if you only want to customize templates",
+        "",
+        "To use your theme, set in your YAML input file:",
+        f"  [cyan]design:    theme: {theme_name}[/cyan]",
+    ]
+
+    printer.print(
+        rich.panel.Panel(
+            "\n".join(lines),
+            title="Theme created",
+            title_align="left",
+            border_style="bright_black",
+        )
+    )

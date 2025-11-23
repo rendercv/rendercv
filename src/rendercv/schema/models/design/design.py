@@ -7,9 +7,9 @@ import pydantic
 import pydantic_core
 
 from ...pydantic_error_handling import CustomPydanticErrorTypes
-from ..base import BaseModelWithoutExtraKeys
 from ..context import get_input_file_path
 from .built_in_design import BuiltInDesign, built_in_design_adapter
+from .classic_theme import ClassicTheme
 
 custom_theme_name_pattern = re.compile(r"^[a-z0-9]+$")
 
@@ -59,7 +59,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
             {"custom_theme_folder": custom_theme_folder.absolute()},
         )
     # Check if at least there is one *.j2.typ file in the custom theme folder:
-    if not any(custom_theme_folder.glob("*.j2.typ")):
+    if not any(custom_theme_folder.rglob("*.j2.typ")):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
             "The custom theme folder `{custom_theme_folder}` does not contain any"
@@ -112,7 +112,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
     else:
         # Then it means there is no __init__.py file in the custom theme folder.
         # Create a dummy data model and use that instead.
-        class ThemeOptionsAreNotProvided(BaseModelWithoutExtraKeys):
+        class ThemeOptionsAreNotProvided(ClassicTheme):
             theme: str = theme_name
 
         theme_data_model = ThemeOptionsAreNotProvided(theme=theme_name)
