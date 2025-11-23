@@ -161,8 +161,6 @@ def run_rendercv(
                 live.update(progress.build_panel(title="Your CV is ready"))
         printer.print()
         error = False
-    except RenderCVUserError as e:
-        printer.error(e.message)
     except ruamel.yaml.YAMLError as e:
         printer.error(f"This is not a valid YAML file!\n\n{e}")
     except jinja2.exceptions.TemplateSyntaxError as e:

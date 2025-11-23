@@ -29,4 +29,3 @@ def copy_templates(
         copy_templates_to,
         ignore=shutil.ignore_patterns("__init__.py", "__pycache__"),
     )
-    return copy_templates_to

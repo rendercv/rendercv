@@ -1,6 +1,8 @@
 import pathlib
+from collections.abc import Callable
 from typing import Annotated
 
+import rich.panel
 import typer
 
 from rendercv.schema.models.design.built_in_design import available_themes
@@ -9,6 +11,7 @@ from rendercv.schema.sample_generator import create_sample_yaml_input_file
 from .. import printer
 from ..app import app
 from ..copy_templates import copy_templates
+from .print_welcome import print_welcome
 
 
 @app.command(
@@ -46,34 +49,103 @@ def cli_command_new(
         ),
     ] = False,
 ):
+    print_welcome()
+
     input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_CV.yaml")
     typst_templates_folder = pathlib.Path(theme)
     markdown_folder = pathlib.Path("markdown")
 
-    file_or_folder_creators = {
-        input_file_path: lambda: create_sample_yaml_input_file(
-            input_file_path, name=full_name, theme=theme
+    # Define all items to create: (description, path, creator, skip)
+    items_to_create: list[tuple[str, pathlib.Path, Callable[[], object], bool]] = [
+        (
+            "Your YAML input file",
+            input_file_path,
+            lambda: create_sample_yaml_input_file(
+                input_file_path, name=full_name, theme=theme
+            ),
+            False,  # never skip the input file
         ),
-        typst_templates_folder: lambda: copy_templates("typst", typst_templates_folder),
-        markdown_folder: lambda: copy_templates("markdown", markdown_folder),
-    }
+        (
+            "Typst templates",
+            typst_templates_folder,
+            lambda: copy_templates("typst", typst_templates_folder),
+            dont_create_typst_templates,
+        ),
+        (
+            "Markdown templates",
+            markdown_folder,
+            lambda: copy_templates("markdown", markdown_folder),
+            dont_create_markdown_templates,
+        ),
+    ]
 
-    created_files_and_folders = []
-    for file_or_folder in [input_file_path, typst_templates_folder, markdown_folder]:
-        if file_or_folder.exists():
-            printer.warning(
-                f"The {file_or_folder.name} already exists! A new {file_or_folder.name}"
-                " is not created."
-            )
+    # Process items
+    created_items: list[tuple[str, pathlib.Path]] = []
+    existing_items: list[tuple[str, pathlib.Path]] = []
+    for description, path, creator, skip in items_to_create:
+        if skip:
+            continue
+        if path.exists():
+            existing_items.append((description, path))
         else:
-            file_or_folder_creators[file_or_folder]()
-            created_files_and_folders.append(file_or_folder)
+            creator()
+            created_items.append((description, path))
 
-    if len(created_files_and_folders) > 0:
-        created_files_and_folders_string = ",\n".join(
-            [file_or_folder.name for file_or_folder in created_files_and_folders]
+    # Build the panel
+    lines: list[str] = []
+
+    # Input file status (always first)
+    input_file_created = any(
+        desc == "Your YAML input file" for desc, _ in created_items
+    )
+    if input_file_created:
+        lines.append(
+            "[green]✓[/green] Created your YAML input file: "
+            f"[purple]./{input_file_path}[/purple]"
         )
-        printer.print(
-            "The following RenderCV input file and folders have been"
-            f" created:\n{created_files_and_folders_string}"
+    else:
+        lines.append(
+            f"Your YAML input file already exists: [purple]./{input_file_path}[/purple]"
         )
+
+    # Next steps (always visible)
+    lines.append("")
+    lines.append("Next steps:")
+    lines.append("  1. Edit the YAML input file with your information")
+    lines.append(f"  2. Run: [cyan]rendercv render {input_file_path}[/cyan]")
+
+    # Templates (exclude input file from these lists)
+    created_templates = [
+        (d, p) for d, p in created_items if d != "Your YAML input file"
+    ]
+    existing_templates = [
+        (d, p) for d, p in existing_items if d != "Your YAML input file"
+    ]
+
+    if created_templates:
+        lines.append("")
+        lines.append("Also created:")
+        for desc, path in created_templates:
+            lines.append(f"  ○ {desc}: ./{path}")
+
+    if existing_templates:
+        lines.append("")
+        lines.append("Not modified (already exist):")
+        for desc, path in existing_templates:
+            lines.append(f"  - {desc}: ./{path}")
+
+    if created_templates or existing_templates:
+        lines.append("")
+        lines.append(
+            "Templates are for advanced design customization. You can ignore or"
+            " delete them."
+        )
+
+    printer.print(
+        rich.panel.Panel(
+            "\n".join(lines),
+            title="Get started",
+            title_align="left",
+            border_style="bright_black",
+        )
+    )

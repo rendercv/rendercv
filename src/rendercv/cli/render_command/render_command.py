@@ -9,7 +9,6 @@ from rendercv.schema.rendercv_model_builder import (
 
 from ..app import app
 from .parse_override_arguments import parse_override_arguments
-from .print_welcome import print_welcome
 from .run_rendercv import run_rendercv
 from .watcher import run_function_if_file_changes
 
@@ -167,9 +166,6 @@ def cli_command_render(
     ] = None,
     extra_data_model_override_arguments: typer.Context = None,  # pyright: ignore[reportArgumentType]
 ):
-    if not quiet:
-        print_welcome()
-
     arguments: BuildRendercvModelArguments = {
         "design_file_path_or_contents": design,
         "locale_file_path_or_contents": locale,
