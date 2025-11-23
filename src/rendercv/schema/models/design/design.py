@@ -1,5 +1,6 @@
 import importlib
 import importlib.util
+import re
 from typing import Annotated, Any
 
 import pydantic
@@ -9,6 +10,8 @@ from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 from ..context import get_input_file_path
 from .built_in_design import BuiltInDesign, built_in_design_adapter
+
+custom_theme_name_pattern = re.compile(r"^[a-z0-9]+$")
 
 
 def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
@@ -34,12 +37,11 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
     theme_name = str(design["theme"])
 
     # Custom theme should only contain letters and digits:
-    if not theme_name.isalnum():
-        message = "The custom theme name should only contain letters and digits."
+    if not custom_theme_name_pattern.match(theme_name):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
-            "The custom theme name should only contain letters and digits. The provided"
-            " value is `{theme_name}`.",
+            "The custom theme name should only contain lowercase letters and digits."
+            " The provided value is `{theme_name}`.",
             {
                 "theme_name": theme_name,
                 "loc": ("design", "theme"),

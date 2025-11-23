@@ -23,7 +23,9 @@ def cli_command_no_args(
         bool | None, typer.Option("--version", "-v", help="Show the version")
     ] = None,
 ):
-    """RenderCV is a command-line tool for rendering CVs from YAML input files. For more information, see https://docs.rendercv.com."""
+    """RenderCV is a command-line tool for rendering CVs from YAML input files. For more
+    information, see https://docs.rendercv.com.
+    """
     printer.warn_if_new_version_is_available()
 
     if version_requested:

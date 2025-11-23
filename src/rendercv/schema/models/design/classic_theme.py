@@ -2,10 +2,10 @@ from typing import Literal
 
 import pydantic
 
-from ..base import BaseModelWithoutExtraKeys
-from .color import Color
-from .font_family import FontFamily
-from .typst_dimension import TypstDimension
+from rendercv.schema.models.base import BaseModelWithoutExtraKeys
+from rendercv.schema.models.design.color import Color
+from rendercv.schema.models.design.font_family import FontFamily
+from rendercv.schema.models.design.typst_dimension import TypstDimension
 
 type BulletPoint = Literal["•", "◦", "-", "◆", "★", "■", "—", "○"]
 type Alignment = Literal["left", "center", "right"]

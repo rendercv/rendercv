@@ -3,7 +3,7 @@ from typing import Annotated
 
 import typer
 
-from rendercv.schema.models.design.built_in_design import available_themes
+from rendercv.schema.models.design.design import custom_theme_name_pattern
 
 from .. import printer
 from ..app import app
@@ -23,48 +23,39 @@ def cli_command_create_theme(
         str,
         typer.Argument(help="The name of the new theme"),
     ],
-    based_on: Annotated[
-        str,
-        typer.Option(
-            help=(
-                "The name of the existing theme to base the new theme on (available"
-                f" themes are: {', '.join(available_themes)})"
-            )
-        ),
-    ] = "classic",
 ):
-    """Create a custom theme based on an existing theme"""
-    if based_on not in available_themes:
+    if not custom_theme_name_pattern.match(theme_name):
         printer.error(
-            f'The theme "{based_on}" is not in the list of available themes:'
-            f" {', '.join(available_themes)}"
-        )
-
-    theme_folder = copy_templates(
-        based_on, pathlib.Path.cwd(), new_folder_name=theme_name
-    )
-
-    if theme_folder is None:
-        printer.warning(
-            f'The theme folder "{theme_name}" already exists! The theme files are not'
-            " created"
+            "The custom theme name should only contain lowercase letters and digits."
+            " The provided value is `{theme_name}`."
         )
         return
 
-    based_on_theme_directory = (
-        pathlib.Path(__file__).parent.parent / "themes" / based_on
-    )
-    based_on_theme_init_file = based_on_theme_directory / "__init__.py"
-    based_on_theme_init_file_contents = based_on_theme_init_file.read_text()
+    new_theme_folder = pathlib.Path.cwd() / theme_name
+
+    if new_theme_folder.exists():
+        printer.error(f'The theme folder "{theme_name}" already exists!')
+
+    copy_templates("typst", new_theme_folder)
 
     # generate the new init file:
-    class_name = f"{theme_name.capitalize()}ThemeOptions"
-    literal_name = f'Literal["{theme_name}"]'
-    new_init_file_contents = based_on_theme_init_file_contents.replace(
-        f'Literal["{based_on}"]', literal_name
-    ).replace(f"{based_on.capitalize()}ThemeOptions", class_name)
+    classic_theme_file = (
+        pathlib.Path(__file__).parent.parent.parent
+        / "schema"
+        / "models"
+        / "design"
+        / "classic_theme.py"
+    )
+    new_init_file_contents = classic_theme_file.read_text()
 
-    # create the new __init__.py file:
-    (theme_folder / "__init__.py").write_text(new_init_file_contents)
+    new_init_file_contents = new_init_file_contents.replace(
+        "class ClassicTheme(BaseModelWithoutExtraKeys):",
+        f"class {theme_name.capitalize()}Theme(BaseModelWithoutExtraKeys):",
+    )
+    new_init_file_contents = new_init_file_contents.replace(
+        'theme: Literal["classic"] = "classic"',
+        f'theme: Literal["{theme_name}"] = "{theme_name}"',
+    )
+    (new_theme_folder / "__init__.py").write_text(new_init_file_contents)
 
-    printer.print(f'The theme folder "{theme_folder.name}" has been created.')
+    printer.print(f'The theme folder "{new_theme_folder.name}" has been created.')

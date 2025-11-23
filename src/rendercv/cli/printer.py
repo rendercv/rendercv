@@ -4,6 +4,7 @@ import urllib.request
 
 import packaging.version
 import rich.console
+import typer
 
 from rendercv import __version__
 
@@ -43,3 +44,4 @@ def warning(text: str):
 
 def error(text: str):
     print(f"[bold red]{text}[/bold red]")
+    typer.Exit(code=1)

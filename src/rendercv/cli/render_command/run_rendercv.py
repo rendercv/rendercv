@@ -97,7 +97,6 @@ def run_rendercv(
     **kwargs: Unpack[BuildRendercvModelArguments],
 ):
     rendercv_dictionary_as_commented_map = None
-    error = True
     progress = RenderProgress()
 
     try:
@@ -159,7 +158,6 @@ def run_rendercv(
             if not quiet:
                 live.update(progress.build_panel(title="Your CV is ready"))
         printer.print()
-        error = False
     except ruamel.yaml.YAMLError as e:
         printer.error(f"This is not a valid YAML file!\n\n{e}")
     except jinja2.exceptions.TemplateSyntaxError as e:
@@ -173,6 +171,3 @@ def run_rendercv(
             e, rendercv_dictionary_as_commented_map
         )
         print_validation_errors(validation_errors)
-    finally:
-        if error:
-            typer.Exit(code=1)

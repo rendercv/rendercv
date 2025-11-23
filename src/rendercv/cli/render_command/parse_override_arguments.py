@@ -30,7 +30,6 @@ def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
             " value."
         )
         printer.error(message)
-        typer.Exit(code=1)
 
     for i in range(0, len(extra_arguments.args), 2):
         key = extra_arguments.args[i]
@@ -38,7 +37,6 @@ def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
         if not key.startswith("--"):
             message = f"The key ({key}) should start with double dashes!"
             printer.error(message)
-            typer.Exit(code=1)
 
         key = key.replace("--", "")
 
