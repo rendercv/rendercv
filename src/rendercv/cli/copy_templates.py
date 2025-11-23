@@ -1,12 +1,11 @@
 import pathlib
 import shutil
+from typing import Literal
 
 
 def copy_templates(
-    folder_name: str,
-    copy_to: pathlib.Path,
-    new_folder_name: str | None = None,
-) -> pathlib.Path | None:
+    template_type: Literal["markdown", "typst"], copy_templates_to: pathlib.Path
+) -> None:
     """Copy one of the folders found in `rendercv.templates` to `copy_to`.
 
     Args:
@@ -17,19 +16,17 @@ def copy_templates(
         The path to the copied folder.
     """
     # copy the package's theme files to the current directory
-    template_directory = pathlib.Path(__file__).parent.parent / "themes" / folder_name
-    if new_folder_name:
-        destination = copy_to / new_folder_name
-    else:
-        destination = copy_to / folder_name
-
-    if destination.exists():
-        return None
+    template_directory = (
+        pathlib.Path(__file__).parent.parent
+        / "renderer"
+        / "templater"
+        / "templates"
+        / template_type
+    )
     # copy the folder but don't include __init__.py:
     shutil.copytree(
         template_directory,
-        destination,
+        copy_templates_to,
         ignore=shutil.ignore_patterns("__init__.py", "__pycache__"),
     )
-
-    return destination
+    return copy_templates_to

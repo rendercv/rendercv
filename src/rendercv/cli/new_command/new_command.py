@@ -3,7 +3,6 @@ from typing import Annotated
 
 import typer
 
-from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
@@ -30,65 +29,50 @@ def cli_command_new(
             )
         ),
     ] = "classic",
-    dont_create_theme_source_files: Annotated[
+    dont_create_typst_templates: Annotated[
         bool,
         typer.Option(
-            "--dont-create-theme-source-files",
-            "-notypst",
-            help="Don't create theme source files",
+            "--dont-create-typst-templates",
+            "-notyp",
+            help="Don't create Typst templates",
         ),
     ] = False,
-    dont_create_markdown_source_files: Annotated[
+    dont_create_markdown_templates: Annotated[
         bool,
         typer.Option(
-            "--dont-create-markdown-source-files",
+            "--dont-create-markdown-templates",
             "-nomd",
-            help="Don't create the Markdown source files",
+            help="Don't create Markdown templates",
         ),
     ] = False,
 ):
+    input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_CV.yaml")
+    typst_templates_folder = pathlib.Path(theme)
+    markdown_folder = pathlib.Path("markdown")
+
+    file_or_folder_creators = {
+        input_file_path: lambda: create_sample_yaml_input_file(
+            input_file_path, name=full_name, theme=theme
+        ),
+        typst_templates_folder: lambda: copy_templates("typst", typst_templates_folder),
+        markdown_folder: lambda: copy_templates("markdown", markdown_folder),
+    }
+
     created_files_and_folders = []
-
-    input_file_name = f"{full_name.replace(' ', '_')}_CV.yaml"
-    input_file_path = pathlib.Path(input_file_name)
-
-    if input_file_path.exists():
-        printer.warning(
-            f'The input file "{input_file_name}" already exists! A new input file is'
-            " not created"
-        )
-    else:
-        try:
-            create_sample_yaml_input_file(input_file_path, name=full_name, theme=theme)
-            created_files_and_folders.append(input_file_path.name)
-        except RenderCVUserError as e:
-            printer.error(e.message)
-            typer.Exit(code=1)
-
-    if not dont_create_theme_source_files:
-        # copy the package's theme files to the current directory
-        theme_folder = copy_templates(theme, pathlib.Path.cwd())
-        if theme_folder is not None:
-            created_files_and_folders.append(theme_folder.name)
-        else:
+    for file_or_folder in [input_file_path, typst_templates_folder, markdown_folder]:
+        if file_or_folder.exists():
             printer.warning(
-                f'The theme folder "{theme}" already exists! The theme files are not'
-                " created"
+                f"The {file_or_folder.name} already exists! A new {file_or_folder.name}"
+                " is not created."
             )
-
-    if not dont_create_markdown_source_files:
-        # copy the package's markdown files to the current directory
-        markdown_folder = copy_templates("markdown", pathlib.Path.cwd())
-        if markdown_folder is not None:
-            created_files_and_folders.append(markdown_folder.name)
         else:
-            printer.warning(
-                'The "markdown" folder already exists! The Markdown files are not'
-                " created"
-            )
+            file_or_folder_creators[file_or_folder]()
+            created_files_and_folders.append(file_or_folder)
 
     if len(created_files_and_folders) > 0:
-        created_files_and_folders_string = ",\n".join(created_files_and_folders)
+        created_files_and_folders_string = ",\n".join(
+            [file_or_folder.name for file_or_folder in created_files_and_folders]
+        )
         printer.print(
             "The following RenderCV input file and folders have been"
             f" created:\n{created_files_and_folders_string}"
