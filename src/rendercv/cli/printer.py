@@ -37,8 +37,6 @@ def warn_if_new_version_is_available() -> None:
             )
 
 
-
-
 def warning(text: str):
     print(f"[bold yellow]{text}[/bold yellow]")
 

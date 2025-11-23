@@ -11,6 +11,7 @@ from rendercv.schema.sample_generator import create_sample_yaml_input_file
 from .. import printer
 from ..app import app
 from ..copy_templates import copy_templates
+from ..error_handler import handle_user_errors
 from .print_welcome import print_welcome
 
 
@@ -21,6 +22,7 @@ from .print_welcome import print_welcome
         ' "John Doe"[/yellow]. Details: [cyan]rendercv new --help[/cyan]'
     ),
 )
+@handle_user_errors
 def cli_command_new(
     full_name: Annotated[str, typer.Argument(help="Your full name")],
     theme: Annotated[

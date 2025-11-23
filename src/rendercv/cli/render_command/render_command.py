@@ -8,6 +8,7 @@ from rendercv.schema.rendercv_model_builder import (
 )
 
 from ..app import app
+from ..error_handler import handle_user_errors
 from .parse_override_arguments import parse_override_arguments
 from .run_rendercv import run_rendercv
 from .watcher import run_function_if_file_changes
@@ -23,6 +24,7 @@ from .watcher import run_function_if_file_changes
     # the input file):
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
 )
+@handle_user_errors
 def cli_command_render(
     input_file_name: Annotated[str, typer.Argument(help="The YAML input file.")],
     design: Annotated[

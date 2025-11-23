@@ -11,7 +11,6 @@ import rich.panel
 import ruamel.yaml
 import typer
 
-from rendercv.exception import RenderCVUserError
 from rendercv.renderer.html import generate_html
 from rendercv.renderer.markdown import generate_markdown
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
