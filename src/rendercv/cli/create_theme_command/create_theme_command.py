@@ -10,6 +10,7 @@ from rendercv.schema.models.design.design import custom_theme_name_pattern
 from .. import printer
 from ..app import app
 from ..copy_templates import copy_templates
+from .create_init_file_for_theme import create_init_file_for_theme
 
 
 @app.command(
@@ -41,25 +42,8 @@ def cli_command_create_theme(
 
     copy_templates("typst", new_theme_folder)
 
-    # generate the new init file:
-    classic_theme_file = (
-        pathlib.Path(__file__).parent.parent.parent
-        / "schema"
-        / "models"
-        / "design"
-        / "classic_theme.py"
-    )
-    new_init_file_contents = classic_theme_file.read_text()
-
-    new_init_file_contents = new_init_file_contents.replace(
-        "class ClassicTheme(BaseModelWithoutExtraKeys):",
-        f"class {theme_name.capitalize()}Theme(BaseModelWithoutExtraKeys):",
-    )
-    new_init_file_contents = new_init_file_contents.replace(
-        'theme: Literal["classic"] = "classic"',
-        f'theme: Literal["{theme_name}"] = "{theme_name}"',
-    )
-    (new_theme_folder / "__init__.py").write_text(new_init_file_contents)
+    # Create the __init__.py file for the new theme:
+    create_init_file_for_theme(theme_name, new_theme_folder / "__init__.py")
 
     # Build the panel
     message = textwrap.dedent(
