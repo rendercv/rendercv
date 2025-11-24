@@ -6,6 +6,7 @@ from unittest.mock import MagicMock, patch
 import watchdog.events
 
 from rendercv.cli.render_command import watcher
+from rendercv.exception import RenderCVUserError
 
 
 class TestRunFunctionIfFileChanges:
@@ -102,14 +103,14 @@ class TestRunFunctionIfFileChanges:
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial")
 
-        call_count = 0
+        call_count = 0  # It calls by default on start
         should_raise = False
 
         def tracked_function():
             nonlocal call_count
             call_count += 1
             if should_raise:
-                raise RuntimeError("Intentional error")
+                raise RenderCVUserError("Intentional error")
 
         # Start watcher in background thread
         watcher_thread = threading.Thread(
@@ -120,20 +121,22 @@ class TestRunFunctionIfFileChanges:
         watcher_thread.start()
 
         # Wait for watcher to start and initial call
-        time.sleep(0.5)
+        time.sleep(0.2)
         assert call_count >= 1, "Function should be called immediately on start"
 
         # Edit file - should trigger function
         count_before_edit = call_count
         watched_file.write_text("first edit")
-        time.sleep(0.5)
-        assert call_count > count_before_edit, "Function should be called after first edit"
+        time.sleep(0.2)
+        assert call_count > count_before_edit, (
+            "Function should be called after first edit"
+        )
 
         # Set up to raise exception on next call
         should_raise = True
         count_before_exception = call_count
         watched_file.write_text("second edit - will raise")
-        time.sleep(0.5)
+        time.sleep(0.2)
         assert count_before_exception < call_count, (
             "Function should be called even though it raises"
         )
@@ -142,7 +145,7 @@ class TestRunFunctionIfFileChanges:
         should_raise = False
         count_after_exception = call_count
         watched_file.write_text("third edit - after exception")
-        time.sleep(0.5)
+        time.sleep(0.2)
         assert count_after_exception < call_count, (
             "Watcher should continue after exception"
         )

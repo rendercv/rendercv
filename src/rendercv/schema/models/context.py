@@ -13,7 +13,8 @@ class ValidationContext(pydantic.BaseModel):
 def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path | None:
     if isinstance(info.context, dict):
         context = cast(ValidationContext, info.context["context"])
-        return context.input_file_path or pathlib.Path.cwd()
+        if context.input_file_path:
+            return context.input_file_path
     return None
 
 

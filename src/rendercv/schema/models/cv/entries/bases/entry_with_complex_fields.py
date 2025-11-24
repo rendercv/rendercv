@@ -40,8 +40,7 @@ def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
         # Then it is in YYYY format
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif date == "present":
-        if current_date is None:
-            raise ValueError("`current_date` is required when `date` is 'present'.")
+        assert current_date is not None
         date_object = current_date
     else:
         raise RenderCVInternalError("This is not a valid date!")

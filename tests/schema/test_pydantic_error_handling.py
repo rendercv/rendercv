@@ -1,23 +1,32 @@
 import pydantic
 
+from rendercv.schema.models.context import ValidationContext
+from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.pydantic_error_handling import parse_validation_errors
-from rendercv.schema.rendercv_model_builder import (
-    build_rendercv_model_from_commented_map,
-)
 from rendercv.schema.yaml_reader import read_yaml
 
 
 def test_parse_validation_errors(testdata_dir):
     wrong_input_file_path = testdata_dir / "wrong_input.yaml"
-    wrong_input_dictionary = read_yaml(wrong_input_file_path)
+    wrong_input_commented_map = read_yaml(wrong_input_file_path)
 
     expected_errors_file_path = testdata_dir / "expected_errors.yaml"
     expected_errors = read_yaml(expected_errors_file_path)["expected_errors"]
 
     try:
-        build_rendercv_model_from_commented_map(wrong_input_dictionary)
+        RenderCVModel.model_validate(
+            wrong_input_commented_map,
+            context={
+                "context": ValidationContext(
+                    input_file_path=wrong_input_file_path,
+                    current_date=wrong_input_commented_map.get("settings", {}).get(
+                        "current_date", None
+                    ),
+                )
+            },
+        )
     except pydantic.ValidationError as e:
-        validation_errors = parse_validation_errors(e, wrong_input_dictionary)
+        validation_errors = parse_validation_errors(e, wrong_input_commented_map)
         for validation_error, expected_error in zip(
             validation_errors, expected_errors, strict=True
         ):

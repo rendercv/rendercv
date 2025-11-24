@@ -1,5 +1,4 @@
 import pathlib
-from datetime import date as Date
 from typing import TypedDict, Unpack
 
 import pydantic
@@ -84,9 +83,9 @@ def build_rendercv_model_from_commented_map(
             commented_map,
             context={
                 "context": ValidationContext(
-                    input_file_path=input_file_path or pathlib.Path(),
+                    input_file_path=input_file_path,
                     current_date=commented_map.get("settings", {}).get(
-                        "current_date", Date.today()
+                        "current_date", None
                     ),
                 )
             },

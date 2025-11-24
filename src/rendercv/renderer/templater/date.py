@@ -23,7 +23,7 @@ def compute_date_string(
             try:
                 date_object = get_date_object(date)
                 date_string = format_date(date_object, locale)
-            except ValueError:
+            except Exception:
                 # Then it is a custom date string (e.g., "My Custom Date")
                 date_string = str(date)
 

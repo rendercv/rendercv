@@ -20,7 +20,7 @@ expected_errors:
     yaml_location: [[5, 3], [5, 9]]
 
   - location: ["cv", "website"]
-    message: Input should be a valid URL, relative URL without a base
+    message: Input should be a valid URL, relative URL without a base.
     input: not_a_valid_url
     yaml_location: [[4, 3], [4, 11]]
 

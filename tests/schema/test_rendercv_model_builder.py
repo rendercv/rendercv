@@ -420,7 +420,7 @@ class TestBuildRendercvModel:
             model_value = getattr(model.settings.render_command, key)
             # Path fields are converted to Path objects
             if isinstance(value, str) and key.endswith("_path"):
-                assert model_value == pathlib.Path(value)
+                assert model_value == pathlib.Path(value).resolve()
             else:
                 assert model_value == value
 

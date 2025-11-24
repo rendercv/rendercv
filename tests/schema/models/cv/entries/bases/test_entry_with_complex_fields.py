@@ -3,6 +3,7 @@ from datetime import date as Date
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     BaseEntryWithComplexFields,
     get_date_object,
@@ -10,23 +11,23 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
 
 
 @pytest.mark.parametrize(
-    ("date", "expected_date_object", "expected_error"),
+    ("date", "expected_date_object", "expecting_error"),
     [
-        ("2020-01-01", Date(2020, 1, 1), None),
-        ("2020-01", Date(2020, 1, 1), None),
-        ("2020", Date(2020, 1, 1), None),
-        (2020, Date(2020, 1, 1), None),
-        ("present", None, ValueError),
-        ("invalid", None, ValueError),
-        ("20222", None, ValueError),
-        ("202222-20200", None, ValueError),
-        ("202222-12-20", None, ValueError),
-        ("2022-20-20", None, ValueError),
+        ("2020-01-01", Date(2020, 1, 1), False),
+        ("2020-01", Date(2020, 1, 1), False),
+        ("2020", Date(2020, 1, 1), False),
+        (2020, Date(2020, 1, 1), False),
+        ("present", None, True),
+        ("invalid", None, True),
+        ("20222", None, True),
+        ("202222-20200", None, True),
+        ("202222-12-20", None, True),
+        ("2022-20-20", None, True),
     ],
 )
-def test_get_date_object(date, expected_date_object, expected_error):
-    if expected_error:
-        with pytest.raises(expected_error):
+def test_get_date_object(date, expected_date_object, expecting_error):
+    if expecting_error:
+        with pytest.raises((RenderCVInternalError, AssertionError, ValueError)):
             get_date_object(date)
     else:
         assert get_date_object(date) == expected_date_object
