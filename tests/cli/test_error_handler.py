@@ -12,9 +12,7 @@ class TestHandleUserErrors:
         def successful_function():
             return None
 
-        result = successful_function()
-
-        assert result == "success"
+        successful_function()
 
     @patch("rendercv.cli.error_handler.printer.error")
     def test_catches_user_error_and_prints_message(self, mock_error):

@@ -1,6 +1,6 @@
 import typer
 
-from .. import printer
+from rendercv.exception import RenderCVUserError
 
 
 def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
@@ -29,14 +29,14 @@ def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
             f" ({','.join(extra_arguments.args)})! Each key should have a corresponding"
             " value."
         )
-        printer.error(message)
+        raise RenderCVUserError(message)
 
     for i in range(0, len(extra_arguments.args), 2):
         key = extra_arguments.args[i]
         value = extra_arguments.args[i + 1]
         if not key.startswith("--"):
             message = f"The key ({key}) should start with double dashes!"
-            printer.error(message)
+            raise RenderCVUserError(message)
 
         key = key.replace("--", "")
 

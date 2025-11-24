@@ -9,8 +9,9 @@ import pydantic
 import rich.live
 import rich.panel
 import ruamel.yaml
-import typer
+from rich import print
 
+from rendercv.exception import RenderCVUserError
 from rendercv.renderer.html import generate_html
 from rendercv.renderer.markdown import generate_markdown
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
@@ -21,7 +22,6 @@ from rendercv.schema.rendercv_model_builder import (
     build_rendercv_dictionary_and_model,
 )
 
-from .. import printer
 from .print_validation_errors import print_validation_errors
 
 
@@ -100,9 +100,7 @@ def run_rendercv(
     progress = RenderProgress()
 
     try:
-        with rich.live.Live(
-            progress.build_panel(), refresh_per_second=4, console=printer.console
-        ) as live:
+        with rich.live.Live(progress.build_panel(), refresh_per_second=4) as live:
             rendercv_dictionary_as_commented_map, rendercv_model = timed_step(
                 "Validated the input file",
                 progress,
@@ -157,14 +155,16 @@ def run_rendercv(
             )
             if not quiet:
                 live.update(progress.build_panel(title="Your CV is ready"))
-        printer.print()
+        print()
     except ruamel.yaml.YAMLError as e:
-        printer.error(f"This is not a valid YAML file!\n\n{e}")
+        message = f"This is not a valid YAML file!\n\n{e}"
+        raise RenderCVUserError(message) from e
     except jinja2.exceptions.TemplateSyntaxError as e:
-        printer.error(
+        message = (
             f"There is a problem with the template ({e.filename}) at line"
             f" {e.lineno}!\n\n{e}"
         )
+        raise RenderCVUserError(message) from e
     except pydantic.ValidationError as e:
         assert rendercv_dictionary_as_commented_map is not None
         validation_errors = parse_validation_errors(

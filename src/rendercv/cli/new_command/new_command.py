@@ -4,11 +4,11 @@ from typing import Annotated
 
 import rich.panel
 import typer
+from rich import print
 
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
-from .. import printer
 from ..app import app
 from ..copy_templates import copy_templates
 from ..error_handler import handle_user_errors
@@ -143,7 +143,7 @@ def cli_command_new(
             " delete them."
         )
 
-    printer.print(
+    print(
         rich.panel.Panel(
             "\n".join(lines),
             title="Get started",

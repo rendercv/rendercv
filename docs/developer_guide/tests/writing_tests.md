@@ -31,12 +31,19 @@ src/rendercv/schema/models/cv/section.py
     → tests/schema/models/cv/test_section.py
 ```
 
+### Naming conventions
+
+Test names should always include the name of the function being tested. This makes it easy to find tests for a specific function and keeps things organized.
+
+- **Single test**: `test_` + function name → `test_clean_url`, `test_run_function_if_file_changes`
+- **Multiple tests (class)**: `Test` + function name in PascalCase → `TestCleanUrl`, `TestRunFunctionIfFileChanges`
+
 ### When to use classes
 
-**Use a class** when a function needs multiple test functions:
+**Use a class** when a function needs multiple test functions. The class name should be `Test` + the function name in PascalCase:
 
 ```python
-class TestComputeDateString:
+class TestComputeDateString:  # tests for compute_date_string()
     @pytest.mark.parametrize(...)
     def test_date_parameter_takes_precedence(self, ...):
         ...
@@ -50,7 +57,7 @@ class TestComputeDateString:
         ...
 ```
 
-**Skip the class** when a function needs only one test:
+**Skip the class** when a function needs only one test. The function name should be `test_` + the function name:
 
 ```python
 @pytest.mark.parametrize(
@@ -61,11 +68,11 @@ class TestComputeDateString:
         ("https://example.com/test", "example.com/test"),
     ],
 )
-def test_clean_url(url, expected_clean_url):
+def test_clean_url(url, expected_clean_url):  # tests for clean_url()
     assert clean_url(url) == expected_clean_url
 
 
-def test_make_keywords_bold():
+def test_make_keywords_bold():  # tests for make_keywords_bold()
     assert make_keywords_bold("test string", ["test"]) == "**test** string"
 ```
 

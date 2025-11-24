@@ -1,15 +1,12 @@
 import rich
 import rich.panel
+from rich import print
 
 from rendercv import __version__
 
-from .. import printer
-
 
 def print_welcome():
-    printer.print(
-        f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n"
-    )
+    print(f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n")
     links = {
         "RenderCV App": "https://rendercv.com",
         "Documentation": "https://docs.rendercv.com",
@@ -27,4 +24,4 @@ def print_welcome():
         border_style="bright_black",
     )
 
-    printer.print(link_panel)
+    print(link_panel)

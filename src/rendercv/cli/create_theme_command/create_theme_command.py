@@ -4,10 +4,10 @@ from typing import Annotated
 
 import rich.panel
 import typer
+from rich import print
 
-from rendercv.schema.models.design.design import custom_theme_name_pattern
+from rendercv.exception import RenderCVUserError
 
-from .. import printer
 from ..app import app
 from ..copy_templates import copy_templates
 from .create_init_file_for_theme import create_init_file_for_theme
@@ -27,18 +27,11 @@ def cli_command_create_theme(
         typer.Argument(help="The name of the new theme"),
     ],
 ):
-    if not custom_theme_name_pattern.match(theme_name):
-        printer.error(
-            "The custom theme name should only contain lowercase letters and digits."
-            f" The provided value is `{theme_name}`."
-        )
-        return
-
     new_theme_folder = pathlib.Path.cwd() / theme_name
 
     if new_theme_folder.exists():
-        printer.error(f'The theme folder "{theme_name}" already exists!')
-        return
+        message = f'The theme folder "{theme_name}" already exists!'
+        raise RenderCVUserError(message)
 
     copy_templates("typst", new_theme_folder)
 
@@ -63,7 +56,7 @@ def cli_command_create_theme(
     """
     ).strip("\n")
 
-    printer.print(
+    print(
         rich.panel.Panel(
             message,
             title="Theme created",

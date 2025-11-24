@@ -1,9 +1,10 @@
 import functools
 from collections.abc import Callable
 
-from rendercv.exception import RenderCVUserError
+import typer
+from rich import print
 
-from . import printer
+from rendercv.exception import RenderCVUserError
 
 
 def handle_user_errors[T, **P](function: Callable[P, None]) -> Callable[P, None]:
@@ -12,6 +13,7 @@ def handle_user_errors[T, **P](function: Callable[P, None]) -> Callable[P, None]
         try:
             return function(*args, **kwargs)
         except RenderCVUserError as e:
-            printer.error(e.message)
+            print(f"[bold red]{e.message}[/bold red]")
+            typer.Exit(code=1)
 
     return wrapper
