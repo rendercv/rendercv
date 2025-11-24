@@ -50,7 +50,7 @@ def generate_png(
 @functools.lru_cache(maxsize=1)
 def get_typst_compiler(
     file_path: pathlib.Path,
-    input_file_path: pathlib.Path,
+    input_file_path: pathlib.Path | None,
 ) -> typst.Compiler:
     return typst.Compiler(
         file_path,
