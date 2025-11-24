@@ -11,38 +11,6 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.sample_generator import create_sample_rendercv_pydantic_model
 
 
-def compare_files(file1: pathlib.Path, file2: pathlib.Path) -> bool:
-    """Compare two files to check if they are the same.
-
-    For PDFs, compares text content page by page.
-    For other files, uses binary comparison.
-
-    Args:
-        file1: The first file to compare.
-        file2: The second file to compare.
-
-    Returns:
-        True if the files are the same, False otherwise.
-    """
-    if file1.suffix != file2.suffix:
-        return False
-
-    # if file1.suffix == ".pdf":
-    #     pages1 = pypdf.PdfReader(file1).pages
-    #     pages2 = pypdf.PdfReader(file2).pages
-
-    #     if len(pages1) != len(pages2):
-    #         return False
-
-    #     for i in range(len(pages1)):
-    #         if pages1[i].extract_text() != pages2[i].extract_text():
-    #             return False
-
-    #     return True
-
-    return filecmp.cmp(file1, file2, shallow=False)
-
-
 @pytest.fixture
 def compare_file_with_reference(
     tmp_path: pathlib.Path, testdata_dir: pathlib.Path, update_testdata: bool
@@ -116,7 +84,7 @@ def compare_file_with_reference(
             )
             raise FileNotFoundError(msg)
 
-        return compare_files(generated_path, reference_path)
+        return filecmp.cmp(generated_path, reference_path, shallow=False)
 
     return _compare
 
