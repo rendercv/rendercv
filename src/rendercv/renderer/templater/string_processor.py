@@ -11,10 +11,9 @@ def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
     if not keywords:
         message = "Keywords cannot be empty"
         raise RenderCVInternalError(message)
+
     pattern = (
-        r"\b("
-        + "|".join(sorted(map(re.escape, keywords), key=len, reverse=True))
-        + r")\b"
+        "(" + "|".join(sorted(map(re.escape, keywords), key=len, reverse=True)) + ")"
     )
     return re.compile(pattern)
 
