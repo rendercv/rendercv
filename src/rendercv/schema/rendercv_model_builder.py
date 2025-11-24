@@ -72,7 +72,7 @@ def build_rendercv_dictionary(
 
 
 def build_rendercv_model_from_dictionary(
-    input_dictionary: CommentedMap,
+    input_dictionary: CommentedMap | dict,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
     model = RenderCVModel.model_validate(

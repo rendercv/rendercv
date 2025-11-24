@@ -7,6 +7,8 @@ import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 from typing_extensions import TypedDict
 
+from rendercv.exception import RenderCVInternalError
+
 from .models.custom_error_types import CustomPydanticErrorTypes
 from .yaml_reader import read_yaml
 
@@ -133,12 +135,12 @@ def get_inner_yaml_object_from_its_key(
             coordinates = ((start_line + 1, start_col - 1), (end_line + 1, end_col))
         except IndexError as e:
             message = f"Index {index} is out of range in the YAML file."
-            raise KeyError(message) from e
+            raise RenderCVInternalError(message) from e
     except ValueError as e:
         # Otherwise, the part is a key in a mapping.
         if location_key not in yaml_object:
             message = f"Key '{location_key}' not found in the YAML file."
-            raise KeyError(message) from e
+            raise RenderCVInternalError(message) from e
 
         inner_yaml_object = yaml_object[location_key]
         start_line, start_col, end_line, end_col = yaml_object.lc.data[location_key]

@@ -1,6 +1,7 @@
 import pytest
 import ruamel.yaml
 
+from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.models.rendercv_model import RenderCVModel
@@ -53,6 +54,15 @@ def test_create_a_sample_yaml_input_file(tmp_path, theme, locale):
 
     assert dummy_file_path.exists()
     assert yaml_contents == dummy_file_path.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    "key",
+    ["theme", "locale"],
+)
+def test_create_sample_yaml_input_file_invalid_theme_or_locale(key):
+    with pytest.raises(RenderCVUserError):
+        create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
 
 
 def test_dictionary_to_yaml():

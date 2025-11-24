@@ -5,10 +5,11 @@ from datetime import date as Date
 import pytest
 import ruamel.yaml
 
+from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.rendercv_model_builder import (
     build_rendercv_dictionary,
-    build_rendercv_model,
+    build_rendercv_dictionary_and_model,
     build_rendercv_model_from_dictionary,
 )
 from rendercv.schema.sample_generator import dictionary_to_yaml
@@ -222,9 +223,7 @@ class TestBuildRendercvDictionary:
             ),
         ],
     )
-    def test_overrides_parameter(
-        self, minimal_input_dict, overrides, expected_checks
-    ):
+    def test_overrides_parameter(self, minimal_input_dict, overrides, expected_checks):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
         result = build_rendercv_dictionary(yaml_input, overrides=overrides)
@@ -240,11 +239,7 @@ class TestBuildRendercvDictionary:
             **minimal_input_dict,
             "cv": {
                 "name": "John Doe",
-                "sections": {
-                    "education": [
-                        {"institution": "MIT", "degree": "PhD"}
-                    ]
-                },
+                "sections": {"education": [{"institution": "MIT", "degree": "PhD"}]},
             },
         }
         yaml_input = dictionary_to_yaml(input_dict)
@@ -341,7 +336,7 @@ class TestBuildRendercvModel:
             yaml_input = create_yaml_file_fixture("input.yaml", minimal_input_dict)
             expected_file_path = yaml_input
 
-        model = build_rendercv_model(yaml_input)
+        _, model = build_rendercv_dictionary_and_model(yaml_input)
 
         assert isinstance(model, RenderCVModel)
         assert model.cv.name == "John Doe"
@@ -368,7 +363,7 @@ class TestBuildRendercvModel:
             )
 
         kwargs = {f"{overlay_key}_file_path_or_contents": overlay_input}
-        model = build_rendercv_model(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        _, model = build_rendercv_dictionary_and_model(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
 
         assert isinstance(model, RenderCVModel)
 
@@ -389,7 +384,7 @@ class TestBuildRendercvModel:
         locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
         settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
 
-        model = build_rendercv_model(
+        _, model = build_rendercv_dictionary_and_model(
             main_file,
             design_file_path_or_contents=design_file,
             locale_file_path_or_contents=locale_file,
@@ -417,7 +412,7 @@ class TestBuildRendercvModel:
     def test_with_render_command_overrides(self, minimal_input_dict, overrides):
         main_yaml = dictionary_to_yaml(minimal_input_dict)
 
-        model = build_rendercv_model(main_yaml, **overrides)
+        _, model = build_rendercv_dictionary_and_model(main_yaml, **overrides)
 
         assert isinstance(model, RenderCVModel)
         # Verify overrides are in the model
@@ -437,7 +432,7 @@ class TestBuildRendercvModel:
         main_file = create_yaml_file_fixture("main.yaml", minimal_input_dict)
         locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
 
-        model = build_rendercv_model(
+        _, model = build_rendercv_dictionary_and_model(
             main_file,
             locale_file_path_or_contents=locale_file,
             pdf_path="output.pdf",
@@ -462,13 +457,13 @@ class TestBuildRendercvModel:
     ):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        model = build_rendercv_model(yaml_input, overrides=overrides)
+        _, model = build_rendercv_dictionary_and_model(yaml_input, overrides=overrides)
 
         assert isinstance(model, RenderCVModel)
         assert model.cv.name == expected_name
 
     def test_with_fixture_input_file(self, input_file_path):
-        model = build_rendercv_model(input_file_path)
+        _, model = build_rendercv_dictionary_and_model(input_file_path)
         assert isinstance(model, RenderCVModel)
 
     def test_with_yaml_string_using_ruamel(self):
@@ -484,18 +479,18 @@ class TestBuildRendercvModel:
             yaml_object.dump(input_dictionary, string_stream)
             yaml_string = string_stream.getvalue()
 
-        model = build_rendercv_model(yaml_string)
+        _, model = build_rendercv_dictionary_and_model(yaml_string)
         assert isinstance(model, RenderCVModel)
 
     def test_invalid_file_extension_raises_error(self, tmp_path):
         invalid_file_path = tmp_path / "invalid.extension"
         invalid_file_path.write_text("dummy content", encoding="utf-8")
 
-        with pytest.raises(ValueError):  # noqa: PT011
-            build_rendercv_model(invalid_file_path)
+        with pytest.raises(RenderCVUserError):
+            build_rendercv_dictionary_and_model(invalid_file_path)
 
     def test_nonexistent_file_raises_error(self, tmp_path):
         non_existent_file_path = tmp_path / "non_existent_file.yaml"
 
-        with pytest.raises(FileNotFoundError):
-            build_rendercv_model(non_existent_file_path)
+        with pytest.raises(RenderCVUserError):
+            build_rendercv_dictionary_and_model(non_existent_file_path)

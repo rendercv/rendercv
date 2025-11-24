@@ -1,6 +1,8 @@
 import copy
 from typing import overload
 
+from rendercv.exception import RenderCVUserError
+
 
 @overload
 def update_value_by_location(
@@ -50,16 +52,19 @@ def update_value_by_location(
                 f"`{previous_key}` corresponds to a list, but `{keys[0]}` is not an"
                 " integer."
             )
-            raise ValueError(message) from e
+            raise RenderCVUserError(message) from e
 
         if first_key >= len(dict_or_list):
             message = (
                 f"Index {first_key} is out of range for the list `{previous_key}`."
             )
-            raise IndexError(message)
+            raise RenderCVUserError(message)
     elif not isinstance(dict_or_list, dict):
-        message = f"It seems like there's something wrong with {full_key}."
-        raise ValueError(message)
+        message = (
+            f"It seems like there's something wrong with `{full_key}`, but we don't"
+            " know what it is."
+        )
+        raise RenderCVUserError(message)
 
     if len(keys) == 1:
         new_value = value

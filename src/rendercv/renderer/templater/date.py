@@ -1,5 +1,6 @@
 from datetime import date as Date
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     get_date_object,
 )
@@ -125,7 +126,7 @@ def compute_time_span_string(
         time_span_string = f"{how_many_years_string} {how_many_months_string}"
     else:
         message = "The time span is not valid!"
-        raise ValueError(message)
+        raise RenderCVInternalError(message)
 
     return time_span_string.strip()
 

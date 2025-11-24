@@ -5,6 +5,7 @@ from typing import Annotated
 import typer
 
 from rendercv import __version__
+from rendercv.exception import RenderCVInternalError
 
 from . import printer
 
@@ -43,7 +44,7 @@ for file in cli_folder_path.rglob("*_command.py"):
         message = (
             f"Package name {folder_name} does not match module name {py_file_name}"
         )
-        raise ValueError(message)
+        raise RenderCVInternalError(message)
 
     # Build full module path: <parent_pkg>.foo_command.foo_command
     full_module = f"{__package__}.{folder_name}.{py_file_name}"

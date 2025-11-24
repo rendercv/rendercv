@@ -3,6 +3,7 @@ import re
 from collections.abc import Callable
 from typing import Literal, overload
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -103,7 +104,7 @@ def process_fields(
             )
         else:
             message = f"Unhandled field type: {type(value)}"
-            raise ValueError(message)
+            raise RenderCVInternalError(message)
 
     return entry
 

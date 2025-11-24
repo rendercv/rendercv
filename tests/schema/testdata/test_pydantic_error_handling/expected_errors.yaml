@@ -116,6 +116,6 @@ expected_errors:
     yaml_location: [[56, 9], [56, 17]]
 
   - location: ["design", "theme"]
-    message: The custom theme name should only contain letters and digits. The provided value is `not_a_valid_theme`.
+    message: The custom theme name should only contain lowercase letters and digits. The provided value is `not_a_valid_theme`.
     input: not_a_valid_theme
     yaml_location: [[58, 3], [58, 9]]

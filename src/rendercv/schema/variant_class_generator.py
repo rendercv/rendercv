@@ -4,6 +4,8 @@ from typing import Any, Literal, cast
 import pydantic
 from pydantic.fields import FieldInfo
 
+from rendercv.exception import RenderCVInternalError
+
 type FieldSpec = tuple[type[Any], FieldInfo]
 
 
@@ -87,7 +89,7 @@ def validate_defaults_against_base(
                 f"Field '{field_name}' in defaults for '{variant_name}' "
                 f"is not defined in {base_class.__name__}"
             )
-            raise ValueError(message)
+            raise RenderCVInternalError(message)
 
 
 def generate_class_name(variant_name: str, class_name_suffix: str) -> str:

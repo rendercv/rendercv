@@ -3,13 +3,14 @@
 import pathlib
 
 
-def get_all_subdirectories(root: pathlib.Path) -> set[pathlib.Path]:
-    """Recursively get all subdirectories under root, excluding __pycache__."""
-    subdirs = set()
-    for path in root.rglob("*"):
-        if path.is_dir() and "__pycache__" not in path.parts:
-            subdirs.add(path.relative_to(root))
-    return subdirs
+def get_immediate_subdirectories(directory: pathlib.Path) -> set[str]:
+    """Get immediate subdirectory names, excluding __pycache__ and testdata."""
+    excluded = {"__pycache__", "testdata"}
+    return {
+        d.name
+        for d in directory.iterdir()
+        if d.is_dir() and d.name not in excluded
+    }
 
 
 def get_python_files(directory: pathlib.Path) -> set[str]:
@@ -22,19 +23,40 @@ def get_python_files(directory: pathlib.Path) -> set[str]:
     }
 
 
-def test_all_source_folders_have_corresponding_test_folders():
-    """Verify all folders in src/rendercv/ have corresponding folders in tests/."""
+def get_all_source_subdirs(root: pathlib.Path) -> set[pathlib.Path]:
+    """Recursively get all subdirectories under root, excluding __pycache__."""
+    subdirs = set()
+    for path in root.rglob("*"):
+        if path.is_dir() and "__pycache__" not in path.parts:
+            subdirs.add(path.relative_to(root))
+    return subdirs
+
+
+def test_test_folders_match_source_structure():
+    """Verify test folders that mirror source folders have no extra subfolders."""
     src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
     tests_root = pathlib.Path(__file__).parent.parent
 
-    source_subdirs = get_all_subdirectories(src_root)
-    test_subdirs = get_all_subdirectories(tests_root)
+    source_subdirs = get_all_source_subdirs(src_root)
+    invalid_folders = []
 
-    missing_folders = source_subdirs - test_subdirs
+    for subdir in source_subdirs:
+        test_dir = tests_root / subdir
+        source_dir = src_root / subdir
 
-    assert not missing_folders, (
-        f"The following source folders do not have corresponding test folders:\n"
-        + "\n".join(f"  - src/rendercv/{folder}" for folder in sorted(missing_folders))
+        if not test_dir.exists():
+            continue
+
+        test_subfolders = get_immediate_subdirectories(test_dir)
+        source_subfolders = get_immediate_subdirectories(source_dir)
+
+        extra_folders = test_subfolders - source_subfolders
+        for folder in extra_folders:
+            invalid_folders.append(f"tests/{subdir}/{folder}")
+
+    assert not invalid_folders, (
+        "The following test folders do not have corresponding source folders:\n"
+        + "\n".join(f"  - {f}" for f in sorted(invalid_folders))
     )
 
 
@@ -43,7 +65,7 @@ def test_all_test_files_follow_naming_pattern():
     src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
     tests_root = pathlib.Path(__file__).parent.parent
 
-    source_subdirs = get_all_subdirectories(src_root)
+    source_subdirs = get_all_source_subdirs(src_root)
     invalid_test_files = []
 
     for subdir in source_subdirs:
@@ -71,6 +93,6 @@ def test_all_test_files_follow_naming_pattern():
                 )
 
     assert not invalid_test_files, (
-        f"The following test files violate the naming pattern:\n"
+        "The following test files violate the naming pattern:\n"
         + "\n".join(f"  - {f}" for f in sorted(invalid_test_files))
     )

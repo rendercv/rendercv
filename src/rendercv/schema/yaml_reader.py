@@ -4,7 +4,7 @@ from typing import Literal
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from rendercv.exception import RenderCVUserError
+from rendercv.exception import RenderCVInternalError, RenderCVUserError
 
 
 def read_yaml(
@@ -61,6 +61,6 @@ def read_yaml(
             " string and RenderCV interpreted it as the contents of the YAML file."
             f" Pass the path using `pathlib.Path({file_path_or_contents})`."
         )
-        raise ValueError(message)
+        raise RenderCVInternalError(message)
 
     return yaml_as_dictionary
