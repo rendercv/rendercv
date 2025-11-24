@@ -5,20 +5,11 @@ import pydantic
 import pydantic_core
 import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
-from typing_extensions import TypedDict
 
-from rendercv.exception import RenderCVInternalError
+from rendercv.exception import RenderCVInternalError, RenderCVValidationError
 
 from .models.custom_error_types import CustomPydanticErrorTypes
 from .yaml_reader import read_yaml
-
-
-class RenderCVValidationError(TypedDict):
-    location: tuple[str, ...]
-    yaml_location: tuple[tuple[int, int], tuple[int, int]]
-    message: str
-    input: str
-
 
 error_dictionary = cast(
     dict[str, str],
@@ -61,9 +52,13 @@ def parse_plain_pydantic_error(
             ' or YYYY format or "present"!'
         )
 
+    error_message = error_dictionary.get(plain_error["msg"], plain_error["msg"])
+    if not error_message.endswith("."):
+        error_message += "."
+
     return {
         "location": location,
-        "message": error_dictionary.get(plain_error["msg"], plain_error["msg"]),
+        "message": error_message,
         "input": (
             str(plain_error["input"])
             if not isinstance(plain_error["input"], dict | list)

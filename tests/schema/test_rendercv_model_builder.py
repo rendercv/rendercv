@@ -10,7 +10,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.rendercv_model_builder import (
     build_rendercv_dictionary,
     build_rendercv_dictionary_and_model,
-    build_rendercv_model_from_dictionary,
+    build_rendercv_model_from_commented_map,
 )
 from rendercv.schema.sample_generator import dictionary_to_yaml
 
@@ -259,7 +259,7 @@ class TestBuildRendercvDictionary:
 
 class TestBuildRendercvModelFromDictionary:
     def test_basic_model_creation_without_optionals(self, minimal_input_dict):
-        model = build_rendercv_model_from_dictionary(minimal_input_dict)
+        model = build_rendercv_model_from_commented_map(minimal_input_dict)
 
         assert isinstance(model, RenderCVModel)
         assert model.cv.name == "John Doe"
@@ -268,7 +268,7 @@ class TestBuildRendercvModelFromDictionary:
     def test_with_input_file_path(self, minimal_input_dict, tmp_path):
         input_file_path = tmp_path / "test.yaml"
 
-        model = build_rendercv_model_from_dictionary(
+        model = build_rendercv_model_from_commented_map(
             minimal_input_dict, input_file_path
         )
 
@@ -276,7 +276,7 @@ class TestBuildRendercvModelFromDictionary:
         assert model._input_file_path == input_file_path
 
     def test_without_input_file_path(self, minimal_input_dict):
-        model = build_rendercv_model_from_dictionary(minimal_input_dict)
+        model = build_rendercv_model_from_commented_map(minimal_input_dict)
 
         assert model._input_file_path is None
 
@@ -298,7 +298,7 @@ class TestBuildRendercvModelFromDictionary:
             input_dict["settings"] = settings
 
         # Should create model successfully regardless of current_date source
-        model = build_rendercv_model_from_dictionary(input_dict)
+        model = build_rendercv_model_from_commented_map(input_dict)
 
         assert isinstance(model, RenderCVModel)
         # We can't directly verify the context after validation,
@@ -315,7 +315,7 @@ class TestBuildRendercvModelFromDictionary:
             "settings": {"current_date": custom_date},
         }
 
-        model = build_rendercv_model_from_dictionary(input_dict, input_file_path)
+        model = build_rendercv_model_from_commented_map(input_dict, input_file_path)
 
         assert isinstance(model, RenderCVModel)
         assert model._input_file_path == input_file_path

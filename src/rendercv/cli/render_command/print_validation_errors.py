@@ -1,23 +1,21 @@
 import rich
+import rich.box
 import rich.table
 from rich import print
 
-from rendercv.exception import RenderCVInternalError
-from rendercv.schema.pydantic_error_handling import RenderCVValidationError
+from rendercv.exception import RenderCVInternalError, RenderCVValidationError
 
 
 def print_validation_errors(errors: list[RenderCVValidationError]):
     if not errors:
         raise RenderCVInternalError("No validation errors provided")
 
-    table = rich.table.Table(
-        title="[bold red]\nThere are some errors in the data model!\n",
-        title_justify="left",
-        show_lines=True,
-    )
+    print("[bold red]\nThere are errors in the input file!\n")
+
+    table = rich.table.Table(expand=True, show_lines=True, box=rich.box.ROUNDED)
     table.add_column("Location", style="cyan", no_wrap=True)
-    table.add_column("Input Value", style="magenta")
-    table.add_column("Error Message", style="orange4")
+    table.add_column("Input Value", style="magenta", no_wrap=True)
+    table.add_column("Explanation", style="orange4")
 
     for error_object in errors:
         table.add_row(

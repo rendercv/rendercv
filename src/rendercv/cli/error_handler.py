@@ -13,7 +13,8 @@ def handle_user_errors[T, **P](function: Callable[P, None]) -> Callable[P, None]
         try:
             return function(*args, **kwargs)
         except RenderCVUserError as e:
-            print(f"[bold red]{e.message}[/bold red]")
+            if e.message:
+                print(f"[bold red]{e.message}[/bold red]")
             typer.Exit(code=1)
 
     return wrapper

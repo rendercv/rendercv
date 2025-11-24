@@ -2,11 +2,15 @@ import pathlib
 from datetime import date as Date
 from typing import TypedDict, Unpack
 
+import pydantic
 from ruamel.yaml.comments import CommentedMap
+
+from rendercv.exception import RenderCVUserValidationError
 
 from .models.context import ValidationContext
 from .models.rendercv_model import RenderCVModel
 from .override_dictionary import apply_overrides_to_dictionary
+from .pydantic_error_handling import parse_validation_errors
 from .yaml_reader import read_yaml
 
 
@@ -71,22 +75,26 @@ def build_rendercv_dictionary(
     return input_dict
 
 
-def build_rendercv_model_from_dictionary(
-    input_dictionary: CommentedMap | dict,
+def build_rendercv_model_from_commented_map(
+    commented_map: CommentedMap,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
-    model = RenderCVModel.model_validate(
-        input_dictionary,
-        context={
-            "context": ValidationContext(
-                input_file_path=input_file_path or pathlib.Path(),
-                current_date=input_dictionary.get("settings", {}).get(
-                    "current_date", Date.today()
-                ),
-            )
-        },
-    )
-    model._input_file_path = input_file_path
+    try:
+        model = RenderCVModel.model_validate(
+            commented_map,
+            context={
+                "context": ValidationContext(
+                    input_file_path=input_file_path or pathlib.Path(),
+                    current_date=commented_map.get("settings", {}).get(
+                        "current_date", Date.today()
+                    ),
+                )
+            },
+        )
+    except pydantic.ValidationError as e:
+        validation_errors = parse_validation_errors(e, commented_map)
+        raise RenderCVUserValidationError(validation_errors) from e
+
     return model
 
 
@@ -100,5 +108,5 @@ def build_rendercv_dictionary_and_model(
         if isinstance(main_input_file_path_or_contents, pathlib.Path)
         else None
     )
-    m = build_rendercv_model_from_dictionary(d, input_file_path)
+    m = build_rendercv_model_from_commented_map(d, input_file_path)
     return d, m

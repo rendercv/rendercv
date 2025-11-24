@@ -5,18 +5,15 @@ from dataclasses import dataclass, field
 from typing import Unpack
 
 import jinja2
-import pydantic
 import rich.live
 import rich.panel
 import ruamel.yaml
-from rich import print
 
-from rendercv.exception import RenderCVUserError
+from rendercv.exception import RenderCVUserError, RenderCVUserValidationError
 from rendercv.renderer.html import generate_html
 from rendercv.renderer.markdown import generate_markdown
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
 from rendercv.renderer.typst import generate_typst
-from rendercv.schema.pydantic_error_handling import parse_validation_errors
 from rendercv.schema.rendercv_model_builder import (
     BuildRendercvModelArguments,
     build_rendercv_dictionary_and_model,
@@ -96,12 +93,11 @@ def run_rendercv(
     quiet: bool = False,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ):
-    rendercv_dictionary_as_commented_map = None
     progress = RenderProgress()
 
-    try:
-        with rich.live.Live(progress.build_panel(), refresh_per_second=4) as live:
-            rendercv_dictionary_as_commented_map, rendercv_model = timed_step(
+    with rich.live.Live(progress.build_panel(), refresh_per_second=4) as live:
+        try:
+            _, rendercv_model = timed_step(
                 "Validated the input file",
                 progress,
                 live,
@@ -118,7 +114,7 @@ def run_rendercv(
                 generate_typst,
                 rendercv_model,
             )
-            _ = timed_step(
+            timed_step(
                 "Generated PDF",
                 progress,
                 live,
@@ -127,7 +123,7 @@ def run_rendercv(
                 rendercv_model,
                 typst_path,
             )
-            _ = timed_step(
+            timed_step(
                 "Generated PNG",
                 progress,
                 live,
@@ -144,7 +140,7 @@ def run_rendercv(
                 generate_markdown,
                 rendercv_model,
             )
-            _ = timed_step(
+            timed_step(
                 "Generated HTML",
                 progress,
                 live,
@@ -155,19 +151,21 @@ def run_rendercv(
             )
             if not quiet:
                 live.update(progress.build_panel(title="Your CV is ready"))
-        print()
-    except ruamel.yaml.YAMLError as e:
-        message = f"This is not a valid YAML file!\n\n{e}"
-        raise RenderCVUserError(message) from e
-    except jinja2.exceptions.TemplateSyntaxError as e:
-        message = (
-            f"There is a problem with the template ({e.filename}) at line"
-            f" {e.lineno}!\n\n{e}"
-        )
-        raise RenderCVUserError(message) from e
-    except pydantic.ValidationError as e:
-        assert rendercv_dictionary_as_commented_map is not None
-        validation_errors = parse_validation_errors(
-            e, rendercv_dictionary_as_commented_map
-        )
-        print_validation_errors(validation_errors)
+        except RenderCVUserError as e:
+            live.update("")
+            raise e
+        except ruamel.yaml.YAMLError as e:
+            live.update("")
+            message = f"This is not a valid YAML file!\n\n{e}"
+            raise RenderCVUserError(message) from e
+        except jinja2.exceptions.TemplateSyntaxError as e:
+            live.update("")
+            message = (
+                f"There is a problem with the template ({e.filename}) at line"
+                f" {e.lineno}!\n\n{e}"
+            )
+            raise RenderCVUserError(message) from e
+        except RenderCVUserValidationError as e:
+            live.update("")
+            print_validation_errors(e.validation_errors)
+            raise RenderCVUserError() from e

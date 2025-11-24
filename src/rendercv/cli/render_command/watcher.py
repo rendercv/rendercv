@@ -7,6 +7,8 @@ from collections.abc import Callable
 import watchdog.events
 import watchdog.observers
 
+from rendercv.exception import RenderCVUserError
+
 
 def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
     """Watch the file located at `file_path` and call the `function` when the file is
@@ -16,9 +18,6 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
         file_path (pathlib.Path): The path of the file to watch for.
         function (Callable): The function to be called on file modification.
     """
-    # Run the function immediately for the first time
-    function()
-
     path_to_watch = str(file_path.absolute())
     if sys.platform == "win32":
         # Windows does not support single file watching, so we watch the directory
@@ -33,7 +32,7 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
             if event.src_path != str(file_path.absolute()):
                 return
 
-            with contextlib.suppress(Exception):
+            with contextlib.suppress(RenderCVUserError):
                 # Exceptions in the watchdog event handler thread should not
                 # crash the application. They are already handled by the
                 # decorated function, but we add this defensive check to ensure
@@ -46,6 +45,10 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
     observer = watchdog.observers.Observer()
     observer.schedule(event_handler, path_to_watch, recursive=True)
     observer.start()
+    # Run the function immediately for the first time:
+    event_handler.on_modified(
+        watchdog.events.FileModifiedEvent(str(file_path.absolute()))
+    )
     try:
         while True:
             time.sleep(1)

@@ -5,19 +5,26 @@ from typing import Annotated, Literal, Self
 import pydantic
 import pydantic_core
 
+from rendercv.exception import RenderCVInternalError
+
 from .....pydantic_error_handling import CustomPydanticErrorTypes
 from ....context import get_current_date
 from .entry_with_date import BaseEntryWithDate
 
-type ExactDate = (
-    Annotated[
-        str,
-        pydantic.Field(
-            pattern=r"\d{4}-\d{2}(-\d{2})?",
-        ),
-    ]
-    | int
-)
+
+def validate_exact_date(date: str | int) -> str | int:
+    try:
+        get_date_object(date)
+    except RenderCVInternalError as e:
+        raise pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.other.value,
+            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
+            " format.",
+        ) from e
+    return date
+
+
+type ExactDate = Annotated[str | int, pydantic.AfterValidator(validate_exact_date)]
 
 
 def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
@@ -37,14 +44,7 @@ def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
             raise ValueError("`current_date` is required when `date` is 'present'.")
         date_object = current_date
     else:
-        raise pydantic_core.PydanticCustomError(
-            CustomPydanticErrorTypes.other.value,
-            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or"
-            " YYYY format.",
-            {
-                "date": date,
-            },
-        )
+        raise RenderCVInternalError("This is not a valid date!")
 
     return date_object
 
