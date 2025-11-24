@@ -10,11 +10,11 @@ class ValidationContext(pydantic.BaseModel):
     current_date: Date | None = None
 
 
-def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path:
+def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path | None:
     if isinstance(info.context, dict):
         context = cast(ValidationContext, info.context["context"])
         return context.input_file_path or pathlib.Path.cwd()
-    return pathlib.Path.cwd()
+    return None
 
 
 def get_current_date(info: pydantic.ValidationInfo) -> Date:

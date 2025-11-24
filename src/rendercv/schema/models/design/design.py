@@ -1,5 +1,6 @@
 import importlib
 import importlib.util
+import pathlib
 import re
 from typing import Annotated, Any
 
@@ -34,6 +35,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
 
     # Then it's a custom theme:
     input_file_path = get_input_file_path(info)
+    relative_to = input_file_path.parent if input_file_path else pathlib.Path.cwd()
     theme_name = str(design["theme"])
 
     # Custom theme should only contain letters and digits:
@@ -49,7 +51,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
             },
         )
 
-    custom_theme_folder = input_file_path.parent / theme_name
+    custom_theme_folder = relative_to / theme_name
     # Check if the custom theme folder exists:
     if not custom_theme_folder.exists():
         raise pydantic_core.PydanticCustomError(

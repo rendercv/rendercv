@@ -3,6 +3,7 @@ from typing import Any, get_args
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.variant_class_generator import (
     create_discriminator_field_spec,
     create_nested_field_spec,
@@ -77,7 +78,7 @@ class ModelWithFactory(pydantic.BaseModel):
         pytest.param(
             {"field1": "value", "invalid_field": "bad"},
             "test_variant",
-            ValueError,
+            RenderCVInternalError,
             "Field 'invalid_field' in defaults",
             id="invalid_field_raises_error",
         ),
@@ -91,7 +92,7 @@ class ModelWithFactory(pydantic.BaseModel):
         pytest.param(
             {"nonexistent": "value"},
             "my_variant",
-            ValueError,
+            RenderCVInternalError,
             "SimpleModel",
             id="error_includes_model_name",
         ),
@@ -655,7 +656,7 @@ def test_create_variant_class_multiple_nested_fields():
 def test_create_variant_class_validation_errors(
     defaults: dict[str, Any], variant_name: str, match_pattern: str
 ):
-    with pytest.raises(ValueError, match=match_pattern):
+    with pytest.raises(RenderCVInternalError, match=match_pattern):
         create_variant_class(
             variant_name=variant_name,
             defaults=defaults,

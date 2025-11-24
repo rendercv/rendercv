@@ -1,3 +1,4 @@
+import pathlib
 from typing import Annotated, Literal
 
 import pydantic
@@ -51,7 +52,12 @@ available_font_families = sorted(
 def validate_font_family(font_family: str, info: pydantic.ValidationInfo) -> str:
     """Validate against available fonts. Skips validation if fonts/ dir exists."""
     input_file_path = get_input_file_path(info)
-    if (input_file_path.parent / "fonts").exists():
+    fonts_dir = (
+        input_file_path.parent / "fonts"
+        if input_file_path
+        else pathlib.Path.cwd() / "fonts"
+    )
+    if fonts_dir.exists():
         return font_family
 
     if font_family not in available_font_families:

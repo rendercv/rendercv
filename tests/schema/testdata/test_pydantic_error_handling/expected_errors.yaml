@@ -10,7 +10,7 @@ expected_errors:
     yaml_location: [[8, 5], [8, 6]]
 
   - location: ["cv", "photo"]
-    message: The photo file `/Users/sina/GIT/rendercv/photo_doesnt_exist.jpg` does not exist.
+    message: The file `photo_doesnt_exist.jpg` does not exist.
     input: photo_doesnt_exist.jpg
     yaml_location: [[9, 3], [9, 9]]
 

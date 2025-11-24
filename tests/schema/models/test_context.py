@@ -47,7 +47,6 @@ def test_get_input_file_path_without_context():
         {"name": "test", "path_field": "dummy", "date_field": "dummy"}
     )
 
-    expected_path = pathlib.Path.cwd()
     expected_date = Date.today()
-    assert model.path_field == str(expected_path)
+    assert model.path_field == "None"
     assert model.date_field == expected_date.isoformat()

@@ -2,6 +2,7 @@ from datetime import date as Date
 
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.model_processor import process_fields, process_model
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.normal import NormalEntry
@@ -79,7 +80,7 @@ class TestProcessFields:
             }
         )
 
-        with pytest.raises(ValueError, match="Unhandled field type"):
+        with pytest.raises(RenderCVInternalError, match="Unhandled field type"):
             process_fields(entry, [lambda s: s])
 
 

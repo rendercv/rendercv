@@ -12,15 +12,16 @@ def resolve_relative_path(
     path: pathlib.Path, info: pydantic.ValidationInfo, must_exist: bool = True
 ) -> pathlib.Path:
     if path:
+        input_file_path = get_input_file_path(info)
+        relative_to = input_file_path.parent if input_file_path else pathlib.Path.cwd()
         if not path.is_absolute():
-            input_file_path = get_input_file_path(info)
-            path = input_file_path.parent / path
+            path = relative_to / path
 
         if must_exist and not path.exists():
             raise pydantic_core.PydanticCustomError(
                 CustomPydanticErrorTypes.other.value,
-                "The photo file `{photo_file}` does not exist.",
-                {"photo_file": path.absolute()},
+                "The file `{file_path}` does not exist.",
+                {"file_path": path.relative_to(relative_to)},
             )
 
     return path

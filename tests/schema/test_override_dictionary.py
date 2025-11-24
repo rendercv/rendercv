@@ -1,5 +1,6 @@
 import pytest
 
+from rendercv.exception import RenderCVUserError
 from rendercv.schema.override_dictionary import (
     apply_overrides_to_dictionary,
     update_value_by_location,
@@ -103,10 +104,10 @@ class TestUpdateValueByLocation:
             ({"data": [1, 2, 3]}, "data.foo", "data.foo"),
         ],
     )
-    def test_non_integer_index_for_list_raises_error(
-        self, initial_dict, key, full_key
-    ):
-        with pytest.raises(ValueError, match=r"corresponds to a list, but .* is not an integer"):
+    def test_non_integer_index_for_list_raises_error(self, initial_dict, key, full_key):
+        with pytest.raises(
+            RenderCVUserError, match=r"corresponds to a list, but .* is not an integer"
+        ):
             update_value_by_location(initial_dict, key, "value", full_key)
 
     # Test error: index out of range
@@ -118,7 +119,7 @@ class TestUpdateValueByLocation:
         ],
     )
     def test_index_out_of_range_raises_error(self, initial_dict, key, full_key):
-        with pytest.raises(IndexError, match=r"Index .* is out of range"):
+        with pytest.raises(RenderCVUserError, match=r"Index .* is out of range"):
             update_value_by_location(initial_dict, key, "value", full_key)
 
     # Test error: invalid structure (neither dict nor list)
@@ -130,7 +131,9 @@ class TestUpdateValueByLocation:
         ],
     )
     def test_invalid_structure_raises_error(self, initial_dict, key, full_key):
-        with pytest.raises(ValueError, match="It seems like there's something wrong"):
+        with pytest.raises(
+            RenderCVUserError, match="It seems like there's something wrong"
+        ):
             update_value_by_location(initial_dict, key, "value", full_key)
 
     # Test that original structure is mutated (not copied)
@@ -255,9 +258,7 @@ class TestApplyOverridesToDictionary:
                             "start_date": "2020-01",
                         }
                     ],
-                    "experience": [
-                        {"company": "Google", "title": "Engineer"}
-                    ],
+                    "experience": [{"company": "Google", "title": "Engineer"}],
                 },
             }
         }
@@ -275,6 +276,8 @@ class TestApplyOverridesToDictionary:
         assert result["cv"]["sections"]["education"][0]["start_date"] == "2021-01"
         assert result["cv"]["sections"]["education"][0]["degree"] == "PhD"  # Unchanged
         assert result["cv"]["sections"]["experience"][0]["company"] == "Meta"
-        assert result["cv"]["sections"]["experience"][0]["title"] == "Engineer"  # Unchanged
+        assert (
+            result["cv"]["sections"]["experience"][0]["title"] == "Engineer"
+        )  # Unchanged
         # Original should remain unchanged
         assert initial["cv"]["name"] == "John Doe"
