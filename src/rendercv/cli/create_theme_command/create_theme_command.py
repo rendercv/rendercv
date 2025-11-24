@@ -1,4 +1,5 @@
 import pathlib
+import textwrap
 from typing import Annotated
 
 import rich.panel
@@ -61,23 +62,26 @@ def cli_command_create_theme(
     (new_theme_folder / "__init__.py").write_text(new_init_file_contents)
 
     # Build the panel
-    lines: list[str] = [
-        f"[green]✓[/green] Created your custom theme: [purple]./{theme_name}[/purple]",
-        "",
-        "What you can do with this theme:",
-        f"  1. Modify the Typst templates in [purple]./{theme_name}/[/purple]",
-        f"  2. Edit [purple]./{theme_name}/__init__.py[/purple] to:",
-        "     - Add your own design options to use in the YAML input file",
-        "     - Change the default values of existing options",
-        "     - Or simply delete it if you only want to customize templates",
-        "",
-        "To use your theme, set in your YAML input file:",
-        f"  [cyan]design:    theme: {theme_name}[/cyan]",
-    ]
+    message = textwrap.dedent(
+        f"""
+        [green]✓[/green] Created your custom theme: [purple]./{theme_name}[/purple]
+
+        What you can do with this theme:
+        1. Modify the Typst templates in [purple]./{theme_name}/
+        2. Edit [purple]./{theme_name}/__init__.py[/purple] to:
+            - Add your own design options to use in the YAML input file
+            - Change the default values of existing options
+            - Or simply delete it if you only want to customize templates
+
+        To use your theme, set in your YAML input file:
+        [cyan]  design:
+        [cyan]    theme: {theme_name}
+    """
+    ).strip("\n")
 
     printer.print(
         rich.panel.Panel(
-            "\n".join(lines),
+            message,
             title="Theme created",
             title_align="left",
             border_style="bright_black",
