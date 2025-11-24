@@ -29,9 +29,9 @@ def warn_if_new_version_is_available() -> None:
     except Exception:
         latest_version = None
 
-    if latest_version is None:
+    if latest_version is not None:
         version = packaging.version.Version(__version__)
-        if latest_version is not None and version < latest_version:
+        if version < latest_version:
             warning(
                 "\nA new version of RenderCV is available! You are using"
                 f" v{__version__}, and the latest version is v{latest_version}.\n"
