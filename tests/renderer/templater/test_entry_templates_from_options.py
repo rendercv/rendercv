@@ -3,7 +3,7 @@ from datetime import date as Date
 import pydantic
 import pytest
 
-from rendercv.renderer.templater.entry_templates import (
+from rendercv.renderer.templater.entry_templates_from_options import (
     clean_trailing_parts,
     compute_entry_templates,
     handle_authors,
@@ -197,7 +197,7 @@ class TestComputeEntryTemplates:
 
     def test_formats_start_and_end_dates_in_custom_template(self, current_date):
         class TimelineOptions(pydantic.BaseModel):
-            timeline_template: str = "START_DATE / END_DATE /LOCATION"
+            timeline_template: str = "START_DATE / END_DATE / LOCATION / DATE"
 
         entry = NormalEntry(
             name="Timeline",
@@ -209,7 +209,9 @@ class TestComputeEntryTemplates:
             entry, TimelineOptions(), EnglishLocale(), False, current_date=current_date
         )
 
-        assert templates == {"timeline_template": "Jan 2020 / Mar 2021"}
+        assert templates == {
+            "timeline_template": "Jan 2020 / Mar 2021 /  / Jan 2020 – Mar 2021"
+        }
 
     def test_handles_authors_doi_and_date_placeholders(self, current_date):
         class PublicationTemplates(pydantic.BaseModel):

@@ -42,7 +42,11 @@ def compute_entry_templates(
     if "AUTHORS" in placeholders:
         placeholders["AUTHORS"] = handle_authors(placeholders["AUTHORS"])
 
-    if "DATE" in placeholders:
+    if (
+        "DATE" in placeholders
+        or "START_DATE" in placeholders
+        or "END_DATE" in placeholders
+    ):
         placeholders["DATE"] = handle_date(
             getattr(entry, "date", None),
             getattr(entry, "start_date", None),

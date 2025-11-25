@@ -9,7 +9,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
 from .date import compute_last_updated_date
-from .entry_templates import compute_entry_templates
+from .entry_templates_from_options import compute_entry_templates
 from .markdown_parser import markdown_to_typst
 from .string_processor import make_keywords_bold
 
@@ -41,8 +41,8 @@ def process_model(
         return rendercv_model
 
     sections_to_show_time_spans = [
-        section.title.lower().replace(" ", "_")
-        for section in rendercv_model.cv.rendercv_sections
+        section_title.lower().replace(" ", "_")
+        for section_title in rendercv_model.design.entries.show_time_spans_in
     ]
 
     for section in rendercv_model.cv.rendercv_sections:

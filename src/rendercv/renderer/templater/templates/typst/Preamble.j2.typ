@@ -52,7 +52,6 @@
   entries-vertical-space-between-entries: {{ design.entries.vertical_space_between_entries }},
   entries-allow-page-break-in-sections: {{ design.entries.allow_page_break_in_sections|lower }},
   entries-allow-page-break-in-entries: {{ design.entries.allow_page_break_in_entries|lower }},
-  entries-short-second-row: {{ design.entries.short_second_row|lower }},
   highlights-bullet: "{{ design.highlights.bullet }}",
   highlights-nested-bullet: "{{ design.highlights.nested_bullet }}",
   highlights-top-margin: {{ design.highlights.top_margin }},

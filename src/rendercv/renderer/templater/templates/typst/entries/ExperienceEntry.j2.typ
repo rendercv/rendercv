@@ -11,7 +11,10 @@
 {% endfor %}
   ],
   [
-    {{ entry.date_and_location_column_template|indent(4) }}
+{% for line in entry.date_and_location_column_template.splitlines() %}
+    {{ line|indent(4) }}
+    
+{% endfor %}
   ],
 {% if design.entries.short_second_row %}
   main-column-second-row: [

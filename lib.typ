@@ -112,6 +112,7 @@
   let text-leading = config.at("text-leading")
   let justify = config.at("justify")
   let highlights-bullet = config.at("highlights-bullet")
+  let highlights-nested-bullet = config.at("highlights-nested-bullet")
   let highlights-horizontal-space-between-bullet-and-highlights = config.at(
     "highlights-horizontal-space-between-bullet-and-highlights",
   )
@@ -133,7 +134,7 @@
     spacing: entries-vertical-space-between-entries,
   )
   set list(
-    marker: highlights-bullet,
+    marker: (highlights-bullet, highlights-nested-bullet),
     indent: 0cm,
     spacing: entries-vertical-space-between-entries,
     body-indent: highlights-horizontal-space-between-bullet-and-highlights,
@@ -160,6 +161,7 @@
     let entries-date-and-location-width = config.at("entries-date-and-location-width")
     let entries-horizontal-space-between-columns = config.at("entries-horizontal-space-between-columns")
     let highlights-bullet = config.at("highlights-bullet")
+    let highlights-nested-bullet = config.at("highlights-nested-bullet")
     let highlights-vertical-space-between-highlights = config.at(
       "highlights-vertical-space-between-highlights",
     )
@@ -175,7 +177,7 @@
     let text-date-and-location-column-alignment = config.at("text-date-and-location-column-alignment")
 
     set list(
-      marker: highlights-bullet,
+      marker: (highlights-bullet, highlights-nested-bullet),
       indent: 0cm,
       spacing: highlights-vertical-space-between-highlights,
       body-indent: highlights-horizontal-space-between-bullet-and-highlights,
@@ -350,6 +352,7 @@
     text-date-and-location-column-alignment: text-date-and-location-column-alignment,
     entries-vertical-space-between-entries: entries-vertical-space-between-entries,
     highlights-bullet: highlights-bullet,
+    highlights-nested-bullet: highlights-nested-bullet,
     highlights-vertical-space-between-highlights: highlights-vertical-space-between-highlights,
     highlights-horizontal-space-between-bullet-and-highlights: highlights-horizontal-space-between-bullet-and-highlights,
     highlights-top-margin: highlights-top-margin,
