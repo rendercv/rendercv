@@ -24,7 +24,7 @@
   text-font-size: 10pt,
   text-leading: 0.6em,
   text-alignment: "justified",
-  text-date-and-location-column-alignment: "right",
+  text-date-and-location-column-alignment: right,
   links-underline: true,
   links-use-external-link-icon: false,
   header-name-font-family: "Fontin",
@@ -52,7 +52,6 @@
   entries-vertical-space-between-entries: 0.4cm,
   entries-allow-page-break-in-sections: true,
   entries-allow-page-break-in-entries: true,
-  entries-short-second-row: false,
   highlights-bullet: "•",
   highlights-nested-bullet: "-",
   highlights-top-margin: 0.25cm,
@@ -64,7 +63,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 25,
+    day: 26,
   ),
 )
 
@@ -72,15 +71,15 @@
 
 #connections(
   [#connection-with-icon("location-dot")[Location]],
-  [#link("mailto:john.doe@example.com", icon: false)[#connection-with-icon("envelope")[john.doe\@example.com]]],
-  [#link("tel:+1-609-999-9995", icon: false)[#connection-with-icon("phone")[(609) 999-9995]]],
-  [#link("https://linkedin.com/in/john.doe", icon: false)[#connection-with-icon("linkedin")[john.doe]]],
-  [#link("https://github.com/john.doe", icon: false)[#connection-with-icon("github")[john.doe]]],
+  [#link("mailto:john.doe@example.com", icon: false, if-underline: false, if-color: false)[#connection-with-icon("envelope")[john.doe\@example.com]]],
+  [#link("tel:+1-609-999-9995", icon: false, if-underline: false, if-color: false)[#connection-with-icon("phone")[(609) 999-9995]]],
+  [#link("https://linkedin.com/in/john.doe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("linkedin")[john.doe]]],
+  [#link("https://github.com/john.doe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("github")[john.doe]]],
 )
 
 == Welcome to RenderCV!
 
-[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.
+#link("https://rendercv.com")[RenderCV] is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.
 
 Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
 
@@ -89,9 +88,12 @@ Each section title is arbitrary. Each section contains a list of entries, and th
 #education-entry(
   [
     #strong[Stanford University], PhD in Computer Science -- Stanford, CA, USA
+    
     - Working on the optimization of autonomous vehicles in urban environments
+    
   ],
   [
+    Sept 2023 – present
     
   ],
 )
@@ -99,10 +101,14 @@ Each section title is arbitrary. Each section contains a list of entries, and th
 #education-entry(
   [
     #strong[Boğaziçi University], BS in Computer Engineering -- Istanbul, Türkiye
+    
     - GPA: 3.9\/4.0, ranked 1st out of 100 students
+    
     - Awards: Best Senior Project, High Honor
+    
   ],
   [
+    Sept 2018 – June 2022
     
   ],
 )
@@ -112,10 +118,14 @@ Each section title is arbitrary. Each section contains a list of entries, and th
 #regular-entry(
   [
     #strong[Summer Intern], Company C -- Livingston, LA, USA
+    
     - Developed deep learning models for the detection of gravitational waves in LIGO data
+    
     - Published #link("https://example.com")[3 peer-reviewed research papers] about the project and results
+    
   ],
   [
+    June 2024 – Sept 2024
     
   ],
 )
@@ -123,9 +133,12 @@ Each section title is arbitrary. Each section contains a list of entries, and th
 #regular-entry(
   [
     #strong[Summer Intern], Company B -- Ankara, Türkiye
+    
     - Optimized the production line by 15\% by implementing a new scheduling algorithm
+    
   ],
   [
+    June 2023 – Sept 2023
     
   ],
 )
@@ -133,9 +146,12 @@ Each section title is arbitrary. Each section contains a list of entries, and th
 #regular-entry(
   [
     #strong[Summer Intern], Company A -- Istanbul, Türkiye
+    
     - Designed an inventory management web application for a warehouse
+    
   ],
   [
+    June 2022 – Sept 2022
     
   ],
 )
@@ -146,7 +162,7 @@ Each section title is arbitrary. Each section contains a list of entries, and th
   [
     #strong[#link("https://example.com")[Example Project]]
     
-    A web application for writing essays
+    #summary[A web application for writing essays]
     
     - Launched an #link("https://example.com")[iOS app] in 09\/2024 that currently has 10k+ monthly active users
     
@@ -154,6 +170,7 @@ Each section title is arbitrary. Each section contains a list of entries, and th
     
   ],
   [
+    May 2024 – present
     
   ],
 )
@@ -167,26 +184,32 @@ Each section title is arbitrary. Each section contains a list of entries, and th
   ],
   [
     Fall 2023
+    
   ],
 )
 
 == Skills
 
+#strong[Programming:] Proficient with Python, C++, and Git; good understanding of Web, app development, and DevOps
 
+#strong[Mathematics:] Good understanding of differential equations, calculus, and linear algebra
 
-
-
-
+#strong[Languages:] English (fluent, TOEFL: 118\/120), Turkish (native)
 
 == Publications
 
 #regular-entry(
   [
     #strong[3D Finite Element Analysis of No-Insulation Coils]
-Frodo Baggins, #strong[#emph[John Doe]], Samwise Gamgee
+    
+    Frodo Baggins, #strong[#emph[John Doe]], Samwise Gamgee
+    
+    #link("https://doi.org/10.1109/TASC.2023.3340648")[10.1109\/TASC.2023.3340648]
+    
   ],
   [
     Jan 2004
+    
   ],
 )
 

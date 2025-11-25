@@ -137,14 +137,19 @@ class TestProcessModel:
             )
             assert "- Improved **Python** performance" in entry.main_column_template
             # DATE placeholder removed because it's not provided; location remains
-            assert entry.date_and_location_column_template.strip() == "**Remote**"
+            assert (
+                entry.date_and_location_column_template
+                == "**Remote**\nJan 2022 – Feb 2023"
+            )
         else:
             assert (
                 "Built Python services with *markdown* emphasis."
                 in entry.main_column_template
             )
             assert "- Improved Python performance" in entry.main_column_template
-            assert entry.date_and_location_column_template.strip() == "Remote"
+            assert (
+                entry.date_and_location_column_template == "Remote\nJan 2022 – Feb 2023"
+            )
 
     def test_process_model_for_typst_converts_markdown_and_bolds_keywords(self, model):
         result = process_model(model, "typst")
@@ -158,12 +163,17 @@ class TestProcessModel:
             assert (
                 "- Improved #strong[Python] performance" in entry.main_column_template
             )
-            assert entry.date_and_location_column_template.strip() == "#strong[Remote]"
+            assert (
+                entry.date_and_location_column_template
+                == "#strong[Remote]\nJan 2022 – Feb 2023"
+            )
             # Connections rendered as Typst links with icons by default
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "#connection-with-icon" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
         else:
             assert "- Improved Python performance" in entry.main_column_template
-            assert entry.date_and_location_column_template.strip() == "Remote"
+            assert (
+                entry.date_and_location_column_template == "Remote\nJan 2022 – Feb 2023"
+            )
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]

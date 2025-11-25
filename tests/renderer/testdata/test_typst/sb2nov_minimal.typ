@@ -24,7 +24,7 @@
   text-font-size: 10pt,
   text-leading: 0.6em,
   text-alignment: "justified",
-  text-date-and-location-column-alignment: "right",
+  text-date-and-location-column-alignment: right,
   links-underline: true,
   links-use-external-link-icon: false,
   header-name-font-family: "New Computer Modern",
@@ -52,7 +52,6 @@
   entries-vertical-space-between-entries: 1.2em,
   entries-allow-page-break-in-sections: true,
   entries-allow-page-break-in-entries: true,
-  entries-short-second-row: false,
   highlights-bullet: "◦",
   highlights-nested-bullet: "-",
   highlights-top-margin: 0.25cm,
@@ -64,7 +63,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 25,
+    day: 26,
   ),
 )
 

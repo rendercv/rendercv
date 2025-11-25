@@ -3,6 +3,7 @@ from datetime import date as Date
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.entry_templates_from_options import (
     clean_trailing_parts,
     compute_entry_templates,
@@ -75,25 +76,24 @@ class TestHandleDate:
 
         assert result == "May 2023"
 
-    def test_returns_empty_string_when_no_dates_exist(self, current_date):
-        result = handle_date(
-            None, None, None, EnglishLocale(), True, current_date=current_date
-        )
-
-        assert result == ""
+    def test_raises_error_when_no_dates_exist(self, current_date):
+        with pytest.raises(RenderCVInternalError):
+            handle_date(
+                None, None, None, EnglishLocale(), True, current_date=current_date
+            )
 
 
 class TestHandleStartOrEndDate:
     @pytest.mark.parametrize(
         ("value", "expected"),
-        [
-            ("2020-05-10", "May 2020"),
-            (2023, "2023"),
-            (None, ""),
-        ],
+        [("2020-05-10", "May 2020"), (2023, "2023"), (None, RenderCVInternalError)],
     )
     def test_formats_start_or_end_date(self, value, expected):
-        assert handle_start_or_end_date(value, EnglishLocale()) == expected
+        if expected == RenderCVInternalError:
+            with pytest.raises(RenderCVInternalError):
+                handle_start_or_end_date(value, EnglishLocale())
+        else:
+            assert handle_start_or_end_date(value, EnglishLocale()) == expected
 
 
 class TestHandleUrl:
@@ -118,12 +118,11 @@ class TestHandleUrl:
 
         assert result == "[example.com/path](https://example.com/path/)"
 
-    def test_returns_empty_string_when_no_url_is_given(self):
+    def test_raises_error_when_no_url_is_given(self):
         entry = NormalEntry(name="No link here")
 
-        result = handle_url(entry)
-
-        assert result == ""
+        with pytest.raises(RenderCVInternalError):
+            handle_url(entry)
 
 
 class TestHandleDoi:
@@ -134,16 +133,15 @@ class TestHandleDoi:
 
         assert result == "[10.1/abc](https://doi.org/10.1/abc)"
 
-    def test_returns_empty_string_when_doi_missing(self):
+    def test_raises_error_when_doi_missing(self):
         entry = PublicationEntry(
             title="Paper without DOI",
             authors=["Author"],
             url=pydantic.HttpUrl("https://example.com"),
         )
 
-        result = handle_doi(entry)
-
-        assert result == ""
+        with pytest.raises(RenderCVInternalError):
+            handle_doi(entry)
 
 
 class TestComputeEntryTemplates:

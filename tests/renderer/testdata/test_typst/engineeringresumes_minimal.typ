@@ -12,7 +12,7 @@
   page-bottom-margin: 2cm,
   page-left-margin: 2cm,
   page-right-margin: 2cm,
-  page-show-page-numbering: true,
+  page-show-page-numbering: false,
   page-show-last-updated-date: true,
   colors-text: rgb(0, 0, 0),
   colors-name: rgb(0, 0, 0),
@@ -24,7 +24,7 @@
   text-font-size: 10pt,
   text-leading: 0.6em,
   text-alignment: "justified",
-  text-date-and-location-column-alignment: "right",
+  text-date-and-location-column-alignment: right,
   links-underline: true,
   links-use-external-link-icon: false,
   header-name-font-family: "XCharter",
@@ -52,7 +52,6 @@
   entries-vertical-space-between-entries: 0.4cm,
   entries-allow-page-break-in-sections: true,
   entries-allow-page-break-in-entries: true,
-  entries-short-second-row: false,
   highlights-bullet: "•",
   highlights-nested-bullet: "-",
   highlights-top-margin: 0.25cm,
@@ -64,7 +63,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 25,
+    day: 26,
   ),
 )
 

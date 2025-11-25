@@ -37,22 +37,24 @@
       measure(header-separator-between-connections).width + header-horizontal-space-between-connections
     )
     v(header-vertical-space-between-name-and-connections, weak: true)
-    align(
-      header-alignment,
-      {
-        for connection in connections.pos().slice(0, -1) {
-          box(connection, width: auto)
-          line-width = line-width + measure(connection).width * 1.2 + separator-width
-          if line-width > page.width - page-left-margin - page-right-margin {
-            line-width = 0cm
-            linebreak()
-          } else {
-            separator
+    if connections.pos().len() > 0 {
+      align(
+        header-alignment,
+        {
+          for connection in connections.pos().slice(0, -1) {
+            box(connection, width: auto)
+            line-width = line-width + measure(connection).width * 1.2 + separator-width
+            if line-width > page.width - page-left-margin - page-right-margin {
+              line-width = 0cm
+              linebreak()
+            } else {
+              separator
+            }
           }
-        }
-        box(connections.pos().last(), width: auto)
-      },
-    )
+          box(connections.pos().last(), width: auto)
+        },
+      )
+    }
     v(header-vertical-space-between-connections-and-first-section - section-titles-vertical-space-above)
   }
 }
