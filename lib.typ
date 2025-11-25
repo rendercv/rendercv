@@ -23,6 +23,7 @@
     let section-titles-vertical-space-above = config.at("section-titles-vertical-space-above")
     let colors-connections = config.at("colors-connections")
     let header-connections-font-family = config.at("header-connections-font-family")
+    let header-alignment = config.at("header-alignment")
 
     set par(spacing: 0pt, leading: text-leading * 1.7, justify: false)
     set text(fill: colors-connections, font: header-connections-font-family)
@@ -37,7 +38,7 @@
     )
     v(header-vertical-space-between-name-and-connections, weak: true)
     align(
-      center,
+      header-alignment,
       {
         for connection in connections.pos().slice(0, -1) {
           box(connection, width: auto)
@@ -345,6 +346,7 @@
     entry-types-education-entry-degree-column-width: entry-types-education-entry-degree-column-width,
     header-horizontal-space-between-connections: header-horizontal-space-between-connections,
     header-separator-between-connections: header-separator-between-connections,
+    header-alignment: header-alignment,
     page-left-margin: page-left-margin,
     page-right-margin: page-right-margin,
     header-vertical-space-between-connections-and-first-section: header-vertical-space-between-connections-and-first-section,
@@ -533,10 +535,14 @@
       skip
     }
     #if section-content.func() != parbreak [
-      #if should-skip [
-        #section-content
-      ] else [
-        #content-area(section-content)
+      #block(
+        breakable: entries-allow-page-break-in-sections,
+      )[
+        #if should-skip [
+          #section-content
+        ] else [
+          #content-area(section-content)
+        ]
       ]
     ]
   ]

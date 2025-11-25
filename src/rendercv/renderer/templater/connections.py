@@ -82,7 +82,10 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
     if rendercv_model.cv.social_networks:
         for social_network in rendercv_model.cv.social_networks:
             url = social_network.url
-            body = social_network.username
+            if rendercv_model.design.header.use_urls_as_placeholders_for_connections:
+                body = clean_url(url)
+            else:
+                body = social_network.username
             connections.append(
                 Connection(icon_specifier=social_network.network, url=url, body=body)
             )

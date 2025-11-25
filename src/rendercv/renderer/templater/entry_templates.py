@@ -3,6 +3,7 @@ from datetime import date as Date
 
 import pydantic
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.locale.locale import Locale
@@ -32,20 +33,6 @@ def compute_entry_templates(
         key.upper(): value
         for key, value in entry.model_dump().items()
         if value is not None
-    }
-
-    uppercase_words = set(uppercase_word_pattern.findall(" ".join(templates.values())))
-
-    not_provided_placeholders = uppercase_words - set(placeholders.keys())
-
-    # Remove the not provided placeholders from the templates, including characters
-    # around them:
-    not_provided_placeholders_pattern = re.compile(
-        r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
-    )
-    templates = {
-        key: not_provided_placeholders_pattern.sub("", value)
-        for key, value in templates.items()
     }
 
     # Handle special placeholders:
@@ -81,7 +68,27 @@ def compute_entry_templates(
         placeholders["URL"] = handle_url(entry)
 
     if "DOI" in placeholders:
+        placeholders["URL"] = handle_url(entry)
         placeholders["DOI"] = handle_doi(entry)
+
+    used_placeholders_in_templates = set(
+        uppercase_word_pattern.findall(" ".join(templates.values()))
+    )
+
+    not_provided_placeholders = used_placeholders_in_templates - set(
+        placeholders.keys()
+    )
+
+    # Remove the not provided placeholders from the templates, including characters
+    # around them:
+    if not_provided_placeholders:
+        not_provided_placeholders_pattern = re.compile(
+            r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
+        )
+        templates = {
+            key: not_provided_placeholders_pattern.sub("", value)
+            for key, value in templates.items()
+        }
 
     return {
         key: clean_trailing_parts(substitute_placeholders(value, placeholders))
@@ -128,7 +135,7 @@ def handle_date(
             return f"{date_string}\n\n{time_span_string}"
     if date_string:
         return date_string
-    return ""
+    raise RenderCVInternalError("Date is not provided for this entry.")
 
 
 def handle_start_or_end_date(
@@ -140,7 +147,7 @@ def handle_start_or_end_date(
     )
     if date_string:
         return date_string
-    return ""
+    raise RenderCVInternalError("Date is not provided for this entry.")
 
 
 def handle_url(entry: Entry) -> str:
@@ -149,10 +156,10 @@ def handle_url(entry: Entry) -> str:
     if hasattr(entry, "url") and entry.url:  # pyright: ignore[reportAttributeAccessIssue]
         url = entry.url  # pyright: ignore[reportAttributeAccessIssue]
         return f"[{clean_url(url)}]({url})"
-    return ""
+    raise RenderCVInternalError("URL is not provided for this entry.")
 
 
 def handle_doi(entry: Entry) -> str:
     if isinstance(entry, PublicationEntry) and entry.doi:
         return f"[{entry.doi}]({entry.doi_url})"
-    return ""
+    raise RenderCVInternalError("DOI is not provided for this entry.")
