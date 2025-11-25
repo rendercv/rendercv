@@ -1,7 +1,7 @@
 # yaml-language-server: $schema=./schema.json
 cv:
-  name: John _Doe_ hey@
-  headline: Software Engineer
+  name: John Doe
+  headline:
   location: Location
   email: john.doe@example.com
   photo:
@@ -254,15 +254,5 @@ locale:
     - November
     - December
 settings:
-  current_date: "2025-11-21"
+  current_date: "2025-11-25"
   bold_keywords: []
-  render_command:
-    typst_path: test.typ
-    pdf_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf
-    markdown_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.md
-    html_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.html
-    png_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.png
-    dont_generate_html: false
-    dont_generate_markdown: false
-    dont_generate_pdf: false
-    dont_generate_png: false

@@ -3,7 +3,7 @@
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
-  name: "John #emph[Doe] hey\@",
+  name: "John Doe",
   footer-text: "Page 1 of 1",
   last-updated-date-text: "Last updated in Nov 2025",
   locale-catalog-language: "en",
@@ -68,10 +68,8 @@
   ),
 )
 
-= John #emph[Doe] hey\@
+= John Doe
 
-  Software Engineer
-  
 #connections(
   [#connection-with-icon("location-dot")[Location]],
   [#link("mailto:john.doe@example.com", icon: false)[#connection-with-icon("envelope")[john.doe\@example.com]]],
