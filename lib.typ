@@ -151,7 +151,7 @@
   )
 }
 
-#let regular-entry(main-column, date-and-location-column) = {
+#let regular-entry(main-column, date-and-location-column, main-column-second-row: none) = {
   metadata("skip-content-area")
 
   context {
@@ -211,6 +211,8 @@
               #date-and-location-column
             ],
           )
+          set align(left)
+          main-column-second-row
         }
       },
       breakable: entries-allow-page-break-in-entries,
@@ -224,7 +226,7 @@
   }
 }
 
-#let education-entry(main-column, date-and-location-column, degree-column: none) = {
+#let education-entry(main-column, date-and-location-column, degree-column: none, main-column-second-row: none) = {
   metadata("skip-content-area")
 
   context {
@@ -250,6 +252,15 @@
         main-column
       },
       date-and-location-column,
+      main-column-second-row: [
+        #block(
+          main-column-second-row,
+          inset: (
+            left: entry-types-education-entry-degree-column-width + entries-horizontal-space-between-columns,
+            right: 0cm,
+          ),
+        )
+      ],
     )
   }
 }
@@ -310,7 +321,6 @@
   entries-vertical-space-between-entries: 1.2em,
   entries-allow-page-break-in-sections: true,
   entries-allow-page-break-in-entries: true,
-  entries-short-second-row: false,
   highlights-bullet: "•",
   highlights-nested-bullet: "-",
   highlights-top-margin: 0.25cm,
