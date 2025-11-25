@@ -30,8 +30,22 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
     """
     try:
         return built_in_design_adapter.validate_python(design)
-    except pydantic.ValidationError:
-        pass
+    except pydantic.ValidationError as e:
+        errors = e.errors()
+        custom_theme = False
+        for error in errors:
+            if (
+                "ctx" in error
+                and "discriminator" in error["ctx"]
+                and error["ctx"]["discriminator"] == "'theme'"
+            ):
+                custom_theme = True
+                break
+
+        if custom_theme:
+            pass
+        else:
+            raise e
 
     # Then it's a custom theme:
     input_file_path = get_input_file_path(info)
@@ -57,7 +71,7 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
             "The custom theme folder `{custom_theme_folder}` does not exist. It should"
-            " be in the working directory as the input file.",
+            " be in the same directory as the input file.",
             {"custom_theme_folder": custom_theme_folder.absolute()},
         )
     # Check if at least there is one *.j2.typ file in the custom theme folder:

@@ -20,10 +20,12 @@
     let header-vertical-space-between-name-and-connections = config.at(
       "header-vertical-space-between-name-and-connections",
     )
+    let section-titles-vertical-space-above = config.at("section-titles-vertical-space-above")
     let colors-connections = config.at("colors-connections")
+    let header-connections-font-family = config.at("header-connections-font-family")
 
     set par(spacing: 0pt, leading: text-leading * 1.7, justify: false)
-    set text(fill: colors-connections)
+    set text(fill: colors-connections, font: header-connections-font-family)
     let separator = (
       h(header-horizontal-space-between-connections / 2, weak: true)
         + header-separator-between-connections
@@ -50,12 +52,12 @@
         box(connections.pos().last(), width: auto)
       },
     )
-    v(header-vertical-space-between-connections-and-first-section)
+    v(header-vertical-space-between-connections-and-first-section - section-titles-vertical-space-above)
   }
 }
 
 #let original-link = link
-#let link(dest, body, icon: none, underline: none, color: none) = context {
+#let link(dest, body, icon: none, if-underline: none, if-color: none) = context {
   let config = rendercv-config.get()
   let links-underline = config.at("links-underline")
   let links-use-external-link-icon = config.at("links-use-external-link-icon")
@@ -70,27 +72,27 @@
       icon = false
     }
   }
-  let underline = underline
-  if underline == none {
+  let if-underline = if-underline
+  if if-underline == none {
     if links-underline {
-      underline = true
+      if-underline = true
     } else {
-      underline = false
+      if-underline = false
     }
   }
-  let color = false
-  if color == none {
-    color = true
+  let if-color = if-color
+  if if-color == none {
+    if-color = true
   }
 
-  let body = [#if underline [#underline(body)] else [#body]]
-  let body = [#if color [#set text(fill: colors-links); #body] else [#body]]
+  let body = [#if if-underline [#underline(body)] else [#body]]
   if icon {
     body = [#body#h(text-font-size / 4)#box(
         fa-icon("external-link", size: 0.7em),
         baseline: -10%,
-      )]
+      )#h(text-font-size / 5)]
   }
+  body = [#if if-color [#set text(fill: colors-links); #body] else [#body]]
   original-link(dest, body)
 }
 
@@ -169,6 +171,7 @@
     let entries-vertical-space-between-entries = config.at("entries-vertical-space-between-entries")
     let entries-left-and-right-margin = config.at("entries-left-and-right-margin")
     let justify = config.at("justify")
+    let text-date-and-location-column-alignment = config.at("text-date-and-location-column-alignment")
 
     set list(
       marker: highlights-bullet,
@@ -187,7 +190,7 @@
           grid(
             columns: (entries-date-and-location-width, 1fr),
             column-gutter: entries-horizontal-space-between-columns,
-            align: (right, left),
+            align: (text-date-and-location-column-alignment, left),
             [
               #date-and-location-column
             ],
@@ -199,7 +202,7 @@
           grid(
             columns: (1fr, entries-date-and-location-width),
             column-gutter: entries-horizontal-space-between-columns,
-            align: (left, left),
+            align: (left, text-date-and-location-column-alignment),
             [
               #main-column
             ],
@@ -328,6 +331,7 @@
   #rendercv-config.update((
     entries-left-and-right-margin: entries-left-and-right-margin,
     section-titles-type: section-titles-type,
+    section-titles-vertical-space-above: section-titles-vertical-space-above,
     entries-date-and-location-width: entries-date-and-location-width,
     entries-horizontal-space-between-columns: entries-horizontal-space-between-columns,
     text-leading: text-leading,
@@ -345,6 +349,7 @@
     page-right-margin: page-right-margin,
     header-vertical-space-between-connections-and-first-section: header-vertical-space-between-connections-and-first-section,
     header-vertical-space-between-name-and-connections: header-vertical-space-between-name-and-connections,
+    header-connections-font-family: header-connections-font-family,
     links-underline: links-underline,
     links-use-external-link-icon: links-use-external-link-icon,
     text-font-size: text-font-size,
@@ -374,7 +379,7 @@
     } else {
       none
     },
-    footer-descent: 0% - 0.3em + page-bottom-margin / 2,
+    footer-descent: 0% - 0.6em + page-bottom-margin / 2,
   )
 
   // Text:
@@ -396,15 +401,13 @@
       font: header-name-font-family,
       size: header-name-font-size,
       fill: colors-name,
+      weight: if header-name-bold { 700 } else { 400 },
     )
     #let body
     #if header-small-caps-for-name {
       body = [#smallcaps(it.body)]
     } else {
       body = [#it.body]
-    }
-    #if header-name-bold {
-      body = [#strong(body)]
     }
     #body
     // Vertical space after the name
@@ -488,44 +491,6 @@
         size: 0.9em,
       ),
     )
-  }
-
-  #let connections(connections-list) = context {
-    set text(fill: colors-connections, font: header-connections-font-family)
-    set par(leading: text-leading * 1.7, justify: false)
-    let list-of-connections = ()
-    let separator = (
-      h(header-horizontal-space-between-connections / 2, weak: true)
-        + header-separator-between-connections
-        + h(header-horizontal-space-between-connections / 2, weak: true)
-    )
-    let starting-index = 0
-    while (starting-index < connections-list.len()) {
-      let left-sum-right-margin
-      if type(page.margin) == "dictionary" {
-        left-sum-right-margin = page.margin.left + page.margin.right
-      } else {
-        left-sum-right-margin = page.margin * 4
-      }
-
-      let ending-index = starting-index + 1
-      while (
-        measure(connections-list.slice(starting-index, ending-index).join(separator)).width
-          < page.width - left-sum-right-margin
-      ) {
-        ending-index = ending-index + 1
-        if ending-index > connections-list.len() {
-          break
-        }
-      }
-      if ending-index > connections-list.len() {
-        ending-index = connections-list.len()
-      }
-      list-of-connections.push(connections-list.slice(starting-index, ending-index).join(separator))
-      starting-index = ending-index
-    }
-    align(list-of-connections.join(linebreak()), header-alignment)
-    v(header-vertical-space-between-connections-and-first-section - section-titles-vertical-space-above)
   }
 
   // From: https://github.com/typst/typst/issues/2666

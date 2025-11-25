@@ -47,7 +47,7 @@ def process_model(
 
     for section in rendercv_model.cv.rendercv_sections:
         section.title = apply_string_processors(section.title, string_processors)
-        for entry in section.entries:
+        for i, entry in enumerate(section.entries):
             # Convert PascalCase to snake_case (e.g., "EducationEntry" -> "education_entry")
             entry_type_snake_case = entry_type_to_snake_case_pattern.sub(
                 "_", section.entry_type
@@ -73,7 +73,7 @@ def process_model(
                 for template_name, template in entry_templates.items():
                     setattr(entry, template_name, template)
 
-            entry = process_fields(  # NOQA: PLW2901
+            section.entries[i] = process_fields(
                 entry,
                 string_processors,
             )

@@ -28,16 +28,17 @@ def test_valid_typst_dimensions(valid_dimension):
 @pytest.mark.parametrize(
     "invalid_dimension",
     [
-        "1",  # Missing unit
-        "cm",  # Missing number
-        "1.5",  # Missing unit
-        "1 cm",  # Space between number and unit
-        "1.5.5cm",  # Invalid number format
-        "1px",  # Invalid unit
-        "1.5rem",  # Invalid unit
-        "-1cm",  # Negative number
-        "cm1",  # Unit before number
-        "",  # Empty string
+        "1",
+        "cm",
+        "1.5",
+        "1 cm",
+        "1.5.5cm",
+        "1px",
+        "1.em",
+        "1.5rem",
+        "-1cm",
+        "cm1",
+        "",
     ],
 )
 def test_invalid_typst_dimensions(invalid_dimension):

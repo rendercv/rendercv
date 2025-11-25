@@ -22,7 +22,7 @@ unwanted_locations = (
     "literal",
     "int",
     "constrained-str",
-    "entries",
+    "function-after",
 )
 
 
@@ -39,10 +39,15 @@ def parse_plain_pydantic_error(
         if "loc" in plain_error["ctx"]:
             plain_error["loc"] = plain_error["ctx"]["loc"]
 
+    from rendercv.schema.models.design.built_in_design import (  # NOQA: PLC0415
+        available_themes,
+    )
+
     location = tuple(
         str(location_element)
         for location_element in plain_error["loc"]
-        if location_element not in unwanted_locations
+        if not any(item in str(location_element) for item in unwanted_locations)
+        and str(location_element) not in available_themes
     )
     # Special case for end_date because Pydantic returns multiple end_date errors
     # since it has multiple valid formats:
@@ -104,16 +109,24 @@ def parse_validation_errors(
             assert "ctx" in plain_error
             assert "caused_by" in plain_error["ctx"]
             for plain_cause_error in plain_error["ctx"]["caused_by"]:
-                plain_cause_error["loc"] = tuple(
-                    list(plain_error["loc"]) + list(plain_cause_error["loc"])
-                )
+                loc = plain_cause_error["loc"][1:]  # Omit `entries` location
+                plain_cause_error["loc"] = plain_error["loc"] + loc
                 all_final_errors.append(
                     parse_plain_pydantic_error(
                         plain_cause_error, rendercv_dictionary_as_commented_map
                     )
                 )
 
-    return all_final_errors
+    # Remove duplicates from all_final_errors:
+    error_locations = set()
+    errors_without_duplicates = []
+    for error in all_final_errors:
+        location = error["location"]
+        if location not in error_locations:
+            error_locations.add(location)
+            errors_without_duplicates.append(error)
+
+    return errors_without_duplicates
 
 
 def get_inner_yaml_object_from_its_key(

@@ -130,7 +130,8 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
     return [
         (
-            f'#link("{connection["url"]}", icon: false)[{placeholder}]'
+            f'#link("{connection["url"]}", icon: false, if-underline: false, if-color:'
+            f" false)[{placeholder}]"
             if connection["url"] and make_links
             else placeholder
         )
