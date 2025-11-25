@@ -158,3 +158,17 @@ def compute_last_updated_date(
         "NAME": name or "",
     }
     return substitute_placeholders(locale.last_updated_date_template, placeholders)
+
+
+def compute_page_numbering_template(
+    locale: Locale, current_date: Date, name: str | None
+) -> str:
+    placeholders: dict[str, str] = {
+        "CURRENT_DATE": format_date(current_date, locale),
+        "NAME": name or "",
+        "PAGE_NUMBER": '" + str(here().page()) + "',
+        "TOTAL_PAGES": '" + str(counter(page).final().first()) + "',
+    }
+    return substitute_placeholders(
+        'context { "' + locale.page_numbering_template + '" }', placeholders
+    )

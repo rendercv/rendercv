@@ -8,7 +8,7 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
-from .date import compute_last_updated_date
+from .date import compute_last_updated_date, compute_page_numbering_template
 from .entry_templates_from_options import compute_entry_templates
 from .markdown_parser import markdown_to_typst
 from .string_processor import make_keywords_bold
@@ -33,6 +33,11 @@ def process_model(
     )
     rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
     rendercv_model.cv.last_updated_date_template = compute_last_updated_date(  # pyright: ignore[reportAttributeAccessIssue]
+        rendercv_model.locale,
+        rendercv_model.settings.current_date,
+        rendercv_model.cv.name,
+    )
+    rendercv_model.cv.page_numbering_template = compute_page_numbering_template(  # pyright: ignore[reportAttributeAccessIssue]
         rendercv_model.locale,
         rendercv_model.settings.current_date,
         rendercv_model.cv.name,

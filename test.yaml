@@ -131,7 +131,7 @@ design:
     links: rgb(0, 79, 144)
     last_updated_date_and_page_numbering: rgb(128, 128, 128)
   text:
-    font_family: Source Sans 3
+    font_family: Arial
     font_size: 10pt
     leading: 0.6em
     alignment: justified
@@ -256,3 +256,5 @@ locale:
 settings:
   current_date: "2025-11-25"
   bold_keywords: []
+  render_command:
+    typst_path: test.typ

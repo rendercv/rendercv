@@ -26,9 +26,9 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "The template of the page numbering at the bottom of the page."
             "\n\nThe following placeholders can be used:"
             "\n- NAME: The name of the person"
+            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
             "\n- PAGE_NUMBER: The current page number"
             "\n- TOTAL_PAGES: The total number of pages"
-            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
         ),
     )
     last_updated_date_template: str = pydantic.Field(

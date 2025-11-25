@@ -4,7 +4,7 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "{{ cv.name }}",
-  footer-text: "Page 1 of 1",
+  footer-text: {{ cv.page_numbering_template }},
   last-updated-date-text: "{{ cv.last_updated_date_template }}",
   locale-catalog-language: "{{ locale.language_iso_639_1 }}",
   page-size: "{{ design.page.size }}",
