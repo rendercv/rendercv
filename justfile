@@ -26,6 +26,9 @@ count-lines:
 test:
   uv run pytest
 
+update-testdata:
+  uv run pytest --update-testdata
+
 test-with-coverage:
   uv run coverage run -m pytest; uv run coverage combine
 

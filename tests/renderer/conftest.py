@@ -41,10 +41,7 @@ def compare_file_with_reference(
         and returns True if files match, False otherwise.
     """
 
-    def _compare(
-        callable_func,
-        reference_filename: str,
-    ) -> bool:
+    def compare(callable_func, reference_filename: str) -> bool:
         """Compare generated file with reference.
 
         Args:
@@ -60,33 +57,53 @@ def compare_file_with_reference(
         output_dir.mkdir()
 
         # Call the function to generate the file
-        generated_path = output_dir / reference_filename
-        callable_func(generated_path)
+        output_path_input = output_dir / reference_filename
+        callable_func(output_path_input)
 
         # Get reference path
-        reference_path = testdata_dir / reference_filename
+        reference_paths = list(
+            testdata_dir.glob(f"{output_path_input.stem}*{output_path_input.suffix}")
+        )
+        generated_paths = list(
+            output_dir.glob(f"{output_path_input.stem}*{output_path_input.suffix}")
+        )
 
-        if not generated_path.exists():
-            msg = f"Generated file not found: {generated_path}"
+        if len(generated_paths) == 0:
+            # Maybe multiple files were generated (png)
+            msg = f"Output file not found: {output_path_input}"
             raise FileNotFoundError(msg)
 
         if update_testdata:
             # Update reference file
-            reference_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy(generated_path, reference_path)
+            testdata_dir.mkdir(parents=True, exist_ok=True)
+            for generated_path in generated_paths:
+                shutil.copy(generated_path, testdata_dir / generated_path.name)
             return True
 
         # Compare files
-        if not reference_path.exists():
+        if not any(reference_paths):
             msg = (
-                f"Reference file not found: {reference_path}. Run with"
+                f"Reference file not found: {reference_filename}. Run with"
                 " --update-testdata to generate it."
             )
             raise FileNotFoundError(msg)
 
-        return filecmp.cmp(generated_path, reference_path, shallow=False)
+        if len(reference_paths) != len(generated_paths):
+            msg = (
+                f"Number of generated files ({len(generated_paths)}) does not match"
+                f" number of reference files ({len(reference_paths)}). Run with"
+                " `--update-testdata` to generate the missing files."
+            )
+            raise FileNotFoundError(msg)
 
-    return _compare
+        return any(
+            filecmp.cmp(generated_path, reference_path, shallow=False)
+            for generated_path, reference_path in zip(
+                generated_paths, reference_paths, strict=True
+            )
+        )
+
+    return compare
 
 
 @pytest.fixture
