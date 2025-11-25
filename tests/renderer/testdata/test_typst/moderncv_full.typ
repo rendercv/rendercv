@@ -4,7 +4,7 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer-text: "Page 1 of 1",
+  footer-text: context { "John Doe - Page " + str(here().page()) + " of " + str(counter(page).final().first()) + "" },
   last-updated-date-text: "Last updated in Nov 2025",
   locale-catalog-language: "en",
   page-size: "us-letter",
