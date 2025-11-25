@@ -75,6 +75,9 @@ def compute_entry_templates(
         placeholders["URL"] = handle_url(entry)
         placeholders["DOI"] = handle_doi(entry)
 
+    if "SUMMARY" in placeholders:
+        placeholders["SUMMARY"] = handle_summary(placeholders["SUMMARY"])
+
     used_placeholders_in_templates = set(
         uppercase_word_pattern.findall(" ".join(templates.values()))
     )
@@ -167,3 +170,7 @@ def handle_doi(entry: Entry) -> str:
     if isinstance(entry, PublicationEntry) and entry.doi:
         return f"[{entry.doi}]({entry.doi_url})"
     raise RenderCVInternalError("DOI is not provided for this entry.")
+
+
+def handle_summary(summary: str) -> str:
+    return f"#summary[{summary}]"

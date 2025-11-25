@@ -152,6 +152,14 @@
   )
 }
 
+#let summary(summary) = {
+  context {
+    let config = rendercv-config.get()
+    let highlights-summary-left-margin = config.at("highlights-summary-left-margin")
+    block(summary, inset: (left: highlights-summary-left-margin))
+  }
+}
+
 #let regular-entry(main-column, date-and-location-column, main-column-second-row: none) = {
   metadata("skip-content-area")
 
@@ -175,15 +183,31 @@
     let entries-left-and-right-margin = config.at("entries-left-and-right-margin")
     let justify = config.at("justify")
     let text-date-and-location-column-alignment = config.at("text-date-and-location-column-alignment")
+    let highlights-left-margin = config.at("highlights-left-margin")
 
     set list(
       marker: (highlights-bullet, highlights-nested-bullet),
-      indent: 0cm,
+      indent: highlights-left-margin,
       spacing: highlights-vertical-space-between-highlights,
       body-indent: highlights-horizontal-space-between-bullet-and-highlights,
     )
+    let list-depth = state("list-depth", 0)
+    show list.item: i => {
+      list-depth.update(d => d + 1)
+      i
+      list-depth.update(d => d - 1)
+    }
+    show list: l => {
+      context if list-depth.get() == 1 {
+        v(highlights-top-margin)
+      }
+      context if list-depth.get() == 2 {
+        v(highlights-vertical-space-between-highlights - text-leading)
+      }
+      l
+    }
     set par(
-      spacing: highlights-top-margin,
+      spacing: text-leading,
       leading: text-leading,
       justify: justify,
     )
@@ -356,6 +380,8 @@
     highlights-vertical-space-between-highlights: highlights-vertical-space-between-highlights,
     highlights-horizontal-space-between-bullet-and-highlights: highlights-horizontal-space-between-bullet-and-highlights,
     highlights-top-margin: highlights-top-margin,
+    highlights-left-margin: highlights-left-margin,
+    highlights-summary-left-margin: highlights-summary-left-margin,
     entry-types-education-entry-degree-column-width: entry-types-education-entry-degree-column-width,
     header-horizontal-space-between-connections: header-horizontal-space-between-connections,
     header-separator-between-connections: header-separator-between-connections,
