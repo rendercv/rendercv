@@ -1,12 +1,11 @@
 locale:
   language: english
-  date_template: MONTH_ABBREVIATION YEAR
+  last_updated: Last updated in
   month: month
   months: months
   year: year
   years: years
   present: present
-  to: –
   abbreviations_for_months:
     - Jan
     - Feb

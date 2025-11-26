@@ -7,8 +7,6 @@ design:
     bottom_margin: 2cm
     left_margin: 2cm
     right_margin: 2cm
-    footer_text: NAME - PAGE_NUMBER/TOTAL_PAGES
-    headnote: Last updated in CURRENT_DATE
 
   colors:
     text: rgb(0, 0, 0)
@@ -17,7 +15,8 @@ design:
     connections: rgb(0, 79, 144)
     section_titles: rgb(0, 79, 144)
     links: rgb(0, 79, 144)
-    last_updated_date_and_page_numbering: rgb(128, 128, 128)
+    footer: rgb(128, 128, 128)
+    top_note: rgb(128, 128, 128)
 
   typography:
     line_spacing: 0.6em
@@ -53,77 +52,82 @@ design:
   header:
     alignment: center
     photo_width: 3.5cm
-    vertical_space_below_name: 0.7cm
-    vertical_space_below_headline: 0.7cm
-    vertical_space_below_connections: 0.7cm
+    space_below_name: 0.7cm
+    space_below_headline: 0.7cm
+    space_below_connections: 0.7cm
     connections:
       phone_number_format: national
       hyperlinked: true
       show_icons: true
       display_urls_instead_of_usernames: false
       separator: ""
-      horizontal_space_between: 0.5cm
+      space_between_connections: 0.5cm
 
   section_titles:
     type: with_partial_line
     line_thickness: 0.5pt
-    vertical_space_above: 0.5cm
-    vertical_space_below: 0.3cm
+    space_above: 0.5cm
+    space_below: 0.3cm
 
   sections:
     allow_page_break: true
-    vertical_space_between_entries: 1.2em
+    space_between_entries: 1.2em
     show_time_spans_in: []
 
   entries:
     date_and_location_width: 4.15cm
-    horizontal_padding: 0.2cm
-    horizontal_space_between_columns: 0.1cm
+    side_space: 0.2cm
+    space_between_columns: 0.1cm
     allow_page_break: true
     short_second_row: false
 
     summary:
-      horizontal_space_left: 0cm
+      space_left: 0cm
 
     highlights:
       bullet: •
       nested_bullet: "-"
-      horizontal_space_left: 0.4cm
-      vertical_space_above: 0.25cm
-      vertical_space_between: 0.25cm
-      horizontal_space_between_bullet_and_text: 0.5em
+      space_left: 0.4cm
+      space_above: 0.25cm
+      space_between_items: 0.25cm
+      space_between_bullet_and_text: 0.5em
 
-    templates:
-      one_line_entry:
-        main_column: "**LABEL:** DETAILS"
-      education_entry:
-        main_column: |-
-          **INSTITUTION**, AREA
-          SUMMARY
-          HIGHLIGHTS
-        degree_column: "**DEGREE**"
-        date_and_location_column: |-
-          LOCATION
-          DATE
-      normal_entry:
-        main_column: |-
-          **NAME**
-          SUMMARY
-          HIGHLIGHTS
-        date_and_location_column: |-
-          LOCATION
-          DATE
-      experience_entry:
-        main_column: |-
-          **COMPANY**, POSITION
-          SUMMARY
-          HIGHLIGHTS
-        date_and_location_column: |-
-          LOCATION
-          DATE
-      publication_entry:
-        main_column: |-
-          **TITLE**
-          AUTHORS
-          URL (JOURNAL)
-        date_and_location_column: DATE
+  templates:
+    footer: NAME - PAGE_NUMBER/TOTAL_PAGES
+    top_note: LAST_UPDATED CURRENT_DATE
+    single_date: MONTH_ABBREVIATION YEAR
+    date_range: START_DATE – END_DATE
+
+    one_line_entry:
+      main_column: "**LABEL:** DETAILS"
+    education_entry:
+      main_column: |-
+        **INSTITUTION**, AREA
+        SUMMARY
+        HIGHLIGHTS
+      degree_column: "**DEGREE**"
+      date_and_location_column: |-
+        LOCATION
+        DATE
+    normal_entry:
+      main_column: |-
+        **NAME**
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: |-
+        LOCATION
+        DATE
+    experience_entry:
+      main_column: |-
+        **COMPANY**, POSITION
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: |-
+        LOCATION
+        DATE
+    publication_entry:
+      main_column: |-
+        **TITLE**
+        AUTHORS
+        URL (JOURNAL)
+      date_and_location_column: DATE
