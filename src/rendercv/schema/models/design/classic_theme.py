@@ -16,25 +16,7 @@ length_common_description = (
 
 
 class Page(BaseModelWithoutExtraKeys):
-    size: Literal[
-        "a0",
-        "a1",
-        "a2",
-        "a3",
-        "a4",
-        "a5",
-        "a6",
-        "a7",
-        "a8",
-        "us-letter",
-        "us-legal",
-        "us-executive",
-        "us-gov-letter",
-        "us-gov-legal",
-        "us-business-card",
-        "presentation-16-9",
-        "presentation-4-3",
-    ] = pydantic.Field(
+    size: Literal["a4", "a5", "us-letter", "us-executive"] = pydantic.Field(
         default="us-letter",
         description=(
             "The page size of your CV. Common options: 'a4' (international standard),"

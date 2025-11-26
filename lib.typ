@@ -266,7 +266,7 @@
     regular-entry(
       if degree-column != none {
         grid(
-          columns: (entry-types-education-entry-degree-column-width, 1fr),
+          columns: (1cm, 1fr),
           column-gutter: entries-horizontal-space-between-columns,
           align: (left, auto),
           [

@@ -134,6 +134,21 @@ def create_sample_yaml_input_file(
     )
     yaml_string = comment_to_add + yaml_string
 
+    yaml_design_theme_part = f"design:\n  theme: {theme}\n"
+    split_yaml_string = yaml_string.split(yaml_design_theme_part)
+    yaml_cv_field = split_yaml_string[0]
+
+    split_yaml_string = split_yaml_string[1].split("locale:")
+    below_design = split_yaml_string[0].replace(yaml_design_theme_part, "")
+    below_design = [
+        f"  {line.replace('  ', '# ', 1)}"
+        for line in below_design.splitlines(keepends=False)
+    ]
+    yaml_design_field = yaml_design_theme_part + "\n".join(below_design)
+
+    yaml_locale_and_settings_fields = "\nlocale:" + split_yaml_string[1]
+    yaml_string = yaml_cv_field + yaml_design_field + yaml_locale_and_settings_fields
+
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")
 
