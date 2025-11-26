@@ -1,30 +1,30 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
   theme: engineeringclassic
-  page:
-    show_page_numbering: false
+  typography:
+    font_family:
+      body: Raleway
+      name: Raleway
+      connections: Raleway
+      section_titles: Raleway
+    bold:
+      name: false
+      section_titles: false
   header:
-    name_font_family: Raleway
-    name_bold: false
-    connections_font_family: Raleway
     alignment: left
   links:
-    use_external_link_icon: false
-  text:
-    font_family: Raleway
-  section_titles:
-    font_family: Raleway
-    bold: false
-  highlights:
-    left_margin: "0cm"
-  entry_types:
+    show_external_link_icon: false
+  entries:
+    highlights:
+      space_left: "0cm"
+  templates:
     education_entry:
-      main_column_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
-      degree_column_template: null
+      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
     normal_entry:
-      main_column_template: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
     experience_entry:
-      main_column_template: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

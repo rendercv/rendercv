@@ -1,30 +1,31 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
   theme: sb2nov
-  header:
-    name_font_family: New Computer Modern
-    connections_font_family: New Computer Modern
+  typography:
+    font_family:
+      body: New Computer Modern
+      name: New Computer Modern
+      connections: New Computer Modern
+      section_titles: New Computer Modern
   colors:
     name: rgb(0,0,0)
     connections: rgb(0,0,0)
     section_titles: rgb(0,0,0)
   links:
     underline: true
-    use_external_link_icon: false
-  text:
-    font_family: New Computer Modern
+    show_external_link_icon: false
   section_titles:
-    font_family: New Computer Modern
-    type: with-full-line
-  highlights:
-    bullet: "◦"
-  entry_types:
+    type: with_full_line
+  entries:
+    highlights:
+      bullet: "◦"
+  templates:
     education_entry:
-      main_column_template: "**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS"
-      degree_column_template: null
-      date_and_location_column_template: "*LOCATION*\n*DATE*"
+      main_column: "**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS"
+      degree_column: null
+      date_and_location_column: "*LOCATION*\n*DATE*"
     normal_entry:
-      date_and_location_column_template: "*LOCATION*\n*DATE*"
+      date_and_location_column: "*LOCATION*\n*DATE*"
     experience_entry:
-      main_column_template: "**POSITION**\n*COMPANY*\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: "*LOCATION*\n*DATE*"
+      main_column: "**POSITION**\n*COMPANY*\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: "*LOCATION*\n*DATE*"

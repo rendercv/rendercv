@@ -1,43 +1,47 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
   theme: moderncv
+  typography:
+    line_spacing: "0.6em"
+    font_family:
+      body: Fontin
+      name: Fontin
+      connections: Fontin
+      section_titles: Fontin
+    font_size:
+      name: "25pt"
+      section_titles: "1.4em"
+    bold:
+      name: false
+      section_titles: false
   header:
-    name_font_family: Fontin
-    name_font_size: "25pt"
-    name_bold: false
     alignment: left
-    connections_font_family: Fontin
   links:
     underline: true
-    use_external_link_icon: false
-  text:
-    font_family: Fontin
-    leading: "0.6em"
+    show_external_link_icon: false
   section_titles:
-    font_family: Fontin
     type: moderncv
-    vertical_space_above: "0.55cm"
-    vertical_space_below: "0.3cm"
-    font_size: "1.4em"
-    bold: false
+    space_above: "0.55cm"
+    space_below: "0.3cm"
     line_thickness: "0.15cm"
+  sections:
+    space_between_entries: "0.4cm"
   entries:
-    vertical_space_between_entries: "0.4cm"
-    left_and_right_margin: "0cm"
-    horizontal_space_between_columns: "0.4cm"
-  highlights:
-    left_margin: "0cm"
-    top_margin: "0.25cm"
-    horizontal_space_between_bullet_and_highlight: "0.3em"
-    vertical_space_between_highlights: "0.19cm"
-  entry_types:
+    side_space: "0cm"
+    space_between_columns: "0.4cm"
+    highlights:
+      space_left: "0cm"
+      space_above: "0.25cm"
+      space_between_bullet_and_text: "0.3em"
+      space_between_items: "0.19cm"
+  templates:
     education_entry:
-      main_column_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
-      degree_column_template: null
+      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
     normal_entry:
-      main_column_template: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
     experience_entry:
-      main_column_template: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

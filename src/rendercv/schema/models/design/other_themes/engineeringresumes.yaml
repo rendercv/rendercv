@@ -1,16 +1,22 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
   theme: engineeringresumes
-  page:
-    show_page_numbering: false
+  typography:
+    font_family:
+      body: XCharter
+      name: XCharter
+      connections: XCharter
+      section_titles: XCharter
+    font_size:
+      name: "25pt"
+      section_titles: "1.2em"
+    bold:
+      name: false
   header:
-    name_font_family: XCharter
-    name_font_size: "25pt"
-    name_bold: false
-    separator_between_connections: "|"
-    use_icons_for_connections: false
-    use_urls_as_placeholders_for_connections: true
-    connections_font_family: XCharter
+    connections:
+      separator: "|"
+      show_icons: false
+      display_urls_instead_of_usernames: true
   colors:
     name: rgb(0,0,0)
     connections: rgb(0,0,0)
@@ -18,29 +24,26 @@ design:
     links: rgb(0,0,0)
   links:
     underline: true
-    use_external_link_icon: false
-  text:
-    font_family: XCharter
+    show_external_link_icon: false
   section_titles:
-    font_family: XCharter
-    type: with-full-line
-    vertical_space_above: "0.55cm"
-    font_size: "1.2em"
+    type: with_full_line
+    space_above: "0.55cm"
+  sections:
+    space_between_entries: "0.4cm"
   entries:
-    vertical_space_between_entries: "0.4cm"
-    left_and_right_margin: "0cm"
-  highlights:
-    left_margin: "0cm"
-    horizontal_space_between_bullet_and_highlight: "0.3em"
-    vertical_space_between_highlights: "0.19cm"
-  entry_types:
+    side_space: "0cm"
+    highlights:
+      space_left: "0cm"
+      space_between_bullet_and_text: "0.3em"
+      space_between_items: "0.19cm"
+  templates:
     education_entry:
-      main_column_template: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
-      degree_column_template: null
+      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
     normal_entry:
-      main_column_template: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
     experience_entry:
-      main_column_template: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column_template: DATE
+      main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

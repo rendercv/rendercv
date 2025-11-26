@@ -12,45 +12,9 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         default="english",
         description="The language of the locale. The default value is 'english'.",
     )
-    phone_number_format: Literal["national", "international", "E164"] = pydantic.Field(
-        default="national",
-        description=(
-            "If 'national', phone numbers are formatted without the country code."
-            " If 'international', phone numbers are formatted with the country"
-            " code. The default value is 'national'."
-        ),
-    )
-    page_numbering_template: str = pydantic.Field(
-        default="NAME - Page PAGE_NUMBER of TOTAL_PAGES",
-        description=(
-            "The template of the page numbering at the bottom of the page."
-            "\n\nThe following placeholders can be used:"
-            "\n- NAME: The name of the person"
-            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
-            "\n- PAGE_NUMBER: The current page number"
-            "\n- TOTAL_PAGES: The total number of pages"
-        ),
-    )
-    last_updated_date_template: str = pydantic.Field(
-        default="Last updated in CURRENT_DATE",
-        description=(
-            "The template of the last updated date at the top right corner of the"
-            " page.\n\nThe following placeholders can be used:"
-            "\n- NAME: The name of the person"
-            "\n- CURRENT_DATE: Current date in the format of `locale.date_template`"
-        ),
-    )
-    date_template: str = pydantic.Field(
-        default="MONTH_ABBREVIATION YEAR",
-        description=(
-            "The template of the date.\n\nThe following placeholders can be used:"
-            "\n- FULL_MONTH_NAME: Full name of the month (e.g., January)"
-            "\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)"
-            "\n- MONTH: Month as a number (e.g., 1)"
-            "\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)"
-            "\n- YEAR: Year as a number (e.g., 2024)"
-            "\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)"
-        ),
+    last_updated: str = pydantic.Field(
+        default="Last updated in",
+        description='Translation of "Last updated in" in the locale. The default value is "Last updated in".',
     )
     month: str = pydantic.Field(
         default="month",
@@ -71,13 +35,6 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
     present: str = pydantic.Field(
         default="present",
         description='Translation of the word "present" in the locale.',
-    )
-    to: str = pydantic.Field(
-        default="–",
-        description=(
-            "The word or character used to indicate a range in the locale (e.g.,"
-            ' "2020 - 2021").'
-        ),
     )
     # From https://web.library.yale.edu/cataloging/months
     abbreviations_for_months: Annotated[

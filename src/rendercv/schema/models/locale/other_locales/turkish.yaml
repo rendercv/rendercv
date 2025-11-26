@@ -1,6 +1,12 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 locale:
   language: turkish
+  last_updated: Son güncelleme
+  month: ay
+  months: ay
+  year: yıl
+  years: yıl
+  present: halen
   abbreviations_for_months:
     - Oca
     - Şub
@@ -14,7 +20,6 @@ locale:
     - Eki
     - Kas
     - Ara
-  date_template: MONTH_ABBREVIATION YEAR
   full_names_of_months:
     - Ocak
     - Şubat
@@ -28,12 +33,3 @@ locale:
     - Ekim
     - Kasım
     - Aralık
-  last_updated_date_template: Son güncelleme TODAY
-  month: ay
-  months: ay
-  page_numbering_template: NAME - Sayfa PAGE_NUMBER / TOTAL_PAGES
-  phone_number_format: national
-  present: halen
-  to: –
-  year: yıl
-  years: yıl
