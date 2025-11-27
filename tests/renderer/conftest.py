@@ -1,14 +1,27 @@
 """Fixtures for renderer tests."""
 
 import filecmp
+import itertools
 import pathlib
 import shutil
+import types
+import typing
 
+import pydantic
+import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 import pytest
 
 from rendercv.schema.models.cv.cv import Cv
+from rendercv.schema.models.cv.entries.bullet import BulletEntry
+from rendercv.schema.models.cv.entries.education import EducationEntry
+from rendercv.schema.models.cv.entries.experience import ExperienceEntry
+from rendercv.schema.models.cv.entries.normal import NormalEntry
+from rendercv.schema.models.cv.entries.numbered import NumberedEntry
+from rendercv.schema.models.cv.entries.one_line import OneLineEntry
+from rendercv.schema.models.cv.entries.publication import PublicationEntry
+from rendercv.schema.models.cv.entries.reversed_numbered import ReversedNumberedEntry
+from rendercv.schema.models.cv.social_network import SocialNetwork
 from rendercv.schema.models.rendercv_model import RenderCVModel
-from rendercv.schema.sample_generator import create_sample_rendercv_pydantic_model
 
 
 @pytest.fixture
@@ -125,14 +138,223 @@ def minimal_rendercv_model() -> RenderCVModel:
 
 
 @pytest.fixture
-def full_rendercv_model() -> RenderCVModel:
-    """Create a full sample RenderCVModel for testing.
+def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
+    """Create a comprehensive RenderCVModel with all entry combinations.
+
+    Generates all possible combinations of entry types with different
+    optional fields set/unset for comprehensive rendering tests.
 
     Returns:
-        A RenderCVModel with all fields populated using sample data.
+        A RenderCVModel with ~400 entry instances across all entry types.
     """
-    return create_sample_rendercv_pydantic_model(
+    # Handle profile picture
+    profile_picture_path = testdata_dir / "profile_picture.jpg"
+
+    # Build CV with all sections
+    cv = Cv(
         name="John Doe",
-        theme="classic",
-        locale="english",
+        location="Istanbul, Turkey",
+        email="john_doe@example.com",
+        photo=profile_picture_path if profile_picture_path.exists() else None,
+        phone=pydantic_phone_numbers.PhoneNumber("+905419999999"),
+        website=pydantic.HttpUrl("https://example.com"),
+        social_networks=[
+            SocialNetwork(network="LinkedIn", username="johndoe"),
+            SocialNetwork(network="GitHub", username="johndoe"),
+            SocialNetwork(network="IMDB", username="nm0000001"),
+            SocialNetwork(network="Instagram", username="johndoe"),
+            SocialNetwork(network="ORCID", username="0000-0000-0000-0000"),
+            SocialNetwork(network="Google Scholar", username="F8IyYrQAAAAJ"),
+            SocialNetwork(network="Mastodon", username="@johndoe@example.com"),
+            SocialNetwork(network="StackOverflow", username="12323/johndoe"),
+            SocialNetwork(network="GitLab", username="johndoe"),
+            SocialNetwork(network="ResearchGate", username="johndoe"),
+            SocialNetwork(network="YouTube", username="johndoe"),
+            SocialNetwork(network="Telegram", username="johndoe"),
+            SocialNetwork(network="X", username="johndoe"),
+        ],
+        sections={
+            "Text Entries": [
+                (
+                    "This is a *TextEntry*. It is only a text and can be useful for"
+                    " sections like **Summary**. To showcase the TextEntry completely,"
+                    " this sentence is added, but it doesn't contain any information."
+                ),
+                (
+                    "Another text entry with *markdown* and **bold** text. This is the"
+                    " second text entry."
+                ),
+                "Third text with [link](https://example.com) and more content.",
+            ],
+            "Bullet Entries": create_combinations_of_entry_type(BulletEntry),
+            "Publication Entries": create_combinations_of_entry_type(PublicationEntry),
+            "Experience Entries": create_combinations_of_entry_type(ExperienceEntry),
+            "Education Entries": create_combinations_of_entry_type(EducationEntry),
+            "Normal Entries": create_combinations_of_entry_type(NormalEntry),
+            "One Line Entries": create_combinations_of_entry_type(OneLineEntry),
+            "Numbered Entries": create_combinations_of_entry_type(NumberedEntry),
+            "Reversed Numbered Entries": create_combinations_of_entry_type(
+                ReversedNumberedEntry
+            ),
+            "A Section & with % Special Characters": [
+                NormalEntry(name="A Section & with % Special Characters")
+            ],
+        },
     )
+
+    return RenderCVModel(cv=cv)
+
+
+def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.Any:
+    field_dictionary = {
+        "institution": "Boğaziçi University",
+        "location": "Istanbul, Turkey",
+        "degree": "BS",
+        "area": "Mechanical Engineering",
+        "start_date": "2015-09",
+        "end_date": "2020-06",
+        "date": "2021-09",
+        "summary": (
+            "Did *this* and this is a **bold** [link](https://example.com). But I must"
+            " explain to you how all this mistaken idea of denouncing pleasure and"
+            " praising pain was born and I will give you a complete account of the"
+            " system, and expound the actual teachings of the great explorer of the"
+            " truth, the master-builder of human happiness. No one rejects, dislikes,"
+            " or avoids pleasure itself, because it is pleasure, but because those who"
+            " do not know how to pursue pleasure rationally encounter consequences that"
+            " are extremely painful."
+        ),
+        "highlights": [
+            (
+                "Did *this* and this is a **bold** [link](https://example.com). But I"
+                " must explain to you how all this mistaken idea of denouncing pleasure"
+                " and praising pain was born and I will give you a complete account of"
+                " the system, and expound the actual teachings of the great explorer of"
+                " the truth, the master-builder of human happiness. No one rejects,"
+                " dislikes, or avoids pleasure itself, because it is pleasure, but"
+                " because those who do not know how to pursue pleasure rationally"
+                " encounter consequences that are extremely painful."
+            ),
+            (
+                "Did that. Nor again is there anyone who loves or pursues or desires to"
+                " obtain pain of itself, because it is pain, but because occasionally"
+                " circumstances occur in which toil and pain can procure him some great"
+                " pleasure."
+            ),
+        ],
+        "company": "Some Company",
+        "position": "Software Engineer",
+        "name": "My Project",
+        "label": "Pro**gram**ming",
+        "details": "Python, C++, JavaScript, MATLAB",
+        "authors": [
+            "J. Doe",
+            "***H. Tom***",
+            "S. Doe",
+            "A. Andsurname",
+            "S. Doe",
+            "A. Andsurname",
+        ],
+        "title": (
+            "Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of"
+            " No-Insulation Coils"
+        ),
+        "journal": "IEEE Transactions on Applied Superconductivity",
+        "doi": "10.1007/978-3-319-69626-3_101-1",
+        "url": "https://example.com",
+        "bullet": "This is a bullet entry.",
+        "number": "This is a numbered entry.",
+        "reversed_number": "This is a reversed numbered entry.",
+    }
+
+    field_type_dictionary = {
+        pydantic.HttpUrl: "https://example.com",
+        pydantic_phone_numbers.PhoneNumber: "+905419999999",
+        str: "A test string",
+        int: 1,
+        float: 1.0,
+        bool: True,
+    }
+
+    # 1. Check field name first
+    if field_name in field_dictionary:
+        return field_dictionary[field_name]
+
+    # 2. Get type info
+    origin = typing.get_origin(field_type)
+    args = typing.get_args(field_type)
+
+    # 3. Handle Union types (including Optional = str | None)
+    # Check for both typing.Union and the new union syntax (str | None)
+    is_union = origin is typing.Union
+    # Python 3.10+ has types.UnionType for the new syntax
+    if not is_union and hasattr(typing, "UnionType"):
+        is_union = isinstance(field_type, types.UnionType)
+
+    if is_union:
+        # Filter out None and recursively handle first non-None type
+        non_none_args = [arg for arg in args if arg is not type(None)]
+        if non_none_args:
+            return return_value_for_field(field_name, non_none_args[0])
+
+    # 4. Handle Literal types (e.g., Literal['present'])
+    if origin is typing.Literal:
+        return args[0]  # Return first literal value
+
+    # 5. Handle list types
+    if origin is list:
+        element_type = args[0] if args else str
+        if element_type is str:
+            return ["Item 1", "Item 2"]
+        # For other types, create list with one element
+        return [return_value_for_field(field_name, element_type)]
+
+    # 6. Check against type dictionary
+    for field_type, value in field_type_dictionary.items():
+        if field_type is field_type or field_type == field_type:
+            return value
+        # Also check if type is in Union args
+        if args and field_type in args:
+            return value
+
+    message = f"No value found for field {field_name} of type {field_type}"
+    raise ValueError(message)
+
+
+def create_combinations_of_entry_type(
+    model: type[pydantic.BaseModel],
+    ignore_fields: set[str] | None = None,
+) -> list[pydantic.BaseModel]:
+    ignore_fields = ignore_fields or set()
+
+    required_fields = {}
+    optional_fields = {}
+
+    # 1. Categorize fields as required or optional
+    for field_name, field_info in model.model_fields.items():
+        if field_name in ignore_fields:
+            continue
+
+        value = return_value_for_field(field_name, field_info.annotation)
+
+        if field_info.is_required():
+            required_fields[field_name] = value
+        else:
+            optional_fields[field_name] = value
+
+    # 2. Create base instance with only required fields
+    model_with_only_required_fields = model(**required_fields)
+    all_combinations = [model_with_only_required_fields]
+
+    # 3. Generate all combinations of optional fields
+    for i in range(1, len(optional_fields) + 1):
+        for combination in itertools.combinations(optional_fields, i):
+            # Build kwargs with required + selected optional fields
+            kwargs = required_fields.copy()
+            kwargs.update({k: optional_fields[k] for k in combination})
+
+            # Create fresh instance (don't mutate existing ones)
+            model_instance = model(**kwargs)
+            all_combinations.append(model_instance)
+
+    return all_combinations

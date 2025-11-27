@@ -1,4 +1,5 @@
 import re
+import textwrap
 from datetime import date as Date
 
 from rendercv.exception import RenderCVInternalError
@@ -168,7 +169,7 @@ def process_date(
 
 
 def process_url(entry: Entry) -> str:
-    if isinstance(entry, PublicationEntry):
+    if isinstance(entry, PublicationEntry) and entry.doi:
         return process_doi(entry)
     if hasattr(entry, "url") and entry.url:  # pyright: ignore[reportAttributeAccessIssue]
         url = entry.url  # pyright: ignore[reportAttributeAccessIssue]
@@ -183,7 +184,7 @@ def process_doi(entry: Entry) -> str:
 
 
 def process_summary(summary: str) -> str:
-    return f"#summary[{summary}]"
+    return f"!!! note\n{textwrap.indent(summary, '    ')}"
 
 
 unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_]+$")

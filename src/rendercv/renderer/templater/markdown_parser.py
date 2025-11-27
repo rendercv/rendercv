@@ -37,7 +37,12 @@ def to_typst_string(elem: Element) -> str:
                 inner = to_typst_string(child)
                 child_content = f'#link("{href}")[{inner}]'
 
+            case "div":
+                child_content = "#summary[" + to_typst_string(child) + "]"
+
             case _:
+                if getattr(child, "attrib", {}).get("class") == "admonition-title":
+                    continue
                 child_content = to_typst_string(child)
 
         result.append(child_content)
@@ -107,7 +112,7 @@ def escape_typst_characters(string: str) -> str:
 
 
 # Create a Markdown instance
-md = markdown.core.Markdown()
+md = markdown.core.Markdown(extensions=["admonition"])
 md.output_formats["typst"] = to_typst_string  # pyright: ignore[reportArgumentType]
 md.set_output_format("typst")  # pyright: ignore[reportArgumentType]
 md.parser.blockprocessors.deregister("hashheader")

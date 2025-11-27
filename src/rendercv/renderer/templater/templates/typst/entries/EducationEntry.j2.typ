@@ -16,7 +16,7 @@
     
 {% endfor %}
   ],
-{% if entry.degree_column %}
+{% if design.templates.education_entry.degree_column %}
   degree-column: [
     {{ entry.degree_column|indent(4) }}
   ],

@@ -10,6 +10,7 @@ from rendercv.renderer.templater.entry_templates_from_yaml import (
     process_date,
     process_doi,
     process_highlights,
+    process_summary,
     process_url,
     render_entry_templates,
 )
@@ -136,6 +137,12 @@ class TestProcessDoi:
 
         with pytest.raises(RenderCVInternalError):
             process_doi(entry)
+
+
+def test_process_summary():
+    summary = "This is a summary"
+    result = process_summary(summary)
+    assert result == "!!! note\n    This is a summary"
 
 
 class TestRenderEntryTemplates:

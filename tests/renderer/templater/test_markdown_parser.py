@@ -100,6 +100,31 @@ from rendercv.renderer.templater.markdown_parser import (
             "$$a=5_4^3 % & #$$ # $$aaaa ___ &&$$",
             "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
         ),
+        (
+            (
+                "!!! summary\n"
+                "    Did #emph[this] and this is a #strong[bold]"
+                ' #link("https://example.com")[link]. But I must explain to you how all'
+                " this mistaken idea of denouncing pleasure and praising pain was born"
+                " and I will give you a complete account of the system, and expound the"
+                " actual teachings of the great explorer of the truth, the"
+                " master-builder of human happiness. No one rejects, dislikes, or"
+                " avoids pleasure itself, because it is pleasure, but because those who"
+                " do not know how to pursue pleasure rationally encounter consequences"
+                " that are extremely painful."
+            ),
+            (
+                "#summary[\nDid #emph[this] and this is a #strong[bold]"
+                ' #link("https://example.com")[link]. But I must explain to you how all'
+                " this mistaken idea of denouncing pleasure and praising pain was born"
+                " and I will give you a complete account of the system, and expound the"
+                " actual teachings of the great explorer of the truth, the"
+                " master-builder of human happiness. No one rejects, dislikes, or"
+                " avoids pleasure itself, because it is pleasure, but because those who"
+                " do not know how to pursue pleasure rationally encounter consequences"
+                " that are extremely painful.\n]"
+            ),
+        ),
     ],
 )
 def test_markdown_to_typst(markdown_string, expected_typst_string):

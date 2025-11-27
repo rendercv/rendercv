@@ -2,10 +2,8 @@ import functools
 from typing import Any, Self
 
 import pydantic
-import pydantic_core
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
-from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithExtraKeys
 from ..path import ExistingInputRelativePath
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
@@ -164,13 +162,8 @@ class Cv(BaseModelWithExtraKeys):
 
         if isinstance(value, list):
             return validators[1].validate_python(value)
-        if isinstance(value, str):
-            return validators[0].validate_strings(value)
-        raise pydantic_core.PydanticCustomError(
-            CustomPydanticErrorTypes.other.value,
-            "`{field_name}` must be provided as a string or a list of strings.",
-            {"field_name": info.field_name},
-        )
+
+        return validators[0].validate_python(value)
 
     @pydantic.field_serializer("phone")
     def serialize_phone(
