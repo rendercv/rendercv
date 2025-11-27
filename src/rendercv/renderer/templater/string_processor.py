@@ -31,7 +31,7 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
         return string
 
     pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
-    return pattern.sub(lambda m: placeholders[m.group(0)], string)
+    return pattern.sub(lambda m: placeholders[m.group(0)], string).strip()
 
 
 def clean_url(url: str | pydantic.HttpUrl) -> str:

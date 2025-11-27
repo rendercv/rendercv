@@ -267,7 +267,7 @@ class Connections(BaseModelWithoutExtraKeys):
         default="national",
         description="The format for phone numbers. The default value is `national`.",
     )
-    hyperlinked: bool = pydantic.Field(
+    hyperlink: bool = pydantic.Field(
         default=True,
         description=(
             "Whether to make contact information clickable links in the PDF. The"

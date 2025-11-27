@@ -44,7 +44,11 @@ def render_entry_templates[EntryType: Entry](
         assert authors is not None
         entry_fields["AUTHORS"] = process_authors(authors)
 
-    if "DATE" in entry_fields:
+    if (
+        "DATE" in entry_fields
+        or "START_DATE" in entry_fields
+        or "END_DATE" in entry_fields
+    ):
         entry_fields["DATE"] = process_date(
             date=getattr(entry, "date", None),
             start_date=getattr(entry, "start_date", None),

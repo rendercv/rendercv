@@ -119,7 +119,7 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
     connections = parse_connections(rendercv_model)
 
     show_icon = rendercv_model.design.header.connections.show_icons
-    hyperlink = rendercv_model.design.header.connections.hyperlinked
+    hyperlink = rendercv_model.design.header.connections.hyperlink
 
     placeholders = [
         (

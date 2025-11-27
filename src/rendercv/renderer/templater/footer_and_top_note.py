@@ -20,6 +20,7 @@ def render_top_note_template(
             locale=locale,
             single_date_template=single_date_template,
         ),
+        "LAST_UPDATED": locale.last_updated,
         "NAME": name or "",
     }
     return substitute_placeholders(top_note_template, placeholders)
@@ -43,4 +44,4 @@ def render_footer_template(
         "PAGE_NUMBER": '" + str(here().page()) + "',
         "TOTAL_PAGES": '" + str(counter(page).final().first()) + "',
     }
-    return substitute_placeholders(f'context {{ "{footer_template}" }}', placeholders)
+    return f'context {{ "{substitute_placeholders(footer_template, placeholders)}" }}'

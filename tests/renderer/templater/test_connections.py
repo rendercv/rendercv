@@ -11,7 +11,11 @@ from rendercv.renderer.templater.connections import (
 )
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.social_network import SocialNetwork, SocialNetworkName
-from rendercv.schema.models.design.classic_theme import ClassicTheme, Header
+from rendercv.schema.models.design.classic_theme import (
+    ClassicTheme,
+    Connections,
+    Header,
+)
 from rendercv.schema.models.locale.locale import EnglishLocale
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -54,11 +58,14 @@ def create_rendercv_model(
         cv=cv,
         design=ClassicTheme(
             header=Header(
-                use_icons_for_connections=use_icons,
-                make_connections_links=make_links,
+                connections=Connections(
+                    show_icons=use_icons,
+                    hyperlink=make_links,
+                    phone_number_format=phone_format,
+                )
             )
         ),
-        locale=EnglishLocale(phone_number_format=phone_format),
+        locale=EnglishLocale(),
     )
 
 

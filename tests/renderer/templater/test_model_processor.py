@@ -126,29 +126,28 @@ class TestProcessModel:
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
-        assert result.cv.last_updated_date_template == "Last updated in Feb 2024"  # pyright: ignore[reportAttributeAccessIssue]
+        assert result.cv.top_note == "Last updated in Feb 2024"  # pyright: ignore[reportAttributeAccessIssue]
 
         entry = result.cv.rendercv_sections[0].entries[0]
-        assert entry.main_column_template.startswith("**Backend Work**")
+        assert entry.main_column.startswith("**Backend Work**")
         if model.settings.bold_keywords:
             assert (
                 "Built **Python** services with *markdown* emphasis."
-                in entry.main_column_template
+                in entry.main_column
             )
-            assert "- Improved **Python** performance" in entry.main_column_template
+            assert "- Improved **Python** performance" in entry.main_column
             # DATE placeholder removed because it's not provided; location remains
             assert (
-                entry.date_and_location_column_template
+                entry.date_and_location_column
                 == "**Remote**\nJan 2022 – Feb 2023"
             )
         else:
             assert (
-                "Built Python services with *markdown* emphasis."
-                in entry.main_column_template
+                "Built Python services with *markdown* emphasis." in entry.main_column
             )
-            assert "- Improved Python performance" in entry.main_column_template
+            assert "- Improved Python performance" in entry.main_column
             assert (
-                entry.date_and_location_column_template == "Remote\nJan 2022 – Feb 2023"
+                entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
             )
 
     def test_process_model_for_typst_converts_markdown_and_bolds_keywords(self, model):
@@ -158,22 +157,20 @@ class TestProcessModel:
         result.cv.headline = "Software Engineer \\@"
 
         entry = result.cv.rendercv_sections[0].entries[0]
-        assert entry.main_column_template.startswith("#strong[Backend Work]")
+        assert entry.main_column.startswith("#strong[Backend Work]")
         if model.settings.bold_keywords:
+            assert "- Improved #strong[Python] performance" in entry.main_column
             assert (
-                "- Improved #strong[Python] performance" in entry.main_column_template
-            )
-            assert (
-                entry.date_and_location_column_template
+                entry.date_and_location_column
                 == "#strong[Remote]\nJan 2022 – Feb 2023"
             )
             # Connections rendered as Typst links with icons by default
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "#connection-with-icon" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
         else:
-            assert "- Improved Python performance" in entry.main_column_template
+            assert "- Improved Python performance" in entry.main_column
             assert (
-                entry.date_and_location_column_template == "Remote\nJan 2022 – Feb 2023"
+                entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
             )
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
