@@ -7,7 +7,7 @@ from ..path import ExistingInputRelativePath, PlannedInputRelativePath
 
 file_path_placeholders_description = """The following placeholders can be used:
 
-- FULL_MONTH_NAME: Full name of the month (e.g., January)
+- MONTH_NAME: Full name of the month (e.g., January)
 - MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)
 - MONTH: Month as a number (e.g., 1)
 - MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)

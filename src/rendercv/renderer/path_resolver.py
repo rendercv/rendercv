@@ -11,10 +11,10 @@ def resolve_rendercv_file_path(
     current_date = rendercv_model.settings.current_date
     current_date_month_index = current_date.month - 1
     file_path_placeholders = {
-        "FULL_MONTH_NAME": rendercv_model.locale.full_names_of_months[
+        "MONTH_NAME": rendercv_model.locale.month_names[
             current_date_month_index
         ],
-        "MONTH_ABBREVIATION": rendercv_model.locale.abbreviations_for_months[
+        "MONTH_ABBREVIATION": rendercv_model.locale.month_abbreviations[
             current_date_month_index
         ],
         "MONTH": str(current_date.month),

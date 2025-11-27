@@ -104,23 +104,33 @@ class Colors(BaseModelWithoutExtraKeys):
 class FontFamily(BaseModelWithoutExtraKeys):
     body: FontFamilyType = pydantic.Field(
         default="Source Sans 3",
-        description="The font family for body text. The default value is `Source Sans 3`.",
+        description=(
+            "The font family for body text. The default value is `Source Sans 3`."
+        ),
     )
     name: FontFamilyType = pydantic.Field(
         default="Source Sans 3",
-        description="The font family for the name. The default value is `Source Sans 3`.",
+        description=(
+            "The font family for the name. The default value is `Source Sans 3`."
+        ),
     )
     headline: FontFamilyType = pydantic.Field(
         default="Source Sans 3",
-        description="The font family for the headline. The default value is `Source Sans 3`.",
+        description=(
+            "The font family for the headline. The default value is `Source Sans 3`."
+        ),
     )
     connections: FontFamilyType = pydantic.Field(
         default="Source Sans 3",
-        description="The font family for connections. The default value is `Source Sans 3`.",
+        description=(
+            "The font family for connections. The default value is `Source Sans 3`."
+        ),
     )
     section_titles: FontFamilyType = pydantic.Field(
         default="Source Sans 3",
-        description="The font family for section titles. The default value is `Source Sans 3`.",
+        description=(
+            "The font family for section titles. The default value is `Source Sans 3`."
+        ),
     )
 
 
@@ -150,19 +160,28 @@ class FontSize(BaseModelWithoutExtraKeys):
 class SmallCaps(BaseModelWithoutExtraKeys):
     name: bool = pydantic.Field(
         default=False,
-        description="Whether to use small caps for the name. The default value is `false`.",
+        description=(
+            "Whether to use small caps for the name. The default value is `false`."
+        ),
     )
     headline: bool = pydantic.Field(
         default=False,
-        description="Whether to use small caps for the headline. The default value is `false`.",
+        description=(
+            "Whether to use small caps for the headline. The default value is `false`."
+        ),
     )
     connections: bool = pydantic.Field(
         default=False,
-        description="Whether to use small caps for connections. The default value is `false`.",
+        description=(
+            "Whether to use small caps for connections. The default value is `false`."
+        ),
     )
     section_titles: bool = pydantic.Field(
         default=False,
-        description="Whether to use small caps for section titles. The default value is `false`.",
+        description=(
+            "Whether to use small caps for section titles. The default value is"
+            " `false`."
+        ),
     )
 
 
@@ -588,6 +607,14 @@ class Templates(BaseModelWithoutExtraKeys):
         description=(
             "Template for date ranges. Available placeholders: START_DATE, END_DATE."
             " The default value is `START_DATE – END_DATE`."
+        ),
+    )
+    time_span: str = pydantic.Field(
+        default="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        description=(
+            "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS,"
+            " HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS"
+            " HOW_MANY_MONTHS MONTHS`."
         ),
     )
     one_line_entry: OneLineEntry = pydantic.Field(

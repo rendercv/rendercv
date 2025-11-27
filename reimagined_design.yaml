@@ -97,6 +97,7 @@ design:
     top_note: LAST_UPDATED CURRENT_DATE
     single_date: MONTH_ABBREVIATION YEAR
     date_range: START_DATE – END_DATE
+    time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
 
     one_line_entry:
       main_column: "**LABEL:** DETAILS"

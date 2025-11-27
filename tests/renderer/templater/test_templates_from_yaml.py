@@ -4,9 +4,9 @@ import pydantic
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.renderer.templater.entry_templates_from_options import (
+from rendercv.renderer.templater.templates_from_yaml import (
     clean_trailing_parts,
-    compute_entry_templates,
+    render_templates_of_entry,
     handle_authors,
     handle_date,
     handle_doi,
@@ -16,7 +16,7 @@ from rendercv.renderer.templater.entry_templates_from_options import (
 )
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
-from rendercv.schema.models.design.classic_theme import NormalEntryOptions
+from rendercv.schema.models.design.classic_theme import NormalEntry
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 
 
@@ -146,7 +146,7 @@ class TestHandleDoi:
 
 class TestComputeEntryTemplates:
     def test_returns_empty_dict_for_text_entries(self, current_date):
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             "Plain text entry",
             NormalEntryOptions(),
             EnglishLocale(),
@@ -159,7 +159,7 @@ class TestComputeEntryTemplates:
     def test_removes_missing_placeholders_and_doubles_newlines(self, current_date):
         entry = NormalEntry(name="Solo")
 
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             entry,
             NormalEntryOptions(),
             EnglishLocale(),
@@ -180,7 +180,7 @@ class TestComputeEntryTemplates:
             location="Remote",
         )
 
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             entry,
             NormalEntryOptions(),
             EnglishLocale(),
@@ -203,7 +203,7 @@ class TestComputeEntryTemplates:
             end_date="2021-03-01",
         )
 
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             entry, TimelineOptions(), EnglishLocale(), False, current_date=current_date
         )
 
@@ -222,7 +222,7 @@ class TestComputeEntryTemplates:
             date="2024-02-01",
         )
 
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             entry,
             PublicationTemplates(),
             EnglishLocale(),
@@ -248,7 +248,7 @@ class TestComputeEntryTemplates:
             }
         )
 
-        templates = compute_entry_templates(
+        templates = render_templates_of_entry(
             entry, LinkTemplates(), EnglishLocale(), False, current_date=current_date
         )
 

@@ -3,10 +3,10 @@ from datetime import date as Date
 import pytest
 
 from rendercv.renderer.templater.date import (
-    compute_date_string,
+    format_date_range,
     compute_last_updated_date,
     compute_time_span_string,
-    format_date,
+    format_single_date,
 )
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 
@@ -30,7 +30,7 @@ class TestComputeDateString:
     def test_date_parameter_takes_precedence(
         self, date, start_date, end_date, expected
     ):
-        result = compute_date_string(date, start_date, end_date, EnglishLocale())
+        result = format_date_range(date, start_date, end_date, EnglishLocale())
         assert result == expected
 
     # Test date ranges with both start and end dates
@@ -51,7 +51,7 @@ class TestComputeDateString:
         ],
     )
     def test_date_ranges(self, start_date, end_date, expected):
-        result = compute_date_string(None, start_date, end_date, EnglishLocale())
+        result = format_date_range(None, start_date, end_date, EnglishLocale())
         assert result == expected
 
     # Test year-only ranges
@@ -64,7 +64,7 @@ class TestComputeDateString:
         ],
     )
     def test_year_only_ranges(self, start_date, end_date, expected):
-        result = compute_date_string(None, start_date, end_date, EnglishLocale())
+        result = format_date_range(None, start_date, end_date, EnglishLocale())
         assert result == expected
 
     # Test "present" as end date
@@ -77,7 +77,7 @@ class TestComputeDateString:
         ],
     )
     def test_present_as_end_date(self, start_date, expected):
-        result = compute_date_string(None, start_date, "present", EnglishLocale())
+        result = format_date_range(None, start_date, "present", EnglishLocale())
         assert result == expected
 
     # Test None returns
@@ -90,7 +90,7 @@ class TestComputeDateString:
         ],
     )
     def test_returns_none_for_incomplete_data(self, date, start_date, end_date):
-        result = compute_date_string(date, start_date, end_date, EnglishLocale())
+        result = format_date_range(date, start_date, end_date, EnglishLocale())
         assert result is None
 
     # Test locale.to separator variations
@@ -106,29 +106,29 @@ class TestComputeDateString:
     )
     def test_locale_to_separator(self, separator, expected):
         custom_locale = EnglishLocale(to=separator)
-        result = compute_date_string(None, "2020-01-01", "2021-01-01", custom_locale)
+        result = format_date_range(None, "2020-01-01", "2021-01-01", custom_locale)
         assert result == expected
 
     # Test custom locale with different present translation
     def test_custom_locale_present_translation(self):
         spanish_locale = EnglishLocale(present="presente", to="–")
-        result = compute_date_string(None, "2020-01-01", "present", spanish_locale)
+        result = format_date_range(None, "2020-01-01", "present", spanish_locale)
         assert result == "Jan 2020 – presente"
 
     # Test custom date template
     def test_custom_date_template(self):
         custom_locale = EnglishLocale(date_template="YEAR-MONTH_IN_TWO_DIGITS", to="/")
-        result = compute_date_string(None, "2020-03-15", "2021-08-20", custom_locale)
+        result = format_date_range(None, "2020-03-15", "2021-08-20", custom_locale)
         assert result == "2020-03 / 2021-08"
 
     # Test edge case: different date object types
     def test_mixed_date_types(self):
         # Date object and string
-        result = compute_date_string(None, "2020-01-01", "2021-01-01", EnglishLocale())
+        result = format_date_range(None, "2020-01-01", "2021-01-01", EnglishLocale())
         assert result == "Jan 2020 – Jan 2021"
 
         # String and Date object
-        result = compute_date_string(None, "2020-01-01", "2021-01-01", EnglishLocale())
+        result = format_date_range(None, "2020-01-01", "2021-01-01", EnglishLocale())
         assert result == "Jan 2020 – Jan 2021"
 
 
@@ -284,7 +284,7 @@ class TestFormatDate:
         ],
     )
     def test_default_template(self, date, expected):
-        assert format_date(date, EnglishLocale()) == expected
+        assert format_single_date(date, EnglishLocale()) == expected
 
     @pytest.mark.parametrize(
         ("template", "date", "expected"),
@@ -304,7 +304,7 @@ class TestFormatDate:
     )
     def test_individual_placeholders(self, template, date, expected):
         locale = EnglishLocale(date_template=template)
-        assert format_date(date, locale) == expected
+        assert format_single_date(date, locale) == expected
 
     def test_custom_abbreviations(self):
         locale = EnglishLocale(
@@ -312,9 +312,9 @@ class TestFormatDate:
             date_template="MONTH_ABBREVIATION YEAR",
         )
 
-        assert format_date(Date(2020, 1, 1), locale) == "A 2020"
-        assert format_date(Date(2020, 6, 1), locale) == "F 2020"
-        assert format_date(Date(2020, 12, 1), locale) == "L 2020"
+        assert format_single_date(Date(2020, 1, 1), locale) == "A 2020"
+        assert format_single_date(Date(2020, 6, 1), locale) == "F 2020"
+        assert format_single_date(Date(2020, 12, 1), locale) == "L 2020"
 
     def test_custom_full_month_names(self):
         locale = EnglishLocale(
@@ -335,8 +335,8 @@ class TestFormatDate:
             date_template="FULL_MONTH_NAME YEAR",
         )
 
-        assert format_date(Date(2020, 1, 1), locale) == "Enero 2020"
-        assert format_date(Date(2020, 8, 1), locale) == "Agosto 2020"
+        assert format_single_date(Date(2020, 1, 1), locale) == "Enero 2020"
+        assert format_single_date(Date(2020, 8, 1), locale) == "Agosto 2020"
 
     @pytest.mark.parametrize(
         ("template", "expected"),
@@ -349,7 +349,7 @@ class TestFormatDate:
     )
     def test_complex_templates(self, template, expected):
         locale = EnglishLocale(date_template=template)
-        assert format_date(Date(2020, 3, 15), locale) == expected
+        assert format_single_date(Date(2020, 3, 15), locale) == expected
 
 
 def test_compute_last_updated_date():

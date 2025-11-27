@@ -51,7 +51,7 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                         phonenumbers.parse(phone, None),
                         getattr(
                             phonenumbers.PhoneNumberFormat,
-                            rendercv_model.locale.phone_number_format.upper(),
+                            rendercv_model.design.header.connections.phone_number_format.upper(),
                         ),
                     )
                     connections.append(
@@ -82,7 +82,7 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
     if rendercv_model.cv.social_networks:
         for social_network in rendercv_model.cv.social_networks:
             url = social_network.url
-            if rendercv_model.design.header.use_urls_as_placeholders_for_connections:
+            if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
                 body = clean_url(url)
             else:
                 body = social_network.username
@@ -118,14 +118,14 @@ typst_fa_icons = {
 def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
     connections = parse_connections(rendercv_model)
 
-    use_icon = rendercv_model.design.header.use_icons_for_connections
-    make_links = rendercv_model.design.header.make_connections_links
+    show_icon = rendercv_model.design.header.connections.show_icons
+    hyperlink = rendercv_model.design.header.connections.hyperlinked
 
     placeholders = [
         (
             f'#connection-with-icon("{typst_fa_icons[connection["icon_specifier"]]}")'
             f"[{markdown_to_typst(connection['body'])}]"
-            if use_icon
+            if show_icon
             else markdown_to_typst(connection["body"])
         )
         for connection in connections
@@ -135,7 +135,7 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
         (
             f'#link("{connection["url"]}", icon: false, if-underline: false, if-color:'
             f" false)[{placeholder}]"
-            if connection["url"] and make_links
+            if connection["url"] and hyperlink
             else placeholder
         )
         for connection, placeholder in zip(connections, placeholders, strict=True)

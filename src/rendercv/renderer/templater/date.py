@@ -9,68 +9,92 @@ from rendercv.schema.models.locale.locale import Locale
 from .string_processor import substitute_placeholders
 
 
-def compute_date_string(
-    date: str | int | None,
-    start_date: str | int | None,
-    end_date: str | int | None,
+def date_object_to_string(
+    date: Date, *, locale: Locale, single_date_template: str
+) -> str:
+    month_names = locale.month_names
+    month_abbreviations = locale.month_abbreviations
+
+    month = int(date.strftime("%m"))
+    year = int(date.strftime(format="%Y"))
+
+    placeholders: dict[str, str] = {
+        "MONTH_NAME": month_names[month - 1],
+        "MONTH_ABBREVIATION": month_abbreviations[month - 1],
+        "MONTH": str(month),
+        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "YEAR": str(year),
+        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+    }
+
+    return substitute_placeholders(single_date_template, placeholders)
+
+
+def format_date_range(
+    start_date: str | int,
+    end_date: str | int,
+    *,
     locale: Locale,
-) -> str | None:
-    if date is not None:
-        if isinstance(date, int):
-            # Only year is provided
-            date_string = str(date)
-        else:
-            try:
-                date_object = get_date_object(date)
-                date_string = format_date(date_object, locale)
-            except Exception:
-                # Then it is a custom date string (e.g., "My Custom Date")
-                date_string = str(date)
-
-    elif start_date is not None and end_date is not None:
-        if isinstance(start_date, int):
-            # Then it means only the year is provided
-            start_date = str(start_date)
-        else:
-            # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
-            date_object = get_date_object(start_date)
-            start_date = format_date(date_object, locale)
-
-        if end_date == "present":
-            end_date = locale.present
-        elif isinstance(end_date, int):
-            # Then it means only the year is provided
-            end_date = str(end_date)
-        else:
-            # Then it means end_date is either in YYYY-MM-DD or YYYY-MM format
-            date_object = get_date_object(end_date)
-            end_date = format_date(date_object, locale)
-
-        if locale.to:
-            date_string = f"{start_date} {locale.to} {end_date}"
-        else:
-            date_string = f"{start_date} {end_date}"
-
+    single_date_template: str,
+    date_range_template: str,
+) -> str:
+    if isinstance(start_date, int):
+        # Then it means only the year is provided
+        start_date = str(start_date)
     else:
-        date_string = None
+        # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
+        date_object = get_date_object(start_date)
+        start_date = date_object_to_string(
+            date_object, locale=locale, single_date_template=single_date_template
+        )
+
+    if end_date == "present":
+        end_date = locale.present
+    elif isinstance(end_date, int):
+        # Then it means only the year is provided
+        end_date = str(end_date)
+    else:
+        # Then it means end_date is either in YYYY-MM-DD or YYYY-MM format
+        date_object = get_date_object(end_date)
+        end_date = date_object_to_string(
+            date_object, locale=locale, single_date_template=single_date_template
+        )
+
+    placeholders: dict[str, str] = {
+        "START_DATE": start_date,
+        "END_DATE": end_date,
+    }
+
+    return substitute_placeholders(date_range_template, placeholders)
+
+
+def format_single_date(
+    date: str | int, *, locale: Locale, single_date_template: str
+) -> str:
+    if isinstance(date, int):
+        # Only year is provided
+        date_string = str(date)
+    else:
+        try:
+            date_object = get_date_object(date)
+            date_string = date_object_to_string(
+                date_object, locale=locale, single_date_template=single_date_template
+            )
+        except RenderCVInternalError:
+            # Then it is a custom date string (e.g., "My Custom Date")
+            date_string = str(date)
 
     return date_string
 
 
 def compute_time_span_string(
-    date: str | int | None,
-    start_date: str | int | None,
-    end_date: str | int | None,
+    start_date: str | int,
+    end_date: str | int,
+    *,
     locale: Locale,
     current_date: Date,
-) -> str | None:
-    if date is not None or start_date is None or end_date is None:
-        # If only the date is provided, the time span is irrelevant. So, return an
-        # empty string.
-
-        # If neither start_date nor end_date is provided, return an empty string.
-        return None
-
+    time_span_template: str,
+) -> str:
     if isinstance(start_date, int) or isinstance(end_date, int):
         # Then it means one of the dates is year, so time span cannot be more
         # specific than years.
@@ -80,11 +104,20 @@ def compute_time_span_string(
         time_span_in_years = end_year - start_year
 
         if time_span_in_years < 2:
-            time_span_string = f"1 {locale.year}"
+            how_many_years = "1"
+            locale_years = locale.year
         else:
-            time_span_string = f"{time_span_in_years} {locale.years}"
+            how_many_years = str(time_span_in_years)
+            locale_years = locale.years
 
-        return time_span_string
+        placeholders: dict[str, str] = {
+            "HOW_MANY_YEARS": how_many_years,
+            "YEARS": locale_years,
+            "HOW_MANY_MONTHS": "",
+            "MONTHS": "",
+        }
+
+        return substitute_placeholders(time_span_template, placeholders)
 
     # Then it means both start_date and end_date are in YYYY-MM-DD or YYYY-MM
     # format.
@@ -103,72 +136,30 @@ def compute_time_span_string(
 
     # Format the number of years and months between start_date and end_date:
     if how_many_years == 0:
-        how_many_years_string = None
+        how_many_years = ""
+        locale_years = ""
     elif how_many_years == 1:
-        how_many_years_string = f"1 {locale.year}"
+        how_many_years = "1"
+        locale_years = locale.year
     else:
-        how_many_years_string = f"{how_many_years} {locale.years}"
+        how_many_years = str(how_many_years)
+        locale_years = locale.years
 
     # Format the number of months between start_date and end_date:
-    if how_many_months == 1 or (how_many_years_string is None and how_many_months == 0):
-        how_many_months_string = f"1 {locale.month}"
-    elif how_many_months == 0:
-        how_many_months_string = None
+    if how_many_months == 0:
+        how_many_months = ""
+        locale_months = ""
+    elif how_many_months == 1:
+        how_many_months = "1"
+        locale_months = locale.month
     else:
-        how_many_months_string = f"{how_many_months} {locale.months}"
+        how_many_months = str(how_many_months)
+        locale_months = locale.months
 
-    # Combine howManyYearsString and howManyMonthsString:
-    if how_many_years_string is None and how_many_months_string is not None:
-        time_span_string = how_many_months_string
-    elif how_many_months_string is None and how_many_years_string is not None:
-        time_span_string = how_many_years_string
-    elif how_many_years_string is not None and how_many_months_string is not None:
-        time_span_string = f"{how_many_years_string} {how_many_months_string}"
-    else:
-        message = "The time span is not valid!"
-        raise RenderCVInternalError(message)
-
-    return time_span_string.strip()
-
-
-def format_date(date: Date, locale: Locale) -> str:
-    full_month_names = locale.full_names_of_months
-    short_month_names = locale.abbreviations_for_months
-
-    month = int(date.strftime("%m"))
-    year = int(date.strftime(format="%Y"))
-
-    placeholders: dict[str, str] = {
-        "FULL_MONTH_NAME": full_month_names[month - 1],
-        "MONTH_ABBREVIATION": short_month_names[month - 1],
-        "MONTH": str(month),
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+    placeholders = {
+        "HOW_MANY_YEARS": how_many_years,
+        "YEARS": locale_years,
+        "HOW_MANY_MONTHS": how_many_months,
+        "MONTHS": locale_months,
     }
-
-    return substitute_placeholders(locale.date_template, placeholders)
-
-
-def compute_last_updated_date(
-    locale: Locale, current_date: Date, name: str | None
-) -> str:
-    placeholders: dict[str, str] = {
-        "CURRENT_DATE": format_date(current_date, locale),
-        "NAME": name or "",
-    }
-    return substitute_placeholders(locale.last_updated_date_template, placeholders)
-
-
-def compute_page_numbering_template(
-    locale: Locale, current_date: Date, name: str | None
-) -> str:
-    placeholders: dict[str, str] = {
-        "CURRENT_DATE": format_date(current_date, locale),
-        "NAME": name or "",
-        "PAGE_NUMBER": '" + str(here().page()) + "',
-        "TOTAL_PAGES": '" + str(counter(page).final().first()) + "',
-    }
-    return substitute_placeholders(
-        'context { "' + locale.page_numbering_template + '" }', placeholders
-    )
+    return substitute_placeholders(time_span_template, placeholders)

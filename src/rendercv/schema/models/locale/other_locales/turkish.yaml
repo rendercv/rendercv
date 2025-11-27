@@ -7,7 +7,7 @@ locale:
   year: yıl
   years: yıl
   present: halen
-  abbreviations_for_months:
+  month_abbreviations:
     - Oca
     - Şub
     - Mar
@@ -20,7 +20,7 @@ locale:
     - Eki
     - Kas
     - Ara
-  full_names_of_months:
+  month_names:
     - Ocak
     - Şubat
     - Mart

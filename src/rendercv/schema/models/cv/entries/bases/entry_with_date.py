@@ -24,8 +24,6 @@ type ArbitraryDate = Annotated[
 
 
 class BaseEntryWithDate(BaseEntry):
-    """Base for entries with a single date. For ranges, use BaseEntryWithComplexFields."""
-
     model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 
     date: ArbitraryDate | None = pydantic.Field(

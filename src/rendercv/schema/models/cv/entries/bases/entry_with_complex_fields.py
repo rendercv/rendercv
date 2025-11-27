@@ -49,10 +49,6 @@ def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
 
 
 class BaseEntryWithComplexFields(BaseEntryWithDate):
-    """Parent class for entry types that uses common fields such as `start_date`,
-    `end_date`, `location`, `summary`, and `highlights`. It's not an entry type itself.
-    """
-
     model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 
     start_date: ExactDate | None = pydantic.Field(

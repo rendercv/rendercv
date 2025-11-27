@@ -37,7 +37,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         description='Translation of the word "present" in the locale.',
     )
     # From https://web.library.yale.edu/cataloging/months
-    abbreviations_for_months: Annotated[
+    month_abbreviations: Annotated[
         list[str], at.Len(min_length=12, max_length=12)
     ] = pydantic.Field(
         default=[
@@ -56,7 +56,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         ],
         description="Abbreviations of the months in the locale.",
     )
-    full_names_of_months: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
+    month_names: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
         pydantic.Field(
             default=[
                 "January",
