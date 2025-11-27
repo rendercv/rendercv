@@ -31,35 +31,47 @@
       size: typography-font-size-connections,
       weight: if typography-bold-connections { 700 } else { 400 },
     )
+
+    let line-width = 0cm
     let separator = (
       h(header-connections-space-between-connections / 2, weak: true)
         + header-connections-separator
         + h(header-connections-space-between-connections / 2, weak: true)
     )
-    let line-width = 0cm
     let separator-width = (
       measure(header-connections-separator).width + header-connections-space-between-connections
     )
     v(header-space-below-name, weak: true)
     if connections.pos().len() > 0 {
       align(
-        header-alignment,
+        left,
         {
           for connection in connections.pos().slice(0, -1) {
             let connection-body = if typography-small-caps-connections { smallcaps(connection) } else { connection }
-            box(connection-body, width: auto)
-            line-width = line-width + measure(connection-body).width * 1.2 + separator-width
-            if line-width > page.width - page-left-margin - page-right-margin {
-              line-width = 0cm
+            let connection-width = measure(connection-body).width
+
+            // Check if adding this connection + separator would exceed the line
+            if (
+              line-width + connection-width + separator-width > page.width - page-left-margin - page-right-margin
+                and line-width > 0cm
+            ) {
               linebreak()
-            } else {
+              line-width = 0cm
+            }
+
+            // Add separator only if we're not at the start of a line
+            if line-width > 0cm {
               separator
             }
+
+            box(connection-body, width: auto)
+            line-width = line-width + connection-width + (if line-width > 0cm { separator-width } else { 0cm })
           }
           let last-connection = connections.pos().last()
           let last-connection-body = if typography-small-caps-connections { smallcaps(last-connection) } else {
             last-connection
           }
+          separator
           box(last-connection-body, width: auto)
         },
       )
@@ -619,7 +631,6 @@
   }
 
   #set par(spacing: 0cm)
-  #set align(center)
 
   #for (section-title, section-content) in group-sections(doc) [
     #section-title
