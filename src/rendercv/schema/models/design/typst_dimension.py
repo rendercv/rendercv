@@ -8,7 +8,7 @@ from ...pydantic_error_handling import CustomPydanticErrorTypes
 
 
 def validate_typst_dimension(dimension: str) -> str:
-    """Validate format: number + unit (cm, in, pt, mm, em, ex)."""
+    
     if not re.fullmatch(r"\d+(?:\.\d+)?(cm|in|pt|mm|ex|em)", dimension):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,

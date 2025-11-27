@@ -50,7 +50,7 @@ available_font_families = sorted(
 
 
 def validate_font_family(font_family: str, info: pydantic.ValidationInfo) -> str:
-    """Validate against available fonts. Skips validation if fonts/ dir exists."""
+    
     input_file_path = get_input_file_path(info)
     fonts_dir = (
         input_file_path.parent / "fonts"
