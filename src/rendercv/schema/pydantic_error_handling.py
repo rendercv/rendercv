@@ -32,6 +32,10 @@ def parse_plain_pydantic_error(
     for unwanted_text in unwanted_texts:
         plain_error["msg"] = plain_error["msg"].replace(unwanted_text, "")
 
+    if plain_error["loc"][0] in ["design", "locale"]:
+        # Skip the second key because it's the discriminator value.
+        plain_error["loc"] = plain_error["loc"][:1] + plain_error["loc"][2:]
+
     if "ctx" in plain_error:
         if "input" in plain_error["ctx"]:
             plain_error["input"] = plain_error["ctx"]["input"]
@@ -39,15 +43,10 @@ def parse_plain_pydantic_error(
         if "loc" in plain_error["ctx"]:
             plain_error["loc"] = plain_error["ctx"]["loc"]
 
-    from rendercv.schema.models.design.built_in_design import (  # NOQA: PLC0415
-        available_themes,
-    )
-
     location = tuple(
         str(location_element)
         for location_element in plain_error["loc"]
         if not any(item in str(location_element) for item in unwanted_locations)
-        and str(location_element) not in available_themes
     )
     # Special case for end_date because Pydantic returns multiple end_date errors
     # since it has multiple valid formats:

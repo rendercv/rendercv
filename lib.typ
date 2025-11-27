@@ -9,41 +9,46 @@
 
   context {
     let config = rendercv-config.get()
-    let text-leading = config.at("text-leading")
-    let header-horizontal-space-between-connections = config.at("header-horizontal-space-between-connections")
-    let header-separator-between-connections = config.at("header-separator-between-connections")
+    let typography-line-spacing = config.at("typography-line-spacing")
+    let header-connections-space-between-connections = config.at("header-connections-space-between-connections")
+    let header-connections-separator = config.at("header-connections-separator")
     let page-left-margin = config.at("page-left-margin")
     let page-right-margin = config.at("page-right-margin")
-    let header-vertical-space-between-connections-and-first-section = config.at(
-      "header-vertical-space-between-connections-and-first-section",
-    )
-    let header-vertical-space-between-name-and-connections = config.at(
-      "header-vertical-space-between-name-and-connections",
-    )
-    let section-titles-vertical-space-above = config.at("section-titles-vertical-space-above")
+    let header-space-below-connections = config.at("header-space-below-connections")
+    let header-space-below-name = config.at("header-space-below-name")
+    let section-titles-space-above = config.at("section-titles-space-above")
     let colors-connections = config.at("colors-connections")
-    let header-connections-font-family = config.at("header-connections-font-family")
+    let typography-font-family-connections = config.at("typography-font-family-connections")
+    let typography-font-size-connections = config.at("typography-font-size-connections")
+    let typography-small-caps-connections = config.at("typography-small-caps-connections")
+    let typography-bold-connections = config.at("typography-bold-connections")
     let header-alignment = config.at("header-alignment")
 
-    set par(spacing: 0pt, leading: text-leading * 1.7, justify: false)
-    set text(fill: colors-connections, font: header-connections-font-family)
+    set par(spacing: 0pt, leading: typography-line-spacing * 1.7, justify: false)
+    set text(
+      fill: colors-connections,
+      font: typography-font-family-connections,
+      size: typography-font-size-connections,
+      weight: if typography-bold-connections { 700 } else { 400 },
+    )
     let separator = (
-      h(header-horizontal-space-between-connections / 2, weak: true)
-        + header-separator-between-connections
-        + h(header-horizontal-space-between-connections / 2, weak: true)
+      h(header-connections-space-between-connections / 2, weak: true)
+        + header-connections-separator
+        + h(header-connections-space-between-connections / 2, weak: true)
     )
     let line-width = 0cm
     let separator-width = (
-      measure(header-separator-between-connections).width + header-horizontal-space-between-connections
+      measure(header-connections-separator).width + header-connections-space-between-connections
     )
-    v(header-vertical-space-between-name-and-connections, weak: true)
+    v(header-space-below-name, weak: true)
     if connections.pos().len() > 0 {
       align(
         header-alignment,
         {
           for connection in connections.pos().slice(0, -1) {
-            box(connection, width: auto)
-            line-width = line-width + measure(connection).width * 1.2 + separator-width
+            let connection-body = if typography-small-caps-connections { smallcaps(connection) } else { connection }
+            box(connection-body, width: auto)
+            line-width = line-width + measure(connection-body).width * 1.2 + separator-width
             if line-width > page.width - page-left-margin - page-right-margin {
               line-width = 0cm
               linebreak()
@@ -51,11 +56,15 @@
               separator
             }
           }
-          box(connections.pos().last(), width: auto)
+          let last-connection = connections.pos().last()
+          let last-connection-body = if typography-small-caps-connections { smallcaps(last-connection) } else {
+            last-connection
+          }
+          box(last-connection-body, width: auto)
         },
       )
     }
-    v(header-vertical-space-between-connections-and-first-section - section-titles-vertical-space-above)
+    v(header-space-below-connections - section-titles-space-above)
   }
 }
 
@@ -63,13 +72,13 @@
 #let link(dest, body, icon: none, if-underline: none, if-color: none) = context {
   let config = rendercv-config.get()
   let links-underline = config.at("links-underline")
-  let links-use-external-link-icon = config.at("links-use-external-link-icon")
-  let text-font-size = config.at("text-font-size")
+  let links-show-external-link-icon = config.at("links-show-external-link-icon")
+  let typography-font-size-body = config.at("typography-font-size-body")
   let colors-links = config.at("colors-links")
 
   let icon = icon
   if icon == none {
-    if links-use-external-link-icon {
+    if links-show-external-link-icon {
       icon = true
     } else {
       icon = false
@@ -90,10 +99,10 @@
 
   let body = [#if if-underline [#underline(body)] else [#body]]
   if icon {
-    body = [#body#h(text-font-size / 4)#box(
+    body = [#body#h(typography-font-size-body / 4)#box(
         fa-icon("external-link", size: 0.7em),
         baseline: -10%,
-      )#h(text-font-size / 5)]
+      )#h(typography-font-size-body / 5)]
   }
   body = [#if if-color [#set text(fill: colors-links); #body] else [#body]]
   original-link(dest, body)
@@ -105,50 +114,50 @@
 
 #let content-area(content) = context {
   let config = rendercv-config.get()
-  let entries-left-and-right-margin = config.at("entries-left-and-right-margin")
+  let entries-side-space = config.at("entries-side-space")
   let entries-date-and-location-width = config.at("entries-date-and-location-width")
-  let entries-horizontal-space-between-columns = config.at("entries-horizontal-space-between-columns")
-  let entries-allow-page-break-in-entries = config.at("entries-allow-page-break-in-entries")
-  let entries-vertical-space-between-entries = config.at("entries-vertical-space-between-entries")
+  let entries-space-between-columns = config.at("entries-space-between-columns")
+  let entries-allow-page-break = config.at("entries-allow-page-break")
+  let sections-space-between-entries = config.at("sections-space-between-entries")
   let section-titles-type = config.at("section-titles-type")
-  let text-leading = config.at("text-leading")
+  let typography-line-spacing = config.at("typography-line-spacing")
   let justify = config.at("justify")
-  let highlights-bullet = config.at("highlights-bullet")
-  let highlights-nested-bullet = config.at("highlights-nested-bullet")
-  let highlights-horizontal-space-between-bullet-and-highlights = config.at(
-    "highlights-horizontal-space-between-bullet-and-highlights",
+  let entries-highlights-bullet = config.at("entries-highlights-bullet")
+  let entries-highlights-nested-bullet = config.at("entries-highlights-nested-bullet")
+  let entries-highlights-space-between-bullet-and-text = config.at(
+    "entries-highlights-space-between-bullet-and-text",
   )
 
-  let left-space = entries-left-and-right-margin
+  let left-space = entries-side-space
   if section-titles-type == "moderncv" {
     left-space = (
-      left-space + entries-date-and-location-width + entries-horizontal-space-between-columns
+      left-space + entries-date-and-location-width + entries-space-between-columns
     )
   }
 
   set par(
-    spacing: entries-vertical-space-between-entries,
-    leading: text-leading,
+    spacing: sections-space-between-entries,
+    leading: typography-line-spacing,
     justify: justify,
   )
   set align(left)
   set enum(
-    spacing: entries-vertical-space-between-entries,
+    spacing: sections-space-between-entries,
   )
   set list(
-    marker: (highlights-bullet, highlights-nested-bullet),
+    marker: (entries-highlights-bullet, entries-highlights-nested-bullet),
     indent: 0cm,
-    spacing: entries-vertical-space-between-entries,
-    body-indent: highlights-horizontal-space-between-bullet-and-highlights,
+    spacing: sections-space-between-entries,
+    body-indent: entries-highlights-space-between-bullet-and-text,
   )
 
   block(
     content,
-    breakable: entries-allow-page-break-in-entries,
-    below: entries-vertical-space-between-entries,
+    breakable: entries-allow-page-break,
+    below: sections-space-between-entries,
     inset: (
       left: left-space,
-      right: entries-left-and-right-margin,
+      right: entries-side-space,
     ),
     width: 100%,
   )
@@ -157,8 +166,8 @@
 #let summary(summary) = {
   context {
     let config = rendercv-config.get()
-    let highlights-summary-left-margin = config.at("highlights-summary-left-margin")
-    block(summary, inset: (left: highlights-summary-left-margin))
+    let entries-summary-space-left = config.at("entries-summary-space-left")
+    block(summary, inset: (left: entries-summary-space-left))
   }
 }
 
@@ -169,29 +178,29 @@
     let config = rendercv-config.get()
     let section-titles-type = config.at("section-titles-type")
     let entries-date-and-location-width = config.at("entries-date-and-location-width")
-    let entries-horizontal-space-between-columns = config.at("entries-horizontal-space-between-columns")
-    let highlights-bullet = config.at("highlights-bullet")
-    let highlights-nested-bullet = config.at("highlights-nested-bullet")
-    let highlights-vertical-space-between-highlights = config.at(
-      "highlights-vertical-space-between-highlights",
+    let entries-space-between-columns = config.at("entries-space-between-columns")
+    let entries-highlights-bullet = config.at("entries-highlights-bullet")
+    let entries-highlights-nested-bullet = config.at("entries-highlights-nested-bullet")
+    let entries-highlights-space-between-items = config.at(
+      "entries-highlights-space-between-items",
     )
-    let highlights-horizontal-space-between-bullet-and-highlights = config.at(
-      "highlights-horizontal-space-between-bullet-and-highlights",
+    let entries-highlights-space-between-bullet-and-text = config.at(
+      "entries-highlights-space-between-bullet-and-text",
     )
-    let highlights-top-margin = config.at("highlights-top-margin")
-    let text-leading = config.at("text-leading")
-    let entries-allow-page-break-in-entries = config.at("entries-allow-page-break-in-entries")
-    let entries-vertical-space-between-entries = config.at("entries-vertical-space-between-entries")
-    let entries-left-and-right-margin = config.at("entries-left-and-right-margin")
+    let entries-highlights-space-above = config.at("entries-highlights-space-above")
+    let typography-line-spacing = config.at("typography-line-spacing")
+    let entries-allow-page-break = config.at("entries-allow-page-break")
+    let sections-space-between-entries = config.at("sections-space-between-entries")
+    let entries-side-space = config.at("entries-side-space")
     let justify = config.at("justify")
-    let text-date-and-location-column-alignment = config.at("text-date-and-location-column-alignment")
-    let highlights-left-margin = config.at("highlights-left-margin")
+    let typography-date-and-location-column-alignment = config.at("typography-date-and-location-column-alignment")
+    let entries-highlights-space-left = config.at("entries-highlights-space-left")
 
     set list(
-      marker: (highlights-bullet, highlights-nested-bullet),
-      indent: highlights-left-margin,
-      spacing: highlights-vertical-space-between-highlights,
-      body-indent: highlights-horizontal-space-between-bullet-and-highlights,
+      marker: (entries-highlights-bullet, entries-highlights-nested-bullet),
+      indent: entries-highlights-space-left,
+      spacing: entries-highlights-space-between-items,
+      body-indent: entries-highlights-space-between-bullet-and-text,
     )
     let list-depth = state("list-depth", 0)
     show list.item: i => {
@@ -201,16 +210,16 @@
     }
     show list: l => {
       context if list-depth.get() == 1 {
-        v(highlights-top-margin)
+        v(entries-highlights-space-above)
       }
       context if list-depth.get() == 2 {
-        v(highlights-vertical-space-between-highlights - text-leading)
+        v(entries-highlights-space-between-items - typography-line-spacing)
       }
       l
     }
     set par(
-      spacing: text-leading,
-      leading: text-leading,
+      spacing: typography-line-spacing,
+      leading: typography-line-spacing,
       justify: justify,
     )
     block(
@@ -218,8 +227,8 @@
         if section-titles-type == "moderncv" {
           grid(
             columns: (entries-date-and-location-width, 1fr),
-            column-gutter: entries-horizontal-space-between-columns,
-            align: (text-date-and-location-column-alignment, left),
+            column-gutter: entries-space-between-columns,
+            align: (typography-date-and-location-column-alignment, left),
             [
               #date-and-location-column
             ],
@@ -230,8 +239,8 @@
         } else {
           grid(
             columns: (1fr, entries-date-and-location-width),
-            column-gutter: entries-horizontal-space-between-columns,
-            align: (left, text-date-and-location-column-alignment),
+            column-gutter: entries-space-between-columns,
+            align: (left, typography-date-and-location-column-alignment),
             [
               #main-column
             ],
@@ -243,11 +252,11 @@
           main-column-second-row
         }
       },
-      breakable: entries-allow-page-break-in-entries,
-      below: entries-vertical-space-between-entries,
+      breakable: entries-allow-page-break,
+      below: sections-space-between-entries,
       inset: (
-        left: entries-left-and-right-margin,
-        right: entries-left-and-right-margin,
+        left: entries-side-space,
+        right: entries-side-space,
       ),
       width: 100%,
     )
@@ -259,15 +268,16 @@
 
   context {
     let config = rendercv-config.get()
+    let entries-space-between-columns = config.at("entries-space-between-columns")
 
-    let entry-types-education-entry-degree-column-width = config.at("entry-types-education-entry-degree-column-width")
-    let entries-horizontal-space-between-columns = config.at("entries-horizontal-space-between-columns")
+    // Fixed width for degree column (GPA, etc.)
+    let degree-column-width = 1cm
 
     regular-entry(
       if degree-column != none {
         grid(
-          columns: (1cm, 1fr),
-          column-gutter: entries-horizontal-space-between-columns,
+          columns: (degree-column-width, 1fr),
+          column-gutter: entries-space-between-columns,
           align: (left, auto),
           [
             #degree-column
@@ -284,7 +294,7 @@
         #block(
           main-column-second-row,
           inset: (
-            left: entry-types-education-entry-degree-column-width + entries-horizontal-space-between-columns,
+            left: degree-column-width + entries-space-between-columns,
             right: 0cm,
           ),
         )
@@ -301,103 +311,154 @@
 #let rendercv(
   doc,
   name: "John Doe",
-  footer-text: context { "Page " + str(here().page()) + " of " + str(counter(page).final().first()) + "" },
-  last-updated-date-text: "Last updated in Oct 2025",
+  footer: context { "Page " + str(here().page()) + " of " + str(counter(page).final().first()) + "" },
+  top-note: "Last updated in Oct 2025",
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 2cm,
   page-bottom-margin: 2cm,
   page-left-margin: 2cm,
   page-right-margin: 2cm,
-  page-show-page-numbering: true,
-  page-show-last-updated-date: true,
   colors-text: rgb(0, 0, 0),
   colors-name: rgb(0, 79, 144),
+  colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
   colors-section-titles: rgb(0, 79, 144),
   colors-links: rgb(0, 79, 144),
-  colors-last-updated-date-and-page-numbering: rgb(128, 128, 128),
-  text-font-family: "Source Sans 3",
-  text-font-size: 10pt,
-  text-leading: 0.6em,
-  text-alignment: "justified",
-  text-date-and-location-column-alignment: right,
+  colors-footer: rgb(128, 128, 128),
+  colors-top-note: rgb(128, 128, 128),
+  typography-line-spacing: 0.6em,
+  typography-alignment: "justified",
+  typography-date-and-location-column-alignment: right,
+  typography-font-family-body: "Source Sans 3",
+  typography-font-family-name: "Source Sans 3",
+  typography-font-family-headline: "Source Sans 3",
+  typography-font-family-connections: "Source Sans 3",
+  typography-font-family-section-titles: "Source Sans 3",
+  typography-font-size-body: 10pt,
+  typography-font-size-name: 30pt,
+  typography-font-size-headline: 10pt,
+  typography-font-size-connections: 10pt,
+  typography-font-size-section-titles: 1.4em,
+  typography-small-caps-name: false,
+  typography-small-caps-headline: false,
+  typography-small-caps-connections: false,
+  typography-small-caps-section-titles: false,
+  typography-bold-name: true,
+  typography-bold-headline: false,
+  typography-bold-connections: false,
+  typography-bold-section-titles: true,
   links-underline: false,
-  links-use-external-link-icon: true,
-  header-name-font-family: "Source Sans 3",
-  header-name-font-size: 30pt,
-  header-name-bold: true,
-  header-small-caps-for-name: false,
-  header-photo-width: 3.5cm,
-  header-connections-font-family: "Source Sans 3",
-  header-vertical-space-between-name-and-connections: 0.7cm,
-  header-vertical-space-between-connections-and-first-section: 0.7cm,
-  header-horizontal-space-between-connections: 0.5cm,
-  header-separator-between-connections: "",
+  links-show-external-link-icon: true,
   header-alignment: center,
-  section-titles-type: "with-partial-line",
-  section-titles-font-family: "Source Sans 3",
-  section-titles-font-size: 1.4em,
-  section-titles-bold: true,
-  section-titles-small-caps: false,
+  header-photo-width: 3.5cm,
+  header-space-below-name: 0.7cm,
+  header-space-below-headline: 0.3cm,
+  header-space-below-connections: 0.7cm,
+  header-connections-hyperlink: true,
+  header-connections-show-icons: true,
+  header-connections-display-urls-instead-of-usernames: false,
+  header-connections-separator: "",
+  header-connections-space-between-connections: 0.5cm,
+  section-titles-type: "with_partial_line",
   section-titles-line-thickness: 0.5pt,
-  section-titles-vertical-space-above: 0.5cm,
-  section-titles-vertical-space-below: 0.3cm,
+  section-titles-space-above: 0.5cm,
+  section-titles-space-below: 0.3cm,
+  sections-allow-page-break: true,
+  sections-space-between-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
-  entries-left-and-right-margin: 0.2cm,
-  entries-horizontal-space-between-columns: 0.1cm,
-  entries-vertical-space-between-entries: 1.2em,
-  entries-allow-page-break-in-sections: true,
-  entries-allow-page-break-in-entries: true,
-  highlights-bullet: "•",
-  highlights-nested-bullet: "-",
-  highlights-top-margin: 0.25cm,
-  highlights-left-margin: 0.4cm,
-  highlights-vertical-space-between-highlights: 0.25cm,
-  highlights-horizontal-space-between-bullet-and-highlights: 0.5em,
-  highlights-summary-left-margin: 0cm,
-  entry-types-education-entry-degree-column-width: 1cm,
+  entries-side-space: 0.2cm,
+  entries-space-between-columns: 0.1cm,
+  entries-allow-page-break: true,
+  entries-short-second-row: false,
+  entries-summary-space-left: 0cm,
+  entries-highlights-bullet: "•",
+  entries-highlights-nested-bullet: "-",
+  entries-highlights-space-left: 0.4cm,
+  entries-highlights-space-above: 0.25cm,
+  entries-highlights-space-between-items: 0.25cm,
+  entries-highlights-space-between-bullet-and-text: 0.5em,
   date: datetime.today(),
 ) = [
   #let (justify, hyphenate) = (
     "justified": (true, true),
     "left": (false, false),
     "justified-with-no-hyphenation": (true, false),
-  ).at(text-alignment)
+  ).at(typography-alignment)
 
 
   // Initialize state with all configuration parameters
   #rendercv-config.update((
-    entries-left-and-right-margin: entries-left-and-right-margin,
-    section-titles-type: section-titles-type,
-    section-titles-vertical-space-above: section-titles-vertical-space-above,
-    entries-date-and-location-width: entries-date-and-location-width,
-    entries-horizontal-space-between-columns: entries-horizontal-space-between-columns,
-    text-leading: text-leading,
-    entries-allow-page-break-in-entries: entries-allow-page-break-in-entries,
-    text-date-and-location-column-alignment: text-date-and-location-column-alignment,
-    entries-vertical-space-between-entries: entries-vertical-space-between-entries,
-    highlights-bullet: highlights-bullet,
-    highlights-nested-bullet: highlights-nested-bullet,
-    highlights-vertical-space-between-highlights: highlights-vertical-space-between-highlights,
-    highlights-horizontal-space-between-bullet-and-highlights: highlights-horizontal-space-between-bullet-and-highlights,
-    highlights-top-margin: highlights-top-margin,
-    highlights-left-margin: highlights-left-margin,
-    highlights-summary-left-margin: highlights-summary-left-margin,
-    entry-types-education-entry-degree-column-width: entry-types-education-entry-degree-column-width,
-    header-horizontal-space-between-connections: header-horizontal-space-between-connections,
-    header-separator-between-connections: header-separator-between-connections,
-    header-alignment: header-alignment,
+    // Page
     page-left-margin: page-left-margin,
     page-right-margin: page-right-margin,
-    header-vertical-space-between-connections-and-first-section: header-vertical-space-between-connections-and-first-section,
-    header-vertical-space-between-name-and-connections: header-vertical-space-between-name-and-connections,
-    header-connections-font-family: header-connections-font-family,
-    links-underline: links-underline,
-    links-use-external-link-icon: links-use-external-link-icon,
-    text-font-size: text-font-size,
-    colors-links: colors-links,
+    // Colors
+    colors-text: colors-text,
+    colors-name: colors-name,
+    colors-headline: colors-headline,
     colors-connections: colors-connections,
+    colors-section-titles: colors-section-titles,
+    colors-links: colors-links,
+    colors-footer: colors-footer,
+    colors-top-note: colors-top-note,
+    // Typography
+    typography-line-spacing: typography-line-spacing,
+    typography-alignment: typography-alignment,
+    typography-date-and-location-column-alignment: typography-date-and-location-column-alignment,
+    typography-font-family-body: typography-font-family-body,
+    typography-font-family-name: typography-font-family-name,
+    typography-font-family-headline: typography-font-family-headline,
+    typography-font-family-connections: typography-font-family-connections,
+    typography-font-family-section-titles: typography-font-family-section-titles,
+    typography-font-size-body: typography-font-size-body,
+    typography-font-size-name: typography-font-size-name,
+    typography-font-size-headline: typography-font-size-headline,
+    typography-font-size-connections: typography-font-size-connections,
+    typography-font-size-section-titles: typography-font-size-section-titles,
+    typography-small-caps-name: typography-small-caps-name,
+    typography-small-caps-headline: typography-small-caps-headline,
+    typography-small-caps-connections: typography-small-caps-connections,
+    typography-small-caps-section-titles: typography-small-caps-section-titles,
+    typography-bold-name: typography-bold-name,
+    typography-bold-headline: typography-bold-headline,
+    typography-bold-connections: typography-bold-connections,
+    typography-bold-section-titles: typography-bold-section-titles,
+    // Links
+    links-underline: links-underline,
+    links-show-external-link-icon: links-show-external-link-icon,
+    // Header
+    header-alignment: header-alignment,
+    header-photo-width: header-photo-width,
+    header-space-below-name: header-space-below-name,
+    header-space-below-headline: header-space-below-headline,
+    header-space-below-connections: header-space-below-connections,
+    header-connections-hyperlink: header-connections-hyperlink,
+    header-connections-show-icons: header-connections-show-icons,
+    header-connections-display-urls-instead-of-usernames: header-connections-display-urls-instead-of-usernames,
+    header-connections-separator: header-connections-separator,
+    header-connections-space-between-connections: header-connections-space-between-connections,
+    // Section titles
+    section-titles-type: section-titles-type,
+    section-titles-line-thickness: section-titles-line-thickness,
+    section-titles-space-above: section-titles-space-above,
+    section-titles-space-below: section-titles-space-below,
+    // Sections
+    sections-allow-page-break: sections-allow-page-break,
+    sections-space-between-entries: sections-space-between-entries,
+    // Entries
+    entries-date-and-location-width: entries-date-and-location-width,
+    entries-side-space: entries-side-space,
+    entries-space-between-columns: entries-space-between-columns,
+    entries-allow-page-break: entries-allow-page-break,
+    entries-short-second-row: entries-short-second-row,
+    entries-summary-space-left: entries-summary-space-left,
+    entries-highlights-bullet: entries-highlights-bullet,
+    entries-highlights-nested-bullet: entries-highlights-nested-bullet,
+    entries-highlights-space-left: entries-highlights-space-left,
+    entries-highlights-space-above: entries-highlights-space-above,
+    entries-highlights-space-between-items: entries-highlights-space-between-items,
+    entries-highlights-space-between-bullet-and-text: entries-highlights-space-between-bullet-and-text,
+    // Internal computed values
     justify: justify,
   ))
 
@@ -413,10 +474,10 @@
       right: page-right-margin,
     ),
     paper: page-size,
-    footer: if page-show-page-numbering {
+    footer: if footer != none and footer != "" {
       text(
-        fill: colors-last-updated-date-and-page-numbering,
-        align(center, [_#footer-text _]),
+        fill: colors-footer,
+        align(center, [_#footer _]),
         size: 0.9em,
       )
     } else {
@@ -427,8 +488,8 @@
 
   // Text:
   #set text(
-    font: text-font-family,
-    size: text-font-size,
+    font: typography-font-family-body,
+    size: typography-font-size-body,
     lang: locale-catalog-language,
     hyphenate: hyphenate,
     fill: colors-text,
@@ -441,20 +502,20 @@
     #set par(spacing: 0pt)
     #set align(header-alignment)
     #set text(
-      font: header-name-font-family,
-      size: header-name-font-size,
+      font: typography-font-family-name,
+      size: typography-font-size-name,
       fill: colors-name,
-      weight: if header-name-bold { 700 } else { 400 },
+      weight: if typography-bold-name { 700 } else { 400 },
     )
     #let body
-    #if header-small-caps-for-name {
+    #if typography-small-caps-name {
       body = [#smallcaps(it.body)]
     } else {
       body = [#it.body]
     }
     #body
     // Vertical space after the name
-    #v(header-vertical-space-between-name-and-connections, weak: true)
+    #v(header-space-below-name, weak: true)
   ]
 
   // Section titles:
@@ -462,20 +523,20 @@
     #set align(left)
     #set text(size: (1em / 1.2)) // reset
     #set text(
-      font: section-titles-font-family,
-      size: (section-titles-font-size),
-      weight: if section-titles-bold { 700 } else { 400 },
+      font: typography-font-family-section-titles,
+      size: (typography-font-size-section-titles),
+      weight: if typography-bold-section-titles { 700 } else { 400 },
       fill: colors-section-titles,
     )
     #let section-title = (
-      if section-titles-small-caps [
+      if typography-small-caps-section-titles [
         #smallcaps(it.body)
       ] else [
         #it.body
       ]
     )
     // Vertical space above the section title
-    #v(section-titles-vertical-space-above, weak: true)
+    #v(section-titles-space-above, weak: true)
 
     #block(
       breakable: false,
@@ -483,8 +544,8 @@
       [
         #if section-titles-type == "moderncv" [
           #grid(
-            columns: (entries-date-and-location-width + entries-horizontal-space-between-columns, 1fr),
-            column-gutter: entries-horizontal-space-between-columns,
+            columns: (entries-date-and-location-width + entries-space-between-columns, 1fr),
+            column-gutter: entries-space-between-columns,
             align: (right, left),
             [
               #align(horizon, box(
@@ -499,11 +560,11 @@
           )
         ] else [
           #section-title
-          #if section-titles-type == "with-partial-line" [
+          #if section-titles-type == "with_partial_line" [
             #box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)
-          ] else if section-titles-type == "with-full-line" [
+          ] else if section-titles-type == "with_full_line" [
             #box[#place(
-              dy: text-font-size * 0.4,
+              dy: typography-font-size-body * 0.4,
               dx: -measure(section-title).width * 1.2,
               box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles),
             )]
@@ -513,24 +574,24 @@
     )
 
     // Compensation for the full line section title
-    #if section-titles-type == "with-full-line" [
-      #v(text-font-size * 0.4)
+    #if section-titles-type == "with_full_line" [
+      #v(typography-font-size-body * 0.4)
     ]
 
     // Vertical space after the section title
-    #v(section-titles-vertical-space-below - 0.5em)
+    #v(section-titles-space-below - 0.5em)
   ]
 
-  // Last updated date text:
-  #if page-show-last-updated-date {
-    let dx = -entries-left-and-right-margin
+  // Top note:
+  #if top-note != none and top-note != "" {
+    let dx = -entries-side-space
     place(
       top + right,
       dy: -page-top-margin / 2,
       dx: dx,
       text(
-        [_#last-updated-date-text _],
-        fill: colors-last-updated-date-and-page-numbering,
+        [_#top-note _],
+        fill: colors-top-note,
         size: 0.9em,
       ),
     )
@@ -577,7 +638,7 @@
     }
     #if section-content.func() != parbreak [
       #block(
-        breakable: entries-allow-page-break-in-sections,
+        breakable: sections-allow-page-break,
       )[
         #if should-skip [
           #section-content

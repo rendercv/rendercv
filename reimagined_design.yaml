@@ -57,7 +57,7 @@ design:
     space_below_connections: 0.7cm
     connections:
       phone_number_format: national
-      hyperlinked: true
+      hyperlink: true
       show_icons: true
       display_urls_instead_of_usernames: false
       separator: ""

@@ -74,6 +74,8 @@ def format_single_date(
     if isinstance(date, int):
         # Only year is provided
         date_string = str(date)
+    elif date == "present":
+        date_string = locale.present
     else:
         try:
             date_object = get_date_object(date)

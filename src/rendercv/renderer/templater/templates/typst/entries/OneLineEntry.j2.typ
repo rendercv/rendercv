@@ -1,1 +1,1 @@
-{{entry.template}}
+{{entry.main_column}}

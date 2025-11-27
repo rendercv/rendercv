@@ -21,13 +21,13 @@ def render_entry_templates[EntryType: Entry](
     show_time_span: bool,
     current_date: Date,
 ) -> EntryType:
-    if isinstance(entry, str):
-        # It's a TextEntry, return is as is:
+    if isinstance(entry, str) or not hasattr(templates, entry.entry_type_in_snake_case):
+        # It's a TextEntry, or an entry type without templates. Return it as is:
         return entry
 
     entry_templates: dict[str, str] = getattr(
         templates, entry.entry_type_in_snake_case
-    ).model_dump()
+    ).model_dump(exclude_none=True)
 
     entry_fields: dict[str, str | str] = {
         key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
