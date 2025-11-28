@@ -165,9 +165,7 @@ cython_debug/
 # VSCode
 .vscode/
 
-# Personal CVs
-*_CV.yaml
-*_CV.typ
+# RenderCV output
 rendercv_output/
 
 # Include reference files
