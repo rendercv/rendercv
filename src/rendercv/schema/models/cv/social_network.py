@@ -25,7 +25,7 @@ type SocialNetworkName = Literal[
     "Leetcode",
     "X",
 ]
-url_dictionary = {
+url_dictionary: dict[SocialNetworkName, str] = {
     "LinkedIn": "https://linkedin.com/in/",
     "GitHub": "https://github.com/",
     "GitLab": "https://gitlab.com/",

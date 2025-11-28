@@ -85,7 +85,11 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
             if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
                 body = clean_url(url)
             else:
-                body = social_network.username
+                match social_network.network:
+                    case "Google Scholar":
+                        body = "Google Scholar"
+                    case _:
+                        body = social_network.username
             connections.append(
                 Connection(icon_specifier=social_network.network, url=url, body=body)
             )
