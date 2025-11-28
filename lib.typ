@@ -276,17 +276,14 @@
             ],
           )
         } else {
-          grid(
-            columns: (1fr, entries-date-and-location-width),
-            column-gutter: entries-space-between-columns,
-            align: (left, typography-date-and-location-column-alignment),
-            [
-              #main-column
-            ],
-            [
-              #date-and-location-column
-            ],
-          )
+          if repr(main-column) != "[ ]" or repr(date-and-location-column) != "[ ]" {
+            grid(
+              columns: (1fr, entries-date-and-location-width),
+              column-gutter: entries-space-between-columns,
+              align: (left, typography-date-and-location-column-alignment),
+              main-column, date-and-location-column,
+            )
+          }
           set align(left)
           main-column-second-row
         }
