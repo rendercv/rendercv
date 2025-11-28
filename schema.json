@@ -91,7 +91,7 @@
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/Page"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Page__1"
         },
         "colors": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Colors__1"
@@ -280,7 +280,7 @@
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/Page"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Page__1"
         },
         "colors": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Colors__1"
@@ -295,7 +295,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__2"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__1"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__2"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
@@ -320,7 +320,7 @@
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/Page"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Page__2"
         },
         "colors": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Colors__2"
@@ -335,7 +335,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__3"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__2"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__3"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__2"
@@ -645,7 +645,7 @@
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/Page"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Page__1"
         },
         "colors": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Colors__1"
@@ -660,7 +660,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__4"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__3"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__3"
@@ -693,57 +693,6 @@
         "number"
       ],
       "title": "NumberedEntry",
-      "type": "object"
-    },
-    "Page": {
-      "additionalProperties": false,
-      "properties": {
-        "size": {
-          "default": "us-letter",
-          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`.",
-          "enum": [
-            "a4",
-            "a5",
-            "us-letter",
-            "us-executive"
-          ],
-          "title": "Size",
-          "type": "string"
-        },
-        "top_margin": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "2cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
-        },
-        "bottom_margin": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "2cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
-        },
-        "left_margin": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "2cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
-        },
-        "right_margin": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "2cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
-        },
-        "show_footer": {
-          "default": true,
-          "description": "Whether to show the footer. The default value is `true`.",
-          "title": "Show Footer",
-          "type": "boolean"
-        },
-        "show_top_note": {
-          "default": true,
-          "description": "Whether to show the top note. The default value is `true`.",
-          "title": "Show Top Note",
-          "type": "boolean"
-        }
-      },
-      "title": "Page",
       "type": "object"
     },
     "PlannedInputRelativePath": {
@@ -867,7 +816,7 @@
           "type": "string"
         },
         "page": {
-          "$ref": "#/$defs/Page"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Page__1"
         },
         "colors": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Colors__3"
@@ -882,7 +831,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__1"
         },
         "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
@@ -2724,8 +2673,8 @@
         },
         "headline": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Source Sans 3",
-          "description": "The font family for the headline. The default value is `Source Sans 3`."
+          "default": "Raleway",
+          "description": "The font family for the headline. The default value is `Raleway`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
@@ -2756,8 +2705,8 @@
         },
         "headline": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Source Sans 3",
-          "description": "The font family for the headline. The default value is `Source Sans 3`."
+          "default": "XCharter",
+          "description": "The font family for the headline. The default value is `XCharter`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
@@ -2788,8 +2737,8 @@
         },
         "headline": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Source Sans 3",
-          "description": "The font family for the headline. The default value is `Source Sans 3`."
+          "default": "Fontin",
+          "description": "The font family for the headline. The default value is `Fontin`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
@@ -2820,8 +2769,8 @@
         },
         "headline": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Source Sans 3",
-          "description": "The font family for the headline. The default value is `Source Sans 3`."
+          "default": "New Computer Modern",
+          "description": "The font family for the headline. The default value is `New Computer Modern`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
@@ -3156,12 +3105,12 @@
       "properties": {
         "bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "•",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
+          "default": "●",
+          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `●`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "•",
+          "default": "●",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
@@ -3171,12 +3120,12 @@
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
+          "default": "0.05cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.19cm",
+          "default": "0cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -3272,7 +3221,7 @@
           "type": "boolean"
         },
         "show_external_link_icon": {
-          "default": true,
+          "default": false,
           "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
           "title": "Show External Link Icon",
           "type": "boolean"
@@ -3465,6 +3414,108 @@
       "title": "OneLineEntry",
       "type": "object"
     },
+    "rendercv__schema__models__design__classic_theme__Page__1": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "default": "us-letter",
+          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`.",
+          "enum": [
+            "a4",
+            "a5",
+            "us-letter",
+            "us-executive"
+          ],
+          "title": "Size",
+          "type": "string"
+        },
+        "top_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "bottom_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "left_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "right_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "show_footer": {
+          "default": true,
+          "description": "Whether to show the footer. The default value is `true`.",
+          "title": "Show Footer",
+          "type": "boolean"
+        },
+        "show_top_note": {
+          "default": true,
+          "description": "Whether to show the top note. The default value is `true`.",
+          "title": "Show Top Note",
+          "type": "boolean"
+        }
+      },
+      "title": "Page",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Page__2": {
+      "additionalProperties": false,
+      "properties": {
+        "size": {
+          "default": "us-letter",
+          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`.",
+          "enum": [
+            "a4",
+            "a5",
+            "us-letter",
+            "us-executive"
+          ],
+          "title": "Size",
+          "type": "string"
+        },
+        "top_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "bottom_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "left_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "right_margin": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7in",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "show_footer": {
+          "default": false,
+          "description": "Whether to show the footer. The default value is `true`.",
+          "title": "Show Footer",
+          "type": "boolean"
+        },
+        "show_top_note": {
+          "default": true,
+          "description": "Whether to show the top note. The default value is `true`.",
+          "title": "Show Top Note",
+          "type": "boolean"
+        }
+      },
+      "title": "Page",
+      "type": "object"
+    },
     "rendercv__schema__models__design__classic_theme__PublicationEntry": {
       "additionalProperties": false,
       "properties": {
@@ -3540,8 +3591,42 @@
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.55cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.55cm`."
+          "default": "0.5cm",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+        },
+        "space_below": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.3cm",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+        }
+      },
+      "title": "SectionTitles",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__SectionTitles__3": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "default": "with_full_line",
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`.",
+          "enum": [
+            "with_partial_line",
+            "with_full_line",
+            "without_line",
+            "moderncv"
+          ],
+          "title": "Type",
+          "type": "string"
+        },
+        "line_thickness": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5pt",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5pt`."
+        },
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5cm",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
@@ -3552,7 +3637,7 @@
       "title": "SectionTitles",
       "type": "object"
     },
-    "rendercv__schema__models__design__classic_theme__SectionTitles__3": {
+    "rendercv__schema__models__design__classic_theme__SectionTitles__4": {
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -3586,7 +3671,7 @@
       "title": "SectionTitles",
       "type": "object"
     },
-    "rendercv__schema__models__design__classic_theme__SectionTitles__4": {
+    "rendercv__schema__models__design__classic_theme__SectionTitles__5": {
       "additionalProperties": false,
       "properties": {
         "type": {
@@ -3634,10 +3719,10 @@
           "default": "1.2em",
           "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
-        "space_between_text_entries": {
+        "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.5cm",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "default": "0.3em",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -3671,13 +3756,13 @@
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "default": "0.32cm",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.32cm`."
         },
-        "space_between_text_entries": {
+        "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.5cm",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "default": "0.1cm",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -3714,10 +3799,10 @@
           "default": "1.2em",
           "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
-        "space_between_text_entries": {
+        "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.5cm",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "default": "0.3em",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",

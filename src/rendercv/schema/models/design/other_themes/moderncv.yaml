@@ -25,8 +25,6 @@ design:
     space_above: "0.55cm"
     space_below: "0.3cm"
     line_thickness: "0.15cm"
-  sections:
-    space_between_entries: "0.4cm"
   entries:
     side_space: "0cm"
     space_between_columns: "0.4cm"
