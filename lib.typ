@@ -4,6 +4,30 @@
 // State to hold rendercv configuration for use by components
 #let rendercv-config = state("rendercv-config", (:))
 
+#let headline(headline) = {
+  metadata("skip-content-area")
+  context {
+    let config = rendercv-config.get()
+    let typography-font-size-headline = config.at("typography-font-size-headline")
+    let typography-font-family-headline = config.at("typography-font-family-headline")
+    let typography-bold-headline = config.at("typography-bold-headline")
+    let colors-headline = config.at("colors-headline")
+    let header-alignment = config.at("header-alignment")
+    set text(
+      fill: colors-headline,
+      font: typography-font-family-headline,
+      size: typography-font-size-headline,
+      weight: if typography-bold-headline { 700 } else { 400 },
+    )
+    set align(header-alignment)
+    block(
+      headline,
+      width: 100%,
+      height: auto,
+    )
+  }
+}
+
 #let connections(..connections) = {
   metadata("skip-content-area")
 
@@ -127,7 +151,7 @@
   let entries-date-and-location-width = config.at("entries-date-and-location-width")
   let entries-space-between-columns = config.at("entries-space-between-columns")
   let entries-allow-page-break = config.at("entries-allow-page-break")
-  let sections-space-between-entries = config.at("sections-space-between-entries")
+  let sections-space-between-text-entries = config.at("sections-space-between-text-entries")
   let section-titles-type = config.at("section-titles-type")
   let typography-line-spacing = config.at("typography-line-spacing")
   let justify = config.at("justify")
@@ -145,25 +169,25 @@
   }
 
   set par(
-    spacing: sections-space-between-entries,
+    spacing: sections-space-between-text-entries + typography-line-spacing,
     leading: typography-line-spacing,
     justify: justify,
   )
   set align(left)
   set enum(
-    spacing: sections-space-between-entries,
+    spacing: sections-space-between-text-entries + typography-line-spacing,
   )
   set list(
     marker: (entries-highlights-bullet, entries-highlights-nested-bullet),
     indent: 0cm,
-    spacing: sections-space-between-entries,
+    spacing: sections-space-between-text-entries + typography-line-spacing,
     body-indent: entries-highlights-space-between-bullet-and-text,
   )
 
   block(
     content,
     breakable: entries-allow-page-break,
-    below: sections-space-between-entries,
+    below: sections-space-between-text-entries + typography-line-spacing,
     inset: (
       left: left-space,
       right: entries-side-space,
@@ -176,7 +200,13 @@
   context {
     let config = rendercv-config.get()
     let entries-summary-space-left = config.at("entries-summary-space-left")
-    block(summary, inset: (left: entries-summary-space-left))
+    let entries-summary-space-above = config.at("entries-summary-space-above")
+    let typography-line-spacing = config.at("typography-line-spacing")
+    block(
+      summary,
+      inset: (left: entries-summary-space-left),
+      above: entries-summary-space-above + typography-line-spacing,
+    )
   }
 }
 
@@ -199,7 +229,7 @@
     let entries-highlights-space-above = config.at("entries-highlights-space-above")
     let typography-line-spacing = config.at("typography-line-spacing")
     let entries-allow-page-break = config.at("entries-allow-page-break")
-    let sections-space-between-entries = config.at("sections-space-between-entries")
+    let sections-space-between-regular-entries = config.at("sections-space-between-regular-entries")
     let entries-side-space = config.at("entries-side-space")
     let justify = config.at("justify")
     let typography-date-and-location-column-alignment = config.at("typography-date-and-location-column-alignment")
@@ -208,7 +238,7 @@
     set list(
       marker: (entries-highlights-bullet, entries-highlights-nested-bullet),
       indent: entries-highlights-space-left,
-      spacing: entries-highlights-space-between-items,
+      spacing: entries-highlights-space-between-items + typography-line-spacing,
       body-indent: entries-highlights-space-between-bullet-and-text,
     )
     let list-depth = state("list-depth", 0)
@@ -222,7 +252,7 @@
         v(entries-highlights-space-above)
       }
       context if list-depth.get() == 2 {
-        v(entries-highlights-space-between-items - typography-line-spacing)
+        v(entries-highlights-space-between-items)
       }
       l
     }
@@ -262,7 +292,7 @@
         }
       },
       breakable: entries-allow-page-break,
-      below: sections-space-between-entries,
+      below: sections-space-between-regular-entries,
       inset: (
         left: entries-side-space,
         right: entries-side-space,
@@ -303,7 +333,7 @@
         #block(
           main-column-second-row,
           inset: (
-            left: degree-column-width + entries-space-between-columns,
+            left: if degree-column != none { degree-column-width + entries-space-between-columns } else { 0cm },
             right: 0cm,
           ),
         )
@@ -328,6 +358,8 @@
   page-bottom-margin: 2cm,
   page-left-margin: 2cm,
   page-right-margin: 2cm,
+  page-show-footer: true,
+  page-show-top-note: true,
   colors-text: rgb(0, 0, 0),
   colors-name: rgb(0, 79, 144),
   colors-headline: rgb(0, 79, 144),
@@ -374,13 +406,15 @@
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
-  sections-space-between-entries: 1.2em,
+  sections-space-between-text-entries: 1.2em,
+  sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0.2cm,
   entries-space-between-columns: 0.1cm,
   entries-allow-page-break: true,
   entries-short-second-row: false,
   entries-summary-space-left: 0cm,
+  entries-summary-space-above: 0cm,
   entries-highlights-bullet: "•",
   entries-highlights-nested-bullet: "-",
   entries-highlights-space-left: 0.4cm,
@@ -453,14 +487,15 @@
     section-titles-space-below: section-titles-space-below,
     // Sections
     sections-allow-page-break: sections-allow-page-break,
-    sections-space-between-entries: sections-space-between-entries,
+    sections-space-between-regular-entries: sections-space-between-regular-entries,
+    sections-space-between-text-entries: sections-space-between-text-entries,
     // Entries
     entries-date-and-location-width: entries-date-and-location-width,
     entries-side-space: entries-side-space,
     entries-space-between-columns: entries-space-between-columns,
     entries-allow-page-break: entries-allow-page-break,
-    entries-short-second-row: entries-short-second-row,
     entries-summary-space-left: entries-summary-space-left,
+    entries-summary-space-above: entries-summary-space-above,
     entries-highlights-bullet: entries-highlights-bullet,
     entries-highlights-nested-bullet: entries-highlights-nested-bullet,
     entries-highlights-space-left: entries-highlights-space-left,
@@ -483,7 +518,7 @@
       right: page-right-margin,
     ),
     paper: page-size,
-    footer: if footer != none and footer != "" {
+    footer: if page-show-footer and footer != none and footer != "" {
       text(
         fill: colors-footer,
         align(center, [_#footer _]),
@@ -574,7 +609,7 @@
           ] else if section-titles-type == "with_full_line" [
             #box[#place(
               dy: typography-font-size-body * 0.4,
-              dx: -measure(section-title).width * 1.2,
+              dx: -measure(section-title).width - 0.1cm,
               box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles),
             )]
           ]
@@ -592,7 +627,7 @@
   ]
 
   // Top note:
-  #if top-note != none and top-note != "" {
+  #if page-show-top-note and top-note != none and top-note != "" {
     let dx = -entries-side-space
     place(
       top + right,

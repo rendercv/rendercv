@@ -1,94 +1,160 @@
-name: John Doe
-location: Location
-email: john.doe@example.com
-phone: +1-609-999-9995
-social_networks:
-  - network: LinkedIn
-    username: john.doe
-  - network: GitHub
-    username: john.doe
-sections:
-  Welcome to RenderCV!:
-    - "[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support."
-    - "Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from."
-  education:
-    - institution: Stanford University
-      location: Stanford, CA, USA
-      area: Computer Science
-      degree: PhD
-      start_date: 2023-09
-      end_date: present
-      highlights:
-        - Working on the optimization of autonomous vehicles in urban environments
-    - institution: Boğaziçi University
-      location: Istanbul, Türkiye
-      area: Computer Engineering
-      degree: BS
-      start_date: 2018-09
-      end_date: 2022-06
-      highlights:
-        - "GPA: 3.9/4.0, ranked 1st out of 100 students"
-        - "Awards: Best Senior Project, High Honor"
-  experience:
-    - company: Company C
-      position: Summer Intern
-      location: Livingston, LA, USA
-      start_date: 2024-06
-      end_date: 2024-09
-      highlights:
-        - Developed deep learning models for the detection of gravitational waves in LIGO data
-        - Published [3 peer-reviewed research papers](https://example.com) about the project and results
-    - company: Company B
-      position: Summer Intern
-      location: Ankara, Türkiye
-      start_date: 2023-06
-      end_date: 2023-09
-      highlights:
-        - Optimized the production line by 15% by implementing a new scheduling algorithm
-    - company: Company A
-      position: Summer Intern
-      location: Istanbul, Türkiye
-      start_date: 2022-06
-      end_date: 2022-09
-      highlights:
-        - Designed an inventory management web application for a warehouse
-  projects:
-    - name: "[Example Project](https://example.com)"
-      start_date: 2024-05
-      end_date: present
-      summary: "A web application for writing essays"
-      highlights:
-        - "Launched an [iOS app](https://example.com) in 09/2024 that currently has 10k+ monthly active users"
-        - "The app is made open-source (3,000+ stars [on GitHub](https://github.com))"
-    - name: "[Teaching on Udemy](https://example.com)"
-      date: Fall 2023
-      highlights:
-        - 'Instructed the "Statistics" course on Udemy (60,000+ students, 200,000+ hours watched)'
-  skills:
-    - label: Programming
-      details: Proficient with Python, C++, and Git; good understanding of Web, app development, and DevOps
-    - label: Mathematics
-      details: Good understanding of differential equations, calculus, and linear algebra
-    - label: Languages
-      details: "English (fluent, TOEFL: 118/120), Turkish (native)"
-  publications:
-    - title: 3D Finite Element Analysis of No-Insulation Coils
-      authors:
-        - Frodo Baggins
-        - "***John Doe***"
-        - Samwise Gamgee
-      doi: 10.1109/TASC.2023.3340648
-      date: 2004-01
-  extracurricular_activities:
-    - bullet:
-        "There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*,
-        *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*."
-    - bullet: "Each entry type has a different structure and layout. This document demonstrates all of them."
-  numbered_entries:
-    - number: "This is a numbered entry."
-    - number: "This is another numbered entry."
-    - number: "This is the third numbered entry."
-  reversed_numbered_entries:
-    - reversed_number: "This is a reversed numbered entry."
-    - reversed_number: "This is another reversed numbered entry."
-    - reversed_number: "This is the third reversed numbered entry."
+# yaml-language-server: $schema=../../../schema.json
+cv:
+  name: John Doe
+  headline:
+  location: San Francisco, CA
+  email: john.doe@email.com
+  phone: 
+  website: https://johndoe.ai
+  photo:
+  social_networks:
+    - network: LinkedIn
+      username: johndoe
+    - network: GitHub
+      username: johndoe
+  sections:
+    summary:
+      - "AI researcher and entrepreneur with a track record of publishing at top venues (NeurIPS, ICML, ICLR) and translating research into products used by millions."
+      - "Currently building [Nexus AI](https://nexusai.com), a VC-backed infrastructure company for efficient large model deployment."
+
+    education:
+      - institution: Princeton University
+        area: Computer Science
+        degree: PhD
+        start_date: 2018-09
+        end_date: 2023-05
+        location: Princeton, NJ
+        highlights:
+          - "Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment"
+          - "Advisor: Prof. Sanjeev Arora"
+          - "NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)"
+      - institution: Boğaziçi University
+        area: Computer Engineering
+        degree: BS
+        start_date: 2014-09
+        end_date: 2018-06
+        location: Istanbul, Türkiye
+        highlights:
+          - "GPA: 3.97/4.00, Valedictorian"
+          - "Fulbright Scholarship recipient for graduate studies"
+
+    experience:
+      - company: Nexus AI
+        position: Co-Founder & CTO
+        start_date: 2023-06
+        end_date: present
+        location: San Francisco, CA
+        highlights:
+          - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97% uptime
+          - Raised $18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
+          - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
+          - Developed proprietary inference optimization reducing latency by 73% compared to baseline
+      - company: NVIDIA Research
+        position: Research Intern
+        start_date: 2022-05
+        end_date: 2022-08
+        location: Santa Clara, CA
+        highlights:
+          - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
+          - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
+      - company: Google DeepMind
+        position: Research Intern
+        start_date: 2021-05
+        end_date: 2021-08
+        location: London, UK
+        highlights:
+          - Developed reinforcement learning algorithms for multi-agent coordination
+          - Published research at top-tier venues with significant academic impact - ICML 2022 main conference paper, cited 340+ times within two years
+            - NeurIPS 2022 workshop paper on emergent communication protocols
+            - Invited journal extension in JMLR (2023)
+      - company: Apple ML Research
+        position: Research Intern
+        start_date: 2020-05
+        end_date: 2020-08
+        location: Cupertino, CA
+        highlights:
+          - Created on-device neural network compression pipeline deployed across 50M+ devices
+          - Filed 2 patents on efficient model quantization techniques for edge inference
+      - company: Microsoft Research
+        position: Research Intern
+        start_date: 2019-05
+        end_date: 2019-08
+        location: Redmond, WA
+        highlights:
+          - Implemented novel self-supervised learning framework for low-resource language modeling
+          - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
+
+    projects:
+      - name: "[FlashInfer](https://github.com/)"
+        start_date: 2023-01
+        end_date: present
+        summary: Open-source library for high-performance LLM inference kernels
+        highlights:
+          - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
+          - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
+      - name: "[NeuralPrune](https://github.com/)"
+        date: "2021"
+        summary: Automated neural network pruning toolkit with differentiable masks
+        highlights:
+          - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
+          - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
+
+    publications:
+      - title: "Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models"
+        authors:
+          - "*John Doe*"
+          - "Sarah Williams"
+          - "David Park"
+        date: 2023-07
+        doi: 10.1234/neurips.2023.1234
+        journal: NeurIPS 2023
+      - title: "Neural Architecture Search via Differentiable Pruning"
+        authors:
+          - "*John Doe*"
+          - "James Liu"
+        date: 2022-12
+        doi: 10.1234/neurips.2022.5678
+        journal: NeurIPS 2022, Spotlight
+      - title: "Multi-Agent Reinforcement Learning with Emergent Communication"
+        authors:
+          - "*John Doe*"
+          - "Maria Garcia"
+          - "Tom Anderson"
+        date: 2022-07
+        doi: 10.1234/icml.2022.9012
+        journal: ICML 2022
+      - title: "On-Device Model Compression via Learned Quantization"
+        authors:
+          - "*John Doe*"
+          - "Kevin Wu"
+        date: 2021-05
+        doi: 10.1234/iclr.2021.3456
+        journal: ICLR 2021, Best Paper Award
+
+    selected_honors:
+      - bullet: "MIT Technology Review 35 Under 35 Innovators (2024)"
+      - bullet: "Forbes 30 Under 30 in Enterprise Technology (2024)"
+      - bullet: "ACM Doctoral Dissertation Award Honorable Mention (2023)"
+      - bullet: "Google PhD Fellowship in Machine Learning (2020 – 2023)"
+      - bullet: "Fulbright Scholarship for Graduate Studies (2018)"
+
+    skills:
+      - label: Languages
+        details: Python, C++, CUDA, Rust, Julia
+      - label: ML Frameworks
+        details: PyTorch, JAX, TensorFlow, Triton, ONNX
+      - label: Infrastructure
+        details: Kubernetes, Ray, distributed training, AWS, GCP
+      - label: Research Areas
+        details: Neural architecture search, model compression, efficient inference, multi-agent RL
+
+    patents:
+      - number: "Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)"
+      - number: "Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)"
+      - number: "Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)"
+
+    invited_talks:
+      - reversed_number: "Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)"
+      - reversed_number: "Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)"
+      - reversed_number: "From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)"
+      - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"

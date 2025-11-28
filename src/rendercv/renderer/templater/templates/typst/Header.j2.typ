@@ -1,7 +1,7 @@
 = {{ cv.name }}
 
 {% if cv.headline %}
-  {{ cv.headline }}
+  #headline([{{ cv.headline }}])
   
 {% endif %}
 #connections(

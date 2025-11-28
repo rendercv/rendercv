@@ -18,6 +18,7 @@ typst_dimension_adapter = pydantic.TypeAdapter(TypstDimension)
         "2ex",
         "100pt",
         "0.1cm",
+        "-1cm",
     ],
 )
 def test_valid_typst_dimensions(valid_dimension):
@@ -36,7 +37,6 @@ def test_valid_typst_dimensions(valid_dimension):
         "1px",
         "1.em",
         "1.5rem",
-        "-1cm",
         "cm1",
         "",
     ],

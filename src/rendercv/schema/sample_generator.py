@@ -1,6 +1,7 @@
 import io
 import json
 import pathlib
+import re
 from typing import overload
 
 import ruamel.yaml
@@ -55,7 +56,7 @@ def create_sample_rendercv_pydantic_model(
         A sample data model.
     """
     sample_content = pathlib.Path(__file__).parent / "sample_content.yaml"
-    sample_content_dictionary = read_yaml(sample_content)
+    sample_content_dictionary = read_yaml(sample_content)["cv"]
     cv = Cv(**sample_content_dictionary)
 
     name = name.encode().decode("unicode-escape")
@@ -71,17 +72,17 @@ def create_sample_rendercv_pydantic_model(
 def create_sample_yaml_input_file(
     *,
     file_path: None,
-    name: str,
-    theme: str,
-    locale: str,
+    name: str = "John Doe",
+    theme: str = "classic",
+    locale: str = "english",
 ) -> str: ...
 @overload
 def create_sample_yaml_input_file(
     *,
     file_path: pathlib.Path,
-    name: str,
-    theme: str,
-    locale: str,
+    name: str = "John Doe",
+    theme: str = "classic",
+    locale: str = "english",
 ) -> None: ...
 def create_sample_yaml_input_file(
     *,
@@ -143,6 +144,9 @@ def create_sample_yaml_input_file(
     data_model_as_dictionary = json.loads(data_model_as_json)
 
     yaml_string = dictionary_to_yaml(data_model_as_dictionary)
+
+    # Process for nested bullets:
+    yaml_string = re.sub(r"(?<! ) - (?! )", "\n            - ", yaml_string)
 
     # Add a comment to the first line, for JSON Schema:
     comment_to_add = (

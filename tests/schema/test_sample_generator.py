@@ -49,7 +49,7 @@ def test_create_sample_rendercv_pydantic_model_invalid_theme_or_locale():
 def test_create_a_sample_yaml_input_file(tmp_path, theme, locale):
     dummy_file_path = tmp_path / "dummy.yaml"
     yaml_contents = create_sample_yaml_input_file(
-        dummy_file_path, theme=theme, locale=locale
+        file_path=dummy_file_path, theme=theme, locale=locale
     )
 
     assert dummy_file_path.exists()

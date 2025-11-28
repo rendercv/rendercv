@@ -28,14 +28,19 @@ design:
   section_titles:
     type: with_full_line
     space_above: "0.55cm"
+    space_below: "0.2cm"
   sections:
-    space_between_entries: "0.4cm"
+    space_between_regular_entries: "0.4cm"
+    space_between_text_entries: "0cm"
   entries:
     side_space: "0cm"
     highlights:
+      bullet: ●
+      nested_bullet: ●
       space_left: "0cm"
-      space_between_bullet_and_text: "0.3em"
-      space_between_items: "0.19cm"
+      space_above: 0.05cm
+      space_between_items: 0cm
+      space_between_bullet_and_text: 0.3em
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"

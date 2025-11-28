@@ -9,7 +9,7 @@ from ...pydantic_error_handling import CustomPydanticErrorTypes
 
 def validate_typst_dimension(dimension: str) -> str:
     
-    if not re.fullmatch(r"\d+(?:\.\d+)?(cm|in|pt|mm|ex|em)", dimension):
+    if not re.fullmatch(r"-?\d+(?:\.\d+)?(cm|in|pt|mm|ex|em)", dimension):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
             "The value must be a number followed by a unit (cm, in, pt, mm, ex, em)."

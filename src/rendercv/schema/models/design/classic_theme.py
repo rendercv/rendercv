@@ -7,7 +7,7 @@ from rendercv.schema.models.design.color import Color
 from rendercv.schema.models.design.font_family import FontFamily as FontFamilyType
 from rendercv.schema.models.design.typst_dimension import TypstDimension
 
-type BulletPoint = Literal["•", "◦", "-", "◆", "★", "■", "—", "○"]
+type BulletPoint = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
 type Alignment = Literal["left", "center", "right"]
 
 length_common_description = (
@@ -38,6 +38,14 @@ class Page(BaseModelWithoutExtraKeys):
     right_margin: TypstDimension = pydantic.Field(
         default="2cm",
         description=length_common_description + " The default value is `2cm`.",
+    )
+    show_footer: bool = pydantic.Field(
+        default=True,
+        description="Whether to show the footer. The default value is `true`.",
+    )
+    show_top_note: bool = pydantic.Field(
+        default=True,
+        description="Whether to show the top note. The default value is `true`.",
     )
 
 
@@ -144,7 +152,7 @@ class FontSize(BaseModelWithoutExtraKeys):
         description="The font size for the name. The default value is `30pt`.",
     )
     headline: TypstDimension = pydantic.Field(
-        default="20pt",
+        default="10pt",
         description="The font size for the headline. The default value is `20pt`.",
     )
     connections: TypstDimension = pydantic.Field(
@@ -377,12 +385,20 @@ class Sections(BaseModelWithoutExtraKeys):
             " start on a new page if it doesn't fit. The default value is `true`."
         ),
     )
-    space_between_entries: TypstDimension = pydantic.Field(
+    space_between_regular_entries: TypstDimension = pydantic.Field(
         default="1.2em",
         description=(
             "Vertical space between separate entries in a section. "
             + length_common_description
             + " The default value is `1.2em`."
+        ),
+    )
+    space_between_text_entries: TypstDimension = pydantic.Field(
+        default="0.5cm",
+        description=(
+            "Vertical space between separate text entries in a section. "
+            + length_common_description
+            + " The default value is `0.5cm`."
         ),
     )
     show_time_spans_in: list[str] = pydantic.Field(
@@ -397,6 +413,14 @@ class Sections(BaseModelWithoutExtraKeys):
 
 
 class Summary(BaseModelWithoutExtraKeys):
+    space_above: TypstDimension = pydantic.Field(
+        default="0cm",
+        description=(
+            "Space above the summary text. "
+            + length_common_description
+            + " The default value is `0cm`."
+        ),
+    )
     space_left: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
@@ -416,14 +440,14 @@ class Highlights(BaseModelWithoutExtraKeys):
         ),
     )
     nested_bullet: BulletPoint = pydantic.Field(
-        default="-",
+        default="•",
         description=(
             "The bullet character for nested (sub-level) highlights. The default value"
             " is `-`."
         ),
     )
     space_left: TypstDimension = pydantic.Field(
-        default="0.4cm",
+        default="0.15cm",
         description=(
             "Left indentation for highlights. "
             + length_common_description
@@ -431,7 +455,7 @@ class Highlights(BaseModelWithoutExtraKeys):
         ),
     )
     space_above: TypstDimension = pydantic.Field(
-        default="0.25cm",
+        default="0cm",
         description=(
             "Space above the highlights section. "
             + length_common_description
@@ -439,7 +463,7 @@ class Highlights(BaseModelWithoutExtraKeys):
         ),
     )
     space_between_items: TypstDimension = pydantic.Field(
-        default="0.25cm",
+        default="0cm",
         description=(
             "Vertical space between each highlight bullet point. "
             + length_common_description
@@ -482,7 +506,7 @@ class Entries(BaseModelWithoutExtraKeys):
         ),
     )
     allow_page_break: bool = pydantic.Field(
-        default=True,
+        default=False,
         description=(
             "Whether to allow page breaks within individual entries. If false, each"
             " entry will move to a new page if it doesn't fit. The default value is"

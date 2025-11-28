@@ -69,6 +69,7 @@
     },
     "BulletPoint": {
       "enum": [
+        "●",
         "•",
         "◦",
         "-",
@@ -395,7 +396,7 @@
           "title": "Present",
           "type": "string"
         },
-        "abbreviations_for_months": {
+        "month_abbreviations": {
           "default": [
             "Jan",
             "Feb",
@@ -416,10 +417,10 @@
           },
           "maxItems": 12,
           "minItems": 12,
-          "title": "Abbreviations For Months",
+          "title": "Month Abbreviations",
           "type": "array"
         },
-        "full_names_of_months": {
+        "month_names": {
           "default": [
             "January",
             "February",
@@ -440,7 +441,7 @@
           },
           "maxItems": 12,
           "minItems": 12,
-          "title": "Full Names Of Months",
+          "title": "Month Names",
           "type": "array"
         }
       },
@@ -586,7 +587,7 @@
           "title": "Present",
           "type": "string"
         },
-        "abbreviations_for_months": {
+        "month_abbreviations": {
           "default": [
             "1月",
             "2月",
@@ -605,10 +606,10 @@
           "items": {
             "type": "string"
           },
-          "title": "Abbreviations For Months",
+          "title": "Month Abbreviations",
           "type": "array"
         },
-        "full_names_of_months": {
+        "month_names": {
           "default": [
             "一月",
             "二月",
@@ -627,7 +628,7 @@
           "items": {
             "type": "string"
           },
-          "title": "Full Names Of Months",
+          "title": "Month Names",
           "type": "array"
         }
       },
@@ -728,6 +729,18 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "2cm",
           "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+        },
+        "show_footer": {
+          "default": true,
+          "description": "Whether to show the footer. The default value is `true`.",
+          "title": "Show Footer",
+          "type": "boolean"
+        },
+        "show_top_note": {
+          "default": true,
+          "description": "Whether to show the top note. The default value is `true`.",
+          "title": "Show Top Note",
+          "type": "boolean"
         }
       },
       "title": "Page",
@@ -767,28 +780,28 @@
         "typst_path": {
           "$ref": "#/$defs/PlannedInputRelativePath",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.typ",
-          "description": "Path to the output Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Path to the output Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedInputRelativePath",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf",
-          "description": "Path to the output PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Path to the output PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedInputRelativePath",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.md",
-          "description": "Path to the output Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
+          "description": "Path to the output Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedInputRelativePath",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.html",
-          "description": "Path to the output HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Path to the output HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedInputRelativePath",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.png",
-          "description": "Path to the output PNG file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- FULL_MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Path to the output PNG file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_markdown": {
           "default": false,
@@ -993,6 +1006,11 @@
     "Summary": {
       "additionalProperties": false,
       "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+        },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
@@ -1048,7 +1066,7 @@
           "title": "Present",
           "type": "string"
         },
-        "abbreviations_for_months": {
+        "month_abbreviations": {
           "default": [
             "Oca",
             "Şub",
@@ -1067,10 +1085,10 @@
           "items": {
             "type": "string"
           },
-          "title": "Abbreviations For Months",
+          "title": "Month Abbreviations",
           "type": "array"
         },
-        "full_names_of_months": {
+        "month_names": {
           "default": [
             "Ocak",
             "Şubat",
@@ -1089,7 +1107,7 @@
           "items": {
             "type": "string"
           },
-          "title": "Full Names Of Months",
+          "title": "Month Names",
           "type": "array"
         }
       },
@@ -1695,13 +1713,13 @@
           "type": "boolean"
         },
         "headline": {
-          "default": true,
+          "default": false,
           "description": "Whether to make the headline bold. The default value is `true`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
-          "default": true,
+          "default": false,
           "description": "Whether to make connections bold. The default value is `true`.",
           "title": "Connections",
           "type": "boolean"
@@ -1726,13 +1744,13 @@
           "type": "boolean"
         },
         "headline": {
-          "default": true,
+          "default": false,
           "description": "Whether to make the headline bold. The default value is `true`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
-          "default": true,
+          "default": false,
           "description": "Whether to make connections bold. The default value is `true`.",
           "title": "Connections",
           "type": "boolean"
@@ -1757,13 +1775,13 @@
           "type": "boolean"
         },
         "headline": {
-          "default": true,
+          "default": false,
           "description": "Whether to make the headline bold. The default value is `true`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
-          "default": true,
+          "default": false,
           "description": "Whether to make connections bold. The default value is `true`.",
           "title": "Connections",
           "type": "boolean"
@@ -1788,13 +1806,13 @@
           "type": "boolean"
         },
         "headline": {
-          "default": true,
+          "default": false,
           "description": "Whether to make the headline bold. The default value is `true`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
-          "default": true,
+          "default": false,
           "description": "Whether to make connections bold. The default value is `true`.",
           "title": "Connections",
           "type": "boolean"
@@ -2114,10 +2132,10 @@
           "title": "Phone Number Format",
           "type": "string"
         },
-        "hyperlinked": {
+        "hyperlink": {
           "default": true,
           "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
-          "title": "Hyperlinked",
+          "title": "Hyperlink",
           "type": "boolean"
         },
         "show_icons": {
@@ -2161,10 +2179,10 @@
           "title": "Phone Number Format",
           "type": "string"
         },
-        "hyperlinked": {
+        "hyperlink": {
           "default": true,
           "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
-          "title": "Hyperlinked",
+          "title": "Hyperlink",
           "type": "boolean"
         },
         "show_icons": {
@@ -2326,7 +2344,7 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**\n*DEGREE in AREA*\nSUMMARY\nHIGHLIGHTS",
+          "default": "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS",
           "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
@@ -2373,7 +2391,7 @@
           "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
-          "default": true,
+          "default": false,
           "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
@@ -2415,7 +2433,7 @@
           "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
-          "default": true,
+          "default": false,
           "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
@@ -2457,7 +2475,7 @@
           "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
-          "default": true,
+          "default": false,
           "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
@@ -2499,7 +2517,7 @@
           "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.4cm`. The default value is `0.4cm`."
         },
         "allow_page_break": {
-          "default": true,
+          "default": false,
           "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
@@ -2541,7 +2559,7 @@
           "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
-          "default": true,
+          "default": false,
           "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
@@ -2834,7 +2852,7 @@
         },
         "headline": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "20pt",
+          "default": "10pt",
           "description": "The font size for the headline. The default value is `20pt`."
         },
         "connections": {
@@ -2866,7 +2884,7 @@
         },
         "headline": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "20pt",
+          "default": "10pt",
           "description": "The font size for the headline. The default value is `20pt`."
         },
         "connections": {
@@ -2898,7 +2916,7 @@
         },
         "headline": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "20pt",
+          "default": "10pt",
           "description": "The font size for the headline. The default value is `20pt`."
         },
         "connections": {
@@ -3069,22 +3087,22 @@
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "-",
+          "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
+          "default": "0.15cm",
           "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -3106,22 +3124,22 @@
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "-",
+          "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -3143,23 +3161,23 @@
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "-",
+          "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.19cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.19cm`."
+          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
@@ -3180,13 +3198,13 @@
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "-",
+          "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
@@ -3196,7 +3214,7 @@
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.19cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.19cm`."
+          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
@@ -3217,22 +3235,22 @@
         },
         "nested_bullet": {
           "$ref": "#/$defs/BulletPoint",
-          "default": "-",
+          "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
+          "default": "0.15cm",
           "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -3527,8 +3545,8 @@
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "default": "0.2cm",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
         }
       },
       "title": "SectionTitles",
@@ -3611,10 +3629,15 @@
           "title": "Allow Page Break",
           "type": "boolean"
         },
-        "space_between_entries": {
+        "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
           "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+        },
+        "space_between_text_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5cm",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -3646,10 +3669,15 @@
           "title": "Allow Page Break",
           "type": "boolean"
         },
-        "space_between_entries": {
+        "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
           "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "space_between_text_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5cm",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -3681,10 +3709,15 @@
           "title": "Allow Page Break",
           "type": "boolean"
         },
-        "space_between_entries": {
+        "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "default": "1.2em",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+        },
+        "space_between_text_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5cm",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -3732,6 +3765,12 @@
           "default": "START_DATE – END_DATE",
           "description": "Template for date ranges. Available placeholders: START_DATE, END_DATE. The default value is `START_DATE – END_DATE`.",
           "title": "Date Range",
+          "type": "string"
+        },
+        "time_span": {
+          "default": "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+          "description": "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS, HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.",
+          "title": "Time Span",
           "type": "string"
         },
         "one_line_entry": {
@@ -3785,6 +3824,12 @@
           "title": "Date Range",
           "type": "string"
         },
+        "time_span": {
+          "default": "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+          "description": "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS, HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.",
+          "title": "Time Span",
+          "type": "string"
+        },
         "one_line_entry": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__OneLineEntry",
           "description": "Template for one-line entries."
@@ -3834,6 +3879,12 @@
           "default": "START_DATE – END_DATE",
           "description": "Template for date ranges. Available placeholders: START_DATE, END_DATE. The default value is `START_DATE – END_DATE`.",
           "title": "Date Range",
+          "type": "string"
+        },
+        "time_span": {
+          "default": "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+          "description": "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS, HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.",
+          "title": "Time Span",
           "type": "string"
         },
         "one_line_entry": {
@@ -3887,6 +3938,12 @@
           "title": "Date Range",
           "type": "string"
         },
+        "time_span": {
+          "default": "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+          "description": "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS, HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.",
+          "title": "Time Span",
+          "type": "string"
+        },
         "one_line_entry": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__OneLineEntry",
           "description": "Template for one-line entries."
@@ -3936,6 +3993,12 @@
           "default": "START_DATE – END_DATE",
           "description": "Template for date ranges. Available placeholders: START_DATE, END_DATE. The default value is `START_DATE – END_DATE`.",
           "title": "Date Range",
+          "type": "string"
+        },
+        "time_span": {
+          "default": "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+          "description": "Template for time spans. Available placeholders: HOW_MANY_YEARS, YEARS, HOW_MANY_MONTHS, MONTHS. The default value is `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.",
+          "title": "Time Span",
           "type": "string"
         },
         "one_line_entry": {
