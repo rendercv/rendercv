@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
+# yaml-language-server: $schema=./schema.json
 cv:
   name: John Doe
   headline:
@@ -23,8 +23,8 @@ cv:
         location: Princeton, NJ
         summary:
         highlights:
-          - "Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment"
-          - "Advisor: Prof. Sanjeev Arora"
+          - 'Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment'
+          - 'Advisor: Prof. Sanjeev Arora'
           - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
         institution: Princeton University
         area: Computer Science
@@ -35,7 +35,7 @@ cv:
         location: Istanbul, Türkiye
         summary:
         highlights:
-          - "GPA: 3.97/4.00, Valedictorian"
+          - 'GPA: 3.97/4.00, Valedictorian'
           - Fulbright Scholarship recipient for graduate studies
         institution: Boğaziçi University
         area: Computer Engineering
@@ -105,8 +105,8 @@ cv:
         highlights:
           - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
           - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
-        name: "[FlashInfer](https://github.com/)"
-      - date: "2021"
+        name: '[FlashInfer](https://github.com/)'
+      - date: '2021'
         start_date:
         end_date:
         location:
@@ -114,12 +114,12 @@ cv:
         highlights:
           - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
           - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
-        name: "[NeuralPrune](https://github.com/)"
+        name: '[NeuralPrune](https://github.com/)'
     publications:
       - date: 2023-07
-        title: "Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models"
+        title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
         authors:
-          - "*John Doe*"
+          - '*John Doe*'
           - Sarah Williams
           - David Park
         doi: 10.1234/neurips.2023.1234
@@ -128,16 +128,16 @@ cv:
       - date: 2022-12
         title: Neural Architecture Search via Differentiable Pruning
         authors:
-          - "*John Doe*"
           - James Liu
+          - '*John Doe*'
         doi: 10.1234/neurips.2022.5678
         url:
         journal: NeurIPS 2022, Spotlight
       - date: 2022-07
         title: Multi-Agent Reinforcement Learning with Emergent Communication
         authors:
-          - "*John Doe*"
           - Maria Garcia
+          - '*John Doe*'
           - Tom Anderson
         doi: 10.1234/icml.2022.9012
         url:
@@ -145,7 +145,7 @@ cv:
       - date: 2021-05
         title: On-Device Model Compression via Learned Quantization
         authors:
-          - "*John Doe*"
+          - '*John Doe*'
           - Kevin Wu
         doi: 10.1234/iclr.2021.3456
         url:
@@ -172,16 +172,16 @@ cv:
     invited_talks:
       - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
       - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
-      - reversed_number: "From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)"
+      - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
 design:
-  theme: classic
+  theme: engineeringclassic
   page:
     size: us-letter
-    top_margin: 2cm
-    bottom_margin: 2cm
-    left_margin: 2cm
-    right_margin: 2cm
+    top_margin: 0.7in
+    bottom_margin: 0.7in
+    left_margin: 0.7in
+    right_margin: 0.7in
     show_footer: true
     show_top_note: true
   colors:
@@ -198,11 +198,11 @@ design:
     alignment: justified
     date_and_location_column_alignment: right
     font_family:
-      body: Source Sans 3
-      name: Source Sans 3
+      body: Raleway
+      name: Raleway
       headline: Source Sans 3
-      connections: Source Sans 3
-      section_titles: Source Sans 3
+      connections: Raleway
+      section_titles: Raleway
     font_size:
       body: 10pt
       name: 30pt
@@ -215,15 +215,15 @@ design:
       connections: false
       section_titles: false
     bold:
-      name: true
+      name: false
       headline: false
       connections: false
-      section_titles: true
+      section_titles: false
   links:
     underline: false
-    show_external_link_icon: true
+    show_external_link_icon: false
   header:
-    alignment: center
+    alignment: left
     photo_width: 3.5cm
     space_below_name: 0.7cm
     space_below_headline: 0.7cm
@@ -233,7 +233,7 @@ design:
       hyperlink: true
       show_icons: true
       display_urls_instead_of_usernames: false
-      separator: ""
+      separator: ''
       space_between_connections: 0.5cm
   section_titles:
     type: with_partial_line
@@ -243,7 +243,7 @@ design:
   sections:
     allow_page_break: true
     space_between_regular_entries: 1.2em
-    space_between_text_based_entries: 0.5cm
+    space_between_text_based_entries: 0.3em
     show_time_spans_in: []
   entries:
     date_and_location_width: 4.15cm
@@ -257,44 +257,38 @@ design:
     highlights:
       bullet: •
       nested_bullet: •
-      space_left: 0.15cm
+      space_left: 0cm
       space_above: 0cm
       space_between_items: 0cm
       space_between_bullet_and_text: 0.5em
   templates:
     footer: NAME
-      - PAGE_NUMBER/TOTAL_PAGES
+            - PAGE_NUMBER/TOTAL_PAGES
     top_note: LAST_UPDATED CURRENT_DATE
     single_date: MONTH_ABBREVIATION YEAR
     date_range: START_DATE – END_DATE
     time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
     one_line_entry:
-      main_column: "**LABEL:** DETAILS"
+      main_column: '**LABEL:** DETAILS'
     education_entry:
       main_column: |-
-        **INSTITUTION**, AREA
+        **INSTITUTION**, DEGREE in AREA -- LOCATION
         SUMMARY
         HIGHLIGHTS
-      degree_column: "**DEGREE**"
-      date_and_location_column: |-
-        LOCATION
-        DATE
+      degree_column:
+      date_and_location_column: DATE
     normal_entry:
       main_column: |-
-        **NAME**
+        **NAME** -- **LOCATION**
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column: |-
-        LOCATION
-        DATE
+      date_and_location_column: DATE
     experience_entry:
       main_column: |-
-        **COMPANY**, POSITION
+        **POSITION**, COMPANY -- LOCATION
         SUMMARY
         HIGHLIGHTS
-      date_and_location_column: |-
-        LOCATION
-        DATE
+      date_and_location_column: DATE
     publication_entry:
       main_column: |-
         **TITLE**
@@ -336,5 +330,5 @@ locale:
     - November
     - December
 settings:
-  current_date: "2025-11-28"
+  current_date: '2025-11-28'
   bold_keywords: []

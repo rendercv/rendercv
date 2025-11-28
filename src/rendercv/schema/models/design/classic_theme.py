@@ -24,19 +24,19 @@ class Page(BaseModelWithoutExtraKeys):
         ),
     )
     top_margin: TypstDimension = pydantic.Field(
-        default="2cm",
+        default="0.7in",
         description=length_common_description + " The default value is `2cm`.",
     )
     bottom_margin: TypstDimension = pydantic.Field(
-        default="2cm",
+        default="0.7in",
         description=length_common_description + " The default value is `2cm`.",
     )
     left_margin: TypstDimension = pydantic.Field(
-        default="2cm",
+        default="0.7in",
         description=length_common_description + " The default value is `2cm`.",
     )
     right_margin: TypstDimension = pydantic.Field(
-        default="2cm",
+        default="0.7in",
         description=length_common_description + " The default value is `2cm`.",
     )
     show_footer: bool = pydantic.Field(
@@ -394,11 +394,11 @@ class Sections(BaseModelWithoutExtraKeys):
         ),
     )
     space_between_text_based_entries: TypstDimension = pydantic.Field(
-        default="0.5cm",
+        default="0.3em",
         description=(
             "Vertical space between separate text entries in a section. "
             + length_common_description
-            + " The default value is `0.5cm`."
+            + " The default value is `0.3em`."
         ),
     )
     show_time_spans_in: list[str] = pydantic.Field(

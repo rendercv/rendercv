@@ -4,9 +4,9 @@ cv:
   headline:
   location: San Francisco, CA
   email: john.doe@email.com
-  phone: 
-  website: https://johndoe.ai
   photo:
+  phone:
+  website: https://johndoe.ai/
   social_networks:
     - network: LinkedIn
       username: johndoe
@@ -14,130 +14,148 @@ cv:
       username: johndoe
   sections:
     summary:
-      - "AI researcher and entrepreneur with a track record of publishing at top venues (NeurIPS, ICML, ICLR) and translating research into products used by millions."
-      - "Currently building [Nexus AI](https://nexusai.com), a VC-backed infrastructure company for efficient large model deployment."
-
+      - AI researcher and entrepreneur with a track record of publishing at top venues (NeurIPS, ICML, ICLR) and translating research into products used by millions.
+      - Currently building [Nexus AI](https://nexusai.com), a VC-backed infrastructure company for efficient large model deployment.
     education:
-      - institution: Princeton University
-        area: Computer Science
-        degree: PhD
+      - date:
         start_date: 2018-09
         end_date: 2023-05
         location: Princeton, NJ
+        summary:
         highlights:
           - "Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment"
           - "Advisor: Prof. Sanjeev Arora"
-          - "NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)"
-      - institution: Boğaziçi University
-        area: Computer Engineering
-        degree: BS
+          - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
+        institution: Princeton University
+        area: Computer Science
+        degree: PhD
+      - date:
         start_date: 2014-09
         end_date: 2018-06
         location: Istanbul, Türkiye
+        summary:
         highlights:
           - "GPA: 3.97/4.00, Valedictorian"
-          - "Fulbright Scholarship recipient for graduate studies"
-
+          - Fulbright Scholarship recipient for graduate studies
+        institution: Boğaziçi University
+        area: Computer Engineering
+        degree: BS
     experience:
-      - company: Nexus AI
-        position: Co-Founder & CTO
+      - date:
         start_date: 2023-06
         end_date: present
         location: San Francisco, CA
+        summary:
         highlights:
           - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97% uptime
           - Raised $18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
           - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
           - Developed proprietary inference optimization reducing latency by 73% compared to baseline
-      - company: NVIDIA Research
-        position: Research Intern
+        company: Nexus AI
+        position: Co-Founder & CTO
+      - date:
         start_date: 2022-05
         end_date: 2022-08
         location: Santa Clara, CA
+        summary:
         highlights:
           - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
           - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
-      - company: Google DeepMind
+        company: NVIDIA Research
         position: Research Intern
+      - date:
         start_date: 2021-05
         end_date: 2021-08
         location: London, UK
+        summary:
         highlights:
           - Developed reinforcement learning algorithms for multi-agent coordination
-          - Published research at top-tier venues with significant academic impact - ICML 2022 main conference paper, cited 340+ times within two years
+          - Published research at top-tier venues with significant academic impact
+            - ICML 2022 main conference paper, cited 340+ times within two years
             - NeurIPS 2022 workshop paper on emergent communication protocols
             - Invited journal extension in JMLR (2023)
-      - company: Apple ML Research
+        company: Google DeepMind
         position: Research Intern
+      - date:
         start_date: 2020-05
         end_date: 2020-08
         location: Cupertino, CA
+        summary:
         highlights:
           - Created on-device neural network compression pipeline deployed across 50M+ devices
           - Filed 2 patents on efficient model quantization techniques for edge inference
-      - company: Microsoft Research
+        company: Apple ML Research
         position: Research Intern
+      - date:
         start_date: 2019-05
         end_date: 2019-08
         location: Redmond, WA
+        summary:
         highlights:
           - Implemented novel self-supervised learning framework for low-resource language modeling
           - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
-
+        company: Microsoft Research
+        position: Research Intern
     projects:
-      - name: "[FlashInfer](https://github.com/)"
+      - date:
         start_date: 2023-01
         end_date: present
+        location:
         summary: Open-source library for high-performance LLM inference kernels
         highlights:
           - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
           - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
-      - name: "[NeuralPrune](https://github.com/)"
-        date: "2021"
+        name: "[FlashInfer](https://github.com/)"
+      - date: "2021"
+        start_date:
+        end_date:
+        location:
         summary: Automated neural network pruning toolkit with differentiable masks
         highlights:
           - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
           - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
-
+        name: "[NeuralPrune](https://github.com/)"
     publications:
-      - title: "Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models"
+      - date: 2023-07
+        title: "Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models"
         authors:
           - "*John Doe*"
-          - "Sarah Williams"
-          - "David Park"
-        date: 2023-07
+          - Sarah Williams
+          - David Park
         doi: 10.1234/neurips.2023.1234
+        url:
         journal: NeurIPS 2023
-      - title: "Neural Architecture Search via Differentiable Pruning"
+      - date: 2022-12
+        title: Neural Architecture Search via Differentiable Pruning
         authors:
+          - James Liu
           - "*John Doe*"
-          - "James Liu"
-        date: 2022-12
         doi: 10.1234/neurips.2022.5678
+        url:
         journal: NeurIPS 2022, Spotlight
-      - title: "Multi-Agent Reinforcement Learning with Emergent Communication"
+      - date: 2022-07
+        title: Multi-Agent Reinforcement Learning with Emergent Communication
         authors:
+          - Maria Garcia
           - "*John Doe*"
-          - "Maria Garcia"
-          - "Tom Anderson"
-        date: 2022-07
+          - Tom Anderson
         doi: 10.1234/icml.2022.9012
+        url:
         journal: ICML 2022
-      - title: "On-Device Model Compression via Learned Quantization"
+      - date: 2021-05
+        title: On-Device Model Compression via Learned Quantization
         authors:
           - "*John Doe*"
-          - "Kevin Wu"
-        date: 2021-05
+          - Kevin Wu
         doi: 10.1234/iclr.2021.3456
+        url:
         journal: ICLR 2021, Best Paper Award
-
     selected_honors:
-      - bullet: "MIT Technology Review 35 Under 35 Innovators (2024)"
-      - bullet: "Forbes 30 Under 30 in Enterprise Technology (2024)"
-      - bullet: "ACM Doctoral Dissertation Award Honorable Mention (2023)"
-      - bullet: "Google PhD Fellowship in Machine Learning (2020 – 2023)"
-      - bullet: "Fulbright Scholarship for Graduate Studies (2018)"
-
+      - bullet: MIT Technology Review 35 Under 35 Innovators (2024)
+      - bullet: Forbes 30 Under 30 in Enterprise Technology (2024)
+      - bullet: ACM Doctoral Dissertation Award Honorable Mention (2023)
+      - bullet: Google PhD Fellowship in Machine Learning (2020 – 2023)
+      - bullet: Fulbright Scholarship for Graduate Studies (2018)
     skills:
       - label: Languages
         details: Python, C++, CUDA, Rust, Julia
@@ -147,14 +165,12 @@ cv:
         details: Kubernetes, Ray, distributed training, AWS, GCP
       - label: Research Areas
         details: Neural architecture search, model compression, efficient inference, multi-agent RL
-
     patents:
-      - number: "Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)"
-      - number: "Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)"
-      - number: "Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)"
-
+      - number: Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
+      - number: Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
+      - number: Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
     invited_talks:
-      - reversed_number: "Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)"
-      - reversed_number: "Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)"
+      - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
+      - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
       - reversed_number: "From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)"
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
