@@ -100,6 +100,7 @@ from rendercv.renderer.templater.markdown_parser import (
             "$$a=5_4^3 % & #$$ # $$aaaa ___ &&$$",
             "$a=5_4^3 % & #$ \\# $aaaa ___ &&$",
         ),
+        ("60%", "60\\%"),
         (
             (
                 "!!! summary\n"

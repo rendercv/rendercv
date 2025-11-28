@@ -187,7 +187,7 @@ def process_summary(summary: str) -> str:
     return f"!!! note\n{textwrap.indent(summary, '    ')}"
 
 
-unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_]+$")
+unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_%]+$")
 
 
 def clean_trailing_parts(text: str) -> str:

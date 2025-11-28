@@ -274,6 +274,7 @@ class TestRenderEntryTemplates:
         ("Ok..--", "Ok.."),  # trims only the trailing --
         ("(Test)]}", "(Test)]"),  # allowed chars kept
         ("Line!!***", "Line!!***"),  # trailing *** removed
+        ("Line!%", "Line!%"),
         ("Just fine!", "Just fine!"),
         ("EndsWithDash - ", "EndsWithDash"),
         ("***", "***"),  # remains
