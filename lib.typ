@@ -273,6 +273,8 @@
             ],
             [
               #main-column
+
+              #main-column-second-row
             ],
           )
         } else {
@@ -585,7 +587,7 @@
       [
         #if section-titles-type == "moderncv" [
           #grid(
-            columns: (entries-date-and-location-width + entries-space-between-columns, 1fr),
+            columns: (entries-date-and-location-width + entries-side-space, 1fr),
             column-gutter: entries-space-between-columns,
             align: (right, left),
             [

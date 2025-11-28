@@ -2,7 +2,7 @@
 design:
   theme: moderncv
   typography:
-    line_spacing: "0.6em"
+    line_spacing: 0.6em
     font_family:
       body: Fontin
       name: Fontin
@@ -10,8 +10,8 @@ design:
       connections: Fontin
       section_titles: Fontin
     font_size:
-      name: "25pt"
-      section_titles: "1.4em"
+      name: 25pt
+      section_titles: 1.4em
     bold:
       name: false
       section_titles: false
@@ -22,17 +22,17 @@ design:
     show_external_link_icon: false
   section_titles:
     type: moderncv
-    space_above: "0.55cm"
-    space_below: "0.3cm"
-    line_thickness: "0.15cm"
+    space_above: 0.1cm
+    space_below: 0.3cm
+    line_thickness: 0.15cm
   entries:
-    side_space: "0cm"
-    space_between_columns: "0.4cm"
+    side_space: 0cm
+    space_between_columns: 0.4cm
     highlights:
-      space_left: "0cm"
-      space_above: "0.25cm"
-      space_between_bullet_and_text: "0.3em"
-      space_between_items: "0.19cm"
+      space_left: 0cm
+      space_above: 0.15cm
+      space_between_bullet_and_text: 0.1cm
+      space_between_items: 0.19cm
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
