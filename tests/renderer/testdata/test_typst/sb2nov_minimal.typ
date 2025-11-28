@@ -60,7 +60,7 @@
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
-  sections-space-between-text-entries: 0.5cm,
+  sections-space-between-text-based-entries: 0.5cm,
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0.2cm,

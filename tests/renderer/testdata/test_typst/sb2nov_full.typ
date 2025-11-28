@@ -60,7 +60,7 @@
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
-  sections-space-between-text-entries: 0.5cm,
+  sections-space-between-text-based-entries: 0.5cm,
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0.2cm,
@@ -94,7 +94,7 @@
   [#link("https://imdb.com/name/nm0000001", icon: false, if-underline: false, if-color: false)[#connection-with-icon("imdb")[nm0000001]]],
   [#link("https://instagram.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("instagram")[johndoe]]],
   [#link("https://orcid.org/0000-0000-0000-0000", icon: false, if-underline: false, if-color: false)[#connection-with-icon("orcid")[0000-0000-0000-0000]]],
-  [#link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ", icon: false, if-underline: false, if-color: false)[#connection-with-icon("graduation-cap")[F8IyYrQAAAAJ]]],
+  [#link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ", icon: false, if-underline: false, if-color: false)[#connection-with-icon("graduation-cap")[Google Scholar]]],
   [#link("https://example.com/@johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("mastodon")[\@johndoe\@example.com]]],
   [#link("https://stackoverflow.com/users/12323/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("stack-overflow")[12323\/johndoe]]],
   [#link("https://gitlab.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("gitlab")[johndoe]]],
@@ -114,7 +114,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 == Publication Entries
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -142,7 +142,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -157,7 +157,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -172,7 +172,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -238,7 +238,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -253,7 +253,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -268,7 +268,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -334,7 +334,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
     
@@ -368,7 +368,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 == Experience Entries
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Software Engineer]
     
@@ -441,7 +441,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Software Engineer]
     
@@ -451,16 +451,12 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Software Engineer]
     
@@ -517,6 +513,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -525,8 +523,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -542,11 +538,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -595,6 +587,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -603,8 +597,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -620,11 +612,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -658,6 +646,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -666,8 +656,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -683,11 +671,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -729,11 +713,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -763,7 +743,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[Software Engineer]
     
@@ -773,11 +753,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -810,6 +786,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -819,8 +797,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -836,11 +812,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -873,6 +845,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -882,8 +856,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -899,11 +871,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -936,6 +904,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -945,13 +915,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -959,6 +923,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -968,8 +934,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -995,11 +959,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1017,6 +977,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1026,8 +988,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -1043,11 +1003,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1080,6 +1036,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1089,13 +1047,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1103,6 +1055,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1112,8 +1066,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1139,11 +1091,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1162,6 +1110,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -1170,13 +1120,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1185,6 +1129,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -1193,8 +1139,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1220,11 +1164,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1251,11 +1191,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1273,6 +1209,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1282,8 +1220,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
   ],
 )
 
@@ -1299,11 +1235,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1336,6 +1268,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1345,13 +1279,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1359,6 +1287,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1368,8 +1298,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1395,11 +1323,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1417,6 +1341,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1426,13 +1352,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1440,6 +1360,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1449,8 +1371,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1476,11 +1396,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1498,6 +1414,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1507,13 +1425,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1531,6 +1443,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1540,13 +1454,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1554,6 +1462,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1563,8 +1473,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1590,11 +1498,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1612,6 +1516,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1621,13 +1527,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1645,6 +1545,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1654,13 +1556,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1678,6 +1574,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1687,13 +1585,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -1701,6 +1593,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1710,8 +1604,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1737,11 +1629,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[Some Company]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1759,6 +1647,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1768,13 +1658,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1792,6 +1676,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1801,13 +1687,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1825,6 +1705,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[Software Engineer]
+    
+    #emph[Some Company]
     
   ],
   [
@@ -1834,13 +1716,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1859,6 +1735,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Software Engineer]
     
+    #emph[Some Company]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -1867,13 +1745,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[Some Company]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -1890,7 +1762,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 == Education Entries
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -1963,7 +1835,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -1973,16 +1845,12 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -2005,7 +1873,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -2052,6 +1920,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2060,8 +1930,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2077,11 +1945,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2145,6 +2009,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2153,8 +2019,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2170,11 +2034,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2223,6 +2083,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2231,8 +2093,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2248,11 +2108,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2309,11 +2165,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2358,7 +2210,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -2368,11 +2220,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -2387,7 +2235,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -2397,16 +2245,12 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -2447,6 +2291,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2456,8 +2302,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2473,11 +2317,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2525,6 +2365,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2534,8 +2376,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2551,11 +2391,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2603,6 +2439,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2612,13 +2450,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2626,6 +2458,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2635,8 +2469,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -2653,6 +2485,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2662,8 +2496,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2679,11 +2511,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -2710,11 +2538,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2747,6 +2571,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -2756,8 +2582,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2773,11 +2597,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2826,6 +2646,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2834,13 +2656,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2849,6 +2665,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2857,8 +2675,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -2876,6 +2692,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2884,8 +2702,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -2901,11 +2717,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -2932,11 +2744,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2970,6 +2778,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -2978,13 +2788,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -2993,6 +2797,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3001,8 +2807,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3020,6 +2824,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3028,8 +2834,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -3045,11 +2849,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3076,11 +2876,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3122,11 +2918,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3153,11 +2945,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3187,7 +2975,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#education-entry(
+  #education-entry(
   [
     #strong[Boğaziçi University]
     
@@ -3197,11 +2985,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3219,6 +3003,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3228,8 +3014,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -3245,11 +3029,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3298,6 +3078,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3306,13 +3088,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3321,6 +3097,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3329,8 +3107,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3348,6 +3124,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3356,8 +3134,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -3373,11 +3149,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3404,11 +3176,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3442,21 +3210,17 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[Sept 2021]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3464,6 +3228,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3473,8 +3239,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3492,6 +3256,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3500,8 +3266,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -3517,11 +3281,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3548,11 +3308,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3586,21 +3342,17 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[Sept 2021]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3618,6 +3370,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3627,13 +3381,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3641,6 +3389,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3650,8 +3400,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3677,11 +3425,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3699,6 +3443,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3708,13 +3454,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3722,6 +3462,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3731,8 +3473,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3750,6 +3490,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3758,8 +3500,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
   ],
 )
 
@@ -3775,11 +3515,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3806,11 +3542,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3843,6 +3575,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -3852,13 +3586,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3877,6 +3605,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3885,13 +3615,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -3900,6 +3624,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3908,8 +3634,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3935,11 +3659,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3958,21 +3678,17 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[June 2020]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[June 2020]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -3991,6 +3707,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -3999,13 +3717,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4014,6 +3726,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4022,8 +3736,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4049,11 +3761,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4080,11 +3788,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4103,6 +3807,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4111,13 +3817,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4126,6 +3826,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+     #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4134,8 +3836,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4153,16 +3853,16 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
   ],
 )
 
@@ -4178,11 +3878,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4209,11 +3905,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4247,22 +3939,64 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[Sept 2021]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4282,36 +4016,13 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   [
-    #emph[Istanbul, Turkey]
-    
     #emph[Sept 2021]
     
   ],
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University]
-    
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4330,52 +4041,17 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University]
-    
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[Sept 2021]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4393,6 +4069,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4402,13 +4080,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4416,6 +4088,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4425,8 +4099,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4452,11 +4124,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4474,6 +4142,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4483,13 +4153,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4507,6 +4171,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+     #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4516,13 +4182,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-     #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4541,6 +4201,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4549,13 +4211,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4564,6 +4220,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4572,8 +4230,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4599,11 +4255,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4621,6 +4273,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4630,13 +4284,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4654,6 +4302,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4663,13 +4313,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4688,21 +4332,17 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
      #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
+  ],
+  [
+    #emph[Istanbul, Turkey]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    #emph[Sept 2021]
     
-    ]
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4720,6 +4360,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4729,13 +4371,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -4743,6 +4379,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4752,8 +4390,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -4779,11 +4415,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
     #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4801,6 +4433,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4810,13 +4444,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4834,6 +4462,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4843,13 +4473,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4867,6 +4491,8 @@ Third text with #link("https://example.com")[link] and more content.
 #education-entry(
   [
     #strong[Boğaziçi University]
+    
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
     
   ],
   [
@@ -4876,13 +4502,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4901,6 +4521,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[Boğaziçi University]
     
+    #emph[BS] #emph[in] #emph[Mechanical Engineering]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -4909,13 +4531,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #emph[BS] #emph[in] #emph[Mechanical Engineering]
-    
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -4932,7 +4548,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 == Normal Entries
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[My Project]
     
@@ -4995,7 +4611,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[My Project]
     
@@ -5003,16 +4619,12 @@ Third text with #link("https://example.com")[link] and more content.
   [
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[My Project]
     
@@ -5084,11 +4696,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5154,11 +4762,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5211,11 +4815,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5253,11 +4853,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5285,7 +4881,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[My Project]
     
@@ -5293,11 +4889,7 @@ Third text with #link("https://example.com")[link] and more content.
   [
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -5350,11 +4942,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5407,11 +4995,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5443,6 +5027,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -5451,12 +5037,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
   ],
 )
 
@@ -5464,16 +5044,16 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
       - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -5495,11 +5075,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -5539,11 +5115,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5574,6 +5146,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -5583,18 +5157,14 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
   ],
 )
 
 #regular-entry(
   [
     #strong[My Project]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
   ],
   [
@@ -5604,8 +5174,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
       - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -5627,11 +5195,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -5650,6 +5214,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -5658,12 +5224,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
   ],
 )
 
@@ -5671,6 +5231,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -5679,8 +5241,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
       - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -5702,11 +5262,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -5731,11 +5287,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -5775,11 +5327,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
 )
@@ -5810,6 +5358,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -5819,11 +5369,30 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
-    ]
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
   ],
 )
@@ -5831,6 +5400,100 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+  ],
+  [
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
+    
+  ],
+  [
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -5857,140 +5520,7 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
-  ],
-  [
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
-    
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
-    
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
-    
-  ],
-  [
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
-    
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6000,18 +5530,14 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
   ],
 )
 
 #regular-entry(
   [
     #strong[My Project]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
   ],
   [
@@ -6021,8 +5547,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
       - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6044,11 +5568,7 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
@@ -6066,6 +5586,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6075,12 +5597,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6097,6 +5613,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6106,12 +5624,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6128,6 +5640,8 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6137,11 +5651,30 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
     
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
-    ]
+  ],
+  [
+    #emph[Istanbul, Turkey]
+    
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
     
   ],
 )
@@ -6149,6 +5682,33 @@ Third text with #link("https://example.com")[link] and more content.
 #regular-entry(
   [
     #strong[My Project]
+    
+  ],
+  [
+    #emph[Sept 2021]
+    
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+    
+  ],
+)
+
+#regular-entry(
+  [
+    #strong[My Project]
+    
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6175,34 +5735,7 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
-  ],
-  [
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6212,12 +5745,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6235,36 +5762,7 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
-  ],
-  [
-    #emph[Istanbul, Turkey]
-    
-    #emph[Sept 2021]
-    
-  ],
-  main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-    
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project]
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
     
   ],
   [
@@ -6274,12 +5772,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6297,6 +5789,8 @@ Third text with #link("https://example.com")[link] and more content.
   [
     #strong[My Project]
     
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+    
   ],
   [
     #emph[Istanbul, Turkey]
@@ -6305,12 +5799,6 @@ Third text with #link("https://example.com")[link] and more content.
     
   ],
   main-column-second-row: [
-    #summary[
-    
-    Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-    
-    ]
-    
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
     
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -6357,7 +5845,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 == A Section & with \% Special Characters
 
-#regular-entry(
+  #regular-entry(
   [
     #strong[A Section & with \% Special Characters]
     
