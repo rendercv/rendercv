@@ -6,6 +6,7 @@ design:
     font_family:
       body: Fontin
       name: Fontin
+      headline: Fontin
       connections: Fontin
       section_titles: Fontin
     font_size:

@@ -1,10 +1,13 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
   theme: engineeringresumes
+  page:
+    show_footer: false
   typography:
     font_family:
       body: XCharter
       name: XCharter
+      headline: XCharter
       connections: XCharter
       section_titles: XCharter
     font_size:
@@ -27,11 +30,11 @@ design:
     show_external_link_icon: false
   section_titles:
     type: with_full_line
-    space_above: "0.55cm"
+    space_above: "0.5cm"
     space_below: "0.2cm"
   sections:
-    space_between_regular_entries: "0.4cm"
-    space_between_text_based_entries: "0cm"
+    space_between_regular_entries: "0.32cm"
+    space_between_text_based_entries: "0.1cm"
   entries:
     side_space: "0cm"
     highlights:

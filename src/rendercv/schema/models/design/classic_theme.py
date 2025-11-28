@@ -262,7 +262,7 @@ class Links(BaseModelWithoutExtraKeys):
         ),
     )
     show_external_link_icon: bool = pydantic.Field(
-        default=True,
+        default=False,
         description=(
             "Whether to show an external link icon next to URLs. The default value is"
             " `true`."

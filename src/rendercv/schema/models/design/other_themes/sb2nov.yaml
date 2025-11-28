@@ -5,6 +5,7 @@ design:
     font_family:
       body: New Computer Modern
       name: New Computer Modern
+      headline: New Computer Modern
       connections: New Computer Modern
       section_titles: New Computer Modern
   colors:

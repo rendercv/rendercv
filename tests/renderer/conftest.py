@@ -153,6 +153,7 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
     # Build CV with all sections
     cv = Cv(
         name="John Doe",
+        headline="AI Researcher and Entrepreneur",
         location="Istanbul, Turkey",
         email="john_doe@example.com",
         photo=profile_picture_path if profile_picture_path.exists() else None,

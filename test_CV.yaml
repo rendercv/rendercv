@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=./schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
 cv:
   name: John Doe
   headline:
@@ -175,22 +175,22 @@ cv:
       - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
 design:
-  theme: engineeringclassic
+  theme: engineeringresumes
   page:
     size: us-letter
     top_margin: 0.7in
     bottom_margin: 0.7in
     left_margin: 0.7in
     right_margin: 0.7in
-    show_footer: true
+    show_footer: false
     show_top_note: true
   colors:
     text: rgb(0, 0, 0)
-    name: rgb(0, 79, 144)
+    name: rgb(0, 0, 0)
     headline: rgb(0, 79, 144)
-    connections: rgb(0, 79, 144)
-    section_titles: rgb(0, 79, 144)
-    links: rgb(0, 79, 144)
+    connections: rgb(0, 0, 0)
+    section_titles: rgb(0, 0, 0)
+    links: rgb(0, 0, 0)
     footer: rgb(128, 128, 128)
     top_note: rgb(128, 128, 128)
   typography:
@@ -198,17 +198,17 @@ design:
     alignment: justified
     date_and_location_column_alignment: right
     font_family:
-      body: Raleway
-      name: Raleway
+      body: XCharter
+      name: XCharter
       headline: Source Sans 3
-      connections: Raleway
-      section_titles: Raleway
+      connections: XCharter
+      section_titles: XCharter
     font_size:
       body: 10pt
-      name: 30pt
+      name: 25pt
       headline: 10pt
       connections: 10pt
-      section_titles: 1.4em
+      section_titles: 1.2em
     small_caps:
       name: false
       headline: false
@@ -218,12 +218,12 @@ design:
       name: false
       headline: false
       connections: false
-      section_titles: false
+      section_titles: true
   links:
-    underline: false
+    underline: true
     show_external_link_icon: false
   header:
-    alignment: left
+    alignment: center
     photo_width: 3.5cm
     space_below_name: 0.7cm
     space_below_headline: 0.7cm
@@ -231,23 +231,23 @@ design:
     connections:
       phone_number_format: national
       hyperlink: true
-      show_icons: true
-      display_urls_instead_of_usernames: false
-      separator: ''
+      show_icons: false
+      display_urls_instead_of_usernames: true
+      separator: '|'
       space_between_connections: 0.5cm
   section_titles:
-    type: with_partial_line
+    type: with_full_line
     line_thickness: 0.5pt
     space_above: 0.5cm
-    space_below: 0.3cm
+    space_below: 0.2cm
   sections:
     allow_page_break: true
-    space_between_regular_entries: 1.2em
-    space_between_text_based_entries: 0.3em
+    space_between_regular_entries: 0.32cm
+    space_between_text_based_entries: 0.1cm
     show_time_spans_in: []
   entries:
     date_and_location_width: 4.15cm
-    side_space: 0.2cm
+    side_space: 0cm
     space_between_columns: 0.1cm
     allow_page_break: false
     short_second_row: false
@@ -255,12 +255,12 @@ design:
       space_above: 0cm
       space_left: 0cm
     highlights:
-      bullet: •
-      nested_bullet: •
+      bullet: ●
+      nested_bullet: ●
       space_left: 0cm
-      space_above: 0cm
+      space_above: 0.05cm
       space_between_items: 0cm
-      space_between_bullet_and_text: 0.5em
+      space_between_bullet_and_text: 0.3em
   templates:
     footer: NAME
             - PAGE_NUMBER/TOTAL_PAGES

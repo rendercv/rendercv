@@ -5,6 +5,7 @@ design:
     font_family:
       body: Raleway
       name: Raleway
+      headline: Raleway
       connections: Raleway
       section_titles: Raleway
     bold:
@@ -14,6 +15,8 @@ design:
     alignment: left
   links:
     show_external_link_icon: false
+  section_titles:
+    type: with_full_line
   entries:
     highlights:
       space_left: "0cm"
