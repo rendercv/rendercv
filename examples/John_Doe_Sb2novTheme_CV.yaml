@@ -1,7 +1,10 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
 cv:
   name: John Doe
+  headline:
   location: Location
   email: john.doe@example.com
+  photo:
   phone: +1-609-999-9995
   website:
   social_networks:
@@ -10,26 +13,21 @@ cv:
     - network: GitHub
       username: john.doe
   sections:
-    welcome_to_RenderCV!:
+    Welcome to RenderCV!:
       - '[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.'
       - Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
     education:
-      - institution: Stanford University
-        area: Computer Science
-        degree: PhD
-        grade:
-        date:
+      - date:
         start_date: 2023-09
         end_date: present
         location: Stanford, CA, USA
         summary:
         highlights:
           - Working on the optimization of autonomous vehicles in urban environments
-      - institution: Boğaziçi University
-        area: Computer Engineering
-        degree: BS
-        grade:
-        date:
+        institution: Stanford University
+        area: Computer Science
+        degree: PhD
+      - date:
         start_date: 2018-09
         end_date: 2022-06
         location: Istanbul, Türkiye
@@ -37,10 +35,11 @@ cv:
         highlights:
           - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
           - 'Awards: Best Senior Project, High Honor'
+        institution: Boğaziçi University
+        area: Computer Engineering
+        degree: BS
     experience:
-      - company: Company C
-        position: Summer Intern
-        date:
+      - date:
         start_date: 2024-06
         end_date: 2024-09
         location: Livingston, LA, USA
@@ -48,27 +47,28 @@ cv:
         highlights:
           - Developed deep learning models for the detection of gravitational waves in LIGO data
           - Published [3 peer-reviewed research papers](https://example.com) about the project and results
-      - company: Company B
+        company: Company C
         position: Summer Intern
-        date:
+      - date:
         start_date: 2023-06
         end_date: 2023-09
         location: Ankara, Türkiye
         summary:
         highlights:
           - Optimized the production line by 15% by implementing a new scheduling algorithm
-      - company: Company A
+        company: Company B
         position: Summer Intern
-        date:
+      - date:
         start_date: 2022-06
         end_date: 2022-09
         location: Istanbul, Türkiye
         summary:
         highlights:
           - Designed an inventory management web application for a warehouse
+        company: Company A
+        position: Summer Intern
     projects:
-      - name: '[Example Project](https://example.com)'
-        date:
+      - date:
         start_date: 2024-05
         end_date: present
         location:
@@ -76,14 +76,15 @@ cv:
         highlights:
           - Launched an [iOS app](https://example.com) in 09/2024 that currently has 10k+ monthly active users
           - The app is made open-source (3,000+ stars [on GitHub](https://github.com))
-      - name: '[Teaching on Udemy](https://example.com)'
-        date: Fall 2023
+        name: '[Example Project](https://example.com)'
+      - date: Fall 2023
         start_date:
         end_date:
         location:
         summary:
         highlights:
           - Instructed the "Statistics" course on Udemy (60,000+ students, 200,000+ hours watched)
+        name: '[Teaching on Udemy](https://example.com)'
     skills:
       - label: Programming
         details: Proficient with Python, C++, and Git; good understanding of Web, app development, and DevOps
@@ -92,7 +93,8 @@ cv:
       - label: Languages
         details: 'English (fluent, TOEFL: 118/120), Turkish (native)'
     publications:
-      - title: 3D Finite Element Analysis of No-Insulation Coils
+      - date: 2004-01
+        title: 3D Finite Element Analysis of No-Insulation Coils
         authors:
           - Frodo Baggins
           - '***John Doe***'
@@ -100,7 +102,6 @@ cv:
         doi: 10.1109/TASC.2023.3340648
         url:
         journal:
-        date: 2004-01
     extracurricular_activities:
       - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
       - bullet: Each entry type has a different structure and layout. This document demonstrates all of them.
@@ -112,132 +113,139 @@ cv:
       - reversed_number: This is a reversed numbered entry.
       - reversed_number: This is another reversed numbered entry.
       - reversed_number: This is the third reversed numbered entry.
-  sort_entries: none
 design:
   theme: sb2nov
-  page:
-    size: us-letter
-    top_margin: 2cm
-    bottom_margin: 2cm
-    left_margin: 2cm
-    right_margin: 2cm
-    show_page_numbering: true
-    show_last_updated_date: true
-  colors:
-    text: rgb(0, 0, 0)
-    name: rgb(0, 0, 0)
-    connections: rgb(0, 0, 0)
-    section_titles: rgb(0, 0, 0)
-    links: rgb(0, 79, 144)
-    last_updated_date_and_page_numbering: rgb(128, 128, 128)
-  text:
-    font_family: New Computer Modern
-    font_size: 10pt
-    leading: 0.6em
-    alignment: justified
-    date_and_location_column_alignment: right
-  links:
-    underline: true
-    use_external_link_icon: false
-  header:
-    name_font_family: New Computer Modern
-    name_font_size: 30pt
-    name_bold: true
-    small_caps_for_name: false
-    photo_width: 3.5cm
-    vertical_space_between_name_and_connections: 0.7cm
-    vertical_space_between_connections_and_first_section: 0.7cm
-    horizontal_space_between_connections: 0.5cm
-    connections_font_family: New Computer Modern
-    separator_between_connections: ''
-    use_icons_for_connections: true
-    use_urls_as_placeholders_for_connections: false
-    make_connections_links: true
-    alignment: center
-  section_titles:
-    type: with-full-line
-    font_family: New Computer Modern
-    font_size: 1.4em
-    bold: true
-    small_caps: false
-    line_thickness: 0.5pt
-    vertical_space_above: 0.5cm
-    vertical_space_below: 0.3cm
-  entries:
-    date_and_location_width: 4.15cm
-    left_and_right_margin: 0.2cm
-    horizontal_space_between_columns: 0.1cm
-    vertical_space_between_entries: 1.2em
-    allow_page_break_in_sections: true
-    allow_page_break_in_entries: true
-    short_second_row: false
-    show_time_spans_in: []
-  highlights:
-    bullet: ◦
-    nested_bullet: '-'
-    top_margin: 0.25cm
-    left_margin: 0.4cm
-    vertical_space_between_highlights: 0.25cm
-    horizontal_space_between_bullet_and_highlight: 0.5em
-    summary_left_margin: 0cm
-  entry_types:
-    one_line_entry:
-      template: '**LABEL:** DETAILS'
-    education_entry:
-      main_column_first_row_template: |-
-        **INSTITUTION**
-        *DEGREE in AREA*
-      degree_column_template:
-      degree_column_width: 1cm
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: |-
-        *LOCATION*
-        *DATE*
-    normal_entry:
-      main_column_first_row_template: '**NAME**'
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: |-
-        *LOCATION*
-        *DATE*
-    experience_entry:
-      main_column_first_row_template: |-
-        **POSITION**
-        *COMPANY*
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: |-
-        *LOCATION*
-        *DATE*
-    publication_entry:
-      main_column_first_row_template: '**TITLE**'
-      main_column_second_row_template: |-
-        AUTHORS
-        URL (JOURNAL)
-      main_column_second_row_without_journal_template: |-
-        AUTHORS
-        URL
-      main_column_second_row_without_url_template: |-
-        AUTHORS
-        JOURNAL
-      date_and_location_column_template: DATE
+  # page:
+  #   size: us-letter
+  #   top_margin: 2cm
+  #   bottom_margin: 2cm
+  #   left_margin: 2cm
+  #   right_margin: 2cm
+  # colors:
+  #   text: rgb(0, 0, 0)
+  #   name: rgb(0, 0, 0)
+  #   headline: rgb(0, 79, 144)
+  #   connections: rgb(0, 0, 0)
+  #   section_titles: rgb(0, 0, 0)
+  #   links: rgb(0, 79, 144)
+  #   footer: rgb(128, 128, 128)
+  #   top_note: rgb(128, 128, 128)
+  # typography:
+  #   line_spacing: 0.6em
+  #   alignment: justified
+  #   date_and_location_column_alignment: right
+  #   font_family:
+  #     body: New Computer Modern
+  #     name: New Computer Modern
+  #     headline: Source Sans 3
+  #     connections: New Computer Modern
+  #     section_titles: New Computer Modern
+  #   font_size:
+  #     body: 10pt
+  #     name: 30pt
+  #     headline: 20pt
+  #     connections: 10pt
+  #     section_titles: 1.4em
+  #   small_caps:
+  #     name: false
+  #     headline: false
+  #     connections: false
+  #     section_titles: false
+  #   bold:
+  #     name: true
+  #     headline: false
+  #     connections: false
+  #     section_titles: true
+  # links:
+  #   underline: true
+  #   show_external_link_icon: false
+  # header:
+  #   alignment: center
+  #   photo_width: 3.5cm
+  #   space_below_name: 0.7cm
+  #   space_below_headline: 0.7cm
+  #   space_below_connections: 0.7cm
+  #   connections:
+  #     phone_number_format: national
+  #     hyperlink: true
+  #     show_icons: true
+  #     display_urls_instead_of_usernames: false
+  #     separator: ''
+  #     space_between_connections: 0.5cm
+  # section_titles:
+  #   type: with_full_line
+  #   line_thickness: 0.5pt
+  #   space_above: 0.5cm
+  #   space_below: 0.3cm
+  # sections:
+  #   allow_page_break: true
+  #   space_between_entries: 1.2em
+  #   show_time_spans_in: []
+  # entries:
+  #   date_and_location_width: 4.15cm
+  #   side_space: 0.2cm
+  #   space_between_columns: 0.1cm
+  #   allow_page_break: true
+  #   short_second_row: false
+  #   summary:
+  #     space_left: 0cm
+  #   highlights:
+  #     bullet: ◦
+  #     nested_bullet: '-'
+  #     space_left: 0.4cm
+  #     space_above: 0.25cm
+  #     space_between_items: 0.25cm
+  #     space_between_bullet_and_text: 0.5em
+  # templates:
+  #   footer: NAME - PAGE_NUMBER/TOTAL_PAGES
+  #   top_note: LAST_UPDATED CURRENT_DATE
+  #   single_date: MONTH_ABBREVIATION YEAR
+  #   date_range: START_DATE – END_DATE
+  #   time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
+  #   one_line_entry:
+  #     main_column: '**LABEL:** DETAILS'
+  #   education_entry:
+  #     main_column: |-
+  #       **INSTITUTION**
+  #       *DEGREE* *in* *AREA*
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     degree_column:
+  #     date_and_location_column: |-
+  #       *LOCATION*
+  #       *DATE*
+  #   normal_entry:
+  #     main_column: |-
+  #       **NAME**
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     date_and_location_column: |-
+  #       *LOCATION*
+  #       *DATE*
+  #   experience_entry:
+  #     main_column: |-
+  #       **POSITION**
+  #       *COMPANY*
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     date_and_location_column: |-
+  #       *LOCATION*
+  #       *DATE*
+  #   publication_entry:
+  #     main_column: |-
+  #       **TITLE**
+  #       AUTHORS
+  #       URL (JOURNAL)
+  #     date_and_location_column: DATE
 locale:
-  language: en
-  phone_number_format: national
-  page_numbering_template: NAME - Page PAGE_NUMBER of TOTAL_PAGES
-  last_updated_date_template: Last updated in TODAY
-  date_template: MONTH_ABBREVIATION YEAR
+  language: english
+  last_updated: Last updated in
   month: month
   months: months
   year: year
   years: years
   present: present
-  to: –
-  abbreviations_for_months:
+  month_abbreviations:
     - Jan
     - Feb
     - Mar
@@ -250,7 +258,7 @@ locale:
     - Oct
     - Nov
     - Dec
-  full_names_of_months:
+  month_names:
     - January
     - February
     - March
@@ -263,7 +271,6 @@ locale:
     - October
     - November
     - December
-rendercv_settings:
-  date: '2025-10-28'
+settings:
+  current_date: '2025-11-28'
   bold_keywords: []
-  sort_entries: none

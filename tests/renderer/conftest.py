@@ -186,16 +186,37 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
                 ),
                 "Third text with [link](https://example.com) and more content.",
             ],
-            "Bullet Entries": create_combinations_of_entry_type(BulletEntry),
             "Publication Entries": create_combinations_of_entry_type(PublicationEntry),
             "Experience Entries": create_combinations_of_entry_type(ExperienceEntry),
             "Education Entries": create_combinations_of_entry_type(EducationEntry),
             "Normal Entries": create_combinations_of_entry_type(NormalEntry),
-            "One Line Entries": create_combinations_of_entry_type(OneLineEntry),
-            "Numbered Entries": create_combinations_of_entry_type(NumberedEntry),
-            "Reversed Numbered Entries": create_combinations_of_entry_type(
-                ReversedNumberedEntry
-            ),
+            "One Line Entries": [
+                OneLineEntry(
+                    label="Programming", details="Python, C++, JavaScript, MATLAB"
+                ),
+                OneLineEntry(
+                    label="Programming", details="Python, C++, JavaScript, MATLAB"
+                ),
+            ],
+            "Bullet Entries": [
+                BulletEntry(bullet="This is a bullet entry."),
+                BulletEntry(bullet="This is a bullet entry."),
+            ],
+            "Numbered Entries": [
+                NumberedEntry(number="This is a numbered entry."),
+                NumberedEntry(number="This is a numbered entry."),
+            ],
+            "Reversed Numbered Entries": [
+                ReversedNumberedEntry(
+                    reversed_number="This is a reversed numbered entry."
+                ),
+                ReversedNumberedEntry(
+                    reversed_number="This is a reversed numbered entry."
+                ),
+                ReversedNumberedEntry(
+                    reversed_number="This is a reversed numbered entry."
+                ),
+            ],
             "A Section & with % Special Characters": [
                 NormalEntry(name="A Section & with % Special Characters")
             ],
@@ -219,10 +240,7 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
             " explain to you how all this mistaken idea of denouncing pleasure and"
             " praising pain was born and I will give you a complete account of the"
             " system, and expound the actual teachings of the great explorer of the"
-            " truth, the master-builder of human happiness. No one rejects, dislikes,"
-            " or avoids pleasure itself, because it is pleasure, but because those who"
-            " do not know how to pursue pleasure rationally encounter consequences that"
-            " are extremely painful."
+            " truth, the master-builder of human happiness."
         ),
         "highlights": [
             (
@@ -230,10 +248,19 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
                 " must explain to you how all this mistaken idea of denouncing pleasure"
                 " and praising pain was born and I will give you a complete account of"
                 " the system, and expound the actual teachings of the great explorer of"
-                " the truth, the master-builder of human happiness. No one rejects,"
-                " dislikes, or avoids pleasure itself, because it is pleasure, but"
-                " because those who do not know how to pursue pleasure rationally"
-                " encounter consequences that are extremely painful."
+                " the truth, the master-builder of human happiness."
+            ),
+            (
+                "Did that. Nor again is there anyone who loves or pursues or desires to"
+                " obtain pain of itself, because it is pain, but because occasionally"
+                " circumstances occur in which toil and pain can procure him some great"
+                " pleasure. - Nor again is there anyone who loves or pursues or desires"
+                " to obtain pain of itself, because it is pain, but because"
+                " occasionally circumstances occur in which toil and pain can procure"
+                " him some great pleasure. - Nor again is there anyone who loves or"
+                " pursues or desires to obtain pain of itself, because it is pain, but"
+                " because occasionally circumstances occur in which toil and pain can"
+                " procure him some great pleasure."
             ),
             (
                 "Did that. Nor again is there anyone who loves or pursues or desires to"

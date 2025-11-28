@@ -63,7 +63,6 @@ def timed_step[T, **P](
     message: str,
     progress: RenderProgress,
     live: rich.live.Live,
-    quiet: bool,
     func: Callable[P, T],
     *args: P.args,
     **kwargs: P.kwargs,
@@ -73,24 +72,22 @@ def timed_step[T, **P](
     end = time.perf_counter()
     timing_ms = f"{(end - start) * 1000:.0f}"
 
-    if not quiet:
-        paths: list[pathlib.Path] = []
-        if isinstance(result, pathlib.Path):
-            paths = [result]
-        elif isinstance(result, list) and result:
-            if len(result) > 1:
-                message = f"{message}s"
-            paths = result
+    paths: list[pathlib.Path] = []
+    if isinstance(result, pathlib.Path):
+        paths = [result]
+    elif isinstance(result, list) and result:
+        if len(result) > 1:
+            message = f"{message}s"
+        paths = result
 
-        progress.completed_steps.append(CompletedStep(timing_ms, message, paths))
-        live.update(progress.build_panel())
+    progress.completed_steps.append(CompletedStep(timing_ms, message, paths))
+    live.update(progress.build_panel())
 
     return result
 
 
 def run_rendercv(
     main_input_file_path_or_contents: pathlib.Path | str,
-    quiet: bool = False,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ):
     progress = RenderProgress()
@@ -101,7 +98,6 @@ def run_rendercv(
                 "Validated the input file",
                 progress,
                 live,
-                quiet,
                 build_rendercv_dictionary_and_model,
                 main_input_file_path_or_contents,
                 **kwargs,
@@ -110,7 +106,6 @@ def run_rendercv(
                 "Generated Typst",
                 progress,
                 live,
-                quiet,
                 generate_typst,
                 rendercv_model,
             )
@@ -118,7 +113,6 @@ def run_rendercv(
                 "Generated PDF",
                 progress,
                 live,
-                quiet,
                 generate_pdf,
                 rendercv_model,
                 typst_path,
@@ -127,7 +121,6 @@ def run_rendercv(
                 "Generated PNG",
                 progress,
                 live,
-                quiet,
                 generate_png,
                 rendercv_model,
                 typst_path,
@@ -136,7 +129,6 @@ def run_rendercv(
                 "Generated Markdown",
                 progress,
                 live,
-                quiet,
                 generate_markdown,
                 rendercv_model,
             )
@@ -144,13 +136,11 @@ def run_rendercv(
                 "Generated HTML",
                 progress,
                 live,
-                quiet,
                 generate_html,
                 rendercv_model,
                 md_path,
             )
-            if not quiet:
-                live.update(progress.build_panel(title="Your CV is ready"))
+            live.update(progress.build_panel(title="Your CV is ready"))
         except RenderCVUserError as e:
             live.update("")
             raise e
@@ -169,3 +159,32 @@ def run_rendercv(
             live.update("")
             print_validation_errors(e.validation_errors)
             raise RenderCVUserError() from e
+
+
+def run_rendercv_quietly(
+    main_input_file_path_or_contents: pathlib.Path | str,
+    **kwargs: Unpack[BuildRendercvModelArguments],
+):
+    try:
+        _, rendercv_model = build_rendercv_dictionary_and_model(
+            main_input_file_path_or_contents, **kwargs
+        )
+        typst_path = generate_typst(rendercv_model)
+        generate_pdf(rendercv_model, typst_path)
+        generate_png(rendercv_model, typst_path)
+        md_path = generate_markdown(rendercv_model)
+        generate_html(rendercv_model, md_path)
+    except RenderCVUserError as e:
+        raise e
+    except ruamel.yaml.YAMLError as e:
+        message = f"This is not a valid YAML file!\n\n{e}"
+        raise RenderCVUserError(message) from e
+    except jinja2.exceptions.TemplateSyntaxError as e:
+        message = (
+            f"There is a problem with the template ({e.filename}) at line"
+            f" {e.lineno}!\n\n{e}"
+        )
+        raise RenderCVUserError(message) from e
+    except RenderCVUserValidationError as e:
+        print_validation_errors(e.validation_errors)
+        raise RenderCVUserError() from e

@@ -38,8 +38,8 @@
   typography-small-caps-connections: false,
   typography-small-caps-section-titles: false,
   typography-bold-name: true,
-  typography-bold-headline: true,
-  typography-bold-connections: true,
+  typography-bold-headline: false,
+  typography-bold-connections: false,
   typography-bold-section-titles: true,
   links-underline: true,
   links-show-external-link-icon: false,
@@ -74,7 +74,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 27,
+    day: 28,
   ),
 )
 

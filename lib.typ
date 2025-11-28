@@ -43,12 +43,13 @@
     )
     v(header-space-below-name, weak: true)
     if connections.pos().len() > 0 {
-      align(
-        left,
+      set align(header-alignment)
+      box(
         {
-          for connection in connections.pos().slice(0, -1) {
+          for (i, connection) in connections.pos().enumerate() {
             let connection-body = if typography-small-caps-connections { smallcaps(connection) } else { connection }
             let connection-width = measure(connection-body).width
+            let is-last = i == connections.pos().len() - 1
 
             // Check if adding this connection + separator would exceed the line
             if (
@@ -67,13 +68,9 @@
             box(connection-body, width: auto)
             line-width = line-width + connection-width + (if line-width > 0cm { separator-width } else { 0cm })
           }
-          let last-connection = connections.pos().last()
-          let last-connection-body = if typography-small-caps-connections { smallcaps(last-connection) } else {
-            last-connection
-          }
-          separator
-          box(last-connection-body, width: auto)
         },
+        width: 100%,
+        height: auto,
       )
     }
     v(header-space-below-connections - section-titles-space-above)

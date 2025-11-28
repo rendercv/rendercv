@@ -12,8 +12,8 @@ import tempfile
 import fitz
 import pdfCropMargins
 import pydantic
-
 import rendercv.data as data
+
 import rendercv.renderer as renderer
 
 repository_root = pathlib.Path(__file__).parent.parent

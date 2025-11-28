@@ -191,11 +191,11 @@ class Bold(BaseModelWithoutExtraKeys):
         description="Whether to make the name bold. The default value is `true`.",
     )
     headline: bool = pydantic.Field(
-        default=True,
+        default=False,
         description="Whether to make the headline bold. The default value is `true`.",
     )
     connections: bool = pydantic.Field(
-        default=True,
+        default=False,
         description="Whether to make connections bold. The default value is `true`.",
     )
     section_titles: bool = pydantic.Field(

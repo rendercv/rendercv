@@ -10,7 +10,7 @@ from rendercv.schema.rendercv_model_builder import (
 from ..app import app
 from ..error_handler import handle_user_errors
 from .parse_override_arguments import parse_override_arguments
-from .run_rendercv import run_rendercv
+from .run_rendercv import run_rendercv, run_rendercv_quietly
 from .watcher import run_function_if_file_changes
 
 
@@ -187,7 +187,10 @@ def cli_command_render(
     input_file_path = pathlib.Path(input_file_name).absolute()
 
     def run_rendercv_wrapper():
-        run_rendercv(input_file_path, quiet, **arguments)
+        if quiet:
+            run_rendercv_quietly(input_file_path, **arguments)
+        else:
+            run_rendercv(input_file_path, **arguments)
 
     if watch:
         run_function_if_file_changes(input_file_path, run_rendercv_wrapper)

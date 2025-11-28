@@ -35,7 +35,7 @@ def create_executable() -> None:
 
         # Create entry point script
         rendercv_file = temp_path / "rendercv.py"
-        rendercv_file.write_text("import rendercv.cli as cli; cli.app()")
+        rendercv_file.write_text("import rendercv.cli.app as app; app.app()")
 
         # Run PyInstaller
         subprocess.run(

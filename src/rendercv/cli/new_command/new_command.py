@@ -7,6 +7,7 @@ import typer
 from rich import print
 
 from rendercv.schema.models.design.built_in_design import available_themes
+from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
 from ..app import app
@@ -34,6 +35,17 @@ def cli_command_new(
             )
         ),
     ] = "classic",
+    locale: Annotated[
+        str,
+        typer.Option(
+            help=(
+                "The name of the locale (available locales are:"
+                f" {', '.join(available_locales)}). You can also continue with"
+                " `English`, and then write your own `locale` field for your own"
+                " language."
+            )
+        ),
+    ] = "english",
     dont_create_typst_templates: Annotated[
         bool,
         typer.Option(
@@ -63,7 +75,7 @@ def cli_command_new(
             "Your YAML input file",
             input_file_path,
             lambda: create_sample_yaml_input_file(
-                input_file_path, name=full_name, theme=theme
+                file_path=input_file_path, name=full_name, theme=theme, locale=locale
             ),
             False,  # never skip the input file
         ),

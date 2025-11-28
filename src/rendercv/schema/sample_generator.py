@@ -1,6 +1,7 @@
 import io
 import json
 import pathlib
+from typing import overload
 
 import ruamel.yaml
 
@@ -66,13 +67,29 @@ def create_sample_rendercv_pydantic_model(
     return RenderCVModel(cv=cv, design=design, locale=locale)
 
 
+@overload
 def create_sample_yaml_input_file(
-    file_path: pathlib.Path | None = None,
     *,
+    file_path: None,
+    name: str,
+    theme: str,
+    locale: str,
+) -> str: ...
+@overload
+def create_sample_yaml_input_file(
+    *,
+    file_path: pathlib.Path,
+    name: str,
+    theme: str,
+    locale: str,
+) -> None: ...
+def create_sample_yaml_input_file(
+    *,
+    file_path: pathlib.Path | None = None,
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
-) -> str:
+) -> str | None:
     """Create a sample YAML input file and return it as a string. If the input file path
     is provided, then also save the contents to the file.
 
