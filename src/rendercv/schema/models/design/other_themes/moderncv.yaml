@@ -22,17 +22,19 @@ design:
     show_external_link_icon: false
   section_titles:
     type: moderncv
-    space_above: 0.1cm
+    space_above: 0.55cm
     space_below: 0.3cm
     line_thickness: 0.15cm
   entries:
     side_space: 0cm
     space_between_columns: 0.4cm
+    summary:
+      space_above: 0.1cm
     highlights:
       space_left: 0cm
       space_above: 0.15cm
-      space_between_bullet_and_text: 0.1cm
-      space_between_items: 0.19cm
+      space_between_items: 0.1cm
+      space_between_bullet_and_text: 0.3em
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"

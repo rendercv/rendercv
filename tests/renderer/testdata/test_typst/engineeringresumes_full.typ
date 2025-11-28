@@ -8,13 +8,13 @@
   top-note: "Last updated in Nov 2025",
   locale-catalog-language: "en",
   page-size: "us-letter",
-  page-top-margin: 2cm,
-  page-bottom-margin: 2cm,
-  page-left-margin: 2cm,
-  page-right-margin: 2cm,
-  page-show-footer: true,
+  page-top-margin: 0.7in,
+  page-bottom-margin: 0.7in,
+  page-left-margin: 0.7in,
+  page-right-margin: 0.7in,
+  page-show-footer: false,
   page-show-top-note: true,
-  colors-text: rgb(0, 0, 0),
+  colors-body: rgb(0, 0, 0),
   colors-name: rgb(0, 0, 0),
   colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 0, 0),
@@ -27,7 +27,7 @@
   typography-date-and-location-column-alignment: right,
   typography-font-family-body: "XCharter",
   typography-font-family-name: "XCharter",
-  typography-font-family-headline: "Source Sans 3",
+  typography-font-family-headline: "XCharter",
   typography-font-family-connections: "XCharter",
   typography-font-family-section-titles: "XCharter",
   typography-font-size-body: 10pt,
@@ -57,11 +57,11 @@
   header-connections-space-between-connections: 0.5cm,
   section-titles-type: "with_full_line",
   section-titles-line-thickness: 0.5pt,
-  section-titles-space-above: 0.55cm,
+  section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.2cm,
   sections-allow-page-break: true,
-  sections-space-between-text-based-entries: 0cm,
-  sections-space-between-regular-entries: 0.4cm,
+  sections-space-between-text-based-entries: 0.1cm,
+  sections-space-between-regular-entries: 0.32cm,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0cm,
   entries-space-between-columns: 0.1cm,
@@ -84,6 +84,8 @@
 
 = John Doe
 
+  #headline([AI Researcher and Entrepreneur])
+  
 #connections(
   [Istanbul, Turkey],
   [#link("mailto:john_doe@example.com", icon: false, if-underline: false, if-color: false)[john\_doe\@example.com]],

@@ -58,7 +58,7 @@ color_common_examples = ["Black", "7fffd4", "rgb(0,79,144)", "hsl(270, 60%, 70%)
 
 
 class Colors(BaseModelWithoutExtraKeys):
-    text: Color = pydantic.Field(
+    body: Color = pydantic.Field(
         default=Color("rgb(0, 0, 0)"),
         description=(
             color_common_description + " The default value is `rgb(0, 0, 0)`."

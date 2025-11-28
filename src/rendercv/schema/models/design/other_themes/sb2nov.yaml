@@ -12,6 +12,7 @@ design:
     name: rgb(0,0,0)
     connections: rgb(0,0,0)
     section_titles: rgb(0,0,0)
+    headline: rgb(0,0,0)
   links:
     underline: true
     show_external_link_icon: false

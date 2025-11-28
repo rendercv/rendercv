@@ -128,16 +128,16 @@ cv:
       - date: 2022-12
         title: Neural Architecture Search via Differentiable Pruning
         authors:
-          - '*John Doe*'
           - James Liu
+          - '*John Doe*'
         doi: 10.1234/neurips.2022.5678
         url:
         journal: NeurIPS 2022, Spotlight
       - date: 2022-07
         title: Multi-Agent Reinforcement Learning with Emergent Communication
         authors:
-          - '*John Doe*'
           - Maria Garcia
+          - '*John Doe*'
           - Tom Anderson
         doi: 10.1234/icml.2022.9012
         url:
@@ -178,14 +178,14 @@ design:
   theme: classic
   # page:
   #   size: us-letter
-  #   top_margin: 2cm
-  #   bottom_margin: 2cm
-  #   left_margin: 2cm
-  #   right_margin: 2cm
+  #   top_margin: 0.7in
+  #   bottom_margin: 0.7in
+  #   left_margin: 0.7in
+  #   right_margin: 0.7in
   #   show_footer: true
   #   show_top_note: true
   # colors:
-  #   text: rgb(0, 0, 0)
+  #   body: rgb(0, 0, 0)
   #   name: rgb(0, 79, 144)
   #   headline: rgb(0, 79, 144)
   #   connections: rgb(0, 79, 144)
@@ -221,7 +221,7 @@ design:
   #     section_titles: true
   # links:
   #   underline: false
-  #   show_external_link_icon: true
+  #   show_external_link_icon: false
   # header:
   #   alignment: center
   #   photo_width: 3.5cm
@@ -243,7 +243,7 @@ design:
   # sections:
   #   allow_page_break: true
   #   space_between_regular_entries: 1.2em
-  #   space_between_text_entries: 0.5cm
+  #   space_between_text_based_entries: 0.3em
   #   show_time_spans_in: []
   # entries:
   #   date_and_location_width: 4.15cm

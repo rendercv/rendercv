@@ -359,7 +359,7 @@
   page-right-margin: 2cm,
   page-show-footer: true,
   page-show-top-note: true,
-  colors-text: rgb(0, 0, 0),
+  colors-body: rgb(0, 0, 0),
   colors-name: rgb(0, 79, 144),
   colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
@@ -435,7 +435,7 @@
     page-left-margin: page-left-margin,
     page-right-margin: page-right-margin,
     // Colors
-    colors-text: colors-text,
+    colors-body: colors-body,
     colors-name: colors-name,
     colors-headline: colors-headline,
     colors-connections: colors-connections,
@@ -535,7 +535,7 @@
     size: typography-font-size-body,
     lang: locale-catalog-language,
     hyphenate: hyphenate,
-    fill: colors-text,
+    fill: colors-body,
     // Disable ligatures for better ATS compatibility:
     ligatures: true,
   )

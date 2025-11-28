@@ -663,7 +663,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
         },
         "sections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__3"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
         },
         "entries": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Entries__4"
@@ -951,23 +951,6 @@
         "X"
       ],
       "type": "string"
-    },
-    "Summary": {
-      "additionalProperties": false,
-      "properties": {
-        "space_above": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
-          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
-        },
-        "space_left": {
-          "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
-          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
-        }
-      },
-      "title": "Summary",
-      "type": "object"
     },
     "TurkishLocale": {
       "additionalProperties": false,
@@ -2352,7 +2335,7 @@
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/Summary",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -2394,7 +2377,7 @@
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/Summary",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -2436,7 +2419,7 @@
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/Summary",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -2478,7 +2461,7 @@
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/Summary",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -2520,7 +2503,7 @@
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/Summary",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -3157,12 +3140,12 @@
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.25cm",
+          "default": "0.15cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.19cm",
+          "default": "0.1cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -3785,44 +3768,38 @@
       "title": "Sections",
       "type": "object"
     },
-    "rendercv__schema__models__design__classic_theme__Sections__3": {
+    "rendercv__schema__models__design__classic_theme__Summary__1": {
       "additionalProperties": false,
       "properties": {
-        "allow_page_break": {
-          "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
-          "title": "Allow Page Break",
-          "type": "boolean"
-        },
-        "space_between_regular_entries": {
+        "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "1.2em",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "default": "0cm",
+          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
-        "space_between_text_based_entries": {
+        "space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.3em",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
-        },
-        "show_time_spans_in": {
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
-          "examples": [
-            [
-              "Experience"
-            ],
-            [
-              "Experience",
-              "Education"
-            ]
-          ],
-          "items": {
-            "type": "string"
-          },
-          "title": "Show Time Spans In",
-          "type": "array"
+          "default": "0cm",
+          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
-      "title": "Sections",
+      "title": "Summary",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Summary__2": {
+      "additionalProperties": false,
+      "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.1cm",
+          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+        },
+        "space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+        }
+      },
+      "title": "Summary",
       "type": "object"
     },
     "rendercv__schema__models__design__classic_theme__Templates__1": {
