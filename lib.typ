@@ -151,7 +151,7 @@
   let entries-date-and-location-width = config.at("entries-date-and-location-width")
   let entries-space-between-columns = config.at("entries-space-between-columns")
   let entries-allow-page-break = config.at("entries-allow-page-break")
-  let sections-space-between-text-entries = config.at("sections-space-between-text-entries")
+  let sections-space-between-text-based-entries = config.at("sections-space-between-text-based-entries")
   let section-titles-type = config.at("section-titles-type")
   let typography-line-spacing = config.at("typography-line-spacing")
   let justify = config.at("justify")
@@ -169,25 +169,25 @@
   }
 
   set par(
-    spacing: sections-space-between-text-entries + typography-line-spacing,
+    spacing: sections-space-between-text-based-entries + typography-line-spacing,
     leading: typography-line-spacing,
     justify: justify,
   )
   set align(left)
   set enum(
-    spacing: sections-space-between-text-entries + typography-line-spacing,
+    spacing: sections-space-between-text-based-entries + typography-line-spacing,
   )
   set list(
     marker: (entries-highlights-bullet, entries-highlights-nested-bullet),
     indent: 0cm,
-    spacing: sections-space-between-text-entries + typography-line-spacing,
+    spacing: sections-space-between-text-based-entries + typography-line-spacing,
     body-indent: entries-highlights-space-between-bullet-and-text,
   )
 
   block(
     content,
     breakable: entries-allow-page-break,
-    below: sections-space-between-text-entries + typography-line-spacing,
+    below: sections-space-between-text-based-entries + typography-line-spacing,
     inset: (
       left: left-space,
       right: entries-side-space,
@@ -292,7 +292,7 @@
         }
       },
       breakable: entries-allow-page-break,
-      below: sections-space-between-regular-entries,
+      below: sections-space-between-regular-entries + typography-line-spacing,
       inset: (
         left: entries-side-space,
         right: entries-side-space,
@@ -406,7 +406,7 @@
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
-  sections-space-between-text-entries: 1.2em,
+  sections-space-between-text-based-entries: 1.2em,
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0.2cm,
@@ -488,7 +488,7 @@
     // Sections
     sections-allow-page-break: sections-allow-page-break,
     sections-space-between-regular-entries: sections-space-between-regular-entries,
-    sections-space-between-text-entries: sections-space-between-text-entries,
+    sections-space-between-text-based-entries: sections-space-between-text-based-entries,
     // Entries
     entries-date-and-location-width: entries-date-and-location-width,
     entries-side-space: entries-side-space,
@@ -607,20 +607,13 @@
           #if section-titles-type == "with_partial_line" [
             #box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)
           ] else if section-titles-type == "with_full_line" [
-            #box[#place(
-              dy: typography-font-size-body * 0.4,
-              dx: -measure(section-title).width - 0.1cm,
-              box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles),
-            )]
+
+            #v(typography-font-size-body * 0.3)
+            #box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)
           ]
         ]
       ],
     )
-
-    // Compensation for the full line section title
-    #if section-titles-type == "with_full_line" [
-      #v(typography-font-size-body * 0.4)
-    ]
 
     // Vertical space after the section title
     #v(section-titles-space-below - 0.5em)

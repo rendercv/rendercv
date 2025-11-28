@@ -31,7 +31,7 @@ design:
     space_below: "0.2cm"
   sections:
     space_between_regular_entries: "0.4cm"
-    space_between_text_entries: "0cm"
+    space_between_text_based_entries: "0cm"
   entries:
     side_space: "0cm"
     highlights:

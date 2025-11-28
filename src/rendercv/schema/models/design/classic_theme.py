@@ -393,7 +393,7 @@ class Sections(BaseModelWithoutExtraKeys):
             + " The default value is `1.2em`."
         ),
     )
-    space_between_text_entries: TypstDimension = pydantic.Field(
+    space_between_text_based_entries: TypstDimension = pydantic.Field(
         default="0.5cm",
         description=(
             "Vertical space between separate text entries in a section. "
