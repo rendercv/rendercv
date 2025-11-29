@@ -1,4 +1,3 @@
-
 #import "@preview/fontawesome:0.5.0": fa-icon
 
 // State to hold rendercv configuration for use by components

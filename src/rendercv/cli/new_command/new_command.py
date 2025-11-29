@@ -6,6 +6,7 @@ import rich.panel
 import typer
 from rich import print
 
+from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
@@ -63,6 +64,20 @@ def cli_command_new(
         ),
     ] = False,
 ):
+    if theme not in available_themes:
+        message = (
+            f"Theme {theme} is not available. Available themes are:"
+            f" {', '.join(available_themes)}"
+        )
+        raise RenderCVUserError(message)
+
+    if locale not in available_locales:
+        message = (
+            f"Locale {locale} is not available. Available locales are:"
+            f" {', '.join(available_locales)}"
+        )
+        raise RenderCVUserError(message)
+
     print_welcome()
 
     input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_CV.yaml")
