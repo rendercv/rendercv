@@ -1,6 +1,5 @@
-import functools
 from collections.abc import Callable
-from typing import Literal, overload
+from typing import Literal
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.section import Entry
@@ -10,7 +9,7 @@ from .connections import compute_connections
 from .entry_templates_from_yaml import render_entry_templates
 from .footer_and_top_note import render_footer_template, render_top_note_template
 from .markdown_parser import markdown_to_typst
-from .string_processor import make_keywords_bold
+from .string_processor import apply_string_processors, make_keywords_bold
 
 
 def process_model(
@@ -36,13 +35,16 @@ def process_model(
         current_date=rendercv_model.settings.current_date,
         name=rendercv_model.cv.name,
         single_date_template=rendercv_model.design.templates.single_date,
+        string_processors=string_processors,
     )
+
     rendercv_model.cv.footer = render_footer_template(  # pyright: ignore[reportAttributeAccessIssue]
         rendercv_model.design.templates.footer,
         locale=rendercv_model.locale,
         current_date=rendercv_model.settings.current_date,
         name=rendercv_model.cv.name,
         single_date_template=rendercv_model.design.templates.single_date,
+        string_processors=string_processors,
     )
     if rendercv_model.cv.sections is None:
         return rendercv_model
@@ -96,19 +98,3 @@ def process_fields(
             raise RenderCVInternalError(message)
 
     return entry
-
-
-@overload
-def apply_string_processors(
-    string: None, string_processors: list[Callable[[str], str]]
-) -> None: ...
-@overload
-def apply_string_processors(
-    string: str, string_processors: list[Callable[[str], str]]
-) -> str: ...
-def apply_string_processors(
-    string: str | None, string_processors: list[Callable[[str], str]]
-) -> str | None:
-    if string is None:
-        return string
-    return functools.reduce(lambda v, f: f(v), string_processors, string)

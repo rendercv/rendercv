@@ -520,7 +520,7 @@
     footer: if page-show-footer and footer != none and footer != "" {
       text(
         fill: colors-footer,
-        align(center, [_#footer _]),
+        align(center, [#footer]),
         size: 0.9em,
       )
     } else {
@@ -626,7 +626,7 @@
       dy: -page-top-margin / 2,
       dx: dx,
       text(
-        [_#top-note _],
+        [#top-note],
         fill: colors-top-note,
         size: 0.9em,
       ),

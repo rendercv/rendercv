@@ -1762,7 +1762,7 @@
     "rendercv__schema__models__design__classic_theme__Colors__1": {
       "additionalProperties": false,
       "properties": {
-        "text": {
+        "body": {
           "default": "rgb(0, 0, 0)",
           "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 0, 0)`.",
           "examples": [
@@ -1772,7 +1772,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Text",
+          "title": "Body",
           "type": "string"
         },
         "name": {
@@ -1873,7 +1873,7 @@
     "rendercv__schema__models__design__classic_theme__Colors__2": {
       "additionalProperties": false,
       "properties": {
-        "text": {
+        "body": {
           "default": "rgb(0, 0, 0)",
           "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 0, 0)`.",
           "examples": [
@@ -1883,7 +1883,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Text",
+          "title": "Body",
           "type": "string"
         },
         "name": {
@@ -1894,14 +1894,8 @@
           "type": "string"
         },
         "headline": {
-          "default": "rgb(0, 79, 144)",
-          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 79, 144)`.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "rgb(0,79,144)",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,79,144)`.",
           "format": "color",
           "title": "Headline",
           "type": "string"
@@ -1960,7 +1954,7 @@
     "rendercv__schema__models__design__classic_theme__Colors__3": {
       "additionalProperties": false,
       "properties": {
-        "text": {
+        "body": {
           "default": "rgb(0, 0, 0)",
           "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 0, 0)`.",
           "examples": [
@@ -1970,7 +1964,7 @@
             "hsl(270, 60%, 70%)"
           ],
           "format": "color",
-          "title": "Text",
+          "title": "Body",
           "type": "string"
         },
         "name": {
@@ -1981,14 +1975,8 @@
           "type": "string"
         },
         "headline": {
-          "default": "rgb(0, 79, 144)",
-          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 79, 144)`.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "rgb(0,0,0)",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,0,0)`.",
           "format": "color",
           "title": "Headline",
           "type": "string"
@@ -2008,14 +1996,8 @@
           "type": "string"
         },
         "links": {
-          "default": "rgb(0, 79, 144)",
-          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0, 79, 144)`.",
-          "examples": [
-            "Black",
-            "7fffd4",
-            "rgb(0,79,144)",
-            "hsl(270, 60%, 70%)"
-          ],
+          "default": "rgb(0,79,144)",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,79,144)`.",
           "format": "color",
           "title": "Links",
           "type": "string"
@@ -2445,8 +2427,8 @@
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.4cm`. The default value is `0.4cm`."
+          "default": "0.3cm",
+          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.3cm`. The default value is `0.3cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -3135,7 +3117,7 @@
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
+          "default": "0.15cm",
           "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
@@ -3806,8 +3788,8 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME - PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
           "title": "Footer",
           "type": "string"
         },
@@ -3863,8 +3845,8 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME - PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
           "title": "Footer",
           "type": "string"
         },
@@ -3920,8 +3902,8 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME - PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
           "title": "Footer",
           "type": "string"
         },
@@ -3977,8 +3959,8 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME - PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
           "title": "Footer",
           "type": "string"
         },
@@ -4034,8 +4016,8 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME - PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
           "title": "Footer",
           "type": "string"
         },

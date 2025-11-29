@@ -4,8 +4,8 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer: context { "John Doe - " + str(here().page()) + "/" + str(counter(page).final().first()) + "" },
-  top-note: "Last updated in Nov 2025",
+  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 0.7in,
@@ -78,7 +78,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 28,
+    day: 29,
   ),
 )
 

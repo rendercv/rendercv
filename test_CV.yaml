@@ -262,8 +262,7 @@ design:
       space_between_items: 0.19cm
       space_between_bullet_and_text: 0.1cm
   templates:
-    footer: NAME
-            - PAGE_NUMBER/TOTAL_PAGES
+    footer: NAME -- PAGE_NUMBER/TOTAL_PAGES
     top_note: LAST_UPDATED CURRENT_DATE
     single_date: MONTH_ABBREVIATION YEAR
     date_range: START_DATE – END_DATE

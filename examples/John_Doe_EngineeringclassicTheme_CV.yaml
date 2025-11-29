@@ -262,9 +262,8 @@ design:
   #     space_between_items: 0cm
   #     space_between_bullet_and_text: 0.5em
   # templates:
-  #   footer: NAME
-  #           - PAGE_NUMBER/TOTAL_PAGES
-  #   top_note: LAST_UPDATED CURRENT_DATE
+  #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
+  #   top_note: '*LAST_UPDATED CURRENT_DATE*'
   #   single_date: MONTH_ABBREVIATION YEAR
   #   date_range: START_DATE – END_DATE
   #   time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
@@ -330,5 +329,5 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-11-28'
+  current_date: '2025-11-29'
   bold_keywords: []

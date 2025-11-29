@@ -4,8 +4,8 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer: context { "John Doe - " + str(here().page()) + "/" + str(counter(page).final().first()) + "" },
-  top-note: "Last updated in Nov 2025",
+  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 0.7in,
@@ -64,21 +64,21 @@
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0cm,
-  entries-space-between-columns: 0.4cm,
+  entries-space-between-columns: 0.3cm,
   entries-allow-page-break: false,
   entries-short-second-row: false,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0.1cm,
   entries-highlights-bullet:  "•" ,
   entries-highlights-nested-bullet:  "•" ,
-  entries-highlights-space-left: 0cm,
+  entries-highlights-space-left: 0.15cm,
   entries-highlights-space-above: 0.15cm,
   entries-highlights-space-between-items: 0.1cm,
   entries-highlights-space-between-bullet-and-text: 0.3em,
   date: datetime(
     year: 2025,
     month: 11,
-    day: 28,
+    day: 29,
   ),
 )
 

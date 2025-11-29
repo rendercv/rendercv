@@ -4,8 +4,8 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer: context { "John Doe - " + str(here().page()) + "/" + str(counter(page).final().first()) + "" },
-  top-note: "Last updated in Nov 2025",
+  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 0.7in,
@@ -19,7 +19,7 @@
   colors-headline: rgb(0, 0, 0),
   colors-connections: rgb(0, 0, 0),
   colors-section-titles: rgb(0, 0, 0),
-  colors-links: rgb(0, 79, 144),
+  colors-links: rgb(0, 0, 0),
   colors-footer: rgb(128, 128, 128),
   colors-top-note: rgb(128, 128, 128),
   typography-line-spacing: 0.6em,
@@ -51,9 +51,9 @@
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
   header-connections-hyperlink: true,
-  header-connections-show-icons: true,
-  header-connections-display-urls-instead-of-usernames: false,
-  header-connections-separator: "",
+  header-connections-show-icons: false,
+  header-connections-display-urls-instead-of-usernames: true,
+  header-connections-separator: "•",
   header-connections-space-between-connections: 0.5cm,
   section-titles-type: "with_full_line",
   section-titles-line-thickness: 0.5pt,
@@ -78,7 +78,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 28,
+    day: 29,
   ),
 )
 

@@ -4,8 +4,8 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer: context { "John Doe - " + str(here().page()) + "/" + str(counter(page).final().first()) + "" },
-  top-note: "Last updated in Nov 2025",
+  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 0.7in,
@@ -19,7 +19,7 @@
   colors-headline: rgb(0, 0, 0),
   colors-connections: rgb(0, 0, 0),
   colors-section-titles: rgb(0, 0, 0),
-  colors-links: rgb(0, 79, 144),
+  colors-links: rgb(0, 0, 0),
   colors-footer: rgb(128, 128, 128),
   colors-top-note: rgb(128, 128, 128),
   typography-line-spacing: 0.6em,
@@ -51,9 +51,9 @@
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
   header-connections-hyperlink: true,
-  header-connections-show-icons: true,
-  header-connections-display-urls-instead-of-usernames: false,
-  header-connections-separator: "",
+  header-connections-show-icons: false,
+  header-connections-display-urls-instead-of-usernames: true,
+  header-connections-separator: "•",
   header-connections-space-between-connections: 0.5cm,
   section-titles-type: "with_full_line",
   section-titles-line-thickness: 0.5pt,
@@ -78,7 +78,7 @@
   date: datetime(
     year: 2025,
     month: 11,
-    day: 28,
+    day: 29,
   ),
 )
 
@@ -87,23 +87,23 @@
   #headline([AI Researcher and Entrepreneur])
   
 #connections(
-  [#connection-with-icon("location-dot")[Istanbul, Turkey]],
-  [#link("mailto:john_doe@example.com", icon: false, if-underline: false, if-color: false)[#connection-with-icon("envelope")[john\_doe\@example.com]]],
-  [#link("tel:+90-541-999-99-99", icon: false, if-underline: false, if-color: false)[#connection-with-icon("phone")[0541 999 99 99]]],
-  [#link("https://example.com/", icon: false, if-underline: false, if-color: false)[#connection-with-icon("link")[example.com]]],
-  [#link("https://linkedin.com/in/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("linkedin")[johndoe]]],
-  [#link("https://github.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("github")[johndoe]]],
-  [#link("https://imdb.com/name/nm0000001", icon: false, if-underline: false, if-color: false)[#connection-with-icon("imdb")[nm0000001]]],
-  [#link("https://instagram.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("instagram")[johndoe]]],
-  [#link("https://orcid.org/0000-0000-0000-0000", icon: false, if-underline: false, if-color: false)[#connection-with-icon("orcid")[0000-0000-0000-0000]]],
-  [#link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ", icon: false, if-underline: false, if-color: false)[#connection-with-icon("graduation-cap")[Google Scholar]]],
-  [#link("https://example.com/@johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("mastodon")[\@johndoe\@example.com]]],
-  [#link("https://stackoverflow.com/users/12323/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("stack-overflow")[12323\/johndoe]]],
-  [#link("https://gitlab.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("gitlab")[johndoe]]],
-  [#link("https://researchgate.net/profile/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("researchgate")[johndoe]]],
-  [#link("https://youtube.com/@johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("youtube")[johndoe]]],
-  [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("telegram")[johndoe]]],
-  [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("x-twitter")[johndoe]]],
+  [Istanbul, Turkey],
+  [#link("mailto:john_doe@example.com", icon: false, if-underline: false, if-color: false)[john\_doe\@example.com]],
+  [#link("tel:+90-541-999-99-99", icon: false, if-underline: false, if-color: false)[0541 999 99 99]],
+  [#link("https://example.com/", icon: false, if-underline: false, if-color: false)[example.com]],
+  [#link("https://linkedin.com/in/johndoe", icon: false, if-underline: false, if-color: false)[linkedin.com\/in\/johndoe]],
+  [#link("https://github.com/johndoe", icon: false, if-underline: false, if-color: false)[github.com\/johndoe]],
+  [#link("https://imdb.com/name/nm0000001", icon: false, if-underline: false, if-color: false)[imdb.com\/name\/nm0000001]],
+  [#link("https://instagram.com/johndoe", icon: false, if-underline: false, if-color: false)[instagram.com\/johndoe]],
+  [#link("https://orcid.org/0000-0000-0000-0000", icon: false, if-underline: false, if-color: false)[orcid.org\/0000-0000-0000-0000]],
+  [#link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ", icon: false, if-underline: false, if-color: false)[scholar.google.com\/citations?user=F8IyYrQAAAAJ]],
+  [#link("https://example.com/@johndoe", icon: false, if-underline: false, if-color: false)[example.com\/\@johndoe]],
+  [#link("https://stackoverflow.com/users/12323/johndoe", icon: false, if-underline: false, if-color: false)[stackoverflow.com\/users\/12323\/johndoe]],
+  [#link("https://gitlab.com/johndoe", icon: false, if-underline: false, if-color: false)[gitlab.com\/johndoe]],
+  [#link("https://researchgate.net/profile/johndoe", icon: false, if-underline: false, if-color: false)[researchgate.net\/profile\/johndoe]],
+  [#link("https://youtube.com/@johndoe", icon: false, if-underline: false, if-color: false)[youtube.com\/\@johndoe]],
+  [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[t.me\/johndoe]],
+  [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[x.com\/johndoe]],
 )
 
 == Text Entries

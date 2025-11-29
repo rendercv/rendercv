@@ -13,11 +13,18 @@ design:
     connections: rgb(0,0,0)
     section_titles: rgb(0,0,0)
     headline: rgb(0,0,0)
+    links: rgb(0,0,0)
   links:
     underline: true
     show_external_link_icon: false
   section_titles:
     type: with_full_line
+  header:
+    connections:
+      hyperlink: true
+      show_icons: false
+      display_urls_instead_of_usernames: true
+      separator: "•"
   entries:
     highlights:
       bullet: "◦"

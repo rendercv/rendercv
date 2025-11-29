@@ -606,17 +606,17 @@ class PublicationEntry(BaseModelWithoutExtraKeys):
 
 class Templates(BaseModelWithoutExtraKeys):
     footer: str = pydantic.Field(
-        default="NAME - PAGE_NUMBER/TOTAL_PAGES",
+        default="*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
         description=(
             "Template for the footer. Available placeholders: NAME, PAGE_NUMBER,"
-            " TOTAL_PAGES. The default value is `NAME - PAGE_NUMBER/TOTAL_PAGES`."
+            " TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`."
         ),
     )
     top_note: str = pydantic.Field(
-        default="LAST_UPDATED CURRENT_DATE",
+        default="*LAST_UPDATED CURRENT_DATE*",
         description=(
             "Template for the top note. Available placeholders: LAST_UPDATED,"
-            " CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`."
+            " CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`."
         ),
     )
     single_date: str = pydantic.Field(

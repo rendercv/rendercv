@@ -190,7 +190,7 @@ design:
   #   headline: rgb(0, 0, 0)
   #   connections: rgb(0, 0, 0)
   #   section_titles: rgb(0, 0, 0)
-  #   links: rgb(0, 79, 144)
+  #   links: rgb(0, 0, 0)
   #   footer: rgb(128, 128, 128)
   #   top_note: rgb(128, 128, 128)
   # typography:
@@ -231,9 +231,9 @@ design:
   #   connections:
   #     phone_number_format: national
   #     hyperlink: true
-  #     show_icons: true
-  #     display_urls_instead_of_usernames: false
-  #     separator: ''
+  #     show_icons: false
+  #     display_urls_instead_of_usernames: true
+  #     separator: •
   #     space_between_connections: 0.5cm
   # section_titles:
   #   type: with_full_line
@@ -262,9 +262,8 @@ design:
   #     space_between_items: 0cm
   #     space_between_bullet_and_text: 0.5em
   # templates:
-  #   footer: NAME
-  #           - PAGE_NUMBER/TOTAL_PAGES
-  #   top_note: LAST_UPDATED CURRENT_DATE
+  #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
+  #   top_note: '*LAST_UPDATED CURRENT_DATE*'
   #   single_date: MONTH_ABBREVIATION YEAR
   #   date_range: START_DATE – END_DATE
   #   time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
@@ -338,5 +337,5 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-11-28'
+  current_date: '2025-11-29'
   bold_keywords: []

@@ -1,9 +1,27 @@
 import functools
 import re
+from collections.abc import Callable
+from typing import overload
 
 import pydantic
 
 from rendercv.exception import RenderCVInternalError
+
+
+@overload
+def apply_string_processors(
+    string: None, string_processors: list[Callable[[str], str]]
+) -> None: ...
+@overload
+def apply_string_processors(
+    string: str, string_processors: list[Callable[[str], str]]
+) -> str: ...
+def apply_string_processors(
+    string: str | None, string_processors: list[Callable[[str], str]]
+) -> str | None:
+    if string is None:
+        return string
+    return functools.reduce(lambda v, f: f(v), string_processors, string)
 
 
 @functools.lru_cache(maxsize=64)
