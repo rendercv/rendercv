@@ -1,11 +1,6 @@
-import pathlib
-from typing import Annotated, Literal
+from typing import Literal
 
-import pydantic
-import pydantic_core
-
-from ...pydantic_error_handling import CustomPydanticErrorTypes
-from ..context import get_input_file_path
+from pydantic.json_schema import SkipJsonSchema
 
 available_font_families = sorted(
     [
@@ -30,54 +25,29 @@ available_font_families = sorted(
         "XCharter",
         # Common system fonts
         "Arial",
+        "Arial Rounded MT",
+        "Arial Unicode MS",
+        "Courier New",
+        "Times New Roman",
+        "Trebuchet MS",
+        "Verdana",
+        "Georgia",
+        "Tahoma",
+        "Impact",
+        "Comic Sans MS",
+        "Lucida Sans Unicode",
         "Helvetica",
         "Tahoma",
         "Times New Roman",
         "Verdana",
-        "Calibri",
         "Georgia",
         "Aptos",
-        "Cambria",
         "Inter",
         "Garamond",
-        "Montserrat",
-        "Candara",
         "Gill Sans",
         "Didot",
-        "Playfair Display",
     ]
 )
 
 
-def validate_font_family(font_family: str, info: pydantic.ValidationInfo) -> str:
-    
-    input_file_path = get_input_file_path(info)
-    fonts_dir = (
-        input_file_path.parent / "fonts"
-        if input_file_path
-        else pathlib.Path.cwd() / "fonts"
-    )
-    if fonts_dir.exists():
-        return font_family
-
-    if font_family not in available_font_families:
-        raise pydantic_core.PydanticCustomError(
-            CustomPydanticErrorTypes.other.value,
-            "The font family must be one of the following: {available_font_families}."
-            " The provided value is `{font_family}`.",
-            {
-                "font_family": font_family,
-                "available_font_families": ", ".join(available_font_families),
-            },
-        )
-
-    return font_family
-
-
-type FontFamily = Annotated[
-    str,
-    pydantic.PlainValidator(
-        validate_font_family,
-        json_schema_input_type=Literal[tuple(available_font_families)],
-    ),
-]
+type FontFamily = SkipJsonSchema[str] | Literal[*tuple(available_font_families)]  # pyright: ignore[reportInvalidTypeForm]

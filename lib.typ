@@ -56,7 +56,6 @@
       weight: if typography-bold-connections { 700 } else { 400 },
     )
 
-    let line-width = 0cm
     let separator = (
       h(header-connections-space-between-connections / 2, weak: true)
         + header-connections-separator
@@ -70,28 +69,30 @@
       set align(header-alignment)
       box(
         {
-          for (i, connection) in connections.pos().enumerate() {
-            let connection-body = if typography-small-caps-connections { smallcaps(connection) } else { connection }
-            let connection-width = measure(connection-body).width
-            let is-last = i == connections.pos().len() - 1
+          layout(size => {
+            let line-width = 0cm
+            for (i, connection) in connections.pos().enumerate() {
+              let connection-body = if typography-small-caps-connections { smallcaps(connection) } else { connection }
+              let connection-width = measure(connection-body).width
+              let is-last = i == connections.pos().len() - 1
 
-            // Check if adding this connection + separator would exceed the line
-            if (
-              line-width + connection-width + separator-width > page.width - page-left-margin - page-right-margin
-                and line-width > 0cm
-            ) {
-              linebreak()
-              line-width = 0cm
+              // Check if adding this connection + separator would exceed the line
+              if (
+                line-width + connection-width + separator-width > size.width and line-width > 0cm
+              ) {
+                linebreak()
+                line-width = 0cm
+              }
+
+              // Add separator only if we're not at the start of a line
+              if line-width > 0cm {
+                separator
+              }
+
+              box(connection-body, width: auto)
+              line-width = line-width + connection-width + (if line-width > 0cm { separator-width } else { 0cm })
             }
-
-            // Add separator only if we're not at the start of a line
-            if line-width > 0cm {
-              separator
-            }
-
-            box(connection-body, width: auto)
-            line-width = line-width + connection-width + (if line-width > 0cm { separator-width } else { 0cm })
-          }
+          })
         },
         width: 100%,
         height: auto,
@@ -635,33 +636,49 @@
 
   // From: https://github.com/typst/typst/issues/2666
   #let group-sections(content) = {
-    let sections = content
-      .children
-      .fold((), (arr, element) => {
-        if element.func() == heading {
-          // push a new section with the elements
-          arr.push((element, ()))
-        } else if arr.len() > 0 {
-          // add this content to the current section
-          arr.last().at(1).push(element)
-        }
-        arr
-      }) // join the content following the selector:
-      .map(it => {
-        let (title, content) = it
-        (title, content.join())
-      })
-    sections
+    let sections = ()
+    let preamble = () // Content before any heading
+
+    for element in content.children {
+      if element.func() == heading {
+        // Push a new section
+        sections.push((element, ()))
+      } else if sections.len() > 0 {
+        // Add to current section
+        sections.last().at(1).push(element)
+      } else {
+        // No heading yet - this is preamble content
+        preamble.push(element)
+      }
+    }
+
+    // Join the content in each section
+    let result = sections.map(it => {
+      let (title, content) = it
+      (title, content.join())
+    })
+
+    // Return both preamble and sections
+    (preamble: preamble.join(), sections: result)
   }
 
   #set par(spacing: 0cm)
 
-  #for (section-title, section-content) in group-sections(doc) [
+  #let grouped = group-sections(doc)
+
+  // Render preamble content (before any heading)
+  #if grouped.preamble != none and grouped.preamble.func() != parbreak [
+    #block(breakable: sections-allow-page-break)[
+      #grouped.preamble
+    ]
+  ]
+
+  // Render sections as before
+  #for (section-title, section-content) in grouped.sections [
     #section-title
-    // Check if section-content has skip-content-area metadata
     #let should-skip = {
       let skip = false
-      if section-content.has("children") {
+      if section-content != none and section-content.has("children") {
         for child in section-content.children {
           if child.func() == metadata and child.value == "skip-content-area" {
             skip = true
@@ -671,10 +688,8 @@
       }
       skip
     }
-    #if section-content.func() != parbreak [
-      #block(
-        breakable: sections-allow-page-break,
-      )[
+    #if section-content != none and section-content.func() != parbreak [
+      #block(breakable: sections-allow-page-break)[
         #if should-skip [
           #section-content
         ] else [

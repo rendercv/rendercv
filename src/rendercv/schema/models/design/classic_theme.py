@@ -236,9 +236,14 @@ class Typography(BaseModelWithoutExtraKeys):
             " The default value is `right`."
         ),
     )
-    font_family: FontFamily = pydantic.Field(
+    font_family: FontFamily | FontFamilyType = pydantic.Field(
         default_factory=FontFamily,
-        description="Font family settings for different elements.",
+        description=(
+            "Either just the font family name as a string, or a font family dictionary"
+            " with the keys 'body', 'name', 'headline', 'connections', and"
+            " 'section_titles'. JSON Schema may give warnings, but any system font can"
+            " be used."
+        ),
     )
     font_size: FontSize = pydantic.Field(
         default_factory=FontSize,
@@ -252,6 +257,24 @@ class Typography(BaseModelWithoutExtraKeys):
         default_factory=Bold,
         description="Bold settings for different elements.",
     )
+
+    @pydantic.field_validator(
+        "font_family", mode="plain", json_schema_input_type=FontFamily | FontFamilyType
+    )
+    @classmethod
+    def validate_font_family(
+        cls, font_family: FontFamily | FontFamilyType
+    ) -> FontFamily:
+        if isinstance(font_family, str):
+            return FontFamily(
+                body=font_family,
+                name=font_family,
+                headline=font_family,
+                connections=font_family,
+                section_titles=font_family,
+            )
+
+        return FontFamily.model_validate(font_family)
 
 
 class Links(BaseModelWithoutExtraKeys):
@@ -326,6 +349,13 @@ class Header(BaseModelWithoutExtraKeys):
         description="The width of your photo in the header. "
         + length_common_description
         + " The default value is `3.5cm`.",
+    )
+    photo_position: Literal["left", "right"] = pydantic.Field(
+        default="left",
+        description=(
+            "Position of your photo in the header (left or right). The default"
+            " value is `left`."
+        ),
     )
     space_below_name: TypstDimension = pydantic.Field(
         default="0.7cm",
