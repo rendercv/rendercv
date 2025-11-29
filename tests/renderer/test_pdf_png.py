@@ -1,5 +1,3 @@
-"""Tests for the pdf_png module."""
-
 import pathlib
 import shutil
 
@@ -19,7 +17,6 @@ def test_generate_pdf(
     cv_variant: str,
     request: pytest.FixtureRequest,
 ):
-    """Test generate_pdf with all themes and CV variants."""
     base_model = request.getfixturevalue(f"{cv_variant}_rendercv_model")
 
     model = RenderCVModel(
@@ -30,16 +27,13 @@ def test_generate_pdf(
     )
 
     def generate_file(output_path):
-        # Generate typst first
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
         typst_path = generate_typst(model)
 
-        # Copy lib.typ to output directory (required for compilation)
         lib_source = pathlib.Path("lib.typ")
         if lib_source.exists():
             shutil.copy(lib_source, output_path.parent / "lib.typ")
 
-        # Generate PDF
         model.settings.render_command.pdf_path = output_path
         generate_pdf(model, typst_path)
 
@@ -62,16 +56,13 @@ def test_generate_png(
     )
 
     def generate_file(output_path):
-        # Generate typst first
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
         typst_path = generate_typst(model)
 
-        # Copy lib.typ to output directory (required for compilation)
         lib_source = pathlib.Path("lib.typ")
         if lib_source.exists():
             shutil.copy(lib_source, output_path.parent / "lib.typ")
 
-        # Generate PDF
         model.settings.render_command.png_path = output_path
         generate_png(model, typst_path)
 

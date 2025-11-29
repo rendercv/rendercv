@@ -6,7 +6,7 @@ from rendercv.schema.pydantic_error_handling import RenderCVValidationError
 
 
 class TestPrintValidationErrors:
-    def test_prints_errors(self, capsys):
+    def test_prints_validation_error_details(self, capsys):
         errors: list[RenderCVValidationError] = [
             {
                 "location": ("cv", "name"),
@@ -23,6 +23,6 @@ class TestPrintValidationErrors:
         assert "123" in captured.out
         assert "Invalid name" in captured.out
 
-    def test_raises_error_for_empty_list(self):
+    def test_raises_error_when_called_with_empty_list(self):
         with pytest.raises(RenderCVInternalError):
             print_validation_errors([])

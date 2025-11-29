@@ -1,5 +1,3 @@
-"""Fixtures for renderer tests."""
-
 import filecmp
 import itertools
 import pathlib
@@ -55,25 +53,12 @@ def compare_file_with_reference(
     """
 
     def compare(callable_func, reference_filename: str) -> bool:
-        """Compare generated file with reference.
-
-        Args:
-            callable_func: Function that takes output_path and generates a file.
-            reference_filename: Name of the reference file in testdata_dir.
-                Also used as the output filename.
-
-        Returns:
-            True if files match (or if reference was updated), False otherwise.
-        """
-        # Create temp output directory
         output_dir = tmp_path / "output"
         output_dir.mkdir()
 
-        # Call the function to generate the file
         output_path_input = output_dir / reference_filename
         callable_func(output_path_input)
 
-        # Get reference path
         reference_paths = list(
             testdata_dir.glob(f"{output_path_input.stem}*{output_path_input.suffix}")
         )
@@ -82,18 +67,15 @@ def compare_file_with_reference(
         )
 
         if len(generated_paths) == 0:
-            # Maybe multiple files were generated (png)
             msg = f"Output file not found: {output_path_input}"
             raise FileNotFoundError(msg)
 
         if update_testdata:
-            # Update reference file
             testdata_dir.mkdir(parents=True, exist_ok=True)
             for generated_path in generated_paths:
                 shutil.copy(generated_path, testdata_dir / generated_path.name)
             return True
 
-        # Compare files
         if not any(reference_paths):
             msg = (
                 f"Reference file not found: {reference_filename}. Run with"

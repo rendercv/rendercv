@@ -27,11 +27,6 @@ from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 
 
-@pytest.fixture
-def current_date():
-    return Date(2024, 1, 1)
-
-
 class TestProcessHighlights:
     def test_formats_and_indents_nested_items(self):
         highlights = ["First line", "Second line - Nested"]
@@ -47,14 +42,14 @@ class TestProcessAuthors:
 
 
 class TestProcessDate:
-    def test_appends_time_span_when_requested(self, current_date):
+    def test_appends_time_span_when_requested(self):
         result = process_date(
             date=None,
             start_date="2020-01-01",
             end_date="2021-02-01",
             locale=EnglishLocale(),
             show_time_span=True,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE – END_DATE",
             time_span_template="1 year 2 months",
@@ -62,14 +57,14 @@ class TestProcessDate:
 
         assert result == "Jan 2020 – Feb 2021\n\n1 year 2 months"
 
-    def test_skips_time_span_when_disabled(self, current_date):
+    def test_skips_time_span_when_disabled(self):
         result = process_date(
             date=None,
             start_date="2020-01-01",
             end_date="2021-02-01",
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE – END_DATE",
             time_span_template="1 year 2 months",
@@ -77,7 +72,7 @@ class TestProcessDate:
 
         assert result == "Jan 2020 – Feb 2021"
 
-    def test_raises_error_when_no_dates_exist(self, current_date):
+    def test_raises_error_when_no_dates_exist(self):
         with pytest.raises(RenderCVInternalError):
             process_date(
                 date=None,
@@ -85,7 +80,7 @@ class TestProcessDate:
                 end_date=None,
                 locale=EnglishLocale(),
                 show_time_span=True,
-                current_date=current_date,
+                current_date=Date(2024, 1, 1),
                 single_date_template="MONTH_ABBREVIATION YEAR",
                 date_range_template="START_DATE – END_DATE",
                 time_span_template="1 year 2 months",
@@ -147,19 +142,19 @@ def test_process_summary():
 
 
 class TestRenderEntryTemplates:
-    def test_text_entry(self, current_date):
+    def test_text_entry(self):
         text_entry = "Plain text entry"
         entry = render_entry_templates(
             text_entry,
             templates=Templates(),
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert text_entry == entry
 
-    def test_removes_missing_placeholders_and_doubles_newlines(self, current_date):
+    def test_removes_missing_placeholders_and_doubles_newlines(self):
         entry = NormalEntry(name="Solo")
 
         entry = render_entry_templates(
@@ -167,13 +162,13 @@ class TestRenderEntryTemplates:
             templates=Templates(),
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert entry.main_column == "**Solo**"  # pyright: ignore [reportAttributeAccessIssue]
         assert entry.date_and_location_column == ""  # pyright: ignore [reportAttributeAccessIssue]
 
-    def test_populates_highlights_and_date_placeholders(self, current_date):
+    def test_populates_highlights_and_date_placeholders(self):
         entry = NormalEntry(
             name="Project",
             date="2023-05",
@@ -186,13 +181,13 @@ class TestRenderEntryTemplates:
             templates=Templates(),
             locale=EnglishLocale(),
             show_time_span=True,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert entry.main_column == "**Project**\n- Alpha\n- Beta"  # pyright: ignore [reportAttributeAccessIssue]
         assert entry.date_and_location_column == "Remote\nMay 2023"  # pyright: ignore [reportAttributeAccessIssue]
 
-    def test_formats_start_and_end_dates_in_custom_template(self, current_date):
+    def test_formats_start_and_end_dates_in_custom_template(self):
         entry = NormalEntry(
             name="Timeline",
             start_date="2020-01-01",
@@ -208,12 +203,12 @@ class TestRenderEntryTemplates:
             ),
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert entry.main_column == "Jan 2020 / Mar 2021 /  / Jan 2020 – Mar 2021"  # pyright: ignore [reportAttributeAccessIssue]
 
-    def test_handles_authors_doi_and_date_placeholders(self, current_date):
+    def test_handles_authors_doi_and_date_placeholders(self):
         entry = PublicationEntry(
             title="My Paper",
             authors=["Alice", "Bob"],
@@ -230,7 +225,7 @@ class TestRenderEntryTemplates:
             ),
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert (
@@ -239,7 +234,7 @@ class TestRenderEntryTemplates:
             " 2024"
         )
 
-    def test_creates_links_for_url_placeholders(self, current_date):
+    def test_creates_links_for_url_placeholders(self):
         entry = NormalEntry.model_validate(
             {
                 "name": "Linked Item",
@@ -256,7 +251,7 @@ class TestRenderEntryTemplates:
             ),
             locale=EnglishLocale(),
             show_time_span=False,
-            current_date=current_date,
+            current_date=Date(2024, 1, 1),
         )
 
         assert (

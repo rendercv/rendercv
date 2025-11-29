@@ -17,7 +17,6 @@ from rendercv.schema.sample_generator import dictionary_to_yaml
 
 @pytest.fixture
 def minimal_input_dict():
-    """Minimal valid input dictionary."""
     return {
         "cv": {"name": "John Doe"},
         "design": {"theme": "classic"},
@@ -93,9 +92,7 @@ class TestBuildRendercvDictionary:
 
         kwargs = {f"{overlay_key}_file_path_or_contents": overlay_input}
         result = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
-        # Verify overlay replaced the main input for that key
         assert result[overlay_key] == overlay_content[overlay_key]
-        # Verify cv remains unchanged
         assert result["cv"]["name"] == "John Doe"
 
     def test_all_overlays_simultaneously(self, create_yaml_file_fixture):
@@ -254,7 +251,7 @@ class TestBuildRendercvDictionary:
 
         assert result["cv"]["sections"]["education"][0]["institution"] == "Harvard"
         assert result["cv"]["sections"]["education"][0]["degree"] == "MS"
-        assert result["cv"]["name"] == "John Doe"  # Unchanged
+        assert result["cv"]["name"] == "John Doe"
 
 
 class TestBuildRendercvModelFromDictionary:
@@ -283,11 +280,8 @@ class TestBuildRendercvModelFromDictionary:
     @pytest.mark.parametrize(
         "settings",
         [
-            # Custom date provided
             {"current_date": Date(2023, 6, 15)},
-            # No settings at all
             None,
-            # Empty settings
             {},
         ],
     )
@@ -297,12 +291,9 @@ class TestBuildRendercvModelFromDictionary:
         if settings is not None:
             input_dict["settings"] = settings
 
-        # Should create model successfully regardless of current_date source
         model = build_rendercv_model_from_commented_map(input_dict)
 
         assert isinstance(model, RenderCVModel)
-        # We can't directly verify the context after validation,
-        # but the model should be created successfully
 
     def test_validation_context_with_input_file_path(
         self, minimal_input_dict, tmp_path
@@ -415,10 +406,8 @@ class TestBuildRendercvModel:
         _, model = build_rendercv_dictionary_and_model(main_yaml, **overrides)
 
         assert isinstance(model, RenderCVModel)
-        # Verify overrides are in the model
         for key, value in overrides.items():
             model_value = getattr(model.settings.render_command, key)
-            # Path fields are converted to Path objects
             if isinstance(value, str) and key.endswith("_path"):
                 assert model_value == pathlib.Path(value).resolve()
             else:
@@ -441,7 +430,6 @@ class TestBuildRendercvModel:
 
         assert isinstance(model, RenderCVModel)
         assert model._input_file_path == main_file
-        # When using file path, paths are resolved relative to input file
         assert model.settings.render_command.pdf_path.name == "output.pdf"
         assert model.settings.render_command.dont_generate_html is True
 

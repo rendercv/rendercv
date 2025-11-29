@@ -24,7 +24,7 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
         ),
     ],
 )
-def test_render_top_note_template(name: str, top_note_template: str, expected: str):
+def test_render_top_note_template(name, top_note_template, expected):
     result = render_top_note_template(
         top_note_template,
         locale=EnglishLocale(),
@@ -50,7 +50,7 @@ def test_render_top_note_template(name: str, top_note_template: str, expected: s
         ),
     ],
 )
-def test_render_footer_template(name: str, footer_template: str, expected: str):
+def test_render_footer_template(name, footer_template, expected):
     result = render_footer_template(
         footer_template,
         locale=EnglishLocale(),

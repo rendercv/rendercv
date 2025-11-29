@@ -79,7 +79,6 @@ def test_dictionary_to_yaml():
     }
     yaml_string = dictionary_to_yaml(input_dictionary)
 
-    # load the yaml string
     yaml_object = ruamel.yaml.YAML()
     output_dictionary = yaml_object.load(yaml_string)
 

@@ -8,7 +8,6 @@ from rendercv.schema.override_dictionary import (
 
 
 class TestUpdateValueByLocation:
-    # Test simple dictionary updates
     @pytest.mark.parametrize(
         ("initial_dict", "key", "value", "expected"),
         [
@@ -21,7 +20,6 @@ class TestUpdateValueByLocation:
         result = update_value_by_location(initial_dict, key, value, key)
         assert result == expected
 
-    # Test nested dictionary updates
     @pytest.mark.parametrize(
         ("initial_dict", "key", "value", "expected"),
         [
@@ -49,7 +47,6 @@ class TestUpdateValueByLocation:
         result = update_value_by_location(initial_dict, key, value, key)
         assert result == expected
 
-    # Test list updates
     @pytest.mark.parametrize(
         ("initial_list", "key", "value", "expected"),
         [
@@ -62,7 +59,6 @@ class TestUpdateValueByLocation:
         result = update_value_by_location(initial_list, key, value, f"list.{key}")
         assert result == expected
 
-    # Test mixed dictionary and list traversal
     @pytest.mark.parametrize(
         ("initial_dict", "key", "value", "expected"),
         [
@@ -96,7 +92,6 @@ class TestUpdateValueByLocation:
         result = update_value_by_location(initial_dict, key, value, key)
         assert result == expected
 
-    # Test error: non-integer index for list
     @pytest.mark.parametrize(
         ("initial_dict", "key", "full_key"),
         [
@@ -110,7 +105,6 @@ class TestUpdateValueByLocation:
         ):
             update_value_by_location(initial_dict, key, "value", full_key)
 
-    # Test error: index out of range
     @pytest.mark.parametrize(
         ("initial_dict", "key", "full_key"),
         [
@@ -122,7 +116,6 @@ class TestUpdateValueByLocation:
         with pytest.raises(RenderCVUserError, match=r"Index .* is out of range"):
             update_value_by_location(initial_dict, key, "value", full_key)
 
-    # Test error: invalid structure (neither dict nor list)
     @pytest.mark.parametrize(
         ("initial_dict", "key", "full_key"),
         [
@@ -136,14 +129,12 @@ class TestUpdateValueByLocation:
         ):
             update_value_by_location(initial_dict, key, "value", full_key)
 
-    # Test that original structure is mutated (not copied)
     def test_mutates_original_structure(self):
         original = {"name": "John"}
         result = update_value_by_location(original, "name", "Jane", "name")
         assert result is original
         assert original == {"name": "Jane"}
 
-    # Test deeply nested structures
     def test_deeply_nested_structure(self):
         initial = {
             "cv": {
@@ -168,7 +159,6 @@ class TestUpdateValueByLocation:
 
 
 class TestApplyOverridesToDictionary:
-    # Test single override
     @pytest.mark.parametrize(
         ("initial_dict", "overrides", "expected"),
         [
@@ -189,7 +179,6 @@ class TestApplyOverridesToDictionary:
         result = apply_overrides_to_dictionary(initial_dict, overrides)
         assert result == expected
 
-    # Test multiple overrides
     @pytest.mark.parametrize(
         ("initial_dict", "overrides", "expected"),
         [
@@ -214,7 +203,6 @@ class TestApplyOverridesToDictionary:
         result = apply_overrides_to_dictionary(initial_dict, overrides)
         assert result == expected
 
-    # Test that original dictionary is not mutated
     def test_does_not_mutate_original(self):
         original = {"name": "John", "age": "30"}
         original_copy = {"name": "John", "age": "30"}
@@ -226,26 +214,21 @@ class TestApplyOverridesToDictionary:
         assert result == {"name": "Jane", "age": "30"}  # Result has override
         assert result is not original  # Different objects
 
-    # Test deep copy behavior (nested structures)
     def test_deep_copy_behavior(self):
         original = {"cv": {"sections": {"education": ["MIT"]}}}
         overrides = {"cv.sections.education.0": "Harvard"}
 
         result = apply_overrides_to_dictionary(original, overrides)
 
-        # Original should not be affected
         assert original["cv"]["sections"]["education"][0] == "MIT"
-        # Result should have the override
         assert result["cv"]["sections"]["education"][0] == "Harvard"
 
-    # Test empty overrides
     def test_empty_overrides(self):
         original = {"name": "John", "age": "30"}
         result = apply_overrides_to_dictionary(original, {})
         assert result == original
-        assert result is not original  # Still a copy
+        assert result is not original
 
-    # Test complex real-world scenario
     def test_complex_cv_scenario(self):
         initial = {
             "cv": {
@@ -274,10 +257,7 @@ class TestApplyOverridesToDictionary:
         assert result["cv"]["name"] == "Jane Doe"
         assert result["cv"]["sections"]["education"][0]["institution"] == "Harvard"
         assert result["cv"]["sections"]["education"][0]["start_date"] == "2021-01"
-        assert result["cv"]["sections"]["education"][0]["degree"] == "PhD"  # Unchanged
+        assert result["cv"]["sections"]["education"][0]["degree"] == "PhD"
         assert result["cv"]["sections"]["experience"][0]["company"] == "Meta"
-        assert (
-            result["cv"]["sections"]["experience"][0]["title"] == "Engineer"
-        )  # Unchanged
-        # Original should remain unchanged
+        assert result["cv"]["sections"]["experience"][0]["title"] == "Engineer"
         assert initial["cv"]["name"] == "John Doe"

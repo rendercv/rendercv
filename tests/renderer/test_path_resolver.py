@@ -98,7 +98,6 @@ class TestResolveRendercvFilePath:
         assert result.parent == tmp_path
 
     def test_creates_parent_directories(self, tmp_path: pathlib.Path):
-        """Verify that parent directories are created when they don't exist"""
         model = RenderCVModel(cv=Cv(name="John Doe"))
         nested_dir = tmp_path / "output" / "cv" / "final"
         file_path = nested_dir / "NAME_IN_SNAKE_CASE_CV.pdf"

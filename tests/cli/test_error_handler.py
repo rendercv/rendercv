@@ -5,14 +5,14 @@ from rendercv.exception import RenderCVUserError
 
 
 class TestHandleUserErrors:
-    def test_returns_value_when_no_exception(self):
+    def test_returns_function_result_on_success(self):
         @handle_user_errors
         def successful_function():
             return None
 
         successful_function()
 
-    def test_catches_user_error_and_prints_message(self):
+    def test_catches_user_errors_and_prints_message(self):
         @handle_user_errors
         def failing_function():
             raise RenderCVUserError("Something went wrong")

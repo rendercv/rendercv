@@ -29,7 +29,7 @@ class TestWarnIfNewVersionIsAvailable:
         ],
     )
     @patch("urllib.request.urlopen")
-    def test_warning_based_on_version(self, mock_urlopen, version, should_warn, capsys):
+    def test_warns_when_newer_version_available(self, mock_urlopen, version, should_warn, capsys):
         mock_response = MagicMock()
         mock_response.read.return_value = json.dumps(
             {"info": {"version": version}}
@@ -47,7 +47,7 @@ class TestWarnIfNewVersionIsAvailable:
             assert "new version" not in captured.out.lower()
 
     @patch("urllib.request.urlopen")
-    def test_no_warning_when_request_fails(self, mock_urlopen, capsys):
+    def test_handles_network_errors_gracefully(self, mock_urlopen, capsys):
         mock_urlopen.side_effect = Exception("Network error")
 
         warn_if_new_version_is_available()

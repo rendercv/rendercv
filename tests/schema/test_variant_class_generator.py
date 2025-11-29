@@ -152,7 +152,6 @@ def test_generate_class_name(variant_name, suffix, expected_class_name):
     ],
 )
 def test_create_discriminator_field_spec(discriminator_value: Any):
-    """Test discriminator field spec creation with various value types."""
     field_info = SimpleModel.model_fields["discriminator"]
 
     annotation, field = create_discriminator_field_spec(discriminator_value, field_info)
@@ -185,8 +184,6 @@ def test_deep_merge_nested_object_shallow_merge():
 
 
 def test_deep_merge_nested_object_deep_merge():
-    """Test recursive merging of nested Pydantic models."""
-
     class Inner(pydantic.BaseModel):
         x: int = 1
         y: int = 2
@@ -384,7 +381,6 @@ def test_create_nested_field_spec_partial_update():
 def test_create_simple_field_spec(
     field_name: str, new_value: Any, expected_annotation: type
 ):
-    """Test creating field spec for simple fields with various types."""
     field_info = SimpleModel.model_fields[field_name]
 
     annotation, field = create_simple_field_spec(new_value, field_info)
@@ -401,7 +397,6 @@ def test_create_simple_field_spec(
 
 
 def test_create_variant_class_simple_fields():
-    """Test creating variant class with simple field overrides."""
     defaults = {
         "discriminator": "my_variant",
         "field1": "custom_value",
@@ -431,7 +426,6 @@ def test_create_variant_class_simple_fields():
 
 
 def test_create_variant_class_nested_models():
-    """Test creating variant class with nested model updates."""
     defaults = {
         "discriminator": "custom",
         "middle": {
@@ -871,8 +865,6 @@ def test_variant_class_updates_discriminator_description():
 
 
 def test_nested_field_descriptions_are_updated():
-    """Test that field descriptions within nested models are updated correctly."""
-
     class NestedConfig(pydantic.BaseModel):
         font_family: str = pydantic.Field(
             default="Arial",
@@ -926,8 +918,6 @@ def test_nested_field_descriptions_are_updated():
 
 
 def test_deeply_nested_field_descriptions_are_updated():
-    """Test that field descriptions are updated at multiple levels of nesting."""
-
     class Level3(pydantic.BaseModel):
         value: int = pydantic.Field(
             default=1, description="The value. The default value is `1`."
@@ -984,8 +974,6 @@ def test_deeply_nested_field_descriptions_are_updated():
 
 
 def test_nested_field_partial_update_preserves_descriptions():
-    """Test that partial updates to nested models preserve non-updated field descriptions."""
-
     class Nested(pydantic.BaseModel):
         field1: str = pydantic.Field(
             default="a", description="Field 1. The default value is `a`."
