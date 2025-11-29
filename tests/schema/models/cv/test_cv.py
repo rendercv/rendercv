@@ -70,3 +70,16 @@ def test_sections_without_list():
     }
     with pytest.raises(pydantic.ValidationError):
         Cv(**input)
+
+
+def test_phone_serialization():
+    input_data = {"name": "John Doe", "phone": "+905419999999"}
+    cv = Cv.model_validate(input_data)
+
+    # Serialize the model to trigger the phone serializer
+    serialized = cv.model_dump()
+
+    # The phone should be serialized without the tel: prefix
+    assert "tel:" not in serialized["phone"]
+    # Phone number is formatted by pydantic-phone-numbers
+    assert serialized["phone"] == "+90-541-999-99-99"

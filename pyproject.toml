@@ -73,7 +73,7 @@ full = [
     'typer>=0.20.0',         # Command-line interface
     'markdown>=3.10',        # Convert Markdown to HTML
     'watchdog>=6.0.0',       # Monitor files for updates
-    'typst>=0.14.1',         # Render PDF from Typst source files
+    'typst>=0.14.2',         # Render PDF from Typst source files
     'rendercv-fonts>=0.4.0', # Font files for RenderCV
 ]
 
@@ -98,6 +98,7 @@ rendercv = 'rendercv.cli:app'
 [dependency-groups]
 dev = [
 <<<<<<< HEAD
+<<<<<<< HEAD
     'ruff>=0.14.1', # Lint and format the code
     'black>=25.9.0', # Format the code
     'pyright>=1.1.406', # Type checking
@@ -120,17 +121,27 @@ dev = [
     "pytest-cov>=7.0.0",
     "coverage>=7.11.0",
     "pytest-rerunfailures>=16.1",
+=======
+    'ruff>=0.14.7',        # Lint and format the code
+    'black>=25.11.0',      # Format the code
+    'pyright>=1.1.407',    # Type checking
+    'pre-commit>=4.5.0',   # Run checks before committing
+    'pytest>=9.0.1',       # Run tests
+    'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
+    'pyinstaller>=6.16.0', # Build executables
+    "pytest-xdist>=3.8.0", # Run tests in parallel
+>>>>>>> c137e0f (Increase test coverage)
 ]
 docs = [
-    'mkdocs-material>=9.6.20',
-    'mkdocstrings[python]>=0.30.1', # Build reference docs from docstrings
-    'pdfCropMargins>=2.2.1',        # Generate entry figures for documentation
-    'pillow>=10.4.0',               # Lock dependency of pdfCropMargins
-    'mkdocs-macros-plugin>=1.4.0',  # Enable dynamic content in docs
-    'PyMuPDF>=1.26.5',              # Convert PDF files to images
+    'mkdocs-material>=9.7.0',
+    'mkdocs-macros-plugin>=1.5.0', # Enable dynamic content in docs
+    'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
+    'pdfCropMargins>=2.2.1',       # Generate entry figures for documentation
+    'pillow>=10.4.0',              # Lock dependency of pdfCropMargins
+    'PyMuPDF>=1.26.5',             # Convert PDF files to images
 ]
 exe = [
-    'pyinstaller>=6.16.0', # Build executables
+    'pyinstaller>=6.17.0', # Build executables
 ]
 
 # Tools Settings:
@@ -197,7 +208,7 @@ reportPrivateUsage = false
 exclude = ['rendercv/themes/*']
 
 [tool.coverage.run]
-source = ['rendercv']             # Measure coverage in this source
+source = ['src/rendercv']         # Measure coverage in this source
 concurrency = ['multiprocessing'] # For watcher tests
 
 # Use relative paths for cross-platform coverage merging:

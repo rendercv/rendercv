@@ -1,7 +1,6 @@
 from collections.abc import Callable
 from typing import Literal
 
-from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -94,12 +93,8 @@ def process_fields(
                 [apply_string_processors(v, string_processors) for v in value],
             )
         else:
-            try:
-                setattr(
-                    entry, field, apply_string_processors(str(value), string_processors)
-                )
-            except Exception as e:
-                message = f"Unhandled field type: {type(value)}"
-                raise RenderCVInternalError(message) from e
+            setattr(
+                entry, field, apply_string_processors(str(value), string_processors)
+            )
 
     return entry

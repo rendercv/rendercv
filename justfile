@@ -3,10 +3,14 @@ install:
   uv sync --locked --all-extras --all-groups
   
 format:
-  uv run black src tests ; uv run ruff check --fix src tests ; uv run ruff format src tests
+  uv run black src tests
+  uv run ruff check --fix src tests
+  uv run ruff format src tests
 
 format-file target:
-  uv run black {{target}}; uv run ruff check --fix {{target}}; uv run ruff format {{target}}
+  uv run black {{target}}
+  uv run ruff check --fix {{target}}
+  uv run ruff format {{target}}
 
 lint:
   uv run ruff check src tests
@@ -29,11 +33,8 @@ test:
 update-testdata:
   uv run pytest --update-testdata
 
-test-with-coverage:
-  uv run coverage run -m pytest; uv run coverage combine
-
-report-coverage:
-  uv run coverage report && uv run coverage html --show-contexts
+test-coverage:
+  uv run pytest --cov=src/rendercv --cov-report=term --cov-report=html
 
 # Docs:
 build-docs:

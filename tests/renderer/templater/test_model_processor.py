@@ -145,3 +145,19 @@ class TestProcessModel:
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
+
+    def test_process_model_with_no_sections(self):
+        cv_data = {
+            "name": "Jane Doe",
+            "headline": "Software Engineer",
+        }
+        cv = Cv.model_validate(cv_data)
+        rendercv_model = RenderCVModel(cv=cv)
+
+        result = process_model(rendercv_model, "markdown")
+
+        # Should still process name and headline
+        assert result.cv.name == "Jane Doe"
+        assert result.cv.headline == "Software Engineer"
+        # Should have connections and other fields populated
+        assert hasattr(result.cv, "connections")

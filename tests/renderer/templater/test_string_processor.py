@@ -1,6 +1,8 @@
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.string_processor import (
+    build_keyword_matcher_pattern,
     clean_url,
     make_keywords_bold,
     substitute_placeholders,
@@ -41,3 +43,10 @@ def test_substitute_placeholders(string, placeholders, expected_string):
 )
 def test_clean_url(url, expected_clean_url):
     assert clean_url(url) == expected_clean_url
+
+
+def test_build_keyword_matcher_pattern_with_empty_keywords():
+    with pytest.raises(RenderCVInternalError) as exc_info:
+        build_keyword_matcher_pattern(frozenset())
+
+    assert "Keywords cannot be empty" in str(exc_info.value)
