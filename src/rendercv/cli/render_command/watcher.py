@@ -40,7 +40,8 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
                 # occurs in a background thread.
                 self.function()
             except RenderCVUserError as e:
-                print(f"[bold red]{e.message}[/bold red]")
+                if e.message:
+                    print(f"[bold red]{e.message}[/bold red]")
 
     event_handler = EventHandler(function)
 

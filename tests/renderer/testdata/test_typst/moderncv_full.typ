@@ -46,7 +46,7 @@
   links-underline: true,
   links-show-external-link-icon: false,
   header-alignment: left,
-  header-photo-width: 3.5cm,
+  header-photo-width: 4.15cm,
   header-space-below-name: 0.7cm,
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
@@ -82,6 +82,14 @@
   ),
 )
 
+
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 0cm,
+  align: horizon + left,
+  [#pad(left: 0cm, right: 0.3cm, image("profile_picture.jpg", width: 4.15cm))
+],
+  [
 = John Doe
 
   #headline([AI Researcher and Entrepreneur])
@@ -105,6 +113,9 @@
   [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("telegram")[johndoe]]],
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("x-twitter")[johndoe]]],
 )
+  ]
+)
+
 
 == Text Entries
 

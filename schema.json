@@ -828,7 +828,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Links__5"
         },
         "header": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__1"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Header__5"
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
@@ -1996,8 +1996,8 @@
           "type": "string"
         },
         "links": {
-          "default": "rgb(0,79,144)",
-          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,79,144)`.",
+          "default": "rgb(0,0,0)",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,0,0)`.",
           "format": "color",
           "title": "Links",
           "type": "string"
@@ -2113,6 +2113,53 @@
         },
         "separator": {
           "default": "|",
+          "description": "Character(s) to separate contact items (e.g., '|' or '•'). Leave empty for no separator. The default value is `''`.",
+          "title": "Separator",
+          "type": "string"
+        },
+        "space_between_connections": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.5cm",
+          "description": "Horizontal space between each contact info item (email, phone, etc.). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+        }
+      },
+      "title": "Connections",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Connections__3": {
+      "additionalProperties": false,
+      "properties": {
+        "phone_number_format": {
+          "default": "national",
+          "description": "The format for phone numbers. The default value is `national`.",
+          "enum": [
+            "national",
+            "international",
+            "E164"
+          ],
+          "title": "Phone Number Format",
+          "type": "string"
+        },
+        "hyperlink": {
+          "default": true,
+          "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
+          "title": "Hyperlink",
+          "type": "boolean"
+        },
+        "show_icons": {
+          "default": false,
+          "description": "Whether to show icons (phone, email, etc.) next to contact information. The default value is `true`.",
+          "title": "Show Icons",
+          "type": "boolean"
+        },
+        "display_urls_instead_of_usernames": {
+          "default": true,
+          "description": "Whether to display full URLs instead of labels for connections. The default value is `false`.",
+          "title": "Display Urls Instead Of Usernames",
+          "type": "boolean"
+        },
+        "separator": {
+          "default": "•",
           "description": "Character(s) to separate contact items (e.g., '|' or '•'). Leave empty for no separator. The default value is `''`.",
           "title": "Separator",
           "type": "string"
@@ -2591,7 +2638,7 @@
       "title": "ExperienceEntry",
       "type": "object"
     },
-    "rendercv__schema__models__design__classic_theme__FontFamily__1": {
+    "rendercv__schema__models__design__classic_theme__FontFamily": {
       "additionalProperties": false,
       "properties": {
         "body": {
@@ -2618,134 +2665,6 @@
           "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
           "default": "Source Sans 3",
           "description": "The font family for section titles. The default value is `Source Sans 3`."
-        }
-      },
-      "title": "FontFamily",
-      "type": "object"
-    },
-    "rendercv__schema__models__design__classic_theme__FontFamily__2": {
-      "additionalProperties": false,
-      "properties": {
-        "body": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Raleway",
-          "description": "The font family for body text. The default value is `Raleway`."
-        },
-        "name": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Raleway",
-          "description": "The font family for the name. The default value is `Raleway`."
-        },
-        "headline": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Raleway",
-          "description": "The font family for the headline. The default value is `Raleway`."
-        },
-        "connections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Raleway",
-          "description": "The font family for connections. The default value is `Raleway`."
-        },
-        "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Raleway",
-          "description": "The font family for section titles. The default value is `Raleway`."
-        }
-      },
-      "title": "FontFamily",
-      "type": "object"
-    },
-    "rendercv__schema__models__design__classic_theme__FontFamily__3": {
-      "additionalProperties": false,
-      "properties": {
-        "body": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "XCharter",
-          "description": "The font family for body text. The default value is `XCharter`."
-        },
-        "name": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "XCharter",
-          "description": "The font family for the name. The default value is `XCharter`."
-        },
-        "headline": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "XCharter",
-          "description": "The font family for the headline. The default value is `XCharter`."
-        },
-        "connections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "XCharter",
-          "description": "The font family for connections. The default value is `XCharter`."
-        },
-        "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "XCharter",
-          "description": "The font family for section titles. The default value is `XCharter`."
-        }
-      },
-      "title": "FontFamily",
-      "type": "object"
-    },
-    "rendercv__schema__models__design__classic_theme__FontFamily__4": {
-      "additionalProperties": false,
-      "properties": {
-        "body": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Fontin",
-          "description": "The font family for body text. The default value is `Fontin`."
-        },
-        "name": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Fontin",
-          "description": "The font family for the name. The default value is `Fontin`."
-        },
-        "headline": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Fontin",
-          "description": "The font family for the headline. The default value is `Fontin`."
-        },
-        "connections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Fontin",
-          "description": "The font family for connections. The default value is `Fontin`."
-        },
-        "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "Fontin",
-          "description": "The font family for section titles. The default value is `Fontin`."
-        }
-      },
-      "title": "FontFamily",
-      "type": "object"
-    },
-    "rendercv__schema__models__design__classic_theme__FontFamily__5": {
-      "additionalProperties": false,
-      "properties": {
-        "body": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "New Computer Modern",
-          "description": "The font family for body text. The default value is `New Computer Modern`."
-        },
-        "name": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "New Computer Modern",
-          "description": "The font family for the name. The default value is `New Computer Modern`."
-        },
-        "headline": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "New Computer Modern",
-          "description": "The font family for the headline. The default value is `New Computer Modern`."
-        },
-        "connections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "New Computer Modern",
-          "description": "The font family for connections. The default value is `New Computer Modern`."
-        },
-        "section_titles": {
-          "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily",
-          "default": "New Computer Modern",
-          "description": "The font family for section titles. The default value is `New Computer Modern`."
         }
       },
       "title": "FontFamily",
@@ -2860,6 +2779,26 @@
           "default": "3.5cm",
           "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
+        "photo_position": {
+          "default": "left",
+          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "title": "Photo Position",
+          "type": "string"
+        },
+        "photo_space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "photo_space_right": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
@@ -2895,6 +2834,26 @@
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
           "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+        },
+        "photo_position": {
+          "default": "left",
+          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "title": "Photo Position",
+          "type": "string"
+        },
+        "photo_space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "photo_space_right": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
@@ -2932,6 +2891,26 @@
           "default": "3.5cm",
           "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
+        "photo_position": {
+          "default": "left",
+          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "title": "Photo Position",
+          "type": "string"
+        },
+        "photo_space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "photo_space_right": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
@@ -2968,6 +2947,26 @@
           "default": "3.5cm",
           "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
+        "photo_position": {
+          "default": "left",
+          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "title": "Photo Position",
+          "type": "string"
+        },
+        "photo_space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "photo_space_right": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
@@ -2985,6 +2984,62 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
+          "description": "Settings for contact information in the header."
+        }
+      },
+      "title": "Header",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Header__5": {
+      "additionalProperties": false,
+      "properties": {
+        "alignment": {
+          "$ref": "#/$defs/Alignment",
+          "default": "center",
+          "description": "Alignment of header content (left, center, or right). The default value is `center`."
+        },
+        "photo_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "3.5cm",
+          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+        },
+        "photo_position": {
+          "default": "left",
+          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "enum": [
+            "left",
+            "right"
+          ],
+          "title": "Photo Position",
+          "type": "string"
+        },
+        "photo_space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "photo_space_right": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.4cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+        },
+        "space_below_name": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7cm",
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+        },
+        "space_below_headline": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7cm",
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+        },
+        "space_below_connections": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.7cm",
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+        },
+        "connections": {
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__3",
           "description": "Settings for contact information in the header."
         }
       },
@@ -3788,14 +3843,14 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.",
           "title": "Footer",
           "type": "string"
         },
         "top_note": {
-          "default": "LAST_UPDATED CURRENT_DATE",
-          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`.",
+          "default": "*LAST_UPDATED CURRENT_DATE*",
+          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`.",
           "title": "Top Note",
           "type": "string"
         },
@@ -3845,14 +3900,14 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.",
           "title": "Footer",
           "type": "string"
         },
         "top_note": {
-          "default": "LAST_UPDATED CURRENT_DATE",
-          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`.",
+          "default": "*LAST_UPDATED CURRENT_DATE*",
+          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`.",
           "title": "Top Note",
           "type": "string"
         },
@@ -3902,14 +3957,14 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.",
           "title": "Footer",
           "type": "string"
         },
         "top_note": {
-          "default": "LAST_UPDATED CURRENT_DATE",
-          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`.",
+          "default": "*LAST_UPDATED CURRENT_DATE*",
+          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`.",
           "title": "Top Note",
           "type": "string"
         },
@@ -3959,14 +4014,14 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.",
           "title": "Footer",
           "type": "string"
         },
         "top_note": {
-          "default": "LAST_UPDATED CURRENT_DATE",
-          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`.",
+          "default": "*LAST_UPDATED CURRENT_DATE*",
+          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`.",
           "title": "Top Note",
           "type": "string"
         },
@@ -4016,14 +4071,14 @@
       "additionalProperties": false,
       "properties": {
         "footer": {
-          "default": "NAME -- PAGE_NUMBER/TOTAL_PAGES",
-          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `NAME -- PAGE_NUMBER/TOTAL_PAGES`.",
+          "default": "*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
+          "description": "Template for the footer. Available placeholders: NAME, PAGE_NUMBER, TOTAL_PAGES. The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.",
           "title": "Footer",
           "type": "string"
         },
         "top_note": {
-          "default": "LAST_UPDATED CURRENT_DATE",
-          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `LAST_UPDATED CURRENT_DATE`.",
+          "default": "*LAST_UPDATED CURRENT_DATE*",
+          "description": "Template for the top note. Available placeholders: LAST_UPDATED, CURRENT_DATE. The default value is `*LAST_UPDATED CURRENT_DATE*`.",
           "title": "Top Note",
           "type": "string"
         },
@@ -4094,8 +4149,16 @@
           "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
         },
         "font_family": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily__1",
-          "description": "Font family settings for different elements."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            }
+          ],
+          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
@@ -4138,8 +4201,16 @@
           "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
         },
         "font_family": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily__2",
-          "description": "Font family settings for different elements."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            }
+          ],
+          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
@@ -4182,8 +4253,16 @@
           "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
         },
         "font_family": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily__3",
-          "description": "Font family settings for different elements."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            }
+          ],
+          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__2",
@@ -4226,8 +4305,16 @@
           "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
         },
         "font_family": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily__4",
-          "description": "Font family settings for different elements."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            }
+          ],
+          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__3",
@@ -4270,8 +4357,16 @@
           "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
         },
         "font_family": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily__5",
-          "description": "Font family settings for different elements."
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontFamily"
+            },
+            {
+              "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
+            }
+          ],
+          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
@@ -4293,9 +4388,10 @@
       "enum": [
         "Aptos",
         "Arial",
-        "Calibri",
-        "Cambria",
-        "Candara",
+        "Arial Rounded MT",
+        "Arial Unicode MS",
+        "Comic Sans MS",
+        "Courier New",
         "DejaVu Sans Mono",
         "Didot",
         "EB Garamond",
@@ -4305,22 +4401,23 @@
         "Georgia",
         "Gill Sans",
         "Helvetica",
+        "Impact",
         "Inter",
         "Lato",
         "Libertinus Serif",
-        "Montserrat",
+        "Lucida Sans Unicode",
         "Mukta",
         "New Computer Modern",
         "Noto Sans",
         "Open Sans",
         "Open Sauce Sans",
-        "Playfair Display",
         "Poppins",
         "Raleway",
         "Roboto",
         "Source Sans 3",
         "Tahoma",
         "Times New Roman",
+        "Trebuchet MS",
         "Ubuntu",
         "Verdana",
         "XCharter"

@@ -17,6 +17,9 @@ design:
       section_titles: false
   header:
     alignment: left
+    photo_width: 4.15cm
+    photo_space_left: 0cm
+    photo_space_right: 0.3cm
   links:
     underline: true
     show_external_link_icon: false
@@ -31,7 +34,6 @@ design:
     summary:
       space_above: 0.1cm
     highlights:
-      # space_left: 0cm
       space_above: 0.15cm
       space_between_items: 0.1cm
       space_between_bullet_and_text: 0.3em

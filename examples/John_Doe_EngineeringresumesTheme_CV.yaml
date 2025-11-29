@@ -187,7 +187,7 @@ design:
   # colors:
   #   body: rgb(0, 0, 0)
   #   name: rgb(0, 0, 0)
-  #   headline: rgb(0, 79, 144)
+  #   headline: rgb(0, 0, 0)
   #   connections: rgb(0, 0, 0)
   #   section_titles: rgb(0, 0, 0)
   #   links: rgb(0, 0, 0)
@@ -225,6 +225,9 @@ design:
   # header:
   #   alignment: center
   #   photo_width: 3.5cm
+  #   photo_position: left
+  #   photo_space_left: 0.4cm
+  #   photo_space_right: 0.4cm
   #   space_below_name: 0.7cm
   #   space_below_headline: 0.7cm
   #   space_below_connections: 0.7cm

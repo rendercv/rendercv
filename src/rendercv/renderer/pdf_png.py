@@ -1,5 +1,6 @@
 import functools
 import pathlib
+import shutil
 
 import rendercv_fonts
 import typst
@@ -18,6 +19,7 @@ def generate_pdf(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
     )
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    copy_photo_next_to_typst_file(rendercv_model, typst_path)
     typst_compiler.compile(format="pdf", output=pdf_path)
 
     return pdf_path
@@ -32,6 +34,7 @@ def generate_png(
         rendercv_model, rendercv_model.settings.render_command.png_path
     )
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    copy_photo_next_to_typst_file(rendercv_model, typst_path)
     png_files_bytes = typst_compiler.compile(format="png")
 
     if not isinstance(png_files_bytes, list):
@@ -45,6 +48,19 @@ def generate_png(
         png_files.append(png_file)
 
     return png_files if png_files else None
+
+
+def copy_photo_next_to_typst_file(
+    rendercv_model: RenderCVModel, typst_path: pathlib.Path
+) -> None:
+    if rendercv_model.cv.photo:
+        photo_path = rendercv_model.cv.photo
+        copy_to = typst_path.parent / photo_path.name
+        if photo_path != copy_to:
+            shutil.copy(
+                rendercv_model.cv.photo,
+                typst_path.parent / rendercv_model.cv.photo.name,
+            )
 
 
 @functools.lru_cache(maxsize=1)

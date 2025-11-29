@@ -46,7 +46,7 @@
   links-underline: true,
   links-show-external-link-icon: false,
   header-alignment: left,
-  header-photo-width: 3.5cm,
+  header-photo-width: 4.15cm,
   header-space-below-name: 0.7cm,
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
@@ -82,10 +82,12 @@
   ),
 )
 
+
 = John Doe
 
 #connections(
 )
+
 
 == Experience
 

@@ -224,7 +224,10 @@ design:
   #   show_external_link_icon: false
   # header:
   #   alignment: left
-  #   photo_width: 3.5cm
+  #   photo_width: 4.15cm
+  #   photo_position: left
+  #   photo_space_left: 0cm
+  #   photo_space_right: 0.3cm
   #   space_below_name: 0.7cm
   #   space_below_headline: 0.7cm
   #   space_below_connections: 0.7cm

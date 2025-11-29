@@ -1,12 +1,19 @@
+{% macro image() %}
+#pad(left: {{ design.header.photo_space_left }}, right: {{ design.header.photo_space_right }}, image("{{ cv.photo.name }}", width: {{ design.header.photo_width }}))
+{% endmacro %}
+
 {% if cv.photo %}
-{% set photo = "#image(\"" + cv.photo|string + "\", width: "+ design.header.photo_width + ")" %}
+{% set photo = "image(\"" + cv.photo|string + "\", width: "+ design.header.photo_width + ")" %}
 #grid(
-  width: ({{ design.header.photo_width }}, 1fr),
-  columns: 2,
-  column-gutter: 0.4cm,
+{% if design.header.photo_position == "left" %}
+  columns: (auto, 1fr),
+{% else %}
+  columns: (1fr, auto),
+{% endif %}
+  column-gutter: 0cm,
   align: horizon + left,
 {% if design.header.photo_position == "left" %}
-  [{{ photo }}],
+  [{{ image() }}],
   [
 {% else %}
   [
@@ -29,7 +36,7 @@
 )
 {% else %}
   ],
-  [{{ photo }}]
+  [{{ image() }}],
 )
 {% endif %}
 {% endif %}

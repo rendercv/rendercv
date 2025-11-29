@@ -147,16 +147,13 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
     Returns:
         A RenderCVModel with ~400 entry instances across all entry types.
     """
-    # Handle profile picture
-    profile_picture_path = testdata_dir / "profile_picture.jpg"
-
     # Build CV with all sections
     cv = Cv(
         name="John Doe",
         headline="AI Researcher and Entrepreneur",
         location="Istanbul, Turkey",
         email="john_doe@example.com",
-        photo=profile_picture_path if profile_picture_path.exists() else None,
+        photo=testdata_dir.parent / "profile_picture.jpg",
         phone=pydantic_phone_numbers.PhoneNumber("+905419999999"),
         website=pydantic.HttpUrl("https://example.com"),
         social_networks=[

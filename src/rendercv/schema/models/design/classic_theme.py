@@ -357,6 +357,22 @@ class Header(BaseModelWithoutExtraKeys):
             " value is `left`."
         ),
     )
+    photo_space_left: TypstDimension = pydantic.Field(
+        default="0.4cm",
+        description=(
+            "Space to the left of the photo. "
+            + length_common_description
+            + " The default value is `0.4cm`."
+        ),
+    )
+    photo_space_right: TypstDimension = pydantic.Field(
+        default="0.4cm",
+        description=(
+            "Space to the right of the photo. "
+            + length_common_description
+            + " The default value is `0.4cm`."
+        ),
+    )
     space_below_name: TypstDimension = pydantic.Field(
         default="0.7cm",
         description="Space below your name. "

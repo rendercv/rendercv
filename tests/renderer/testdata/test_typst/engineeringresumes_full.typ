@@ -16,7 +16,7 @@
   page-show-top-note: true,
   colors-body: rgb(0, 0, 0),
   colors-name: rgb(0, 0, 0),
-  colors-headline: rgb(0, 79, 144),
+  colors-headline: rgb(0, 0, 0),
   colors-connections: rgb(0, 0, 0),
   colors-section-titles: rgb(0, 0, 0),
   colors-links: rgb(0, 0, 0),
@@ -82,6 +82,14 @@
   ),
 )
 
+
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 0cm,
+  align: horizon + left,
+  [#pad(left: 0.4cm, right: 0.4cm, image("profile_picture.jpg", width: 3.5cm))
+],
+  [
 = John Doe
 
   #headline([AI Researcher and Entrepreneur])
@@ -105,6 +113,9 @@
   [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[t.me\/johndoe]],
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[x.com\/johndoe]],
 )
+  ]
+)
+
 
 == Text Entries
 

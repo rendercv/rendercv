@@ -16,7 +16,7 @@
   page-show-top-note: true,
   colors-body: rgb(0, 0, 0),
   colors-name: rgb(0, 0, 0),
-  colors-headline: rgb(0, 79, 144),
+  colors-headline: rgb(0, 0, 0),
   colors-connections: rgb(0, 0, 0),
   colors-section-titles: rgb(0, 0, 0),
   colors-links: rgb(0, 0, 0),
@@ -82,10 +82,12 @@
   ),
 )
 
+
 = John Doe
 
 #connections(
 )
+
 
 == Experience
 

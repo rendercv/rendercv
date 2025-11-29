@@ -82,10 +82,12 @@
   ),
 )
 
+
 = John Doe
 
 #connections(
 )
+
 
 == Experience
 

@@ -4,7 +4,7 @@ cv:
   headline:
   location: San Francisco, CA
   email: john.doe@email.com
-  photo:
+  photo: profile_picture.jpg
   phone:
   website: https://johndoe.ai/
   social_networks:
@@ -185,7 +185,7 @@ design:
     show_footer: true
     show_top_note: true
   colors:
-    text: rgb(0, 0, 0)
+    body: rgb(0, 0, 0)
     name: rgb(0, 79, 144)
     headline: rgb(0, 79, 144)
     connections: rgb(0, 79, 144)
@@ -224,7 +224,10 @@ design:
     show_external_link_icon: false
   header:
     alignment: left
-    photo_width: 3.5cm
+    photo_width: 4.15cm
+    photo_position: left
+    photo_space_left: 0cm
+    photo_space_right: 0.3cm
     space_below_name: 0.7cm
     space_below_headline: 0.7cm
     space_below_connections: 0.7cm
@@ -238,7 +241,7 @@ design:
   section_titles:
     type: moderncv
     line_thickness: 0.15cm
-    space_above: 0.1cm
+    space_above: 0.55cm
     space_below: 0.3cm
   sections:
     allow_page_break: true
@@ -248,22 +251,22 @@ design:
   entries:
     date_and_location_width: 4.15cm
     side_space: 0cm
-    space_between_columns: 0.4cm
+    space_between_columns: 0.3cm
     allow_page_break: false
     short_second_row: false
     summary:
-      space_above: 0cm
+      space_above: 0.1cm
       space_left: 0cm
     highlights:
       bullet: •
       nested_bullet: •
-      space_left: 0cm
+      space_left: 0.15cm
       space_above: 0.15cm
-      space_between_items: 0.19cm
-      space_between_bullet_and_text: 0.1cm
+      space_between_items: 0.1cm
+      space_between_bullet_and_text: 0.3em
   templates:
-    footer: NAME -- PAGE_NUMBER/TOTAL_PAGES
-    top_note: LAST_UPDATED CURRENT_DATE
+    footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
+    top_note: '*LAST_UPDATED CURRENT_DATE*'
     single_date: MONTH_ABBREVIATION YEAR
     date_range: START_DATE – END_DATE
     time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
@@ -329,5 +332,5 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-11-28'
+  current_date: '2025-11-29'
   bold_keywords: []

@@ -4,8 +4,8 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
-  footer: context { "John Doe - " + str(here().page()) + "/" + str(counter(page).final().first()) + "" },
-  top-note: "Last updated in Nov 2025",
+  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
   page-size: "us-letter",
   page-top-margin: 0.7in,
@@ -14,7 +14,7 @@
   page-right-margin: 0.7in,
   page-show-footer: true,
   page-show-top-note: true,
-  colors-text: rgb(0, 0, 0),
+  colors-body: rgb(0, 0, 0),
   colors-name: rgb(0, 79, 144),
   colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
@@ -46,7 +46,7 @@
   links-underline: true,
   links-show-external-link-icon: false,
   header-alignment: left,
-  header-photo-width: 3.5cm,
+  header-photo-width: 4.15cm,
   header-space-below-name: 0.7cm,
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
@@ -64,24 +64,32 @@
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
   entries-side-space: 0cm,
-  entries-space-between-columns: 0.4cm,
+  entries-space-between-columns: 0.3cm,
   entries-allow-page-break: false,
   entries-short-second-row: false,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0.1cm,
   entries-highlights-bullet:  "•" ,
   entries-highlights-nested-bullet:  "•" ,
-  entries-highlights-space-left: 0cm,
+  entries-highlights-space-left: 0.15cm,
   entries-highlights-space-above: 0.15cm,
   entries-highlights-space-between-items: 0.1cm,
   entries-highlights-space-between-bullet-and-text: 0.3em,
   date: datetime(
     year: 2025,
     month: 11,
-    day: 28,
+    day: 29,
   ),
 )
 
+
+#grid(
+  columns: (auto, 1fr),
+  column-gutter: 0cm,
+  align: horizon + left,
+  [#pad(left: 0cm, right: 0.3cm, image("profile_picture.jpg", width: 4.15cm))
+],
+  [
 = John Doe
 
 #connections(
@@ -91,6 +99,9 @@
   [#link("https://linkedin.com/in/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("linkedin")[johndoe]]],
   [#link("https://github.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("github")[johndoe]]],
 )
+  ]
+)
+
 
 == Summary
 
