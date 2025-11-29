@@ -298,7 +298,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__2"
         },
         "sections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__2"
         },
         "entries": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Entries__2"
@@ -338,7 +338,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__3"
         },
         "sections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__2"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__3"
         },
         "entries": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Entries__3"
@@ -462,6 +462,570 @@
       "format": "path",
       "type": "string"
     },
+    "FrenchLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "french",
+          "default": "french",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Dernière mise à jour",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "mois",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "mois",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "an",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "ans",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "présent",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Fév",
+            "Mar",
+            "Avr",
+            "Mai",
+            "Juin",
+            "Juil",
+            "Aoû",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Déc"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "FrenchLocale",
+      "type": "object"
+    },
+    "GermanLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "german",
+          "default": "german",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Zuletzt aktualisiert",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "Monat",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "Monate",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "Jahr",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "Jahre",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "gegenwärtig",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mär",
+            "Apr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dez"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januar",
+            "Februar",
+            "März",
+            "April",
+            "Mai",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "Dezember"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "GermanLocale",
+      "type": "object"
+    },
+    "HindiLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "hindi",
+          "default": "hindi",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "अंतिम अद्यतन",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "महीना",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "महीने",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "वर्ष",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "वर्ष",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "वर्तमान",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "जन",
+            "फर",
+            "मार",
+            "अप्र",
+            "मई",
+            "जून",
+            "जुल",
+            "अग",
+            "सित",
+            "अक्ट",
+            "नव",
+            "दिस"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "जनवरी",
+            "फरवरी",
+            "मार्च",
+            "अप्रैल",
+            "मई",
+            "जून",
+            "जुलाई",
+            "अगस्त",
+            "सितंबर",
+            "अक्टूबर",
+            "नवंबर",
+            "दिसंबर"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "HindiLocale",
+      "type": "object"
+    },
+    "ItalianLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "italian",
+          "default": "italian",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Ultimo aggiornamento",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "mese",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "mesi",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "anno",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "anni",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "presente",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Gen",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mag",
+            "Giu",
+            "Lug",
+            "Ago",
+            "Set",
+            "Ott",
+            "Nov",
+            "Dic"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Gennaio",
+            "Febbraio",
+            "Marzo",
+            "Aprile",
+            "Maggio",
+            "Giugno",
+            "Luglio",
+            "Agosto",
+            "Settembre",
+            "Ottobre",
+            "Novembre",
+            "Dicembre"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "ItalianLocale",
+      "type": "object"
+    },
+    "JapaneseLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "japanese",
+          "default": "japanese",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "最終更新",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "月",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "ヶ月",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "年",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "年",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "現在",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "1月",
+            "2月",
+            "3月",
+            "4月",
+            "5月",
+            "6月",
+            "7月",
+            "8月",
+            "9月",
+            "10月",
+            "11月",
+            "12月"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "JapaneseLocale",
+      "type": "object"
+    },
+    "KoreanLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "korean",
+          "default": "korean",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "마지막 업데이트",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "월",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "개월",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "년",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "년",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "현재",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "1월",
+            "2월",
+            "3월",
+            "4월",
+            "5월",
+            "6월",
+            "7월",
+            "8월",
+            "9월",
+            "10월",
+            "11월",
+            "12월"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "1월",
+            "2월",
+            "3월",
+            "4월",
+            "5월",
+            "6월",
+            "7월",
+            "8월",
+            "9월",
+            "10월",
+            "11월",
+            "12월"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "KoreanLocale",
+      "type": "object"
+    },
     "ListOfEntries": {
       "anyOf": [
         {
@@ -524,7 +1088,16 @@
       "discriminator": {
         "mapping": {
           "english": "#/$defs/EnglishLocale",
+          "french": "#/$defs/FrenchLocale",
+          "german": "#/$defs/GermanLocale",
+          "hindi": "#/$defs/HindiLocale",
+          "italian": "#/$defs/ItalianLocale",
+          "japanese": "#/$defs/JapaneseLocale",
+          "korean": "#/$defs/KoreanLocale",
           "mandarin_chineese": "#/$defs/MandarinChineeseLocale",
+          "portuguese": "#/$defs/PortugueseLocale",
+          "russian": "#/$defs/RussianLocale",
+          "spanish": "#/$defs/SpanishLocale",
           "turkish": "#/$defs/TurkishLocale"
         },
         "propertyName": "language"
@@ -534,7 +1107,34 @@
           "$ref": "#/$defs/EnglishLocale"
         },
         {
+          "$ref": "#/$defs/FrenchLocale"
+        },
+        {
+          "$ref": "#/$defs/GermanLocale"
+        },
+        {
+          "$ref": "#/$defs/HindiLocale"
+        },
+        {
+          "$ref": "#/$defs/ItalianLocale"
+        },
+        {
+          "$ref": "#/$defs/JapaneseLocale"
+        },
+        {
+          "$ref": "#/$defs/KoreanLocale"
+        },
+        {
           "$ref": "#/$defs/MandarinChineeseLocale"
+        },
+        {
+          "$ref": "#/$defs/PortugueseLocale"
+        },
+        {
+          "$ref": "#/$defs/RussianLocale"
+        },
+        {
+          "$ref": "#/$defs/SpanishLocale"
         },
         {
           "$ref": "#/$defs/TurkishLocale"
@@ -663,7 +1263,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
         },
         "sections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__4"
         },
         "entries": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Entries__4"
@@ -698,6 +1298,100 @@
     "PlannedInputRelativePath": {
       "format": "path",
       "type": "string"
+    },
+    "PortugueseLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "portuguese",
+          "default": "portuguese",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Última atualização",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "mês",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "meses",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "ano",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "anos",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "presente",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Fev",
+            "Mar",
+            "Abr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Set",
+            "Out",
+            "Nov",
+            "Dez"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "PortugueseLocale",
+      "type": "object"
     },
     "RenderCommand": {
       "additionalProperties": false,
@@ -806,6 +1500,100 @@
       "title": "ReversedNumberedEntry",
       "type": "object"
     },
+    "RussianLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "russian",
+          "default": "russian",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Последнее обновление",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "месяц",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "месяцы",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "год",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "лет",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "настоящее время",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Янв",
+            "Фев",
+            "Мар",
+            "Апр",
+            "Май",
+            "Июн",
+            "Июл",
+            "Авг",
+            "Сен",
+            "Окт",
+            "Ноя",
+            "Дек"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "RussianLocale",
+      "type": "object"
+    },
     "Sb2novTheme": {
       "additionalProperties": false,
       "properties": {
@@ -834,7 +1622,7 @@
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
         },
         "sections": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__5"
         },
         "entries": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Entries__5"
@@ -951,6 +1739,100 @@
         "X"
       ],
       "type": "string"
+    },
+    "SpanishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "spanish",
+          "default": "spanish",
+          "description": "The language of the locale. The default value is 'english'.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Última actualización",
+          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "mes",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "meses",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "año",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "años",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "presente",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Ene",
+            "Feb",
+            "Mar",
+            "Abr",
+            "May",
+            "Jun",
+            "Jul",
+            "Ago",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dic"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Enero",
+            "Febrero",
+            "Marzo",
+            "Abril",
+            "Mayo",
+            "Junio",
+            "Julio",
+            "Agosto",
+            "Septiembre",
+            "Octubre",
+            "Noviembre",
+            "Diciembre"
+          ],
+          "description": "Full names of the months in the locale.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "SpanishLocale",
+      "type": "object"
     },
     "TurkishLocale": {
       "additionalProperties": false,
@@ -1894,8 +2776,8 @@
           "type": "string"
         },
         "headline": {
-          "default": "rgb(0,79,144)",
-          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,79,144)`.",
+          "default": "rgb(0,0,0)",
+          "description": "The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is `rgb(0,0,0)`.",
           "format": "color",
           "title": "Headline",
           "type": "string"
@@ -2358,8 +3240,8 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `false`.",
+          "default": true,
+          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
@@ -2400,8 +3282,8 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `false`.",
+          "default": true,
+          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
@@ -2442,8 +3324,8 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `false`.",
+          "default": true,
+          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
@@ -2484,8 +3366,8 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `false`.",
+          "default": true,
+          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
@@ -2526,8 +3408,8 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `false`.",
+          "default": true,
+          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
@@ -2944,8 +3826,8 @@
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "3.5cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "default": "4.15cm",
+          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "photo_position": {
           "default": "left",
@@ -2959,13 +3841,13 @@
         },
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "default": "0cm",
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.4cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "default": "0.3cm",
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
@@ -3745,6 +4627,9 @@
           "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [
+            "experience"
+          ],
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
           "examples": [
             [
@@ -3776,6 +4661,37 @@
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
+          "default": "1.2em",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+        },
+        "space_between_text_based_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.3em",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+        },
+        "show_time_spans_in": {
+          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Show Time Spans In",
+          "type": "array"
+        }
+      },
+      "title": "Sections",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Sections__3": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_page_break": {
+          "default": true,
+          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "title": "Allow Page Break",
+          "type": "boolean"
+        },
+        "space_between_regular_entries": {
+          "$ref": "#/$defs/TypstDimension",
           "default": "0.32cm",
           "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.32cm`."
         },
@@ -3786,15 +4702,68 @@
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
-          "examples": [
-            [
-              "Experience"
-            ],
-            [
-              "Experience",
-              "Education"
-            ]
-          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Show Time Spans In",
+          "type": "array"
+        }
+      },
+      "title": "Sections",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Sections__4": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_page_break": {
+          "default": true,
+          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "title": "Allow Page Break",
+          "type": "boolean"
+        },
+        "space_between_regular_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1.2em",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+        },
+        "space_between_text_based_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.3em",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+        },
+        "show_time_spans_in": {
+          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Show Time Spans In",
+          "type": "array"
+        }
+      },
+      "title": "Sections",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Sections__5": {
+      "additionalProperties": false,
+      "properties": {
+        "allow_page_break": {
+          "default": true,
+          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "title": "Allow Page Break",
+          "type": "boolean"
+        },
+        "space_between_regular_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1.2em",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+        },
+        "space_between_text_based_entries": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.3em",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+        },
+        "show_time_spans_in": {
+          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
           "items": {
             "type": "string"
           },

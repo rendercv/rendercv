@@ -66,7 +66,7 @@
   entries-side-space: 0cm,
   entries-space-between-columns: 0.3cm,
   entries-allow-page-break: false,
-  entries-short-second-row: false,
+  entries-short-second-row: true,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0.1cm,
   entries-highlights-bullet:  "•" ,

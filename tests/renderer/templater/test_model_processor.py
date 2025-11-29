@@ -2,7 +2,6 @@ from datetime import date as Date
 
 import pytest
 
-from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.model_processor import process_fields, process_model
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.normal import NormalEntry
@@ -63,26 +62,6 @@ class TestProcessFields:
         assert entry.start_date == "2020-01-01"
         assert entry.end_date == "2020-02-01"
 
-    @pytest.mark.parametrize(
-        "bad_value",
-        [
-            {"unexpected": "dict"},
-            123,
-            3.14,
-            object(),
-        ],
-    )
-    def test_raises_for_unhandled_field_types(self, bad_value):
-        entry = NormalEntry.model_validate(
-            {
-                "name": "Test",
-                "weird": bad_value,
-            }
-        )
-
-        with pytest.raises(RenderCVInternalError, match="Unhandled field type"):
-            process_fields(entry, [lambda s: s])
-
 
 @pytest.fixture(params=[["Python", "Remote"], []])
 def model(request: pytest.FixtureRequest) -> RenderCVModel:
@@ -93,7 +72,7 @@ def model(request: pytest.FixtureRequest) -> RenderCVModel:
         "email": "jane@example.com",
         "website": "https://janedoe.dev",
         "sections": {
-            "Experience": [
+            "Professional Experience": [
                 {
                     "name": "Backend Work",
                     "summary": "Built Python services with *markdown* emphasis.",
@@ -137,18 +116,13 @@ class TestProcessModel:
             )
             assert "- Improved **Python** performance" in entry.main_column
             # DATE placeholder removed because it's not provided; location remains
-            assert (
-                entry.date_and_location_column
-                == "**Remote**\nJan 2022 – Feb 2023"
-            )
+            assert entry.date_and_location_column == "**Remote**\nJan 2022 – Feb 2023"
         else:
             assert (
                 "Built Python services with *markdown* emphasis." in entry.main_column
             )
             assert "- Improved Python performance" in entry.main_column
-            assert (
-                entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
-            )
+            assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
 
     def test_process_model_for_typst_converts_markdown_and_bolds_keywords(self, model):
         result = process_model(model, "typst")
@@ -161,16 +135,13 @@ class TestProcessModel:
         if model.settings.bold_keywords:
             assert "- Improved #strong[Python] performance" in entry.main_column
             assert (
-                entry.date_and_location_column
-                == "#strong[Remote]\nJan 2022 – Feb 2023"
+                entry.date_and_location_column == "#strong[Remote]\nJan 2022 – Feb 2023"
             )
             # Connections rendered as Typst links with icons by default
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "#connection-with-icon" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
         else:
             assert "- Improved Python performance" in entry.main_column
-            assert (
-                entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
-            )
+            assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]

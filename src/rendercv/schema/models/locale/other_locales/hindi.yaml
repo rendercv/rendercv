@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: hindi
+  last_updated: अंतिम अद्यतन
+  month: महीना
+  months: महीने
+  year: वर्ष
+  years: वर्ष
+  present: वर्तमान
+  month_abbreviations:
+    - जन
+    - फर
+    - मार
+    - अप्र
+    - मई
+    - जून
+    - जुल
+    - अग
+    - सित
+    - अक्ट
+    - नव
+    - दिस
+  month_names:
+    - जनवरी
+    - फरवरी
+    - मार्च
+    - अप्रैल
+    - मई
+    - जून
+    - जुलाई
+    - अगस्त
+    - सितंबर
+    - अक्टूबर
+    - नवंबर
+    - दिसंबर
