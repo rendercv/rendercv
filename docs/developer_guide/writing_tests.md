@@ -1,27 +1,19 @@
 # Writing Tests
 
-Welcome! This guide explains how we write tests in RenderCV. Following these patterns helps keep our test suite consistent, maintainable, and easy to contribute to.
+This guide explains how to write tests for RenderCV. Follow these patterns to keep the test suite consistent and maintainable.
 
-## Test Types
+## Test Organization
 
-Tests in `tests/` fall into two categories:
+Tests live in `tests/` and fall into two categories:
 
-1. **Unit tests**: Folders that mirror `src/rendercv/` structure (e.g., `tests/renderer/`, `tests/schema/`, `tests/cli/`)
+1. **Unit tests**: Mirror the `src/rendercv/` structure (e.g., `tests/renderer/`, `tests/schema/`, `tests/cli/`)
 2. **Non-unit tests**: `tests/integration/`, `tests/scripts/`
 
 ## Unit Tests
 
-### Philosophy
+### File Structure
 
-Our testing philosophy is simple:
-
-1. **Unit focused**: Test functions in isolation. Input → output. Nothing more.
-2. **DRY**: Use `pytest.mark.parametrize` for variations instead of repeating test logic.
-3. **High coverage**: Cover edge cases through parameterization, not more test functions.
-
-### File structure
-
-Create one test file per source file, mirroring the folder structure:
+One test file per source file, mirroring the folder structure:
 
 ```
 src/rendercv/renderer/templater/date.py
@@ -31,19 +23,19 @@ src/rendercv/schema/models/cv/section.py
     → tests/schema/models/cv/test_section.py
 ```
 
-### Naming conventions
+### Naming Conventions
 
-Test names should always include the name of the function being tested. This makes it easy to find tests for a specific function and keeps things organized.
+Test names must include the function being tested.
 
-- **Single test**: `test_` + function name → `test_clean_url`, `test_run_function_if_file_changes`
-- **Multiple tests (class)**: `Test` + function name in PascalCase → `TestCleanUrl`, `TestRunFunctionIfFileChanges`
+- **Single test**: `test_` + function name → `test_clean_url`
+- **Multiple tests**: `Test` + PascalCase function name → `TestCleanUrl`
 
-### When to use classes
+### When to Use Classes
 
-**Use a class** when a function needs multiple test functions. The class name should be `Test` + the function name in PascalCase:
+Use a class when a function needs multiple test functions:
 
 ```python
-class TestComputeDateString:  # tests for compute_date_string()
+class TestComputeDateString:
     @pytest.mark.parametrize(...)
     def test_date_parameter_takes_precedence(self, ...):
         ...
@@ -57,7 +49,7 @@ class TestComputeDateString:  # tests for compute_date_string()
         ...
 ```
 
-**Skip the class** when a function needs only one test. The function name should be `test_` + the function name:
+Skip the class when a function needs only one test:
 
 ```python
 @pytest.mark.parametrize(
@@ -68,17 +60,13 @@ class TestComputeDateString:  # tests for compute_date_string()
         ("https://example.com/test", "example.com/test"),
     ],
 )
-def test_clean_url(url, expected_clean_url):  # tests for clean_url()
+def test_clean_url(url, expected_clean_url):
     assert clean_url(url) == expected_clean_url
-
-
-def test_make_keywords_bold():  # tests for make_keywords_bold()
-    assert make_keywords_bold("test string", ["test"]) == "**test** string"
 ```
 
-### Use parametrize for variations
+### Use Parametrize for Variations
 
-This is one of the most important patterns. Instead of writing multiple similar tests, use `@pytest.mark.parametrize`:
+Instead of writing multiple similar tests, use `@pytest.mark.parametrize`:
 
 ```python
 @pytest.mark.parametrize(
@@ -94,83 +82,73 @@ def test_date_ranges(self, input_a, input_b, expected):
     assert result == expected
 ```
 
-### Using conftest.py for shared fixtures
+### Shared Fixtures with conftest.py
 
-When fixtures need to be shared across multiple test files, place them in a `conftest.py` file. The key principle is: **use the closest conftest.py possible**.
+Place shared fixtures in `conftest.py`. Use the closest one possible:
 
-- If fixtures are used by multiple files **in the same folder**, put them in that folder's `conftest.py`
-- If fixtures are used by files **in different folders**, put them in the `conftest.py` of their closest common parent
-
-For example:
+- Fixtures for one folder → that folder's `conftest.py`
+- Fixtures for multiple folders → their closest common parent's `conftest.py`
 
 ```
 tests/
-├── conftest.py                    # Fixtures used across all tests
+├── conftest.py                    # Used across all tests
 ├── schema/
-│   ├── conftest.py                # Fixtures used by schema tests only
+│   ├── conftest.py                # Used by schema tests only
 │   └── models/
 │       └── cv/
-│           ├── conftest.py        # Fixtures used by CV model tests only
+│           ├── conftest.py        # Used by CV model tests only
 │           ├── test_section.py
 │           └── test_cv.py
 └── renderer/
     └── ...
 ```
 
-This keeps fixtures close to where they're used and makes it clear which tests depend on them.
-
 ### Guidelines
 
-1. **One assertion per logical check**. Multiple asserts are fine if they're testing the same behavior.
+**Keep tests focused.** Test functions in isolation: input → output.
 
-2. **Prefer real behavior over mocking**. Only mock when there's no practical alternative.
+**Don't create unnecessary fixtures.** If setup is one clear line, inline it:
 
-3. **Only create fixtures when truly needed**. If something can be created in one self-explanatory line, just inline it:
+```python
+# Don't:
+@pytest.fixture
+def locale(self):
+    return EnglishLocale()
 
-   ```python
-   # Don't do this:
-   @pytest.fixture
-   def locale(self):
-       return EnglishLocale()
+def test_something(self, locale):
+    result = format_date(Date(2020, 1, 1), locale)
 
-   def test_something(self, locale):
-       result = format_date(Date(2020, 1, 1), locale)
-       ...
+# Do:
+def test_something(self):
+    result = format_date(Date(2020, 1, 1), EnglishLocale())
+```
 
-   # Do this instead:
-   def test_something(self):
-       result = format_date(Date(2020, 1, 1), EnglishLocale())
-       ...
-   ```
+**Prefer real behavior over mocking.** Only mock when there's no practical alternative.
 
-   Fixtures are useful when setup is complex, expensive, or needs to be shared across many tests.
+**Name tests by what the function should do, not what you're passing in:**
+- Good: `test_returns_none_for_incomplete_data` — tells you the expected behavior
+- Unclear: `test_function_with_none_input` — tells you nothing about what should happen
 
-4. **Test names should describe behavior**, not implementation:
-   - Good: `test_returns_none_for_incomplete_data`
-   - Less clear: `test_function_with_none_input`
+**Keep tests simple:**
 
-5. **Keep tests simple**:
-   ```python
-   def test_something(self, input, expected):
-       result = function_under_test(input)
-       assert result == expected
-   ```
+```python
+def test_something(self, input, expected):
+    result = function_under_test(input)
+    assert result == expected
+```
 
-6. **Add docstrings only when the test name isn't self-explanatory**.
+**Add docstrings when something isn't self-explanatory.** This applies to both tests and fixtures. If a new developer would look at it and wonder "what is this doing?" or "why is it done this way?"—add a short docstring. Keep it to the minimum necessary: what it does, why it exists, why it's implemented that way if non-obvious.
 
-### What to test
+### What to Test
 
-- Happy paths (valid inputs → expected outputs)
-- Edge cases (empty strings, None, boundary values)
-- Error cases (invalid inputs → None or exceptions)
-- Configuration variations through parameterization
+- Inputs → expected outputs
+- Inputs → expected errors
 
-### Patterns to avoid
+### Patterns to Avoid
 
 - Testing implementation details rather than behavior
 - Writing integration tests disguised as unit tests
-- Repeating the same assertion logic across multiple test functions
-- Creating complex fixtures when simple values would work
+- Creating complex fixtures when simple values work
 
 ## Non-Unit Tests
 
