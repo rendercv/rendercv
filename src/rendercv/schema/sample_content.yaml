@@ -6,16 +6,15 @@ cv:
   email: john.doe@email.com
   photo:
   phone:
-  website: https://johndoe.ai/
+  website: https://rendercv.com/
   social_networks:
     - network: LinkedIn
-      username: johndoe
+      username: rendercv
     - network: GitHub
-      username: johndoe
+      username: rendercv
   sections:
-    summary:
-      - AI researcher and entrepreneur with a track record of publishing at top venues (NeurIPS, ICML, ICLR) and translating research into products used by millions.
-      - Currently building [Nexus AI](https://nexusai.com), a VC-backed infrastructure company for efficient large model deployment.
+    RenderCV:
+      - RenderCV is a modern and flexible CV template for AI researchers and entrepreneurs.
     education:
       - date:
         start_date: 2018-09
@@ -174,3 +173,9 @@ cv:
       - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
       - reversed_number: "From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)"
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
+    any_section_title:
+      - You can use any section title you want.
+      - "You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`."
+      - Markdown syntax is supported everywhere.
+      - The `design` field in YAML gives you control over almost any aspect of your CV design.
+      - "See the [documentation](https://docs.rendercv.com) for more details."
