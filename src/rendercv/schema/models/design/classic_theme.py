@@ -448,7 +448,7 @@ class Sections(BaseModelWithoutExtraKeys):
         ),
     )
     show_time_spans_in: list[str] = pydantic.Field(
-        default_factory=list,
+        default=["experience"],
         description=(
             "List of section titles where time spans (duration) should be displayed in"
             " entries. For example, ['Experience', 'Education'] will show '2 years 3"
@@ -560,10 +560,10 @@ class Entries(BaseModelWithoutExtraKeys):
         ),
     )
     short_second_row: bool = pydantic.Field(
-        default=False,
+        default=True,
         description=(
             "If true, the second row of entries will be shortened to align with the top"
-            " of the date/location column. The default value is `false`."
+            " of the date/location column. The default value is `true`."
         ),
     )
     summary: Summary = pydantic.Field(

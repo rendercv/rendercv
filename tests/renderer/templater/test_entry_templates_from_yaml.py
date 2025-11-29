@@ -12,6 +12,7 @@ from rendercv.renderer.templater.entry_templates_from_yaml import (
     process_highlights,
     process_summary,
     process_url,
+    remove_not_provided_placeholders,
     render_entry_templates,
 )
 from rendercv.schema.models.cv.entries.normal import NormalEntry
@@ -262,6 +263,124 @@ class TestRenderEntryTemplates:
             entry.main_column  # pyright: ignore [reportAttributeAccessIssue]
             == "Linked Item [example.com/page](https://example.com/page/)"
         )
+
+
+@pytest.mark.parametrize(
+    ("entry_templates", "entry_fields", "expected"),
+    [
+        # All placeholders provided - no changes
+        (
+            {"main": "NAME - LOCATION"},
+            {"NAME": "John", "LOCATION": "NYC"},
+            {"main": "NAME - LOCATION"},
+        ),
+        # Single missing placeholder - trailing dash removed by clean_trailing_parts
+        (
+            {"main": "NAME - LOCATION"},
+            {"NAME": "John"},
+            {"main": "NAME"},
+        ),
+        # Missing placeholder - trailing space removed
+        (
+            {"main": "NAME (LOCATION)"},
+            {"NAME": "John"},
+            {"main": "NAME"},
+        ),
+        # Multiple missing placeholders - trailing comma removed
+        (
+            {"main": "NAME, LOCATION, DATE"},
+            {"NAME": "John"},
+            {"main": "NAME"},
+        ),
+        # Missing placeholder with various delimiters - no trailing cleanup needed
+        (
+            {"main": "NAME | LOCATION | DATE"},
+            {"NAME": "John", "DATE": "2024"},
+            {"main": "NAME |  | DATE"},
+        ),
+        # Multiple templates - both get trailing parts cleaned
+        (
+            {"main": "NAME - LOCATION", "side": "DATE"},
+            {"NAME": "John"},
+            {"main": "NAME", "side": ""},
+        ),
+        # Placeholder at start - leading dash and space remain (not trailing)
+        (
+            {"main": "LOCATION - NAME"},
+            {"NAME": "John"},
+            {"main": " - NAME"},
+        ),
+        # No placeholders in template
+        (
+            {"main": "Just plain text"},
+            {"NAME": "John"},
+            {"main": "Just plain text"},
+        ),
+        # Empty template
+        (
+            {"main": ""},
+            {"NAME": "John"},
+            {"main": ""},
+        ),
+        # Placeholder with underscores - trailing space removed
+        (
+            {"main": "NAME START_DATE"},
+            {"NAME": "John"},
+            {"main": "NAME"},
+        ),
+        # Mixed case - only uppercase words are placeholders
+        (
+            {"main": "NAME Location DATE"},
+            {"NAME": "John", "DATE": "2024"},
+            {"main": "NAME Location DATE"},
+        ),
+        # All placeholders missing - empty line removed
+        (
+            {"main": "NAME LOCATION DATE"},
+            {},
+            {"main": ""},
+        ),
+        # Placeholder with no surrounding non-whitespace
+        (
+            {"main": "NAME LOCATION DATE"},
+            {"NAME": "John", "DATE": "2024"},
+            {"main": "NAME  DATE"},
+        ),
+        # Complex surrounding characters - trailing dash removed
+        (
+            {"main": "**NAME** - [LOCATION] (DATE)"},
+            {"NAME": "John"},
+            {"main": "**NAME**"},
+        ),
+        # Realistic placeholder with underscores - trailing dashes removed
+        (
+            {"main": "COMPANY_NAME - JOB_TITLE", "side": "START_DATE - END_DATE"},
+            {"COMPANY_NAME": "Acme Corp", "START_DATE": "2020"},
+            {"main": "COMPANY_NAME", "side": "START_DATE"},
+        ),
+        # Multiple underscores in placeholder - trailing dash removed
+        (
+            {"main": "THIS_IS_A_LONG_KEY - ANOTHER_KEY"},
+            {"THIS_IS_A_LONG_KEY": "Value"},
+            {"main": "THIS_IS_A_LONG_KEY"},
+        ),
+        # Mix of underscore and non-underscore placeholders
+        (
+            {"main": "NAME (COMPANY_NAME) | START_DATE"},
+            {"NAME": "John", "START_DATE": "2020"},
+            {"main": "NAME  | START_DATE"},
+        ),
+        # Underscore placeholder with complex delimiters - "at" remains (letters are allowed)
+        (
+            {"main": "**JOB_TITLE** at COMPANY_NAME (LOCATION)"},
+            {"JOB_TITLE": "Engineer"},
+            {"main": "**JOB_TITLE** at"},
+        ),
+    ],
+)
+def test_remove_not_provided_placeholders(entry_templates, entry_fields, expected):
+    result = remove_not_provided_placeholders(entry_templates, entry_fields)
+    assert result == expected
 
 
 @pytest.mark.parametrize(

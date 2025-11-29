@@ -94,7 +94,12 @@ def process_fields(
                 [apply_string_processors(v, string_processors) for v in value],
             )
         else:
-            message = f"Unhandled field type: {type(value)}"
-            raise RenderCVInternalError(message)
+            try:
+                setattr(
+                    entry, field, apply_string_processors(str(value), string_processors)
+                )
+            except Exception as e:
+                message = f"Unhandled field type: {type(value)}"
+                raise RenderCVInternalError(message) from e
 
     return entry

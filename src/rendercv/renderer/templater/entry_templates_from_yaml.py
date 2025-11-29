@@ -11,7 +11,7 @@ from rendercv.schema.models.locale.locale import Locale
 from .date import compute_time_span_string, format_date_range, format_single_date
 from .string_processor import clean_url, substitute_placeholders
 
-uppercase_word_pattern = re.compile(r"\b[A-Z]+\b")
+uppercase_word_pattern = re.compile(r"\b[A-Z_]+\b")
 
 
 def render_entry_templates[EntryType: Entry](
@@ -90,22 +90,7 @@ def render_entry_templates[EntryType: Entry](
     if "SUMMARY" in entry_fields:
         entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
 
-    # Remove the not provided placeholders from the templates, including characters
-    # around them:
-    used_placeholders_in_templates = set(
-        uppercase_word_pattern.findall(" ".join(entry_templates.values()))
-    )
-    not_provided_placeholders = used_placeholders_in_templates - set(
-        entry_fields.keys()
-    )
-    if not_provided_placeholders:
-        not_provided_placeholders_pattern = re.compile(
-            r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
-        )
-        entry_templates = {
-            key: not_provided_placeholders_pattern.sub("", value)
-            for key, value in entry_templates.items()
-        }
+    entry_templates = remove_not_provided_placeholders(entry_templates, entry_fields)
 
     for template_name, template in entry_templates.items():
         setattr(entry, template_name, template)
@@ -114,7 +99,7 @@ def render_entry_templates[EntryType: Entry](
         setattr(
             entry,
             template_name,
-            clean_trailing_parts(substitute_placeholders(template, entry_fields)),
+            substitute_placeholders(template, entry_fields),
         )
 
     return entry
@@ -185,6 +170,29 @@ def process_doi(entry: Entry) -> str:
 
 def process_summary(summary: str) -> str:
     return f"!!! note\n{textwrap.indent(summary, '    ')}"
+
+
+def remove_not_provided_placeholders(
+    entry_templates: dict[str, str], entry_fields: dict[str, str]
+) -> dict[str, str]:
+    # Remove the not provided placeholders from the templates, including characters
+    # around them:
+    used_placeholders_in_templates = set(
+        uppercase_word_pattern.findall(" ".join(entry_templates.values()))
+    )
+    not_provided_placeholders = used_placeholders_in_templates - set(
+        entry_fields.keys()
+    )
+    if not_provided_placeholders:
+        not_provided_placeholders_pattern = re.compile(
+            r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
+        )
+        entry_templates = {
+            key: clean_trailing_parts(not_provided_placeholders_pattern.sub("", value))
+            for key, value in entry_templates.items()
+        }
+
+    return entry_templates
 
 
 unwanted_trailing_parts_pattern = re.compile(r"[^A-Za-z0-9.!?\[\]\(\)\*_%]+$")

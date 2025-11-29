@@ -25,13 +25,13 @@
   typography-line-spacing: 0.6em,
   typography-alignment: "justified",
   typography-date-and-location-column-alignment: right,
-  typography-font-family-body: "Fontin",
-  typography-font-family-name: "Fontin",
-  typography-font-family-headline: "Fontin",
-  typography-font-family-connections: "Fontin",
-  typography-font-family-section-titles: "Fontin",
+  typography-font-family-body: "Source Sans 3",
+  typography-font-family-name: "Source Sans 3",
+  typography-font-family-headline: "Source Sans 3",
+  typography-font-family-connections: "Source Sans 3",
+  typography-font-family-section-titles: "Source Sans 3",
   typography-font-size-body: 10pt,
-  typography-font-size-name: 25pt,
+  typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
   typography-font-size-connections: 10pt,
   typography-font-size-section-titles: 1.4em,
@@ -43,38 +43,38 @@
   typography-bold-headline: false,
   typography-bold-connections: false,
   typography-bold-section-titles: false,
-  links-underline: true,
+  links-underline: false,
   links-show-external-link-icon: false,
   header-alignment: left,
-  header-photo-width: 4.15cm,
+  header-photo-width: 3.5cm,
   header-space-below-name: 0.7cm,
   header-space-below-headline: 0.7cm,
   header-space-below-connections: 0.7cm,
   header-connections-hyperlink: true,
-  header-connections-show-icons: true,
-  header-connections-display-urls-instead-of-usernames: false,
+  header-connections-show-icons: false,
+  header-connections-display-urls-instead-of-usernames: true,
   header-connections-separator: "",
   header-connections-space-between-connections: 0.5cm,
-  section-titles-type: "moderncv",
-  section-titles-line-thickness: 0.15cm,
-  section-titles-space-above: 0.55cm,
+  section-titles-type: "with_partial_line",
+  section-titles-line-thickness: 0.5pt,
+  section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
   sections-allow-page-break: true,
   sections-space-between-text-based-entries: 0.3em,
   sections-space-between-regular-entries: 1.2em,
   entries-date-and-location-width: 4.15cm,
-  entries-side-space: 0cm,
-  entries-space-between-columns: 0.3cm,
+  entries-side-space: 0.2cm,
+  entries-space-between-columns: 0.1cm,
   entries-allow-page-break: false,
-  entries-short-second-row: false,
+  entries-short-second-row: true,
   entries-summary-space-left: 0cm,
-  entries-summary-space-above: 0.1cm,
+  entries-summary-space-above: 0cm,
   entries-highlights-bullet:  "•" ,
   entries-highlights-nested-bullet:  "•" ,
   entries-highlights-space-left: 0.15cm,
-  entries-highlights-space-above: 0.15cm,
-  entries-highlights-space-between-items: 0.1cm,
-  entries-highlights-space-between-bullet-and-text: 0.3em,
+  entries-highlights-space-above: 0cm,
+  entries-highlights-space-between-items: 0cm,
+  entries-highlights-space-between-bullet-and-text: 0.5em,
   date: datetime(
     year: 2025,
     month: 11,
@@ -83,23 +83,14 @@
 )
 
 
-#grid(
-  columns: (auto, 1fr),
-  column-gutter: 0cm,
-  align: horizon + left,
-  [#pad(left: 0cm, right: 0.3cm, image("profile_picture.jpg", width: 4.15cm))
-],
-  [
 = John Doe
 
 #connections(
-  [#connection-with-icon("location-dot")[San Francisco, CA]],
-  [#link("mailto:john.doe@email.com", icon: false, if-underline: false, if-color: false)[#connection-with-icon("envelope")[john.doe\@email.com]]],
-  [#link("https://johndoe.ai/", icon: false, if-underline: false, if-color: false)[#connection-with-icon("link")[johndoe.ai]]],
-  [#link("https://linkedin.com/in/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("linkedin")[johndoe]]],
-  [#link("https://github.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("github")[johndoe]]],
-)
-  ]
+  [San Francisco, CA],
+  [#link("mailto:john.doe@email.com", icon: false, if-underline: false, if-color: false)[john.doe\@email.com]],
+  [#link("https://johndoe.ai/", icon: false, if-underline: false, if-color: false)[johndoe.ai]],
+  [#link("https://linkedin.com/in/johndoe", icon: false, if-underline: false, if-color: false)[linkedin.com\/in\/johndoe]],
+  [#link("https://github.com/johndoe", icon: false, if-underline: false, if-color: false)[github.com\/johndoe]],
 )
 
 
@@ -113,14 +104,8 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
 
 #education-entry(
   [
-    #strong[Princeton University], PhD in Computer Science -- Princeton, NJ
+    #strong[Princeton University], Computer Science
     
-  ],
-  [
-    Sept 2018 – May 2023
-    
-  ],
-  main-column-second-row: [
     - Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment
     
     - Advisor: Prof. Sanjeev Arora
@@ -128,22 +113,34 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
     - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
     
   ],
+  [
+    Princeton, NJ
+    
+    Sept 2018 – May 2023
+    
+  ],
+  degree-column: [
+    #strong[PhD]
+  ],
 )
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Computer Engineering -- Istanbul, Türkiye
+    #strong[Boğaziçi University], Computer Engineering
     
-  ],
-  [
-    Sept 2014 – June 2018
-    
-  ],
-  main-column-second-row: [
     - GPA: 3.97\/4.00, Valedictorian
     
     - Fulbright Scholarship recipient for graduate studies
     
+  ],
+  [
+    Istanbul, Türkiye
+    
+    Sept 2014 – June 2018
+    
+  ],
+  degree-column: [
+    #strong[BS]
   ],
 )
 
@@ -151,14 +148,8 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
 
 #regular-entry(
   [
-    #strong[Co-Founder & CTO], Nexus AI -- San Francisco, CA
+    #strong[Nexus AI], Co-Founder & CTO
     
-  ],
-  [
-    June 2023 – present
-    
-  ],
-  main-column-second-row: [
     - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97\% uptime
     
     - Raised \$18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
@@ -168,35 +159,39 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
     - Developed proprietary inference optimization reducing latency by 73\% compared to baseline
     
   ],
+  [
+    San Francisco, CA
+    
+    June 2023 – present
+    
+    2 years 7 months
+    
+  ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], NVIDIA Research -- Santa Clara, CA
+    #strong[NVIDIA Research], Research Intern
     
-  ],
-  [
-    May 2022 – Aug 2022
-    
-  ],
-  main-column-second-row: [
     - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
     
     - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5\% of submissions)
     
   ],
+  [
+    Santa Clara, CA
+    
+    May 2022 – Aug 2022
+    
+    4 months
+    
+  ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], Google DeepMind -- London, UK
+    #strong[Google DeepMind], Research Intern
     
-  ],
-  [
-    May 2021 – Aug 2021
-    
-  ],
-  main-column-second-row: [
     - Developed reinforcement learning algorithms for multi-agent coordination
     
     - Published research at top-tier venues with significant academic impact
@@ -208,38 +203,50 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
       - Invited journal extension in JMLR (2023)
     
   ],
+  [
+    London, UK
+    
+    May 2021 – Aug 2021
+    
+    4 months
+    
+  ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], Apple ML Research -- Cupertino, CA
+    #strong[Apple ML Research], Research Intern
     
-  ],
-  [
-    May 2020 – Aug 2020
-    
-  ],
-  main-column-second-row: [
     - Created on-device neural network compression pipeline deployed across 50M+ devices
     
     - Filed 2 patents on efficient model quantization techniques for edge inference
     
   ],
+  [
+    Cupertino, CA
+    
+    May 2020 – Aug 2020
+    
+    4 months
+    
+  ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], Microsoft Research -- Redmond, WA
+    #strong[Microsoft Research], Research Intern
     
-  ],
-  [
-    May 2019 – Aug 2019
-    
-  ],
-  main-column-second-row: [
     - Implemented novel self-supervised learning framework for low-resource language modeling
     
     - Research integrated into Azure Cognitive Services, reducing training data requirements by 60\%
+    
+  ],
+  [
+    Redmond, WA
+    
+    May 2019 – Aug 2019
+    
+    4 months
     
   ],
 )
@@ -250,17 +257,15 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[#link("https://github.com/")[FlashInfer]]
     
-  ],
-  [
-    Jan 2023 – present
-    
-  ],
-  main-column-second-row: [
     #summary[Open-source library for high-performance LLM inference kernels]
     
     - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
     
     - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
+    
+  ],
+  [
+    Jan 2023 – present
     
   ],
 )
@@ -269,17 +274,15 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[#link("https://github.com/")[NeuralPrune]]
     
-  ],
-  [
-    Jan 2021
-    
-  ],
-  main-column-second-row: [
     #summary[Automated neural network pruning toolkit with differentiable masks]
     
     - Reduced model size by 90\% with less than 1\% accuracy degradation on ImageNet
     
     - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
+    
+  ],
+  [
+    Jan 2021
     
   ],
 )
@@ -290,15 +293,13 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models]
     
-  ],
-  [
-    July 2023
-    
-  ],
-  main-column-second-row: [
     #emph[John Doe], Sarah Williams, David Park
     
     #link("https://doi.org/10.1234/neurips.2023.1234")[10.1234\/neurips.2023.1234] (NeurIPS 2023)
+    
+  ],
+  [
+    July 2023
     
   ],
 )
@@ -307,15 +308,13 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[Neural Architecture Search via Differentiable Pruning]
     
-  ],
-  [
-    Dec 2022
-    
-  ],
-  main-column-second-row: [
     James Liu, #emph[John Doe]
     
     #link("https://doi.org/10.1234/neurips.2022.5678")[10.1234\/neurips.2022.5678] (NeurIPS 2022, Spotlight)
+    
+  ],
+  [
+    Dec 2022
     
   ],
 )
@@ -324,15 +323,13 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[Multi-Agent Reinforcement Learning with Emergent Communication]
     
-  ],
-  [
-    July 2022
-    
-  ],
-  main-column-second-row: [
     Maria Garcia, #emph[John Doe], Tom Anderson
     
     #link("https://doi.org/10.1234/icml.2022.9012")[10.1234\/icml.2022.9012] (ICML 2022)
+    
+  ],
+  [
+    July 2022
     
   ],
 )
@@ -341,15 +338,13 @@ Currently building #link("https://nexusai.com")[Nexus AI], a VC-backed infrastru
   [
     #strong[On-Device Model Compression via Learned Quantization]
     
-  ],
-  [
-    May 2021
-    
-  ],
-  main-column-second-row: [
     #emph[John Doe], Kevin Wu
     
     #link("https://doi.org/10.1234/iclr.2021.3456")[10.1234\/iclr.2021.3456] (ICLR 2021, Best Paper Award)
+    
+  ],
+  [
+    May 2021
     
   ],
 )

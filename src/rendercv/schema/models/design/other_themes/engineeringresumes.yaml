@@ -36,6 +36,7 @@ design:
   sections:
     space_between_regular_entries: "0.32cm"
     space_between_text_based_entries: "0.1cm"
+    show_time_spans_in: []
   entries:
     side_space: "0cm"
     highlights:

@@ -28,6 +28,8 @@ design:
     space_above: 0.55cm
     space_below: 0.3cm
     line_thickness: 0.15cm
+  sections:
+    show_time_spans_in: []
   entries:
     side_space: 0cm
     space_between_columns: 0.3cm

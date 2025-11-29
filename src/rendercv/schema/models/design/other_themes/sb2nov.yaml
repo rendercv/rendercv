@@ -19,6 +19,8 @@ design:
     show_external_link_icon: false
   section_titles:
     type: with_full_line
+  sections:
+    show_time_spans_in: []
   header:
     connections:
       hyperlink: true
