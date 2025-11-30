@@ -25,14 +25,32 @@ src/rendercv/schema/models/cv/section.py
 
 ### Naming Conventions
 
-Test names must include the function being tested.
+Test names must include the name of the function or class being tested.
 
-- **Single test**: `test_` + function name → `test_clean_url`
-- **Multiple tests**: `Test` + PascalCase function name → `TestCleanUrl`
+**When you need only one test**, use `test_` + the name:
+- Testing `clean_url()` → `test_clean_url`
+- Testing `Cv` → `test_cv`
 
-### When to Use Classes
+**When you need multiple tests**, wrap them in a class using `Test` + PascalCase name:
+- Testing `clean_url()` → `TestCleanUrl`
+- Testing `Cv` → `TestCv`
 
-Use a class when a function needs multiple test functions:
+Example with one test:
+
+```python
+@pytest.mark.parametrize(
+    ("url", "expected_clean_url"),
+    [
+        ("https://example.com", "example.com"),
+        ("https://example.com/", "example.com"),
+        ("https://example.com/test", "example.com/test"),
+    ],
+)
+def test_clean_url(url, expected_clean_url):
+    assert clean_url(url) == expected_clean_url
+```
+
+Example with multiple tests:
 
 ```python
 class TestComputeDateString:
@@ -47,22 +65,6 @@ class TestComputeDateString:
     @pytest.mark.parametrize(...)
     def test_returns_none_for_incomplete_data(self, ...):
         ...
-```
-
-Skip the class when a function needs only one test:
-
-```python
-@pytest.mark.parametrize(
-    ("url", "expected_clean_url"),
-    [
-        ("https://example.com", "example.com"),
-        ("https://example.com/", "example.com"),
-        ("https://example.com/test", "example.com/test"),
-    ],
-)
-def test_clean_url(url, expected_clean_url):
-    assert clean_url(url) == expected_clean_url
-```
 
 ### Use Parametrize for Variations
 

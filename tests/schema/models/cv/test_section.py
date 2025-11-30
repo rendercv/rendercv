@@ -44,7 +44,7 @@ from rendercv.schema.models.cv.section import (
         ("bullet_entry", "BulletEntry", "SectionWithBulletEntries"),
     ],
 )
-def test_get_entry_type_name_and_section_validator(
+def test_get_entry_type_name_and_section_model(
     entry, expected_entry_type, expected_section_type, request: pytest.FixtureRequest
 ):
     entry = request.getfixturevalue(entry)
@@ -52,7 +52,7 @@ def test_get_entry_type_name_and_section_validator(
     assert entry_type == expected_entry_type
     assert SectionModel.__name__ == expected_section_type
 
-    # initialize the entry with the entry type
+    # Initialize the entry with the entry type to test with model instances too
     if entry_type != "TextEntry":
         entry = eval(f"{entry_type}(**entry)")
         entry_type, SectionModel = get_entry_type_name_and_section_model(entry)
@@ -102,6 +102,6 @@ def test_dictionary_key_to_proper_section_title(key, expected_section_title):
 section_adapter = pydantic.TypeAdapter(Section)
 
 
-def test_none_entries():
+def test_rejects_none_entries():
     with pytest.raises(pydantic.ValidationError):
         section_adapter.validate_python([None])

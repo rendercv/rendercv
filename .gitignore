@@ -187,3 +187,6 @@ render_command.prof
 
 # Executables:
 bin/
+
+# Coverage:
+coverage.md

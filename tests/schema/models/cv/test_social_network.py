@@ -29,7 +29,7 @@ def test_all_urls_are_present():
         ("NONAME", "@invalidusername"),
     ],
 )
-def test_invalid_social_networks(network, username):
+def test_rejects_invalid_networks_and_usernames(network, username):
     with pytest.raises(pydantic.ValidationError):
         SocialNetwork(network=network, username=username)
 

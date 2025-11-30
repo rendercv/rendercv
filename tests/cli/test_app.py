@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from rendercv import __version__
-from rendercv.cli.app import app, warn_if_new_version_is_available
+from rendercv.cli.app import app, cli_command_no_args, warn_if_new_version_is_available
 
 
 def test_all_commands_are_registered():
@@ -17,6 +17,17 @@ def test_all_commands_are_registered():
     registered_commands = app.registered_commands
 
     assert len(registered_commands) == len(command_files)
+
+
+class TestCliCommandNoArgs:
+    def test_prints_version_when_requested(self, capsys):
+        cli_command_no_args(version_requested=True)
+
+        captured = capsys.readouterr()
+        assert f"RenderCV v{__version__}" in captured.out
+
+    def test_runs_without_version_flag(self):
+        cli_command_no_args(version_requested=None)
 
 
 class TestWarnIfNewVersionIsAvailable:

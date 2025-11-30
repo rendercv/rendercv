@@ -34,7 +34,7 @@ update-testdata:
   uv run pytest --update-testdata
 
 test-coverage:
-  uv run pytest --cov=src/rendercv --cov-report=term --cov-report=html
+  uv run pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
 
 # Docs:
 build-docs:

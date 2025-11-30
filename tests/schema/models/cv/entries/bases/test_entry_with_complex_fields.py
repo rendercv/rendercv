@@ -53,6 +53,6 @@ def test_get_date_object_with_current_date():
         (None, None, "2020-20-20"),
     ],
 )
-def test_invalid_dates(start_date, end_date, date):
+def test_rejects_invalid_dates(start_date, end_date, date):
     with pytest.raises(pydantic.ValidationError):
         BaseEntryWithComplexFields(start_date=start_date, end_date=end_date, date=date)

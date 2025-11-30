@@ -1,5 +1,6 @@
 from datetime import date as Date
 
+import pydantic
 import pytest
 
 from rendercv.renderer.templater.model_processor import process_fields, process_model
@@ -61,6 +62,21 @@ class TestProcessFields:
 
         assert entry.start_date == "2020-01-01"
         assert entry.end_date == "2020-02-01"
+
+    def test_converts_non_string_non_list_fields_to_string(self, recorder):
+        class EntryWithInt(pydantic.BaseModel):
+            name: str
+            count: int
+
+        fn, seen = recorder
+        entry = EntryWithInt(name="Test", count=42)
+
+        process_fields(entry, [fn])  # pyright: ignore[reportArgumentType]
+
+        assert "Test" in seen
+        assert "42" in seen
+        assert entry.name == "processed-Test"
+        assert entry.count == "processed-42"
 
 
 @pytest.fixture(params=[["Python", "Remote"], []])
