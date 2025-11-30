@@ -207,6 +207,12 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
 
 
 def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.Any:
+    """Generate test values for Pydantic model fields based on name and type.
+
+    Returns appropriate test data for a field by checking field name first,
+    then handling complex types (Union, Literal, list), and finally falling
+    back to type-based defaults.
+    """
     field_dictionary = {
         "institution": "Boğaziçi University",
         "location": "Istanbul, Turkey",
@@ -332,6 +338,11 @@ def create_combinations_of_entry_type(
     model: type[pydantic.BaseModel],
     ignore_fields: set[str] | None = None,
 ) -> list[pydantic.BaseModel]:
+    """Generate all combinations of a Pydantic model with different optional fields.
+
+    Creates instances with: only required fields, then all combinations of optional
+    fields being set/unset. Used to test rendering with various field combinations.
+    """
     ignore_fields = ignore_fields or set()
 
     required_fields = {}

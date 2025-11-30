@@ -9,14 +9,22 @@ from rendercv.renderer.templater.string_processor import (
 )
 
 
-def test_make_keywords_bold():
-    assert (
-        make_keywords_bold(
+@pytest.mark.parametrize(
+    ("text", "keywords", "expected"),
+    [
+        (
             "This is a test string with some keywords.",
             ["test", "keywords"],
-        )
-        == "This is a **test** string with some **keywords**."
-    )
+            "This is a **test** string with some **keywords**.",
+        ),
+        ("No matches here.", ["test", "keywords"], "No matches here."),
+        ("Python and python", ["Python"], "**Python** and python"),
+        ("", ["test"], ""),
+        ("Test word", [], "Test word"),
+    ],
+)
+def test_make_keywords_bold(text, keywords, expected):
+    assert make_keywords_bold(text, keywords) == expected
 
 
 @pytest.mark.parametrize(

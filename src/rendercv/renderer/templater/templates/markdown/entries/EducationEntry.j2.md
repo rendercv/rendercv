@@ -1,9 +1,16 @@
-## {{entry.institution}}, {% if entry.degree %}{{entry.degree}} in {% endif %}{{entry.area}}
+## {{ entry.main_column.splitlines()[0] }}
+{%- if design.templates.education_entry.degree_column %}
 
-{% if entry.date_string %}- {{entry.date_string}}
-{% endif %}
-{% if entry.location %}- {{entry.location}}
-{% endif %}
-{% for item in entry.highlights %}
-- {{item}}
+
+{{ entry.degree_column }}
+
+{% endif -%}
+{% for line in entry.date_and_location_column.splitlines() %}
+{{ line }}
+
+{% endfor %}
+{% for line in entry.main_column.splitlines()[1:] %}
+{%- if line != "!!! note" -%}{{ line|replace("    ", "") }}
+
+{% endif -%}
 {% endfor %}

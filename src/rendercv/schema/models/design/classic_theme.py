@@ -640,9 +640,9 @@ class ExperienceEntry(BaseModelWithoutExtraKeys):
 
 class PublicationEntry(BaseModelWithoutExtraKeys):
     main_column: str = pydantic.Field(
-        default="**TITLE**\nAUTHORS\nURL (JOURNAL)",
+        default="**TITLE**\nSUMMARY\nAUTHORS\nURL (JOURNAL)",
         description=template_common_description
-        + " The default value is `**TITLE**\\nAUTHORS\\nURL (JOURNAL)`.",
+        + " The default value is `**TITLE**\\nSUMMARY\\nAUTHORS\\nURL (JOURNAL)`.",
     )
     date_and_location_column: str = pydantic.Field(
         default="DATE",

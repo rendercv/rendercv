@@ -1,9 +1,11 @@
-## {{entry.title}} {% if entry.doi %}([{{entry.doi}}]({{entry.doi_url}})){% elif entry.url %}([{{entry.url}}]({{entry.clean_url}})){% endif %}
+## {{ entry.main_column.splitlines()[0] }}
 
-{% if entry.date_string %}
-- {{entry.date_string}}
-{% endif %}
-- {{entry.authors|join(", ")}}
-{% if entry.journal %}
-- {{entry.journal}}
-{% endif %}
+{% for line in entry.date_and_location_column.splitlines() %}
+{{ line }}
+
+{% endfor %}
+{% for line in entry.main_column.splitlines()[1:] %}
+{%- if line != "!!! note" -%}{{ line|replace("    ", "") }}
+
+{% endif -%}
+{% endfor %}

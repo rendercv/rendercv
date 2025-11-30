@@ -135,10 +135,11 @@ class TestProcessDoi:
             process_doi(entry)
 
 
-def test_process_summary():
-    summary = "This is a summary"
-    result = process_summary(summary)
-    assert result == "!!! note\n    This is a summary"
+class TestProcessSummary:
+    def test_wraps_summary_in_note_block(self):
+        summary = "This is a summary"
+        result = process_summary(summary)
+        assert result == "!!! note\n    This is a summary"
 
 
 class TestRenderEntryTemplates:

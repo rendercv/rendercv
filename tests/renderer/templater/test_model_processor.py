@@ -11,6 +11,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 @pytest.fixture
 def uppercase_then_bang():
+    """Return a list of processors that uppercase text then append '!'."""
     return [
         lambda s: s.upper(),
         lambda s: f"{s}!",
@@ -19,6 +20,10 @@ def uppercase_then_bang():
 
 @pytest.fixture
 def recorder():
+    """Return a processor function and a list tracking all values it has processed.
+
+    Used to verify which fields get processed and in what order.
+    """
     seen = []
 
     def fn(v: str) -> str:
@@ -81,6 +86,10 @@ class TestProcessFields:
 
 @pytest.fixture(params=[["Python", "Remote"], []])
 def model(request: pytest.FixtureRequest) -> RenderCVModel:
+    """Return a test RenderCVModel with keywords either set or empty.
+
+    Parametrized to test both with and without bold keywords.
+    """
     cv_data = {
         # Order matters for connections
         "name": "Jane Doe @",

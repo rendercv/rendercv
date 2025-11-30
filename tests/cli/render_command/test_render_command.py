@@ -1,5 +1,5 @@
 import os
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -127,3 +127,18 @@ class TestCliCommandRender:
 
         rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
         assert (rendercv_output / "John_Doe_CV.pdf").exists()
+
+    @patch("rendercv.cli.render_command.render_command.run_function_if_file_changes")
+    def test_calls_watcher_when_watch_flag_is_true(
+        self, mock_watcher, sample_cv_with_templates, default_arguments
+    ):
+        os.chdir(sample_cv_with_templates.parent)
+
+        cli_command_render(
+            input_file_name=str(sample_cv_with_templates),
+            **{**default_arguments, "watch": True},
+        )
+
+        mock_watcher.assert_called_once()
+        call_args = mock_watcher.call_args
+        assert call_args[0][0] == sample_cv_with_templates.absolute()

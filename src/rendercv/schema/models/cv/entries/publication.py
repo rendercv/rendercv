@@ -23,6 +23,11 @@ class BasePublicationEntry(BaseEntry):
         ),
         examples=[["John Doe", "**Jane Smith**", "Bob Johnson"]],
     )
+    summary: str | None = pydantic.Field(
+        default=None,
+        description="A summary of the publication.",
+        examples=["This paper presents a new method for computer vision."],
+    )
     doi: str | None = pydantic.Field(
         default=None,
         description=(

@@ -29,6 +29,11 @@ def create_cv(
     location: str | None = None,
     social_networks: list[SocialNetwork] | None = None,
 ) -> Cv:
+    """Create a test CV with specified connection fields in a specific order.
+
+    The key_order parameter determines the order connections appear in the CV,
+    which is preserved in the final output.
+    """
     cv_data = {}
     for key in key_order:
         if key == "email" and email is not None:
@@ -54,6 +59,10 @@ def create_rendercv_model(
     make_links: bool = True,
     phone_format: Literal["national", "international", "E164"] = "international",
 ) -> RenderCVModel:
+    """Create a test RenderCVModel with specified connection formatting options.
+
+    Used to test different connection rendering configurations (icons, links, phone format).
+    """
     return RenderCVModel(
         cv=cv,
         design=ClassicTheme(

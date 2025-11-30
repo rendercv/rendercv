@@ -70,12 +70,6 @@ for file in cli_folder_path.rglob("*_command.py"):
     folder_name = file.parent.name  # e.g. "foo_command"
     py_file_name = file.stem  # e.g. "foo_command"
 
-    if folder_name != py_file_name:
-        message = (
-            f"Package name {folder_name} does not match module name {py_file_name}"
-        )
-        raise RenderCVInternalError(message)
-
     # Build full module path: <parent_pkg>.foo_command.foo_command
     full_module = f"{__package__}.{folder_name}.{py_file_name}"
 

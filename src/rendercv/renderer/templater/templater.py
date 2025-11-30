@@ -9,6 +9,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .markdown_parser import markdown_to_html
 from .model_processor import process_model
+from .string_processor import clean_url
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
 
@@ -17,7 +18,7 @@ templates_directory = pathlib.Path(__file__).parent / "templates"
 def get_jinja2_environment(
     input_file_path: pathlib.Path | None = None,
 ) -> jinja2.Environment:
-    return jinja2.Environment(
+    env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(
             [
                 (  # To allow users to override the templates:
@@ -29,6 +30,9 @@ def get_jinja2_environment(
         trim_blocks=True,
         lstrip_blocks=True,
     )
+    env.filters["clean_url"] = clean_url
+    env.filters["strip"] = lambda string: string.strip()
+    return env
 
 
 def render_full_template(
@@ -41,21 +45,21 @@ def render_full_template(
 
     rendercv_model = process_model(rendercv_model, file_type)
 
+    header = render_single_template(
+        file_type,
+        f"Header.j2.{extension}",
+        rendercv_model,
+    )
     if file_type == "typst":
         preamble = render_single_template(
             file_type,
             f"Preamble.j2.{extension}",
             rendercv_model,
         )
+        code = f"{preamble}\n\n{header}\n"
     else:
-        preamble = ""
+        code = f"{header}\n"
 
-    header = render_single_template(
-        file_type,
-        f"Header.j2.{extension}",
-        rendercv_model,
-    )
-    code = f"{preamble}\n\n{header}\n"
     for rendercv_section in rendercv_model.cv.rendercv_sections:
         section_beginning = render_single_template(
             file_type,

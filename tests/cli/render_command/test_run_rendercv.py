@@ -1,3 +1,4 @@
+import os
 import pathlib
 from unittest.mock import MagicMock
 
@@ -180,6 +181,30 @@ class TestRunRendercv:
         with pytest.raises(RenderCVUserError):
             run_rendercv(invalid_schema)
 
+    def test_template_syntax_error(self, tmp_path):
+        os.chdir(tmp_path)
+
+        theme_folder = tmp_path / "badtheme"
+        theme_folder.mkdir()
+
+        template_file = theme_folder / "Header.j2.typ"
+        template_file.write_text(
+            "{% for item in items %}\n{{ item }\n", encoding="utf-8"
+        )
+
+        yaml_file = tmp_path / "test.yaml"
+        yaml_file.write_text(
+            """cv:
+    name: John Doe
+design:
+    theme: badtheme
+""",
+            encoding="utf-8",
+        )
+
+        with pytest.raises(RenderCVUserError, match="problem with the template"):
+            run_rendercv(yaml_file)
+
 
 class TestRunRendercvQuietly:
     def test_invalid_yaml(self, tmp_path):
@@ -195,3 +220,27 @@ class TestRunRendercvQuietly:
 
         with pytest.raises(RenderCVUserError):
             run_rendercv_quietly(invalid_schema)
+
+    def test_template_syntax_error(self, tmp_path):
+        os.chdir(tmp_path)
+
+        theme_folder = tmp_path / "badtheme"
+        theme_folder.mkdir()
+
+        template_file = theme_folder / "Header.j2.typ"
+        template_file.write_text(
+            "{% for item in items %}\n{{ item }\n", encoding="utf-8"
+        )
+
+        yaml_file = tmp_path / "test.yaml"
+        yaml_file.write_text(
+            """cv:
+    name: John Doe
+design:
+    theme: badtheme
+""",
+            encoding="utf-8",
+        )
+
+        with pytest.raises(RenderCVUserError, match="problem with the template"):
+            run_rendercv_quietly(yaml_file)

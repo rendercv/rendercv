@@ -92,10 +92,7 @@ def render_entry_templates[EntryType: Entry](
 
     entry_templates = remove_not_provided_placeholders(entry_templates, entry_fields)
 
-    for template_name, template in entry_templates.items():
-        setattr(entry, template_name, template)
-
-    for template_name, template in entry_templates.items():
+    for template_name, template in (entry_templates | entry_fields).items():
         setattr(
             entry,
             template_name,
