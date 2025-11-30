@@ -1,5 +1,3 @@
-"""This script generates the `examples` folder in the repository root."""
-
 import pathlib
 import shutil
 import tempfile

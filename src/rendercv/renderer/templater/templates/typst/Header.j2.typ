@@ -19,7 +19,9 @@
   [
 {% endif %}
 {% endif %}
+{% if cv.name %}
 = {{ cv.name }}
+{% endif %}
 
 {% if cv.headline %}
   #headline([{{ cv.headline }}])

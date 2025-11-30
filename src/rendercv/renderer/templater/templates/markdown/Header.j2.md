@@ -1,4 +1,6 @@
-# {{cv.name}}'s CV
+{% if cv.name %}
+# {{ cv.name }}'s CV
+{% endif %}
 
 {% if cv.phone %}
 - Phone: {{cv.phone|replace("tel:", "")|replace("-"," ")}}
