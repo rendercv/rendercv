@@ -28,25 +28,25 @@ class DummyModel(pydantic.BaseModel):
         return resolved_date.isoformat()
 
 
-def test_model_validation_with_context():
-    test_path = pathlib.Path("/test/input/file.yaml")
-    context_date = Date(2008, 1, 15)
-    context = ValidationContext(input_file_path=test_path, current_date=context_date)
+class TestValidationContext:
+    def test_provides_input_file_path_and_current_date(self):
+        test_path = pathlib.Path("/test/input/file.yaml")
+        context_date = Date(2008, 1, 15)
+        context = ValidationContext(input_file_path=test_path, current_date=context_date)
 
-    model = DummyModel.model_validate(
-        {"name": "test", "path_field": "dummy", "date_field": "dummy"},
-        context={"context": context},
-    )
+        model = DummyModel.model_validate(
+            {"name": "test", "path_field": "dummy", "date_field": "dummy"},
+            context={"context": context},
+        )
 
-    assert model.path_field == str(test_path)
-    assert model.date_field == context_date.isoformat()
+        assert model.path_field == str(test_path)
+        assert model.date_field == context_date.isoformat()
 
+    def test_uses_defaults_without_context(self):
+        model = DummyModel.model_validate(
+            {"name": "test", "path_field": "dummy", "date_field": "dummy"}
+        )
 
-def test_get_input_file_path_without_context():
-    model = DummyModel.model_validate(
-        {"name": "test", "path_field": "dummy", "date_field": "dummy"}
-    )
-
-    expected_date = Date.today()
-    assert model.path_field == "None"
-    assert model.date_field == expected_date.isoformat()
+        expected_date = Date.today()
+        assert model.path_field == "None"
+        assert model.date_field == expected_date.isoformat()

@@ -10,15 +10,6 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 
 @pytest.fixture
-def uppercase_then_bang():
-    """Return a list of processors that uppercase text then append '!'."""
-    return [
-        lambda s: s.upper(),
-        lambda s: f"{s}!",
-    ]
-
-
-@pytest.fixture
 def recorder():
     """Return a processor function and a list tracking all values it has processed.
 
@@ -34,8 +25,9 @@ def recorder():
 
 
 class TestProcessFields:
-    def test_applies_processors_in_order(self, uppercase_then_bang):
-        result = process_fields("content", uppercase_then_bang)
+    def test_applies_processors_in_order(self):
+        processors = [lambda s: s.upper(), lambda s: f"{s}!"]
+        result = process_fields("content", processors)
         assert result == "CONTENT!"
 
     def test_processes_fields_and_mutates_entry(self, recorder):
@@ -119,7 +111,7 @@ def model(request: pytest.FixtureRequest) -> RenderCVModel:
 
 
 class TestProcessModel:
-    def test_process_model_for_markdown_populates_fields(self, model):
+    def test_markdown_output_has_correct_structure(self, model):
         result = process_model(model, "markdown")
 
         assert result.cv.name == "Jane Doe @"
@@ -149,11 +141,11 @@ class TestProcessModel:
             assert "- Improved Python performance" in entry.main_column
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
 
-    def test_process_model_for_typst_converts_markdown_and_bolds_keywords(self, model):
+    def test_typst_output_escapes_special_characters(self, model):
         result = process_model(model, "typst")
 
-        result.cv.name = "Jane Doe \\@"
-        result.cv.headline = "Software Engineer \\@"
+        assert result.cv.name == "Jane Doe \\@"
+        assert result.cv.headline == "Software Engineer \\@"
 
         entry = result.cv.rendercv_sections[0].entries[0]
         assert entry.main_column.startswith("#strong[Backend Work]")
@@ -171,7 +163,7 @@ class TestProcessModel:
             assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
             assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
 
-    def test_process_model_with_no_sections(self):
+    def test_handles_cv_with_no_sections(self):
         cv_data = {
             "name": "Jane Doe",
             "headline": "Software Engineer",
@@ -181,8 +173,6 @@ class TestProcessModel:
 
         result = process_model(rendercv_model, "markdown")
 
-        # Should still process name and headline
         assert result.cv.name == "Jane Doe"
         assert result.cv.headline == "Software Engineer"
-        # Should have connections and other fields populated
         assert hasattr(result.cv, "connections")

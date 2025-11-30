@@ -3,7 +3,7 @@ from pathlib import Path
 from rendercv.schema.models.design.built_in_design import available_themes
 
 
-def test_available_themes_count_matches_yaml_files():
+def test_available_themes():
     """Test that available_themes includes all theme YAML files + ClassicTheme."""
     other_themes_dir = (
         Path(__file__).parent.parent.parent.parent.parent

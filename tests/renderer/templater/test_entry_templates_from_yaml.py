@@ -27,18 +27,33 @@ from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 
 
-class TestProcessHighlights:
-    def test_formats_and_indents_nested_items(self):
-        highlights = ["First line", "Second line - Nested"]
+@pytest.mark.parametrize(
+    ("highlights", "expected"),
+    [
+        (["First line", "Second line - Nested"], "- First line\n- Second line\n  - Nested"),
+        (["Single item"], "- Single item"),
+        (["Item 1", "Item 2", "Item 3"], "- Item 1\n- Item 2\n- Item 3"),
+        (
+            ["Parent - Child 1", "Item 2 - Nested item"],
+            "- Parent\n  - Child 1\n- Item 2\n  - Nested item",
+        ),
+    ],
+)
+def test_process_highlights(highlights, expected):
+    result = process_highlights(highlights)
+    assert result == expected
 
-        result = process_highlights(highlights)
 
-        assert result == "- First line\n- Second line\n  - Nested"
-
-
-class TestProcessAuthors:
-    def test_joins_authors_with_commas(self):
-        assert process_authors(["Alice", "Bob", "Charlie"]) == "Alice, Bob, Charlie"
+@pytest.mark.parametrize(
+    ("authors", "expected"),
+    [
+        (["Alice", "Bob", "Charlie"], "Alice, Bob, Charlie"),
+        (["Single Author"], "Single Author"),
+        (["A", "B"], "A, B"),
+    ],
+)
+def test_process_authors(authors, expected):
+    assert process_authors(authors) == expected
 
 
 class TestProcessDate:
@@ -135,11 +150,17 @@ class TestProcessDoi:
             process_doi(entry)
 
 
-class TestProcessSummary:
-    def test_wraps_summary_in_note_block(self):
-        summary = "This is a summary"
-        result = process_summary(summary)
-        assert result == "!!! note\n    This is a summary"
+@pytest.mark.parametrize(
+    ("summary", "expected"),
+    [
+        ("This is a summary", "!!! note\n    This is a summary"),
+        ("Short", "!!! note\n    Short"),
+        ("Multi word summary text", "!!! note\n    Multi word summary text"),
+    ],
+)
+def test_process_summary(summary, expected):
+    result = process_summary(summary)
+    assert result == expected
 
 
 class TestRenderEntryTemplates:

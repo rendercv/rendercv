@@ -8,7 +8,6 @@ from rendercv.exception import RenderCVUserError
 
 class TestRunFunctionIfFileChanges:
     def test_calls_function_immediately_on_start(self, tmp_path):
-        """The function should be called once immediately when watcher starts."""
         file_path = tmp_path / "test.yaml"
         file_path.touch()
         mock_function = MagicMock()
@@ -22,7 +21,6 @@ class TestRunFunctionIfFileChanges:
         mock_function.assert_called_once()
 
     def test_calls_function_when_file_changes(self, tmp_path):
-        """Integration test: function should be called when watched file is modified."""
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial")
 
@@ -48,7 +46,6 @@ class TestRunFunctionIfFileChanges:
         assert call_count > initial_count
 
     def test_continues_running_after_function_raises_error(self, tmp_path):
-        """The watcher should continue running even if the function raises an error."""
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial")
 

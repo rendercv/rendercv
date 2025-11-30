@@ -1,7 +1,7 @@
 from rendercv.schema.models.settings.settings import Settings
 
 
-class TestKeepUniqueKeywords:
+class TestSettings:
     def test_removes_duplicates(self):
         settings = Settings(bold_keywords=["Python", "Java", "Python", "C++", "Java"])
 

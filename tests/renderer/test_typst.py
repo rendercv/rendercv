@@ -1,5 +1,3 @@
-"""Tests for the typst module."""
-
 import pytest
 
 from rendercv.renderer.typst import generate_typst

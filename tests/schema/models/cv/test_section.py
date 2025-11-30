@@ -99,9 +99,7 @@ def test_dictionary_key_to_proper_section_title(key, expected_section_title):
     assert dictionary_key_to_proper_section_title(key) == expected_section_title
 
 
-section_adapter = pydantic.TypeAdapter(Section)
-
-
-def test_rejects_none_entries():
+def test_section_rejects_none_entries():
+    section_adapter = pydantic.TypeAdapter(Section)
     with pytest.raises(pydantic.ValidationError):
         section_adapter.validate_python([None])

@@ -4,6 +4,7 @@ import pathlib
 import shutil
 import types
 import typing
+from datetime import date as Date
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
@@ -20,6 +21,7 @@ from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.entries.reversed_numbered import ReversedNumberedEntry
 from rendercv.schema.models.cv.social_network import SocialNetwork
 from rendercv.schema.models.rendercv_model import RenderCVModel
+from rendercv.schema.models.settings.settings import Settings
 
 
 @pytest.fixture
@@ -116,7 +118,7 @@ def minimal_rendercv_model() -> RenderCVModel:
             ]
         },
     )
-    return RenderCVModel(cv=cv)
+    return RenderCVModel(cv=cv, settings=Settings(current_date=Date(2025, 11, 30)))
 
 
 @pytest.fixture
@@ -203,7 +205,7 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
         },
     )
 
-    return RenderCVModel(cv=cv)
+    return RenderCVModel(cv=cv, settings=Settings(current_date=Date(2025, 11, 30)))
 
 
 def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.Any:

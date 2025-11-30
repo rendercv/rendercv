@@ -3,7 +3,7 @@ from pathlib import Path
 from rendercv.schema.models.locale.locale import available_locales
 
 
-def test_available_locales_count_matches_yaml_files():
+def test_available_locales():
     """Test that available_locales includes all locale YAML files + EnglishLocale."""
     other_locales_dir = (
         Path(__file__).parent.parent.parent.parent.parent

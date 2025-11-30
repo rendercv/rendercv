@@ -670,6 +670,262 @@ class TestCreateVariantPydanticModel:
         custom_instance = VariantClass(value=999)
         assert custom_instance.value == 999
 
+    @pytest.mark.parametrize(
+        (
+            "field_name",
+            "field_type",
+            "old_default",
+            "new_default",
+            "base_description",
+            "expected_description",
+        ),
+        [
+            pytest.param(
+                "language",
+                str,
+                "english",
+                "turkish",
+                "The language of the locale. The default value is `english`.",
+                "The language of the locale. The default value is `turkish`.",
+                id="string_field",
+            ),
+            pytest.param(
+                "count",
+                int,
+                10,
+                50,
+                "The count field. The default value is `10`.",
+                "The count field. The default value is `50`.",
+                id="integer_field",
+            ),
+            pytest.param(
+                "enabled",
+                bool,
+                False,
+                True,
+                "Enable this feature. The default value is `False`.",
+                "Enable this feature. The default value is `True`.",
+                id="boolean_field",
+            ),
+            pytest.param(
+                "field",
+                str,
+                "original",
+                "new_value",
+                "A simple field without default mention.",
+                "A simple field without default mention.",
+                id="unchanged_description",
+            ),
+        ],
+    )
+    def test_updates_field_descriptions(
+        self,
+        field_name: str,
+        field_type: type,
+        old_default: Any,
+        new_default: Any,
+        base_description: str,
+        expected_description: str,
+    ):
+        base_fields = {
+            "disc": (str, pydantic.Field(default="base")),
+            field_name: (
+                field_type,
+                pydantic.Field(default=old_default, description=base_description),
+            ),
+        }
+        Base = pydantic.create_model("Base", **base_fields)
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="custom",
+            defaults={"disc": "custom", field_name: new_default},
+            base_class=Base,
+            discriminator_field="disc",
+            class_name_suffix="Class",
+            module_name="test",
+        )
+
+        field_info = VariantClass.model_fields[field_name]
+        assert field_info.description == expected_description
+
+    def test_updates_discriminator_description(self):
+        class Base(pydantic.BaseModel):
+            variant: str = pydantic.Field(
+                default="base",
+                description="The variant type. The default value is `base`.",
+            )
+            value: int = 1
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="custom",
+            defaults={"variant": "custom", "value": 42},
+            base_class=Base,
+            discriminator_field="variant",
+            class_name_suffix="Class",
+            module_name="test",
+        )
+
+        field_info = VariantClass.model_fields["variant"]
+        assert (
+            field_info.description == "The variant type. The default value is `custom`."
+        )
+
+    def test_updates_nested_field_descriptions(self):
+        class NestedConfig(pydantic.BaseModel):
+            font_family: str = pydantic.Field(
+                default="Arial",
+                description="The font family. The default value is `Arial`.",
+            )
+            font_size: str = pydantic.Field(
+                default="12pt", description="The font size. The default value is `12pt`."
+            )
+
+        class Config(pydantic.BaseModel):
+            disc: str = "base"
+            nested: NestedConfig = NestedConfig()
+
+        defaults = {
+            "disc": "custom",
+            "nested": {
+                "font_family": "Helvetica",
+                "font_size": "14pt",
+            },
+        }
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="custom",
+            defaults=defaults,
+            base_class=Config,
+            discriminator_field="disc",
+            class_name_suffix="Variant",
+            module_name="test",
+        )
+
+        nested_annotation = VariantClass.model_fields["nested"].annotation
+        assert nested_annotation is not None
+        assert issubclass(nested_annotation, pydantic.BaseModel)
+        nested_font_family_field = nested_annotation.model_fields["font_family"]
+        nested_font_size_field = nested_annotation.model_fields["font_size"]
+
+        assert (
+            nested_font_family_field.description
+            == "The font family. The default value is `Helvetica`."
+        )
+        assert (
+            nested_font_size_field.description
+            == "The font size. The default value is `14pt`."
+        )
+
+        instance = VariantClass()
+        assert instance.nested.font_family == "Helvetica"
+        assert instance.nested.font_size == "14pt"
+
+    def test_updates_deeply_nested_field_descriptions(self):
+        class Level3(pydantic.BaseModel):
+            value: int = pydantic.Field(
+                default=1, description="The value. The default value is `1`."
+            )
+
+        class Level2(pydantic.BaseModel):
+            level3: Level3 = Level3()
+            name: str = pydantic.Field(
+                default="level2", description="The name. The default value is `level2`."
+            )
+
+        class Level1(pydantic.BaseModel):
+            disc: str = "base"
+            level2: Level2 = Level2()
+
+        defaults = {
+            "disc": "deep",
+            "level2": {
+                "name": "custom_level2",
+                "level3": {"value": 999},
+            },
+        }
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="deep",
+            defaults=defaults,
+            base_class=Level1,
+            discriminator_field="disc",
+            class_name_suffix="Variant",
+            module_name="test",
+        )
+
+        level2_annotation = VariantClass.model_fields["level2"].annotation
+        assert level2_annotation is not None
+        assert issubclass(level2_annotation, pydantic.BaseModel)
+        level2_name_field = level2_annotation.model_fields["name"]
+        assert (
+            level2_name_field.description
+            == "The name. The default value is `custom_level2`."
+        )
+
+        level3_annotation = level2_annotation.model_fields["level3"].annotation
+        assert level3_annotation is not None
+        assert issubclass(level3_annotation, pydantic.BaseModel)
+        level3_value_field = level3_annotation.model_fields["value"]
+        assert level3_value_field.description == "The value. The default value is `999`."
+
+        instance = VariantClass()
+        assert instance.level2.name == "custom_level2"
+        assert instance.level2.level3.value == 999
+
+    def test_preserves_descriptions_for_partial_nested_updates(self):
+        class Nested(pydantic.BaseModel):
+            field1: str = pydantic.Field(
+                default="a", description="Field 1. The default value is `a`."
+            )
+            field2: str = pydantic.Field(
+                default="b", description="Field 2. The default value is `b`."
+            )
+            field3: str = pydantic.Field(
+                default="c", description="Field 3. The default value is `c`."
+            )
+
+        class Outer(pydantic.BaseModel):
+            disc: str = "base"
+            nested: Nested = Nested()
+
+        defaults = {
+            "disc": "partial",
+            "nested": {
+                "field1": "updated",
+            },
+        }
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="partial",
+            defaults=defaults,
+            base_class=Outer,
+            discriminator_field="disc",
+            class_name_suffix="Variant",
+            module_name="test",
+        )
+
+        nested_annotation = VariantClass.model_fields["nested"].annotation
+        assert nested_annotation is not None
+        assert issubclass(nested_annotation, pydantic.BaseModel)
+
+        assert (
+            nested_annotation.model_fields["field1"].description
+            == "Field 1. The default value is `updated`."
+        )
+        assert (
+            nested_annotation.model_fields["field2"].description
+            == "Field 2. The default value is `b`."
+        )
+        assert (
+            nested_annotation.model_fields["field3"].description
+            == "Field 3. The default value is `c`."
+        )
+
+        instance = VariantClass()
+        assert instance.nested.field1 == "updated"
+        assert instance.nested.field2 == "b"
+        assert instance.nested.field3 == "c"
+
 
 class TestUpdateDescriptionWithNewDefault:
     @pytest.mark.parametrize(
@@ -746,271 +1002,3 @@ class TestUpdateDescriptionWithNewDefault:
     def test_with_none_description(self):
         updated = update_description_with_new_default(None, "old", "new")
         assert updated is None
-
-
-@pytest.mark.parametrize(
-    (
-        "field_name",
-        "field_type",
-        "old_default",
-        "new_default",
-        "base_description",
-        "expected_description",
-    ),
-    [
-        pytest.param(
-            "language",
-            str,
-            "english",
-            "turkish",
-            "The language of the locale. The default value is `english`.",
-            "The language of the locale. The default value is `turkish`.",
-            id="string_field",
-        ),
-        pytest.param(
-            "count",
-            int,
-            10,
-            50,
-            "The count field. The default value is `10`.",
-            "The count field. The default value is `50`.",
-            id="integer_field",
-        ),
-        pytest.param(
-            "enabled",
-            bool,
-            False,
-            True,
-            "Enable this feature. The default value is `False`.",
-            "Enable this feature. The default value is `True`.",
-            id="boolean_field",
-        ),
-        pytest.param(
-            "field",
-            str,
-            "original",
-            "new_value",
-            "A simple field without default mention.",
-            "A simple field without default mention.",
-            id="unchanged_description",
-        ),
-    ],
-)
-def test_variant_pydantic_model_updates_field_descriptions(
-    field_name: str,
-    field_type: type,
-    old_default: Any,
-    new_default: Any,
-    base_description: str,
-    expected_description: str,
-):
-    base_fields = {
-        "disc": (str, pydantic.Field(default="base")),
-        field_name: (
-            field_type,
-            pydantic.Field(default=old_default, description=base_description),
-        ),
-    }
-    Base = pydantic.create_model("Base", **base_fields)
-
-    # Create variant class
-    VariantClass = create_variant_pydantic_model(
-        variant_name="custom",
-        defaults={"disc": "custom", field_name: new_default},
-        base_class=Base,
-        discriminator_field="disc",
-        class_name_suffix="Class",
-        module_name="test",
-    )
-
-    # Check description was updated correctly
-    field_info = VariantClass.model_fields[field_name]
-    assert field_info.description == expected_description
-
-
-def test_variant_pydantic_model_updates_discriminator_description():
-    class Base(pydantic.BaseModel):
-        variant: str = pydantic.Field(
-            default="base", description="The variant type. The default value is `base`."
-        )
-        value: int = 1
-
-    VariantClass = create_variant_pydantic_model(
-        variant_name="custom",
-        defaults={"variant": "custom", "value": 42},
-        base_class=Base,
-        discriminator_field="variant",
-        class_name_suffix="Class",
-        module_name="test",
-    )
-
-    field_info = VariantClass.model_fields["variant"]
-    assert field_info.description == "The variant type. The default value is `custom`."
-
-
-def test_variant_pydantic_model_nested_field_descriptions_are_updated():
-    class NestedConfig(pydantic.BaseModel):
-        font_family: str = pydantic.Field(
-            default="Arial",
-            description="The font family. The default value is `Arial`.",
-        )
-        font_size: str = pydantic.Field(
-            default="12pt", description="The font size. The default value is `12pt`."
-        )
-
-    class Config(pydantic.BaseModel):
-        disc: str = "base"
-        nested: NestedConfig = NestedConfig()
-
-    defaults = {
-        "disc": "custom",
-        "nested": {
-            "font_family": "Helvetica",
-            "font_size": "14pt",
-        },
-    }
-
-    VariantClass = create_variant_pydantic_model(
-        variant_name="custom",
-        defaults=defaults,
-        base_class=Config,
-        discriminator_field="disc",
-        class_name_suffix="Variant",
-        module_name="test",
-    )
-
-    # Check that the nested field descriptions are updated
-    nested_annotation = VariantClass.model_fields["nested"].annotation
-    assert nested_annotation is not None
-    assert issubclass(nested_annotation, pydantic.BaseModel)
-    nested_font_family_field = nested_annotation.model_fields["font_family"]
-    nested_font_size_field = nested_annotation.model_fields["font_size"]
-
-    assert (
-        nested_font_family_field.description
-        == "The font family. The default value is `Helvetica`."
-    )
-    assert (
-        nested_font_size_field.description
-        == "The font size. The default value is `14pt`."
-    )
-
-    # Also verify the actual default values are correct
-    instance = VariantClass()
-    assert instance.nested.font_family == "Helvetica"
-    assert instance.nested.font_size == "14pt"
-
-
-def test_variant_pydantic_model_deeply_nested_field_descriptions_are_updated():
-    class Level3(pydantic.BaseModel):
-        value: int = pydantic.Field(
-            default=1, description="The value. The default value is `1`."
-        )
-
-    class Level2(pydantic.BaseModel):
-        level3: Level3 = Level3()
-        name: str = pydantic.Field(
-            default="level2", description="The name. The default value is `level2`."
-        )
-
-    class Level1(pydantic.BaseModel):
-        disc: str = "base"
-        level2: Level2 = Level2()
-
-    defaults = {
-        "disc": "deep",
-        "level2": {
-            "name": "custom_level2",
-            "level3": {"value": 999},
-        },
-    }
-
-    VariantClass = create_variant_pydantic_model(
-        variant_name="deep",
-        defaults=defaults,
-        base_class=Level1,
-        discriminator_field="disc",
-        class_name_suffix="Variant",
-        module_name="test",
-    )
-
-    # Check Level 2 field description
-    level2_annotation = VariantClass.model_fields["level2"].annotation
-    assert level2_annotation is not None
-    assert issubclass(level2_annotation, pydantic.BaseModel)
-    level2_name_field = level2_annotation.model_fields["name"]
-    assert (
-        level2_name_field.description
-        == "The name. The default value is `custom_level2`."
-    )
-
-    # Check Level 3 field description
-    level3_annotation = level2_annotation.model_fields["level3"].annotation
-    assert level3_annotation is not None
-    assert issubclass(level3_annotation, pydantic.BaseModel)
-    level3_value_field = level3_annotation.model_fields["value"]
-    assert level3_value_field.description == "The value. The default value is `999`."
-
-    # Verify actual default values
-    instance = VariantClass()
-    assert instance.level2.name == "custom_level2"
-    assert instance.level2.level3.value == 999
-
-
-def test_variant_pydantic_model_nested_field_partial_update_preserves_descriptions():
-    class Nested(pydantic.BaseModel):
-        field1: str = pydantic.Field(
-            default="a", description="Field 1. The default value is `a`."
-        )
-        field2: str = pydantic.Field(
-            default="b", description="Field 2. The default value is `b`."
-        )
-        field3: str = pydantic.Field(
-            default="c", description="Field 3. The default value is `c`."
-        )
-
-    class Outer(pydantic.BaseModel):
-        disc: str = "base"
-        nested: Nested = Nested()
-
-    defaults = {
-        "disc": "partial",
-        "nested": {
-            "field1": "updated",
-        },
-    }
-
-    VariantClass = create_variant_pydantic_model(
-        variant_name="partial",
-        defaults=defaults,
-        base_class=Outer,
-        discriminator_field="disc",
-        class_name_suffix="Variant",
-        module_name="test",
-    )
-
-    nested_annotation = VariantClass.model_fields["nested"].annotation
-    assert nested_annotation is not None
-    assert issubclass(nested_annotation, pydantic.BaseModel)
-
-    # Updated field should have new description
-    assert (
-        nested_annotation.model_fields["field1"].description
-        == "Field 1. The default value is `updated`."
-    )
-
-    # Non-updated fields should preserve original descriptions
-    assert (
-        nested_annotation.model_fields["field2"].description
-        == "Field 2. The default value is `b`."
-    )
-    assert (
-        nested_annotation.model_fields["field3"].description
-        == "Field 3. The default value is `c`."
-    )
-
-    # Verify values
-    instance = VariantClass()
-    assert instance.nested.field1 == "updated"
-    assert instance.nested.field2 == "b"
-    assert instance.nested.field3 == "c"

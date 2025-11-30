@@ -53,7 +53,7 @@ def test_clean_url(url, expected_clean_url):
     assert clean_url(url) == expected_clean_url
 
 
-def test_build_keyword_matcher_pattern_with_empty_keywords():
+def test_build_keyword_matcher_pattern_raises_error_for_empty_keywords():
     with pytest.raises(RenderCVInternalError) as exc_info:
         build_keyword_matcher_pattern(frozenset())
 

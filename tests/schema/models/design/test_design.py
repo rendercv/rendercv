@@ -8,7 +8,7 @@ from rendercv.schema.models.context import ValidationContext
 from rendercv.schema.models.design.design import Design
 
 
-class TestValidateDesign:
+class TestDesign:
     @pytest.fixture
     def design_adapter(self):
         return pydantic.TypeAdapter(Design)

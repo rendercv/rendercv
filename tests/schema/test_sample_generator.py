@@ -12,57 +12,59 @@ from rendercv.schema.sample_generator import (
 )
 
 
-@pytest.mark.parametrize(
-    "theme",
-    available_themes,
-)
-@pytest.mark.parametrize(
-    "locale",
-    available_locales,
-)
-def test_create_sample_rendercv_pydantic_model(theme, locale):
-    data_model = create_sample_rendercv_pydantic_model(
-        name="John Doe", theme=theme, locale=locale
+class TestCreateSampleRendercvPydanticModel:
+    @pytest.mark.parametrize(
+        "theme",
+        available_themes,
     )
-    assert isinstance(data_model, RenderCVModel)
-
-
-def test_create_sample_rendercv_pydantic_model_invalid_theme_or_locale():
-    with pytest.raises(ValueError):  # NOQA: PT011
-        create_sample_rendercv_pydantic_model(
-            name="John Doe", theme="invalid", locale="english"
-        )
-    with pytest.raises(ValueError):  # NOQA: PT011
-        create_sample_rendercv_pydantic_model(
-            name="John Doe", theme="classic", locale="invalid"
-        )
-
-
-@pytest.mark.parametrize(
-    "theme",
-    available_themes,
-)
-@pytest.mark.parametrize(
-    "locale",
-    available_locales,
-)
-def test_create_a_sample_yaml_input_file(tmp_path, theme, locale):
-    dummy_file_path = tmp_path / "dummy.yaml"
-    yaml_contents = create_sample_yaml_input_file(
-        file_path=dummy_file_path, theme=theme, locale=locale
+    @pytest.mark.parametrize(
+        "locale",
+        available_locales,
     )
+    def test_creates_valid_model_for_all_themes_and_locales(self, theme, locale):
+        data_model = create_sample_rendercv_pydantic_model(
+            name="John Doe", theme=theme, locale=locale
+        )
+        assert isinstance(data_model, RenderCVModel)
 
-    assert dummy_file_path.exists()
-    assert yaml_contents == dummy_file_path.read_text(encoding="utf-8")
+    def test_rejects_invalid_theme_or_locale(self):
+        with pytest.raises(ValueError):  # NOQA: PT011
+            create_sample_rendercv_pydantic_model(
+                name="John Doe", theme="invalid", locale="english"
+            )
+        with pytest.raises(ValueError):  # NOQA: PT011
+            create_sample_rendercv_pydantic_model(
+                name="John Doe", theme="classic", locale="invalid"
+            )
 
 
-@pytest.mark.parametrize(
-    "key",
-    ["theme", "locale"],
-)
-def test_create_sample_yaml_input_file_invalid_theme_or_locale(key):
-    with pytest.raises(RenderCVUserError):
-        create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
+class TestCreateSampleYamlInputFile:
+    @pytest.mark.parametrize(
+        "theme",
+        available_themes,
+    )
+    @pytest.mark.parametrize(
+        "locale",
+        available_locales,
+    )
+    def test_creates_valid_yaml_file_for_all_themes_and_locales(
+        self, tmp_path, theme, locale
+    ):
+        dummy_file_path = tmp_path / "dummy.yaml"
+        yaml_contents = create_sample_yaml_input_file(
+            file_path=dummy_file_path, theme=theme, locale=locale
+        )
+
+        assert dummy_file_path.exists()
+        assert yaml_contents == dummy_file_path.read_text(encoding="utf-8")
+
+    @pytest.mark.parametrize(
+        "key",
+        ["theme", "locale"],
+    )
+    def test_rejects_invalid_theme_or_locale(self, key):
+        with pytest.raises(RenderCVUserError):
+            create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
 
 
 def test_dictionary_to_yaml():

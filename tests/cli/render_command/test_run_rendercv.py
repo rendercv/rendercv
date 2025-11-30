@@ -166,22 +166,25 @@ class TestTimedStep:
         assert result == 6
 
 
-class TestRunRendercv:
-    def test_invalid_yaml(self, tmp_path):
+class TestRunRendercvAndRunRendercvQuietly:
+    @pytest.mark.parametrize("run_function", [run_rendercv, run_rendercv_quietly])
+    def test_invalid_yaml(self, tmp_path, run_function):
         invalid_yaml = tmp_path / "invalid.yaml"
         invalid_yaml.write_text("invalid: yaml: content: :")
 
         with pytest.raises(RenderCVUserError, match="not a valid YAML"):
-            run_rendercv(invalid_yaml)
+            run_function(invalid_yaml)
 
-    def test_invalid_input_file(self, tmp_path):
+    @pytest.mark.parametrize("run_function", [run_rendercv, run_rendercv_quietly])
+    def test_invalid_input_file(self, tmp_path, run_function):
         invalid_schema = tmp_path / "invalid_schema.yaml"
         invalid_schema.write_text("cv:\n  name: 123")
 
         with pytest.raises(RenderCVUserError):
-            run_rendercv(invalid_schema)
+            run_function(invalid_schema)
 
-    def test_template_syntax_error(self, tmp_path):
+    @pytest.mark.parametrize("run_function", [run_rendercv, run_rendercv_quietly])
+    def test_template_syntax_error(self, tmp_path, run_function):
         os.chdir(tmp_path)
 
         theme_folder = tmp_path / "badtheme"
@@ -203,44 +206,4 @@ design:
         )
 
         with pytest.raises(RenderCVUserError, match="problem with the template"):
-            run_rendercv(yaml_file)
-
-
-class TestRunRendercvQuietly:
-    def test_invalid_yaml(self, tmp_path):
-        invalid_yaml = tmp_path / "invalid.yaml"
-        invalid_yaml.write_text("invalid: yaml: content: :")
-
-        with pytest.raises(RenderCVUserError, match="not a valid YAML"):
-            run_rendercv_quietly(invalid_yaml)
-
-    def test_invalid_input_file(self, tmp_path):
-        invalid_schema = tmp_path / "invalid_schema.yaml"
-        invalid_schema.write_text("cv:\n  name: 123")
-
-        with pytest.raises(RenderCVUserError):
-            run_rendercv_quietly(invalid_schema)
-
-    def test_template_syntax_error(self, tmp_path):
-        os.chdir(tmp_path)
-
-        theme_folder = tmp_path / "badtheme"
-        theme_folder.mkdir()
-
-        template_file = theme_folder / "Header.j2.typ"
-        template_file.write_text(
-            "{% for item in items %}\n{{ item }\n", encoding="utf-8"
-        )
-
-        yaml_file = tmp_path / "test.yaml"
-        yaml_file.write_text(
-            """cv:
-    name: John Doe
-design:
-    theme: badtheme
-""",
-            encoding="utf-8",
-        )
-
-        with pytest.raises(RenderCVUserError, match="problem with the template"):
-            run_rendercv_quietly(yaml_file)
+            run_function(yaml_file)
