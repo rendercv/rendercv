@@ -9,7 +9,7 @@ from rendercv.exception import RenderCVInternalError
 type FieldSpec = tuple[type[Any], FieldInfo]
 
 
-def create_variant_class[T: pydantic.BaseModel](
+def create_variant_pydantic_model[T: pydantic.BaseModel](
     variant_name: str,
     defaults: dict[str, Any],
     base_class: type[T],
@@ -56,7 +56,7 @@ def create_variant_class[T: pydantic.BaseModel](
                 default_value, base_field_info
             )
 
-    class_name = generate_class_name(variant_name, class_name_suffix)
+    class_name = generate_model_name(variant_name, class_name_suffix)
 
     return pydantic.create_model(
         class_name,
@@ -92,7 +92,7 @@ def validate_defaults_against_base(
             raise RenderCVInternalError(message)
 
 
-def generate_class_name(variant_name: str, class_name_suffix: str) -> str:
+def generate_model_name(variant_name: str, class_name_suffix: str) -> str:
     """Convert snake_case variant name to PascalCase class name with suffix.
 
     Args:
@@ -209,7 +209,7 @@ def deep_merge_nested_object[T: pydantic.BaseModel](
     return base_nested_obj.model_copy(update=merged_updates)
 
 
-def create_nested_model_variant_class(
+def create_nested_model_variant_model(
     base_model_class: type[pydantic.BaseModel],
     updates: dict[str, Any],
 ) -> type[pydantic.BaseModel]:
@@ -300,7 +300,7 @@ def create_nested_field_spec(
     if base_nested_obj is not None:
         # Create a variant class with updated field specs and descriptions
         base_model_class = type(base_nested_obj)
-        variant_class = create_nested_model_variant_class(
+        variant_class = create_nested_model_variant_model(
             base_model_class, default_value
         )
 

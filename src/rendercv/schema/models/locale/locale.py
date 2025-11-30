@@ -5,7 +5,7 @@ from typing import Annotated, get_args
 
 import pydantic
 
-from ...variant_class_generator import create_variant_class
+from ...variant_pydantic_model_generator import create_variant_pydantic_model
 from ...yaml_reader import read_yaml
 from .english_locale import EnglishLocale
 
@@ -21,7 +21,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
     discovered: list[type[EnglishLocale]] = []
 
     for yaml_file in sorted(other_locales_dir.glob("*.yaml")):
-        locale_class = create_variant_class(
+        locale_model = create_variant_pydantic_model(
             variant_name=yaml_file.stem,
             defaults=read_yaml(yaml_file, read_type="safe")["locale"],
             base_class=EnglishLocale,
@@ -29,7 +29,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
             class_name_suffix="Locale",
             module_name="rendercv.schema.models.locale",
         )
-        discovered.append(locale_class)
+        discovered.append(locale_model)
 
     return discovered
 
@@ -40,7 +40,7 @@ type Locale = Annotated[
     pydantic.Field(discriminator="language"),
 ]
 available_locales = [
-    LocaleClass.model_fields["language"].default
-    for LocaleClass in get_args(get_args(Locale.__value__)[0])
+    LocaleModel.model_fields["language"].default
+    for LocaleModel in get_args(get_args(Locale.__value__)[0])
 ]
 locale_adapter = pydantic.TypeAdapter(Locale)

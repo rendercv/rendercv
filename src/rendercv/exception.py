@@ -10,15 +10,15 @@ class RenderCVValidationError(TypedDict):
 
 
 @dataclass
-class RenderCVUserError(Exception):
+class RenderCVUserError(ValueError):
     message: str | None = field(default=None)
 
 
 @dataclass
-class RenderCVUserValidationError(Exception):
+class RenderCVUserValidationError(ValueError):
     validation_errors: list[RenderCVValidationError]
 
 
 @dataclass
-class RenderCVInternalError(Exception):
+class RenderCVInternalError(RuntimeError):
     message: str

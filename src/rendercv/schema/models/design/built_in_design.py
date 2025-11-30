@@ -5,7 +5,7 @@ from typing import Annotated, get_args
 
 import pydantic
 
-from ...variant_class_generator import create_variant_class
+from ...variant_pydantic_model_generator import create_variant_pydantic_model
 from ...yaml_reader import read_yaml
 from .classic_theme import ClassicTheme
 
@@ -21,7 +21,7 @@ def discover_other_themes() -> list[type[ClassicTheme]]:
     discovered: list[type[ClassicTheme]] = []
 
     for yaml_file in sorted(other_themes_dir.glob("*.yaml")):
-        theme_class = create_variant_class(
+        theme_class = create_variant_pydantic_model(
             variant_name=yaml_file.stem,
             defaults=read_yaml(yaml_file)["design"],
             base_class=ClassicTheme,
