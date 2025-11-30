@@ -36,9 +36,7 @@ class TestValidateDesign:
         with pytest.raises(pydantic.ValidationError):
             design_adapter.validate_python({"theme": theme_name})
 
-    def test_accepts_valid_custom_theme(
-        self, design_adapter, tmp_path: pathlib.Path
-    ):
+    def test_accepts_valid_custom_theme(self, design_adapter, tmp_path: pathlib.Path):
         custom_theme_path = tmp_path / "dummytheme"
         custom_theme_path.mkdir()
         (custom_theme_path / "EducationEntry.j2.typ").touch()

@@ -10,7 +10,6 @@ import typer
 from rich import print
 
 from rendercv import __version__
-from rendercv.exception import RenderCVInternalError
 
 app = typer.Typer(
     rich_markup_mode="rich",

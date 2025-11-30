@@ -7,9 +7,7 @@ def get_immediate_subdirectories(directory: pathlib.Path) -> set[str]:
     """Get immediate subdirectory names, excluding __pycache__ and testdata."""
     excluded = {"__pycache__", "testdata"}
     return {
-        d.name
-        for d in directory.iterdir()
-        if d.is_dir() and d.name not in excluded
+        d.name for d in directory.iterdir() if d.is_dir() and d.name not in excluded
     }
 
 

@@ -1,6 +1,3 @@
-import pathlib
-import shutil
-
 import pytest
 
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
@@ -30,10 +27,6 @@ def test_generate_pdf(
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
         typst_path = generate_typst(model)
 
-        lib_source = pathlib.Path("lib.typ")
-        if lib_source.exists():
-            shutil.copy(lib_source, output_path.parent / "lib.typ")
-
         model.settings.render_command.pdf_path = output_path
         generate_pdf(model, typst_path)
 
@@ -58,10 +51,6 @@ def test_generate_png(
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
         typst_path = generate_typst(model)
-
-        lib_source = pathlib.Path("lib.typ")
-        if lib_source.exists():
-            shutil.copy(lib_source, output_path.parent / "lib.typ")
 
         model.settings.render_command.png_path = output_path
         generate_png(model, typst_path)

@@ -711,12 +711,12 @@ class TestUpdateDescriptionWithNewDefault:
                 id="empty_string",
             ),
             pytest.param(
-                "This is a long description.\n\nIt has multiple lines.\nThe default value"
-                " is `old`.",
+                "This is a long description.\n\nIt has multiple lines.\nThe default"
+                " value is `old`.",
                 "old",
                 "new",
-                "This is a long description.\n\nIt has multiple lines.\nThe default value"
-                " is `new`.",
+                "This is a long description.\n\nIt has multiple lines.\nThe default"
+                " value is `new`.",
                 id="multiline_description",
             ),
             pytest.param(
@@ -738,7 +738,9 @@ class TestUpdateDescriptionWithNewDefault:
     def test_updates_description(
         self, description: str, old_default: Any, new_default: Any, expected: str
     ):
-        updated = update_description_with_new_default(description, old_default, new_default)
+        updated = update_description_with_new_default(
+            description, old_default, new_default
+        )
         assert updated == expected
 
     def test_with_none_description(self):

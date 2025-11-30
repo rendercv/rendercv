@@ -40,7 +40,9 @@ class TestWarnIfNewVersionIsAvailable:
         ],
     )
     @patch("urllib.request.urlopen")
-    def test_warns_when_newer_version_available(self, mock_urlopen, version, should_warn, capsys):
+    def test_warns_when_newer_version_available(
+        self, mock_urlopen, version, should_warn, capsys
+    ):
         mock_response = MagicMock()
         mock_response.read.return_value = json.dumps(
             {"info": {"version": version}}

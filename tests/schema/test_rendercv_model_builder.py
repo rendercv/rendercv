@@ -306,7 +306,7 @@ class TestBuildRendercvModelFromDictionary:
             "settings": {"current_date": custom_date},
         }
 
-        model = build_rendercv_model_from_commented_map(input_dict, input_file_path)
+        model = build_rendercv_model_from_commented_map(input_dict, input_file_path)  # pyright: ignore[reportArgumentType]
 
         assert isinstance(model, RenderCVModel)
         assert model._input_file_path == input_file_path

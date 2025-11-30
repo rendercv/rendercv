@@ -12,13 +12,9 @@ format-file target:
   uv run ruff check --fix {{target}}
   uv run ruff format {{target}}
 
-lint:
+check:
   uv run ruff check src tests
-
-check-types:
   uv run pyright src tests
-
-pre-commit:
   uv run pre-commit run --all-files
 
 <<<<<<< HEAD
@@ -43,8 +39,12 @@ build-docs:
 serve-docs:
   uv run mkdocs serve
 
+<<<<<<< HEAD
 # Scipts
 >>>>>>> ceea296 (Start working on new CLI)
+=======
+# Scripts:
+>>>>>>> edab23f (Format, fix pre-commit errors)
 update-schema:
   uv run scripts/update_schema.py
 

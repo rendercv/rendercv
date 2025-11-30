@@ -7,7 +7,6 @@ repos:
     rev: v2.4.1
     hooks:
       - id: codespell
-  - repo: https://github.com/adrienverge/yamllint
-    rev: v1.37.1
-    hooks:
-      - id: yamllint
+        args:
+          - --skip=src/rendercv/schema/models/locale/other_locales/*
+          - --exclude-file=schema.json

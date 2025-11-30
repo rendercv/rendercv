@@ -14,7 +14,10 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
     )
     last_updated: str = pydantic.Field(
         default="Last updated in",
-        description='Translation of "Last updated in" in the locale. The default value is "Last updated in".',
+        description=(
+            'Translation of "Last updated in" in the locale. The default value is "Last'
+            ' updated in".'
+        ),
     )
     month: str = pydantic.Field(
         default="month",
@@ -37,24 +40,24 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         description='Translation of the word "present" in the locale.',
     )
     # From https://web.library.yale.edu/cataloging/months
-    month_abbreviations: Annotated[
-        list[str], at.Len(min_length=12, max_length=12)
-    ] = pydantic.Field(
-        default=[
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "June",
-            "July",
-            "Aug",
-            "Sept",
-            "Oct",
-            "Nov",
-            "Dec",
-        ],
-        description="Abbreviations of the months in the locale.",
+    month_abbreviations: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
+        pydantic.Field(
+            default=[
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "June",
+                "July",
+                "Aug",
+                "Sept",
+                "Oct",
+                "Nov",
+                "Dec",
+            ],
+            description="Abbreviations of the months in the locale.",
+        )
     )
     month_names: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
         pydantic.Field(

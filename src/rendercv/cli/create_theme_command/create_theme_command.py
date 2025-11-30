@@ -39,8 +39,7 @@ def cli_command_create_theme(
     create_init_file_for_theme(theme_name, new_theme_folder / "__init__.py")
 
     # Build the panel
-    message = textwrap.dedent(
-        f"""
+    message = textwrap.dedent(f"""
         [green]✓[/green] Created your custom theme: [purple]./{theme_name}[/purple]
 
         What you can do with this theme:
@@ -53,8 +52,7 @@ def cli_command_create_theme(
         To use your theme, set in your YAML input file:
         [cyan]  design:
         [cyan]    theme: {theme_name}
-    """
-    ).strip("\n")
+    """).strip("\n")
 
     print(
         rich.panel.Panel(

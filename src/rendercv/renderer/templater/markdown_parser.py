@@ -62,7 +62,7 @@ def escape_typst_characters(string: str) -> str:
     if string == "\n":
         return string
 
-    # Find all the Typst commands, and keep them seperate so that nothing is escaped
+    # Find all the Typst commands, and keep them separate so that nothing is escaped
     # inside the commands.
     typst_command_mapping = {}
     for i, match in enumerate(

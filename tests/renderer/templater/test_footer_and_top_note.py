@@ -58,6 +58,6 @@ def test_render_footer_template(name, footer_template, expected):
         name=name,
         single_date_template="MONTH_ABBREVIATION YEAR",
     )
-    assert result.replace('context { [', "").replace('] }', "") == expected.replace(
+    assert result.replace("context { [", "").replace("] }", "") == expected.replace(
         "TYPST_PAGE_NUMBER", "#str(here().page())"
     ).replace("TYPST_TOTAL_PAGES", "#str(counter(page).final().first())")
