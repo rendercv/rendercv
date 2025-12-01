@@ -22,7 +22,7 @@ jobs:
       - update_files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -108,7 +108,7 @@ jobs:
       id-token: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Log in to the Container registry
         uses: docker/login-action@v3
