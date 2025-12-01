@@ -4,14 +4,24 @@ from rendercv.exception import RenderCVUserError
 
 
 def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
-    """Parse extra arguments given to the `render` command as data model key and value
-    pairs and return them as a dictionary.
+    """Parse CLI override arguments into dotted-path dictionary.
+
+    Why:
+        Users need quick field overrides without editing YAML. We need to parse
+        `--cv.phone "123"` style arguments.
+
+    Example:
+        ```py
+        # From: rendercv render cv.yaml --cv.name "Jane" --cv.phone "456"
+        args = parse_override_arguments(ctx)
+        # Returns: {"cv.name": "Jane", "cv.phone": "456"}
+        ```
 
     Args:
-        extra_arguments: The extra arguments context.
+        extra_arguments: Typer context containing unparsed arguments.
 
     Returns:
-        The key and value pairs.
+        Map of dotted paths to override values.
     """
     key_and_values: dict[str, str] = {}
 

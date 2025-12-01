@@ -134,7 +134,9 @@ dev = [
 ]
 docs = [
     'mkdocs-material>=9.7.0',
-    'mkdocs-macros-plugin>=1.5.0', # Enable dynamic content in docs
+    'mkdocs-gen-files==0.6.0',     # Dynamic page generation for API reference
+    'mkdocs-literate-nav==0.6.0',  # Dynamic navigation for API reference
+    'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
     'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
     'pdfCropMargins>=2.2.1',       # Generate entry figures for documentation
     'pillow>=10.4.0',              # Lock dependency of pdfCropMargins

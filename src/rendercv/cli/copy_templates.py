@@ -6,14 +6,14 @@ from typing import Literal
 def copy_templates(
     template_type: Literal["markdown", "typst"], copy_templates_to: pathlib.Path
 ) -> None:
-    """Copy one of the folders found in `rendercv.templates` to `copy_to`.
+    """Copy built-in template directory to user location for customization.
+
+    Why:
+        Users creating custom themes need starting templates to modify.
 
     Args:
-        folder_name: The name of the folder to be copied.
-        copy_to: The path to copy the folder to.
-
-    Returns:
-        The path to the copied folder.
+        template_type: Which template set to copy.
+        copy_templates_to: Destination directory path.
     """
     # copy the package's theme files to the current directory
     template_directory = (

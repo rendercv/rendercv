@@ -6,6 +6,11 @@ from rendercv import __version__
 
 
 def print_welcome():
+    """Display welcome banner with version and useful links.
+
+    Why:
+        New users need guidance on where to find documentation and support.
+    """
     print(f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n")
     links = {
         "RenderCV App": "https://rendercv.com",

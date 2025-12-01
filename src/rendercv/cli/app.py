@@ -36,8 +36,12 @@ def cli_command_no_args(
 
 
 def warn_if_new_version_is_available() -> None:
-    """Check if a new version of RenderCV is available and print a warning message if
-    there is a new version.
+    """Check PyPI for newer RenderCV version and display update notice.
+
+    Why:
+        Users should be notified of updates for bug fixes and features.
+        Non-blocking check on startup ensures users stay informed without
+        interrupting workflow if check fails.
     """
     url = "https://pypi.org/pypi/rendercv/json"
     try:

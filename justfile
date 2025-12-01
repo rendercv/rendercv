@@ -1,6 +1,6 @@
 # Development:
-install:
-  uv sync --locked --all-extras --all-groups
+sync:
+  uv sync --all-extras --all-groups
   
 format:
   uv run black src tests
