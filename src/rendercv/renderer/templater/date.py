@@ -12,6 +12,31 @@ from .string_processor import substitute_placeholders
 def date_object_to_string(
     date: Date, *, locale: Locale, single_date_template: str
 ) -> str:
+    """Convert date object to localized string using template placeholders.
+
+    Why:
+        Date display varies by locale and user preference. Template-based
+        formatting allows MONTH_ABBREVIATION YEAR or MONTH_NAME, YEAR without
+        hardcoding formats for each language.
+
+    Example:
+        ```py
+        result = date_object_to_string(
+            Date(2025, 3, 15),
+            locale=english_locale,
+            single_date_template="MONTH_ABBREVIATION YEAR"
+        )
+        # Returns: "Mar 2025"
+        ```
+
+    Args:
+        date: Date to format.
+        locale: Locale providing month names and abbreviations.
+        single_date_template: Template with date placeholders.
+
+    Returns:
+        Formatted date string with placeholders substituted.
+    """
     month_names = locale.month_names
     month_abbreviations = locale.month_abbreviations
 
@@ -38,6 +63,35 @@ def format_date_range(
     single_date_template: str,
     date_range_template: str,
 ) -> str:
+    """Format date range with localized start and end dates.
+
+    Why:
+        CV entries use date ranges for employment and education. Users provide
+        dates as year-only integers, YYYY-MM strings, YYYY-MM-DD strings, or
+        "present". Unified formatting handles all input types consistently.
+
+    Example:
+        ```py
+        result = format_date_range(
+            "2020-06",
+            "present",
+            locale=english_locale,
+            single_date_template="MONTH_ABBREVIATION YEAR",
+            date_range_template="START_DATE to END_DATE"
+        )
+        # Returns: "Jun 2020 to present"
+        ```
+
+    Args:
+        start_date: Start date as integer year or ISO date string.
+        end_date: End date as integer year, ISO date string, or "present".
+        locale: Locale providing month names and present translation.
+        single_date_template: Template for formatting individual dates.
+        date_range_template: Template combining start and end dates.
+
+    Returns:
+        Formatted date range string.
+    """
     if isinstance(start_date, int):
         # Then it means only the year is provided
         start_date = str(start_date)
@@ -71,6 +125,40 @@ def format_date_range(
 def format_single_date(
     date: str | int, *, locale: Locale, single_date_template: str
 ) -> str:
+    """Format single date with locale-aware template or pass through custom strings.
+
+    Why:
+        Publications and certifications use single dates rather than ranges.
+        Custom date strings like "Spring 2024" need preservation while standard
+        dates require localized formatting.
+
+    Example:
+        ```py
+        # Standard date formatting
+        result = format_single_date(
+            "2024-03",
+            locale=english_locale,
+            single_date_template="MONTH_NAME YEAR"
+        )
+        # Returns: "March 2024"
+
+        # Custom string pass-through
+        result = format_single_date(
+            "Spring 2024",
+            locale=english_locale,
+            single_date_template="MONTH_NAME YEAR"
+        )
+        # Returns: "Spring 2024"
+        ```
+
+    Args:
+        date: Date as integer year, ISO date string, "present", or custom text.
+        locale: Locale providing present translation.
+        single_date_template: Template for formatting standard dates.
+
+    Returns:
+        Formatted date string or original custom text.
+    """
     if isinstance(date, int):
         # Only year is provided
         date_string = str(date)
@@ -97,6 +185,35 @@ def compute_time_span_string(
     current_date: Date,
     time_span_template: str,
 ) -> str:
+    """Calculate and format duration between dates with localized units.
+
+    Why:
+        CV readers need quick understanding of experience length. Automatic
+        calculation shows "2 years 3 months" or "1 year" based on date
+        precision, with proper singular/plural forms per locale.
+
+    Example:
+        ```py
+        result = compute_time_span_string(
+            "2020-06",
+            "2023-09",
+            locale=english_locale,
+            current_date=Date(2025, 1, 1),
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS"
+        )
+        # Returns: "3 years 4 months"
+        ```
+
+    Args:
+        start_date: Start date as integer year or ISO date string.
+        end_date: End date as integer year, ISO date string, or "present".
+        locale: Locale providing year/month singular/plural forms.
+        current_date: Reference date for "present" calculation.
+        time_span_template: Template for formatting duration output.
+
+    Returns:
+        Formatted time span string with years and months.
+    """
     if isinstance(start_date, int) or isinstance(end_date, int):
         # Then it means one of the dates is year, so time span cannot be more
         # specific than years.

@@ -7,6 +7,19 @@ import markdown.core
 
 
 def to_typst_string(elem: Element) -> str:
+    """Recursively convert XML Element tree to Typst markup string.
+
+    Why:
+        Python Markdown library outputs XML Element tree. Typst requires its
+        own markup syntax for bold, italic, links, etc. Recursive traversal
+        converts entire element tree including nested formatting.
+
+    Args:
+        elem: XML Element from Markdown parser.
+
+    Returns:
+        Typst-formatted string.
+    """
     result = []
 
     # Handle the element's text content
@@ -59,6 +72,19 @@ math_pattern = re.compile(r"(\$\$.*?\$\$)")
 
 
 def escape_typst_characters(string: str) -> str:
+    """Escape Typst special characters while preserving Typst commands and math.
+
+    Why:
+        User content may contain Typst special characters like `#`, `$`, `[` that
+        would break compilation. Escaping prevents interpretation as commands.
+        Existing Typst commands and math must remain unescaped.
+
+    Args:
+        string: Text to escape.
+
+    Returns:
+        Escaped string safe for Typst.
+    """
     if string == "\n":
         return string
 
@@ -123,8 +149,29 @@ md.stripTopLevelTags = False
 
 
 def markdown_to_typst(markdown_string: str) -> str:
+    """Convert Markdown string to Typst markup.
+
+    Why:
+        Users write content in Markdown for readability. Typst compilation
+        requires Typst markup. Custom Markdown parser with Typst output
+        format bridges this gap.
+
+    Args:
+        markdown_string: Markdown content.
+
+    Returns:
+        Typst-formatted string.
+    """
     return md.convert(markdown_string)
 
 
 def markdown_to_html(markdown_string: str) -> str:
+    """Convert Markdown string to HTML using python-markdown library.
+
+    Args:
+        markdown_string: Markdown content.
+
+    Returns:
+        HTML-formatted string.
+    """
     return markdown.markdown(markdown_string)

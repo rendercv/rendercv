@@ -19,6 +19,20 @@ def apply_string_processors(
 def apply_string_processors(
     string: str | None, string_processors: list[Callable[[str], str]]
 ) -> str | None:
+    """Apply sequence of string transformation functions via reduce.
+
+    Why:
+        Multiple transformations (markdown parsing, keyword bolding, escaping)
+        need sequential application. Functional reduce pattern chains processors
+        cleanly without intermediate variables.
+
+    Args:
+        string: Input string or None.
+        string_processors: Functions to apply in order.
+
+    Returns:
+        Transformed string, or None if input was None.
+    """
     if string is None:
         return string
     return functools.reduce(lambda v, f: f(v), string_processors, string)
@@ -26,6 +40,19 @@ def apply_string_processors(
 
 @functools.lru_cache(maxsize=64)
 def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
+    """Build cached regex pattern for matching keywords with longest-first priority.
+
+    Why:
+        Keyword matching happens repeatedly during rendering. Cached patterns
+        avoid recompilation. Longest-first sorting prevents "Python" from matching
+        before "Python 3" in same text.
+
+    Args:
+        keywords: Set of keywords to match.
+
+    Returns:
+        Compiled regex pattern.
+    """
     if not keywords:
         message = "Keywords cannot be empty"
         raise RenderCVInternalError(message)
@@ -37,6 +64,26 @@ def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
 
 
 def make_keywords_bold(string: str, keywords: list[str]) -> str:
+    """Wrap all keyword occurrences in Markdown bold syntax.
+
+    Why:
+        Users configure keywords like "Python" or "Machine Learning" to highlight
+        in their CV. Automatic bolding applies consistent emphasis across all
+        content without manual markup.
+
+    Example:
+        ```py
+        result = make_keywords_bold("Expert in Python and Java", ["Python"])
+        # Returns: "Expert in **Python** and Java"
+        ```
+
+    Args:
+        string: Text to process.
+        keywords: Keywords to make bold.
+
+    Returns:
+        String with keywords wrapped in ** markers.
+    """
     if not keywords:
         return string
 
@@ -45,6 +92,29 @@ def make_keywords_bold(string: str, keywords: list[str]) -> str:
 
 
 def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
+    """Replace all placeholder occurrences with their values.
+
+    Why:
+        Output file names use placeholders like NAME and YEAR for dynamic naming.
+        Pattern matching with longest-first ensures "YEAR_IN_TWO_DIGITS" matches
+        before "YEAR" in same string.
+
+    Example:
+        ```py
+        result = substitute_placeholders(
+            "NAME_CV_YEAR.pdf",
+            {"NAME": "John_Doe", "YEAR": "2025"}
+        )
+        # Returns: "John_Doe_CV_2025.pdf"
+        ```
+
+    Args:
+        string: Template string with placeholders.
+        placeholders: Map of placeholder names to replacement values.
+
+    Returns:
+        String with all placeholders replaced.
+    """
     if not placeholders:
         return string
 
@@ -53,20 +123,23 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
 
 
 def clean_url(url: str | pydantic.HttpUrl) -> str:
-    """Make a URL clean by removing the protocol, www, and trailing slashes.
+    """Remove protocol, www, and trailing slashes from URL.
+
+    Why:
+        CV formatting displays cleaner URLs without https:// prefix. Used as
+        Jinja2 filter in templates for consistent URL presentation.
 
     Example:
-        ```python
-        make_a_url_clean("https://www.example.com/")
+        ```py
+        result = clean_url("https://www.example.com/")
+        # Returns: "example.com"
         ```
-        returns
-        `"example.com"`
 
     Args:
-        url: The URL to make clean.
+        url: URL to clean.
 
     Returns:
-        The clean URL.
+        Clean URL string.
     """
     url = str(url).replace("https://", "").replace("http://", "")
     if url.endswith("/"):

@@ -11,6 +11,15 @@ from .string_processor import clean_url
 def compute_connections(
     rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
 ) -> list[str]:
+    """Route to format-specific connection generator.
+
+    Args:
+        rendercv_model: CV model with contact information.
+        file_type: Target format for connections.
+
+    Returns:
+        List of formatted connection strings.
+    """
     return {
         "typst": compute_connections_for_typst,
         "markdown": compute_connections_for_markdown,
@@ -24,6 +33,19 @@ class Connection(TypedDict):
 
 
 def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
+    """Extract contact information from CV model into normalized connection format.
+
+    Why:
+        CV header displays various contact methods in user-defined order. This
+        extracts emails, phones, websites, location, and social networks from
+        the model, preserving the order specified in the input file.
+
+    Args:
+        rendercv_model: CV model with contact information.
+
+    Returns:
+        List of connections with icon specifiers, URLs, and display text.
+    """
     connections: list[Connection] = []
     for key in rendercv_model.cv._key_order:
         match key:
@@ -120,6 +142,19 @@ typst_fa_icons = {
 
 
 def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
+    """Format connections with Typst markup, Font Awesome icons, and conditional hyperlinks.
+
+    Why:
+        Typst templates need connection strings with icon syntax and link markup.
+        Icon visibility and hyperlink behavior are user-configurable through
+        design settings, requiring conditional formatting at render time.
+
+    Args:
+        rendercv_model: CV model with contact information and design settings.
+
+    Returns:
+        List of Typst-formatted connection strings ready for template insertion.
+    """
     connections = parse_connections(rendercv_model)
 
     show_icon = rendercv_model.design.header.connections.show_icons
@@ -147,6 +182,14 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
 
 def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]:
+    """Format connections as Markdown links without icons.
+
+    Args:
+        rendercv_model: CV model with contact information.
+
+    Returns:
+        List of Markdown-formatted connection strings.
+    """
     connections = parse_connections(rendercv_model)
 
     return [

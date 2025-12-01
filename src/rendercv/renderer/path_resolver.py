@@ -8,6 +8,30 @@ from .templater.string_processor import substitute_placeholders
 def resolve_rendercv_file_path(
     rendercv_model: RenderCVModel, file_path: pathlib.Path
 ) -> pathlib.Path:
+    """Resolve output file path with placeholder substitution and directory creation.
+
+    Why:
+        Users specify output paths like `NAME_CV_YEAR.pdf` with placeholders
+        for dynamic naming. Substitution uses current date and CV name to
+        generate actual file names, creating parent directories if needed.
+
+    Example:
+        ```py
+        # Given model with name="John Doe" and year=2025
+        path = resolve_rendercv_file_path(
+            model,
+            pathlib.Path("output/NAME_IN_LOWER_SNAKE_CASE_CV_YEAR.pdf")
+        )
+        # Returns: pathlib.Path("output/john_doe_CV_2025.pdf")
+        ```
+
+    Args:
+        rendercv_model: CV model containing name and date for substitution.
+        file_path: Template path with placeholders.
+
+    Returns:
+        Resolved absolute path with substituted filename.
+    """
     current_date = rendercv_model.settings.current_date
     current_date_month_index = current_date.month - 1
     file_path_placeholders = {

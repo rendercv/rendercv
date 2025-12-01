@@ -14,6 +14,20 @@ from .string_processor import apply_string_processors, make_keywords_bold
 def process_model(
     rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
 ) -> RenderCVModel:
+    """Pre-process CV model for template rendering with format-specific transformations.
+
+    Why:
+        Templates need processed data, not raw model. This applies markdown
+        parsing, keyword bolding, connection formatting, date rendering, and
+        entry template expansion before templates execute.
+
+    Args:
+        rendercv_model: Validated CV model.
+        file_type: Target format for format-specific processors.
+
+    Returns:
+        Processed model ready for templates.
+    """
     string_processors: list[Callable[[str], str]] = [
         lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keywords)
     ]
@@ -74,6 +88,20 @@ def process_model(
 def process_fields(
     entry: Entry, string_processors: list[Callable[[str], str]]
 ) -> Entry:
+    """Apply string processors to all entry fields except skipped technical fields.
+
+    Why:
+        Entry fields need markdown parsing and formatting, but dates, DOIs, and
+        URLs must remain unprocessed for correct linking and formatting. Field-
+        level processing enables selective transformation.
+
+    Args:
+        entry: Entry to process (model or string).
+        string_processors: Transformation functions to apply.
+
+    Returns:
+        Entry with processed fields.
+    """
     skipped = {"start_date", "end_date", "doi", "url"}
 
     if isinstance(entry, str):
