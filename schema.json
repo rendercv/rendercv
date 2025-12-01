@@ -5052,7 +5052,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-10-28",
+        "date": "2025-12-01",
         "render_command": null,
         "bold_keywords": [],
         "sort_entries": "none"
