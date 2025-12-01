@@ -1,5 +1,7 @@
 ---
 toc_depth: 1
+hide:
+  - navigation
 ---
 
 # Changelog

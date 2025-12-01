@@ -1,8 +1,5 @@
 site_name: RenderCV Engine
-site_description: A Python package with CLI tool to write and version-control CVs and resumes as source code
-site_author: RenderCV Team
-copyright: Copyright &copy; 2023 - 2024 RenderCV
-site_url: https://docs.rendercv.com
+site_description: Write your CV or resume as YAML and get a beautiful PDF—built for academics and engineers.
 repo_url: https://github.com/rendercv/rendercv
 repo_name: rendercv/rendercv
 edit_uri: edit/main/docs/
@@ -37,12 +34,13 @@ theme:
     - content.action.view # view source button for pages
     - content.action.edit # view source button for pages
     - navigation.footer # the previous and next buttons in the footer
-    - navigation.tabs
+    - navigation.tabs # Top navbar
+    - navigation.indexes # allow mother pages to have their own index pages
     - navigation.instant # instant navigation for faster page loads
     - navigation.instant.prefetch # prefetch pages for instant navigation
     - navigation.instant.progress # show progress bar for instant navigation
     - navigation.top # back to top button
-    # - navigation.sections # make sidebar expanded by default
+    - navigation.sections # make sidebar expanded by default
     - search.highlight # highlight search results after going to a page
     - search.suggest # show search suggestions while typing
     - search.share # share search results with others
@@ -51,55 +49,29 @@ theme:
     - content.tabs.link # switch all the content tabs to the same label
 
 nav:
-  - Overview: index.md
-  - User Guide:
-      - User Guide: user_guide/index.md
-      - Structure of the YAML input file: user_guide/structure_of_the_yaml_input_file.md
-      - CLI: user_guide/cli.md
+  - Getting Started:
+      - Welcome: user_guide/welcome_to_rendercv.md
+      - Quick Start: user_guide/get_started.md
+      - YAML Input Structure: user_guide/structure_of_the_yaml_input_file.md
+      - CLI Reference: user_guide/cli_reference.md
       - FAQ: user_guide/faq.md
   - Developer Guide:
-      - Developer Guide: developer_guide/index.md
+      - Introduction: developer_guide/get_started.md
+      - Architecture: developer_guide/architecture.md
+      - Code Guidelines: developer_guide/code_guidelines.md
+      - Running Tests: developer_guide/testing.md
+      - Writing Tests: developer_guide/writing_tests.md
       - Writing Documentation: developer_guide/writing_documentation.md
-      - Testing: developer_guide/testing.md
-      - FAQ: developer_guide/faq.md
+      - Releasing: developer_guide/releasing.md
+      - Scripts: developer_guide/scripts.md
+      - CI/CD Workflows: developer_guide/workflows.md
+      - How-To Guides:
+          - Add a New Entry Type: how_to/add_a_new_entry_type.md
+          - Add a New Theme: how_to/add_a_new_theme.md
+          - Add a New Locale: how_to/add_a_new_locale.md
+          - Add a New Social Network: how_to/add_a_new_social_network.md
   - API Reference: api_reference/
-  #     - api:
-  #         - api: reference/api/index.md
-  #         - functions.py: reference/api/functions.md
-  #     - cli:
-  #         - cli: reference/cli/index.md
-  #         - commands.py: reference/cli/commands.md
-  #         - printer.py: reference/cli/printer.md
-  #         - utilities.py: reference/cli/utilities.md
-  #     - data:
-  #         - data: reference/data/index.md
-  #         - models:
-  #             - models: reference/data/models/index.md
-  #             - base.py: reference/data/models/base.md
-  #             - computers.py: reference/data/models/computers.md
-  #             - entry_types.py: reference/data/models/entry_types.md
-  #             - curriculum_vitae.py: reference/data/models/curriculum_vitae.md
-  #             - design.py: reference/data/models/design.md
-  #             - locale.py: reference/data/models/locale.md
-  #             - rendercv_settings.py: reference/data/models/rendercv_settings.md
-  #             - rendercv_data_model.py: reference/data/models/rendercv_data_model.md
-  #         - generator.py: reference/data/generator.md
-  #         - reader.py: reference/data/reader.md
-  #     - renderer:
-  #         - renderer: reference/renderer/index.md
-  #         - renderer.py: reference/renderer/renderer.md
-  #         - templater.py: reference/renderer/templater.md
-  #     - themes:
-  #         - themes: reference/themes/index.md
-  #         - options.py: reference/themes/options.md
-  #         - classic: reference/themes/classic.md
-  #         - engineeringresumes: reference/themes/engineeringresumes.md
-  #         - sb2nov: reference/themes/sb2nov.md
-  #         - moderncv: reference/themes/moderncv.md
-  #         - engineeringclassic: reference/themes/engineeringclassic.md
-  #         - components: reference/themes/components.md
-  - Changelog:
-      - Changelog: changelog/index.md
+  - Changelog: changelog.md
 
 markdown_extensions:
   # see https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/ for more pymdownx info
