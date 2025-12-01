@@ -100,6 +100,16 @@ class Cv(BaseModelWithExtraKeys):
 
     @functools.cached_property
     def rendercv_sections(self) -> list[BaseRenderCVSection]:
+        """Transform user's section dict to list of typed section objects.
+
+        Why:
+            Templates need sections as list with title/entry_type metadata.
+            Cached property computes once after validation, enabling repeated
+            template access without recomputation.
+
+        Returns:
+            List of section objects for template rendering.
+        """
         return get_rendercv_sections(self.sections)
 
     @pydantic.model_validator(mode="wrap")
@@ -107,6 +117,20 @@ class Cv(BaseModelWithExtraKeys):
     def capture_input_order(
         cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]
     ) -> "Cv":
+        """Preserve YAML field order for header rendering.
+
+        Why:
+            Header fields (name, label, location, etc.) must render in user-defined
+            order, not alphabetical. Wrap validator captures dict key order before
+            Pydantic reorders fields.
+
+        Args:
+            data: Raw input data before validation.
+            handler: Pydantic's validation handler.
+
+        Returns:
+            Validated CV instance with _key_order preserved.
+        """
         # If data is already a Cv instance, preserve its _key_order
         if isinstance(data, cls):
             return data
@@ -136,9 +160,20 @@ class Cv(BaseModelWithExtraKeys):
         | list[pydantic_phone_numbers.PhoneNumber]
         | None
     ):
-        """We have this custom plain validator to have better error messages. For
-        example, we don't want to raise regular email validation error, when the input
-        is clearly a list."""
+        """Validate fields that accept single value or list with type-specific errors.
+
+        Why:
+            Users provide either `email: "x@y.com"` or `email: ["x@y.com", "a@b.com"]`.
+            Plain mode validator detects list vs scalar first, enabling specific error
+            messages like "invalid email in list" instead of generic validation errors.
+
+        Args:
+            value: Single value or list to validate.
+            info: Validation context containing field name.
+
+        Returns:
+            Validated single value or list.
+        """
         # Allow None values since these fields are optional
         if value is None:
             return None
@@ -169,6 +204,18 @@ class Cv(BaseModelWithExtraKeys):
     def serialize_phone(
         self, phone: pydantic_phone_numbers.PhoneNumber | None
     ) -> str | None:
+        """Remove tel: prefix from phone number for clean serialization.
+
+        Why:
+            phone number library adds "tel:" URI scheme for validation.
+            Serialization strips prefix so templates render plain numbers.
+
+        Args:
+            phone: Validated phone number with tel: prefix.
+
+        Returns:
+            Phone string without tel: prefix, or None.
+        """
         if phone is not None:
             return phone.replace("tel:", "")
 

@@ -29,6 +29,20 @@ unwanted_locations = (
 def parse_plain_pydantic_error(
     plain_error: pydantic_core.ErrorDetails, user_input_as_commented_map: CommentedMap
 ) -> RenderCVValidationError:
+    """Transform raw Pydantic error into user-friendly validation error with YAML coordinates.
+
+    Why:
+        Pydantic errors contain technical jargon and generic locations unsuitable
+        for end users. This converts them to plain English messages with exact
+        YAML line numbers, mapped via error_dictionary.yaml.
+
+    Args:
+        plain_error: Raw Pydantic validation error.
+        user_input_as_commented_map: YAML dict with line/column metadata.
+
+    Returns:
+        Structured error with location tuple, friendly message, and YAML coordinates.
+    """
     for unwanted_text in unwanted_texts:
         plain_error["msg"] = plain_error["msg"].replace(unwanted_text, "")
 
@@ -79,20 +93,20 @@ def parse_validation_errors(
     exception: pydantic.ValidationError,
     rendercv_dictionary_as_commented_map: CommentedMap,
 ) -> list[RenderCVValidationError]:
-    """Take a Pydantic validation error, parse it, and return a list of error
-    dictionaries that contain the error messages, locations, and the input values.
+    """Extract all validation errors from Pydantic exception with deduplication.
 
-    Pydantic's `ValidationError` object is a complex object that contains a lot of
-    information about the error. This function takes a `ValidationError` object and
-    extracts the error messages, locations, and the input values.
+    Why:
+        Single Pydantic ValidationError contains multiple sub-errors. Entry
+        validation errors include nested causes that must be flattened and
+        deduplicated before display. This aggregates all errors into a single
+        list for table rendering.
 
     Args:
-        exception: The Pydantic validation error object.
-        user_input_as_commented_map: The user input as a CommentedMap.
+        exception: Pydantic validation exception.
+        rendercv_dictionary_as_commented_map: YAML dict with location metadata.
 
     Returns:
-        A list of error dictionaries that contain the error messages, locations, and the
-        input values.
+        Deduplicated list of user-friendly validation errors.
     """
     all_plain_errors = exception.errors()
     all_final_errors: list[RenderCVValidationError] = []
@@ -131,6 +145,20 @@ def parse_validation_errors(
 def get_inner_yaml_object_from_its_key(
     yaml_object: CommentedMap, location_key: str
 ) -> tuple[CommentedMap, tuple[tuple[int, int], tuple[int, int]]]:
+    """Navigate one level into YAML structure and extract coordinates.
+
+    Why:
+        Error locations are dotted paths like `cv.sections.education.0.degree`.
+        Each traversal step must extract both the nested object and its exact
+        source coordinates for error highlighting.
+
+    Args:
+        yaml_object: Current YAML object being traversed.
+        location_key: Single key or list index as string.
+
+    Returns:
+        Tuple of nested object and ((start_line, start_col), (end_line, end_col)).
+    """
     # If the part is numeric, interpret it as a list index:
     try:
         index = int(location_key)
@@ -159,17 +187,28 @@ def get_inner_yaml_object_from_its_key(
 def get_coordinates_of_a_key_in_a_yaml_object(
     yaml_object: ruamel.yaml.YAML, location: tuple[str, ...]
 ) -> tuple[tuple[int, int], tuple[int, int]]:
-    """Find the coordinates of a key in a YAML object.
+    """Resolve dotted location path to exact YAML source coordinates.
+
+    Why:
+        Error tables must show users exactly which line/column contains
+        the invalid value. Recursive traversal through CommentedMap's
+        lc.data preserves coordinates at every nesting level.
+
+    Example:
+        ```py
+        data = read_yaml(pathlib.Path("cv.yaml"))
+        coords = get_coordinates_of_a_key_in_a_yaml_object(
+            data, ("cv", "sections", "education", "0", "degree")
+        )
+        # coords = ((12, 4), (12, 10)) for line 12, columns 4-10
+        ```
 
     Args:
-        yaml_object: The YAML object.
-        location: The location of the key in the YAML object. For example,
-            `['cv', 'sections', 'education', '0', 'degree']`.
+        yaml_object: Root YAML object with location metadata.
+        location: Path segments from root to target key.
 
     Returns:
-        The coordinates of the key in the YAML object in the format
-        ((start_line, start_column), (end_line, end_column)).
-        (Line and column numbers are 0-indexed.)
+        ((start_line, start_col), (end_line, end_col)) in 1-indexed coordinates.
     """
 
     current_yaml_object: ruamel.yaml.YAML = yaml_object

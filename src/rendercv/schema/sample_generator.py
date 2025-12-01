@@ -17,13 +17,18 @@ from .rendercv_model_builder import read_yaml
 
 
 def dictionary_to_yaml(dictionary: dict) -> str:
-    """Converts a dictionary to a YAML string.
+    """Convert dictionary to formatted YAML string with multiline preservation.
+
+    Why:
+        Sample YAML generation must produce readable output with proper
+        formatting for multiline strings. Custom representer ensures
+        bullet points and descriptions use pipe syntax.
 
     Args:
-        dictionary: The dictionary to be converted to YAML.
+        dictionary: Data structure to convert.
 
     Returns:
-        The YAML string.
+        Formatted YAML string.
     """
 
     # Source: https://gist.github.com/alertedsnake/c521bc485b3805aa3839aef29e39f376
@@ -46,14 +51,20 @@ def dictionary_to_yaml(dictionary: dict) -> str:
 def create_sample_rendercv_pydantic_model(
     *, name: str = "John Doe", theme: str = "classic", locale: str = "english"
 ) -> RenderCVModel:
-    """Return a sample data model for new users to start with.
+    """Build sample CV model from sample content.
+
+    Why:
+        New users need working examples to understand structure. Sample content
+        provides realistic content that validates successfully and renders
+        to all output formats without errors.
 
     Args:
-        name: The name of the person.
-        theme: The theme of the CV.
-        locale: The locale of the CV.
+        name: Person's full name.
+        theme: Design theme identifier.
+        locale: Locale language identifier.
+
     Returns:
-        A sample data model.
+        Validated model with sample content.
     """
     sample_content = pathlib.Path(__file__).parent / "sample_content.yaml"
     sample_content_dictionary = read_yaml(sample_content)["cv"]
@@ -91,16 +102,31 @@ def create_sample_yaml_input_file(
     theme: str = "classic",
     locale: str = "english",
 ) -> str | None:
-    """Create a sample YAML input file and return it as a string. If the input file path
-    is provided, then also save the contents to the file.
+    """Generate formatted sample YAML with schema hint and commented design options.
+
+    Why:
+        New command provides users with immediately usable CV templates.
+        JSON schema hint enables IDE autocompletion, commented design
+        fields show customization options without overwhelming beginners.
+
+    Example:
+        ```py
+        yaml_content = create_sample_yaml_input_file(
+            file_path=pathlib.Path("John_Doe_CV.yaml"),
+            name="John Doe",
+            theme="classic"
+        )
+        # File written with schema hint, cv content, and commented design
+        ```
 
     Args:
-        input_file_path: The path to save the input file. Defaults to None.
-        name: The name of the person. Defaults to "John Doe".
-        theme: The theme of the CV. Defaults to "classic".
+        file_path: Optional path to write file.
+        name: Person's full name.
+        theme: Design theme identifier.
+        locale: Language/date format identifier.
 
     Returns:
-        The sample YAML input file as a string.
+        YAML string if file_path is None, otherwise None after writing file.
     """
     if theme not in available_themes:
         message = (

@@ -54,6 +54,20 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
     @pydantic.field_validator("username")
     @classmethod
     def check_username(cls, username: str, info: pydantic.ValidationInfo) -> str:
+        """Validate username format per network's requirements.
+
+        Why:
+            Different platforms have specific username formats (e.g., Mastodon needs
+            @user@domain, StackOverflow needs id/name). Early validation prevents
+            broken URL generation.
+
+        Args:
+            username: Username to validate.
+            info: Validation context containing network field.
+
+        Returns:
+            Validated username.
+        """
         if "network" not in info.data:
             # the network is either not provided or not one of the available social
             # networks. In this case, don't check the username, since Pydantic will
@@ -104,11 +118,29 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
 
     @pydantic.model_validator(mode="after")
     def validate_generated_url(self) -> "SocialNetwork":
+        """Validate generated URL is well-formed.
+
+        Why:
+            URL generation from username might produce invalid URLs if username
+            format is wrong. Post-validation check catches edge cases.
+
+        Returns:
+            Validated social network instance.
+        """
         url_validator.validate_strings(self.url)
         return self
 
     @functools.cached_property
     def url(self) -> str:
+        """Generate profile URL from network and username.
+
+        Why:
+            Users provide network+username for brevity. Property generates full
+            URLs with platform-specific logic (e.g., Mastodon domain extraction).
+
+        Returns:
+            Complete profile URL.
+        """
         if self.network == "Mastodon":
             _, username, domain = self.username.split("@")
             url = f"https://{domain}/@{username}"

@@ -54,6 +54,15 @@ class BasePublicationEntry(BaseEntry):
 
     @pydantic.model_validator(mode="after")
     def ignore_url_if_doi_is_given(self) -> Self:
+        """Prioritize DOI over custom URL when both provided.
+
+        Why:
+            DOI is canonical, stable identifier for publications. When provided,
+            ignore user's URL to ensure templates use official DOI link.
+
+        Returns:
+            Publication instance with url cleared if DOI exists.
+        """
         doi_is_provided = self.doi is not None
 
         if doi_is_provided:
@@ -63,6 +72,15 @@ class BasePublicationEntry(BaseEntry):
 
     @pydantic.model_validator(mode="after")
     def validate_doi_url(self) -> Self:
+        """Validate generated DOI URL is well-formed.
+
+        Why:
+            DOI URL generation from DOI string might produce invalid URLs.
+            Post-validation ensures generated URLs are valid.
+
+        Returns:
+            Validated publication instance.
+        """
         if self.doi_url:
             url_validator.validate_strings(self.doi_url)
 
@@ -70,6 +88,15 @@ class BasePublicationEntry(BaseEntry):
 
     @functools.cached_property
     def doi_url(self) -> str | None:
+        """Generate DOI URL from DOI identifier.
+
+        Why:
+            DOI identifiers need https://doi.org/ prefix for linking.
+            Property generates complete URL from DOI string.
+
+        Returns:
+            Complete DOI URL, or None if no DOI provided.
+        """
         doi_is_provided = self.doi is not None
 
         if doi_is_provided:

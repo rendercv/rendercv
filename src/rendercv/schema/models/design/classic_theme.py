@@ -265,6 +265,19 @@ class Typography(BaseModelWithoutExtraKeys):
     def validate_font_family(
         cls, font_family: FontFamily | FontFamilyType
     ) -> FontFamily:
+        """Convert string font to FontFamily object with uniform styling.
+
+        Why:
+            Users can provide simple string "Latin Modern Roman" for all text,
+            or specify per-element fonts via FontFamily dict. Validator accepts
+            both, expanding strings to full FontFamily objects.
+
+        Args:
+            font_family: String font name or FontFamily object.
+
+        Returns:
+            FontFamily object with all fields populated.
+        """
         if isinstance(font_family, str):
             return FontFamily(
                 body=font_family,

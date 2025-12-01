@@ -81,6 +81,17 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
 
     @functools.cached_property
     def language_iso_639_1(self) -> str:
+        """Get ISO 639-1 two-letter language code for locale.
+
+        Why:
+            Typst's text element requires ISO 639-1/2/3 language codes for the
+            lang parameter. This enables proper hyphenation, smart quotes, and
+            accessibility (screen readers use it for voice selection). HTML export
+            also uses it for lang attribute.
+
+        Returns:
+            Two-letter ISO 639-1 language code for Typst and HTML.
+        """
         return {
             "english": "en",
             "mandarin_chineese": "zh",

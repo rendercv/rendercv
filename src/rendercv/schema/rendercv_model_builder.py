@@ -34,6 +34,30 @@ def build_rendercv_dictionary(
     main_input_file_path_or_contents: pathlib.Path | str,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ) -> CommentedMap:
+    """Merge main YAML with overlays and CLI overrides into final dictionary.
+
+    Why:
+        Users need modular configuration (separate design/locale files) and
+        quick testing (CLI overrides). This pipeline applies all modifications
+        before validation, ensuring users see complete configuration errors.
+
+    Example:
+        ```py
+        data = build_rendercv_dictionary(
+            pathlib.Path("cv.yaml"),
+            design_file_path_or_contents=pathlib.Path("classic.yaml"),
+            overrides={"cv.phone": "+1234567890"}
+        )
+        # data contains merged cv + design + overrides
+        ```
+
+    Args:
+        main_input_file_path_or_contents: Primary CV YAML file or string.
+        kwargs: Optional YAML overlay paths, output paths, generation flags, and CLI overrides.
+
+    Returns:
+        Merged dictionary ready for validation.
+    """
     input_dict = read_yaml(main_input_file_path_or_contents)
 
     # Optional YAML overlays
@@ -78,6 +102,20 @@ def build_rendercv_model_from_commented_map(
     commented_map: CommentedMap,
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
+    """Validate merged dictionary and build Pydantic model with error mapping.
+
+    Why:
+        Validation transforms raw YAML into type-safe objects. When validation
+        fails, CommentedMap metadata enables precise error location reporting
+        instead of generic Pydantic messages.
+
+    Args:
+        commented_map: Merged dictionary with line/column metadata.
+        input_file_path: Source file path for context and photo resolution.
+
+    Returns:
+        Validated RenderCVModel instance.
+    """
     try:
         model = RenderCVModel.model_validate(
             commented_map,
@@ -101,6 +139,29 @@ def build_rendercv_dictionary_and_model(
     main_input_file_path_or_contents: pathlib.Path | str,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ) -> tuple[CommentedMap, RenderCVModel]:
+    """Complete pipeline from raw input to validated model.
+
+    Why:
+        Main entry point for render command combines merging and validation
+        in one call. Returns both dictionary and model because error handlers
+        need dictionary metadata for location mapping.
+
+    Example:
+        ```py
+        data, model = build_rendercv_dictionary_and_model(
+            pathlib.Path("cv.yaml"),
+            pdf_path="output.pdf"
+        )
+        # model.cv.name is validated, data preserves YAML line numbers
+        ```
+
+    Args:
+        main_input_file_path_or_contents: Primary CV YAML file or string.
+        kwargs: Optional YAML overlay paths, output paths, generation flags, and CLI overrides.
+
+    Returns:
+        Tuple of merged dictionary and validated model.
+    """
     d = build_rendercv_dictionary(main_input_file_path_or_contents, **kwargs)
     input_file_path = (
         main_input_file_path_or_contents

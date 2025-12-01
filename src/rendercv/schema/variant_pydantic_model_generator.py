@@ -17,23 +17,36 @@ def create_variant_pydantic_model[T: pydantic.BaseModel](
     class_name_suffix: str,
     module_name: str,
 ) -> type[T]:
-    """Create a Pydantic model variant with customized field defaults.
+    """Create Pydantic model variant with customized defaults.
 
-    Handles three override types:
-    - Discriminator fields: converted to Literal types
-    - Nested dicts: deep-merged into nested Pydantic models
-    - Simple values: direct default replacement
+    Why:
+        Themes share common structure but differ in default colors, fonts,
+        and spacing. Variant generation creates theme-specific classes that
+        inherit validation logic while exposing different defaults in JSON schema.
+
+    Example:
+        ```py
+        ModernTheme = create_variant_pydantic_model(
+            variant_name="modern",
+            defaults={"theme": "modern", "colors": {"primary": "#000"}},
+            base_class=BaseTheme,
+            discriminator_field="theme",
+            class_name_suffix="Theme",
+            module_name="rendercv.themes"
+        )
+        # Creates class "ModernTheme" with theme="modern" as Literal type
+        ```
 
     Args:
-        variant_name: Snake_case name (e.g., "modern_cv") → class name "ModernCvTheme"
-        defaults: Field overrides. Nested dicts enable partial updates.
-        base_class: Base model to inherit from
-        discriminator_field: Field to constrain as Literal for tagged unions
-        class_name_suffix: Appended to generated class name
-        module_name: Module path for the generated class
+        variant_name: Snake_case name for PascalCase conversion.
+        defaults: Field overrides with nested dict support.
+        base_class: Base model to inherit from.
+        discriminator_field: Field to constrain as Literal for tagged unions.
+        class_name_suffix: Appended to generated class name.
+        module_name: Module path for the generated class.
 
     Returns:
-        New model class with all overrides applied
+        New model class with overrides applied.
     """
     validate_defaults_against_base(defaults, base_class, variant_name)
 
@@ -73,13 +86,14 @@ def validate_defaults_against_base(
 ) -> None:
     """Validate that all fields in defaults exist in the base model.
 
-    Args:
-        defaults: Dictionary of field names to default values
-        base_class: The base Pydantic model class
-        variant_name: Name of the variant (for error messages)
+    Why:
+        Typos in theme definitions cause silent failures. Early validation
+        prevents variants with undefined fields from being created.
 
-    Raises:
-        ValueError: If any field in defaults is not defined in base_class
+    Args:
+        defaults: Field overrides to validate.
+        base_class: Base model defining valid fields.
+        variant_name: Variant identifier for error messages.
     """
     base_fields = base_class.model_fields
 
@@ -96,11 +110,11 @@ def generate_model_name(variant_name: str, class_name_suffix: str) -> str:
     """Convert snake_case variant name to PascalCase class name with suffix.
 
     Args:
-        variant_name: Snake_case name
-        class_name_suffix: Suffix to append
+        variant_name: Snake_case name.
+        class_name_suffix: Suffix to append.
 
     Returns:
-        PascalCase class name with suffix
+        PascalCase class name with suffix.
     """
     # Convert snake_case to PascalCase: my_variant_name -> MyVariantName
     # Instead of title(), just capitalize first letter of each word
@@ -115,16 +129,18 @@ def update_description_with_new_default(
 ) -> str | None:
     """Update field description to reflect new default value.
 
-    If the description contains the string representation of the old default value,
-    replace it with the string representation of the new default value.
+    Why:
+        JSON schema descriptions must show current defaults. When variants
+        override defaults, descriptions need updating so IDE tooltips display
+        accurate information.
 
     Args:
-        original_description: Original field description
-        old_default: Old default value
-        new_default: New default value to replace with
+        original_description: Original field description.
+        old_default: Old default value.
+        new_default: New default value to replace with.
 
     Returns:
-        Updated description or None if no description exists
+        Updated description or None if no description exists.
     """
     if original_description is None:
         return None
@@ -140,14 +156,19 @@ def create_discriminator_field_spec(
     discriminator_value: Any,
     base_field_info: FieldInfo,
 ) -> FieldSpec:
-    """Create field spec for a discriminator field (converts to Literal type).
+    """Create field spec for discriminator field with Literal type constraint.
+
+    Why:
+        Pydantic discriminated unions require Literal types for routing.
+        Converting theme="classic" to Literal["classic"] enables automatic
+        theme class selection during validation.
 
     Args:
-        discriminator_value: The value for the discriminator
-        base_field_info: The base model's field info for this field
+        discriminator_value: Value for the discriminator.
+        base_field_info: Base model's field info.
 
     Returns:
-        Tuple of (Literal type annotation, Field with default value)
+        Tuple of Literal type annotation and Field with default value.
     """
     field_annotation = Literal[discriminator_value]
 
@@ -173,19 +194,19 @@ def deep_merge_nested_object[T: pydantic.BaseModel](
     base_nested_obj: T,
     updates: dict[str, Any],
 ) -> T:
-    """Recursively merge nested dictionary updates into a Pydantic model instance.
+    """Recursively merge nested dictionary updates into Pydantic model instance.
 
-    This function supports arbitrary nesting depth. For each key in updates:
-    - If the value is a dict and the corresponding field is a Pydantic model,
-      recursively merge it
-    - Otherwise, apply the value directly
+    Why:
+        Theme variants often override only specific nested fields like
+        `colors.primary` while keeping other color defaults. Deep merge
+        enables partial updates without requiring full object replacement.
 
     Args:
-        base_nested_obj: The base Pydantic model instance to merge into
-        updates: Dictionary of updates to apply (supports nested dicts)
+        base_nested_obj: Base model instance to merge into.
+        updates: Dictionary updates with arbitrary nesting depth.
 
     Returns:
-        A new Pydantic model instance with updates applied
+        New model instance with updates applied.
     """
     # Build the final update dict by recursively merging nested objects
     merged_updates: dict[str, Any] = {}
@@ -213,17 +234,19 @@ def create_nested_model_variant_model(
     base_model_class: type[pydantic.BaseModel],
     updates: dict[str, Any],
 ) -> type[pydantic.BaseModel]:
-    """Create a variant class for a nested model with updated field descriptions.
+    """Create variant class for nested model with updated field descriptions.
 
-    Recursively processes nested updates to ensure field descriptions are updated
-    at all levels of nesting.
+    Why:
+        Nested field defaults must reflect in JSON schema for accurate IDE
+        tooltips. Creating variant classes ensures descriptions update at all
+        nesting levels, not just the top level.
 
     Args:
-        base_model_class: The base nested model class
-        updates: Dictionary of field updates (can contain nested dicts)
+        base_model_class: Base nested model class.
+        updates: Field updates with potential nested dicts.
 
     Returns:
-        New model class with updated field descriptions and defaults
+        New model class with updated descriptions and defaults.
     """
     field_specs: dict[str, Any] = {}
     base_fields = base_model_class.model_fields
@@ -273,17 +296,19 @@ def create_nested_field_spec(
     default_value: dict[str, Any],
     base_field_info: FieldInfo,
 ) -> FieldSpec:
-    """Create field spec for a nested Pydantic model with partial overrides.
+    """Create field spec for nested Pydantic model with partial overrides.
 
-    Creates a variant class for the nested model to ensure field descriptions
-    are updated to reflect new default values.
+    Why:
+        Nested model fields require variant classes to preserve accurate JSON
+        schema metadata. This ensures nested defaults appear correctly in IDE
+        autocompletion and documentation.
 
     Args:
-        default_value: Dictionary of updates to apply to the nested model
-        base_field_info: The base model's field info for this field
+        default_value: Dictionary updates to apply to nested model.
+        base_field_info: Base model's field info.
 
     Returns:
-        Tuple of (variant class annotation, Field with default_factory)
+        Tuple of variant class annotation and Field with default_factory.
     """
     # Get the base nested object - could be from default or default_factory
     base_nested_obj: pydantic.BaseModel | None = None
@@ -335,14 +360,14 @@ def create_simple_field_spec(
     default_value: Any,
     base_field_info: FieldInfo,
 ) -> FieldSpec:
-    """Create field spec for a simple field (non-nested, non-discriminator).
+    """Create field spec for simple field with updated default.
 
     Args:
-        default_value: The default value for this field
-        base_field_info: The base model's field info for this field
+        default_value: New default value for field.
+        base_field_info: Base model's field info.
 
     Returns:
-        Tuple of (field annotation, Field with default value)
+        Tuple of field annotation and Field with default value.
     """
     # Update description with new default value
     updated_description = update_description_with_new_default(

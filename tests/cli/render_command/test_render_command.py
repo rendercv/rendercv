@@ -37,8 +37,8 @@ class TestCliCommandRender:
         os.chdir(tmp_path)
         cli_command_new(
             full_name="John Doe",
-            dont_create_typst_templates=False,
-            dont_create_markdown_templates=False,
+            create_typst_templates=False,
+            create_markdown_templates=False,
         )
         return tmp_path / "John_Doe_CV.yaml"
 

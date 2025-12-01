@@ -16,17 +16,19 @@ custom_theme_name_pattern = re.compile(r"^[a-z0-9]+$")
 
 
 def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
-    """Check if the design options are for a built-in theme or a custom theme. If it is
-    a built-in theme, validate it with the corresponding data model. If it is a custom
-    theme, check if the necessary files are provided and validate it with the custom
-    theme data model, found in the `__init__.py` file of the custom theme folder.
+    """Validate design options for built-in or custom themes with dynamic loading.
+
+    Why:
+        Users can use built-in themes or create custom themes in local folders.
+        Validation attempts built-in first, then falls back to dynamic import
+        of custom theme classes from theme folder's __init__.py.
 
     Args:
-        design: The design options to validate.
-        info: The validation information.
+        design: Design dictionary to validate.
+        info: Validation context containing input file path.
 
     Returns:
-        The validated design as a Pydantic data model.
+        Validated design model (built-in or custom theme class).
     """
     try:
         return built_in_design_adapter.validate_python(design)

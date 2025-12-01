@@ -40,4 +40,16 @@ class Settings(BaseModelWithoutExtraKeys):
     @pydantic.field_validator("bold_keywords")
     @classmethod
     def keep_unique_keywords(cls, value: list[str]) -> list[str]:
+        """Remove duplicate keywords from bold list.
+
+        Why:
+            Users might accidentally list same keyword multiple times. Deduplication
+            prevents redundant bold highlighting operations during rendering.
+
+        Args:
+            value: List of keywords potentially with duplicates.
+
+        Returns:
+            List with unique keywords only.
+        """
         return list(set(value))

@@ -47,20 +47,20 @@ def cli_command_new(
             )
         ),
     ] = "english",
-    dont_create_typst_templates: Annotated[
+    create_typst_templates: Annotated[
         bool,
         typer.Option(
-            "--dont-create-typst-templates",
-            "-notyp",
-            help="Don't create Typst templates",
+            "--create-typst-templates",
+            "-typ",
+            help="Create Typst templates",
         ),
     ] = False,
-    dont_create_markdown_templates: Annotated[
+    create_markdown_templates: Annotated[
         bool,
         typer.Option(
-            "--dont-create-markdown-templates",
-            "-nomd",
-            help="Don't create Markdown templates",
+            "--create-markdown-templates",
+            "-md",
+            help="Create Markdown templates",
         ),
     ] = False,
 ):
@@ -92,27 +92,27 @@ def cli_command_new(
             lambda: create_sample_yaml_input_file(
                 file_path=input_file_path, name=full_name, theme=theme, locale=locale
             ),
-            False,  # never skip the input file
+            True,  # never skip the input file
         ),
         (
             "Typst templates",
             typst_templates_folder,
             lambda: copy_templates("typst", typst_templates_folder),
-            dont_create_typst_templates,
+            create_typst_templates,
         ),
         (
             "Markdown templates",
             markdown_folder,
             lambda: copy_templates("markdown", markdown_folder),
-            dont_create_markdown_templates,
+            create_markdown_templates,
         ),
     ]
 
     # Process items
     created_items: list[tuple[str, pathlib.Path]] = []
     existing_items: list[tuple[str, pathlib.Path]] = []
-    for description, path, creator, skip in items_to_create:
-        if skip:
+    for description, path, creator, create in items_to_create:
+        if not create:
             continue
         if path.exists():
             existing_items.append((description, path))

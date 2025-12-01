@@ -11,11 +11,15 @@ from .classic_theme import ClassicTheme
 
 
 def discover_other_themes() -> list[type[ClassicTheme]]:
-    """Auto-discover and load all theme files from other_themes/ directory.
+    """Auto-discover and load theme variant classes from other_themes/ directory.
+
+    Why:
+        Built-in themes beyond classic are defined as YAML files with field
+        overrides. Dynamic discovery and variant generation keeps theme
+        system extensible without code changes for each theme.
 
     Returns:
-        Dictionary mapping class names (e.g., "EngineeringresumesTheme") to dynamically
-        created Pydantic model classes.
+        List of dynamically generated theme variant classes.
     """
     other_themes_dir = Path(__file__).parent / "other_themes"
     discovered: list[type[ClassicTheme]] = []

@@ -13,6 +13,19 @@ from .entry_with_date import BaseEntryWithDate
 
 
 def validate_exact_date(date: str | int) -> str | int:
+    """Validate date conforms to strict format requirements.
+
+    Why:
+        start_date/end_date need strict formats for date arithmetic (calculating
+        duration). Unlike arbitrary dates, these must parse to actual Date objects
+        for comparison and duration rendering.
+
+    Args:
+        date: Date value to validate.
+
+    Returns:
+        Original date if valid.
+    """
     try:
         get_date_object(date)
     except RenderCVInternalError as e:
@@ -28,6 +41,29 @@ type ExactDate = Annotated[str | int, pydantic.AfterValidator(validate_exact_dat
 
 
 def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
+    """Convert date string/int to Python Date object.
+
+    Why:
+        Date arithmetic (start/end comparison, duration calculation) requires
+        Python Date objects. This parser handles multiple formats including
+        "present" keyword for ongoing positions.
+
+    Example:
+        ```py
+        date_obj = get_date_object("2023-05", Date(2025, 1, 1))
+        # Returns Date(2023, 5, 1)
+
+        present_obj = get_date_object("present", Date(2025, 1, 1))
+        # Returns Date(2025, 1, 1)
+        ```
+
+    Args:
+        date: Date in YYYY-MM-DD, YYYY-MM, YYYY format, or "present".
+        current_date: Reference date for "present" keyword.
+
+    Returns:
+        Python Date object.
+    """
     if isinstance(date, int):
         date_object = Date.fromisoformat(f"{date}-01-01")
     elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):

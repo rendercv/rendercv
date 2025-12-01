@@ -11,11 +11,15 @@ from .english_locale import EnglishLocale
 
 
 def discover_other_locales() -> list[type[EnglishLocale]]:
-    """Auto-discover and load all locale files from locales/ directory.
+    """Auto-discover and load locale variant classes from other_locales/ directory.
+
+    Why:
+        Locales beyond English are defined as YAML files with translations
+        and format overrides. Dynamic discovery enables community-contributed
+        locales without core code changes.
 
     Returns:
-        Dictionary mapping class names (e.g., "EnglishLocale") to dynamically
-        created Pydantic model classes.
+        List of dynamically generated locale variant classes.
     """
     other_locales_dir = Path(__file__).parent / "other_locales"
     discovered: list[type[EnglishLocale]] = []

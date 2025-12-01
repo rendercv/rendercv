@@ -44,5 +44,18 @@ class RenderCVModel(BaseModelWithExtraKeys):
 
     @pydantic.model_validator(mode="after")
     def set_input_file_path(self, info: pydantic.ValidationInfo) -> "RenderCVModel":
+        """Store input file path in private attribute for path resolution.
+
+        Why:
+            Photo paths and other relative references need input file location
+            for resolution. Private attribute stores this after validation for
+            downstream processing.
+
+        Args:
+            info: Validation context containing input file path.
+
+        Returns:
+            Model instance with _input_file_path set.
+        """
         self._input_file_path = get_input_file_path(info)
         return self

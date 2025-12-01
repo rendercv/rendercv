@@ -45,13 +45,18 @@ type ListOfEntries = list[str] | reduce(  # pyright: ignore[reportInvalidTypeFor
 def get_characteristic_entry_fields(
     entry_types: tuple[type[EntryModel], ...],
 ) -> dict[type[EntryModel], set[str]]:
-    """Returns fields unique to each entry type, used for automatic type detection.
+    """Calculate unique fields per entry type for automatic type detection.
+
+    Why:
+        Users provide entries without explicit type declarations. Detecting
+        entry type by unique fields (e.g., `degree` for EducationEntry)
+        enables automatic routing to correct validators.
 
     Args:
-        entry_types: The entry types to get their characteristic fields.
+        entry_types: Entry type classes to analyze.
 
     Returns:
-        The characteristic fields of the entry types.
+        Map of entry types to their unique field names.
     """
     all_attributes: list[str] = []
     for EntryType in entry_types:
@@ -81,13 +86,18 @@ class BaseRenderCVSection(BaseModelWithoutExtraKeys):
 def create_section_models(
     entry_type: type[EntryModel] | type[str],
 ) -> type[BaseRenderCVSection]:
-    """Create a section model based on the entry type.
+    """Generate Pydantic model for section containing specific entry type.
+
+    Why:
+        Each section validates that all entries match a single type. Dynamic
+        model generation creates type-safe section models with proper validation
+        constraints for each entry type.
 
     Args:
-        entry_type: The entry type to create the section model.
+        entry_type: Entry class or str for TextEntry.
 
     Returns:
-        The section model (a Pydantic model).
+        Pydantic section model class.
     """
     if entry_type is str:
         model_name = "SectionWithTextEntries"
@@ -114,17 +124,18 @@ section_models[str] = create_section_models(str)
 def get_entry_type_name_and_section_model(
     entry: dict[str, str | list[str]] | str | EntryModel | None,
 ) -> tuple[str, type[BaseRenderCVSection]]:
-    """Get the entry type name and the section model based on the entry.
+    """Infer entry type from entry data and return corresponding section model.
 
-    It takes an entry (as a dictionary or a string) and a list of entry types. Then
-    it determines the entry type and creates a section model based on the entry
-    type.
+    Why:
+        Sections contain mixed raw entry data (dicts/strings) before validation.
+        Type inference via characteristic fields enables routing each entry to
+        its correct validator model.
 
     Args:
-        entry: The entry to determine its type.
+        entry: Raw or validated entry data.
 
     Returns:
-        The entry type name and the section model.
+        Tuple of entry type name and section model class.
     """
 
     if isinstance(entry, dict):
@@ -164,13 +175,18 @@ def get_entry_type_name_and_section_model(
 
 
 def validate_section(sections_input: Any) -> Any:
-    """Validate a list of entries (a section) based on the entry types.
+    """Validate section entries with automatic type detection and error reporting.
+
+    Why:
+        Section validation must infer entry type from first valid entry,
+        then validate all entries against that type. Custom error messages
+        identify detected type and aggregate nested validation errors.
 
     Args:
-        sections_input: The sections input to validate.
+        sections_input: Raw section data (list of entries).
 
     Returns:
-        The validated sections input.
+        Validated list of entry instances.
     """
     if isinstance(sections_input, list):
         # Find the entry type based on the first identifiable entry:
@@ -231,20 +247,24 @@ type Section = Annotated[
 
 
 def dictionary_key_to_proper_section_title(key: str) -> str:
-    """Convert a dictionary key to a proper section title.
+    """Convert snake_case section key to title case with proper capitalization.
+
+    Why:
+        Users write `education_and_training` in YAML for readability. Rendering
+        requires "Education and Training" with proper title case rules (lowercase
+        articles/prepositions).
 
     Example:
-        ```python
-        dictionary_key_to_proper_section_title("section_title")
+        ```py
+        title = dictionary_key_to_proper_section_title("education_and_training")
+        # Returns "Education and Training"
         ```
-        returns
-        `"Section Title"`
 
     Args:
-        key: The key to convert to a proper section title.
+        key: Section key from YAML.
 
     Returns:
-        The proper section title.
+        Properly capitalized section title.
     """
     # If there is either a space or an uppercase letter in the key, return it as is.
     if " " in key or any(letter.isupper() for letter in key):
@@ -293,18 +313,18 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
 def get_rendercv_sections(
     sections: dict[str, list[Any]] | None,
 ) -> list[BaseRenderCVSection]:
-    """Compute the sections of the CV based on the input sections.
+    """Transform user's section dictionary into list of typed section objects.
 
-    The original `sections` input is a dictionary where the keys are the section
-    titles and the values are the list of entries in that section. This function
-    converts the input sections to a list of `SectionBase` objects. This makes it
-    easier to work with the sections in the rest of the code.
+    Why:
+        YAML sections are dicts for user convenience (e.g., `{education: [...]}`).
+        Template rendering requires list of section objects with title and
+        entry_type fields. This conversion happens after validation.
 
     Args:
-        sections: The sections to compute.
+        sections: User's section dictionary with titles as keys.
 
     Returns:
-        The computed sections.
+        List of section objects ready for template rendering.
     """
     sections_rendercv: list[BaseRenderCVSection] = []
 

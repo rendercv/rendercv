@@ -11,16 +11,27 @@ def read_yaml(
     file_path_or_contents: pathlib.Path | str,
     read_type: Literal["safe"] | None = None,
 ) -> CommentedMap:
-    """Read a YAML file and return its content as a dictionary. The YAML file can be
-    given as a path to the file or as the contents of the file as a string.
+    """Parse YAML/JSON content from file path or string.
+
+    Why:
+        Validation errors must point to exact YAML locations. CommentedMap
+        preserves source coordinates that map Pydantic errors back to input
+        lines, enabling user-friendly error tables showing exactly where
+        mistakes occur in the input file.
+
+    Example:
+        ```py
+        data = read_yaml(pathlib.Path("cv.yaml"))
+        name = data["cv"]["name"]  # Regular dict access
+        # Line info also available: data.lc.data["cv"][0] = (line, col)
+        ```
 
     Args:
-        file_path_or_contents: The path to the YAML file or the contents of the YAML
-            file as a string.
+        file_path_or_contents: File path or raw YAML string.
+        read_type: Parsing mode passed to ruamel.yaml.
 
     Returns:
-        The content of the YAML file as a CommentedMap (Python dictionary with
-        additional information about the location of the keys in the YAML file).
+        Dictionary with line/column metadata for error reporting.
     """
     if isinstance(file_path_or_contents, pathlib.Path):
         # Check if the file exists:
