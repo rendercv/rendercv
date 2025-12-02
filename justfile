@@ -37,7 +37,7 @@ build-docs:
   uv run mkdocs build --clean --strict
 
 serve-docs:
-  uv run mkdocs serve
+  uv run mkdocs serve --watch-theme
 
 <<<<<<< HEAD
 # Scipts

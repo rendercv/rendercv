@@ -1,5 +1,5 @@
 site_name: RenderCV Engine
-site_description: Write your CV or resume as YAML and get a beautiful PDF—built for academics and engineers.
+site_description: Write your CV or resume as YAML and get PDF. Built for academics and engineers.
 repo_url: https://github.com/rendercv/rendercv
 repo_name: rendercv/rendercv
 edit_uri: edit/main/docs/
@@ -35,7 +35,7 @@ theme:
     - content.action.edit # view source button for pages
     - navigation.footer # the previous and next buttons in the footer
     - navigation.tabs # Top navbar
-    - navigation.indexes # allow mother pages to have their own index pages
+    # - navigation.indexes # allow mother pages to have their own index pages
     - navigation.instant # instant navigation for faster page loads
     - navigation.instant.prefetch # prefetch pages for instant navigation
     - navigation.instant.progress # show progress bar for instant navigation
@@ -49,27 +49,30 @@ theme:
     - content.tabs.link # switch all the content tabs to the same label
 
 nav:
-  - Getting Started:
-      - Welcome: user_guide/welcome_to_rendercv.md
-      - Quick Start: user_guide/get_started.md
-      - YAML Input Structure: user_guide/structure_of_the_yaml_input_file.md
-      - CLI Reference: user_guide/cli_reference.md
-      - FAQ: user_guide/faq.md
+  - User Guide:
+      - Welcome: index.md
+      - Get Started: user_guide/get_started.md
+      - YAML Input Structure: user_guide/yaml_input_structure.md
+      - CLI: user_guide/cli.md
+      - How-To Guides:
+          - Custom Fonts: user_guide/how_to/custom_fonts.md
+          - Custom Language: user_guide/how_to/custom_language.md
+          - Custom Theme: user_guide/how_to/custom_theme.md
+          - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
   - Developer Guide:
-      - Introduction: developer_guide/get_started.md
+      - Contributing: developer_guide/contributing.md
+      - Setup: developer_guide/setup.md
       - Architecture: developer_guide/architecture.md
       - Code Guidelines: developer_guide/code_guidelines.md
-      - Running Tests: developer_guide/testing.md
-      - Writing Tests: developer_guide/writing_tests.md
-      - Writing Documentation: developer_guide/writing_documentation.md
-      - Releasing: developer_guide/releasing.md
+      - Testing: developer_guide/testing.md
+      - Documentation: developer_guide/documentation.md
       - Scripts: developer_guide/scripts.md
-      - CI/CD Workflows: developer_guide/workflows.md
+      - CI/CD: developer_guide/workflows.md
       - How-To Guides:
-          - Add a New Entry Type: how_to/add_a_new_entry_type.md
-          - Add a New Theme: how_to/add_a_new_theme.md
-          - Add a New Locale: how_to/add_a_new_locale.md
-          - Add a New Social Network: how_to/add_a_new_social_network.md
+          - Add Entry Type: developer_guide/how_to/add_entry_type.md
+          - Add Theme: developer_guide/how_to/add_theme.md
+          - Add Locale: developer_guide/how_to/add_locale.md
+          - Add Social Network: developer_guide/how_to/add_social_network.md
   - API Reference: api_reference/
   - Changelog: changelog.md
 

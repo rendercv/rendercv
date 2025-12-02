@@ -13,10 +13,14 @@ cv:
     - network: GitHub
       username: rendercv
   sections:
-    RenderCV:
-      - RenderCV is a modern and flexible CV template for AI researchers and entrepreneurs.
+    Welcome to RenderCV:
+      - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
+      - See the [documentation](https://docs.rendercv.com) for more details.
     education:
-      - date:
+      - institution: Princeton University
+        area: Computer Science
+        degree: PhD
+        date:
         start_date: 2018-09
         end_date: 2023-05
         location: Princeton, NJ
@@ -25,9 +29,6 @@ cv:
           - "Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment"
           - "Advisor: Prof. Sanjeev Arora"
           - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
-        institution: Princeton University
-        area: Computer Science
-        degree: PhD
       - date:
         start_date: 2014-09
         end_date: 2018-06
