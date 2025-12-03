@@ -52,22 +52,21 @@ theme:
 nav:
   - User Guide:
       - Welcome: index.md
-      - Get Started: user_guide/get_started.md
+      - Get Started: user_guide/index.md
       - YAML Input Structure: user_guide/yaml_input_structure.md
       - CLI: user_guide/cli.md
       - How-To Guides:
+          - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
           - Custom Fonts: user_guide/how_to/custom_fonts.md
           - Override Default Templates: user_guide/how_to/override_default_templates.md
-          - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
   - Developer Guide:
-      - Contributing: developer_guide/contributing.md
-      - Setup: developer_guide/setup.md
-      - Architecture: developer_guide/architecture.md
+      - Setup: developer_guide/index.md
+      - Understand RenderCV: developer_guide/understand_rendercv.md
       - Code Guidelines: developer_guide/code_guidelines.md
       - Testing: developer_guide/testing.md
       - Documentation: developer_guide/documentation.md
       - Scripts: developer_guide/scripts.md
-      - CI/CD: developer_guide/workflows.md
+      - CI/CD: developer_guide/ci_cd.md
       - How-To Guides:
           - Add Entry Type: developer_guide/how_to/add_entry_type.md
           - Add Theme: developer_guide/how_to/add_theme.md
@@ -105,6 +104,10 @@ plugins:
         - docs/api_reference/api_reference.py
   - macros: # mkdocs-macros-plugin
       module_name: docs/docs_templating
+      j2_block_start_string: "{$"
+      j2_block_end_string: "$}"
+      j2_variable_start_string: "<<"
+      j2_variable_end_string: ">>"
   - mkdocstrings:
       handlers:
         python:

@@ -26,8 +26,8 @@ rendercv new "John Doe"
 
 | Option                        | Description                                                    |
 | ----------------------------- | -------------------------------------------------------------- |
-| `--theme THEME`               | Use a built-in theme: {{ available_themes }}. Default: `classic` |
-| `--locale LOCALE`             | Use a locale: {{ available_locales }}. Default: `english`        |
+| `--theme THEME`               | Use a built-in theme: << available_themes >>. Default: `classic` |
+| `--locale LOCALE`             | Use a locale: << available_locales >>. Default: `english`        |
 | `--create-typst-templates`    | Generate Typst template files for advanced customization       |
 | `--create-markdown-templates` | Generate Markdown template files for advanced customization    |
 

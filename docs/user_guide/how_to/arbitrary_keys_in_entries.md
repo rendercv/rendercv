@@ -27,4 +27,4 @@ design:
 
 RenderCV replaces `COMPANY` → "Google", `POSITION` → "Software Engineer", `TECH_STACK` → "Python, Go, Kubernetes".
 
-Any key you add to an entry becomes available as an uppercase placeholder. Underscores in field names become underscores in placeholders (`tech_stack` → `TECH_STACK`).
+Any key you add to an entry becomes available as an uppercase placeholder.

@@ -60,6 +60,7 @@ create-executable:
 # Utilities:
 count-lines:
   wc -l `find src -name '*.py'`
+<<<<<<< HEAD
   
 src-tree:
   tree src/rendercv --gitignore
@@ -90,3 +91,5 @@ pull-data:
   uv run scripts/pull_data.py
 =======
 >>>>>>> ceea296 (Start working on new CLI)
+=======
+>>>>>>> 054905b (Start working on developer guide)

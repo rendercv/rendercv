@@ -67,7 +67,7 @@ cv:
 1. Multiple emails can be provided as a list.
 2. Multiple phone numbers can be provided as a list.
 3. Multiple websites can be provided as a list.
-4. {{available_social_networks}}
+4. << available_social_networks >>
 
 ### Sections
 
@@ -108,7 +108,7 @@ cv:
 
 
 !!! info "Section names don't dictate entry types"
-    **Any of the {{entry_count}} entry types can be used in any section.** The section name is just a title — RenderCV doesn't enforce which entry type you use.
+    **Any of the << entry_count >> entry types can be used in any section.** The section name is just a title — RenderCV doesn't enforce which entry type you use.
 
     For example, an `experience` section could use `NormalEntry` instead of `ExperienceEntry`:
 
@@ -139,16 +139,16 @@ cv:
 
 ## Entry Types
 
-RenderCV provides {{entry_count}} entry types:
-{% for entry_name in entry_names %}
-{{ loop.index }}. {{ entry_name }}
-{% endfor %}
+RenderCV provides << entry_count >> entry types:
+{$ for entry_name in entry_names $}
+<< loop.index >>. << entry_name >>
+{$ endfor $}
  each designed for different kinds of content.
 
-{% for entry_name, entry in sample_entries.items() %}
-### {{ entry_name }}
+{$ for entry_name, entry in sample_entries.items() $}
+### << entry_name >>
 
-{% if entry_name == "EducationEntry" %}
+{$ if entry_name == "EducationEntry" $}
 For academic credentials.
 
 | Field         | Required | Description                              |
@@ -163,7 +163,7 @@ For academic credentials.
 | `summary`     | No       | Brief description                        |
 | `highlights`  | No       | List of bullet points                    |
 
-{% elif entry_name == "ExperienceEntry" %}
+{$ elif entry_name == "ExperienceEntry" $}
 For work history and professional roles.
 
 | Field        | Required | Description                              |
@@ -177,7 +177,7 @@ For work history and professional roles.
 | `summary`    | No       | Role description                         |
 | `highlights` | No       | List of accomplishments                  |
 
-{% elif entry_name == "PublicationEntry" %}
+{$ elif entry_name == "PublicationEntry" $}
 For papers, articles, and other publications.
 
 | Field     | Required | Description                                      |
@@ -189,7 +189,7 @@ For papers, articles, and other publications.
 | `journal` | No       | Journal, conference, or venue name               |
 | `date`    | No       | Publication date                                 |
 
-{% elif entry_name == "NormalEntry" %}
+{$ elif entry_name == "NormalEntry" $}
 A flexible entry for projects, awards, certifications, or anything else.
 
 | Field        | Required | Description                              |
@@ -202,7 +202,7 @@ A flexible entry for projects, awards, certifications, or anything else.
 | `summary`    | No       | Brief description                        |
 | `highlights` | No       | List of bullet points                    |
 
-{% elif entry_name == "OneLineEntry" %}
+{$ elif entry_name == "OneLineEntry" $}
 For compact key-value pairs, ideal for skills or technical proficiencies.
 
 | Field     | Required | Description        |
@@ -210,42 +210,42 @@ For compact key-value pairs, ideal for skills or technical proficiencies.
 | `label`   | Yes      | Category name      |
 | `details` | Yes      | Associated details |
 
-{% elif entry_name == "BulletEntry" %}
+{$ elif entry_name == "BulletEntry" $}
 A single bullet point. Use for simple lists.
 
 | Field    | Required | Description     |
 | -------- | -------- | --------------- |
 | `bullet` | Yes      | The bullet text |
 
-{% elif entry_name == "NumberedEntry" %}
+{$ elif entry_name == "NumberedEntry" $}
 An automatically numbered entry.
 
 | Field    | Required | Description       |
 | -------- | -------- | ----------------- |
 | `number` | Yes      | The entry content |
 
-{% elif entry_name == "ReversedNumberedEntry" %}
+{$ elif entry_name == "ReversedNumberedEntry" $}
 A numbered entry that counts down (useful for publication lists where recent items come first).
 
 | Field             | Required | Description       |
 | ----------------- | -------- | ----------------- |
 | `reversed_number` | Yes      | The entry content |
 
-{% elif entry_name == "TextEntry" %}
+{$ elif entry_name == "TextEntry" $}
 Plain text without structure. Just write a string.
 
-{% endif %}
+{$ endif $}
 
 ```yaml
-{{ entry["yaml"] }}
+<< entry["yaml"] >>
 ```
 
-{% for figure in entry["figures"] %}
-=== "`{{ figure["theme"] }}` theme"
-    ![{{ figure["alt_text"] }}]({{ figure["path"] }})
-{% endfor %}
+{$ for figure in entry["figures"] $}
+=== "`<< figure["theme"] >>` theme"
+    ![<< figure["alt_text"] >>](<< figure["path"] >>)
+{$ endfor $}
 
-{% endfor %}
+{$ endfor $}
 
 ### Using Markdown
 
@@ -298,7 +298,7 @@ design:
   theme: classic
 ```
 
-Available themes: {{available_themes}}
+Available themes: << available_themes >>
 
 Each theme has different default styling, but all options can be customized. The themes share the same underlying template — you can recreate any theme by adjusting the design options.
 
@@ -449,15 +449,15 @@ design:
       date_and_location_column: DATE
 ```
 
-1. {{available_page_sizes}}
-2. {{available_body_alignments}}
-3. {{available_alignments}}
-4. {{available_section_title_types}}
+1. << available_page_sizes >>
+2. << available_body_alignments >>
+3. << available_alignments >>
+4. << available_section_title_types >>
 5. Sections that show duration (e.g., "2 years")
-6. {{available_bullets}}
-7. {{available_phone_number_formats}}
+6. << available_bullets >>
+7. << available_phone_number_formats >>
 8. `left`, `right`
-9. {{available_font_families}}
+9. << available_font_families >>
 10. Advanced: customize entry rendering
 11. Font family can be directly specified as a string as well.
 
