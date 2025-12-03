@@ -4,13 +4,21 @@ RenderCV uses a single YAML file to generate your CV. This file has four top-lev
 
 ```yaml title="Your_Name_CV.yaml"
 cv:
+  ...
   # Your content (name, sections, entries)
+  ...
 design:
+  ...
   # Visual styling (theme, colors, fonts, spacing)
+  ...
 locale:
+  ...
   # Language strings (month names, "present", etc.)
+  ...
 settings:
+  ...
   # RenderCV behavior (current date, bold keywords)
+  ...
 ```
 
 Only `cv` is required. The others have sensible defaults.
@@ -45,33 +53,27 @@ cv:
   name: John Doe
   headline: Machine Learning Engineer
   location: San Francisco, CA
-  email: john@example.com
-  phone: +14155551234
-  website: https://johndoe.dev
+  email: john@example.com # (1)!
+  phone: +14155551234 # (2)!
+  website: https://johndoe.dev # (3)!
   photo: photo.jpg
   social_networks:
-    - network: LinkedIn
+    - network: LinkedIn # (4)!
       username: johndoe
     - network: GitHub
       username: johndoe
 ```
 
-| Field             | Description                                                                                                                                            |
-| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `name`            | Your full name, displayed prominently in the header                                                                                                    |
-| `headline`        | A brief professional title, shown below your name                                                                                                      |
-| `location`        | City, state, country — whatever format you prefer                                                                                                      |
-| `email`           | Your email address (automatically linked). Multiple emails can be provided as a list.                                                                  |
-| `phone`           | Your Phone number. See `design.header.connections.phone_number_format` to control output formatting. Multiple phone numbers can be provided as a list. |
-| `website`         | Your personal website or portfolio URL. Multiple websites can be provided as a list.                                                                   |
-| `photo`           | Path to a headshot image (relative to the YAML file)                                                                                                   |
-| `social_networks` | List of social profiles. Available networks: {{available_social_networks}}                                                                             |
+1. Multiple emails can be provided as a list.
+2. Multiple phone numbers can be provided as a list.
+3. Multiple websites can be provided as a list.
+4. {{available_social_networks}}
 
 ### Sections
 
 The `sections` field holds the main content of your CV. It's a dictionary where:
 
-- **Keys** are section titles (displayed as headings)
+- **Keys** are section titles (displayed as headings). Section titles can be anything.
 - **Values** are lists of entries
 
 ```yaml
@@ -104,7 +106,33 @@ cv:
         details: Kubernetes, Terraform, AWS
 ```
 
-Section titles can be anything. RenderCV formats them automatically (e.g., `work_experience` becomes "Work Experience").
+
+!!! info "Section names don't dictate entry types"
+    **Any of the {{entry_count}} entry types can be used in any section.** The section name is just a title — RenderCV doesn't enforce which entry type you use.
+
+    For example, an `experience` section could use `NormalEntry` instead of `ExperienceEntry`:
+
+    ```yaml
+    sections:
+      experience:  # Using NormalEntry, not ExperienceEntry
+        - name: Acme Corp — Senior Engineer
+          start_date: 2020-01
+          end_date: present
+          highlights:
+            - Led migration to microservices architecture
+    ```
+
+    Or even `BulletEntry` for a minimal approach:
+
+    ```yaml
+    sections:
+      experience:
+        - bullet: "**Acme Corp** — Senior Engineer (2020–present)"
+        - bullet: "**StartupXYZ** — Founding Engineer (2018–2020)"
+    ```
+
+    Choose the entry type that best fits your content, not the section name.
+
 
 !!! warning "One entry type per section"
     Each section must contain only one type of entry. You cannot mix `ExperienceEntry` and `EducationEntry` in the same section.
@@ -219,21 +247,7 @@ Plain text without structure. Just write a string.
 
 {% endfor %}
 
-### Date Formats
-
-Dates accept multiple formats:
-
-| Format        | Example         | Output      |
-| ------------- | --------------- | ----------- |
-| `YYYY-MM-DD`  | `2023-06-15`    | June 2023   |
-| `YYYY-MM`     | `2023-06`       | June 2023   |
-| `YYYY`        | `2023`          | 2023        |
-| `present`     | `present`       | present     |
-| Custom string | `"Summer 2023"` | Summer 2023 |
-
-The `date` field accepts any string and displays it verbatim, useful for non-standard formats like "Expected May 2025" or "Fall 2023".
-
-### Markdown in Entries
+### Using Markdown
 
 All text fields support basic Markdown:
 
@@ -248,12 +262,23 @@ highlights:
 | `**text**`    | **bold**  |
 | `*text*`      | *italic*  |
 | `[text](url)` | hyperlink |
+| `` `code` ``  | `code`    |
 
-### Custom Keys
+### Using Typst
+
+All text fields support Typst math and commands.
+
+```yaml
+highlights:
+  - Showed that $$f(x) = x^2$$ is a parabola
+  - "This is an #emph[emphasized] text"
+```
+
+### Arbitrary Keys
 
 You can add arbitrary keys to any entry. By default, they're ignored — but you can reference them in custom templates (see `design.templates`). See [Arbitrary Keys in Entries](../user_guide/how_to/arbitrary_keys_in_entries.md) for more information.
 
-```yaml
+```yaml hl_lines="6"
 experience:
   - company: Startup Inc
     position: Founder
@@ -279,8 +304,6 @@ Each theme has different default styling, but all options can be customized. The
 
 !!! tip "Use the JSON Schema"
     The design options are extensive. Use an editor with JSON Schema support to explore all available options with autocomplete.
-
-### Complete Example
 
 Below is a fully specified `design` field showing all available options:
 
@@ -311,7 +334,7 @@ design:
     line_spacing: 0.6em
     alignment: justified         # (2)!
     date_and_location_column_alignment: right
-    font_family:
+    font_family: # (11)!
       body: Source Sans 3        # (9)!
       name: Source Sans 3
       headline: Source Sans 3
@@ -436,26 +459,7 @@ design:
 8. `left`, `right`
 9. {{available_font_families}}
 10. Advanced: customize entry rendering
-
-### Template Placeholders
-
-The `templates` section uses placeholders that RenderCV replaces with actual values:
-
-| Placeholder          | Description                       |
-| -------------------- | --------------------------------- |
-| `NAME`               | Your name from `cv.name`          |
-| `PAGE_NUMBER`        | Current page number               |
-| `TOTAL_PAGES`        | Total page count                  |
-| `CURRENT_DATE`       | Date from `settings.current_date` |
-| `LAST_UPDATED`       | Text from `locale.last_updated`   |
-| `MONTH_ABBREVIATION` | Abbreviated month name            |
-| `YEAR`               | Four-digit year                   |
-| `START_DATE`         | Formatted start date              |
-| `END_DATE`           | Formatted end date                |
-| `HOW_MANY_YEARS`     | Duration in years                 |
-| `HOW_MANY_MONTHS`    | Duration in months                |
-
-Entry-specific placeholders (like `COMPANY`, `POSITION`, `INSTITUTION`) correspond to the entry's fields.
+11. Font family can be directly specified as a string as well.
 
 ## The `locale` Field
 
@@ -532,8 +536,3 @@ settings:
     - AWS
     - Python
 ```
-
-| Field           | Description                                                                                                |
-| --------------- | ---------------------------------------------------------------------------------------------------------- |
-| `current_date`  | Reference date for duration calculations and "last updated" text. Format: `YYYY-MM-DD`. Defaults to today. |
-| `bold_keywords` | List of words to automatically bold throughout the CV. Useful for highlighting key skills.                 |

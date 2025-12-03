@@ -57,8 +57,7 @@ nav:
       - CLI: user_guide/cli.md
       - How-To Guides:
           - Custom Fonts: user_guide/how_to/custom_fonts.md
-          - Custom Language: user_guide/how_to/custom_language.md
-          - Custom Theme: user_guide/how_to/custom_theme.md
+          - Override Default Templates: user_guide/how_to/override_default_templates.md
           - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
   - Developer Guide:
       - Contributing: developer_guide/contributing.md
