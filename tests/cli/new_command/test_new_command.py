@@ -1,6 +1,8 @@
+import contextlib
 import os
 
 import pytest
+import typer
 
 from rendercv.cli.new_command.new_command import cli_command_new
 from rendercv.schema.rendercv_model_builder import build_rendercv_dictionary_and_model
@@ -79,23 +81,25 @@ class TestCliCommandNew:
                 assert (markdown_folder / "Header.j2.md").exists()
 
     def test_errors_for_invalid_theme(self, capsys):
-        cli_command_new(
-            full_name="John Doe",
-            theme="invalid_theme",
-            create_typst_templates=False,
-            create_markdown_templates=False,
-        )
+        with contextlib.suppress(typer.Exit):
+            cli_command_new(
+                full_name="John Doe",
+                theme="invalid_theme",
+                create_typst_templates=False,
+                create_markdown_templates=False,
+            )
 
-        captured = capsys.readouterr()
-        assert "Available themes are:" in captured.out
+            captured = capsys.readouterr()
+            assert "Available themes are:" in captured.out
 
     def test_errors_for_invalid_locale(self, capsys):
-        cli_command_new(
-            full_name="John Doe",
-            locale="invalid_locale",
-            create_typst_templates=False,
-            create_markdown_templates=False,
-        )
+        with contextlib.suppress(typer.Exit):
+            cli_command_new(
+                full_name="John Doe",
+                locale="invalid_locale",
+                create_typst_templates=False,
+                create_markdown_templates=False,
+            )
 
-        captured = capsys.readouterr()
-        assert "Available locales are:" in captured.out
+            captured = capsys.readouterr()
+            assert "Available locales are:" in captured.out

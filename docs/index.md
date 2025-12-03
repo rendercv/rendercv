@@ -66,7 +66,7 @@ becomes one of these PDFs. Click on the images below to preview PDF files.
 
 RenderCV comes with a JSON Schema so that the YAML input file can be filled out interactively.
 
-![JSON Schema of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/schema.gif)
+![JSON Schema of RenderCV](./assets/images/json_schema.gif)
 
 
 ## Extensive Design Options
@@ -102,13 +102,13 @@ design:
   # It goes on and on...
 ```
 
-![Design Options of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/design_options.gif)
+![Design Options of RenderCV](./assets/images/design_options.gif)
 
 ## Strict Validation
 
 No surprises. If something's wrong, you'll know exactly what and where. If it's valid, you get a perfect PDF.
 
-![Strict Validation of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/strict_validation.gif)
+![Strict Validation Feature of RenderCV](./assets/images/validation.gif)
 
 
 ## Get Started

@@ -2,8 +2,9 @@ import threading
 import time
 from unittest.mock import MagicMock, patch
 
+import typer
+
 from rendercv.cli.render_command import watcher
-from rendercv.exception import RenderCVUserError
 
 
 class TestRunFunctionIfFileChanges:
@@ -45,7 +46,7 @@ class TestRunFunctionIfFileChanges:
 
         assert call_count > initial_count
 
-    def test_continues_running_after_function_raises_error(self, tmp_path):
+    def test_continues_running_after_function_raises_typer_exit(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial")
 
@@ -56,7 +57,7 @@ class TestRunFunctionIfFileChanges:
             nonlocal call_count
             call_count += 1
             if should_raise:
-                raise RenderCVUserError("Intentional error")
+                raise typer.Exit(code=1)
 
         watcher_thread = threading.Thread(
             target=watcher.run_function_if_file_changes,
@@ -67,15 +68,15 @@ class TestRunFunctionIfFileChanges:
 
         time.sleep(0.2)
         should_raise = True
-        count_before_error = call_count
-        watched_file.write_text("edit that raises error")
+        count_before_exit = call_count
+        watched_file.write_text("edit that raises exit")
         time.sleep(0.2)
 
-        assert call_count > count_before_error
+        assert call_count > count_before_exit
 
         should_raise = False
-        count_after_error = call_count
-        watched_file.write_text("edit after error")
+        count_after_exit = call_count
+        watched_file.write_text("edit after exit")
         time.sleep(0.2)
 
-        assert call_count > count_after_error
+        assert call_count > count_after_exit

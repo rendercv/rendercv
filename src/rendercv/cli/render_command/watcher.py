@@ -1,13 +1,12 @@
+import contextlib
 import pathlib
 import sys
 import time
 from collections.abc import Callable
 
+import typer
 import watchdog.events
 import watchdog.observers
-from rich import print
-
-from rendercv.exception import RenderCVUserError
 
 
 def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
@@ -32,16 +31,8 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
             if event.src_path != str(file_path.absolute()):
                 return
 
-            try:
-                # Exceptions in the watchdog event handler thread should not
-                # crash the application. They are already handled by the
-                # decorated function, but we add this defensive check to ensure
-                # the watcher continues running even if an unexpected exception
-                # occurs in a background thread.
+            with contextlib.suppress(typer.Exit):
                 self.function()
-            except RenderCVUserError as e:
-                if e.message:
-                    print(f"[bold red]{e.message}[/bold red]")
 
     event_handler = EventHandler(function)
 

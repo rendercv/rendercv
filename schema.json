@@ -2458,6 +2458,22 @@
           "title": "Authors",
           "type": "array"
         },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A summary of the publication.",
+          "examples": [
+            "This paper presents a new method for computer vision."
+          ],
+          "title": "Summary"
+        },
         "doi": {
           "anyOf": [
             {
@@ -4422,8 +4438,8 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**TITLE**\nAUTHORS\nURL (JOURNAL)",
-          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**TITLE**\\nAUTHORS\\nURL (JOURNAL)`.",
+          "default": "**TITLE**\nSUMMARY\nAUTHORS\nURL (JOURNAL)",
+          "description": "The content of the template. The available placeholders are all the keys used in the entries in uppercase. For example, **TITLE**. The default value is `**TITLE**\\nSUMMARY\\nAUTHORS\\nURL (JOURNAL)`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -5420,7 +5436,7 @@
   "required": [],
   "title": "RenderCV",
   "type": "object",
-  "description": "RenderCV allows you to version-control CVs/resumes as JSON or YAML files.",
+  "description": "Write your CV or resume as YAML and get PDF. Built for academics and engineers.",
   "$id": "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#"
 }

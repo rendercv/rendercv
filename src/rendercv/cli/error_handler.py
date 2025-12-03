@@ -1,6 +1,7 @@
 import functools
 from collections.abc import Callable
 
+import rich.panel
 import typer
 from rich import print
 
@@ -30,13 +31,21 @@ def handle_user_errors[T, **P](function: Callable[P, None]) -> Callable[P, None]
     Returns:
         Wrapped function with error handling.
     """
+
     @functools.wraps(function)
     def wrapper(*args: P.args, **kwargs: P.kwargs) -> None:
         try:
             return function(*args, **kwargs)
         except RenderCVUserError as e:
             if e.message:
-                print(f"[bold red]{e.message}[/bold red]")
-            typer.Exit(code=1)
+                print(
+                    rich.panel.Panel(
+                        e.message,
+                        title="[bold red]Error[/bold red]",
+                        title_align="left",
+                        border_style="bold red",
+                    )
+                )
+            raise typer.Exit(code=1) from e
 
     return wrapper

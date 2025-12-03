@@ -1,4 +1,5 @@
 import pytest
+import typer
 
 from rendercv.cli.error_handler import handle_user_errors
 from rendercv.exception import RenderCVUserError
@@ -17,7 +18,8 @@ class TestHandleUserErrors:
         def failing_function():
             raise RenderCVUserError("Something went wrong")
 
-        failing_function()
+        with pytest.raises(typer.Exit):
+            failing_function()
 
     def test_propagates_non_user_errors(self):
         @handle_user_errors

@@ -3,6 +3,8 @@ import pathlib
 
 import pydantic
 
+from rendercv import __description__
+
 from .models.rendercv_model import RenderCVModel
 
 
@@ -22,10 +24,7 @@ def generate_json_schema() -> dict:
         def generate(self, schema, mode="validation"):
             json_schema = super().generate(schema, mode=mode)
             json_schema["title"] = "RenderCV"
-            json_schema["description"] = (
-                "RenderCV allows you to version-control CVs/resumes as JSON or YAML"
-                " files."
-            )
+            json_schema["description"] = __description__
             json_schema["$id"] = (
                 "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json"
             )
