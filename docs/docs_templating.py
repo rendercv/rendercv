@@ -29,9 +29,10 @@ from rendercv.schema.models.design.classic_theme import (
     BodyAlignment,
     Bullet,
     PageSize,
+    PhoneNumberFormatType,
     SectionTitleType,
 )
-from rendercv.schema.models.design.font_family import FontFamily
+from rendercv.schema.models.design.font_family import available_font_families
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.yaml_reader import read_yaml
 
@@ -74,7 +75,7 @@ def define_env(env):
         repository_root / "docs" / "user_guide" / "sample_entries.yaml"
     )
     # validate the parsed dictionary by creating an instance of SampleEntries:
-    SampleEntries(**sample_entries)
+    sample_entries = SampleEntries(**sample_entries).model_dump()
 
     entries_showcase = {}
     for entry_name, entry in sample_entries.items():
@@ -92,6 +93,10 @@ def define_env(env):
         }
 
     env.variables["sample_entries"] = entries_showcase
+    env.variables["entry_count"] = len(sample_entries)
+    env.variables["entry_names"] = [
+        f"[{entry_name}](#{entry_name.lower()})" for entry_name in entries_showcase
+    ]
 
     # Available themes strings (put available themes between ``)
     themes = [f"`{theme}`" for theme in available_themes]
@@ -112,10 +117,16 @@ def define_env(env):
         [f"`{page_size}`" for page_size in get_args(PageSize.__value__)]
     )
     env.variables["available_font_families"] = ", ".join(
-        [f"`{font_family}`" for font_family in get_args(FontFamily.__value__)]
+        [f"`{font_family}`" for font_family in available_font_families]
     )
     env.variables["available_body_alignments"] = ", ".join(
         [f"`{text_alignment}`" for text_alignment in get_args(BodyAlignment.__value__)]
+    )
+    env.variables["available_phone_number_formats"] = ", ".join(
+        [
+            f"`{phone_number_format}`"
+            for phone_number_format in get_args(PhoneNumberFormatType.__value__)
+        ]
     )
     env.variables["available_alignments"] = ", ".join(
         [f"`{alignment}`" for alignment in get_args(Alignment.__value__)]
@@ -123,7 +134,7 @@ def define_env(env):
     env.variables["available_section_title_types"] = ", ".join(
         [
             f"`{section_title_type}`"
-            for section_title_type in get_args(get_args(SectionTitleType.__value__))
+            for section_title_type in get_args(SectionTitleType.__value__)
         ]
     )
     env.variables["available_bullets"] = ", ".join(

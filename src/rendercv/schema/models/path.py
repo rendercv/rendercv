@@ -49,6 +49,10 @@ def resolve_relative_path(
     return path
 
 
+def serialize_path(path: pathlib.Path) -> str:
+    return str(path.relative_to(pathlib.Path.cwd()))
+
+
 type ExistingInputRelativePath = Annotated[
     pathlib.Path,
     pydantic.AfterValidator(lambda path, info: resolve_relative_path(path, info, True)),
@@ -59,4 +63,5 @@ type PlannedInputRelativePath = Annotated[
     pydantic.AfterValidator(
         lambda path, info: resolve_relative_path(path, info, False)
     ),
+    pydantic.PlainSerializer(serialize_path),
 ]

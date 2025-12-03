@@ -2,7 +2,8 @@ import pathlib
 import shutil
 import tempfile
 
-from rendercv.cli.render_command.run_rendercv import run_rendercv_quietly
+from rendercv.cli.render_command.progress_panel import ProgressPanel
+from rendercv.cli.render_command.run_rendercv import run_rendercv
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
@@ -30,13 +31,9 @@ for theme in available_themes:
 
     with tempfile.TemporaryDirectory() as temp_directory:
         temp_directory_path = pathlib.Path(temp_directory)
-        # copy lib.typ to temp directory
-        shutil.copy(
-            repository_root / "lib.typ",
-            temp_directory_path / "lib.typ",
-        )
-        run_rendercv_quietly(
+        run_rendercv(
             yaml_file_path,
+            progress=ProgressPanel(),
             typst_path=temp_directory_path / f"{yaml_file_path.stem}.typ",
             pdf_path=examples_directory_path / f"{yaml_file_path.stem}.pdf",
             png_path=temp_directory_path / f"{yaml_file_path.stem}.png",

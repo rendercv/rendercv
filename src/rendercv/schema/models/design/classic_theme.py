@@ -13,6 +13,7 @@ type Alignment = Literal["left", "center", "right"]
 type SectionTitleType = Literal[
     "with_partial_line", "with_full_line", "without_line", "moderncv"
 ]
+type PhoneNumberFormatType = Literal["national", "international", "E164"]
 type PageSize = Literal["a4", "a5", "us-letter", "us-executive"]
 
 length_common_description = (
@@ -312,7 +313,7 @@ class Links(BaseModelWithoutExtraKeys):
 
 
 class Connections(BaseModelWithoutExtraKeys):
-    phone_number_format: Literal["national", "international", "E164"] = pydantic.Field(
+    phone_number_format: PhoneNumberFormatType = pydantic.Field(
         default="national",
         description="The format for phone numbers. The default value is `national`.",
     )

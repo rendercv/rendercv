@@ -112,9 +112,7 @@ def create_sample_yaml_input_file(
     Example:
         ```py
         yaml_content = create_sample_yaml_input_file(
-            file_path=pathlib.Path("John_Doe_CV.yaml"),
-            name="John Doe",
-            theme="classic"
+            file_path=pathlib.Path("John_Doe_CV.yaml"), name="John Doe", theme="classic"
         )
         # File written with schema hint, cv content, and commented design
         ```
@@ -162,10 +160,6 @@ def create_sample_yaml_input_file(
     data_model_as_json = data_model.model_dump_json(
         exclude_none=False,
         by_alias=True,
-        exclude={
-            "cv": {},
-            "settings": {"render_command"},
-        },
     )
     data_model_as_dictionary = json.loads(data_model_as_json)
 
@@ -185,15 +179,16 @@ def create_sample_yaml_input_file(
     split_yaml_string = yaml_string.split(yaml_design_theme_part)
     yaml_cv_field = split_yaml_string[0]
 
-    split_yaml_string = split_yaml_string[1].split("locale:")
+    yaml_locale_part = f"locale:\n  language: {locale}\n"
+    split_yaml_string = split_yaml_string[1].split(yaml_locale_part)
     below_design = split_yaml_string[0].replace(yaml_design_theme_part, "")
     below_design = [
         f"  {line.replace('  ', '# ', 1)}"
         for line in below_design.splitlines(keepends=False)
     ]
-    yaml_design_field = yaml_design_theme_part + "\n".join(below_design)
+    yaml_design_field = yaml_design_theme_part + "\n".join(below_design) + "\n"
 
-    yaml_locale_and_settings_fields = "\nlocale:" + split_yaml_string[1]
+    yaml_locale_and_settings_fields = yaml_locale_part + split_yaml_string[1]
     yaml_string = yaml_cv_field + yaml_design_field + yaml_locale_and_settings_fields
 
     if file_path is not None:

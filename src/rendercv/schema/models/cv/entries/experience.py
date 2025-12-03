@@ -16,5 +16,5 @@ class BaseExperienceEntry(BaseEntry):
 
 
 # This approach ensures ExperienceEntryBase keys appear first in the key order:
-class ExperienceEntry(BaseExperienceEntry, BaseEntryWithComplexFields):
+class ExperienceEntry(BaseEntryWithComplexFields, BaseExperienceEntry):
     pass

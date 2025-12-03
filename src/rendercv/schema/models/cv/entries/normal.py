@@ -12,5 +12,5 @@ class BaseNormalEntry(BaseEntry):
 
 
 # This approach ensures NormalEntryBase keys appear first in the key order:
-class NormalEntry(BaseNormalEntry, BaseEntryWithComplexFields):
+class NormalEntry(BaseEntryWithComplexFields, BaseNormalEntry):
     pass

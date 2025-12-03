@@ -1,3 +1,4 @@
+import contextlib
 import pathlib
 from dataclasses import dataclass
 
@@ -42,9 +43,11 @@ class ProgressPanel(rich.live.Live):
         for step in self.completed_steps:
             paths_str = ""
             if step.paths:
-                paths_as_strings = [
-                    f"./{path.relative_to(pathlib.Path.cwd())}" for path in step.paths
-                ]
+                with contextlib.suppress(ValueError):
+                    step.paths = [
+                        path.relative_to(pathlib.Path.cwd()) for path in step.paths
+                    ]
+                paths_as_strings = [f"./{path}" for path in step.paths]
                 paths_str = "; ".join(paths_as_strings)
 
             timing = f"[bold green]{step.timing_ms + ' ms':<8}[/bold green]"

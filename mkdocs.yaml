@@ -104,8 +104,8 @@ plugins:
   - gen-files:
       scripts:
         - docs/api_reference/api_reference.py
-  # - macros: # mkdocs-macros-plugin
-  #     module_name: docs/dynamic_content_generation
+  - macros: # mkdocs-macros-plugin
+      module_name: docs/docs_templating
   - mkdocstrings:
       handlers:
         python:

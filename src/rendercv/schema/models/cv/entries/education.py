@@ -25,5 +25,5 @@ class BaseEducationEntry(BaseEntry):
 
 
 # This approach ensures EducationEntryBase keys appear first in the key order:
-class EducationEntry(BaseEducationEntry, BaseEntryWithComplexFields):
+class EducationEntry(BaseEntryWithComplexFields, BaseEducationEntry):
     pass

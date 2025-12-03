@@ -106,5 +106,5 @@ class BasePublicationEntry(BaseEntry):
 
 
 # This approach ensures PublicationEntryBase keys appear first in the key order:
-class PublicationEntry(BasePublicationEntry, BaseEntryWithDate):
+class PublicationEntry(BaseEntryWithDate, BasePublicationEntry):
     pass
