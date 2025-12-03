@@ -7,8 +7,13 @@ from rendercv.schema.models.design.color import Color
 from rendercv.schema.models.design.font_family import FontFamily as FontFamilyType
 from rendercv.schema.models.design.typst_dimension import TypstDimension
 
-type BulletPoint = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
+type Bullet = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
+type BodyAlignment = Literal["left", "justified", "justified-with-no-hyphenation"]
 type Alignment = Literal["left", "center", "right"]
+type SectionTitleType = Literal[
+    "with_partial_line", "with_full_line", "without_line", "moderncv"
+]
+type PageSize = Literal["a4", "a5", "us-letter", "us-executive"]
 
 length_common_description = (
     "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`."
@@ -16,7 +21,7 @@ length_common_description = (
 
 
 class Page(BaseModelWithoutExtraKeys):
-    size: Literal["a4", "a5", "us-letter", "us-executive"] = pydantic.Field(
+    size: PageSize = pydantic.Field(
         default="us-letter",
         description=(
             "The page size of your CV. Common options: 'a4' (international standard),"
@@ -411,16 +416,14 @@ class Header(BaseModelWithoutExtraKeys):
 
 
 class SectionTitles(BaseModelWithoutExtraKeys):
-    type: Literal["with_partial_line", "with_full_line", "without_line", "moderncv"] = (
-        pydantic.Field(
-            default="with_partial_line",
-            description=(
-                "The visual style of section titles. 'with_partial_line' shows a line"
-                " next to the title, 'with_full_line' extends the line across the page,"
-                " 'without_line' shows no line, 'moderncv' uses the ModernCV style. The"
-                " default value is `with_partial_line`."
-            ),
-        )
+    type: SectionTitleType = pydantic.Field(
+        default="with_partial_line",
+        description=(
+            "The visual style of section titles. 'with_partial_line' shows a line"
+            " next to the title, 'with_full_line' extends the line across the page,"
+            " 'without_line' shows no line, 'moderncv' uses the ModernCV style. The"
+            " default value is `with_partial_line`."
+        ),
     )
     line_thickness: TypstDimension = pydantic.Field(
         default="0.5pt",
@@ -491,14 +494,14 @@ class Summary(BaseModelWithoutExtraKeys):
 
 
 class Highlights(BaseModelWithoutExtraKeys):
-    bullet: BulletPoint = pydantic.Field(
+    bullet: Bullet = pydantic.Field(
         default="•",
         description=(
             "The bullet character for highlights (your key"
             " achievements/responsibilities). The default value is `•`."
         ),
     )
-    nested_bullet: BulletPoint = pydantic.Field(
+    nested_bullet: Bullet = pydantic.Field(
         default="•",
         description=(
             "The bullet character for nested (sub-level) highlights. The default value"

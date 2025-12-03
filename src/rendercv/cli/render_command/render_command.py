@@ -56,8 +56,8 @@ def cli_command_render(
         str | None,
         typer.Option(
             "--typst-path",
-            "-typst",
-            help="Path to the output Typst file, relative to the input YAML file.",
+            "-typ",
+            help="Save the generated Typst file to the specified path, relative to the input file.",
         ),
     ] = None,
     pdf_path: Annotated[
@@ -65,7 +65,7 @@ def cli_command_render(
         typer.Option(
             "--pdf-path",
             "-pdf",
-            help="Path to the output PDF file, relative to the input YAML file.",
+            help="Save the generated PDF file to the specified path, relative to the input file.",
         ),
     ] = None,
     markdown_path: Annotated[
@@ -73,7 +73,7 @@ def cli_command_render(
         typer.Option(
             "--markdown-path",
             "-md",
-            help="Path to the output Markdown file, relative to the input YAML file.",
+            help="Save the generated Markdown file to the specified path, relative to the input file.",
         ),
     ] = None,
     html_path: Annotated[
@@ -81,7 +81,7 @@ def cli_command_render(
         typer.Option(
             "--html-path",
             "-html",
-            help="Path to the output HTML file, relative to the input YAML file.",
+            help="Save the generated HTML file to the specified path, relative to the input file.",
         ),
     ] = None,
     png_path: Annotated[
@@ -89,7 +89,7 @@ def cli_command_render(
         typer.Option(
             "--png-path",
             "-png",
-            help="Path to the output PNG file, relative to the input YAML file.",
+            help="Save the generated PNG files to the specified path, relative to the input file.",
         ),
     ] = None,
     dont_generate_markdown: Annotated[

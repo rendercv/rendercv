@@ -1,6 +1,6 @@
 import functools
 import re
-from typing import Literal
+from typing import Literal, get_args
 
 import pydantic
 import pydantic_core
@@ -25,6 +25,7 @@ type SocialNetworkName = Literal[
     "Leetcode",
     "X",
 ]
+available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
     "LinkedIn": "https://linkedin.com/in/",
     "GitHub": "https://github.com/",

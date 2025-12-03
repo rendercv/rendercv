@@ -16,7 +16,7 @@ from .create_init_file_for_theme import create_init_file_for_theme
 @app.command(
     name="create-theme",
     help=(
-        "Create a custom theme folder based on an existing theme. Example:"
+        "Create a custom theme folder with Typst templates to customize. Example:"
         " [yellow]rendercv create-theme customtheme[/yellow]. Details: [cyan]rendercv"
         " create-theme --help[/cyan]"
     ),

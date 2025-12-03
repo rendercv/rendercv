@@ -51,7 +51,6 @@ def cli_command_new(
         bool,
         typer.Option(
             "--create-typst-templates",
-            "-typ",
             help="Create Typst templates",
         ),
     ] = False,
@@ -59,7 +58,6 @@ def cli_command_new(
         bool,
         typer.Option(
             "--create-markdown-templates",
-            "-md",
             help="Create Markdown templates",
         ),
     ] = False,
