@@ -1,95 +1,136 @@
 ---
-name: John Doe
-location: Location
-email: john.doe@example.com
-phone: +1-609-999-9995
+name: Daniel Fridljand
+location: Munich, Germany
 social_networks:
   - network: LinkedIn
-    username: john.doe
+    username: daniel-fridljand
   - network: GitHub
-    username: john.doe
+    username: FridljDa
 sections:
-  welcome_to_RenderCV!:
-    - "[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support."
-    - "Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from."
+  summary:
+    - I am a driven data scientist with a strong academic background in mathematics, statistics, and bioinformatics. My passion for machine learning, software development, and coding has led me to work on projects across diverse domains, including public health, genetics, and oncology. With three years of scientific software development experience and a first-author publication in a high-impact journal, I'm committed to leveraging computational skills to solve real-world challenges.
   education:
-    - institution: Stanford University
-      location: Stanford, CA, USA
-      area: Computer Science
-      degree: PhD
-      start_date: 2023-09
+    - institution: University of Heidelberg
+      location: Heidelberg, Germany
+      area: Mathematics
+      degree: M.Sc.
+      start_date: 2020-10
+      end_date: 2023-05
+      grade: "1.0 (full marks)"
+      highlights:
+        - "Selected coursework: SQL, statistics for machine learning"
+        - "Awards: Gerhard C. Starck Foundation Stipend, Baden-Württemberg Stipend"
+    - institution: Yale University
+      location: New Haven, USA
+      area: Applied Mathematics
+      degree: Exchange Student
+      start_date: 2022-08
+      end_date: 2023-05
+      grade: Honors (full marks)
+      highlights:
+        - "Selected coursework: Theory and Application of Deep Learning, Topological Methods in Machine Learning"
+        - "Award: German Academic Exchange Service (DAAD) Stipend"
+    - institution: University of Heidelberg
+      location: Heidelberg, Germany
+      area: Mathematics
+      degree: B.Sc.
+      start_date: 2017-10
+      end_date: 2020-09
+      grade: "1.4"
+      highlights:
+        - "Award: Gerhard C. Starck Foundation Stipend"
+    - institution: Hebrew University of Jerusalem
+      location: Jerusalem, Israel
+      area: Mathematics
+      degree: Exchange Student
+      start_date: 2019-09
+      end_date: 2020-03
+      highlights:
+        - "Awards: PROMOS Stipend (DAAD), Stipend of the Hebrew University of Jerusalem"
+    - institution: Karl–Friedrich-Gymnasium
+      location: Mannheim, Germany
+      start_date: 2009-09
+      end_date: 2017-06
+      grade: "1.0 (full marks)"
+      highlights: []
+  software_development_experience:
+    - company: TNG Technology Consulting
+      position: Software Consultant
+      location: Munich, Germany
+      start_date: 2024-12
       end_date: present
       highlights:
-        - Working on the optimization of autonomous vehicles in urban environments
-    - institution: Boğaziçi University
-      location: Istanbul, Türkiye
-      area: Computer Engineering
-      degree: BS
-      start_date: 2018-09
-      end_date: 2022-06
-      highlights:
-        - "GPA: 3.9/4.0, ranked 1st out of 100 students"
-        - "Awards: Best Senior Project, High Honor"
-  experience:
-    - company: Company C
-      position: Summer Intern
-      location: Livingston, LA, USA
-      start_date: 2024-06
+        - Modernization and further development of a supply chain management application in an international development team
+        - Service for requesting quotation, bidding, displaying and confirming delivery orders
+        - Agile development with a two-week sprint cycle, continuous integration, and regular production releases within the sprint
+        - Setup of CI pipelines (Jenkins, SonarQube, Gradle)
+        - Enhancement of test automation capabilities
+        - "Full-stack development with React, TypeScript, Java 8/17, JBoss, Oracle DB, Gradle, JUnit, Docker, Podman, Jenkins, SonarQube"
+  data_science_experience:
+    - company: ETH Zürich
+      position: Research Data Analyst
+      location: Basel, Switzerland
+      start_date: 2024-02
       end_date: 2024-09
       highlights:
-        - Developed deep learning models for the detection of gravitational waves in LIGO data
-        - Published [3 peer-reviewed research papers](https://example.com) about the project and results
-    - company: Company B
-      position: Summer Intern
-      location: Ankara, Türkiye
-      start_date: 2023-06
-      end_date: 2023-09
+        - Developed statistical methods for estimating mutational patterns in the lab of Niko Beerenwinkel
+        - Analyzed single-cell, whole-genome DNA sequencing data from the Tumor Profiler Study, a large-scale clinical study involving multiple Swiss research institutions, contributing to key insights for melanoma cancer
+    - company: Stanford University
+      position: Research Data Analyst
+      location: Palo Alto, USA
+      start_date: 2023-07
+      end_date: 2023-12
       highlights:
-        - Optimized the production line by 15% by implementing a new scheduling algorithm
-    - company: Company A
-      position: Summer Intern
-      location: Istanbul, Türkiye
-      start_date: 2022-06
-      end_date: 2022-09
+        - Analyzed the role of air pollution for health inequalities in the US, under Pascal Geldsetzer's guidance
+        - Devised and implemented the statistical analysis in R, synthesized findings from 150 pertinent publications, wrote the initial manuscript, and drove the manuscript from conceptualization to successful publication
+        - Executed major revisions of the manuscript and conducted new analyses within a strict 2-month deadline
+    - company: European Molecular Biology Laboratory
+      position: Research Data Analyst
+      location: Heidelberg, Germany
+      start_date: 2021-10
+      end_date: 2022-05
       highlights:
-        - Designed an inventory management web application for a warehouse
-  projects:
-    - name: "[Example Project](https://example.com)"
-      start_date: 2024-05
-      end_date: present
-      summary: "A web application for writing essays"
+        - Developed and implemented a novel statistical method in R, C++ under the guidance of Wolfgang Huber and Nikos Ignatiadis to identify outliers in large-scale data sets
+        - Presented research findings at seven scientific events, including a seminar talk at Yale University and University of North Carolina and a competitively selected oral contribution at DAGStat 2022, attended by 100 scholars
+        - Conducted the peer reviews for a manuscripts at Bioinformatics Advances and Cell Biology
+    - company: Heidelberg Institute of Global Health
+      position: Research Data Analyst
+      location: Heidelberg, Germany
+      start_date: 2020-10
+      end_date: 2021-09
       highlights:
-        - "Launched an [iOS app](https://example.com) in 09/2024 that currently has 10k+ monthly active users"
-        - "The app is made open-source (3,000+ stars [on GitHub](https://github.com))"
-    - name: "[Teaching on Udemy](https://example.com)"
-      date: Fall 2023
+        - Analyzed the role of air pollution for health inequalities in the US, under Pascal Geldsetzer's guidance
+  teaching_experience:
+    - company: Studybees GmbH
+      position: Crash Course Tutor
+      location: Germany
+      start_date: 2018-04
+      end_date: 2019-08
       highlights:
-        - 'Instructed the "Statistics" course on Udemy (60,000+ students, 200,000+ hours watched)'
+        - Mentored over 150 students at the University of Mannheim across 10 courses, preparing them for exams
+    - company: Springer Nature
+      position: Freelance Writer
+      location: Germany
+      date: 2019-08
+      highlights:
+        - Developed two mathematical exams focused on statistical applications in laboratory setting
   skills:
-    - label: Programming
-      details: Proficient with Python, C++, and Git; good understanding of Web, app development, and DevOps
-    - label: Mathematics
-      details: Good understanding of differential equations, calculus, and linear algebra
+    - label: Computer Skills
+      details: "R (5 years): tidyverse, ggplot, caret, Rcpp; Python (2 years): pandas, numpy, pytorch; C++ (1 year)"
+    - label: Mathematical Skills
+      details: Selective Inference, Graphical Modelling, Machine Learning, Random Forest
     - label: Languages
-      details: "English (fluent, TOEFL: 118/120), Turkish (native)"
+      details: English (professional), German (native), Russian (native)
   publications:
-    - title: 3D Finite Element Analysis of No-Insulation Coils
+    - title: Disparities in air pollution attributable mortality in the US population by race, ethnicity and sociodemographic factors
       authors:
-        - Frodo Baggins
-        - "***John Doe***"
-        - Samwise Gamgee
-      doi: 10.1109/TASC.2023.3340648
-      date: 2004-01
-  extracurricular_activities:
-    - bullet:
-        "There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*,
-        *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*."
-    - bullet: "Each entry type has a different structure and layout. This document demonstrates all of them."
-  numbered_entries:
-    - number: "This is a numbered entry."
-    - number: "This is another numbered entry."
-    - number: "This is the third numbered entry."
-  reversed_numbered_entries:
-    - reversed_number: "This is a reversed numbered entry."
-    - reversed_number: "This is another reversed numbered entry."
-    - reversed_number: "This is the third reversed numbered entry."
+        - Geldsetzer, P. (first author)
+        - "***Fridljand, D.*** (first author)"
+        - Kiang, M. V.
+        - Bendavid, E.
+        - Heft-Neal, S.
+        - Burke, M.
+        - "..."
+        - Benmarhnia, T.
+      journal: Nature Medicine
+      date: 2024-07
