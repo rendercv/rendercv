@@ -7,11 +7,7 @@ nav = mkdocs_gen_files.Nav()
 repository_root = Path(__file__).parent.parent.parent
 api_reference = repository_root / "docs" / "api_reference"
 src_rendercv = repository_root / "src" / "rendercv"
-
-with mkdocs_gen_files.open("api_reference/index.md", "w") as fd:
-    nav[("rendercv",)] = "index.md"
-    fd.write("# API Reference\n")
-    fd.write("::: rendercv\n")
+nav[("src", "rendercv")] = "index.md"
 
 # Process each Python file in the objects directory
 for path in sorted(src_rendercv.rglob("*.py")):
@@ -25,9 +21,10 @@ for path in sorted(src_rendercv.rglob("*.py")):
     # Get the relative path from the objects directory
     module_path = path.relative_to(src_rendercv).with_suffix("")
     doc_path = module_path.with_suffix(".md")
+    parts = (f"rendercv.{module_path.parts[0]}", *module_path.parts[1:])
 
     # Add to navigation
-    nav[("rendercv", *module_path.parts)] = doc_path.as_posix()
+    nav[("src", *parts)] = doc_path.as_posix()
 
     # Generate the documentation page
     with mkdocs_gen_files.open(f"api_reference/{doc_path}", "w") as fd:
