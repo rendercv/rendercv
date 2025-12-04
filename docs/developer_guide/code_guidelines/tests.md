@@ -1,4 +1,4 @@
-# Writing Tests
+# Guidelines for Writing Tests
 
 ## File Structure
 

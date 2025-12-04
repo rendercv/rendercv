@@ -65,11 +65,11 @@ nav:
       - Understanding RenderCV: developer_guide/understanding_rendercv.md
       - Testing: developer_guide/testing.md
       - Documentation: developer_guide/documentation.md
-      - Scripts: developer_guide/scripts.md
       - Dockerfile: developer_guide/dockerfile.md
       - CI/CD: developer_guide/ci_cd.md
       - Code Guidelines:
-        - Writing Tests: developer_guide/code_guidelines/writing_tests.md
+        - Source Code: developer_guide/code_guidelines/source_code.md
+        - Tests: developer_guide/code_guidelines/tests.md
       - How-To Guides:
           - Add Entry Type: developer_guide/how_to/add_entry_type.md
           - Add Theme: developer_guide/how_to/add_theme.md
