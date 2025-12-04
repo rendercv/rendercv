@@ -1,13 +1,19 @@
-name: Update files
+name: Update Examples
 
 # GitHub events that trigger the workflow:
 on:
-  workflow_call: # to make the workflow triggerable from other workflows (publish-a-release.yaml)
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/rendercv/data/sample_content.yaml'
+      - 'src/rendercv/data/generator.py'
+      - 'scripts/update_examples.py'
   workflow_dispatch: # to make the workflow triggerable manually
 
 jobs:
-  update_files:
-    name: Update schema.json, examples, and entry figures
+  update_examples:
+    name: Update examples folder
     runs-on: ubuntu-latest
 
     permissions:
@@ -30,14 +36,8 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions [Bot]"
 
-      - name: Update schema.json
-        run: just update-schema
-
       - name: Update examples folder
         run: just update-examples
-
-      - name: Update entry figures
-        run: just update-entry-figures
 
       - name: Commit and push changes
         run: |
@@ -45,6 +45,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update schema.json, examples, and entry figures"
+            git commit -m "Update examples from sample_content.yaml"
             git push origin HEAD:main
           fi
+
