@@ -1,1 +1,0 @@
-[<<entry.reversed_number>>],
