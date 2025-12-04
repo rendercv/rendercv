@@ -30,14 +30,8 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "GitHub Actions [Bot]"
 
-      - name: Update schema.json
-        run: just update-schema
-
       - name: Update examples folder
         run: just update-examples
-
-      - name: Update entry figures
-        run: just update-entry-figures
 
       - name: Commit and push changes
         run: |
@@ -45,6 +39,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update schema.json, examples, and entry figures"
+            git commit -m "Update examples"
             git push origin HEAD:main
           fi
