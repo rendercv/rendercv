@@ -2,6 +2,9 @@
 
 import pathlib
 
+src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
+tests_root = pathlib.Path(__file__).parent.parent
+
 
 def get_immediate_subdirectories(directory: pathlib.Path) -> set[str]:
     """Get immediate subdirectory names, excluding __pycache__ and testdata."""
@@ -32,9 +35,6 @@ def get_all_source_subdirs(root: pathlib.Path) -> set[pathlib.Path]:
 
 def test_test_folders_match_source_structure():
     """Verify test folders that mirror source folders have no extra subfolders."""
-    src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
-    tests_root = pathlib.Path(__file__).parent.parent
-
     source_subdirs = get_all_source_subdirs(src_root)
     invalid_folders = []
 
@@ -60,9 +60,6 @@ def test_test_folders_match_source_structure():
 
 def test_all_test_files_follow_naming_pattern():
     """Verify all test files follow the pattern test_<source_filename>.py."""
-    src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
-    tests_root = pathlib.Path(__file__).parent.parent
-
     source_subdirs = get_all_source_subdirs(src_root)
     invalid_test_files = []
 

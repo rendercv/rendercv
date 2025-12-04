@@ -61,11 +61,12 @@ nav:
           - Override Default Templates: user_guide/how_to/override_default_templates.md
   - Developer Guide:
       - Setup: developer_guide/index.md
-      - Understand RenderCV: developer_guide/understand_rendercv.md
-      - Code Guidelines: developer_guide/code_guidelines.md
+      - Project Management: developer_guide/project_management.md
+      - Understanding RenderCV: developer_guide/understanding_rendercv.md
       - Testing: developer_guide/testing.md
       - Documentation: developer_guide/documentation.md
       - Scripts: developer_guide/scripts.md
+      - Dockerfile: developer_guide/dockerfile.md
       - CI/CD: developer_guide/ci_cd.md
       - How-To Guides:
           - Add Entry Type: developer_guide/how_to/add_entry_type.md
