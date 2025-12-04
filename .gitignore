@@ -190,3 +190,13 @@ render_command.prof
 
 # Executables:
 bin/
+/.idea/.gitignore
+/.idea/checkstyle-idea.xml
+/.idea/copilot.data.migration.agent.xml
+/.idea/copilot.data.migration.ask.xml
+/.idea/copilot.data.migration.ask2agent.xml
+/.idea/copilot.data.migration.edit.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/rendercv.iml
+/.idea/vcs.xml
