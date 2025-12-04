@@ -1,37 +1,30 @@
 # Writing Tests
 
-This guide explains how to write tests for RenderCV. Follow these patterns to keep the test suite consistent and maintainable.
+## File Structure
 
-## Test Organization
-
-Tests live in `tests/` and fall into two categories:
-
-1. **Unit tests**: Mirror the `src/rendercv/` structure (e.g., `tests/renderer/`, `tests/schema/`, `tests/cli/`)
-2. **Non-unit tests**: `tests/integration/`, `tests/scripts/`
-
-## Unit Tests
-
-### File Structure
-
-One test file per source file, mirroring the folder structure:
+Each test file tests all classes and functions in its corresponding source file. The structure mirrors `src/rendercv/`:
 
 ```
 src/rendercv/renderer/templater/date.py
     → tests/renderer/templater/test_date.py
+    (tests all functions and classes in date.py)
 
 src/rendercv/schema/models/cv/section.py
     → tests/schema/models/cv/test_section.py
+    (tests all functions and classes in section.py)
 ```
 
-### Naming Conventions
+## Naming Conventions
 
 Test names must include the name of the function or class being tested.
 
 **When you need only one test**, use `test_` + the name:
+
 - Testing `clean_url()` → `test_clean_url`
 - Testing `Cv` → `test_cv`
 
 **When you need multiple tests**, wrap them in a class using `Test` + PascalCase name:
+
 - Testing `clean_url()` → `TestCleanUrl`
 - Testing `Cv` → `TestCv`
 
@@ -65,8 +58,9 @@ class TestComputeDateString:
     @pytest.mark.parametrize(...)
     def test_returns_none_for_incomplete_data(self, ...):
         ...
+```
 
-### Use Parametrize for Variations
+## Use Parametrize for Variations
 
 Instead of writing multiple similar tests, use `@pytest.mark.parametrize`:
 
@@ -84,7 +78,7 @@ def test_date_ranges(self, input_a, input_b, expected):
     assert result == expected
 ```
 
-### Shared Fixtures with conftest.py
+## Shared Fixtures with conftest.py
 
 Place shared fixtures in `conftest.py`. Use the closest one possible:
 
@@ -105,7 +99,7 @@ tests/
     └── ...
 ```
 
-### Guidelines
+## Testing Principles
 
 **Keep tests focused.** Test functions in isolation: input → output.
 
@@ -125,11 +119,12 @@ def test_something(self):
     result = format_date(Date(2020, 1, 1), EnglishLocale())
 ```
 
-**Prefer real behavior over mocking.** Only mock when there's no practical alternative.
+**Prefer real behavior over mocking.** Only mock when there's no practical alternative (external APIs, file system, etc.).
 
-**Name tests by what the function should do, not what you're passing in:**
-- Good: `test_returns_none_for_incomplete_data` — tells you the expected behavior
-- Unclear: `test_function_with_none_input` — tells you nothing about what should happen
+**Name tests by expected behavior, not by input:**
+
+- Good: `test_returns_none_for_incomplete_data` - describes what should happen
+- Bad: `test_function_with_none_input` - describes input but not behavior
 
 **Keep tests simple:**
 
@@ -139,19 +134,12 @@ def test_something(self, input, expected):
     assert result == expected
 ```
 
-**Add docstrings when something isn't self-explanatory.** This applies to both tests and fixtures. If a new developer would look at it and wonder "what is this doing?" or "why is it done this way?"—add a short docstring. Keep it to the minimum necessary: what it does, why it exists, why it's implemented that way if non-obvious.
+**What to test:**
 
-### What to Test
+- Input → expected output
+- Input → expected error
 
-- Inputs → expected outputs
-- Inputs → expected errors
+**What to avoid:**
 
-### Patterns to Avoid
-
-- Testing implementation details rather than behavior
-- Writing integration tests disguised as unit tests
-- Creating complex fixtures when simple values work
-
-## Non-Unit Tests
-
-<!-- TODO -->
+- Testing implementation details instead of behavior
+- Complex test setup when simple values work

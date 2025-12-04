@@ -8,13 +8,13 @@ toc_depth: 1
 
 You need two tools to develop RenderCV:
 
-- **[uv](https://docs.astral.sh/uv/)**: Package and project manager. RenderCV uses uv to manage dependencies. It also handles Python installations, so you don't need to install Python separately.
-- **[just](https://github.com/casey/just)**: Command runner. Development commands are defined in the `justfile`, and you need just to run them.
+- **[`uv`](https://docs.astral.sh/uv/)**: Package and project manager. RenderCV uses `uv` to manage dependencies. It also handles Python installations, so you don't need to install Python separately.
+- **[`just`](https://github.com/casey/just)**: Command runner. Development commands are defined in the [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile), and you need `just` to run them.
 
 Install them by following their official installation guides:
 
-- [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
-- [Install just](https://github.com/casey/just#installation)
+- [Install `uv`](https://docs.astral.sh/uv/getting-started/installation/)
+- [Install `just`](https://github.com/casey/just#installation)
 
 ## Setting Up the Development Environment
 
@@ -30,23 +30,17 @@ Install them by following their official installation guides:
     cd rendercv
     ```
 
-2. Set up the development environment:
+2. Set up the development environment (creates a virtual environment with all dependencies):
 
     ```bash
     just sync
     ```
-
-    This command will:
-    - Create a virtual environment (if it doesn't exist)
-    - Install all dependencies including optional dependencies (`[full]`) and all development groups (`dev`, `docs`, `exe`)
 
 3. Run `just test` to verify all tests pass and everything is set up correctly.
 
 That's it! You're now ready to start developing RenderCV. 
 
 ## Available Commands
-
-RenderCV uses `just` as a command runner. Here are the available commands:
 
 ### Development
 

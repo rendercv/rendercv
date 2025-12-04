@@ -105,9 +105,9 @@ Open the file to see the full configuration with detailed comments.
 
 **What is it?** A dependency lock file - a record of the exact version of every package RenderCV uses (including dependencies of dependencies).
 
-**Why do we need it?** Remember Problem 3 (reproducibility)? This file solves it. When you run `just sync`, uv reads this file and installs the exact same versions everyone else has - not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
+**Why do we need it?** Remember Problem 3 (reproducibility)? This file solves it. When you run `just sync`, `uv` reads this file and installs the exact same versions everyone else has - not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
 
-**Never edit this manually** - uv generates and updates it automatically. **Always commit it to git** - that's how everyone gets identical environments.
+**Never edit this manually** - `uv` generates and updates it automatically. **Always commit it to git** - that's how everyone gets identical environments.
 
 ### [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile)
 
@@ -131,7 +131,7 @@ This is why `just sync` works so elegantly - it's a standardized command that do
 
 ### [`.pre-commit-config.yaml`](https://github.com/rendercv/rendercv/blob/main/.pre-commit-config.yaml)
 
-**What is it?** Configuration file for [pre-commit](https://pre-commit.com/) - a tool that runs code quality checks.
+**What is it?** Configuration file for [`pre-commit`](https://pre-commit.com/) - a tool that runs code quality checks.
 
 **Why do we need it?** We already have ruff for formatting - pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically runs checks on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious. Without pre-commit, we'd have to set up our own workflow to run these checks.
 
@@ -141,7 +141,7 @@ Run `just check` locally to check your code before committing. We don't use pre-
 
 **The problem:** We want documentation on a website (`https://docs.rendercv.com`), not just Markdown files in a repository.
 
-**The solution:** [MkDocs](https://www.mkdocs.org/) - a tool that converts Markdown files into a static website (HTML/CSS files we can host).
+**The solution:** [`mkdocs`](https://www.mkdocs.org/) - a tool that converts Markdown files into a static website (HTML/CSS files we can host).
 
 See [Documentation](documentation.md) for details on how documentation works in RenderCV.
 
@@ -188,10 +188,6 @@ These scripts are called by `just` commands (`just update-schema`, `just update-
 
 See [CI/CD](ci_cd.md) for details.
 
-## Key Takeaways
+## Learn More
 
-**Project management is everything outside `src/`** - the infrastructure that makes RenderCV a complete Python project.
-
-**The goal:** Make it easy to write, test, document, package, and share Python code that works reliably for everyone.
-
-**To learn more:** See [uv documentation](https://docs.astral.sh/uv/) for project management
+See the [`uv` documentation](https://docs.astral.sh/uv/) for more information on project management.
