@@ -3,19 +3,19 @@ sync:
   uv sync --all-extras --all-groups
   
 format:
-  uv run black src tests
-  uv run ruff check --fix src tests
-  uv run ruff format src tests
+  uv run --locked black src tests
+  uv run --locked ruff check --fix src tests
+  uv run --locked ruff format src tests
 
 format-file target:
-  uv run black {{target}}
-  uv run ruff check --fix {{target}}
-  uv run ruff format {{target}}
+  uv run --locked black {{target}}
+  uv run --locked ruff check --fix {{target}}
+  uv run --locked ruff format {{target}}
 
 check:
-  uv run ruff check src tests
-  uv run pyright src tests
-  uv run pre-commit run --all-files
+  uv run --locked ruff check src tests
+  uv run --locked pyright src tests
+  uv run --locked pre-commit run --all-files
 
 <<<<<<< HEAD
 count-lines:
@@ -24,20 +24,20 @@ count-lines:
 =======
 # Testing:
 test:
-  uv run pytest
+  uv run --locked pytest
 
 update-testdata:
-  uv run pytest --update-testdata
+  uv run --locked pytest --update-testdata
 
 test-coverage:
-  uv run pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
+  uv run --locked pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
 
 # Docs:
 build-docs:
-  uv run mkdocs build --clean --strict
+  uv run --locked mkdocs build --clean --strict
 
 serve-docs:
-  uv run mkdocs serve --watch-theme
+  uv run --locked mkdocs serve --watch-theme
 
 <<<<<<< HEAD
 # Scipts
@@ -46,16 +46,16 @@ serve-docs:
 # Scripts:
 >>>>>>> edab23f (Format, fix pre-commit errors)
 update-schema:
-  uv run scripts/update_schema.py
+  uv run --locked scripts/update_schema.py
 
 update-entry-figures:
-  uv run scripts/update_entry_figures.py
+  uv run --locked scripts/update_entry_figures.py
 
 update-examples:
-  uv run scripts/update_examples.py
+  uv run --locked scripts/update_examples.py
 
 create-executable:
-  uv run scripts/create_executable.py
+  uv run --locked scripts/create_executable.py
 
 # Utilities:
 count-lines:

@@ -44,7 +44,7 @@ We need to:
 2. Validate the data (Does `start_date` come before `end_date`? Is `name` actually provided?)
 3. Convert it into Python objects we can work with
 
-### Parsing: The [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml) Library
+### Parsing: [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml) Library
 
 First problem: reading YAML files.
 
@@ -97,7 +97,7 @@ That's it. YAML text becomes a Python dictionary we can work with.
 
 **Where we use it:** `src/rendercv/schema/yaml_reader.py` - The `read_yaml()` function
 
-### Validation: The [`pydantic`](https://github.com/pydantic/pydantic) Library
+### Validation: [`pydantic`](https://github.com/pydantic/pydantic) Library
 
 Second problem: validating the data.
 
@@ -237,10 +237,10 @@ class Cv(BaseModel):
 
 **Result:** Instead of cryptic error messages, users get a formatted table:
 
-| Location | Input Value | Explanation |
-|----------|-------------|-------------|
-| cv.email.0 | not_a_valid_email | An email address must have an @-sign. |
-| cv.phone | not_a_valid_phone_number | This is not a valid phone number. |
+| Location   | Input Value              | Explanation                           |
+| ---------- | ------------------------ | ------------------------------------- |
+| cv.email.0 | not_a_valid_email        | An email address must have an @-sign. |
+| cv.phone   | not_a_valid_phone_number | This is not a valid phone number.     |
 
 This error table is displayed by `src/rendercv/cli/render_command/progress_panel.py`.
 
@@ -298,7 +298,7 @@ for section_title, entries in cv.sections.items():
 
 This is why **templating engines were invented**. When you need to programmatically generate complex text files, string concatenation doesn't scale. You need templates.
 
-### The [`jinja2`](https://github.com/pallets/jinja) Templating Library
+### [`jinja2`](https://github.com/pallets/jinja) Templating Library
 
 **We use the `jinja2` third-party library**. It's a template engine - you write templates with placeholders, and `jinja2` fills them in with data.
 
@@ -372,7 +372,7 @@ Typst doesn't understand Markdown. We need to convert:
 - `[link](url)` → `#link("url")[link]`
 - `*italic*` → `#emph[italic]`
 
-### The [`markdown`](https://github.com/Python-Markdown/markdown) Library
+### [`markdown`](https://github.com/Python-Markdown/markdown) Library
 
 **We use the `markdown` third-party library**. It parses Markdown into a tree structure, then we walk the tree and convert each element to Typst syntax.
 
@@ -403,9 +403,9 @@ match element.tag:
 
 Once we have a `.typ` file, we need to compile it to PDF.
 
-### The [`typst`](https://github.com/messense/typst-py) Library
+### [`typst`](https://github.com/messense/typst-py) Library
 
-**We use the [`typst`](https://github.com/messense/typst-py) third-party library**. It's Python bindings for the Typst compiler.
+**We use [`typst`](https://github.com/messense/typst-py) third-party library**. It's Python bindings for the Typst compiler.
 
 ```python
 from typst import compile
@@ -429,7 +429,7 @@ rendercv render cv.yaml
 rendercv render cv.yaml --watch
 ```
 
-### The [`typer`](https://github.com/fastapi/typer) Library
+### [`typer`](https://github.com/fastapi/typer) Library
 
 **We use the `typer` third-party library**. It builds CLI applications from Python functions.
 
@@ -462,11 +462,10 @@ The `src/rendercv/cli` is defined in `src/rendercv/cli/app.py`. Commands auto-re
 - `src/rendercv/cli/render_command/render_command.py` - The `render` command
 - `src/rendercv/cli/new_command/new_command.py` - The `new` command
 
-### The --watch Flag
+
+### [`watchdog`](https://github.com/gorakhargosh/watchdog) Library
 
 When you run `rendercv render cv.yaml --watch`, RenderCV monitors your YAML file and automatically rerenders when you make changes.
-
-### The [`watchdog`](https://github.com/gorakhargosh/watchdog) Library
 
 **We use the `watchdog` third-party library**. It watches the YAML file for changes. When the file is updated, it automatically runs RenderCV again.
 
