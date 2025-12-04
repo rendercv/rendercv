@@ -1,3 +1,7 @@
+---
+toc_depth: 1
+---
+
 # Understanding RenderCV
 
 This guide walks you through how RenderCV works, explaining each step and the tools we use.
