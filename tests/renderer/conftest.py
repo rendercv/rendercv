@@ -302,7 +302,6 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
     # 3. Handle Union types (including Optional = str | None)
     # Check for both typing.Union and the new union syntax (str | None)
     is_union = origin is typing.Union
-    # Python 3.10+ has types.UnionType for the new syntax
     if not is_union and hasattr(typing, "UnionType"):
         is_union = isinstance(field_type, types.UnionType)
 

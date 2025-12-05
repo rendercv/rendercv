@@ -90,9 +90,8 @@ Changelog = 'https://docs.rendercv.com/changelog'
 # See https://hatch.pypa.io/latest/config/metadata/#cli
 
 # The key and value below mean: when someone installs RenderCV,
-# running `rendercv` in the terminal executes the function `app` in the module `cli`
-# inside the package `rendercv`.
-rendercv = 'rendercv.cli:app'
+# running `rendercv` in the terminal executes the function `app` in `src/rendercv/cli/app.py`.
+rendercv = 'rendercv.cli.app:app'
 
 # Virtual Environment Dependencies:
 [dependency-groups]

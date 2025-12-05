@@ -24,6 +24,14 @@
         uv tool install "rendercv[full]"
         ```
 
+    === "Docker"
+        
+        Docker image is available at [ghcr.io/rendercv/rendercv](https://github.com/rendercv/rendercv/pkgs/container/rendercv).
+
+        ```bash
+        docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv new "Your Name"
+        ```
+
 ## Quick Start
 
 1. Create a new CV YAML input file
