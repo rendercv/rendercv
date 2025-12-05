@@ -4,8 +4,6 @@ toc_depth: 3
 
 # Dockerfile
 
-This guide explains what Docker is, why some users prefer it, and how RenderCV's Docker image is built.
-
 ## What is Docker?
 
 Docker lets software bring **its whole working setup** with it — almost like carrying a tiny, preconfigured computer inside a file. This setup (a *Docker image*) includes everything the app expects: the right Python version, the right libraries, and the right configuration. When you run that image, Docker creates a **container**, which is a temporary, isolated copy of that tiny computer running on your machine.
@@ -50,4 +48,4 @@ docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv new "Your Name"
 
 ## Learn More
 
-To learn more about writing Dockerfile, see the `uv`'s guide on [Docker](https://docs.astral.sh/uv/guides/integration/docker/).
+To learn more about writing `Dockerfile`, see the `uv`'s guide on [Docker](https://docs.astral.sh/uv/guides/integration/docker/).

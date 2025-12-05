@@ -4,8 +4,6 @@ toc_depth: 3
 
 # GitHub Actions
 
-This guide explains what [GitHub Actions](https://github.com/features/actions) (workflows) are, why they exist, and what each of RenderCV's workflows does.
-
 ## The Problem
 
 Every software project has repetitive tasks that must run consistently:

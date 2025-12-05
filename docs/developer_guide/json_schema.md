@@ -4,8 +4,6 @@ toc_depth: 3
 
 # JSON Schema
 
-This guide explains what [JSON Schema](https://json-schema.org) is, why it exists as a universal standard, and how RenderCV uses it to dramatically improve the user experience of writing CV YAML files.
-
 ## The Problem
 
 You've encountered this everywhere, even if you didn't realize it was the same problem:

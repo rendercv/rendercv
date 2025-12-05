@@ -4,8 +4,6 @@ toc_depth: 3
 
 # Documentation
 
-This guide explains how RenderCV's documentation works - from Markdown files in the repository to the website at `docs.rendercv.com`.
-
 ## The Goal
 
 We want documentation at `docs.rendercv.com` - a proper website with navigation, search, theming, and interactive features.

@@ -4,8 +4,6 @@ toc_depth: 3
 
 # Project Management
 
-This guide explains how RenderCV is managed as a Python project - why we need more than just Python code, and how all the pieces fit together.
-
 ## What is "Project Management"?
 
 When you look at RenderCV's repository, you see:
