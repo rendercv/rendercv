@@ -20,9 +20,11 @@ def test_sum():
 
 If you change something in `sum`, you can run `test_sum` again to see if it's still working.
 
+All of the tests of RenderCV are written in [`tests/`](https://github.com/rendercv/rendercv/tree/main/tests) directory.
+
 ## [`pytest`](https://github.com/pytest-dev/pytest) - Testing Framework
 
-**What is it?** A Python library that provides utilities to write and run tests. 
+`pytest` is a Python library that provides utilities to write and run tests. 
 
 **How does it work?** When you run `pytest`, it searches for files matching `test_*.py` in the `tests/` directory and executes all functions starting with `test_`.
 
@@ -38,7 +40,7 @@ just test
 
 ## Reference File Comparison
 
-Some tests in `tests/renderer/` (specifically `test_pdf_png.py`, `test_typst.py`, `test_markdown.py`, and `test_html.py`) use reference file comparison:
+Some tests in [`tests/renderer/`](https://github.com/rendercv/rendercv/tree/main/tests/renderer) (specifically [`test_pdf_png.py`](https://github.com/rendercv/rendercv/blob/main/tests/renderer/test_pdf_png.py), [`test_typst.py`](https://github.com/rendercv/rendercv/blob/main/tests/renderer/test_typst.py), [`test_markdown.py`](https://github.com/rendercv/rendercv/blob/main/tests/renderer/test_markdown.py), and [`test_html.py`](https://github.com/rendercv/rendercv/blob/main/tests/renderer/test_html.py)) use reference file comparison:
 
 1. Tests generate output files by running RenderCV
 2. Generated files are compared against reference files in `tests/renderer/testdata/`
@@ -59,7 +61,7 @@ just update-testdata
 
 ## [`pytest-cov`](https://github.com/pytest-dev/pytest-cov) - Coverage Plugin for `pytest`
 
-**What is it?** Coverage is a measure of which code lines are executed when tests run. If tests execute a line, it's included in coverage. If tests execute all lines in `src/rendercv/`, coverage is 100%.
+Coverage is a measure of which code lines are executed when tests run. If tests execute a line, it's included in coverage. If tests execute all lines in `src/rendercv/`, coverage is 100%.
 
 **Why does it matter?** Coverage reports show you which parts of your code aren't tested yet, so you know where to write more tests.
 

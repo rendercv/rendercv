@@ -8,7 +8,7 @@ This guide walks you through how RenderCV works, explaining each step and the to
 
 ## The Core Workflow
 
-RenderCV does more than this (Markdown, HTML, PNG outputs, watching files, etc.), but at its core, it does three things:
+RenderCV does more than this (Markdown, HTML, PNG outputs, watching files, etc.), but at its core, what happens is:
 
 ```mermaid
 flowchart LR
@@ -39,8 +39,7 @@ cv:
 We need to:
 
 1. Parse the YAML into Python dictionaries
-2. Validate the data (Does `start_date` come before `end_date`? Is `name` actually provided?)
-3. Convert it into Python objects we can work with
+2. Validate the data (Does `start_date` come before `end_date`? Is `name` actually provided and is it a string?)
 
 ### [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml) - YAML Parser
 
@@ -93,7 +92,7 @@ data["cv"]["sections"]["education"][0]["institution"]  # "MIT"
 
 That's it. YAML text becomes a Python dictionary we can work with.
 
-**Where we use it:** [`src/rendercv/schema/yaml_reader.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/yaml_reader.py) - The `read_yaml()` function
+`ruamel.yaml` is being called in [`src/rendercv/schema/yaml_reader.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/yaml_reader.py).
 
 ### [`pydantic`](https://github.com/pydantic/pydantic) - Python Dictionary Validator
 
@@ -114,15 +113,16 @@ if "sections" in data["cv"]:
                 # This is already hundreds of lines and we're barely started
 ```
 
-**We use `pydantic`.** Define the structure once:
+With `pydantic`, we can define the structure once:
 
 ```python
 from pydantic import BaseModel
+from datetime import date as Date
 
 class Education(BaseModel):
     institution: str
-    start_date: str
-    end_date: str
+    start_date: Date
+    end_date: Date
 
     @pydantic.model_validator(mode="after")
     def check_dates(self):
@@ -173,7 +173,7 @@ class RenderCVModel(BaseModel):
     settings: Settings  # ← pydantic model
 ```
 
-Each field is another `pydantic` model. `Cv` contains more `pydantic` models like `Education`, `Experience`, etc. It's nested validation - when you validate `RenderCVModel`, `pydantic` automatically validates every nested model too. One `model_validate()` call checks the entire structure.
+Each field is another `pydantic` model. `Cv` contains more `pydantic` models like `EducationEntry`, `ExperienceEntry`, etc. It's nested validation - when you validate `RenderCVModel`, `pydantic` automatically validates every nested model too. One `model_validate()` call checks the entire structure.
 
 See [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py) for the top-level model.
 
@@ -213,7 +213,7 @@ This is why **templating engines were invented**. When you need to programmatica
 
 ### [`jinja2`](https://github.com/pallets/jinja) - Templating Engine
 
-**We use `jinja2`.** Separate the template from the logic:
+`jinja2` is the most famous templating engine for Python.
 
 **Template file** (`Header.j2.typ`):
 ```jinja2
@@ -243,7 +243,9 @@ San Francisco, CA
 
 Clean separation: templates define layout, Python code provides data. Users can override templates to customize their CV without touching Python code.
 
-Templates live in [`src/rendercv/renderer/templater/templates/typst/`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templates/typst/).
+Typst templates live in [`src/rendercv/renderer/templater/templates/typst/`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templates/typst/).
+
+`jinja2` is being called in [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py).
 
 ### [`markdown`](https://github.com/Python-Markdown/markdown) - Markdown to Typst
 
@@ -278,12 +280,16 @@ See [`src/rendercv/renderer/templater/markdown_parser.py`](https://github.com/re
 
 ### [`typst`](https://github.com/messense/typst-py) - Typst Compiler
 
+`typst` library is the Python bindings for the Typst compiler.
+
 ```python
 from typst import compile
 compile("cv.typ", output="cv.pdf")
 ```
 
-Done. Python bindings for the Typst compiler. Users don't install Typst separately.
+Done. Typst file has been compiled to PDF.
+
+`typst` is being called in [`src/rendercv/renderer/pdf_png.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/pdf_png.py).
 
 ## The Complete Pipeline
 
@@ -296,8 +302,8 @@ When you run `rendercv render cv.yaml`:
 
 Everything else (Markdown support, watch mode, PNG output, HTML export) builds on this core.
 
-## Where to Start Reading
+## Learn More
 
 1. [`src/rendercv/cli/render_command/run_rendercv.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/cli/render_command/run_rendercv.py) - The complete flow
-2. [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py) - The data structure
+2. [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py) - The top-level Pydantic model
 3. [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py) - Template rendering
