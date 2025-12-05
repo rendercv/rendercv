@@ -26,13 +26,11 @@ If you change something in `sum`, you can run `test_sum` again to see if it's st
 
 **How does it work?** When you run `pytest`, it searches for files matching `test_*.py` in the `tests/` directory and executes all functions starting with `test_`.
 
-**Configuration:** `pytest` reads settings from `pyproject.toml` under `[tool.pytest.ini_options]`. Open that file to see RenderCV's configuration with detailed comments explaining each setting.
+**Configuration:** `pytest` reads settings from `pyproject.toml` under `[tool.pytest.ini_options]`.
 
 ## Running RenderCV Tests
 
 Whenever you make changes to RenderCV's source code, run the tests to ensure everything still works. If all tests pass, your changes didn't break anything.
-
-Run all tests:
 
 ```bash
 just test

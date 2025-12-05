@@ -28,12 +28,12 @@ rendercv new "John Doe"
 
 ### Options
 
-| Option                        | Description                                                    |
-| ----------------------------- | -------------------------------------------------------------- |
+| Option                        | Description                                                      |
+| ----------------------------- | ---------------------------------------------------------------- |
 | `--theme THEME`               | Use a built-in theme: << available_themes >>. Default: `classic` |
 | `--locale LOCALE`             | Use a locale: << available_locales >>. Default: `english`        |
-| `--create-typst-templates`    | Generate Typst template files for advanced customization       |
-| `--create-markdown-templates` | Generate Markdown template files for advanced customization    |
+| `--create-typst-templates`    | Generate Typst template files for advanced customization         |
+| `--create-markdown-templates` | Generate Markdown template files for advanced customization      |
 
 ## `rendercv render`
 
@@ -45,42 +45,26 @@ rendercv render John_Doe_CV.yaml
 
 ### Options
 
-**External configuration files**
-
-| Option                  | Short | Description                                              |
-| ----------------------- | ----- | -------------------------------------------------------- |
-| `--design FILE`         | `-d`  | Load `design` field from a separate YAML file            |
-| `--locale-catalog FILE` | `-lc` | Load `locale` field from a separate YAML file            |
-| `--settings FILE`       | `-s`  | Load `rendercv_settings` field from a separate YAML file |
-
-**Output paths**
-
 All output paths are relative to the input file.
 
-| Option                 | Short   | Description                         |
-| ---------------------- | ------- | ----------------------------------- |
-| `--pdf-path PATH`      | `-pdf`  | Custom path for PDF output          |
-| `--typst-path PATH`    | `-typ`  | Custom path for Typst source output |
-| `--markdown-path PATH` | `-md`   | Custom path for Markdown output     |
-| `--html-path PATH`     | `-html` | Custom path for HTML output         |
-| `--png-path PATH`      | `-png`  | Custom path for PNG output          |
+| Option                     | Short     | Description                                              |
+| -------------------------- | --------- | -------------------------------------------------------- |
+| `--watch`                  | `-w`      | Re-render automatically when the YAML file changes       |
+| `--quiet`                  | `-q`      | Suppress all output messages                             |
+| `--design FILE`            | `-d`      | Load `design` field from a separate YAML file            |
+| `--locale-catalog FILE`    | `-lc`     | Load `locale` field from a separate YAML file            |
+| `--settings FILE`          | `-s`      | Load `rendercv_settings` field from a separate YAML file |
+| `--pdf-path PATH`          | `-pdf`    | Custom path for PDF output                               |
+| `--typst-path PATH`        | `-typ`    | Custom path for Typst source output                      |
+| `--markdown-path PATH`     | `-md`     | Custom path for Markdown output                          |
+| `--html-path PATH`         | `-html`   | Custom path for HTML output                              |
+| `--png-path PATH`          | `-png`    | Custom path for PNG output                               |
+| `--dont-generate-pdf`      | `-nopdf`  | Skip PDF generation                                      |
+| `--dont-generate-typst`    | `-notyp`  | Skip Typst generation (implies `-nopdf`, `-nopng`)       |
+| `--dont-generate-markdown` | `-nomd`   | Skip Markdown generation (implies `-nohtml`)             |
+| `--dont-generate-html`     | `-nohtml` | Skip HTML generation                                     |
+| `--dont-generate-png`      | `-nopng`  | Skip PNG generation                                      |
 
-**Disable outputs**
-
-| Option                     | Short     | Description                                        |
-| -------------------------- | --------- | -------------------------------------------------- |
-| `--dont-generate-pdf`      | `-nopdf`  | Skip PDF generation                                |
-| `--dont-generate-typst`    | `-notyp`  | Skip Typst generation (implies `-nopdf`, `-nopng`) |
-| `--dont-generate-markdown` | `-nomd`   | Skip Markdown generation (implies `-nohtml`)       |
-| `--dont-generate-html`     | `-nohtml` | Skip HTML generation                               |
-| `--dont-generate-png`      | `-nopng`  | Skip PNG generation                                |
-
-**Behavior**
-
-| Option    | Short | Description                                        |
-| --------- | ----- | -------------------------------------------------- |
-| `--watch` | `-w`  | Re-render automatically when the YAML file changes |
-| `--quiet` | `-q`  | Suppress all output messages                       |
 
 ### Overriding YAML values
 

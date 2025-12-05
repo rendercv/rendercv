@@ -202,16 +202,14 @@ for section_title, entries in cv.sections.items():
     typst += f"== {section_title}\n"
     for entry in entries:
         typst += f"#strong[{entry.institution}]"
-        # Wait... what if entry.institution contains a # or $ character?
-        # Those are special in Typst - need to escape them
-        # What if this is an experience entry, not education?
-        # Different formatting needed
         # What about optional fields? Spacing? Line breaks?
         # Multiple themes with different layouts?
-        # This is impossible to maintain
+        # This is impossible to maintain!
 ```
 
-This doesn't work. You're building hundreds of lines of string concatenation logic, manually escaping characters, handling conditionals, managing whitespace. It's unworkable.
+This doesn't work. You're building hundreds of lines of string concatenation logic, handling conditionals, managing whitespace. It's unworkable.
+
+This is why **templating engines were invented**. When you need to programmatically generate complex text files, you need templates.
 
 ### [`jinja2`](https://github.com/pallets/jinja) - Templating Engine
 
@@ -259,18 +257,7 @@ highlights:
 
 But Typst doesn't understand `**bold**` or `[links](url)`. We need Typst syntax: `#strong[bold]` and `#link("url")[text]`.
 
-**We use the `markdown` library.** It parses Markdown into an XML tree:
-
-```python
-# Input: "**Published** [3 papers](https://example.com)"
-# markdown library creates a tree:
-# <p>
-#   <strong>Published</strong>
-#   <a href="https://example.com">3 papers</a>
-# </p>
-```
-
-Then we walk the tree and convert each element to Typst:
+**We use the `markdown` library.** It parses Markdown into an XML tree. Then we walk the tree and convert each element to Typst:
 
 ```python
 match element.tag:

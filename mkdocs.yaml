@@ -71,7 +71,6 @@ nav:
         - Source Code: developer_guide/code_guidelines/source_code.md
         - Tests: developer_guide/code_guidelines/tests.md
       - How-To Guides:
-          - Add Entry Type: developer_guide/how_to/add_entry_type.md
           - Add Theme: developer_guide/how_to/add_theme.md
           - Add Locale: developer_guide/how_to/add_locale.md
           - Add Social Network: developer_guide/how_to/add_social_network.md
