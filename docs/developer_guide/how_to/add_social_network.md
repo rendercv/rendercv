@@ -99,10 +99,16 @@
     ]
     ```
 
-8. Run tests
+8. Update test data and verify visual output
 
     ```bash
-    pytest tests/schema/models/cv/test_social_network.py -v
-    pytest tests/renderer/ --update-testdata  # Update reference files and check if they look good
-    pytest tests/  # Verify all tests pass
+    just update-testdata
+    ```
+
+    Check the generated PDFs in `tests/renderer/testdata/test_pdf_png/` to ensure your network appears correctly with the icon.
+
+9. Run tests to verify everything passes
+
+    ```bash
+    just test
     ```
