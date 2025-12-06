@@ -163,6 +163,8 @@ cv.education[0].start_date  # "2020-09" - guaranteed dates are valid
 
 That's the power. Dictionary goes in, `pydantic` checks everything, clean Python object comes out.
 
+![Strict Validation Feature of RenderCV](../assets/images/validation.gif)
+
 **RenderCV's entire data model is `pydantic` models all the way down:**
 
 ```python

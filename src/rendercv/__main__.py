@@ -4,7 +4,7 @@ invoked directly from the command line with `python -m rendercv`. That's why we 
 here so that we can invoke the CLI from the command line with `python -m rendercv`.
 """
 
-from .cli.app import app
+from .cli.entry_point import entry_point
 
 if __name__ == "__main__":
-    app()
+    entry_point()
