@@ -1,5 +1,5 @@
 site_name: RenderCV Engine
-site_description: Write your CV or resume as YAML and get PDF. Built for academics and engineers.
+site_description: CV/resume generator for academics and engineers
 copyright: Copyright &copy; 2023 - 2026 RenderCV
 repo_url: https://github.com/rendercv/rendercv
 repo_name: rendercv/rendercv
