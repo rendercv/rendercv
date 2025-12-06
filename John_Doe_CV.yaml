@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
+# yaml-language-server: $schema=./schema.json
 cv:
   name: John Doe
   headline:
@@ -26,8 +26,8 @@ cv:
         location: Princeton, NJ
         summary:
         highlights:
-          - 'Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment'
-          - 'Advisor: Prof. Sanjeev Arora'
+          - "Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment"
+          - "Advisor: Prof. Sanjeev Arora"
           - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
       - institution: Boğaziçi University
         area: Computer Engineering
@@ -38,7 +38,7 @@ cv:
         location: Istanbul, Türkiye
         summary:
         highlights:
-          - 'GPA: 3.97/4.00, Valedictorian'
+          - "GPA: 3.97/4.00, Valedictorian"
           - Fulbright Scholarship recipient for graduate studies
     experience:
       - company: Nexus AI
@@ -97,7 +97,7 @@ cv:
           - Implemented novel self-supervised learning framework for low-resource language modeling
           - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
     projects:
-      - name: '[FlashInfer](https://github.com/)'
+      - name: "[FlashInfer](https://github.com/)"
         date:
         start_date: 2023-01
         end_date: present
@@ -106,8 +106,8 @@ cv:
         highlights:
           - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
           - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
-      - name: '[NeuralPrune](https://github.com/)'
-        date: '2021'
+      - name: "[NeuralPrune](https://github.com/)"
+        date: "2021"
         start_date:
         end_date:
         location:
@@ -116,9 +116,9 @@ cv:
           - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
           - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
     publications:
-      - title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
+      - title: "Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models"
         authors:
-          - '*John Doe*'
+          - "*John Doe*"
           - Sarah Williams
           - David Park
         summary:
@@ -129,7 +129,7 @@ cv:
       - title: Neural Architecture Search via Differentiable Pruning
         authors:
           - James Liu
-          - '*John Doe*'
+          - "*John Doe*"
         summary:
         doi: 10.1234/neurips.2022.5678
         url:
@@ -138,7 +138,7 @@ cv:
       - title: Multi-Agent Reinforcement Learning with Emergent Communication
         authors:
           - Maria Garcia
-          - '*John Doe*'
+          - "*John Doe*"
           - Tom Anderson
         summary:
         doi: 10.1234/icml.2022.9012
@@ -147,7 +147,7 @@ cv:
         date: 2022-07
       - title: On-Device Model Compression via Learned Quantization
         authors:
-          - '*John Doe*'
+          - "*John Doe*"
           - Kevin Wu
         summary:
         doi: 10.1234/iclr.2021.3456
@@ -176,146 +176,146 @@ cv:
     invited_talks:
       - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
       - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
-      - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
+      - reversed_number: "From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)"
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
     any_section_title:
       - You can use any section title you want.
-      - 'You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`.'
+      - "You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`."
       - Markdown syntax is supported everywhere.
       - The `design` field in YAML gives you control over almost any aspect of your CV design.
       - See the [documentation](https://docs.rendercv.com) for more details.
 design:
   theme: sb2nov
-  # page:
-  #   size: us-letter
-  #   top_margin: 0.7in
-  #   bottom_margin: 0.7in
-  #   left_margin: 0.7in
-  #   right_margin: 0.7in
-  #   show_footer: true
-  #   show_top_note: true
-  # colors:
-  #   body: rgb(0, 0, 0)
-  #   name: rgb(0, 0, 0)
-  #   headline: rgb(0, 0, 0)
-  #   connections: rgb(0, 0, 0)
-  #   section_titles: rgb(0, 0, 0)
-  #   links: rgb(0, 0, 0)
-  #   footer: rgb(128, 128, 128)
-  #   top_note: rgb(128, 128, 128)
-  # typography:
-  #   line_spacing: 0.6em
-  #   alignment: justified
-  #   date_and_location_column_alignment: right
-  #   font_family:
-  #     body: New Computer Modern
-  #     name: New Computer Modern
-  #     headline: New Computer Modern
-  #     connections: New Computer Modern
-  #     section_titles: New Computer Modern
-  #   font_size:
-  #     body: 10pt
-  #     name: 30pt
-  #     headline: 10pt
-  #     connections: 10pt
-  #     section_titles: 1.4em
-  #   small_caps:
-  #     name: false
-  #     headline: false
-  #     connections: false
-  #     section_titles: false
-  #   bold:
-  #     name: true
-  #     headline: false
-  #     connections: false
-  #     section_titles: true
-  # links:
-  #   underline: true
-  #   show_external_link_icon: false
-  # header:
-  #   alignment: center
-  #   photo_width: 3.5cm
-  #   photo_position: left
-  #   photo_space_left: 0.4cm
-  #   photo_space_right: 0.4cm
-  #   space_below_name: 0.7cm
-  #   space_below_headline: 0.7cm
-  #   space_below_connections: 0.7cm
-  #   connections:
-  #     phone_number_format: national
-  #     hyperlink: true
-  #     show_icons: false
-  #     display_urls_instead_of_usernames: true
-  #     separator: •
-  #     space_between_connections: 0.5cm
-  # section_titles:
-  #   type: with_full_line
-  #   line_thickness: 0.5pt
-  #   space_above: 0.5cm
-  #   space_below: 0.3cm
-  # sections:
-  #   allow_page_break: true
-  #   space_between_regular_entries: 1.2em
-  #   space_between_text_based_entries: 0.3em
-  #   show_time_spans_in: []
-  # entries:
-  #   date_and_location_width: 4.15cm
-  #   side_space: 0.2cm
-  #   space_between_columns: 0.1cm
-  #   allow_page_break: false
-  #   short_second_row: false
-  #   summary:
-  #     space_above: 0cm
-  #     space_left: 0cm
-  #   highlights:
-  #     bullet: ◦
-  #     nested_bullet: ◦
-  #     space_left: 0.15cm
-  #     space_above: 0cm
-  #     space_between_items: 0cm
-  #     space_between_bullet_and_text: 0.5em
-  # templates:
-  #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
-  #   top_note: '*LAST_UPDATED CURRENT_DATE*'
-  #   single_date: MONTH_ABBREVIATION YEAR
-  #   date_range: START_DATE – END_DATE
-  #   time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
-  #   one_line_entry:
-  #     main_column: '**LABEL:** DETAILS'
-  #   education_entry:
-  #     main_column: |-
-  #       **INSTITUTION**
-  #       *DEGREE* *in* *AREA*
-  #       SUMMARY
-  #       HIGHLIGHTS
-  #     degree_column:
-  #     date_and_location_column: |-
-  #       *LOCATION*
-  #       *DATE*
-  #   normal_entry:
-  #     main_column: |-
-  #       **NAME**
-  #       SUMMARY
-  #       HIGHLIGHTS
-  #     date_and_location_column: |-
-  #       *LOCATION*
-  #       *DATE*
-  #   experience_entry:
-  #     main_column: |-
-  #       **POSITION**
-  #       *COMPANY*
-  #       SUMMARY
-  #       HIGHLIGHTS
-  #     date_and_location_column: |-
-  #       *LOCATION*
-  #       *DATE*
-  #   publication_entry:
-  #     main_column: |-
-  #       **TITLE**
-  #       SUMMARY
-  #       AUTHORS
-  #       URL (JOURNAL)
-  #     date_and_location_column: DATE
+  page:
+    size: us-letter
+    top_margin: 0.7in
+    bottom_margin: 0.7in
+    left_margin: 0.7in
+    right_margin: 0.7in
+    show_footer: true
+    show_top_note: true
+  colors:
+    body: rgb(0, 0, 0)
+    name: rgb(0, 0, 0)
+    headline: rgb(0, 0, 0)
+    connections: rgb(0, 0, 0)
+    section_titles: rgb(0, 0, 0)
+    links: rgb(0, 0, 0)
+    footer: rgb(128, 128, 128)
+    top_note: rgb(128, 128, 128)
+  typography:
+    line_spacing: 0.6em
+    alignment: justified
+    date_and_location_column_alignment: right
+    font_family:
+      body: New Computer Modern
+      name: New Computer Modern
+      headline: New Computer Modern
+      connections: New Computer Modern
+      section_titles: New Computer Modern
+    font_size:
+      body: 10pt
+      name: 30pt
+      headline: 10pt
+      connections: 10pt
+      section_titles: 1.4em
+    small_caps:
+      name: false
+      headline: false
+      connections: false
+      section_titles: false
+    bold:
+      name: true
+      headline: false
+      connections: false
+      section_titles: true
+  links:
+    underline: true
+    show_external_link_icon: false
+  header:
+    alignment: center
+    photo_width: 3.5cm
+    photo_position: left
+    photo_space_left: 0.4cm
+    photo_space_right: 0.4cm
+    space_below_name: 0.7cm
+    space_below_headline: 0.7cm
+    space_below_connections: 0.7cm
+    connections:
+      phone_number_format: national
+      hyperlink: true
+      show_icons: false
+      display_urls_instead_of_usernames: true
+      separator: •
+      space_between_connections: 0.5cm
+  section_titles:
+    type: with_full_line
+    line_thickness: 0.5pt
+    space_above: 0.5cm
+    space_below: 0.3cm
+  sections:
+    allow_page_break: true
+    space_between_regular_entries: 1.2em
+    space_between_text_based_entries: 0.3em
+    show_time_spans_in: []
+  entries:
+    date_and_location_width: 4.15cm
+    side_space: 0.2cm
+    space_between_columns: 0.1cm
+    allow_page_break: false
+    short_second_row: false
+    summary:
+      space_above: 0cm
+      space_left: 0cm
+    highlights:
+      bullet: ◦
+      nested_bullet: •
+      space_left: 0.15cm
+      space_above: 0cm
+      space_between_items: 0cm
+      space_between_bullet_and_text: 0.5em
+  templates:
+    footer: "*NAME -- PAGE_NUMBER/TOTAL_PAGES*"
+    top_note: "*LAST_UPDATED CURRENT_DATE*"
+    single_date: MONTH_ABBREVIATION YEAR
+    date_range: START_DATE – END_DATE
+    time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
+    one_line_entry:
+      main_column: "**LABEL:** DETAILS"
+    education_entry:
+      main_column: |-
+        **INSTITUTION**
+        *DEGREE* *in* *AREA*
+        SUMMARY
+        HIGHLIGHTS
+      degree_column:
+      date_and_location_column: |-
+        *LOCATION*
+        *DATE*
+    normal_entry:
+      main_column: |-
+        **NAME**
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: |-
+        *LOCATION*
+        *DATE*
+    experience_entry:
+      main_column: |-
+        **POSITION**
+        *COMPANY*
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: |-
+        *LOCATION*
+        *DATE*
+    publication_entry:
+      main_column: |-
+        **TITLE**
+        SUMMARY
+        AUTHORS
+        URL (JOURNAL)
+      date_and_location_column: DATE
 locale:
   language: english
   last_updated: Last updated in
@@ -351,7 +351,7 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-12-06'
+  current_date: "2025-12-05"
   render_command:
     design:
     locale:

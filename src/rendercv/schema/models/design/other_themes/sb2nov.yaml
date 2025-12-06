@@ -28,8 +28,10 @@ design:
       display_urls_instead_of_usernames: true
       separator: "•"
   entries:
+    short_second_row: false
     highlights:
       bullet: "◦"
+      nested_bullet: "◦"
   templates:
     education_entry:
       main_column: "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS"

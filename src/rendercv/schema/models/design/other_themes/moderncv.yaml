@@ -31,11 +31,13 @@ design:
   sections:
     show_time_spans_in: []
   entries:
+    short_second_row: false
     side_space: 0cm
     space_between_columns: 0.3cm
     summary:
       space_above: 0.1cm
     highlights:
+      space_left: 0cm
       space_above: 0.15cm
       space_between_items: 0.1cm
       space_between_bullet_and_text: 0.3em

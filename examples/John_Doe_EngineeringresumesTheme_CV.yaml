@@ -252,27 +252,27 @@ design:
   #   type: with_full_line
   #   line_thickness: 0.5pt
   #   space_above: 0.5cm
-  #   space_below: 0.2cm
+  #   space_below: 0.3cm
   # sections:
   #   allow_page_break: true
-  #   space_between_regular_entries: 0.32cm
-  #   space_between_text_based_entries: 0.1cm
+  #   space_between_regular_entries: 0.42cm
+  #   space_between_text_based_entries: 0.15cm
   #   show_time_spans_in: []
   # entries:
   #   date_and_location_width: 4.15cm
   #   side_space: 0cm
   #   space_between_columns: 0.1cm
   #   allow_page_break: false
-  #   short_second_row: true
+  #   short_second_row: false
   #   summary:
-  #     space_above: 0cm
+  #     space_above: 0.08cm
   #     space_left: 0cm
   #   highlights:
   #     bullet: ●
   #     nested_bullet: ●
   #     space_left: 0cm
-  #     space_above: 0.05cm
-  #     space_between_items: 0cm
+  #     space_above: 0.08cm
+  #     space_between_items: 0.08cm
   #     space_between_bullet_and_text: 0.3em
   # templates:
   #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
@@ -343,7 +343,7 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-12-03'
+  current_date: '2025-12-06'
   render_command:
     design:
     locale:

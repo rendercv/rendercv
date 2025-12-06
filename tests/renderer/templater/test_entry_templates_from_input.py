@@ -4,7 +4,7 @@ import pydantic
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.renderer.templater.entry_templates_from_yaml import (
+from rendercv.renderer.templater.entry_templates_from_input import (
     clean_trailing_parts,
     process_authors,
     process_date,

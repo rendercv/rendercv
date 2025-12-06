@@ -20,8 +20,13 @@ design:
   sections:
     show_time_spans_in: []
   entries:
+    short_second_row: false
+    summary:
+      space_above: 0.12cm
     highlights:
       space_left: "0cm"
+      space_above: 0.12cm
+      space_between_items: "0.12cm"
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"

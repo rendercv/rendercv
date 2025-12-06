@@ -9,7 +9,7 @@ from .context import get_input_file_path
 
 
 def resolve_relative_path(
-    path: pathlib.Path, info: pydantic.ValidationInfo, must_exist: bool = True
+    path: pathlib.Path, info: pydantic.ValidationInfo, *, must_exist: bool = True
 ) -> pathlib.Path:
     """Convert relative path to absolute path based on input file location.
 
@@ -39,12 +39,19 @@ def resolve_relative_path(
         if not path.is_absolute():
             path = relative_to / path
 
-        if must_exist and not path.exists():
-            raise pydantic_core.PydanticCustomError(
-                CustomPydanticErrorTypes.other.value,
-                "The file `{file_path}` does not exist.",
-                {"file_path": path.relative_to(relative_to)},
-            )
+        if must_exist:
+            if not path.exists():
+                raise pydantic_core.PydanticCustomError(
+                    CustomPydanticErrorTypes.other.value,
+                    "The file `{file_path}` does not exist.",
+                    {"file_path": path.relative_to(relative_to)},
+                )
+            if not path.is_file():
+                raise pydantic_core.PydanticCustomError(
+                    CustomPydanticErrorTypes.other.value,
+                    "The path `{path}` is not a file.",
+                    {"path": path.relative_to(relative_to)},
+                )
 
     return path
 
@@ -53,15 +60,17 @@ def serialize_path(path: pathlib.Path) -> str:
     return str(path.relative_to(pathlib.Path.cwd()))
 
 
-type ExistingInputRelativePath = Annotated[
-    pathlib.Path,
-    pydantic.AfterValidator(lambda path, info: resolve_relative_path(path, info, True)),
-]
-
-type PlannedInputRelativePath = Annotated[
+type ExistingPathRelativeToInput = Annotated[
     pathlib.Path,
     pydantic.AfterValidator(
-        lambda path, info: resolve_relative_path(path, info, False)
+        lambda path, info: resolve_relative_path(path, info, must_exist=True)
+    ),
+]
+
+type PlannedPathRelativeToInput = Annotated[
+    pathlib.Path,
+    pydantic.AfterValidator(
+        lambda path, info: resolve_relative_path(path, info, must_exist=False)
     ),
     pydantic.PlainSerializer(serialize_path),
 ]

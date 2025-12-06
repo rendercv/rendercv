@@ -263,16 +263,16 @@ design:
   #   side_space: 0.2cm
   #   space_between_columns: 0.1cm
   #   allow_page_break: false
-  #   short_second_row: true
+  #   short_second_row: false
   #   summary:
-  #     space_above: 0cm
+  #     space_above: 0.12cm
   #     space_left: 0cm
   #   highlights:
   #     bullet: •
   #     nested_bullet: •
   #     space_left: 0cm
-  #     space_above: 0cm
-  #     space_between_items: 0cm
+  #     space_above: 0.12cm
+  #     space_between_items: 0.12cm
   #     space_between_bullet_and_text: 0.5em
   # templates:
   #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
@@ -343,7 +343,7 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-12-03'
+  current_date: '2025-12-06'
   render_command:
     design:
     locale:

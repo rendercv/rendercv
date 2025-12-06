@@ -263,14 +263,14 @@ design:
   #   side_space: 0cm
   #   space_between_columns: 0.3cm
   #   allow_page_break: false
-  #   short_second_row: true
+  #   short_second_row: false
   #   summary:
   #     space_above: 0.1cm
   #     space_left: 0cm
   #   highlights:
   #     bullet: •
   #     nested_bullet: •
-  #     space_left: 0.15cm
+  #     space_left: 0cm
   #     space_above: 0.15cm
   #     space_between_items: 0.1cm
   #     space_between_bullet_and_text: 0.3em
@@ -343,7 +343,7 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-12-03'
+  current_date: '2025-12-06'
   render_command:
     design:
     locale:

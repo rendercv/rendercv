@@ -5,7 +5,7 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
-from .entry_templates_from_yaml import render_entry_templates
+from .entry_templates_from_input import render_entry_templates
 from .footer_and_top_note import render_footer_template, render_top_note_template
 from .markdown_parser import markdown_to_typst
 from .string_processor import apply_string_processors, make_keywords_bold

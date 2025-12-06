@@ -5,7 +5,7 @@ import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ..base import BaseModelWithExtraKeys
-from ..path import ExistingInputRelativePath
+from ..path import ExistingPathRelativeToInput
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
@@ -41,7 +41,7 @@ class Cv(BaseModelWithExtraKeys):
             ["john.doe.1@example.com", "john.doe.2@example.com"],
         ],
     )
-    photo: ExistingInputRelativePath | None = pydantic.Field(
+    photo: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
         description="Path to the photo file, relative to the input YAML file.",
         examples=["photo.jpg", "images/profile.png"],

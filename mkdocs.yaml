@@ -115,7 +115,7 @@ plugins:
       handlers:
         python:
           options:
-            members_order: source
+            members_order: alphabetical
             show_bases: true
             docstring_section_style: list
             docstring_style: google
@@ -130,11 +130,9 @@ plugins:
             show_source: true
             show_submodules: false
             merge_init_into_class: true
-            annotations_path: "source"
-            show_signature: false
+            annotations_path: brief
+            show_signature: true
             show_docstring_examples: true
-            show_docstring_functions: true
-            show_signature_annotations: false
             show_docstring_type_aliases: true
             show_overloads: false
 

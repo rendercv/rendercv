@@ -47,6 +47,20 @@
         }
       ]
     },
+    "Bullet": {
+      "enum": [
+        "●",
+        "•",
+        "◦",
+        "-",
+        "◆",
+        "★",
+        "■",
+        "—",
+        "○"
+      ],
+      "type": "string"
+    },
     "BulletEntry": {
       "additionalProperties": true,
       "description": null,
@@ -66,20 +80,6 @@
       ],
       "title": "BulletEntry",
       "type": "object"
-    },
-    "BulletPoint": {
-      "enum": [
-        "●",
-        "•",
-        "◦",
-        "-",
-        "◆",
-        "★",
-        "■",
-        "—",
-        "○"
-      ],
-      "type": "string"
     },
     "ClassicTheme": {
       "additionalProperties": false,
@@ -189,7 +189,7 @@
         "photo": {
           "anyOf": [
             {
-              "$ref": "#/$defs/ExistingInputRelativePath"
+              "$ref": "#/$defs/ExistingPathRelativeToInput"
             },
             {
               "type": "null"
@@ -458,7 +458,7 @@
         }
       ]
     },
-    "ExistingInputRelativePath": {
+    "ExistingPathRelativeToInput": {
       "format": "path",
       "type": "string"
     },
@@ -1295,7 +1295,24 @@
       "title": "NumberedEntry",
       "type": "object"
     },
-    "PlannedInputRelativePath": {
+    "PageSize": {
+      "enum": [
+        "a4",
+        "a5",
+        "us-letter",
+        "us-executive"
+      ],
+      "type": "string"
+    },
+    "PhoneNumberFormatType": {
+      "enum": [
+        "national",
+        "international",
+        "E164"
+      ],
+      "type": "string"
+    },
+    "PlannedPathRelativeToInput": {
       "format": "path",
       "type": "string"
     },
@@ -1399,7 +1416,7 @@
         "design": {
           "anyOf": [
             {
-              "$ref": "#/$defs/ExistingInputRelativePath"
+              "$ref": "#/$defs/ExistingPathRelativeToInput"
             },
             {
               "type": "null"
@@ -1411,7 +1428,7 @@
         "locale": {
           "anyOf": [
             {
-              "$ref": "#/$defs/ExistingInputRelativePath"
+              "$ref": "#/$defs/ExistingPathRelativeToInput"
             },
             {
               "type": "null"
@@ -1421,28 +1438,28 @@
           "description": "The file path to the YAML file that contains the `locale` field."
         },
         "typst_path": {
-          "$ref": "#/$defs/PlannedInputRelativePath",
+          "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.typ",
           "description": "Path to the output Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
-          "$ref": "#/$defs/PlannedInputRelativePath",
+          "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf",
           "description": "Path to the output PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
-          "$ref": "#/$defs/PlannedInputRelativePath",
+          "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.md",
           "description": "Path to the output Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
-          "$ref": "#/$defs/PlannedInputRelativePath",
+          "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.html",
           "description": "Path to the output HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
-          "$ref": "#/$defs/PlannedInputRelativePath",
+          "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.png",
           "description": "Path to the output PNG file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
@@ -1636,6 +1653,15 @@
     },
     "Section": {
       "$ref": "#/$defs/ListOfEntries"
+    },
+    "SectionTitleType": {
+      "enum": [
+        "with_partial_line",
+        "with_full_line",
+        "without_line",
+        "moderncv"
+      ],
+      "type": "string"
     },
     "Settings": {
       "additionalProperties": false,
@@ -1935,121 +1961,6 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
-        "date": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ArbitraryDate"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
-          "examples": [
-            "2020-09-24",
-            "2020-09",
-            "2020",
-            "Fall 2023",
-            "Summer 2020"
-          ]
-        },
-        "start_date": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ExactDate"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
-          "examples": [
-            "2020-09-24",
-            "2020-09",
-            "2020"
-          ]
-        },
-        "end_date": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ExactDate"
-            },
-            {
-              "const": "present",
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or simply omit `end_date` to automatically indicate the event is ongoing.",
-          "examples": [
-            "2024-05-20",
-            "2024-05",
-            "2024",
-            "present"
-          ],
-          "title": "End Date"
-        },
-        "location": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "examples": [
-            "Istanbul, Türkiye",
-            "New York, NY",
-            "Remote"
-          ],
-          "title": "Location"
-        },
-        "summary": {
-          "anyOf": [
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "examples": [
-            "Led a team of 5 engineers to develop innovative solutions.",
-            "Completed advanced coursework in machine learning and artificial intelligence."
-          ],
-          "title": "Summary"
-        },
-        "highlights": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "A list of bullet points highlighting your key achievements, responsibilities, or contributions.",
-          "examples": [
-            [
-              "Increased system performance by 40% through optimization.",
-              "Mentored 3 junior developers and conducted code reviews.",
-              "Implemented CI/CD pipeline reducing deployment time by 60%."
-            ]
-          ],
-          "title": "Highlights"
-        },
         "institution": {
           "description": "The name of the educational institution.",
           "examples": [
@@ -2088,19 +1999,7 @@
             "MS"
           ],
           "title": "Degree"
-        }
-      },
-      "required": [
-        "institution",
-        "area"
-      ],
-      "title": "EducationEntry",
-      "type": "object"
-    },
-    "rendercv__schema__models__cv__entries__experience__ExperienceEntry": {
-      "additionalProperties": true,
-      "description": null,
-      "properties": {
+        },
         "date": {
           "anyOf": [
             {
@@ -2215,7 +2114,19 @@
             ]
           ],
           "title": "Highlights"
-        },
+        }
+      },
+      "required": [
+        "institution",
+        "area"
+      ],
+      "title": "EducationEntry",
+      "type": "object"
+    },
+    "rendercv__schema__models__cv__entries__experience__ExperienceEntry": {
+      "additionalProperties": true,
+      "description": null,
+      "properties": {
         "company": {
           "description": "Name of the company or organization.",
           "examples": [
@@ -2235,19 +2146,7 @@
           ],
           "title": "Position",
           "type": "string"
-        }
-      },
-      "required": [
-        "company",
-        "position"
-      ],
-      "title": "ExperienceEntry",
-      "type": "object"
-    },
-    "rendercv__schema__models__cv__entries__normal__NormalEntry": {
-      "additionalProperties": true,
-      "description": null,
-      "properties": {
+        },
         "date": {
           "anyOf": [
             {
@@ -2362,7 +2261,19 @@
             ]
           ],
           "title": "Highlights"
-        },
+        }
+      },
+      "required": [
+        "company",
+        "position"
+      ],
+      "title": "ExperienceEntry",
+      "type": "object"
+    },
+    "rendercv__schema__models__cv__entries__normal__NormalEntry": {
+      "additionalProperties": true,
+      "description": null,
+      "properties": {
         "name": {
           "description": "The name of the entry, such as `Some Project`, `Some Event`, etc.",
           "examples": [
@@ -2372,6 +2283,121 @@
           ],
           "title": "Name",
           "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArbitraryDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "examples": [
+            "2020-09-24",
+            "2020-09",
+            "2020",
+            "Fall 2023",
+            "Summer 2020"
+          ]
+        },
+        "start_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExactDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24",
+            "2020-09",
+            "2020"
+          ]
+        },
+        "end_date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ExactDate"
+            },
+            {
+              "const": "present",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or simply omit `end_date` to automatically indicate the event is ongoing.",
+          "examples": [
+            "2024-05-20",
+            "2024-05",
+            "2024",
+            "present"
+          ],
+          "title": "End Date"
+        },
+        "location": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "examples": [
+            "Istanbul, Türkiye",
+            "New York, NY",
+            "Remote"
+          ],
+          "title": "Location"
+        },
+        "summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "examples": [
+            "Led a team of 5 engineers to develop innovative solutions.",
+            "Completed advanced coursework in machine learning and artificial intelligence."
+          ],
+          "title": "Summary"
+        },
+        "highlights": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "A list of bullet points highlighting your key achievements, responsibilities, or contributions.",
+          "examples": [
+            [
+              "Increased system performance by 40% through optimization.",
+              "Mentored 3 junior developers and conducted code reviews.",
+              "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ]
+          ],
+          "title": "Highlights"
         }
       },
       "required": [
@@ -2416,25 +2442,6 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
-        "date": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ArbitraryDate"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
-          "examples": [
-            "2020-09-24",
-            "2020-09",
-            "2020",
-            "Fall 2023",
-            "Summer 2020"
-          ]
-        },
         "title": {
           "examples": [
             "Deep Learning for Computer Vision",
@@ -2524,6 +2531,25 @@
             "arXiv preprint"
           ],
           "title": "Journal"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ArbitraryDate"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "examples": [
+            "2020-09-24",
+            "2020-09",
+            "2020",
+            "Fall 2023",
+            "Summer 2020"
+          ]
         }
       },
       "required": [
@@ -2934,15 +2960,9 @@
       "additionalProperties": false,
       "properties": {
         "phone_number_format": {
+          "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`.",
-          "enum": [
-            "national",
-            "international",
-            "E164"
-          ],
-          "title": "Phone Number Format",
-          "type": "string"
+          "description": "The format for phone numbers. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
@@ -2981,15 +3001,9 @@
       "additionalProperties": false,
       "properties": {
         "phone_number_format": {
+          "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`.",
-          "enum": [
-            "national",
-            "international",
-            "E164"
-          ],
-          "title": "Phone Number Format",
-          "type": "string"
+          "description": "The format for phone numbers. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
@@ -3028,15 +3042,9 @@
       "additionalProperties": false,
       "properties": {
         "phone_number_format": {
+          "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`.",
-          "enum": [
-            "national",
-            "international",
-            "E164"
-          ],
-          "title": "Phone Number Format",
-          "type": "string"
+          "description": "The format for phone numbers. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
@@ -3298,13 +3306,13 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": true,
+          "default": false,
           "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -3340,13 +3348,13 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": true,
+          "default": false,
           "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__3",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -3382,13 +3390,13 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": true,
+          "default": false,
           "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
-          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
+          "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__4",
           "description": "Settings for entry summary text."
         },
         "highlights": {
@@ -3424,7 +3432,7 @@
           "type": "boolean"
         },
         "short_second_row": {
-          "default": true,
+          "default": false,
           "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
@@ -3948,12 +3956,12 @@
       "additionalProperties": false,
       "properties": {
         "bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
         },
         "nested_bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
@@ -3985,12 +3993,12 @@
       "additionalProperties": false,
       "properties": {
         "bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
         },
         "nested_bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
@@ -4001,12 +4009,12 @@
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
+          "default": "0.12cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
+          "default": "0.12cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -4022,12 +4030,12 @@
       "additionalProperties": false,
       "properties": {
         "bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "●",
           "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `●`."
         },
         "nested_bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "●",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
@@ -4038,12 +4046,12 @@
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.05cm",
+          "default": "0.08cm",
           "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0cm",
+          "default": "0.08cm",
           "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
         },
         "space_between_bullet_and_text": {
@@ -4059,18 +4067,18 @@
       "additionalProperties": false,
       "properties": {
         "bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
         },
         "nested_bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "•",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.15cm",
+          "default": "0cm",
           "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_above": {
@@ -4096,13 +4104,13 @@
       "additionalProperties": false,
       "properties": {
         "bullet": {
-          "$ref": "#/$defs/BulletPoint",
+          "$ref": "#/$defs/Bullet",
           "default": "◦",
           "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `◦`."
         },
         "nested_bullet": {
-          "$ref": "#/$defs/BulletPoint",
-          "default": "•",
+          "$ref": "#/$defs/Bullet",
+          "default": "◦",
           "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
         },
         "space_left": {
@@ -4336,16 +4344,9 @@
       "additionalProperties": false,
       "properties": {
         "size": {
+          "$ref": "#/$defs/PageSize",
           "default": "us-letter",
-          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`.",
-          "enum": [
-            "a4",
-            "a5",
-            "us-letter",
-            "us-executive"
-          ],
-          "title": "Size",
-          "type": "string"
+          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`."
         },
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
@@ -4387,16 +4388,9 @@
       "additionalProperties": false,
       "properties": {
         "size": {
+          "$ref": "#/$defs/PageSize",
           "default": "us-letter",
-          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`.",
-          "enum": [
-            "a4",
-            "a5",
-            "us-letter",
-            "us-executive"
-          ],
-          "title": "Size",
-          "type": "string"
+          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`."
         },
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
@@ -4457,16 +4451,9 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "$ref": "#/$defs/SectionTitleType",
           "default": "with_partial_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_partial_line`.",
-          "enum": [
-            "with_partial_line",
-            "with_full_line",
-            "without_line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_partial_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4491,16 +4478,9 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`.",
-          "enum": [
-            "with_partial_line",
-            "with_full_line",
-            "without_line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4525,16 +4505,9 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`.",
-          "enum": [
-            "with_partial_line",
-            "with_full_line",
-            "without_line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4548,8 +4521,8 @@
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.2cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "default": "0.3cm",
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -4559,16 +4532,9 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "$ref": "#/$defs/SectionTitleType",
           "default": "moderncv",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `moderncv`.",
-          "enum": [
-            "with_partial_line",
-            "with_full_line",
-            "without_line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `moderncv`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4593,16 +4559,9 @@
       "additionalProperties": false,
       "properties": {
         "type": {
+          "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`.",
-          "enum": [
-            "with_partial_line",
-            "with_full_line",
-            "without_line",
-            "moderncv"
-          ],
-          "title": "Type",
-          "type": "string"
+          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4708,13 +4667,13 @@
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.32cm",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.32cm`."
+          "default": "0.42cm",
+          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.42cm`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
-          "default": "0.1cm",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "default": "0.15cm",
+          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "show_time_spans_in": {
           "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
@@ -4808,6 +4767,40 @@
       "type": "object"
     },
     "rendercv__schema__models__design__classic_theme__Summary__2": {
+      "additionalProperties": false,
+      "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.12cm",
+          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
+        },
+        "space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+        }
+      },
+      "title": "Summary",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Summary__3": {
+      "additionalProperties": false,
+      "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0.08cm",
+          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
+        },
+        "space_left": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+        }
+      },
+      "title": "Summary",
+      "type": "object"
+    },
+    "rendercv__schema__models__design__classic_theme__Summary__4": {
       "additionalProperties": false,
       "properties": {
         "space_above": {

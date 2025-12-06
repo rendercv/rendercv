@@ -3,7 +3,7 @@ import pathlib
 import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
-from ..path import ExistingInputRelativePath, PlannedInputRelativePath
+from ..path import ExistingPathRelativeToInput, PlannedPathRelativeToInput
 
 file_path_placeholders_description = """The following placeholders can be used:
 
@@ -24,15 +24,15 @@ file_path_placeholders_description = """The following placeholders can be used:
 
 
 class RenderCommand(BaseModelWithoutExtraKeys):
-    design: ExistingInputRelativePath | None = pydantic.Field(
+    design: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
         description="The file path to the YAML file that contains the `design` field.",
     )
-    locale: ExistingInputRelativePath | None = pydantic.Field(
+    locale: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
         description="The file path to the YAML file that contains the `locale` field.",
     )
-    typst_path: PlannedInputRelativePath = pydantic.Field(
+    typst_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.typ"),
         description=(
             "Path to the output Typst file, relative to the input YAML file. The"
@@ -41,7 +41,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    pdf_path: PlannedInputRelativePath = pydantic.Field(
+    pdf_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf"),
         description=(
             "Path to the output PDF file, relative to the input YAML file. The default"
@@ -49,7 +49,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    markdown_path: PlannedInputRelativePath = pydantic.Field(
+    markdown_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.md"),
         title="Markdown Path",
         description=(
@@ -58,7 +58,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    html_path: PlannedInputRelativePath = pydantic.Field(
+    html_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.html"),
         description=(
             "Path to the output HTML file, relative to the input YAML file. The default"
@@ -66,7 +66,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             f"{file_path_placeholders_description}"
         ),
     )
-    png_path: PlannedInputRelativePath = pydantic.Field(
+    png_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.png"),
         description=(
             "Path to the output PNG file, relative to the input YAML file. The default"

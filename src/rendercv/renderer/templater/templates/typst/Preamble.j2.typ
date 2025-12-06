@@ -70,7 +70,7 @@
   entries-summary-space-left: {{ design.entries.summary.space_left }},
   entries-summary-space-above: {{ design.entries.summary.space_above }},
   entries-highlights-bullet: {% if design.entries.highlights.bullet == "●" %} text(13pt, [•], baseline: -0.6pt) {% else %} "{{ design.entries.highlights.bullet }}" {% endif %},
-  entries-highlights-nested-bullet: {% if design.entries.highlights.nested_bullet == "●" %} text(13pt, [•], baseline: -0.6pt) {% else %} "{{ design.entries.highlights.bullet }}" {% endif %},
+  entries-highlights-nested-bullet: {% if design.entries.highlights.nested_bullet == "●" %} text(13pt, [•], baseline: -0.6pt) {% else %} "{{ design.entries.highlights.nested_bullet }}" {% endif %},
   entries-highlights-space-left: {{ design.entries.highlights.space_left }},
   entries-highlights-space-above: {{ design.entries.highlights.space_above }},
   entries-highlights-space-between-items: {{ design.entries.highlights.space_between_items }},
