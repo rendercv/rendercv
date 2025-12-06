@@ -390,6 +390,18 @@ wheels = [
 ]
 
 [[package]]
+name = "markdown-callouts"
+version = "0.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "markdown" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/87/73/ae5aa379f6f7fea9d0bf4cba888f9a31d451d90f80033ae60ae3045770d5/markdown_callouts-0.4.0.tar.gz", hash = "sha256:7ed2c90486967058a73a547781121983839522d67041ae52c4979616f1b2b746", size = 9768, upload-time = "2024-01-22T23:18:18.513Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/1d/b5/7b0a0a52c82bfccd830af2a8cc8add1c5bc932e0204922434954a631dd51/markdown_callouts-0.4.0-py3-none-any.whl", hash = "sha256:ed0da38f29158d93116a0d0c6ecaf9df90b37e0d989b5337d678ee6e6d6550b7", size = 7108, upload-time = "2024-01-22T23:18:17.465Z" },
+]
+
+[[package]]
 name = "markdown-it-py"
 version = "4.0.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1216,6 +1228,7 @@ dev = [
     { name = "ruff" },
 ]
 docs = [
+    { name = "markdown-callouts" },
     { name = "mkdocs-gen-files" },
     { name = "mkdocs-literate-nav" },
     { name = "mkdocs-macros-plugin" },
@@ -1265,6 +1278,7 @@ dev = [
     { name = "ruff", specifier = ">=0.14.7" },
 ]
 docs = [
+    { name = "markdown-callouts", specifier = ">=0.4.0" },
     { name = "mkdocs-gen-files", specifier = "==0.6.0" },
     { name = "mkdocs-literate-nav", specifier = "==0.6.0" },
     { name = "mkdocs-macros-plugin", specifier = ">=1.5.0" },

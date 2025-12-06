@@ -138,6 +138,7 @@ docs = [
     'mkdocs-literate-nav==0.6.0',  # Dynamic navigation for API reference
     'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
     'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
+    'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
     'pdfCropMargins>=2.2.1',       # Generate entry figures for documentation
     'pillow>=10.4.0',              # Lock dependency of pdfCropMargins
     'PyMuPDF>=1.26.5',             # Convert PDF files to images

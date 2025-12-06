@@ -56,6 +56,7 @@ nav:
       - YAML Input Structure: user_guide/yaml_input_structure.md
       - CLI: user_guide/cli.md
       - How-To Guides:
+          - Set Up VS Code for RenderCV: user_guide/how_to/set_up_vs_code_for_rendercv.md
           - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
           - Custom Fonts: user_guide/how_to/custom_fonts.md
           - Override Default Templates: user_guide/how_to/override_default_templates.md
@@ -69,8 +70,8 @@ nav:
       - GitHub Workflows: developer_guide/github_workflows.md
       - Dockerfile: developer_guide/dockerfile.md
       - Code Guidelines:
-        - Source Code: developer_guide/code_guidelines/source_code.md
-        - Tests: developer_guide/code_guidelines/tests.md
+          - Source Code: developer_guide/code_guidelines/source_code.md
+          - Tests: developer_guide/code_guidelines/tests.md
       - How-To Guides:
           - Add Theme: developer_guide/how_to/add_theme.md
           - Add Locale: developer_guide/how_to/add_locale.md
@@ -79,6 +80,7 @@ nav:
   - Changelog: changelog.md
 
 markdown_extensions:
+  - github-callouts
   # see https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/ for more pymdownx info
   - pymdownx.highlight:
       anchor_linenums: true

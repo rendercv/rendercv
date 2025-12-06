@@ -105,6 +105,9 @@ design:
 
 ![Design Options of RenderCV](./assets/images/design_options.gif)
 
+> [!TIP]
+> Want to set up a live preview environment like the one shown above? See [how to set up VS Code for RenderCV](user_guide/how_to/set_up_vs_code_for_rendercv.md).
+
 ## Strict Validation
 
 No surprises. If something's wrong, you'll know exactly what and where. If it's valid, you get a perfect PDF.
