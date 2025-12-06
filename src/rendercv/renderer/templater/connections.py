@@ -1,4 +1,5 @@
-from typing import Literal, TypedDict
+from dataclasses import dataclass
+from typing import Literal
 
 import phonenumbers
 
@@ -26,7 +27,8 @@ def compute_connections(
     }[file_type](rendercv_model)
 
 
-class Connection(TypedDict):
+@dataclass
+class Connection:
     icon_specifier: str
     url: str | None
     body: str
@@ -162,19 +164,19 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
     placeholders = [
         (
-            f'#connection-with-icon("{typst_fa_icons[connection["icon_specifier"]]}")'
-            f"[{markdown_to_typst(connection['body'])}]"
+            f'#connection-with-icon("{typst_fa_icons[connection.icon_specifier]}")'
+            f"[{markdown_to_typst(connection.body)}]"
             if show_icon
-            else markdown_to_typst(connection["body"])
+            else markdown_to_typst(connection.body)
         )
         for connection in connections
     ]
 
     return [
         (
-            f'#link("{connection["url"]}", icon: false, if-underline: false, if-color:'
+            f'#link("{connection.url}", icon: false, if-underline: false, if-color:'
             f" false)[{placeholder}]"
-            if connection["url"] and hyperlink
+            if connection.url and hyperlink
             else placeholder
         )
         for connection, placeholder in zip(connections, placeholders, strict=True)
@@ -194,9 +196,9 @@ def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]
 
     return [
         (
-            f"[{connection['body']}]({connection['url']})"
-            if connection["url"]
-            else connection["body"]
+            f"[{connection.body}]({connection.url})"
+            if connection.url
+            else connection.body
         )
         for connection in connections
     ]

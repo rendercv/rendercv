@@ -12,9 +12,7 @@ nav[("src", "rendercv")] = "index.md"
 # Process each Python file in the objects directory
 for path in sorted(src_rendercv.rglob("*.py")):
     # Skip __init__.py files and __main__.py files
-    if path.name in ("__init__.py", "__main__.py", "app.py") or path.name.endswith(
-        "_command.py"
-    ):
+    if path.name in ("__init__.py", "__main__.py"):
         continue
 
     # Get the relative path from the objects directory

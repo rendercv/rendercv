@@ -6,7 +6,7 @@ from ruamel.yaml.comments import CommentedMap
 
 from rendercv.exception import RenderCVUserValidationError
 
-from .models.context import ValidationContext
+from .models.validation_context import ValidationContext
 from .models.rendercv_model import RenderCVModel
 from .override_dictionary import apply_overrides_to_dictionary
 from .pydantic_error_handling import parse_validation_errors

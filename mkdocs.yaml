@@ -135,7 +135,7 @@ plugins:
             show_docstring_examples: true
             show_docstring_type_aliases: true
             show_overloads: false
-
+            show_if_no_docstring: true
 extra_javascript:
   - assets/javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js

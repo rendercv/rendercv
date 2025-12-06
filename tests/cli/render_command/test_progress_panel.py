@@ -127,12 +127,12 @@ class TestProgressPanelPrintValidationErrors:
     def test_exits_with_code_1(self):
         panel = ProgressPanel(quiet=True)
         errors: list[RenderCVValidationError] = [
-            {
-                "location": ("cv", "name"),
-                "yaml_location": ((1, 1), (1, 1)),
-                "input": "123",
-                "message": "Invalid name",
-            }
+            RenderCVValidationError(
+                location=("cv", "name"),
+                yaml_location=((1, 1), (1, 1)),
+                input="123",
+                message="Invalid name",
+            )
         ]
 
         with pytest.raises(typer.Exit) as exc_info:
@@ -146,12 +146,12 @@ class TestProgressPanelPrintValidationErrors:
             CompletedStep("100", "Test", [pathlib.Path.cwd() / "test.pdf"])
         )
         errors: list[RenderCVValidationError] = [
-            {
-                "location": ("cv", "name"),
-                "yaml_location": ((1, 1), (1, 1)),
-                "input": "123",
-                "message": "Invalid name",
-            }
+            RenderCVValidationError(
+                location=("cv", "name"),
+                yaml_location=((1, 1), (1, 1)),
+                input="123",
+                message="Invalid name",
+            )
         ]
 
         with pytest.raises(typer.Exit):
@@ -163,18 +163,18 @@ class TestProgressPanelPrintValidationErrors:
     def test_handles_multiple_validation_errors(self):
         panel = ProgressPanel(quiet=True)
         errors: list[RenderCVValidationError] = [
-            {
-                "location": ("cv", "name"),
-                "yaml_location": ((1, 1), (1, 1)),
-                "input": "123",
-                "message": "Invalid name",
-            },
-            {
-                "location": ("cv", "email"),
-                "yaml_location": ((2, 1), (2, 1)),
-                "input": "not-an-email",
-                "message": "Invalid email format",
-            },
+            RenderCVValidationError(
+                location=("cv", "name"),
+                yaml_location=((1, 1), (1, 1)),
+                input="123",
+                message="Invalid name",
+            ),
+            RenderCVValidationError(
+                location=("cv", "email"),
+                yaml_location=((2, 1), (2, 1)),
+                input="not-an-email",
+                message="Invalid email format",
+            )
         ]
 
         with pytest.raises(typer.Exit) as exc_info:

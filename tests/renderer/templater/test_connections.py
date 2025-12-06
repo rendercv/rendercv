@@ -103,7 +103,7 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == expected_count
-        assert all(c["icon_specifier"] == expected_icon for c in connections)
+        assert all(c.icon_specifier == expected_icon for c in connections)
 
     def test_email_connection_structure(self):
         cv = create_cv(key_order=["email"], email="john@example.com")
@@ -111,8 +111,8 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        assert connections[0]["url"] == "mailto:john@example.com"
-        assert connections[0]["body"] == "john@example.com"
+        assert connections[0].url == "mailto:john@example.com"
+        assert connections[0].body == "john@example.com"
 
     @pytest.mark.parametrize(
         ("phone", "phone_format", "expected_body"),
@@ -128,7 +128,7 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        assert connections[0]["body"] == expected_body
+        assert connections[0].body == expected_body
 
     def test_website_connection_structure(self):
         cv = create_cv(key_order=["website"], website="https://example.com")
@@ -137,8 +137,8 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         # Pydantic's HttpUrl adds trailing slash
-        assert connections[0]["url"] == "https://example.com/"
-        assert connections[0]["body"] == "example.com"
+        assert connections[0].url == "https://example.com/"
+        assert connections[0].body == "example.com"
 
     def test_location_has_no_url(self):
         cv = create_cv(key_order=["location"], location="New York, NY")
@@ -146,8 +146,8 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        assert connections[0]["url"] is None
-        assert connections[0]["body"] == "New York, NY"
+        assert connections[0].url is None
+        assert connections[0].body == "New York, NY"
 
     def test_social_network_connection(self):
         social = SocialNetwork(network="LinkedIn", username="johndoe")
@@ -157,9 +157,9 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "LinkedIn"
-        assert connections[0]["url"] == "https://linkedin.com/in/johndoe"
-        assert connections[0]["body"] == "johndoe"
+        assert connections[0].icon_specifier == "LinkedIn"
+        assert connections[0].url == "https://linkedin.com/in/johndoe"
+        assert connections[0].body == "johndoe"
 
     def test_key_order_is_preserved(self):
         cv = create_cv(
@@ -173,7 +173,7 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c["icon_specifier"] for c in connections]
+        icons = [c.icon_specifier for c in connections]  # type: ignore
         assert icons == ["location", "email", "phone", "website"]
 
     def test_social_networks_appended_after_key_order(self):
@@ -189,7 +189,7 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c["icon_specifier"] for c in connections]
+        icons = [c.icon_specifier for c in connections]  # type: ignore
         assert icons == ["email", "LinkedIn", "GitHub"]
 
     def test_empty_key_order_returns_empty_list(self):
@@ -210,7 +210,7 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == 1
-        assert connections[0]["icon_specifier"] == "email"
+        assert connections[0].icon_specifier == "email"
 
 
 class TestComputeConnectionsForTypst:

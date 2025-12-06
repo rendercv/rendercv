@@ -5,7 +5,7 @@ import pydantic
 import pydantic_core
 
 from ..pydantic_error_handling import CustomPydanticErrorTypes
-from .context import get_input_file_path
+from .validation_context import get_input_file_path
 
 
 def resolve_relative_path(

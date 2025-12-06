@@ -26,6 +26,34 @@ def timed_step[T, **P](
     *args: P.args,
     **kwargs: P.kwargs,
 ) -> T:
+    """Execute function, measure timing, and update progress panel with result.
+
+    Why:
+        Each generation step (Typst, PDF, PNG) returns file paths. This wrapper
+        times execution and automatically displays results in progress panel.
+
+    Example:
+        ```py
+        pdf_path = timed_step(
+            "Generated PDF",
+            progress,
+            generate_pdf,
+            rendercv_model,
+            typst_path
+        )
+        # Progress shows: ✓ 150 ms  Generated PDF: ./cv.pdf
+        ```
+
+    Args:
+        message: Step description for progress display.
+        progress_panel: Progress panel to update.
+        func: Function to execute and time.
+        args: Positional arguments for func.
+        kwargs: Keyword arguments for func.
+
+    Returns:
+        Function result.
+    """
     start = time.perf_counter()
     result = func(*args, **kwargs)
     end = time.perf_counter()
@@ -52,6 +80,30 @@ def run_rendercv(
     progress: ProgressPanel,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ):
+    """Execute complete CV generation pipeline with progress tracking and error handling.
+
+    Why:
+        Orchestrates the full flow: YAML → Pydantic validation → Typst generation →
+        PDF/PNG/HTML/Markdown outputs. Catches all error types and displays them
+        through progress panel for clean CLI experience.
+
+    Example:
+        ```py
+        with ProgressPanel() as progress:
+            run_rendercv(
+                Path("cv.yaml"),
+                progress,
+                pdf_path="output.pdf",
+                dont_generate_png=True
+            )
+        # Generates PDF, skips PNG, shows progress for each step
+        ```
+
+    Args:
+        main_input_file_path_or_contents: YAML file path or raw content string.
+        progress: Progress panel for output display.
+        kwargs: Optional overrides for design/locale files, output paths, and generation flags.
+    """
     try:
         _, rendercv_model = timed_step(
             "Validated the input file",

@@ -3,11 +3,11 @@ import pathlib
 import pydantic
 import pytest
 
-from rendercv.schema.models.context import ValidationContext
 from rendercv.schema.models.path import (
-    ExistingInputRelativePath,
-    PlannedInputRelativePath,
+    ExistingPathRelativeToInput,
+    PlannedPathRelativeToInput,
 )
+from rendercv.schema.models.validation_context import ValidationContext
 
 
 @pytest.fixture
@@ -22,8 +22,8 @@ def context_with_input_file(tmp_path):
     return {"context": ValidationContext(input_file_path=tmp_path / "input.yaml")}
 
 
-existing_input_relative_path_adapter = pydantic.TypeAdapter(ExistingInputRelativePath)
-planned_input_relative_path_adapter = pydantic.TypeAdapter(PlannedInputRelativePath)
+existing_input_relative_path_adapter = pydantic.TypeAdapter(ExistingPathRelativeToInput)
+planned_input_relative_path_adapter = pydantic.TypeAdapter(PlannedPathRelativeToInput)
 
 
 class TestExistingInputRelativePath:

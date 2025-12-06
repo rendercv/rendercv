@@ -3,7 +3,7 @@ import pathlib
 import pydantic
 
 from .base import BaseModelWithExtraKeys
-from .context import get_input_file_path
+from .validation_context import get_input_file_path
 from .cv.cv import Cv
 from .design.classic_theme import ClassicTheme
 from .design.design import Design

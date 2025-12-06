@@ -1,9 +1,11 @@
+from dataclasses import asdict
+
 import pydantic
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.schema.models.context import ValidationContext
 from rendercv.schema.models.rendercv_model import RenderCVModel
+from rendercv.schema.models.validation_context import ValidationContext
 from rendercv.schema.pydantic_error_handling import (
     get_inner_yaml_object_from_its_key,
     parse_validation_errors,
@@ -32,7 +34,10 @@ class TestParseValidationErrors:
                 },
             )
         except pydantic.ValidationError as e:
-            validation_errors = parse_validation_errors(e, wrong_input_commented_map)
+            validation_errors = [
+                asdict(error)
+                for error in parse_validation_errors(e, wrong_input_commented_map)
+            ]
             for validation_error, expected_error in zip(
                 validation_errors, expected_errors, strict=True
             ):
@@ -40,7 +45,9 @@ class TestParseValidationErrors:
                     tuple(part) for part in expected_error["yaml_location"]
                 )
                 expected_error["location"] = tuple(expected_error["location"])
-                assert validation_error == expected_error
+                assert validation_error == expected_error, (
+                    f"expected {expected_error} but got {validation_error}"
+                )
 
     def test_provides_helpful_message_for_invalid_date_format(self, tmp_path):
         yaml_content = """
@@ -69,11 +76,11 @@ cv:
         except pydantic.ValidationError as e:
             errors = parse_validation_errors(e, yaml_object)
             end_date_error = next(
-                (err for err in errors if "end_date" in err["location"]), None
+                (err for err in errors if "end_date" in err.location), None
             )
             assert end_date_error is not None
-            assert "YYYY-MM-DD, YYYY-MM" in end_date_error["message"]
-            assert 'or "present"' in end_date_error["message"]
+            assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
+            assert 'or "present"' in end_date_error.message
 
 
 class TestGetInnerYamlObjectFromItsKey:

@@ -74,19 +74,19 @@ def parse_plain_pydantic_error(
     if not error_message.endswith("."):
         error_message += "."
 
-    return {
-        "location": location,
-        "message": error_message,
-        "input": (
+    return RenderCVValidationError(
+        location=location,
+        message=error_message,
+        input=(
             str(plain_error["input"])
             if not isinstance(plain_error["input"], dict | list)
             else "..."
         ),
-        "yaml_location": get_coordinates_of_a_key_in_a_yaml_object(
+        yaml_location=get_coordinates_of_a_key_in_a_yaml_object(
             user_input_as_commented_map,
             location if plain_error["type"] != "missing" else location[:-1],
         ),
-    }
+    )
 
 
 def parse_validation_errors(
@@ -134,7 +134,7 @@ def parse_validation_errors(
     error_locations = set()
     errors_without_duplicates = []
     for error in all_final_errors:
-        location = error["location"]
+        location = error.location
         if location not in error_locations:
             error_locations.add(location)
             errors_without_duplicates.append(error)

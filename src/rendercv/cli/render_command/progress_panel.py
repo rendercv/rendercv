@@ -12,6 +12,20 @@ from rendercv.exception import RenderCVUserError, RenderCVValidationError
 
 
 class ProgressPanel(rich.live.Live):
+    """Live-updating terminal panel showing CV generation progress with timing.
+
+    Example:
+        ```py
+        with ProgressPanel(quiet=False) as progress:
+            progress.update_progress("50", "Generated PDF", [Path("cv.pdf")])
+            progress.finish_progress()
+        # Displays: ✓ 50 ms   Generated PDF: ./cv.pdf
+        ```
+
+    Args:
+        quiet: Suppress all terminal output.
+    """
+
     def __init__(self, quiet: bool = False):
         self.quiet = quiet
         self.completed_steps: list[CompletedStep] = []
@@ -28,14 +42,27 @@ class ProgressPanel(rich.live.Live):
     def update_progress(
         self, time_took: str, message: str, paths: list[pathlib.Path]
     ) -> None:
+        """Add completed step to progress display.
+
+        Args:
+            time_took: Execution time in milliseconds as string.
+            message: Step description.
+            paths: Generated file paths to display.
+        """
         self.completed_steps.append(CompletedStep(time_took, message, paths))
         self.print_progress_panel(title="Rendering your CV...")
 
     def finish_progress(self) -> None:
+        """Display final success panel and clear state."""
         self.print_progress_panel(title="Your CV is ready")
         self.completed_steps.clear()
 
     def print_progress_panel(self, title: str) -> None:
+        """Render progress panel with all completed steps.
+
+        Args:
+            title: Panel title text.
+        """
         if self.quiet:
             return
 
@@ -67,6 +94,11 @@ class ProgressPanel(rich.live.Live):
         )
 
     def print_user_error(self, user_error: RenderCVUserError) -> None:
+        """Display error panel and exit with error code.
+
+        Args:
+            user_error: User-facing error to display.
+        """
         self.clear()
         self.update(
             rich.panel.Panel(
@@ -79,6 +111,15 @@ class ProgressPanel(rich.live.Live):
         raise typer.Exit(code=1)
 
     def print_validation_errors(self, errors: list[RenderCVValidationError]) -> None:
+        """Display validation errors in table format and exit.
+
+        Why:
+            Pydantic validation errors are parsed into user-friendly messages with
+            YAML locations. Table shows exactly which field failed and why.
+
+        Args:
+            errors: List of validation errors with location, input, and message.
+        """
         self.completed_steps.clear()
         table = rich.table.Table(expand=True, show_lines=True, box=rich.box.ROUNDED)
         table.add_column("Location", style="cyan", no_wrap=True)
@@ -87,9 +128,9 @@ class ProgressPanel(rich.live.Live):
 
         for error_object in errors:
             table.add_row(
-                ".".join(error_object["location"]),
-                error_object["input"],
-                error_object["message"],
+                ".".join(error_object.location),
+                error_object.input,
+                error_object.message,
             )
 
         self.update(
@@ -104,6 +145,7 @@ class ProgressPanel(rich.live.Live):
         raise typer.Exit(code=1)
 
     def clear(self) -> None:
+        """Clear all completed steps and panel display."""
         self.completed_steps.clear()
         self.update("")
 

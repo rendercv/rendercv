@@ -1,8 +1,8 @@
 from dataclasses import dataclass, field
-from typing import TypedDict
 
 
-class RenderCVValidationError(TypedDict):
+@dataclass
+class RenderCVValidationError:
     location: tuple[str, ...]
     yaml_location: tuple[tuple[int, int], tuple[int, int]]
     message: str

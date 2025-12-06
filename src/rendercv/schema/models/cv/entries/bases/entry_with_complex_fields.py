@@ -8,7 +8,7 @@ import pydantic_core
 from rendercv.exception import RenderCVInternalError
 
 from .....pydantic_error_handling import CustomPydanticErrorTypes
-from ....context import get_current_date
+from ....validation_context import get_current_date
 from .entry_with_date import BaseEntryWithDate
 
 

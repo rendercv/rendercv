@@ -8,7 +8,7 @@ import pydantic
 import pydantic_core
 
 from ...pydantic_error_handling import CustomPydanticErrorTypes
-from ..context import get_input_file_path
+from ..validation_context import get_input_file_path
 from .built_in_design import BuiltInDesign, built_in_design_adapter
 from .classic_theme import ClassicTheme
 
