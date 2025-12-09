@@ -462,6 +462,14 @@ class Sections(BaseModelWithoutExtraKeys):
             + " The default value is `0.3em`."
         ),
     )
+    page_break_before: list[str] = pydantic.Field(
+        default=[],
+        description=(
+            "Section titles before which a page break should be inserted. The default"
+            " value is `[]`."
+        ),
+        examples=[["Experience"], ["Education"]],
+    )
     show_time_spans_in: list[str] = pydantic.Field(
         default=["experience"],
         description=(
