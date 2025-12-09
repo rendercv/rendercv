@@ -27,6 +27,7 @@ class TestSocialNetwork:
             ("StackOverflow", "invalidusername/invalid"),
             ("YouTube", "@invalidusername"),
             ("NONAME", "@invalidusername"),
+            ("WhatsApp", "invalidphone"),
         ],
     )
     def test_rejects_invalid_networks_and_usernames(self, network, username):
