@@ -117,6 +117,8 @@ def escape_typst_characters(string: str) -> str:
         "~": "\\~",
         "_": "\\_",
         "/": "\\/",
+        ">": "\\>",
+        "<": "\\<",
     }
 
     string = string.translate(str.maketrans(escape_dictionary))
@@ -145,6 +147,7 @@ md.parser.blockprocessors.deregister("hashheader")
 md.parser.blockprocessors.deregister("setextheader")
 md.parser.blockprocessors.deregister("olist")
 md.parser.blockprocessors.deregister("ulist")
+md.parser.blockprocessors.deregister("quote")
 md.stripTopLevelTags = False
 
 

@@ -1,9 +1,58 @@
 import pytest
 
 from rendercv.renderer.templater.markdown_parser import (
+    escape_typst_characters,
     markdown_to_html,
     markdown_to_typst,
 )
+
+
+class TestEscapeTypstCharacters:
+    def test_returns_newline_unchanged(self):
+        assert escape_typst_characters("\n") == "\n"
+
+    @pytest.mark.parametrize(
+        ("string", "expected"),
+        [
+            ("#", r"\#"),
+            ("$", r"\$"),
+            ("[", r"\["),
+            ("]", r"\]"),
+            ("\\", r"\\"),
+            ('"', r"\""),
+            ("@", r"\@"),
+            ("%", r"\%"),
+            ("~", r"\~"),
+            ("_", r"\_"),
+            ("/", r"\/"),
+            (">", r"\>"),
+            ("<", r"\<"),
+        ],
+    )
+    def test_escapes_typst_special_characters(self, string, expected):
+        assert escape_typst_characters(string) == expected
+
+    @pytest.mark.parametrize(
+        ("string", "expected"),
+        [
+            ("* test", "#sym.ast.basic test"),
+            ("*test", "#sym.ast.basic#h(0pt, weak: true) test"),
+        ],
+    )
+    def test_replaces_asterisks_with_typst_symbols(self, string, expected):
+        assert escape_typst_characters(string) == expected
+
+    def test_preserves_typst_commands_while_escaping_outside(self):
+        string = "Keep #emph[a_b] but escape 5% and _"
+        expected = "Keep #emph[a_b] but escape 5\\% and \\_"
+
+        assert escape_typst_characters(string) == expected
+
+    def test_preserves_math_blocks(self):
+        string = "$$a*b + c$$ and #1"
+        expected = "$a*b + c$ and \\#1"
+
+        assert escape_typst_characters(string) == expected
 
 
 @pytest.mark.parametrize(
