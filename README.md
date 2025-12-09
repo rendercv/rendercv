@@ -107,7 +107,7 @@ design:
 ![Design Options of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/design_options.gif)
 
 > [!TIP]
-> Want to set up a live preview environment like the one shown above? See [how to set up VS Code for RenderCV](https://docs.rendercv.com/user_guide/how_to/set_up_vs_code_for_rendercv.md).
+> Want to set up a live preview environment like the one shown above? See [how to set up VS Code for RenderCV](https://docs.rendercv.com/user_guide/how_to/set_up_vs_code_for_rendercv).
 
 ## Strict Validation
 
@@ -156,4 +156,4 @@ Edit the YAML, then render:
 rendercv render "John_Doe_CV.yaml"
 ```
 
-For more details, see the [user guide](https://docs.rendercv.com/user_guide/index.md).
+For more details, see the [user guide](https://docs.rendercv.com/user_guide/).
