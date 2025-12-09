@@ -30,7 +30,7 @@ Install them by following their official installation guides:
     cd rendercv
     ```
 
-2. Set up the development environment (creates a virtual environment with all dependencies):
+2. Set up the development environment (creates a virtual environment in `./.venv` with all dependencies):
 
     ```bash
     just sync
@@ -38,34 +38,41 @@ Install them by following their official installation guides:
 
 3. Run `just test` to verify all tests pass and everything is set up correctly.
 
+4. Finally, activate the virtual environment in your integrated development environment (IDE). In Visual Studio Code:
+
+    - Press `Ctrl+Shift+P`.
+    - Type `Python: Select Interpreter`.
+    - Select the one in `./.venv`.
+
+
 That's it! You're now ready to start developing RenderCV. 
 
 ## Available Commands
 
 ### Development
 
-- `just sync` - Sync all dependencies (including extras and dev groups)
-- `just format` - Format code with black and ruff
-- `just check` - Run all checks (ruff, pyright, pre-commit)
+- `just sync`: Sync all dependencies (including extras and dev groups)
+- `just format`: Format code with black and ruff
+- `just check`: Run all checks (ruff, pyright, pre-commit)
 
 ### Testing
 
-- `just test` - Run tests with pytest
-- `just test-coverage` - Run tests with coverage report
-- `just update-testdata` - Update test data files (see [Testing](testing.md) for more details)
+- `just test`: Run tests with pytest
+- `just test-coverage`: Run tests with coverage report
+- `just update-testdata`: Update test data files (see [Testing](testing.md) for more details)
 
 ### Documentation
 
-- `just build-docs` - Build documentation
-- `just serve-docs` - Serve documentation locally with live reload
+- `just build-docs`: Build documentation
+- `just serve-docs`: Serve documentation locally with live reload
 
 ### Scripts
 
-- `just update-schema` - Update JSON schema
-- `just update-entry-figures` - Update entry figures for documentation
-- `just update-examples` - Update example files
-- `just create-executable` - Create standalone executable
+- `just update-schema`: Update JSON schema
+- `just update-entry-figures`: Update entry figures for documentation
+- `just update-examples`: Update example files
+- `just create-executable`: Create standalone executable
 
 ### Utilities
 
-- `just count-lines` - Count lines of Python code in the `src/` directory
+- `just count-lines`: Count lines of Python code in the `src/` directory

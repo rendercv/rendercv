@@ -6,7 +6,7 @@ toc_depth: 3
 
 ## The Goal
 
-We want documentation at `docs.rendercv.com` - a proper website with navigation, search, theming, and interactive features.
+We want documentation at `docs.rendercv.com`, a proper website with navigation, search, theming, and interactive features.
 
 **What is a website?** A collection of HTML, CSS, and JavaScript files. Browsers download these files and render them as the pages you see. To have a website, you need:
 
@@ -32,20 +32,20 @@ flowchart LR
 
 `mkdocs.yaml` controls how `mkdocs` builds the website:
 
-- **Site metadata** - name, description, repository
-- **Theme** - Material theme with colors and features
-- **Navigation** - sidebar structure
-- **Plugins** - see below
+- **Site metadata:** name, description, repository
+- **Theme:** Material theme with colors and features
+- **Navigation:** sidebar structure
+- **Plugins:** see below
 
 ## Plugins
 
 `mkdocs` plugins extend functionality beyond Markdown → HTML conversion.
 
-### [`mkdocstrings`](https://github.com/mkdocstrings/mkdocstrings) - API Reference
+### [`mkdocstrings`](https://github.com/mkdocstrings/mkdocstrings): API Reference
 
 Generates API reference from Python docstrings. The entire [API Reference](../api_reference/index.md) section is auto-generated from `src/rendercv/`.
 
-### [`mkdocs-macros-plugin`](https://mkdocs-macros-plugin.readthedocs.io/) - Dynamic Content
+### [`mkdocs-macros-plugin`](https://mkdocs-macros-plugin.readthedocs.io/): Dynamic Content
 
 Lets you inject code-generated values into Markdown. [`docs/docs_templating.py`](https://github.com/rendercv/rendercv/blob/main/docs/docs_templating.py) runs during build. It imports values directly from RenderCV's code and exposes them as variables. It's heavily used in [YAML Input Structure](../user_guide/yaml_input_structure.md) page.
 

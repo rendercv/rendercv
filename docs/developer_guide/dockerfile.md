@@ -6,7 +6,7 @@ toc_depth: 3
 
 ## What is Docker?
 
-Docker lets software carry **its entire working environment** with it — the right language runtime, libraries, and configuration, all bundled into a single file called an *image*. Think of an image as a **frozen filesystem where everything is already installed and configured correctly**.
+Docker lets software carry **its entire working environment** with it: the right language runtime, libraries, and configuration, all bundled into a single file called an *image*. Think of an image as a **frozen filesystem where everything is already installed and configured correctly**.
 
 When you run an image, Docker creates a **container**: a live, isolated instance of that environment running on your machine. When you're done, you can delete it without a trace. Your actual system stays untouched.
 
@@ -29,7 +29,7 @@ docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv render Your_CV.yam
 
 ## How the Image Gets Published
 
-Docker images are stored in **registries** — servers that host images so anyone can download and run them. Docker Hub is the most popular, but GitHub has its own called GitHub Container Registry (GHCR).
+Docker images are stored in **registries**, which are servers that host images so anyone can download and run them. Docker Hub is the most popular, but GitHub has its own called GitHub Container Registry (GHCR).
 
 When you publish a GitHub release, the [`release.yaml` workflow](https://github.com/rendercv/rendercv/blob/main/.github/workflows/release.yaml) automatically builds and publishes the RenderCV image to GHCR at `ghcr.io/rendercv/rendercv`.
 

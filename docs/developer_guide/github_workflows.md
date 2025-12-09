@@ -26,21 +26,21 @@ GitHub actions are **automation scripts that run on GitHub's servers when certai
 
 You define them in `.github/workflows/*.yaml` files. Each file describes:
 
-1. **When to run** - push to main? Pull request? New release?
-2. **What to do** - Run tests? Build docs? Publish package?
-3. **Where to run** - Linux? Windows? macOS? Multiple versions?
+1. **When to run:** push to main? Pull request? New release?
+2. **What to do:** Run tests? Build docs? Publish package?
+3. **Where to run:** Linux? Windows? macOS? Multiple versions?
 
 GitHub reads these files and executes them automatically when the triggering events occur.
 
-**Why GitHub's servers?** Because you don't want to worry about it. Push your code, turn off your computer, you're done. GitHub handles the rest - running tests, deploying docs, building packages - without you having to keep your machine on or manually run anything.
+**Why GitHub's servers?** Because you don't want to worry about it. Push your code, turn off your computer, you're done. GitHub handles the rest (running tests, deploying docs, building packages) without you having to keep your machine on or manually run anything.
 
 ## RenderCV's Workflows
 
 RenderCV has 5 workflows. Each handles a specific automation task.
 
-**How workflows start:** Every workflow begins the same way - clone the repository, install `uv`, install `just`, then run some `just` commands. This recreates the same environment you'd have locally (see [Setup](index.md)).
+**How workflows start:** Every workflow begins the same way: clone the repository, install `uv`, install `just`, then run some `just` commands. This recreates the same environment you'd have locally (see [Setup](index.md)).
 
-### 1. [`test.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/test.yaml) - Run Tests
+### 1. [`test.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/test.yaml): Run Tests
 
 **When it runs:**
 
@@ -54,7 +54,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 1. Runs `just test-coverage` across **9 different environments** (3 operating systems × 3 Python versions: 3.12, 3.13, 3.14)
 2. Combines all coverage reports and uploads them to show the coverage report
 
-### 2. [`deploy-docs.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/deploy-docs.yaml) - Deploy Documentation
+### 2. [`deploy-docs.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/deploy-docs.yaml): Deploy Documentation
 
 **When it runs:**
 
@@ -67,7 +67,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 2. Uploads it to GitHub Pages
 3. Documentation is now live at https://docs.rendercv.com
 
-### 3. [`update-files.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/update-files.yaml) - Update Generated Files
+### 3. [`update-files.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/update-files.yaml): Update Generated Files
 
 **When it runs:**
 
@@ -82,7 +82,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
    - Entry figures using `just update-entry-figures`
 2. Commits and pushes these changes to the repository
 
-### 4. [`create-executables.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/create-executables.yaml) - Create Executables
+### 4. [`create-executables.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/create-executables.yaml): Create Executables
 
 **When it runs:**
 
@@ -99,7 +99,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 
 These are single-file executables that users can download and run without installing Python.
 
-### 5. [`release.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/release.yaml) - Publish a Release
+### 5. [`release.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/release.yaml): Publish a Release
 
 **When it runs:**
 
@@ -109,15 +109,15 @@ These are single-file executables that users can download and run without instal
 
 This is the complete release pipeline. It orchestrates everything:
 
-1. **Run tests** - Calls `test.yaml` to ensure everything works
-2. **Update files** - Calls `update-files.yaml` to regenerate schema/examples
-3. **Build package** - Installs `uv`, builds Python wheel and source distribution using `uv build`
-4. **Create executables** - Calls `create-executables.yaml` for all platforms
-5. **Create GitHub release** - Downloads and uploads executables and wheel to the release
-6. **Publish to PyPI** - Downloads and uploads package so users can `pip install rendercv`
-7. **Publish Docker image** - Builds and pushes Docker image to GitHub Container Registry
+1. **Run tests:** Calls `test.yaml` to ensure everything works
+2. **Update files:** Calls `update-files.yaml` to regenerate schema/examples
+3. **Build package:** Installs `uv`, builds Python wheel and source distribution using `uv build`
+4. **Create executables:** Calls `create-executables.yaml` for all platforms
+5. **Create GitHub release:** Downloads and uploads executables and wheel to the release
+6. **Publish to PyPI:** Downloads and uploads package so users can `pip install rendercv`
+7. **Publish Docker image:** Builds and pushes Docker image to GitHub Container Registry
 
 ## Learn More
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions) - Official docs
-- [`.github/workflows/`](https://github.com/rendercv/rendercv/tree/main/.github/workflows) - RenderCV's workflow files
+- [GitHub Actions Documentation](https://docs.github.com/en/actions): Official docs
+- [`.github/workflows/`](https://github.com/rendercv/rendercv/tree/main/.github/workflows): RenderCV's workflow files

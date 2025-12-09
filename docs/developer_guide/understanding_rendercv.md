@@ -41,11 +41,11 @@ We need to:
 1. Parse the YAML into Python dictionaries
 2. Validate the data (Does `start_date` come before `end_date`? Is `name` actually provided and is it a string?)
 
-### [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml) - YAML Parser
+### [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml): YAML Parser
 
 First problem: reading YAML files.
 
-Python doesn't have a built-in YAML library. To read YAML files, you need a library. **We use `ruamel.yaml`** - one of the best YAML parsers available.
+Python doesn't have a built-in YAML library. To read YAML files, you need a library. **We use `ruamel.yaml`**, one of the best YAML parsers available.
 
 What does it do? Simple: **converts YAML text into Python dictionaries.**
 
@@ -94,7 +94,7 @@ That's it. YAML text becomes a Python dictionary we can work with.
 
 `ruamel.yaml` is being called in [`src/rendercv/schema/yaml_reader.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/yaml_reader.py).
 
-### [`pydantic`](https://github.com/pydantic/pydantic) - Python Dictionary Validator
+### [`pydantic`](https://github.com/pydantic/pydantic): Python Dictionary Validator
 
 Now we have a dictionary. We need to validate it. Without a library, you'd write:
 
@@ -158,7 +158,7 @@ cv = Cv.model_validate(data)
 # Now you have clean, validated objects:
 cv.name  # "John Doe"
 cv.education[0].institution  # "MIT"
-cv.education[0].start_date  # "2020-09" - guaranteed dates are valid
+cv.education[0].start_date  # "2020-09", guaranteed dates are valid
 ```
 
 That's the power. Dictionary goes in, `pydantic` checks everything, clean Python object comes out.
@@ -175,7 +175,7 @@ class RenderCVModel(BaseModel):
     settings: Settings  # ← pydantic model
 ```
 
-Each field is another `pydantic` model. `Cv` contains more `pydantic` models like `EducationEntry`, `ExperienceEntry`, etc. It's nested validation - when you validate `RenderCVModel`, `pydantic` automatically validates every nested model too. One `model_validate()` call checks the entire structure.
+Each field is another `pydantic` model. `Cv` contains more `pydantic` models like `EducationEntry`, `ExperienceEntry`, etc. It's nested validation: when you validate `RenderCVModel`, `pydantic` automatically validates every nested model too. One `model_validate()` call checks the entire structure.
 
 See [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py) for the top-level model.
 
@@ -213,7 +213,7 @@ This doesn't work. You're building hundreds of lines of string concatenation log
 
 This is why **templating engines were invented**. When you need to programmatically generate complex text files, you need templates.
 
-### [`jinja2`](https://github.com/pallets/jinja) - Templating Engine
+### [`jinja2`](https://github.com/pallets/jinja): Templating Engine
 
 `jinja2` is the most famous templating engine for Python.
 
@@ -249,7 +249,7 @@ Typst templates live in [`src/rendercv/renderer/templater/templates/typst/`](htt
 
 `jinja2` is being called in [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py).
 
-### [`markdown`](https://github.com/Python-Markdown/markdown) - Markdown to Typst
+### [`markdown`](https://github.com/Python-Markdown/markdown): Markdown to Typst
 
 Users want to write Markdown in their YAML:
 
@@ -276,11 +276,11 @@ match element.tag:
 
 Result: `#strong[Published] #link("https://example.com")[3 papers]`
 
-See [`src/rendercv/renderer/templater/markdown_parser.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/markdown_parser.py) - The `markdown_to_typst()` function does this conversion.
+See [`src/rendercv/renderer/templater/markdown_parser.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/markdown_parser.py). The `markdown_to_typst()` function does this conversion.
 
 ## Step 3: Compiling to PDF
 
-### [`typst`](https://github.com/messense/typst-py) - Typst Compiler
+### [`typst`](https://github.com/messense/typst-py): Typst Compiler
 
 `typst` library is the Python bindings for the Typst compiler.
 
@@ -306,6 +306,6 @@ Everything else (Markdown support, watch mode, PNG output, HTML export) builds o
 
 ## Learn More
 
-1. [`src/rendercv/cli/render_command/run_rendercv.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/cli/render_command/run_rendercv.py) - The complete flow
-2. [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py) - The top-level Pydantic model
-3. [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py) - Template rendering
+1. [`src/rendercv/cli/render_command/run_rendercv.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/cli/render_command/run_rendercv.py): The complete flow
+2. [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py): The top-level Pydantic model
+3. [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py): Template rendering

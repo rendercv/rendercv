@@ -22,7 +22,7 @@ If you change something in `sum`, you can run `test_sum` again to see if it's st
 
 All of the tests of RenderCV are written in [`tests/`](https://github.com/rendercv/rendercv/tree/main/tests) directory.
 
-## [`pytest`](https://github.com/pytest-dev/pytest) - Testing Framework
+## [`pytest`](https://github.com/pytest-dev/pytest): Testing Framework
 
 `pytest` is a Python library that provides utilities to write and run tests. 
 
@@ -48,7 +48,7 @@ Some tests in [`tests/renderer/`](https://github.com/rendercv/rendercv/tree/main
 
 ### Updating Reference Files
 
-You fix a bug that changes RenderCV's output. Tests fail - the new output doesn't match old reference files.
+You fix a bug that changes RenderCV's output. Tests fail because the new output doesn't match old reference files.
 
 **This is expected.** You intentionally changed the output. You need to update the reference files:
 
@@ -59,7 +59,7 @@ just update-testdata
 !!! warning
     **Manually verify new reference files before committing.** These become the source of truth. If you commit broken reference files, tests will pass even when RenderCV produces bad output. Always check generated PDFs and PNGs carefully.
 
-## [`pytest-cov`](https://github.com/pytest-dev/pytest-cov) - Coverage Plugin for `pytest`
+## [`pytest-cov`](https://github.com/pytest-dev/pytest-cov): Coverage Plugin for `pytest`
 
 Coverage is a measure of which code lines are executed when tests run. If tests execute a line, it's included in coverage. If tests execute all lines in `src/rendercv/`, coverage is 100%.
 

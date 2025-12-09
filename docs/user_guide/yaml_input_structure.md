@@ -30,7 +30,7 @@ Only `cv` is required. The others have sensible defaults.
     === "Visual Studio Code"
 
         1. Install the [YAML extension](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml).
-        2. Name your file ending with `_CV.yaml` — the schema activates automatically.
+        2. Name your file ending with `_CV.yaml`. The schema activates automatically.
         3. Press `Ctrl + Space` for suggestions.
 
     === "Other Editors"
@@ -46,7 +46,7 @@ Only `cv` is required. The others have sensible defaults.
 
 ### Header Information
 
-The `cv` field begins with your personal information. All fields are optional — RenderCV adapts to whatever you provide.
+The `cv` field begins with your personal information. All fields are optional. RenderCV adapts to whatever you provide.
 
 ```yaml
 cv:
@@ -108,7 +108,7 @@ cv:
 
 
 !!! info "Section names don't dictate entry types"
-    **Any of the << entry_count >> entry types can be used in any section.** The section name is just a title — RenderCV doesn't enforce which entry type you use.
+    **Any of the << entry_count >> entry types can be used in any section.** The section name is just a title. RenderCV doesn't enforce which entry type you use.
 
     For example, an `experience` section could use `NormalEntry` instead of `ExperienceEntry`:
 
@@ -276,7 +276,7 @@ highlights:
 
 ### Arbitrary Keys
 
-You can add arbitrary keys to any entry. By default, they're ignored — but you can reference them in custom templates (see `design.templates`). See [Arbitrary Keys in Entries](../user_guide/how_to/arbitrary_keys_in_entries.md) for more information.
+You can add arbitrary keys to any entry. By default, they're ignored, but you can reference them in custom templates (see `design.templates`). See [Arbitrary Keys in Entries](../user_guide/how_to/arbitrary_keys_in_entries.md) for more information.
 
 ```yaml hl_lines="6"
 experience:
@@ -300,7 +300,7 @@ design:
 
 Available themes: << available_themes >>
 
-Each theme has different default styling, but all options can be customized. The themes share the same underlying template — you can recreate any theme by adjusting the design options.
+Each theme has different default styling, but all options can be customized. The themes share the same underlying template. You can recreate any theme by adjusting the design options.
 
 !!! tip "Use the JSON Schema"
     The design options are extensive. Use an editor with JSON Schema support to explore all available options with autocomplete.

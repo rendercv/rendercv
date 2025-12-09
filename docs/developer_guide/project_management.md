@@ -51,7 +51,7 @@ Developer A installs today with Python 3.11 and gets `pydantic==2.10`. Tests pas
 
 ### The Solution
 
-All those files you see in the repository - `pyproject.toml`, `uv.lock`, `justfile`, and more - work together to solve these problems. The result:
+All those files you see in the repository (`pyproject.toml`, `uv.lock`, `justfile`, and more) work together to solve these problems. The result:
 
 **For users:**
 ```bash
@@ -65,7 +65,7 @@ Works instantly. Every time. Anywhere. All dependencies installed automatically.
 just sync
 ```
 
-One command. Identical environment for everyone - correct Python version, exact dependency versions, all dev tools ready. Works today, works in 2027. Bug from 6 months ago? Check out that commit, run `just sync`, exact environment recreated.
+One command. Identical environment for everyone: correct Python version, exact dependency versions, all dev tools ready. Works today, works in 2027. Bug from 6 months ago? Check out that commit, run `just sync`, exact environment recreated.
 
 The rest of this guide explains what each file does.
 
@@ -73,7 +73,7 @@ The rest of this guide explains what each file does.
 
 ### [`pyproject.toml`](https://github.com/rendercv/rendercv/blob/main/pyproject.toml)
 
-The project definition file - the standard way to configure a Python project.
+The project definition file. This is the standard way to configure a Python project.
 
 This file defines:
 
@@ -87,14 +87,14 @@ Open the file to see the full configuration with detailed comments.
 
 ### [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile)
 
-[just](https://github.com/casey/just) is a command runner - a tool that lets you define terminal commands in a file and run them easily.
+[just](https://github.com/casey/just) is a command runner, a tool that lets you define terminal commands in a file and run them easily.
 
 **Why do we need it?** During development, you constantly run commands like "run tests with coverage", "format all code", "build and serve docs". Without standardization:
 
 - Everyone types different commands with different options
 - You have to remember long command strings
 
-The `justfile` solves this - define each command once, and everyone runs the same thing:
+The `justfile` solves this: define each command once, and everyone runs the same thing:
 
 ```bash
 just test           # Runs pytest with the right options
@@ -103,7 +103,7 @@ just serve-docs     # Builds and serves documentation locally
 just update-schema  # Regenerates schema.json
 ```
 
-This is why `just sync` works so elegantly - it's a standardized command that does exactly the same thing for everyone.
+This is why `just sync` works so elegantly. It's a standardized command that does exactly the same thing for everyone.
 
 ### [`scripts/`](https://github.com/rendercv/rendercv/tree/main/scripts)
 
@@ -111,27 +111,27 @@ Python scripts that automate some repetitive tasks.
 
 **Why do we need it?** Some tasks need to be done repeatedly but are too complex for simple shell commands:
 
-- `update_schema.py` - Generate `schema.json` from pydantic models
-- `update_examples.py` - Regenerate all example YAML files and PDFs in `examples/` folder
-- `create_executable.py` - Build standalone executable of RenderCV
+- `update_schema.py`: Generate `schema.json` from pydantic models
+- `update_examples.py`: Regenerate all example YAML files and PDFs in `examples/` folder
+- `create_executable.py`: Build standalone executable of RenderCV
 
 These scripts are called by `just` commands (`just update-schema`, `just update-examples`, etc.).
 
 ### [`.pre-commit-config.yaml`](https://github.com/rendercv/rendercv/blob/main/.pre-commit-config.yaml)
 
-Configuration file for [`pre-commit`](https://pre-commit.com/) - a tool that runs code quality checks.
+Configuration file for [`pre-commit`](https://pre-commit.com/), a tool that runs code quality checks.
 
 **Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically runs checks on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious. Without pre-commit, we'd have to set up our own workflow to run these checks.
 
-Run `just check` locally to check your code before committing. We don't use pre-commit as git hooks (that run before every commit) - we prefer manual checks when ready.
+Run `just check` locally to check your code before committing. We don't use pre-commit as git hooks (that run before every commit). We prefer manual checks when ready.
 
 ### [`uv.lock`](https://github.com/rendercv/rendercv/blob/main/uv.lock)
 
-A dependency lock file - a record of the exact version of every package RenderCV uses (including dependencies of dependencies).
+A dependency lock file. This is a record of the exact version of every package RenderCV uses (including dependencies of dependencies).
 
-**Why do we need it?** Remember development environment problem? This file solves it. When you run `just sync`, `uv` reads this file and installs the exact same versions everyone else has - not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
+**Why do we need it?** Remember development environment problem? This file solves it. When you run `just sync`, `uv` reads this file and installs the exact same versions everyone else has, not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
 
-**Never edit this manually** - `uv` generates and updates it automatically. **Always commit it to git** - that's how everyone gets identical environments.
+**Never edit this manually.** `uv` generates and updates it automatically. **Always commit it to git.** That's how everyone gets identical environments.
 
 ## Learn More
 
