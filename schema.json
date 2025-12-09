@@ -287,6 +287,16 @@
             }
           ],
           "default": null,
+          "description": "Additional header connections you define yourself. Each item has a `placeholder` (the displayed text), an optional `url`, and the Font Awesome icon name to render (from https://fontawesome.com/search).",
+          "examples": [
+            [
+              {
+                "fontawesome_icon": "calendar-days",
+                "placeholder": "Book a call",
+                "url": "https://cal.com/johndoe"
+              }
+            ]
+          ],
           "title": "Custom Connections"
         },
         "sections": {

@@ -74,6 +74,20 @@ class Cv(BaseModelWithExtraKeys):
     )
     custom_connections: list[CustomConnection] | None = pydantic.Field(
         default=None,
+        description=(
+            "Additional header connections you define yourself. Each item has a"
+            " `placeholder` (the displayed text), an optional `url`, and the Font"
+            " Awesome icon name to render (from https://fontawesome.com/search)."
+        ),
+        examples=[
+            [
+                {
+                    "placeholder": "Book a call",
+                    "url": "https://cal.com/johndoe",
+                    "fontawesome_icon": "calendar-days",
+                }
+            ],
+        ],
     )
     sections: dict[str, Section] | None = pydantic.Field(
         default=None,
