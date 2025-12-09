@@ -437,3 +437,35 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
         )
         for word in words
     )
+
+
+def translate_section_title(key: str, title: str) -> str:
+    """Translate a section title using the locale section_titles mapping if available.
+    
+    This function takes a section key (as it appears in the YAML file) and the 
+    formatted title, and returns the translated title if a translation is available
+    in the locale configuration.
+    
+    Example:
+        ```python
+        # With locale.section_titles = {"education": "Ausbildung"}
+        translate_section_title("education", "Education")
+        ```
+        returns
+        ```python
+        "Ausbildung"
+        ```
+        
+    Args:
+        key: The original section key from the YAML file (e.g., "education").
+        title: The formatted section title (e.g., "Education").
+        
+    Returns:
+        The translated section title if a translation exists, otherwise the original title.
+    """
+    section_titles = locale.get("section_titles")
+    if section_titles and isinstance(section_titles, dict):
+        # Try to match the key in lowercase
+        normalized_key = key.lower().replace(" ", "_")
+        return section_titles.get(normalized_key, title)
+    return title

@@ -662,6 +662,11 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
                 formatted_title = computers.dictionary_key_to_proper_section_title(
                     title
                 )
+                
+                # Apply locale translation if available
+                translated_title = computers.translate_section_title(
+                    title, formatted_title
+                )
 
                 # The first entry can be used because all the entries in the section are
                 # already validated with the `validate_a_section` function:
@@ -675,7 +680,7 @@ class CurriculumVitae(RenderCVBaseModelWithExtraKeys):
 
                 # SectionBase is used so that entries are not validated again:
                 section = SectionBase(
-                    title=formatted_title,
+                    title=translated_title,
                     entry_type=entry_type_name,
                     entries=sorted_entries,
                 )

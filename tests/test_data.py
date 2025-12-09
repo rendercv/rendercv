@@ -756,6 +756,7 @@ def test_locale():
     del locale_as_dict["page_numbering_template"]
     del locale_as_dict["last_updated_date_template"]
     del locale_as_dict["language"]
+    del locale_as_dict["section_titles"]
 
     assert locale_as_dict == locale.locale
 
@@ -772,6 +773,79 @@ def test_if_local_catalog_resets():
     data_model = data.create_a_sample_data_model("John Doe")
 
     assert locale.locale["month"] == "month"
+
+
+def test_locale_section_titles_translation():
+    """Test that section titles can be translated via locale.section_titles mapping."""
+    data_model = data.create_a_sample_data_model("John Doe")
+    
+    # Define German translations for section titles
+    data_model.locale = data.Locale(
+        language="de",
+        section_titles={
+            "education": "Ausbildung",
+            "experience": "Berufserfahrung",
+            "publications": "Veröffentlichungen",
+        }
+    )
+    
+    # Verify the section_titles mapping is stored in locale
+    assert locale.locale.get("section_titles") == {
+        "education": "Ausbildung",
+        "experience": "Berufserfahrung",
+        "publications": "Veröffentlichungen",
+    }
+    
+    # Verify that sections are created with translated titles
+    section_titles = [section.title for section in data_model.cv.sections]
+    assert "Ausbildung" in section_titles
+    assert "Berufserfahrung" in section_titles
+    assert "Veröffentlichungen" in section_titles
+
+
+def test_locale_section_titles_translation_resets():
+    """Test that section_titles mapping resets when a new locale is created."""
+    data_model = data.create_a_sample_data_model("John Doe")
+    
+    data_model.locale = data.Locale(
+        section_titles={"education": "Bildung"}
+    )
+    
+    assert locale.locale.get("section_titles") == {"education": "Bildung"}
+    
+    # Create new data model - should reset locale
+    data_model = data.create_a_sample_data_model("John Doe")
+    
+    # section_titles should not be in locale after reset (or be None/empty)
+    assert locale.locale.get("section_titles") is None or locale.locale.get("section_titles") == {}
+
+
+def test_section_titles_are_translated_in_sections():
+    """Test that section titles are actually translated in the sections property."""
+    data_model = data.create_a_sample_data_model("John Doe")
+    
+    # Set up German translations
+    data_model.locale = data.Locale(
+        language="de",
+        section_titles={
+            "education": "Ausbildung",
+            "experience": "Berufserfahrung", 
+            "welcome_to_rendercv!": "Willkommen bei RenderCV",
+        }
+    )
+    
+    # Get the section titles from the actual sections
+    section_titles = {section.title for section in data_model.cv.sections}
+    
+    # Verify translations are applied
+    assert "Ausbildung" in section_titles
+    assert "Berufserfahrung" in section_titles
+    assert "Willkommen bei RenderCV" in section_titles
+    
+    # Verify original English titles are NOT in the sections
+    assert "Education" not in section_titles
+    assert "Experience" not in section_titles
+    assert "Welcome to RenderCV!" not in section_titles
 
 
 def test_curriculum_vitae():

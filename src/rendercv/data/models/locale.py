@@ -145,6 +145,16 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
         title="Full Names of Months",
         description="Full names of the months in the locale.",
     )
+    section_titles: dict[str, str] | None = pydantic.Field(
+        default=None,
+        title="Section Titles Translation",
+        description=(
+            "A mapping from section title keys (in lowercase, as they appear in the"
+            " YAML cv.sections keys) to their translated versions. For example,"
+            ' {"education": "Ausbildung", "experience": "Berufserfahrung"} would'
+            " translate English section titles to German. The default value is None."
+        ),
+    )
 
     @pydantic.field_validator(
         "month",
@@ -157,19 +167,27 @@ class Locale(RenderCVBaseModelWithoutExtraKeys):
         "full_names_of_months",
         "phone_number_format",
         "date_template",
+        "section_titles",
     )
     @classmethod
-    def update_locale(cls, value: str, info: pydantic.ValidationInfo) -> str:
+    def update_locale(
+        cls,
+        value: str | list[str] | dict[str, str] | None,
+        info: pydantic.ValidationInfo,
+    ) -> str | list[str] | dict[str, str] | None:
         """Update the `locale` dictionary."""
-        if value:
+        if value and info.field_name is not None:
             locale[info.field_name] = value  # type: ignore
+        elif info.field_name is not None:
+            # Remove the key from locale if value is None or empty
+            locale.pop(info.field_name, None)
 
         return value
 
 
 # The dictionary below will be overwritten by Locale class, which will contain
 # month names, month abbreviations, and other locale-specific strings.
-locale: dict[str, str | list[str]] = {}
+locale: dict[str, str | list[str] | dict[str, str]] = {}
 
 # Initialize even if the RenderCVDataModel is not called (to make `format_date` function
 # work on its own):
