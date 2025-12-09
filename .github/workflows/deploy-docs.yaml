@@ -34,9 +34,6 @@ jobs:
       - name: Install just
         uses: taiki-e/install-action@just
 
-      - name: Install the project
-        run: just sync
-
       - name: Build docs
         run: just build-docs
 

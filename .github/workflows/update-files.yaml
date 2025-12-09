@@ -22,9 +22,6 @@ jobs:
       - name: Install just
         uses: taiki-e/install-action@just
 
-      - name: Install the project
-        run: just sync
-
       - name: Set Git credentials
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
