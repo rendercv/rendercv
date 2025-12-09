@@ -2,6 +2,9 @@
 sync:
   uv sync --all-extras --all-groups
 
+sync-locked:
+  uv sync --locked --all-extras --all-groups
+
 format:
   uv run --locked black src tests
   uv run --locked ruff check --fix src tests
