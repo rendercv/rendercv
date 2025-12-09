@@ -70,13 +70,17 @@ def parse_plain_pydantic_error(
             ' or YYYY format or "present"!'
         )
 
-    error_message = error_dictionary.get(plain_error["msg"], plain_error["msg"])
-    if not error_message.endswith("."):
-        error_message += "."
+    for old_error_message, new_error_message in error_dictionary.items():
+        if old_error_message in plain_error["msg"]:
+            plain_error["msg"] = new_error_message
+            break
+
+    if not plain_error["msg"].endswith("."):
+        plain_error["msg"] += "."
 
     return RenderCVValidationError(
         location=location,
-        message=error_message,
+        message=plain_error["msg"],
         input=(
             str(plain_error["input"])
             if not isinstance(plain_error["input"], dict | list)

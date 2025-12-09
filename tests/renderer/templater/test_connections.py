@@ -1,5 +1,6 @@
 from typing import Literal, get_args
 
+import pydantic
 import pytest
 
 from rendercv.renderer.templater.connections import (
@@ -238,7 +239,7 @@ class TestParseConnections:
         custom_connection = CustomConnection(
             fontawesome_icon="calendar-days",
             placeholder="Book a call",
-            url="https://cal.com/johndoe",
+            url=pydantic.HttpUrl("https://cal.com/johndoe"),
         )
         cv = create_cv(
             key_order=["custom_connections"],
@@ -357,7 +358,7 @@ class TestComputeConnectionsForMarkdown:
         custom_connection = CustomConnection(
             fontawesome_icon="calendar-days",
             placeholder="Book a call",
-            url="https://cal.com/johndoe",
+            url=pydantic.HttpUrl("https://cal.com/johndoe"),
         )
         cv = create_cv(
             key_order=["custom_connections"],
