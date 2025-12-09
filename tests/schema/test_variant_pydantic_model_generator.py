@@ -7,6 +7,7 @@ from rendercv.exception import RenderCVInternalError
 from rendercv.schema.variant_pydantic_model_generator import (
     create_discriminator_field_spec,
     create_nested_field_spec,
+    create_nested_model_variant_model,
     create_simple_field_spec,
     create_variant_pydantic_model,
     deep_merge_nested_object,
@@ -359,6 +360,25 @@ class TestCreateNestedFieldSpec:
         assert instance.field1 == "updated"
         assert instance.field2 == "b"
         assert instance.field3 == "c"
+
+    def test_plain_dict_field_without_pydantic_model(self):
+        """Test that plain dict fields (non-Pydantic) are handled correctly."""
+
+        class ModelWithPlainDict(pydantic.BaseModel):
+            metadata: dict[str, Any] = pydantic.Field(
+                default={}, description="Plain dict field", title="Metadata"
+            )
+
+        field_info = ModelWithPlainDict.model_fields["metadata"]
+        updates = {"key1": "value1", "key2": "value2"}
+
+        annotation, field = create_nested_field_spec(updates, field_info)
+
+        # Should use the dict directly since no Pydantic model is found
+        assert field.default == updates
+        assert field.description == "Plain dict field"
+        assert field.title == "Metadata"
+        assert annotation == dict[str, Any]
 
 
 @pytest.mark.parametrize(
@@ -1005,3 +1025,45 @@ class TestUpdateDescriptionWithNewDefault:
     def test_with_none_description(self):
         updated = update_description_with_new_default(None, "old", "new")
         assert updated is None
+
+
+class TestCreateNestedModelVariantModel:
+    def test_skips_fields_not_in_base_model(self):
+        """Test that fields not in base model are skipped during nested variant creation."""
+
+        class Nested(pydantic.BaseModel):
+            x: int = 1
+            y: int = 2
+
+        class Outer(pydantic.BaseModel):
+            nested: Nested = Nested()
+
+        # Pass updates that include a field not in Nested's definition
+        updates = {"x": 100, "nonexistent_field": "should_be_skipped"}
+
+        variant_class = create_nested_model_variant_model(Nested, updates)
+
+        # The variant should be created without errors
+        instance = variant_class()
+        assert instance.x == 100  # pyright: ignore[reportAttributeAccessIssue]
+        assert instance.y == 2  # pyright: ignore[reportAttributeAccessIssue]
+        # nonexistent_field should not be in the instance
+        assert not hasattr(instance, "nonexistent_field")
+
+    def test_plain_dict_field_treated_as_simple_value(self):
+        """Test that plain dict fields are treated as simple values in nested model variants."""
+
+        class ModelWithPlainDict(pydantic.BaseModel):
+            metadata: dict[str, str] = {"default_key": "default_value"}
+            count: int = 1
+
+        updates = {
+            "metadata": {"new_key": "new_value"},
+            "count": 10,
+        }
+
+        variant_class = create_nested_model_variant_model(ModelWithPlainDict, updates)
+
+        instance = variant_class()
+        assert instance.metadata == {"new_key": "new_value"}  # pyright: ignore[reportAttributeAccessIssue]
+        assert instance.count == 10  # pyright: ignore[reportAttributeAccessIssue]

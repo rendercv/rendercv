@@ -11,14 +11,14 @@ format:
   uv run --frozen ruff format src tests
 
 format-file target:
-  uv run --frozen --all-extras --group dev black {{target}}
-  uv run --frozen --all-extras --group dev ruff check --fix {{target}}
-  uv run --frozen --all-extras --group dev ruff format {{target}}
+  uv run --frozen --all-extras black {{target}}
+  uv run --frozen --all-extras ruff check --fix {{target}}
+  uv run --frozen --all-extras ruff format {{target}}
 
 check:
-  uv run --frozen --all-extras --group dev ruff check src tests
-  uv run --frozen --all-extras --group dev pyright src tests
-  uv run --frozen --all-extras --group dev pre-commit run --all-files
+  uv run --frozen --all-extras ruff check src tests
+  uv run --frozen --all-extras pyright src tests
+  uv run --frozen --all-extras pre-commit run --all-files
 
 # Testing:
 test:

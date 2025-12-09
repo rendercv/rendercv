@@ -98,6 +98,16 @@ class TestExistingInputRelativePath:
 
         assert result == existing_file
 
+    def test_existing_path_is_not_a_file_raises_error(
+        self, tmp_path, context_with_input_file
+    ):
+        new_dir = tmp_path / "new_dir"
+        new_dir.mkdir()
+        with pytest.raises(pydantic.ValidationError, match="is not a file"):
+            existing_input_relative_path_adapter.validate_python(
+                new_dir, context=context_with_input_file
+            )
+
 
 class TestPlannedInputRelativePath:
     def test_absolute_path_to_existing_file(

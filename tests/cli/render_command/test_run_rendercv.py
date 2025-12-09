@@ -127,3 +127,9 @@ design:
             run_rendercv(yaml_file, progress)
 
         assert exc_info.value.exit_code == 1
+
+    def test_user_error(self, tmp_path):
+        yaml_file = tmp_path / "doesnt_exist.yaml"
+        progress = ProgressPanel(quiet=True)
+        with pytest.raises(typer.Exit) as _, progress:
+            run_rendercv(yaml_file, progress)
