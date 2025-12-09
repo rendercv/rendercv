@@ -33,7 +33,7 @@ jobs:
         uses: taiki-e/install-action@just
 
       - name: Install the project
-        run: just install
+        run: just sync
 
       - name: Test
         run: just test-coverage
@@ -67,7 +67,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install the project
-        run: just install
+        run: just sync
 
       - name: Install just
         uses: taiki-e/install-action@just
