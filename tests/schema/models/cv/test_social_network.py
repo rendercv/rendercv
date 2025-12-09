@@ -73,6 +73,11 @@ class TestSocialNetwork:
                 "https://t.me/myusername",
             ),
             (
+                "WhatsApp",
+                "14155552671",
+                "https://wa.me/14155552671",
+            ),
+            (
                 "X",
                 "myusername",
                 "https://x.com/myusername",

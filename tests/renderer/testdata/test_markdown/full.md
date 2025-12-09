@@ -16,6 +16,7 @@
 - ResearchGate: [johndoe](https://researchgate.net/profile/johndoe)
 - YouTube: [johndoe](https://youtube.com/@johndoe)
 - Telegram: [johndoe](https://t.me/johndoe)
+- WhatsApp: [+14155552671](https://wa.me/+14155552671)
 - X: [johndoe](https://x.com/johndoe)
 
 

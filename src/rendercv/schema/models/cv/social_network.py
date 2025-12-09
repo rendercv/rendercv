@@ -4,6 +4,7 @@ from typing import Literal, get_args
 
 import pydantic
 import pydantic_core
+import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
@@ -22,6 +23,7 @@ type SocialNetworkName = Literal[
     "YouTube",
     "Google Scholar",
     "Telegram",
+    "WhatsApp",
     "Leetcode",
     "X",
 ]
@@ -38,6 +40,7 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "YouTube": "https://youtube.com/@",
     "Google Scholar": "https://scholar.google.com/citations?user=",
     "Telegram": "https://t.me/",
+    "WhatsApp": "https://wa.me/",
     "Leetcode": "https://leetcode.com/u/",
     "X": "https://x.com/",
 }
@@ -111,6 +114,19 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         CustomPydanticErrorTypes.other.value,
                         "IMDB name should be in the format 'nmXXXXXXX'.",
                     )
+
+            case "WhatsApp":
+                phone_validator = pydantic.TypeAdapter(
+                    pydantic_phone_numbers.PhoneNumber
+                )
+                try:
+                    phone_validator.validate_python(username)
+                except pydantic.ValidationError as e:
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        "WhatsApp username should be your phone number with country"
+                        " code in international format (e.g., +1 for USA, +44 for UK).",
+                    ) from e
 
         return username
 

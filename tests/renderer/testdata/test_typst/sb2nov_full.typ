@@ -111,6 +111,7 @@
   [#link("https://researchgate.net/profile/johndoe", icon: false, if-underline: false, if-color: false)[researchgate.net\/profile\/johndoe]],
   [#link("https://youtube.com/@johndoe", icon: false, if-underline: false, if-color: false)[youtube.com\/\@johndoe]],
   [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[t.me\/johndoe]],
+  [#link("https://wa.me/+14155552671", icon: false, if-underline: false, if-color: false)[wa.me\/+14155552671]],
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[x.com\/johndoe]],
 )
   ]

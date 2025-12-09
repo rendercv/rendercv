@@ -134,6 +134,7 @@ typst_fa_icons = {
     "YouTube": "youtube",
     "Google Scholar": "graduation-cap",
     "Telegram": "telegram",
+    "WhatsApp": "whatsapp",
     "Leetcode": "code",
     "X": "x-twitter",
     "location": "location-dot",
