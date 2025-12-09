@@ -82,6 +82,10 @@ class BaseRenderCVSection(BaseModelWithoutExtraKeys):
     entry_type: str
     entries: list[Any]
 
+    @property
+    def snake_case_title(self) -> str:
+        return self.title.lower().replace(" ", "_")
+
 
 def create_section_models(
     entry_type: type[EntryModel] | type[str],

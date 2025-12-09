@@ -102,6 +102,7 @@ def render_full_template(
             f"SectionBeginning.j2.{extension}",
             rendercv_model,
             section_title=rendercv_section.title,
+            snake_case_section_title=rendercv_section.snake_case_title,
             entry_type=rendercv_section.entry_type,
         )
         section_ending = render_single_template(

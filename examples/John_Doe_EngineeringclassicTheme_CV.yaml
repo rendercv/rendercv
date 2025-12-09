@@ -12,6 +12,7 @@ cv:
       username: rendercv
     - network: GitHub
       username: rendercv
+  custom_connections:
   sections:
     Welcome to RenderCV:
       - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.

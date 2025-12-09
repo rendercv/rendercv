@@ -62,12 +62,17 @@ cv:
       username: johndoe
     - network: GitHub
       username: johndoe
+  custom_connections:
+    - placeholder: Book a call # (5)!
+      url: https://cal.com/johndoe
+      fontawesome_icon: calendar-days
 ```
 
 1. Multiple emails can be provided as a list.
 2. Multiple phone numbers can be provided as a list.
 3. Multiple websites can be provided as a list.
 4. << available_social_networks >>
+5. Custom connections let you add any extra link (or plain text if `url` is omitted) with your own display text (`placeholder`) and a Font Awesome icon name (e.g., `calendar-days`, `envelope`).
 
 ### Sections
 

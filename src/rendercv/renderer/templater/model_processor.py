@@ -62,15 +62,11 @@ def process_model(
     if rendercv_model.cv.sections is None:
         return rendercv_model
 
-    sections_to_show_time_spans = [
-        section_title.lower().replace(" ", "_")
-        for section_title in rendercv_model.design.sections.show_time_spans_in
-    ]
-
     for section in rendercv_model.cv.rendercv_sections:
         section.title = apply_string_processors(section.title, string_processors)
         show_time_span = (
-            section.title.lower().replace(" ", "_") in sections_to_show_time_spans
+            section.snake_case_title
+            in rendercv_model.design.sections.show_time_spans_in
         )
         for i, entry in enumerate(section.entries):
             entry = render_entry_templates(  # NOQA: PLW2901
