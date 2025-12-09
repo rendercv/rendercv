@@ -30,6 +30,6 @@ def generate_html(
     html_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.html_path
     )
-    html_contents = render_html(rendercv_model, markdown_path.read_text())
-    html_path.write_text(html_contents)
+    html_contents = render_html(rendercv_model, markdown_path.read_text(encoding="utf-8"))
+    html_path.write_text(html_contents, encoding="utf-8")
     return html_path

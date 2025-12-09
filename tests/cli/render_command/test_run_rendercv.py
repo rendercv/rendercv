@@ -80,7 +80,7 @@ class TestTimedStep:
 class TestRunRendercv:
     def test_invalid_yaml(self, tmp_path):
         invalid_yaml = tmp_path / "invalid.yaml"
-        invalid_yaml.write_text("invalid: yaml: content: :")
+        invalid_yaml.write_text("invalid: yaml: content: :", encoding="utf-8")
 
         progress = ProgressPanel(quiet=True)
 
@@ -91,7 +91,7 @@ class TestRunRendercv:
 
     def test_invalid_input_file(self, tmp_path):
         invalid_schema = tmp_path / "invalid_schema.yaml"
-        invalid_schema.write_text("cv:\n  name: 123")
+        invalid_schema.write_text("cv:\n  name: 123", encoding="utf-8")
 
         progress = ProgressPanel(quiet=True)
 

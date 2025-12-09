@@ -20,7 +20,7 @@ class TestCliCommandCreateTheme:
         assert (theme_folder / "__init__.py").exists()
         assert (theme_folder / "Preamble.j2.typ").exists()
 
-        init_content = (theme_folder / "__init__.py").read_text()
+        init_content = (theme_folder / "__init__.py").read_text(encoding="utf-8")
         assert f'theme: Literal["{theme_name}"]' in init_content
 
     def test_raises_error_if_folder_exists(self, tmp_path):

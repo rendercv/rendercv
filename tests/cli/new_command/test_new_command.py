@@ -32,7 +32,7 @@ class TestCliCommandNew:
 
         # Set up pre-existing files/folders
         if input_file_exists:
-            input_file_path.write_text("existing content")
+            input_file_path.write_text("existing content", encoding="utf-8")
         if typst_templates_exist:
             typst_folder.mkdir()
         if markdown_templates_exist:
@@ -49,7 +49,7 @@ class TestCliCommandNew:
 
         # If input file existed before, content should be unchanged
         if input_file_exists:
-            assert input_file_path.read_text() == "existing content"
+            assert input_file_path.read_text(encoding="utf-8") == "existing content"
         else:
             # Make sure it's a valid YAML file
             build_rendercv_dictionary_and_model(input_file_path)

@@ -23,7 +23,7 @@ class TestRunFunctionIfFileChanges:
 
     def test_calls_function_when_file_changes(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
-        watched_file.write_text("initial")
+        watched_file.write_text("initial", encoding="utf-8")
 
         call_count = 0
 
@@ -41,14 +41,14 @@ class TestRunFunctionIfFileChanges:
         time.sleep(0.2)
         initial_count = call_count
 
-        watched_file.write_text("first edit")
+        watched_file.write_text("first edit", encoding="utf-8")
         time.sleep(0.2)
 
         assert call_count > initial_count
 
     def test_continues_running_after_function_raises_typer_exit(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
-        watched_file.write_text("initial")
+        watched_file.write_text("initial", encoding="utf-8")
 
         call_count = 0
         should_raise = False
@@ -69,14 +69,14 @@ class TestRunFunctionIfFileChanges:
         time.sleep(0.2)
         should_raise = True
         count_before_exit = call_count
-        watched_file.write_text("edit that raises exit")
+        watched_file.write_text("edit that raises exit", encoding="utf-8")
         time.sleep(0.2)
 
         assert call_count > count_before_exit
 
         should_raise = False
         count_after_exit = call_count
-        watched_file.write_text("edit after exit")
+        watched_file.write_text("edit after exit", encoding="utf-8")
         time.sleep(0.2)
 
         assert call_count > count_after_exit

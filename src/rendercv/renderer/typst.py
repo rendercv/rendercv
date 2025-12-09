@@ -26,5 +26,5 @@ def generate_typst(rendercv_model: RenderCVModel) -> pathlib.Path | None:
         rendercv_model, rendercv_model.settings.render_command.typst_path
     )
     typst_contents = render_full_template(rendercv_model, "typst")
-    typst_path.write_text(typst_contents)
+    typst_path.write_text(typst_contents, encoding="utf-8")
     return typst_path

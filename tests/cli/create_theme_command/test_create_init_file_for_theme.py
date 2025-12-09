@@ -21,7 +21,7 @@ class TestCreateInitFileForTheme:
         create_init_file_for_theme(theme_name, init_file_path)
 
         assert init_file_path.exists()
-        content = init_file_path.read_text()
+        content = init_file_path.read_text(encoding="utf-8")
         assert f'theme: Literal["{theme_name}"]' in content
         assert f"{theme_name.capitalize()}Theme" in content
 

@@ -25,5 +25,5 @@ def generate_markdown(rendercv_model: RenderCVModel) -> pathlib.Path | None:
         rendercv_model, rendercv_model.settings.render_command.markdown_path
     )
     markdown_contents = render_full_template(rendercv_model, "markdown")
-    markdown_path.write_text(markdown_contents)
+    markdown_path.write_text(markdown_contents, encoding="utf-8")
     return markdown_path
