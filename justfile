@@ -1,54 +1,54 @@
 # Development:
 sync:
-  uv sync --all-extras
-
-sync-locked:
-  uv sync --locked --all-extras
+  uv sync --frozen --all-extras
 
 format:
-  uv run --locked black src tests
-  uv run --locked ruff check --fix src tests
-  uv run --locked ruff format src tests
+  uv run --frozen black src tests
+  uv run --frozen ruff check --fix src tests
+  uv run --frozen ruff format src tests
 
 format-file target:
-  uv run --locked black {{target}}
-  uv run --locked ruff check --fix {{target}}
-  uv run --locked ruff format {{target}}
+  uv run --frozen black {{target}}
+  uv run --frozen ruff check --fix {{target}}
+  uv run --frozen ruff format {{target}}
 
 check:
-  uv run --locked ruff check src tests
-  uv run --locked pyright src tests
-  uv run --locked pre-commit run --all-files
+  uv run --frozen ruff check src tests
+  uv run --frozen pyright src tests
+  uv run --frozen pre-commit run --all-files
+
+lock:
+  uv lock
 
 # Testing:
 test:
-  uv run --locked pytest
+  uv run --frozen pytest
 
 update-testdata:
-  uv run --locked pytest --update-testdata
+  uv run --frozen pytest --update-testdata
 
 test-coverage:
-  uv run --locked pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
+  uv run --frozen pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
 
 # Docs:
 build-docs:
-  uv run --locked mkdocs build --clean --strict
+  uv run --frozen mkdocs build --clean --strict
 
 serve-docs:
-  uv run --locked mkdocs serve --watch-theme
+  uv run --frozen mkdocs serve --watch-theme
 
 # Scripts:
 update-schema:
-  uv run --locked scripts/update_schema.py
+  uv run --frozen scripts/update_schema.py
 
 update-entry-figures:
-  uv run --locked --all-groups scripts/update_entry_figures.py
+  uv run --frozen --all-groups scripts/update_entry_figures.py
 
 update-examples:
-  uv run --locked scripts/update_examples.py
+  uv run --frozen scripts/update_examples.py
 
 create-executable:
-  uv run --locked --all-groups scripts/create_executable.py
+  uv run --frozen --all-groups scripts/create_executable.py
 
 # Utilities:
 count-lines:
