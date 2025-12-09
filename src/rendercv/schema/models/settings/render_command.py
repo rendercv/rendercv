@@ -26,25 +26,24 @@ file_path_placeholders_description = """The following placeholders can be used:
 class RenderCommand(BaseModelWithoutExtraKeys):
     design: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
-        description="The file path to the YAML file that contains the `design` field.",
+        description="Path to a YAML file containing the `design` field.",
     )
     locale: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
-        description="The file path to the YAML file that contains the `locale` field.",
+        description="Path to a YAML file containing the `locale` field.",
     )
     typst_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.typ"),
         description=(
-            "Path to the output Typst file, relative to the input YAML file. The"
-            " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
-            " `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
+            "Output path for the Typst file, relative to the input YAML file. The default"
+            " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
             f"{file_path_placeholders_description}"
         ),
     )
     pdf_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf"),
         description=(
-            "Path to the output PDF file, relative to the input YAML file. The default"
+            "Output path for the PDF file, relative to the input YAML file. The default"
             " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\n"
             f"{file_path_placeholders_description}"
         ),
@@ -53,7 +52,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.md"),
         title="Markdown Path",
         description=(
-            "Path to the output Markdown file, relative to the input YAML file. The"
+            "Output path for the Markdown file, relative to the input YAML file. The"
             " default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\n"
             f"{file_path_placeholders_description}"
         ),
@@ -61,7 +60,7 @@ class RenderCommand(BaseModelWithoutExtraKeys):
     html_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.html"),
         description=(
-            "Path to the output HTML file, relative to the input YAML file. The default"
+            "Output path for the HTML file, relative to the input YAML file. The default"
             " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\n"
             f"{file_path_placeholders_description}"
         ),
@@ -69,8 +68,8 @@ class RenderCommand(BaseModelWithoutExtraKeys):
     png_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.png"),
         description=(
-            "Path to the output PNG file, relative to the input YAML file. The default"
-            " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\n"
+            "Output path for PNG files, relative to the input YAML file. The default value"
+            " is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\n"
             f"{file_path_placeholders_description}"
         ),
     )
@@ -78,41 +77,30 @@ class RenderCommand(BaseModelWithoutExtraKeys):
         default=False,
         title="Don't Generate Markdown",
         description=(
-            "If `True`, the Markdown file will not be generated. Disabling Markdown"
-            " generation implicitly disables HTML. The default value is"
-            " `False`."
+            "Skip Markdown generation. This also disables HTML generation. The default"
+            " value is `false`."
         ),
     )
     dont_generate_html: bool = pydantic.Field(
         default=False,
         title="Don't Generate HTML",
-        description=(
-            "If `True`, the HTML file will not be generated. The default value is"
-            " `False`."
-        ),
+        description="Skip HTML generation. The default value is `false`.",
     )
     dont_generate_typst: bool = pydantic.Field(
         default=False,
         title="Don't Generate Typst",
         description=(
-            "If `True`, the Typst file will not be generated. Disabling Typst"
-            " generation implicitly disables PDF and PNG. The default value is"
-            " `False`."
+            "Skip Typst generation. This also disables PDF and PNG generation. The"
+            " default value is `false`."
         ),
     )
     dont_generate_pdf: bool = pydantic.Field(
         default=False,
         title="Don't Generate PDF",
-        description=(
-            "If `True`, the PDF file will not be generated. The default value is"
-            " `False`."
-        ),
+        description="Skip PDF generation. The default value is `false`.",
     )
     dont_generate_png: bool = pydantic.Field(
         default=False,
         title="Don't Generate PNG",
-        description=(
-            "If `True`, the PNG file will not be generated. The default value is"
-            " `False`."
-        ),
+        description="Skip PNG generation. The default value is `false`.",
     )

@@ -11,9 +11,8 @@ class Settings(BaseModelWithoutExtraKeys):
         default_factory=datetime.date.today,
         title="Date",
         description=(
-            'The date RenderCV should treat as "today."It is used for output filenames,'
-            ' the "last updated" label, and any calculations that depend on the current'
-            " date (such as ongoing time spans). Defaults to the real current date."
+            'The date to use as "current date" for filenames, the "last updated" label,'
+            " and time span calculations. Defaults to the actual current date."
         ),
         json_schema_extra={
             "default": None,
@@ -23,18 +22,14 @@ class Settings(BaseModelWithoutExtraKeys):
         default_factory=RenderCommand,
         title="Render Command Settings",
         description=(
-            "RenderCV's `render` command settings. They are the same as the command"
-            " line arguments. CLI arguments have higher priority than the settings in"
-            " the input file."
+            "Settings for the `render` command. These correspond to command-line"
+            " arguments. CLI arguments take precedence over these settings."
         ),
     )
     bold_keywords: list[str] = pydantic.Field(
         default=[],
         title="Bold Keywords",
-        description=(
-            "The keywords that will be bold in the output. The default value is an"
-            " empty list."
-        ),
+        description="Keywords to automatically bold in the output.",
     )
 
     @pydantic.field_validator("bold_keywords")

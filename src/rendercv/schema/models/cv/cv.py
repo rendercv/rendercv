@@ -32,10 +32,7 @@ class Cv(BaseModelWithExtraKeys):
     )
     email: pydantic.EmailStr | list[pydantic.EmailStr] | None = pydantic.Field(
         default=None,
-        description=(
-            "Accepts either a single email address (string) or a list of email"
-            " addresses."
-        ),
+        description="You can provide multiple emails as a list.",
         examples=[
             "john.doe@example.com",
             ["john.doe.1@example.com", "john.doe.2@example.com"],
@@ -43,7 +40,7 @@ class Cv(BaseModelWithExtraKeys):
     )
     photo: ExistingPathRelativeToInput | None = pydantic.Field(
         default=None,
-        description="Path to the photo file, relative to the input YAML file.",
+        description="Photo file path, relative to the YAML file.",
         examples=["photo.jpg", "images/profile.png"],
     )
     phone: (
@@ -53,9 +50,10 @@ class Cv(BaseModelWithExtraKeys):
     ) = pydantic.Field(
         default=None,
         description=(
-            "Phone number with country code. Use international format starting"
-            " with '+' (e.g., +1 for USA, +44 for UK). Accepts either a single phone"
-            " number as a string or a list of phone numbers."
+            "Your phone number with country code in international format (e.g., +1 for"
+            " USA, +44 for UK). The display format in the output is controlled by"
+            " `design.header.connections.phone_number_format`. You can provide multiple"
+            " numbers as a list."
         ),
         examples=[
             "+1-234-567-8900",
@@ -64,10 +62,7 @@ class Cv(BaseModelWithExtraKeys):
     )
     website: pydantic.HttpUrl | list[pydantic.HttpUrl] | None = pydantic.Field(
         default=None,
-        description=(
-            "Personal website or portfolio URL. Accepts either a single website URL as"
-            " as a list."
-        ),
+        description="You can provide multiple URLs as a list.",
         examples=[
             "https://johndoe.com",
             ["https://johndoe.com", "https://www.janesmith.dev"],
@@ -75,14 +70,13 @@ class Cv(BaseModelWithExtraKeys):
     )
     social_networks: list[SocialNetwork] | None = pydantic.Field(
         default=None,
-        description="List of social network profiles (e.g., LinkedIn, GitHub).",
     )
     sections: dict[str, Section] | None = pydantic.Field(
         default=None,
         description=(
-            "The sections of your CV (e.g., Experience, Education, Projects). The keys"
-            " are section titles, and the values are lists of entries. Entries are"
-            " automatically typed based on their fields."
+            "The sections of your CV. Keys are section titles (e.g., Experience,"
+            " Education), and values are lists of entries. Entry types are automatically"
+            " detected based on their fields."
         ),
         examples=[
             {

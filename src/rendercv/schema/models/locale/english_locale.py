@@ -10,34 +10,31 @@ from ..base import BaseModelWithoutExtraKeys
 class EnglishLocale(BaseModelWithoutExtraKeys):
     language: Literal["english"] = pydantic.Field(
         default="english",
-        description="The language of the locale. The default value is 'english'.",
+        description="The language for your CV. The default value is `english`.",
     )
     last_updated: str = pydantic.Field(
         default="Last updated in",
-        description=(
-            'Translation of "Last updated in" in the locale. The default value is "Last'
-            ' updated in".'
-        ),
+        description='Translation of "Last updated in". The default value is `Last updated in`.',
     )
     month: str = pydantic.Field(
         default="month",
-        description='Translation of the word "month" in the locale.',
+        description='Translation of "month" (singular). The default value is `month`.',
     )
     months: str = pydantic.Field(
         default="months",
-        description='Translation of the word "months" in the locale.',
+        description='Translation of "months" (plural). The default value is `months`.',
     )
     year: str = pydantic.Field(
         default="year",
-        description='Translation of the word "year" in the locale.',
+        description='Translation of "year" (singular). The default value is `year`.',
     )
     years: str = pydantic.Field(
         default="years",
-        description='Translation of the word "years" in the locale.',
+        description='Translation of "years" (plural). The default value is `years`.',
     )
     present: str = pydantic.Field(
         default="present",
-        description='Translation of the word "present" in the locale.',
+        description='Translation of "present" for ongoing dates. The default value is `present`.',
     )
     # From https://web.library.yale.edu/cataloging/months
     month_abbreviations: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
@@ -56,7 +53,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
                 "Nov",
                 "Dec",
             ],
-            description="Abbreviations of the months in the locale.",
+            description="Month abbreviations (Jan-Dec).",
         )
     )
     month_names: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
@@ -75,7 +72,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
                 "November",
                 "December",
             ],
-            description="Full names of the months in the locale.",
+            description="Full month names (January-December).",
         )
     )
 

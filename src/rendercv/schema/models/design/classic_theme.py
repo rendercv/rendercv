@@ -25,33 +25,38 @@ class Page(BaseModelWithoutExtraKeys):
     size: PageSize = pydantic.Field(
         default="us-letter",
         description=(
-            "The page size of your CV. Common options: 'a4' (international standard),"
-            " 'us-letter' (US standard). The default value is `us-letter`."
+            "The page size. Use 'a4' (international standard) or 'us-letter' (US"
+            " standard). The default value is `us-letter`."
         ),
     )
     top_margin: TypstDimension = pydantic.Field(
         default="0.7in",
-        description=length_common_description + " The default value is `2cm`.",
+        description=length_common_description + " The default value is `0.7in`.",
     )
     bottom_margin: TypstDimension = pydantic.Field(
         default="0.7in",
-        description=length_common_description + " The default value is `2cm`.",
+        description=length_common_description + " The default value is `0.7in`.",
     )
     left_margin: TypstDimension = pydantic.Field(
         default="0.7in",
-        description=length_common_description + " The default value is `2cm`.",
+        description=length_common_description + " The default value is `0.7in`.",
     )
     right_margin: TypstDimension = pydantic.Field(
         default="0.7in",
-        description=length_common_description + " The default value is `2cm`.",
+        description=length_common_description + " The default value is `0.7in`.",
     )
     show_footer: bool = pydantic.Field(
         default=True,
-        description="Whether to show the footer. The default value is `true`.",
+        description=(
+            "Show the footer at the bottom of pages. The default value is `true`."
+        ),
     )
     show_top_note: bool = pydantic.Field(
         default=True,
-        description="Whether to show the top note. The default value is `true`.",
+        description=(
+            "Show the top note at the top of the first page. The default value is"
+            " `true`."
+        ),
     )
 
 
@@ -159,7 +164,7 @@ class FontSize(BaseModelWithoutExtraKeys):
     )
     headline: TypstDimension = pydantic.Field(
         default="10pt",
-        description="The font size for the headline. The default value is `20pt`.",
+        description="The font size for the headline. The default value is `10pt`.",
     )
     connections: TypstDimension = pydantic.Field(
         default="10pt",
@@ -206,11 +211,11 @@ class Bold(BaseModelWithoutExtraKeys):
     )
     headline: bool = pydantic.Field(
         default=False,
-        description="Whether to make the headline bold. The default value is `true`.",
+        description="Whether to make the headline bold. The default value is `false`.",
     )
     connections: bool = pydantic.Field(
         default=False,
-        description="Whether to make connections bold. The default value is `true`.",
+        description="Whether to make connections bold. The default value is `false`.",
     )
     section_titles: bool = pydantic.Field(
         default=True,
@@ -222,46 +227,47 @@ class Typography(BaseModelWithoutExtraKeys):
     line_spacing: TypstDimension = pydantic.Field(
         default="0.6em",
         description=(
-            "The line spacing (space between lines of text). Larger values create more"
-            " vertical space. The default value is `0.6em`."
+            "Space between lines of text. Larger values create more vertical space. The"
+            " default value is `0.6em`."
         ),
     )
     alignment: Literal["left", "justified", "justified-with-no-hyphenation"] = (
         pydantic.Field(
             default="justified",
             description=(
-                "How text is aligned. 'justified' spreads text across the full width,"
-                " 'left' aligns to the left edge. The default value is `justified`."
+                "Text alignment. Options: 'left', 'justified' (spreads text across full"
+                " width), 'justified-with-no-hyphenation' (justified without word"
+                " breaks). The default value is `justified`."
             ),
         )
     )
     date_and_location_column_alignment: Alignment = pydantic.Field(
         default="right",
         description=(
-            "Alignment for the date and location column (the right column in entries)."
-            " The default value is `right`."
+            "Alignment for dates and locations in entries. Options: 'left', 'center',"
+            " 'right'. The default value is `right`."
         ),
     )
     font_family: FontFamily | FontFamilyType = pydantic.Field(
         default_factory=FontFamily,
         description=(
-            "Either just the font family name as a string, or a font family dictionary"
-            " with the keys 'body', 'name', 'headline', 'connections', and"
-            " 'section_titles'. JSON Schema may give warnings, but any system font can"
-            " be used."
+            "The font family. You can provide a single font name as a string (applies"
+            " to all elements), or a dictionary with keys 'body', 'name', 'headline',"
+            " 'connections', and 'section_titles' to customize each element. Any system"
+            " font can be used."
         ),
     )
     font_size: FontSize = pydantic.Field(
         default_factory=FontSize,
-        description="Font size settings for different elements.",
+        description="Font sizes for different elements.",
     )
     small_caps: SmallCaps = pydantic.Field(
         default_factory=SmallCaps,
-        description="Small caps settings for different elements.",
+        description="Small caps styling for different elements.",
     )
     bold: Bold = pydantic.Field(
         default_factory=Bold,
-        description="Bold settings for different elements.",
+        description="Bold styling for different elements.",
     )
 
     @pydantic.field_validator(
@@ -299,15 +305,12 @@ class Typography(BaseModelWithoutExtraKeys):
 class Links(BaseModelWithoutExtraKeys):
     underline: bool = pydantic.Field(
         default=False,
-        description=(
-            "Whether to underline hyperlinks in your CV. The default value is `false`."
-        ),
+        description="Underline hyperlinks. The default value is `false`.",
     )
     show_external_link_icon: bool = pydantic.Field(
         default=False,
         description=(
-            "Whether to show an external link icon next to URLs. The default value is"
-            " `true`."
+            "Show an external link icon next to URLs. The default value is `false`."
         ),
     )
 
@@ -315,27 +318,25 @@ class Links(BaseModelWithoutExtraKeys):
 class Connections(BaseModelWithoutExtraKeys):
     phone_number_format: PhoneNumberFormatType = pydantic.Field(
         default="national",
-        description="The format for phone numbers. The default value is `national`.",
+        description="Phone number format. The default value is `national`.",
     )
     hyperlink: bool = pydantic.Field(
         default=True,
         description=(
-            "Whether to make contact information clickable links in the PDF. The"
-            " default value is `true`."
+            "Make contact information clickable in the PDF. The default value is"
+            " `true`."
         ),
     )
     show_icons: bool = pydantic.Field(
         default=True,
         description=(
-            "Whether to show icons (phone, email, etc.) next to contact information."
-            " The default value is `true`."
+            "Show icons next to contact information. The default value is `true`."
         ),
     )
     display_urls_instead_of_usernames: bool = pydantic.Field(
         default=False,
         description=(
-            "Whether to display full URLs instead of labels for connections. The"
-            " default value is `false`."
+            "Display full URLs instead of labels. The default value is `false`."
         ),
     )
     separator: str = pydantic.Field(
@@ -348,10 +349,10 @@ class Connections(BaseModelWithoutExtraKeys):
     space_between_connections: TypstDimension = pydantic.Field(
         default="0.5cm",
         description=(
-            "Horizontal space between each contact info item (email, phone, etc.). "
-        )
-        + length_common_description
-        + " The default value is `0.5cm`.",
+            "Horizontal space between contact items. "
+            + length_common_description
+            + " The default value is `0.5cm`."
+        ),
     )
 
 
@@ -359,22 +360,19 @@ class Header(BaseModelWithoutExtraKeys):
     alignment: Alignment = pydantic.Field(
         default="center",
         description=(
-            "Alignment of header content (left, center, or right). The default value is"
+            "Header alignment. Options: 'left', 'center', 'right'. The default value is"
             " `center`."
         ),
     )
     photo_width: TypstDimension = pydantic.Field(
         default="3.5cm",
-        description="The width of your photo in the header. "
+        description="Photo width. "
         + length_common_description
         + " The default value is `3.5cm`.",
     )
     photo_position: Literal["left", "right"] = pydantic.Field(
         default="left",
-        description=(
-            "Position of your photo in the header (left or right). The default"
-            " value is `left`."
-        ),
+        description="Photo position (left or right). The default value is `left`.",
     )
     photo_space_left: TypstDimension = pydantic.Field(
         default="0.4cm",
@@ -412,7 +410,7 @@ class Header(BaseModelWithoutExtraKeys):
     )
     connections: Connections = pydantic.Field(
         default_factory=Connections,
-        description="Settings for contact information in the header.",
+        description="Contact information settings.",
     )
 
 
@@ -420,10 +418,10 @@ class SectionTitles(BaseModelWithoutExtraKeys):
     type: SectionTitleType = pydantic.Field(
         default="with_partial_line",
         description=(
-            "The visual style of section titles. 'with_partial_line' shows a line"
-            " next to the title, 'with_full_line' extends the line across the page,"
-            " 'without_line' shows no line, 'moderncv' uses the ModernCV style. The"
-            " default value is `with_partial_line`."
+            "Section title visual style. Use 'with_partial_line' for a line next to the"
+            " title, 'with_full_line' for a line across the page, 'without_line' for no"
+            " line, or 'moderncv' for the ModernCV style. The default value is"
+            " `with_partial_line`."
         ),
     )
     line_thickness: TypstDimension = pydantic.Field(
@@ -444,14 +442,14 @@ class Sections(BaseModelWithoutExtraKeys):
     allow_page_break: bool = pydantic.Field(
         default=True,
         description=(
-            "Whether to allow page breaks within sections. If false, each section will"
-            " start on a new page if it doesn't fit. The default value is `true`."
+            "Allow page breaks within sections. If false, sections that don't fit will"
+            " start on a new page. The default value is `true`."
         ),
     )
     space_between_regular_entries: TypstDimension = pydantic.Field(
         default="1.2em",
         description=(
-            "Vertical space between separate entries in a section. "
+            "Vertical space between entries. "
             + length_common_description
             + " The default value is `1.2em`."
         ),
@@ -459,7 +457,7 @@ class Sections(BaseModelWithoutExtraKeys):
     space_between_text_based_entries: TypstDimension = pydantic.Field(
         default="0.3em",
         description=(
-            "Vertical space between separate text entries in a section. "
+            "Vertical space between text-based entries. "
             + length_common_description
             + " The default value is `0.3em`."
         ),
@@ -467,9 +465,8 @@ class Sections(BaseModelWithoutExtraKeys):
     show_time_spans_in: list[str] = pydantic.Field(
         default=["experience"],
         description=(
-            "List of section titles where time spans (duration) should be displayed in"
-            " entries. For example, ['Experience', 'Education'] will show '2 years 3"
-            " months' for applicable entries. The default value is `[]`."
+            "Section titles where time spans (e.g., '2 years 3 months') should be"
+            " displayed. The default value is `['experience']`."
         ),
         examples=[["Experience"], ["Experience", "Education"]],
     )
@@ -479,7 +476,7 @@ class Summary(BaseModelWithoutExtraKeys):
     space_above: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Space above the summary text. "
+            "Space above summary text. "
             + length_common_description
             + " The default value is `0cm`."
         ),
@@ -487,7 +484,7 @@ class Summary(BaseModelWithoutExtraKeys):
     space_left: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Left margin for the summary text (appears before highlights). "
+            "Left margin for summary text. "
             + length_common_description
             + " The default value is `0cm`."
         ),
@@ -497,46 +494,40 @@ class Summary(BaseModelWithoutExtraKeys):
 class Highlights(BaseModelWithoutExtraKeys):
     bullet: Bullet = pydantic.Field(
         default="•",
-        description=(
-            "The bullet character for highlights (your key"
-            " achievements/responsibilities). The default value is `•`."
-        ),
+        description="Bullet character for highlights. The default value is `•`.",
     )
     nested_bullet: Bullet = pydantic.Field(
         default="•",
-        description=(
-            "The bullet character for nested (sub-level) highlights. The default value"
-            " is `-`."
-        ),
+        description="Bullet character for nested highlights. The default value is `•`.",
     )
     space_left: TypstDimension = pydantic.Field(
         default="0.15cm",
         description=(
-            "Left indentation for highlights. "
+            "Left indentation. "
             + length_common_description
-            + " The default value is `0.4cm`."
+            + " The default value is `0.15cm`."
         ),
     )
     space_above: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Space above the highlights section. "
+            "Space above highlights. "
             + length_common_description
-            + " The default value is `0.25cm`."
+            + " The default value is `0cm`."
         ),
     )
     space_between_items: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Vertical space between each highlight bullet point. "
+            "Space between highlight items. "
             + length_common_description
-            + " The default value is `0.25cm`."
+            + " The default value is `0cm`."
         ),
     )
     space_between_bullet_and_text: TypstDimension = pydantic.Field(
         default="0.5em",
         description=(
-            "Space between the bullet point and the highlight text. "
+            "Space between bullet and text. "
             + length_common_description
             + " The default value is `0.5em`."
         ),
@@ -547,7 +538,7 @@ class Entries(BaseModelWithoutExtraKeys):
     date_and_location_width: TypstDimension = pydantic.Field(
         default="4.15cm",
         description=(
-            "Width of the right column (for dates and locations). "
+            "Width of the date/location column. "
             + length_common_description
             + " The default value is `4.15cm`."
         ),
@@ -555,7 +546,7 @@ class Entries(BaseModelWithoutExtraKeys):
     side_space: TypstDimension = pydantic.Field(
         default="0.2cm",
         description=(
-            "Left and right margins for entry content. "
+            "Left and right margins. "
             + length_common_description
             + " The default value is `0.2cm`."
         ),
@@ -563,7 +554,7 @@ class Entries(BaseModelWithoutExtraKeys):
     space_between_columns: TypstDimension = pydantic.Field(
         default="0.1cm",
         description=(
-            "Space between the main content column and the date/location column. "
+            "Space between main content and date/location columns. "
             + length_common_description
             + " The default value is `0.1cm`."
         ),
@@ -571,25 +562,24 @@ class Entries(BaseModelWithoutExtraKeys):
     allow_page_break: bool = pydantic.Field(
         default=False,
         description=(
-            "Whether to allow page breaks within individual entries. If false, each"
-            " entry will move to a new page if it doesn't fit. The default value is"
-            " `true`."
+            "Allow page breaks within entries. If false, entries that don't fit will"
+            " move to a new page. The default value is `false`."
         ),
     )
     short_second_row: bool = pydantic.Field(
         default=True,
         description=(
-            "If true, the second row of entries will be shortened to align with the top"
-            " of the date/location column. The default value is `true`."
+            "Shorten the second row to align with the date/location column. The default"
+            " value is `true`."
         ),
     )
     summary: Summary = pydantic.Field(
         default_factory=Summary,
-        description="Settings for entry summary text.",
+        description="Summary text settings.",
     )
     highlights: Highlights = pydantic.Field(
         default_factory=Highlights,
-        description="Settings for entry highlights/bullet points.",
+        description="Highlights settings.",
     )
 
 

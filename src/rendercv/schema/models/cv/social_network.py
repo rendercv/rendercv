@@ -44,11 +44,8 @@ url_dictionary: dict[SocialNetworkName, str] = {
 
 
 class SocialNetwork(BaseModelWithoutExtraKeys):
-    network: SocialNetworkName = pydantic.Field(
-        description="The name of the social network or platform.",
-    )
+    network: SocialNetworkName = pydantic.Field()
     username: str = pydantic.Field(
-        description="Username on the platform.",
         examples=["john_doe", "@johndoe@mastodon.social", "12345/john-doe"],
     )
 

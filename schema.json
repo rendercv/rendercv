@@ -66,7 +66,6 @@
       "description": null,
       "properties": {
         "bullet": {
-          "description": "A single bullet point to display. Use this for simple lists of items like skills, technologies, or brief statements.",
           "examples": [
             "Python, JavaScript, C++",
             "Excellent communication skills"
@@ -176,7 +175,7 @@
         },
         "email": {
           "default": null,
-          "description": "Accepts either a single email address (string) or a list of email addresses.",
+          "description": "You can provide multiple emails as a list.",
           "examples": [
             "john.doe@example.com",
             [
@@ -196,7 +195,7 @@
             }
           ],
           "default": null,
-          "description": "Path to the photo file, relative to the input YAML file.",
+          "description": "Photo file path, relative to the YAML file.",
           "examples": [
             "photo.jpg",
             "images/profile.png"
@@ -204,7 +203,7 @@
         },
         "phone": {
           "default": null,
-          "description": "Phone number with country code. Use international format starting with '+' (e.g., +1 for USA, +44 for UK). Accepts either a single phone number as a string or a list of phone numbers.",
+          "description": "Your phone number with country code in international format (e.g., +1 for USA, +44 for UK). The display format in the output is controlled by `design.header.connections.phone_number_format`. You can provide multiple numbers as a list.",
           "examples": [
             "+1-234-567-8900",
             [
@@ -216,7 +215,7 @@
         },
         "website": {
           "default": null,
-          "description": "Personal website or portfolio URL. Accepts either a single website URL as as a list.",
+          "description": "You can provide multiple URLs as a list.",
           "examples": [
             "https://johndoe.com",
             [
@@ -239,7 +238,6 @@
             }
           ],
           "default": null,
-          "description": "List of social network profiles (e.g., LinkedIn, GitHub).",
           "title": "Social Networks"
         },
         "sections": {
@@ -255,7 +253,7 @@
             }
           ],
           "default": null,
-          "description": "The sections of your CV (e.g., Experience, Education, Projects). The keys are section titles, and the values are lists of entries. Entries are automatically typed based on their fields.",
+          "description": "The sections of your CV. Keys are section titles (e.g., Experience, Education), and values are lists of entries. Entry types are automatically detected based on their fields.",
           "examples": [
             {
               "Education": "...",
@@ -356,43 +354,43 @@
         "language": {
           "const": "english",
           "default": "english",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `english`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Last updated in",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Last updated in`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "month",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `month`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "months",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `months`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "year",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `year`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "years",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `years`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "present",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `present`.",
           "title": "Present",
           "type": "string"
         },
@@ -411,7 +409,7 @@
             "Nov",
             "Dec"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -435,7 +433,7 @@
             "November",
             "December"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -468,43 +466,43 @@
         "language": {
           "const": "french",
           "default": "french",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `french`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Dernière mise à jour",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Dernière mise à jour`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "mois",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `mois`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "mois",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `mois`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "an",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `an`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "ans",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `ans`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "présent",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `présent`.",
           "title": "Present",
           "type": "string"
         },
@@ -523,7 +521,7 @@
             "Nov",
             "Déc"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -545,7 +543,7 @@
             "Novembre",
             "Décembre"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -562,43 +560,43 @@
         "language": {
           "const": "german",
           "default": "german",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `german`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Zuletzt aktualisiert",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Zuletzt aktualisiert`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "Monat",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `Monat`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "Monate",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `Monate`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "Jahr",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `Jahr`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "Jahre",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `Jahre`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "gegenwärtig",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `gegenwärtig`.",
           "title": "Present",
           "type": "string"
         },
@@ -617,7 +615,7 @@
             "Nov",
             "Dez"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -639,7 +637,7 @@
             "November",
             "Dezember"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -656,43 +654,43 @@
         "language": {
           "const": "hindi",
           "default": "hindi",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `hindi`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "अंतिम अद्यतन",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `अंतिम अद्यतन`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "महीना",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `महीना`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "महीने",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `महीने`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "वर्ष",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `वर्ष`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "वर्ष",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `वर्ष`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "वर्तमान",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `वर्तमान`.",
           "title": "Present",
           "type": "string"
         },
@@ -711,7 +709,7 @@
             "नव",
             "दिस"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -733,7 +731,7 @@
             "नवंबर",
             "दिसंबर"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -750,43 +748,43 @@
         "language": {
           "const": "italian",
           "default": "italian",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `italian`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Ultimo aggiornamento",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Ultimo aggiornamento`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "mese",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `mese`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "mesi",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `mesi`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "anno",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `anno`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "anni",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `anni`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "presente",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `presente`.",
           "title": "Present",
           "type": "string"
         },
@@ -805,7 +803,7 @@
             "Nov",
             "Dic"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -827,7 +825,7 @@
             "Novembre",
             "Dicembre"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -844,43 +842,43 @@
         "language": {
           "const": "japanese",
           "default": "japanese",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `japanese`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "最終更新",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `最終更新`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "月",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `月`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "ヶ月",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `ヶ月`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "年",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `年`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "年",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `年`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "現在",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `現在`.",
           "title": "Present",
           "type": "string"
         },
@@ -899,7 +897,7 @@
             "11月",
             "12月"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -921,7 +919,7 @@
             "11月",
             "12月"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -938,43 +936,43 @@
         "language": {
           "const": "korean",
           "default": "korean",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `korean`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "마지막 업데이트",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `마지막 업데이트`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "월",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `월`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "개월",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `개월`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "년",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `년`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "년",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `년`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "현재",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `현재`.",
           "title": "Present",
           "type": "string"
         },
@@ -993,7 +991,7 @@
             "11월",
             "12월"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1015,7 +1013,7 @@
             "11월",
             "12월"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1147,43 +1145,43 @@
         "language": {
           "const": "mandarin_chineese",
           "default": "mandarin_chineese",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `mandarin_chineese`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "最后更新于",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `最后更新于`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "个月",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `个月`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "个月",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `个月`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "年",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `年`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "年",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `年`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "至今",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `至今`.",
           "title": "Present",
           "type": "string"
         },
@@ -1202,7 +1200,7 @@
             "11月",
             "12月"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1224,7 +1222,7 @@
             "十一月",
             "十二月"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1280,7 +1278,6 @@
       "description": null,
       "properties": {
         "number": {
-          "description": "The numbered item text. Use this for ordered lists where you want numbering (e.g., publications, patents).",
           "examples": [
             "First publication about XYZ",
             "Patent for ABC technology"
@@ -1322,43 +1319,43 @@
         "language": {
           "const": "portuguese",
           "default": "portuguese",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `portuguese`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Última atualização",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Última atualização`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "mês",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `mês`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "meses",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `meses`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "ano",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `ano`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "anos",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `anos`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "presente",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `presente`.",
           "title": "Present",
           "type": "string"
         },
@@ -1377,7 +1374,7 @@
             "Nov",
             "Dez"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1399,7 +1396,7 @@
             "Novembro",
             "Dezembro"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1423,7 +1420,7 @@
             }
           ],
           "default": null,
-          "description": "The file path to the YAML file that contains the `design` field."
+          "description": "Path to a YAML file containing the `design` field."
         },
         "locale": {
           "anyOf": [
@@ -1435,61 +1432,61 @@
             }
           ],
           "default": null,
-          "description": "The file path to the YAML file that contains the `locale` field."
+          "description": "Path to a YAML file containing the `locale` field."
         },
         "typst_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.typ",
-          "description": "Path to the output Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the Typst file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf",
-          "description": "Path to the output PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the PDF file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.md",
-          "description": "Path to the output Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
+          "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.html",
-          "description": "Path to the output HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for the HTML file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
           "default": "rendercv_output/NAME_IN_SNAKE_CASE_CV.png",
-          "description": "Path to the output PNG file, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
+          "description": "Output path for PNG files, relative to the input YAML file. The default value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_markdown": {
           "default": false,
-          "description": "If `True`, the Markdown file will not be generated. Disabling Markdown generation implicitly disables HTML. The default value is `False`.",
+          "description": "Skip Markdown generation. This also disables HTML generation. The default value is `false`.",
           "title": "Don't Generate Markdown",
           "type": "boolean"
         },
         "dont_generate_html": {
           "default": false,
-          "description": "If `True`, the HTML file will not be generated. The default value is `False`.",
+          "description": "Skip HTML generation. The default value is `false`.",
           "title": "Don't Generate HTML",
           "type": "boolean"
         },
         "dont_generate_typst": {
           "default": false,
-          "description": "If `True`, the Typst file will not be generated. Disabling Typst generation implicitly disables PDF and PNG. The default value is `False`.",
+          "description": "Skip Typst generation. This also disables PDF and PNG generation. The default value is `false`.",
           "title": "Don't Generate Typst",
           "type": "boolean"
         },
         "dont_generate_pdf": {
           "default": false,
-          "description": "If `True`, the PDF file will not be generated. The default value is `False`.",
+          "description": "Skip PDF generation. The default value is `false`.",
           "title": "Don't Generate PDF",
           "type": "boolean"
         },
         "dont_generate_png": {
           "default": false,
-          "description": "If `True`, the PNG file will not be generated. The default value is `False`.",
+          "description": "Skip PNG generation. The default value is `false`.",
           "title": "Don't Generate PNG",
           "type": "boolean"
         }
@@ -1502,7 +1499,7 @@
       "description": null,
       "properties": {
         "reversed_number": {
-          "description": "The text for a reverse-numbered list item. The numbering will be in reverse order (e.g., 5, 4, 3, 2, 1), useful for publications where you want the most recent items to have higher numbers.",
+          "description": "Reverse-numbered list item. Numbering goes in reverse (5, 4, 3, 2, 1), making recent items have higher numbers.",
           "examples": [
             "Latest research paper",
             "Recent patent application"
@@ -1523,43 +1520,43 @@
         "language": {
           "const": "russian",
           "default": "russian",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `russian`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Последнее обновление",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Последнее обновление`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "месяц",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `месяц`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "месяцы",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `месяцы`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "год",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `год`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "лет",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `лет`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "настоящее время",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `настоящее время`.",
           "title": "Present",
           "type": "string"
         },
@@ -1578,7 +1575,7 @@
             "Ноя",
             "Дек"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1600,7 +1597,7 @@
             "Ноябрь",
             "Декабрь"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1668,19 +1665,19 @@
       "properties": {
         "current_date": {
           "default": null,
-          "description": "The date RenderCV should treat as \"today.\"It is used for output filenames, the \"last updated\" label, and any calculations that depend on the current date (such as ongoing time spans). Defaults to the real current date.",
+          "description": "The date to use as \"current date\" for filenames, the \"last updated\" label, and time span calculations. Defaults to the actual current date.",
           "format": "date",
           "title": "Date",
           "type": "string"
         },
         "render_command": {
           "$ref": "#/$defs/RenderCommand",
-          "description": "RenderCV's `render` command settings. They are the same as the command line arguments. CLI arguments have higher priority than the settings in the input file.",
+          "description": "Settings for the `render` command. These correspond to command-line arguments. CLI arguments take precedence over these settings.",
           "title": "Render Command Settings"
         },
         "bold_keywords": {
           "default": [],
-          "description": "The keywords that will be bold in the output. The default value is an empty list.",
+          "description": "Keywords to automatically bold in the output.",
           "items": {
             "type": "string"
           },
@@ -1726,11 +1723,9 @@
       "additionalProperties": false,
       "properties": {
         "network": {
-          "$ref": "#/$defs/SocialNetworkName",
-          "description": "The name of the social network or platform."
+          "$ref": "#/$defs/SocialNetworkName"
         },
         "username": {
-          "description": "Username on the platform.",
           "examples": [
             "john_doe",
             "@johndoe@mastodon.social",
@@ -1772,43 +1767,43 @@
         "language": {
           "const": "spanish",
           "default": "spanish",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `spanish`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Última actualización",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Última actualización`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "mes",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `mes`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "meses",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `meses`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "año",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `año`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "años",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `años`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "presente",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `presente`.",
           "title": "Present",
           "type": "string"
         },
@@ -1827,7 +1822,7 @@
             "Nov",
             "Dic"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1849,7 +1844,7 @@
             "Noviembre",
             "Diciembre"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1866,43 +1861,43 @@
         "language": {
           "const": "turkish",
           "default": "turkish",
-          "description": "The language of the locale. The default value is 'english'.",
+          "description": "The language for your CV. The default value is `turkish`.",
           "title": "Language",
           "type": "string"
         },
         "last_updated": {
           "default": "Son güncelleme",
-          "description": "Translation of \"Last updated in\" in the locale. The default value is \"Last updated in\".",
+          "description": "Translation of \"Last updated in\". The default value is `Son güncelleme`.",
           "title": "Last Updated",
           "type": "string"
         },
         "month": {
           "default": "ay",
-          "description": "Translation of the word \"month\" in the locale.",
+          "description": "Translation of \"month\" (singular). The default value is `ay`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
           "default": "ay",
-          "description": "Translation of the word \"months\" in the locale.",
+          "description": "Translation of \"months\" (plural). The default value is `ay`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
           "default": "yıl",
-          "description": "Translation of the word \"year\" in the locale.",
+          "description": "Translation of \"year\" (singular). The default value is `yıl`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
           "default": "yıl",
-          "description": "Translation of the word \"years\" in the locale.",
+          "description": "Translation of \"years\" (plural). The default value is `yıl`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
           "default": "halen",
-          "description": "Translation of the word \"present\" in the locale.",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `halen`.",
           "title": "Present",
           "type": "string"
         },
@@ -1921,7 +1916,7 @@
             "Kas",
             "Ara"
           ],
-          "description": "Abbreviations of the months in the locale.",
+          "description": "Month abbreviations (Jan-Dec).",
           "items": {
             "type": "string"
           },
@@ -1943,7 +1938,7 @@
             "Kasım",
             "Aralık"
           ],
-          "description": "Full names of the months in the locale.",
+          "description": "Full month names (January-December).",
           "items": {
             "type": "string"
           },
@@ -1962,7 +1957,6 @@
       "description": null,
       "properties": {
         "institution": {
-          "description": "The name of the educational institution.",
           "examples": [
             "Boğaziçi University",
             "MIT",
@@ -1991,7 +1985,6 @@
             }
           ],
           "default": null,
-          "description": "Degree type (e.g., BS, MS, PhD). Leave empty if not applicable.",
           "examples": [
             "BS",
             "BA",
@@ -2010,7 +2003,7 @@
             }
           ],
           "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "description": "The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2029,7 +2022,7 @@
             }
           ],
           "default": null,
-          "description": "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "description": "The start date in YYYY-MM-DD, YYYY-MM, or YYYY format.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2050,7 +2043,7 @@
             }
           ],
           "default": null,
-          "description": "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or simply omit `end_date` to automatically indicate the event is ongoing.",
+          "description": "The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or omit it to indicate the event is ongoing.",
           "examples": [
             "2024-05-20",
             "2024-05",
@@ -2105,7 +2098,7 @@
             }
           ],
           "default": null,
-          "description": "A list of bullet points highlighting your key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
@@ -2128,7 +2121,6 @@
       "description": null,
       "properties": {
         "company": {
-          "description": "Name of the company or organization.",
           "examples": [
             "Microsoft",
             "Google",
@@ -2138,7 +2130,6 @@
           "type": "string"
         },
         "position": {
-          "description": "Job title or role at the company.",
           "examples": [
             "Software Engineer",
             "Research Assistant",
@@ -2157,7 +2148,7 @@
             }
           ],
           "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "description": "The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2176,7 +2167,7 @@
             }
           ],
           "default": null,
-          "description": "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "description": "The start date in YYYY-MM-DD, YYYY-MM, or YYYY format.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2197,7 +2188,7 @@
             }
           ],
           "default": null,
-          "description": "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or simply omit `end_date` to automatically indicate the event is ongoing.",
+          "description": "The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or omit it to indicate the event is ongoing.",
           "examples": [
             "2024-05-20",
             "2024-05",
@@ -2252,7 +2243,7 @@
             }
           ],
           "default": null,
-          "description": "A list of bullet points highlighting your key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
@@ -2275,7 +2266,6 @@
       "description": null,
       "properties": {
         "name": {
-          "description": "The name of the entry, such as `Some Project`, `Some Event`, etc.",
           "examples": [
             "Some Project",
             "Some Event",
@@ -2294,7 +2284,7 @@
             }
           ],
           "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "description": "The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2313,7 +2303,7 @@
             }
           ],
           "default": null,
-          "description": "The start date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "description": "The start date in YYYY-MM-DD, YYYY-MM, or YYYY format.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2334,7 +2324,7 @@
             }
           ],
           "default": null,
-          "description": "The end date. Can be written in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or simply omit `end_date` to automatically indicate the event is ongoing.",
+          "description": "The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for ongoing events, or omit it to indicate the event is ongoing.",
           "examples": [
             "2024-05-20",
             "2024-05",
@@ -2389,7 +2379,7 @@
             }
           ],
           "default": null,
-          "description": "A list of bullet points highlighting your key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
@@ -2411,7 +2401,6 @@
       "description": null,
       "properties": {
         "label": {
-          "description": "The label/heading for this item (e.g., a category or field name).",
           "examples": [
             "Languages",
             "Citizenship",
@@ -2421,7 +2410,6 @@
           "type": "string"
         },
         "details": {
-          "description": "The details/value for this item.",
           "examples": [
             "English (native), Spanish (fluent)",
             "US Citizen",
@@ -2451,7 +2439,7 @@
           "type": "string"
         },
         "authors": {
-          "description": "List of authors. A name can be bolded by wrapping it with **double asterisks**.",
+          "description": "You can bold your name with **double asterisks**.",
           "examples": [
             [
               "John Doe",
@@ -2475,7 +2463,6 @@
             }
           ],
           "default": null,
-          "description": "A summary of the publication.",
           "examples": [
             "This paper presents a new method for computer vision."
           ],
@@ -2492,7 +2479,7 @@
             }
           ],
           "default": null,
-          "description": "The DOI (Digital Object Identifier) of the publication. If provided, it will be used as the link instead of the URL.",
+          "description": "The DOI (Digital Object Identifier). If provided, it will be used as the link instead of the URL.",
           "examples": [
             "10.48550/arXiv.2310.03138"
           ],
@@ -2511,7 +2498,7 @@
             }
           ],
           "default": null,
-          "description": "A URL link to the publication. Note: If DOI is provided, this URL will be ignored.",
+          "description": "A URL link to the publication. Ignored if DOI is provided.",
           "title": "Url"
         },
         "journal": {
@@ -2524,7 +2511,7 @@
             }
           ],
           "default": null,
-          "description": "The name of the journal, conference, or venue where it was published.",
+          "description": "The journal, conference, or venue where it was published.",
           "examples": [
             "Nature",
             "IEEE Conference on Computer Vision",
@@ -2542,7 +2529,7 @@
             }
           ],
           "default": null,
-          "description": "The date of this event. Can be in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023' or 'Summer 2020'. Use this for single-day or imprecise dates. For events with a duration, use `start_date` and `end_date` instead.",
+          "description": "The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead.",
           "examples": [
             "2020-09-24",
             "2020-09",
@@ -2570,13 +2557,13 @@
         },
         "headline": {
           "default": false,
-          "description": "Whether to make the headline bold. The default value is `true`.",
+          "description": "Whether to make the headline bold. The default value is `false`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
           "default": false,
-          "description": "Whether to make connections bold. The default value is `true`.",
+          "description": "Whether to make connections bold. The default value is `false`.",
           "title": "Connections",
           "type": "boolean"
         },
@@ -2601,13 +2588,13 @@
         },
         "headline": {
           "default": false,
-          "description": "Whether to make the headline bold. The default value is `true`.",
+          "description": "Whether to make the headline bold. The default value is `false`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
           "default": false,
-          "description": "Whether to make connections bold. The default value is `true`.",
+          "description": "Whether to make connections bold. The default value is `false`.",
           "title": "Connections",
           "type": "boolean"
         },
@@ -2632,13 +2619,13 @@
         },
         "headline": {
           "default": false,
-          "description": "Whether to make the headline bold. The default value is `true`.",
+          "description": "Whether to make the headline bold. The default value is `false`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
           "default": false,
-          "description": "Whether to make connections bold. The default value is `true`.",
+          "description": "Whether to make connections bold. The default value is `false`.",
           "title": "Connections",
           "type": "boolean"
         },
@@ -2663,13 +2650,13 @@
         },
         "headline": {
           "default": false,
-          "description": "Whether to make the headline bold. The default value is `true`.",
+          "description": "Whether to make the headline bold. The default value is `false`.",
           "title": "Headline",
           "type": "boolean"
         },
         "connections": {
           "default": false,
-          "description": "Whether to make connections bold. The default value is `true`.",
+          "description": "Whether to make connections bold. The default value is `false`.",
           "title": "Connections",
           "type": "boolean"
         },
@@ -2962,23 +2949,23 @@
         "phone_number_format": {
           "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`."
+          "description": "Phone number format. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
-          "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
+          "description": "Make contact information clickable in the PDF. The default value is `true`.",
           "title": "Hyperlink",
           "type": "boolean"
         },
         "show_icons": {
           "default": true,
-          "description": "Whether to show icons (phone, email, etc.) next to contact information. The default value is `true`.",
+          "description": "Show icons next to contact information. The default value is `true`.",
           "title": "Show Icons",
           "type": "boolean"
         },
         "display_urls_instead_of_usernames": {
           "default": false,
-          "description": "Whether to display full URLs instead of labels for connections. The default value is `false`.",
+          "description": "Display full URLs instead of labels. The default value is `false`.",
           "title": "Display Urls Instead Of Usernames",
           "type": "boolean"
         },
@@ -2991,7 +2978,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between each contact info item (email, phone, etc.). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -3003,23 +2990,23 @@
         "phone_number_format": {
           "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`."
+          "description": "Phone number format. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
-          "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
+          "description": "Make contact information clickable in the PDF. The default value is `true`.",
           "title": "Hyperlink",
           "type": "boolean"
         },
         "show_icons": {
           "default": false,
-          "description": "Whether to show icons (phone, email, etc.) next to contact information. The default value is `true`.",
+          "description": "Show icons next to contact information. The default value is `true`.",
           "title": "Show Icons",
           "type": "boolean"
         },
         "display_urls_instead_of_usernames": {
           "default": true,
-          "description": "Whether to display full URLs instead of labels for connections. The default value is `false`.",
+          "description": "Display full URLs instead of labels. The default value is `false`.",
           "title": "Display Urls Instead Of Usernames",
           "type": "boolean"
         },
@@ -3032,7 +3019,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between each contact info item (email, phone, etc.). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -3044,23 +3031,23 @@
         "phone_number_format": {
           "$ref": "#/$defs/PhoneNumberFormatType",
           "default": "national",
-          "description": "The format for phone numbers. The default value is `national`."
+          "description": "Phone number format. The default value is `national`."
         },
         "hyperlink": {
           "default": true,
-          "description": "Whether to make contact information clickable links in the PDF. The default value is `true`.",
+          "description": "Make contact information clickable in the PDF. The default value is `true`.",
           "title": "Hyperlink",
           "type": "boolean"
         },
         "show_icons": {
           "default": false,
-          "description": "Whether to show icons (phone, email, etc.) next to contact information. The default value is `true`.",
+          "description": "Show icons next to contact information. The default value is `true`.",
           "title": "Show Icons",
           "type": "boolean"
         },
         "display_urls_instead_of_usernames": {
           "default": true,
-          "description": "Whether to display full URLs instead of labels for connections. The default value is `false`.",
+          "description": "Display full URLs instead of labels. The default value is `false`.",
           "title": "Display Urls Instead Of Usernames",
           "type": "boolean"
         },
@@ -3073,7 +3060,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between each contact info item (email, phone, etc.). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -3245,37 +3232,37 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the right column (for dates and locations). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins for entry content. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
-          "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within entries. If false, entries that don't fit will move to a new page. The default value is `false`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "short_second_row": {
           "default": true,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
+          "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
-          "description": "Settings for entry summary text."
+          "description": "Summary text settings."
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Highlights__1",
-          "description": "Settings for entry highlights/bullet points."
+          "description": "Highlights settings."
         }
       },
       "title": "Entries",
@@ -3287,37 +3274,37 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the right column (for dates and locations). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins for entry content. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
-          "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within entries. If false, entries that don't fit will move to a new page. The default value is `false`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "short_second_row": {
           "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
+          "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
-          "description": "Settings for entry summary text."
+          "description": "Summary text settings."
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Highlights__2",
-          "description": "Settings for entry highlights/bullet points."
+          "description": "Highlights settings."
         }
       },
       "title": "Entries",
@@ -3329,37 +3316,37 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the right column (for dates and locations). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left and right margins for entry content. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
-          "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within entries. If false, entries that don't fit will move to a new page. The default value is `false`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "short_second_row": {
           "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
+          "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__3",
-          "description": "Settings for entry summary text."
+          "description": "Summary text settings."
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Highlights__3",
-          "description": "Settings for entry highlights/bullet points."
+          "description": "Highlights settings."
         }
       },
       "title": "Entries",
@@ -3371,37 +3358,37 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the right column (for dates and locations). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left and right margins for entry content. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.3cm`. The default value is `0.3cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.3cm`. The default value is `0.3cm`."
         },
         "allow_page_break": {
           "default": false,
-          "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within entries. If false, entries that don't fit will move to a new page. The default value is `false`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "short_second_row": {
           "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
+          "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__4",
-          "description": "Settings for entry summary text."
+          "description": "Summary text settings."
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Highlights__4",
-          "description": "Settings for entry highlights/bullet points."
+          "description": "Highlights settings."
         }
       },
       "title": "Entries",
@@ -3413,37 +3400,37 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the right column (for dates and locations). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins for entry content. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between the main content column and the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
-          "description": "Whether to allow page breaks within individual entries. If false, each entry will move to a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within entries. If false, entries that don't fit will move to a new page. The default value is `false`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "short_second_row": {
           "default": false,
-          "description": "If true, the second row of entries will be shortened to align with the top of the date/location column. The default value is `true`.",
+          "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
-          "description": "Settings for entry summary text."
+          "description": "Summary text settings."
         },
         "highlights": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Highlights__5",
-          "description": "Settings for entry highlights/bullet points."
+          "description": "Highlights settings."
         }
       },
       "title": "Entries",
@@ -3592,7 +3579,7 @@
         "headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
-          "description": "The font size for the headline. The default value is `20pt`."
+          "description": "The font size for the headline. The default value is `10pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
@@ -3624,7 +3611,7 @@
         "headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
-          "description": "The font size for the headline. The default value is `20pt`."
+          "description": "The font size for the headline. The default value is `10pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
@@ -3656,7 +3643,7 @@
         "headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "10pt",
-          "description": "The font size for the headline. The default value is `20pt`."
+          "description": "The font size for the headline. The default value is `10pt`."
         },
         "connections": {
           "$ref": "#/$defs/TypstDimension",
@@ -3678,16 +3665,16 @@
         "alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "center",
-          "description": "Alignment of header content (left, center, or right). The default value is `center`."
+          "description": "Header alignment. Options: 'left', 'center', 'right'. The default value is `center`."
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
-          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "description": "Photo position (left or right). The default value is `left`.",
           "enum": [
             "left",
             "right"
@@ -3722,7 +3709,7 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
-          "description": "Settings for contact information in the header."
+          "description": "Contact information settings."
         }
       },
       "title": "Header",
@@ -3734,16 +3721,16 @@
         "alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "left",
-          "description": "Alignment of header content (left, center, or right). The default value is `left`."
+          "description": "Header alignment. Options: 'left', 'center', 'right'. The default value is `left`."
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
-          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "description": "Photo position (left or right). The default value is `left`.",
           "enum": [
             "left",
             "right"
@@ -3778,7 +3765,7 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
-          "description": "Settings for contact information in the header."
+          "description": "Contact information settings."
         }
       },
       "title": "Header",
@@ -3790,16 +3777,16 @@
         "alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "center",
-          "description": "Alignment of header content (left, center, or right). The default value is `center`."
+          "description": "Header alignment. Options: 'left', 'center', 'right'. The default value is `center`."
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
-          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "description": "Photo position (left or right). The default value is `left`.",
           "enum": [
             "left",
             "right"
@@ -3834,7 +3821,7 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__2",
-          "description": "Settings for contact information in the header."
+          "description": "Contact information settings."
         }
       },
       "title": "Header",
@@ -3846,16 +3833,16 @@
         "alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "left",
-          "description": "Alignment of header content (left, center, or right). The default value is `left`."
+          "description": "Header alignment. Options: 'left', 'center', 'right'. The default value is `left`."
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "photo_position": {
           "default": "left",
-          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "description": "Photo position (left or right). The default value is `left`.",
           "enum": [
             "left",
             "right"
@@ -3890,7 +3877,7 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
-          "description": "Settings for contact information in the header."
+          "description": "Contact information settings."
         }
       },
       "title": "Header",
@@ -3902,16 +3889,16 @@
         "alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "center",
-          "description": "Alignment of header content (left, center, or right). The default value is `center`."
+          "description": "Header alignment. Options: 'left', 'center', 'right'. The default value is `center`."
         },
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "The width of your photo in the header. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
-          "description": "Position of your photo in the header (left or right). The default value is `left`.",
+          "description": "Photo position (left or right). The default value is `left`.",
           "enum": [
             "left",
             "right"
@@ -3946,7 +3933,7 @@
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__3",
-          "description": "Settings for contact information in the header."
+          "description": "Contact information settings."
         }
       },
       "title": "Header",
@@ -3958,32 +3945,32 @@
         "bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
+          "description": "Bullet character for highlights. The default value is `•`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
+          "description": "Bullet character for nested highlights. The default value is `•`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between the bullet point and the highlight text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -3995,32 +3982,32 @@
         "bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
+          "description": "Bullet character for highlights. The default value is `•`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
+          "description": "Bullet character for nested highlights. The default value is `•`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between the bullet point and the highlight text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -4032,32 +4019,32 @@
         "bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "●",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `●`."
+          "description": "Bullet character for highlights. The default value is `●`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "●",
-          "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
+          "description": "Bullet character for nested highlights. The default value is `●`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Space between the bullet point and the highlight text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         }
       },
       "title": "Highlights",
@@ -4069,32 +4056,32 @@
         "bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `•`."
+          "description": "Bullet character for highlights. The default value is `•`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "•",
-          "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
+          "description": "Bullet character for nested highlights. The default value is `•`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Space between the bullet point and the highlight text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         }
       },
       "title": "Highlights",
@@ -4106,32 +4093,32 @@
         "bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "◦",
-          "description": "The bullet character for highlights (your key achievements/responsibilities). The default value is `◦`."
+          "description": "Bullet character for highlights. The default value is `◦`."
         },
         "nested_bullet": {
           "$ref": "#/$defs/Bullet",
           "default": "◦",
-          "description": "The bullet character for nested (sub-level) highlights. The default value is `-`."
+          "description": "Bullet character for nested highlights. The default value is `◦`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Left indentation for highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above the highlights section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Vertical space between each highlight bullet point. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.25cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between the bullet point and the highlight text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -4142,13 +4129,13 @@
       "properties": {
         "underline": {
           "default": false,
-          "description": "Whether to underline hyperlinks in your CV. The default value is `false`.",
+          "description": "Underline hyperlinks. The default value is `false`.",
           "title": "Underline",
           "type": "boolean"
         },
         "show_external_link_icon": {
           "default": false,
-          "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
+          "description": "Show an external link icon next to URLs. The default value is `false`.",
           "title": "Show External Link Icon",
           "type": "boolean"
         }
@@ -4161,13 +4148,13 @@
       "properties": {
         "underline": {
           "default": false,
-          "description": "Whether to underline hyperlinks in your CV. The default value is `false`.",
+          "description": "Underline hyperlinks. The default value is `false`.",
           "title": "Underline",
           "type": "boolean"
         },
         "show_external_link_icon": {
           "default": false,
-          "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
+          "description": "Show an external link icon next to URLs. The default value is `false`.",
           "title": "Show External Link Icon",
           "type": "boolean"
         }
@@ -4180,13 +4167,13 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "Whether to underline hyperlinks in your CV. The default value is `false`.",
+          "description": "Underline hyperlinks. The default value is `false`.",
           "title": "Underline",
           "type": "boolean"
         },
         "show_external_link_icon": {
           "default": false,
-          "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
+          "description": "Show an external link icon next to URLs. The default value is `false`.",
           "title": "Show External Link Icon",
           "type": "boolean"
         }
@@ -4199,13 +4186,13 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "Whether to underline hyperlinks in your CV. The default value is `false`.",
+          "description": "Underline hyperlinks. The default value is `false`.",
           "title": "Underline",
           "type": "boolean"
         },
         "show_external_link_icon": {
           "default": false,
-          "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
+          "description": "Show an external link icon next to URLs. The default value is `false`.",
           "title": "Show External Link Icon",
           "type": "boolean"
         }
@@ -4218,13 +4205,13 @@
       "properties": {
         "underline": {
           "default": true,
-          "description": "Whether to underline hyperlinks in your CV. The default value is `false`.",
+          "description": "Underline hyperlinks. The default value is `false`.",
           "title": "Underline",
           "type": "boolean"
         },
         "show_external_link_icon": {
           "default": false,
-          "description": "Whether to show an external link icon next to URLs. The default value is `true`.",
+          "description": "Show an external link icon next to URLs. The default value is `false`.",
           "title": "Show External Link Icon",
           "type": "boolean"
         }
@@ -4346,37 +4333,37 @@
         "size": {
           "$ref": "#/$defs/PageSize",
           "default": "us-letter",
-          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`."
+          "description": "The page size. Use 'a4' (international standard) or 'us-letter' (US standard). The default value is `us-letter`."
         },
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "bottom_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "left_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "right_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "show_footer": {
           "default": true,
-          "description": "Whether to show the footer. The default value is `true`.",
+          "description": "Show the footer at the bottom of pages. The default value is `true`.",
           "title": "Show Footer",
           "type": "boolean"
         },
         "show_top_note": {
           "default": true,
-          "description": "Whether to show the top note. The default value is `true`.",
+          "description": "Show the top note at the top of the first page. The default value is `true`.",
           "title": "Show Top Note",
           "type": "boolean"
         }
@@ -4390,37 +4377,37 @@
         "size": {
           "$ref": "#/$defs/PageSize",
           "default": "us-letter",
-          "description": "The page size of your CV. Common options: 'a4' (international standard), 'us-letter' (US standard). The default value is `us-letter`."
+          "description": "The page size. Use 'a4' (international standard) or 'us-letter' (US standard). The default value is `us-letter`."
         },
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "bottom_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "left_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "right_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `2cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "show_footer": {
           "default": false,
-          "description": "Whether to show the footer. The default value is `true`.",
+          "description": "Show the footer at the bottom of pages. The default value is `true`.",
           "title": "Show Footer",
           "type": "boolean"
         },
         "show_top_note": {
           "default": true,
-          "description": "Whether to show the top note. The default value is `true`.",
+          "description": "Show the top note at the top of the first page. The default value is `true`.",
           "title": "Show Top Note",
           "type": "boolean"
         }
@@ -4453,7 +4440,7 @@
         "type": {
           "$ref": "#/$defs/SectionTitleType",
           "default": "with_partial_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_partial_line`."
+          "description": "Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. The default value is `with_partial_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4480,7 +4467,7 @@
         "type": {
           "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
+          "description": "Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4507,7 +4494,7 @@
         "type": {
           "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
+          "description": "Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4534,7 +4521,7 @@
         "type": {
           "$ref": "#/$defs/SectionTitleType",
           "default": "moderncv",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `moderncv`."
+          "description": "Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. The default value is `moderncv`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4561,7 +4548,7 @@
         "type": {
           "$ref": "#/$defs/SectionTitleType",
           "default": "with_full_line",
-          "description": "The visual style of section titles. 'with_partial_line' shows a line next to the title, 'with_full_line' extends the line across the page, 'without_line' shows no line, 'moderncv' uses the ModernCV style. The default value is `with_full_line`."
+          "description": "Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. The default value is `with_full_line`."
         },
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
@@ -4587,25 +4574,25 @@
       "properties": {
         "allow_page_break": {
           "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within sections. If false, sections that don't fit will start on a new page. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "default": [
             "experience"
           ],
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `['experience']`.",
           "examples": [
             [
               "Experience"
@@ -4630,22 +4617,22 @@
       "properties": {
         "allow_page_break": {
           "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within sections. If false, sections that don't fit will start on a new page. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
           },
@@ -4661,22 +4648,22 @@
       "properties": {
         "allow_page_break": {
           "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within sections. If false, sections that don't fit will start on a new page. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.42cm",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.42cm`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.42cm`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "show_time_spans_in": {
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
           },
@@ -4692,22 +4679,22 @@
       "properties": {
         "allow_page_break": {
           "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within sections. If false, sections that don't fit will start on a new page. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
           },
@@ -4723,22 +4710,22 @@
       "properties": {
         "allow_page_break": {
           "default": true,
-          "description": "Whether to allow page breaks within sections. If false, each section will start on a new page if it doesn't fit. The default value is `true`.",
+          "description": "Allow page breaks within sections. If false, sections that don't fit will start on a new page. The default value is `true`.",
           "title": "Allow Page Break",
           "type": "boolean"
         },
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between separate entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between separate text entries in a section. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
-          "description": "List of section titles where time spans (duration) should be displayed in entries. For example, ['Experience', 'Education'] will show '2 years 3 months' for applicable entries. The default value is `[]`.",
+          "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
           },
@@ -4755,12 +4742,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -4772,12 +4759,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -4789,12 +4776,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -4806,12 +4793,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space above the summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for the summary text (appears before highlights). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -5108,11 +5095,11 @@
         "line_spacing": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.6em",
-          "description": "The line spacing (space between lines of text). Larger values create more vertical space. The default value is `0.6em`."
+          "description": "Space between lines of text. Larger values create more vertical space. The default value is `0.6em`."
         },
         "alignment": {
           "default": "justified",
-          "description": "How text is aligned. 'justified' spreads text across the full width, 'left' aligns to the left edge. The default value is `justified`.",
+          "description": "Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). The default value is `justified`.",
           "enum": [
             "left",
             "justified",
@@ -5124,7 +5111,7 @@
         "date_and_location_column_alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "right",
-          "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
+          "description": "Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. The default value is `right`."
         },
         "font_family": {
           "anyOf": [
@@ -5135,20 +5122,20 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
-          "description": "Font size settings for different elements."
+          "description": "Font sizes for different elements."
         },
         "small_caps": {
           "$ref": "#/$defs/SmallCaps",
-          "description": "Small caps settings for different elements."
+          "description": "Small caps styling for different elements."
         },
         "bold": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Bold__1",
-          "description": "Bold settings for different elements."
+          "description": "Bold styling for different elements."
         }
       },
       "title": "Typography",
@@ -5160,11 +5147,11 @@
         "line_spacing": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.6em",
-          "description": "The line spacing (space between lines of text). Larger values create more vertical space. The default value is `0.6em`."
+          "description": "Space between lines of text. Larger values create more vertical space. The default value is `0.6em`."
         },
         "alignment": {
           "default": "justified",
-          "description": "How text is aligned. 'justified' spreads text across the full width, 'left' aligns to the left edge. The default value is `justified`.",
+          "description": "Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). The default value is `justified`.",
           "enum": [
             "left",
             "justified",
@@ -5176,7 +5163,7 @@
         "date_and_location_column_alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "right",
-          "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
+          "description": "Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. The default value is `right`."
         },
         "font_family": {
           "anyOf": [
@@ -5187,20 +5174,20 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
-          "description": "Font size settings for different elements."
+          "description": "Font sizes for different elements."
         },
         "small_caps": {
           "$ref": "#/$defs/SmallCaps",
-          "description": "Small caps settings for different elements."
+          "description": "Small caps styling for different elements."
         },
         "bold": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Bold__2",
-          "description": "Bold settings for different elements."
+          "description": "Bold styling for different elements."
         }
       },
       "title": "Typography",
@@ -5212,11 +5199,11 @@
         "line_spacing": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.6em",
-          "description": "The line spacing (space between lines of text). Larger values create more vertical space. The default value is `0.6em`."
+          "description": "Space between lines of text. Larger values create more vertical space. The default value is `0.6em`."
         },
         "alignment": {
           "default": "justified",
-          "description": "How text is aligned. 'justified' spreads text across the full width, 'left' aligns to the left edge. The default value is `justified`.",
+          "description": "Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). The default value is `justified`.",
           "enum": [
             "left",
             "justified",
@@ -5228,7 +5215,7 @@
         "date_and_location_column_alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "right",
-          "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
+          "description": "Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. The default value is `right`."
         },
         "font_family": {
           "anyOf": [
@@ -5239,20 +5226,20 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__2",
-          "description": "Font size settings for different elements."
+          "description": "Font sizes for different elements."
         },
         "small_caps": {
           "$ref": "#/$defs/SmallCaps",
-          "description": "Small caps settings for different elements."
+          "description": "Small caps styling for different elements."
         },
         "bold": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Bold__3",
-          "description": "Bold settings for different elements."
+          "description": "Bold styling for different elements."
         }
       },
       "title": "Typography",
@@ -5264,11 +5251,11 @@
         "line_spacing": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.6em",
-          "description": "The line spacing (space between lines of text). Larger values create more vertical space. The default value is `0.6em`."
+          "description": "Space between lines of text. Larger values create more vertical space. The default value is `0.6em`."
         },
         "alignment": {
           "default": "justified",
-          "description": "How text is aligned. 'justified' spreads text across the full width, 'left' aligns to the left edge. The default value is `justified`.",
+          "description": "Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). The default value is `justified`.",
           "enum": [
             "left",
             "justified",
@@ -5280,7 +5267,7 @@
         "date_and_location_column_alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "right",
-          "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
+          "description": "Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. The default value is `right`."
         },
         "font_family": {
           "anyOf": [
@@ -5291,20 +5278,20 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__3",
-          "description": "Font size settings for different elements."
+          "description": "Font sizes for different elements."
         },
         "small_caps": {
           "$ref": "#/$defs/SmallCaps",
-          "description": "Small caps settings for different elements."
+          "description": "Small caps styling for different elements."
         },
         "bold": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Bold__4",
-          "description": "Bold settings for different elements."
+          "description": "Bold styling for different elements."
         }
       },
       "title": "Typography",
@@ -5316,11 +5303,11 @@
         "line_spacing": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.6em",
-          "description": "The line spacing (space between lines of text). Larger values create more vertical space. The default value is `0.6em`."
+          "description": "Space between lines of text. Larger values create more vertical space. The default value is `0.6em`."
         },
         "alignment": {
           "default": "justified",
-          "description": "How text is aligned. 'justified' spreads text across the full width, 'left' aligns to the left edge. The default value is `justified`.",
+          "description": "Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). The default value is `justified`.",
           "enum": [
             "left",
             "justified",
@@ -5332,7 +5319,7 @@
         "date_and_location_column_alignment": {
           "$ref": "#/$defs/Alignment",
           "default": "right",
-          "description": "Alignment for the date and location column (the right column in entries). The default value is `right`."
+          "description": "Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. The default value is `right`."
         },
         "font_family": {
           "anyOf": [
@@ -5343,20 +5330,20 @@
               "$ref": "#/$defs/rendercv__schema__models__design__font_family__FontFamily"
             }
           ],
-          "description": "Either just the font family name as a string, or a font family dictionary with the keys 'body', 'name', 'headline', 'connections', and 'section_titles'. JSON Schema may give warnings, but any system font can be used.",
+          "description": "The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.",
           "title": "Font Family"
         },
         "font_size": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__FontSize__1",
-          "description": "Font size settings for different elements."
+          "description": "Font sizes for different elements."
         },
         "small_caps": {
           "$ref": "#/$defs/SmallCaps",
-          "description": "Small caps settings for different elements."
+          "description": "Small caps styling for different elements."
         },
         "bold": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Bold__1",
-          "description": "Bold settings for different elements."
+          "description": "Bold styling for different elements."
         }
       },
       "title": "Typography",

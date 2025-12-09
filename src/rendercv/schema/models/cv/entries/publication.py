@@ -17,38 +17,29 @@ class BasePublicationEntry(BaseEntry):
         ],
     )
     authors: list[str] = pydantic.Field(
-        description=(
-            "List of authors. A name can be bolded by wrapping it with **double"
-            " asterisks**."
-        ),
+        description="You can bold your name with **double asterisks**.",
         examples=[["John Doe", "**Jane Smith**", "Bob Johnson"]],
     )
     summary: str | None = pydantic.Field(
         default=None,
-        description="A summary of the publication.",
         examples=["This paper presents a new method for computer vision."],
     )
     doi: str | None = pydantic.Field(
         default=None,
         description=(
-            "The DOI (Digital Object Identifier) of the publication. If provided, it"
-            " will be used as the link instead of the URL."
+            "The DOI (Digital Object Identifier). If provided, it will be used as the"
+            " link instead of the URL."
         ),
         examples=["10.48550/arXiv.2310.03138"],
         pattern=r"\b10\..*",
     )
     url: pydantic.HttpUrl | None = pydantic.Field(
         default=None,
-        description=(
-            "A URL link to the publication. Note: If DOI is provided, this URL will be"
-            " ignored."
-        ),
+        description="A URL link to the publication. Ignored if DOI is provided.",
     )
     journal: str | None = pydantic.Field(
         default=None,
-        description=(
-            "The name of the journal, conference, or venue where it was published."
-        ),
+        description="The journal, conference, or venue where it was published.",
         examples=["Nature", "IEEE Conference on Computer Vision", "arXiv preprint"],
     )
 
