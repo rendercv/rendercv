@@ -6,9 +6,10 @@ from rendercv.renderer.templater.connections import (
     compute_connections,
     compute_connections_for_markdown,
     compute_connections_for_typst,
+    fontawesome_icons,
     parse_connections,
-    typst_fa_icons,
 )
+from rendercv.schema.models.cv.custom_connection import CustomConnection
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.social_network import SocialNetwork, SocialNetworkName
 from rendercv.schema.models.design.classic_theme import (
@@ -28,6 +29,7 @@ def create_cv(
     website: list[str] | str | None = None,
     location: str | None = None,
     social_networks: list[SocialNetwork] | None = None,
+    custom_connections: list[CustomConnection] | None = None,
 ) -> Cv:
     """Create a test CV with specified connection fields in a specific order.
 
@@ -44,10 +46,16 @@ def create_cv(
             cv_data["website"] = website
         elif key == "location" and location is not None:
             cv_data["location"] = location
+        elif key == "social_networks" and social_networks is not None:
+            cv_data["social_networks"] = social_networks
+        elif key == "custom_connections" and custom_connections is not None:
+            cv_data["custom_connections"] = custom_connections
 
     cv_data["name"] = "John Doe"
     if social_networks is not None:
         cv_data["social_networks"] = social_networks
+    if custom_connections is not None:
+        cv_data["custom_connections"] = custom_connections
 
     return Cv.model_validate(cv_data)
 
@@ -82,18 +90,23 @@ class TestParseConnections:
     @pytest.mark.parametrize(
         ("field", "value", "expected_count", "expected_icon"),
         [
-            ("email", "john@example.com", 1, "email"),
-            ("email", ["john@example.com", "jane@example.com"], 2, "email"),
-            ("phone", "+14155552671", 1, "phone"),
-            ("phone", ["+14155552671", "+442071234567"], 2, "phone"),
-            ("website", "https://example.com", 1, "website"),
+            ("email", "john@example.com", 1, fontawesome_icons["email"]),
+            (
+                "email",
+                ["john@example.com", "jane@example.com"],
+                2,
+                fontawesome_icons["email"],
+            ),
+            ("phone", "+14155552671", 1, fontawesome_icons["phone"]),
+            ("phone", ["+14155552671", "+442071234567"], 2, fontawesome_icons["phone"]),
+            ("website", "https://example.com", 1, fontawesome_icons["website"]),
             (
                 "website",
                 ["https://example.com", "https://blog.example.com"],
                 2,
-                "website",
+                fontawesome_icons["website"],
             ),
-            ("location", "New York, NY", 1, "location"),
+            ("location", "New York, NY", 1, fontawesome_icons["location"]),
         ],
     )
     def test_parse_single_field_type(self, field, value, expected_count, expected_icon):
@@ -103,7 +116,7 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == expected_count
-        assert all(c.icon_specifier == expected_icon for c in connections)
+        assert all(c.fontawesome_icon == expected_icon for c in connections)
 
     def test_email_connection_structure(self):
         cv = create_cv(key_order=["email"], email="john@example.com")
@@ -157,7 +170,7 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == 1
-        assert connections[0].icon_specifier == "LinkedIn"
+        assert connections[0].fontawesome_icon == fontawesome_icons["LinkedIn"]
         assert connections[0].url == "https://linkedin.com/in/johndoe"
         assert connections[0].body == "johndoe"
 
@@ -173,8 +186,13 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c.icon_specifier for c in connections]  # type: ignore
-        assert icons == ["location", "email", "phone", "website"]
+        icons = [c.fontawesome_icon for c in connections]  # type: ignore
+        assert icons == [
+            fontawesome_icons["location"],
+            fontawesome_icons["email"],
+            fontawesome_icons["phone"],
+            fontawesome_icons["website"],
+        ]
 
     def test_social_networks_appended_after_key_order(self):
         cv = create_cv(
@@ -189,8 +207,12 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c.icon_specifier for c in connections]  # type: ignore
-        assert icons == ["email", "LinkedIn", "GitHub"]
+        icons = [c.fontawesome_icon for c in connections]  # type: ignore
+        assert icons == [
+            fontawesome_icons["email"],
+            fontawesome_icons["LinkedIn"],
+            fontawesome_icons["GitHub"],
+        ]
 
     def test_empty_key_order_returns_empty_list(self):
         cv = create_cv(key_order=[])
@@ -210,7 +232,45 @@ class TestParseConnections:
         connections = parse_connections(model)
 
         assert len(connections) == 1
-        assert connections[0].icon_specifier == "email"
+        assert connections[0].fontawesome_icon == fontawesome_icons["email"]
+
+    def test_custom_connections_use_placeholder_and_icon(self):
+        custom_connection = CustomConnection(
+            fontawesome_icon="calendar-days",
+            placeholder="Book a call",
+            url="https://cal.com/johndoe",
+        )
+        cv = create_cv(
+            key_order=["custom_connections"],
+            custom_connections=[custom_connection],
+        )
+        model = create_rendercv_model(cv)
+
+        connections = parse_connections(model)
+
+        assert len(connections) == 1
+        connection = connections[0]
+        assert connection.fontawesome_icon == "calendar-days"
+        assert connection.url == str(custom_connection.url)
+        assert connection.body == "Book a call"
+
+    def test_custom_connection_without_url_is_plain(self):
+        custom_connection = CustomConnection(
+            fontawesome_icon="calendar-days",
+            placeholder="Office Hours",
+            url=None,
+        )
+        cv = create_cv(
+            key_order=["custom_connections"],
+            custom_connections=[custom_connection],
+        )
+        model = create_rendercv_model(cv)
+
+        connections = parse_connections(model)
+
+        assert len(connections) == 1
+        assert connections[0].url is None
+        assert connections[0].body == "Office Hours"
 
 
 class TestComputeConnectionsForTypst:
@@ -256,6 +316,24 @@ class TestComputeConnectionsForTypst:
 
         assert "john\\@example.com" in result[0]
 
+    def test_custom_connection_without_url_is_not_hyperlinked(self):
+        custom_connection = CustomConnection(
+            fontawesome_icon="calendar-days",
+            placeholder="Office Hours",
+            url=None,
+        )
+        cv = create_cv(
+            key_order=["custom_connections"],
+            custom_connections=[custom_connection],
+        )
+        model = create_rendercv_model(cv, use_icons=True, make_links=True)
+
+        result = compute_connections_for_typst(model)
+
+        assert "#link(" not in result[0]
+        assert '#connection-with-icon("calendar-days")' in result[0]
+        assert "Office Hours" in result[0]
+
 
 class TestComputeConnectionsForMarkdown:
     def test_connection_with_url_formatted_as_markdown_link(self):
@@ -274,6 +352,39 @@ class TestComputeConnectionsForMarkdown:
 
         assert result[0] == "New York, NY"
         assert "[" not in result[0]
+
+    def test_custom_connection_renders_markdown_link_when_url_is_present(self):
+        custom_connection = CustomConnection(
+            fontawesome_icon="calendar-days",
+            placeholder="Book a call",
+            url="https://cal.com/johndoe",
+        )
+        cv = create_cv(
+            key_order=["custom_connections"],
+            custom_connections=[custom_connection],
+        )
+        model = create_rendercv_model(cv)
+
+        result = compute_connections_for_markdown(model)
+
+        expected_url = str(custom_connection.url)
+        assert result[0] == f"[Book a call]({expected_url})"
+
+    def test_custom_connection_without_url_is_plain_text(self):
+        custom_connection = CustomConnection(
+            fontawesome_icon="calendar-days",
+            placeholder="Office Hours",
+            url=None,
+        )
+        cv = create_cv(
+            key_order=["custom_connections"],
+            custom_connections=[custom_connection],
+        )
+        model = create_rendercv_model(cv)
+
+        result = compute_connections_for_markdown(model)
+
+        assert result[0] == "Office Hours"
 
 
 class TestComputeConnections:
@@ -296,10 +407,12 @@ class TestComputeConnections:
 class TestIconMapping:
     @pytest.mark.parametrize("network", get_args(SocialNetworkName.__value__))
     def test_all_social_networks_have_icons(self, network):
-        assert network in typst_fa_icons, f"Missing icon for social network: {network}"
+        assert network in fontawesome_icons, (
+            f"Missing icon for social network: {network}"
+        )
 
     @pytest.mark.parametrize("conn_type", ["email", "phone", "website", "location"])
     def test_all_connection_types_have_icons(self, conn_type):
-        assert conn_type in typst_fa_icons, (
+        assert conn_type in fontawesome_icons, (
             f"Missing icon for connection type: {conn_type}"
         )

@@ -8,6 +8,28 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 from .markdown_parser import markdown_to_typst
 from .string_processor import clean_url
 
+fontawesome_icons = {
+    "LinkedIn": "linkedin",
+    "GitHub": "github",
+    "GitLab": "gitlab",
+    "IMDB": "imdb",
+    "Instagram": "instagram",
+    "Mastodon": "mastodon",
+    "ORCID": "orcid",
+    "StackOverflow": "stack-overflow",
+    "ResearchGate": "researchgate",
+    "YouTube": "youtube",
+    "Google Scholar": "graduation-cap",
+    "Telegram": "telegram",
+    "WhatsApp": "whatsapp",
+    "Leetcode": "code",
+    "X": "x-twitter",
+    "location": "location-dot",
+    "email": "envelope",
+    "phone": "phone",
+    "website": "link",
+}
+
 
 def compute_connections(
     rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
@@ -29,7 +51,7 @@ def compute_connections(
 
 @dataclass
 class Connection:
-    icon_specifier: str
+    fontawesome_icon: str
     url: str | None
     body: str
 
@@ -60,7 +82,9 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     url = f"mailto:{email}"
                     body = str(email)
                     connections.append(
-                        Connection(icon_specifier=key, url=url, body=body)
+                        Connection(
+                            fontawesome_icon=fontawesome_icons[key], url=url, body=body
+                        )
                     )
 
             case "phone":
@@ -79,7 +103,9 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                         ),
                     )
                     connections.append(
-                        Connection(icon_specifier=key, url=url, body=body)
+                        Connection(
+                            fontawesome_icon=fontawesome_icons[key], url=url, body=body
+                        )
                     )
 
             case "website":
@@ -92,56 +118,58 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     url = str(website)
                     body = clean_url(website)
                     connections.append(
-                        Connection(icon_specifier=key, url=url, body=body)
+                        Connection(
+                            fontawesome_icon=fontawesome_icons[key], url=url, body=body
+                        )
                     )
 
             case "location":
                 url = None
                 body = str(rendercv_model.cv.location)
-                connections.append(Connection(icon_specifier=key, url=None, body=body))
+                connections.append(
+                    Connection(
+                        fontawesome_icon=fontawesome_icons[key], url=None, body=body
+                    )
+                )
 
-            case _:
-                continue
+            case "social_networks":
+                assert rendercv_model.cv.social_networks is not None
+                for social_network in rendercv_model.cv.social_networks:
+                    url = social_network.url
+                    if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
+                        body = clean_url(url)
+                    else:
+                        match social_network.network:
+                            case "Google Scholar":
+                                body = "Google Scholar"
+                            case _:
+                                body = social_network.username
+                    connections.append(
+                        Connection(
+                            fontawesome_icon=fontawesome_icons[social_network.network],
+                            url=url,
+                            body=body,
+                        )
+                    )
 
-    if rendercv_model.cv.social_networks:
-        for social_network in rendercv_model.cv.social_networks:
-            url = social_network.url
-            if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
-                body = clean_url(url)
-            else:
-                match social_network.network:
-                    case "Google Scholar":
-                        body = "Google Scholar"
-                    case _:
-                        body = social_network.username
-            connections.append(
-                Connection(icon_specifier=social_network.network, url=url, body=body)
-            )
+            case "custom_connections":
+                assert rendercv_model.cv.custom_connections is not None
+                for custom_connection in rendercv_model.cv.custom_connections:
+                    url = (
+                        str(custom_connection.url)
+                        if custom_connection.url is not None
+                        else None
+                    )
+                    body = custom_connection.placeholder
+                    connections.append(
+                        Connection(
+                            fontawesome_icon=custom_connection.fontawesome_icon,
+                            url=url,
+                            body=body,
+                        )
+                    )
 
     return connections
-
-
-typst_fa_icons = {
-    "LinkedIn": "linkedin",
-    "GitHub": "github",
-    "GitLab": "gitlab",
-    "IMDB": "imdb",
-    "Instagram": "instagram",
-    "Mastodon": "mastodon",
-    "ORCID": "orcid",
-    "StackOverflow": "stack-overflow",
-    "ResearchGate": "researchgate",
-    "YouTube": "youtube",
-    "Google Scholar": "graduation-cap",
-    "Telegram": "telegram",
-    "WhatsApp": "whatsapp",
-    "Leetcode": "code",
-    "X": "x-twitter",
-    "location": "location-dot",
-    "email": "envelope",
-    "phone": "phone",
-    "website": "link",
-}
 
 
 def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
@@ -165,7 +193,7 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
 
     placeholders = [
         (
-            f'#connection-with-icon("{typst_fa_icons[connection.icon_specifier]}")'
+            f'#connection-with-icon("{connection.fontawesome_icon}")'
             f"[{markdown_to_typst(connection.body)}]"
             if show_icon
             else markdown_to_typst(connection.body)

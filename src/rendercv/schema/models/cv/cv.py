@@ -6,6 +6,7 @@ import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from ..base import BaseModelWithExtraKeys
 from ..path import ExistingPathRelativeToInput
+from .custom_connection import CustomConnection
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
@@ -69,6 +70,9 @@ class Cv(BaseModelWithExtraKeys):
         ],
     )
     social_networks: list[SocialNetwork] | None = pydantic.Field(
+        default=None,
+    )
+    custom_connections: list[CustomConnection] | None = pydantic.Field(
         default=None,
     )
     sections: dict[str, Section] | None = pydantic.Field(
