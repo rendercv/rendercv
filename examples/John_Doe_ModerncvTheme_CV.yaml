@@ -1,233 +1,323 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
 cv:
   name: John Doe
-  location: Location
-  email: john.doe@example.com
-  phone: +1-609-999-9995
-  website:
+  headline:
+  location: San Francisco, CA
+  email: john.doe@email.com
+  photo:
+  phone:
+  website: https://rendercv.com/
   social_networks:
     - network: LinkedIn
-      username: john.doe
+      username: rendercv
     - network: GitHub
-      username: john.doe
+      username: rendercv
+  custom_connections:
   sections:
-    welcome_to_RenderCV!:
-      - '[RenderCV](https://rendercv.com) is a Typst-based CV framework designed for academics and engineers, with Markdown syntax support.'
-      - Each section title is arbitrary. Each section contains a list of entries, and there are 7 different entry types to choose from.
+    Welcome to RenderCV:
+      - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
+      - See the [documentation](https://docs.rendercv.com) for more details.
     education:
-      - institution: Stanford University
+      - institution: Princeton University
         area: Computer Science
         degree: PhD
-        grade:
         date:
-        start_date: 2023-09
-        end_date: present
-        location: Stanford, CA, USA
+        start_date: 2018-09
+        end_date: 2023-05
+        location: Princeton, NJ
         summary:
         highlights:
-          - Working on the optimization of autonomous vehicles in urban environments
+          - 'Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment'
+          - 'Advisor: Prof. Sanjeev Arora'
+          - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
       - institution: Boğaziçi University
         area: Computer Engineering
         degree: BS
-        grade:
         date:
-        start_date: 2018-09
-        end_date: 2022-06
+        start_date: 2014-09
+        end_date: 2018-06
         location: Istanbul, Türkiye
         summary:
         highlights:
-          - 'GPA: 3.9/4.0, ranked 1st out of 100 students'
-          - 'Awards: Best Senior Project, High Honor'
+          - 'GPA: 3.97/4.00, Valedictorian'
+          - Fulbright Scholarship recipient for graduate studies
     experience:
-      - company: Company C
-        position: Summer Intern
-        date:
-        start_date: 2024-06
-        end_date: 2024-09
-        location: Livingston, LA, USA
-        summary:
-        highlights:
-          - Developed deep learning models for the detection of gravitational waves in LIGO data
-          - Published [3 peer-reviewed research papers](https://example.com) about the project and results
-      - company: Company B
-        position: Summer Intern
+      - company: Nexus AI
+        position: Co-Founder & CTO
         date:
         start_date: 2023-06
-        end_date: 2023-09
-        location: Ankara, Türkiye
+        end_date: present
+        location: San Francisco, CA
         summary:
         highlights:
-          - Optimized the production line by 15% by implementing a new scheduling algorithm
-      - company: Company A
-        position: Summer Intern
+          - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97% uptime
+          - Raised $18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
+          - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
+          - Developed proprietary inference optimization reducing latency by 73% compared to baseline
+      - company: NVIDIA Research
+        position: Research Intern
         date:
-        start_date: 2022-06
-        end_date: 2022-09
-        location: Istanbul, Türkiye
+        start_date: 2022-05
+        end_date: 2022-08
+        location: Santa Clara, CA
         summary:
         highlights:
-          - Designed an inventory management web application for a warehouse
+          - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
+          - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
+      - company: Google DeepMind
+        position: Research Intern
+        date:
+        start_date: 2021-05
+        end_date: 2021-08
+        location: London, UK
+        summary:
+        highlights:
+          - Developed reinforcement learning algorithms for multi-agent coordination
+          - Published research at top-tier venues with significant academic impact
+            - ICML 2022 main conference paper, cited 340+ times within two years
+            - NeurIPS 2022 workshop paper on emergent communication protocols
+            - Invited journal extension in JMLR (2023)
+      - company: Apple ML Research
+        position: Research Intern
+        date:
+        start_date: 2020-05
+        end_date: 2020-08
+        location: Cupertino, CA
+        summary:
+        highlights:
+          - Created on-device neural network compression pipeline deployed across 50M+ devices
+          - Filed 2 patents on efficient model quantization techniques for edge inference
+      - company: Microsoft Research
+        position: Research Intern
+        date:
+        start_date: 2019-05
+        end_date: 2019-08
+        location: Redmond, WA
+        summary:
+        highlights:
+          - Implemented novel self-supervised learning framework for low-resource language modeling
+          - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
     projects:
-      - name: '[Example Project](https://example.com)'
+      - name: '[FlashInfer](https://github.com/)'
         date:
-        start_date: 2024-05
+        start_date: 2023-01
         end_date: present
         location:
-        summary: A web application for writing essays
+        summary: Open-source library for high-performance LLM inference kernels
         highlights:
-          - Launched an [iOS app](https://example.com) in 09/2024 that currently has 10k+ monthly active users
-          - The app is made open-source (3,000+ stars [on GitHub](https://github.com))
-      - name: '[Teaching on Udemy](https://example.com)'
-        date: Fall 2023
+          - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
+          - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
+      - name: '[NeuralPrune](https://github.com/)'
+        date: '2021'
         start_date:
         end_date:
         location:
-        summary:
+        summary: Automated neural network pruning toolkit with differentiable masks
         highlights:
-          - Instructed the "Statistics" course on Udemy (60,000+ students, 200,000+ hours watched)
-    skills:
-      - label: Programming
-        details: Proficient with Python, C++, and Git; good understanding of Web, app development, and DevOps
-      - label: Mathematics
-        details: Good understanding of differential equations, calculus, and linear algebra
-      - label: Languages
-        details: 'English (fluent, TOEFL: 118/120), Turkish (native)'
+          - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
+          - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
     publications:
-      - title: 3D Finite Element Analysis of No-Insulation Coils
+      - title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
         authors:
-          - Frodo Baggins
-          - '***John Doe***'
-          - Samwise Gamgee
-        doi: 10.1109/TASC.2023.3340648
+          - '*John Doe*'
+          - Sarah Williams
+          - David Park
+        summary:
+        doi: 10.1234/neurips.2023.1234
         url:
-        journal:
-        date: 2004-01
-    extracurricular_activities:
-      - bullet: 'There are 7 unique entry types in RenderCV: *BulletEntry*, *TextEntry*, *EducationEntry*, *ExperienceEntry*, *NormalEntry*, *PublicationEntry*, and *OneLineEntry*.'
-      - bullet: Each entry type has a different structure and layout. This document demonstrates all of them.
-    numbered_entries:
-      - number: This is a numbered entry.
-      - number: This is another numbered entry.
-      - number: This is the third numbered entry.
-    reversed_numbered_entries:
-      - reversed_number: This is a reversed numbered entry.
-      - reversed_number: This is another reversed numbered entry.
-      - reversed_number: This is the third reversed numbered entry.
-  sort_entries: none
+        journal: NeurIPS 2023
+        date: 2023-07
+      - title: Neural Architecture Search via Differentiable Pruning
+        authors:
+          - James Liu
+          - '*John Doe*'
+        summary:
+        doi: 10.1234/neurips.2022.5678
+        url:
+        journal: NeurIPS 2022, Spotlight
+        date: 2022-12
+      - title: Multi-Agent Reinforcement Learning with Emergent Communication
+        authors:
+          - Maria Garcia
+          - '*John Doe*'
+          - Tom Anderson
+        summary:
+        doi: 10.1234/icml.2022.9012
+        url:
+        journal: ICML 2022
+        date: 2022-07
+      - title: On-Device Model Compression via Learned Quantization
+        authors:
+          - '*John Doe*'
+          - Kevin Wu
+        summary:
+        doi: 10.1234/iclr.2021.3456
+        url:
+        journal: ICLR 2021, Best Paper Award
+        date: 2021-05
+    selected_honors:
+      - bullet: MIT Technology Review 35 Under 35 Innovators (2024)
+      - bullet: Forbes 30 Under 30 in Enterprise Technology (2024)
+      - bullet: ACM Doctoral Dissertation Award Honorable Mention (2023)
+      - bullet: Google PhD Fellowship in Machine Learning (2020 – 2023)
+      - bullet: Fulbright Scholarship for Graduate Studies (2018)
+    skills:
+      - label: Languages
+        details: Python, C++, CUDA, Rust, Julia
+      - label: ML Frameworks
+        details: PyTorch, JAX, TensorFlow, Triton, ONNX
+      - label: Infrastructure
+        details: Kubernetes, Ray, distributed training, AWS, GCP
+      - label: Research Areas
+        details: Neural architecture search, model compression, efficient inference, multi-agent RL
+    patents:
+      - number: Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
+      - number: Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
+      - number: Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
+    invited_talks:
+      - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
+      - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
+      - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
+      - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
+    any_section_title:
+      - You can use any section title you want.
+      - 'You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`.'
+      - Markdown syntax is supported everywhere.
+      - The `design` field in YAML gives you control over almost any aspect of your CV design.
+      - See the [documentation](https://docs.rendercv.com) for more details.
 design:
   theme: moderncv
-  page:
-    size: us-letter
-    top_margin: 2cm
-    bottom_margin: 2cm
-    left_margin: 2cm
-    right_margin: 2cm
-    show_page_numbering: true
-    show_last_updated_date: true
-  colors:
-    text: rgb(0, 0, 0)
-    name: rgb(0, 79, 144)
-    connections: rgb(0, 79, 144)
-    section_titles: rgb(0, 79, 144)
-    links: rgb(0, 79, 144)
-    last_updated_date_and_page_numbering: rgb(128, 128, 128)
-  text:
-    font_family: Fontin
-    font_size: 10pt
-    leading: 0.6em
-    alignment: justified
-    date_and_location_column_alignment: right
-  links:
-    underline: true
-    use_external_link_icon: false
-  header:
-    name_font_family: Fontin
-    name_font_size: 25pt
-    name_bold: false
-    small_caps_for_name: false
-    photo_width: 3.5cm
-    vertical_space_between_name_and_connections: 0.7cm
-    vertical_space_between_connections_and_first_section: 0.7cm
-    horizontal_space_between_connections: 0.5cm
-    connections_font_family: Fontin
-    separator_between_connections: ''
-    use_icons_for_connections: true
-    use_urls_as_placeholders_for_connections: false
-    make_connections_links: true
-    alignment: left
-  section_titles:
-    type: moderncv
-    font_family: Fontin
-    font_size: 1.4em
-    bold: false
-    small_caps: false
-    line_thickness: 0.15cm
-    vertical_space_above: 0.55cm
-    vertical_space_below: 0.3cm
-  entries:
-    date_and_location_width: 4.15cm
-    left_and_right_margin: 0cm
-    horizontal_space_between_columns: 0.4cm
-    vertical_space_between_entries: 0.4cm
-    allow_page_break_in_sections: true
-    allow_page_break_in_entries: true
-    short_second_row: false
-    show_time_spans_in: []
-  highlights:
-    bullet: •
-    nested_bullet: '-'
-    top_margin: 0.25cm
-    left_margin: 0cm
-    vertical_space_between_highlights: 0.19cm
-    horizontal_space_between_bullet_and_highlight: 0.3em
-    summary_left_margin: 0cm
-  entry_types:
-    one_line_entry:
-      template: '**LABEL:** DETAILS'
-    education_entry:
-      main_column_first_row_template: '**INSTITUTION**, DEGREE in AREA -- LOCATION'
-      degree_column_template:
-      degree_column_width: 1cm
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: DATE
-    normal_entry:
-      main_column_first_row_template: '**NAME** -- **LOCATION**'
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: DATE
-    experience_entry:
-      main_column_first_row_template: '**POSITION**, COMPANY -- LOCATION'
-      main_column_second_row_template: |-
-        SUMMARY
-        HIGHLIGHTS
-      date_and_location_column_template: DATE
-    publication_entry:
-      main_column_first_row_template: '**TITLE**'
-      main_column_second_row_template: |-
-        AUTHORS
-        URL (JOURNAL)
-      main_column_second_row_without_journal_template: |-
-        AUTHORS
-        URL
-      main_column_second_row_without_url_template: |-
-        AUTHORS
-        JOURNAL
-      date_and_location_column_template: DATE
+  # page:
+  #   size: us-letter
+  #   top_margin: 0.7in
+  #   bottom_margin: 0.7in
+  #   left_margin: 0.7in
+  #   right_margin: 0.7in
+  #   show_footer: true
+  #   show_top_note: true
+  # colors:
+  #   body: rgb(0, 0, 0)
+  #   name: rgb(0, 79, 144)
+  #   headline: rgb(0, 79, 144)
+  #   connections: rgb(0, 79, 144)
+  #   section_titles: rgb(0, 79, 144)
+  #   links: rgb(0, 79, 144)
+  #   footer: rgb(128, 128, 128)
+  #   top_note: rgb(128, 128, 128)
+  # typography:
+  #   line_spacing: 0.6em
+  #   alignment: justified
+  #   date_and_location_column_alignment: right
+  #   font_family:
+  #     body: Fontin
+  #     name: Fontin
+  #     headline: Fontin
+  #     connections: Fontin
+  #     section_titles: Fontin
+  #   font_size:
+  #     body: 10pt
+  #     name: 25pt
+  #     headline: 10pt
+  #     connections: 10pt
+  #     section_titles: 1.4em
+  #   small_caps:
+  #     name: false
+  #     headline: false
+  #     connections: false
+  #     section_titles: false
+  #   bold:
+  #     name: false
+  #     headline: false
+  #     connections: false
+  #     section_titles: false
+  # links:
+  #   underline: true
+  #   show_external_link_icon: false
+  # header:
+  #   alignment: left
+  #   photo_width: 4.15cm
+  #   photo_position: left
+  #   photo_space_left: 0cm
+  #   photo_space_right: 0.3cm
+  #   space_below_name: 0.7cm
+  #   space_below_headline: 0.7cm
+  #   space_below_connections: 0.7cm
+  #   connections:
+  #     phone_number_format: national
+  #     hyperlink: true
+  #     show_icons: true
+  #     display_urls_instead_of_usernames: false
+  #     separator: ''
+  #     space_between_connections: 0.5cm
+  # section_titles:
+  #   type: moderncv
+  #   line_thickness: 0.15cm
+  #   space_above: 0.55cm
+  #   space_below: 0.3cm
+  # sections:
+  #   allow_page_break: true
+  #   space_between_regular_entries: 1.2em
+  #   space_between_text_based_entries: 0.3em
+  #   show_time_spans_in: []
+  # entries:
+  #   date_and_location_width: 4.15cm
+  #   side_space: 0cm
+  #   space_between_columns: 0.3cm
+  #   allow_page_break: false
+  #   short_second_row: false
+  #   summary:
+  #     space_above: 0.1cm
+  #     space_left: 0cm
+  #   highlights:
+  #     bullet: •
+  #     nested_bullet: •
+  #     space_left: 0cm
+  #     space_above: 0.15cm
+  #     space_between_items: 0.1cm
+  #     space_between_bullet_and_text: 0.3em
+  # templates:
+  #   footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
+  #   top_note: '*LAST_UPDATED CURRENT_DATE*'
+  #   single_date: MONTH_ABBREVIATION YEAR
+  #   date_range: START_DATE – END_DATE
+  #   time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
+  #   one_line_entry:
+  #     main_column: '**LABEL:** DETAILS'
+  #   education_entry:
+  #     main_column: |-
+  #       **INSTITUTION**, DEGREE in AREA -- LOCATION
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     degree_column:
+  #     date_and_location_column: DATE
+  #   normal_entry:
+  #     main_column: |-
+  #       **NAME** -- **LOCATION**
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     date_and_location_column: DATE
+  #   experience_entry:
+  #     main_column: |-
+  #       **POSITION**, COMPANY -- LOCATION
+  #       SUMMARY
+  #       HIGHLIGHTS
+  #     date_and_location_column: DATE
+  #   publication_entry:
+  #     main_column: |-
+  #       **TITLE**
+  #       SUMMARY
+  #       AUTHORS
+  #       URL (JOURNAL)
+  #     date_and_location_column: DATE
 locale:
-  language: en
-  phone_number_format: national
-  page_numbering_template: NAME - Page PAGE_NUMBER of TOTAL_PAGES
-  last_updated_date_template: Last updated in TODAY
-  date_template: MONTH_ABBREVIATION YEAR
+  language: english
+  last_updated: Last updated in
   month: month
   months: months
   year: year
   years: years
   present: present
-  to: –
-  abbreviations_for_months:
+  month_abbreviations:
     - Jan
     - Feb
     - Mar
@@ -240,7 +330,7 @@ locale:
     - Oct
     - Nov
     - Dec
-  full_names_of_months:
+  month_names:
     - January
     - February
     - March
@@ -253,7 +343,19 @@ locale:
     - October
     - November
     - December
-rendercv_settings:
-  date: '2025-10-28'
+settings:
+  current_date: '2025-12-09'
+  render_command:
+    design:
+    locale:
+    typst_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.md
+    html_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.html
+    png_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: false
+    dont_generate_html: false
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: false
   bold_keywords: []
-  sort_entries: none

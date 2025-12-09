@@ -1,0 +1,40 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: engineeringclassic
+  typography:
+    font_family:
+      body: Raleway
+      name: Raleway
+      headline: Raleway
+      connections: Raleway
+      section_titles: Raleway
+    bold:
+      name: false
+      section_titles: false
+  header:
+    alignment: left
+  links:
+    show_external_link_icon: false
+  section_titles:
+    type: with_full_line
+  sections:
+    show_time_spans_in: []
+  entries:
+    short_second_row: false
+    summary:
+      space_above: 0.12cm
+    highlights:
+      space_left: "0cm"
+      space_above: 0.12cm
+      space_between_items: "0.12cm"
+  templates:
+    education_entry:
+      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
+    normal_entry:
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

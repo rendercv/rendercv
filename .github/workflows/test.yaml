@@ -20,25 +20,23 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, windows, macos]
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.12", "3.13", "3.14"]
 
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
-        with:
-          python-version: "${{ matrix.python-version}}"
 
       - name: Install just
         uses: taiki-e/install-action@just
 
       - name: Install the project
-        run: uv sync --locked --all-extras --all-groups
+        run: just install
 
       - name: Test
-        run: just test-with-coverage
+        run: just test-coverage
 
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
@@ -51,14 +49,12 @@ jobs:
           path: .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
   report-coverage:
-    # Run only if the workflow was triggered by a push event
-    if: github.event_name == 'push'
     name: Generate the coverage report
     needs: [test]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - name: Download coverage files
         uses: actions/download-artifact@v6
@@ -71,7 +67,7 @@ jobs:
         uses: astral-sh/setup-uv@v7
 
       - name: Install the project
-        run: uv sync --locked --all-extras --all-groups
+        run: just install
 
       - name: Install just
         uses: taiki-e/install-action@just
@@ -86,6 +82,6 @@ jobs:
         run: uv tool run smokeshow==0.4.0 upload ./htmlcov
         env:
           SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
-          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 20
+          SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
           SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}

@@ -1,0 +1,15 @@
+# Keys are Pydantic's error messages. The values are what we want to show to the user.
+Input should be 'present': This is not a valid `end_date`. Please use either YYYY-MM-DD, YYYY-MM, or YYYY format or 'present'.
+Input should be a valid integer, unable to parse string as an integer: This is not a valid date. Please use either YYYY-MM-DD, YYYY-MM, or YYYY format.
+String should match pattern '\\d{4}-\\d{2}(-\\d{2})?': This is not a valid date. Please use either YYYY-MM-DD, YYYY-MM, or YYYY format.
+String should match pattern '\\b10\\..*': A DOI prefix should always start with "10.". For example, "10.1109/TASC.2023.3340648".
+URL scheme should be 'http' or 'https': This is not a valid URL.
+Field required: This field is required.
+value is not a valid phone number: This is not a valid phone number.
+month must be in 1..12: The month must be between 1 and 12.
+day is out of range for month: The day is out of range for the month.
+Extra inputs are not permitted: This field is unknown for this object. Please remove it.
+Input should be a valid string: This field should be provided or removed to use the default value.
+Input should be a valid list: This field should contain a list of items but it doesn't.
+"value is not a valid color: value must be tuple, list or string": 'This is not a valid color. Here are some examples of valid colors: "red", "#ff0000", "rgb(255, 0, 0)", "hsl(0, 100%, 50%)"'
+"value is not a valid color: string not recognised as a valid color": 'This is not a valid color. Here are some examples of valid colors: "red", "#ff0000", "rgb(255, 0, 0)", "hsl(0, 100%, 50%)"'

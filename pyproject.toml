@@ -43,16 +43,15 @@ description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
 readme = "README.md"
-requires-python = '>=3.10'
+requires-python = '>=3.12'
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
     'Jinja2>=3.1.6',                # Generate Typst and Markdown files
-    'phonenumbers>=9.0.16',         # Validate phone numbers
-    'email-validator>=2.3.0',       # Validate email addresses
-    'pydantic>=2.12.3',             # Validate and parse input files
-    'pycountry>=24.6.1',            # ISO 639-3 validation
+    'phonenumbers>=9.0.19',         # Validate phone numbers
+    'pydantic[email]>=2.10.6',      # Validate and parse input files
     'pydantic-extra-types>=2.10.6', # Validate extra types
-    'ruamel.yaml>=0.18.16',         # Parse YAML files
+    'ruamel.yaml>=0.18.10',         # Parse YAML files
+    "packaging>=25.0",              # For version checking
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -71,12 +70,11 @@ classifiers = [
 
 [project.optional-dependencies]
 full = [
-    'typer>=0.20.0',   # Command-line interface
-    'markdown>=3.9',   # Convert Markdown to HTML
-    'watchdog>=6.0.0', # Monitor files for updates
-    'typst>=0.13.7',   # Render PDF from Typst source files
-    'packaging>=25.0', # Validate version numbers
-    'rendercv-fonts',  # Font files for RenderCV
+    'typer>=0.20.0',         # Command-line interface
+    'markdown>=3.10',        # Convert Markdown to HTML
+    'watchdog>=6.0.0',       # Monitor files for updates
+    'typst>=0.14.4',         # Render PDF from Typst source files
+    'rendercv-fonts>=0.5.1', # Font files for RenderCV
 ]
 
 [project.urls]
@@ -92,36 +90,32 @@ Changelog = 'https://docs.rendercv.com/changelog'
 # See https://hatch.pypa.io/latest/config/metadata/#cli
 
 # The key and value below mean: when someone installs RenderCV,
-# running `rendercv` in the terminal executes the function `app` in the module `cli`
-# inside the package `rendercv`.
-rendercv = 'rendercv.cli:app'
+# running `rendercv` in the terminal executes the function `entry_point` in
+# `src/rendercv/cli/entry_point.py`.
+rendercv = 'rendercv.cli.entry_point:entry_point'
 
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-    'ruff>=0.14.1', # Lint and format the code
-    'black>=25.9.0', # Format the code
-    'pyright>=1.1.406', # Type checking
-    'pre-commit>=4.3.0', # Run checks before committing
-    'pytest>=8.4.2', # Run tests
-    'pypdf>=6.1.3', # Read PDF files
-    'snakeviz>=2.2.2', # Profiling
-    'pyinstaller>=6.16.0', # Build executables
-    "pytest-xdist>=3.8.0",
-    "pytest-cov>=7.0.0",
-    "coverage>=7.11.0",
-    "pytest-rerunfailures>=16.1",
+    'ruff>=0.14.8',        # Lint and format the code
+    'black>=25.12.0',      # Format the code
+    'pyright>=1.1.407',    # Type checking
+    'pre-commit>=4.5.0',   # Run checks before committing
+    'pytest>=9.0.2',       # Run tests
+    'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
+    'pyinstaller>=6.17.0', # Build executables
+    "pytest-xdist>=3.8.0", # Run tests in parallel
 ]
 docs = [
-    'mkdocs-material>=9.6.20',
-    'mkdocstrings[python]>=0.30.1', # Build reference docs from docstrings
-    'pdfCropMargins>=2.2.1',        # Generate entry figures for documentation
-    'pillow>=10.4.0',               # Lock dependency of pdfCropMargins
-    'mkdocs-macros-plugin>=1.4.0',  # Enable dynamic content in docs
-    'PyMuPDF>=1.26.5',              # Convert PDF files to images
-]
-exe = [
-    'pyinstaller>=6.16.0', # Build executables
+    'mkdocs-material>=9.7.0',
+    'mkdocs-gen-files>=0.6.0',     # Dynamic page generation for API reference
+    'mkdocs-literate-nav>=0.6.2',  # Dynamic navigation for API reference
+    'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
+    'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
+    'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
+    'pdfCropMargins==2.2.1',       # Generate entry figures for documentation
+    'pillow==10.4.0',              # Lock dependency of pdfCropMargins
+    'PyMuPDF==1.26.5',             # Convert PDF files to images
 ]
 
 # Tools Settings:
@@ -165,6 +159,8 @@ ignore = [
     'ISC001', # Conflicts with formatter
     'UP007',  # Allow Optional type
     'PGH003', # Prefer not to ignore this
+    'RUF001', # Allow other characters for locale
+    'EM101',  # Allow
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 
@@ -176,6 +172,8 @@ enable-unstable-feature = [
 ] # Break strings into multiple lines
 
 [tool.pyright]
+venvPath = "."
+venv = ".venv"
 typeCheckingMode = 'standard'
 enableTypeIgnoreComments = false
 reportUnnecessaryTypeIgnoreComment = true
@@ -183,10 +181,10 @@ reportIncompatibleVariableOverride = false
 reportIncompatibleMethodOverride = false
 reportMissingTypeStubs = false
 reportPrivateUsage = false
-exclude = ['rendercv/themes/*']
+exclude = ['docs/**/*']
 
 [tool.coverage.run]
-source = ['rendercv']             # Measure coverage in this source
+source = ['src/rendercv']         # Measure coverage in this source
 concurrency = ['multiprocessing'] # For watcher tests
 
 # Use relative paths for cross-platform coverage merging:
@@ -208,8 +206,6 @@ addopts = [
     '--strict-markers',    # Disallow unknown markers
     '--strict-config',     # Fail on unknown config options
     '--numprocesses=auto', # Number of processes in parallel
-    '--dist=loadfile',     # Make sure specific jobs are grouped
-    '--reruns=5',          # Rerun flaky tests
 ]
 testpaths = ['tests']
 

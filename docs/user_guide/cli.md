@@ -1,201 +1,91 @@
-# Command Line Interface (CLI)
+---
+toc_depth: 1
+---
 
-This page lists the available commands and options of the RenderCV CLI.
+# CLI Reference
 
-## `rendercv` command
+## `rendercv`
 
-- `#!bash --version` or `#!bash -v`
+Show version:
 
-    Shows the version of RenderCV.
+```bash
+rendercv --version  
+```
 
-    ```bash
-    rendercv --version
-    ```
+Show help:
 
-- `#!bash --help` or `#!bash -h`
-    
-    Shows the help message.
+```bash
+rendercv --help        
+```
 
-    ```bash
-    rendercv --help
-    ```
+## `rendercv new`
 
-## `rendercv new` command
+Create a new CV YAML input file
 
-- `#!bash --theme "THEME_NAME"`
+```bash
+rendercv new "John Doe"
+```
 
-    Generates files for a specific built-in theme, instead of the default `classic` theme. Currently, the available themes are: {{available_themes}}.
+### Options
 
-    ```bash
-    rendercv new "Full Name" --theme "THEME_NAME" 
-    ```
+| Option                        | Description                                                      |
+| ----------------------------- | ---------------------------------------------------------------- |
+| `--theme THEME`               | Use a built-in theme: << available_themes >>. Default: `classic` |
+| `--locale LOCALE`             | Use a locale: << available_locales >>. Default: `english`        |
+| `--create-typst-templates`    | Generate Typst template files for advanced customization         |
+| `--create-markdown-templates` | Generate Markdown template files for advanced customization      |
 
-- `#!bash --dont-create-theme-source-files` or `#!bash -notypst`
+## `rendercv render`
 
-    Prevents the creation of the theme source files. By default, the theme source files are created.
+Render a CV from a YAML file.
 
-    ```bash
-    rendercv new "Full Name" --dont-create-theme-source-files
-    ```
+```bash
+rendercv render John_Doe_CV.yaml
+```
 
-- `#!bash --dont-create-markdown-source-files` or `#!bash -nomd`
+### Options
 
-    Prevents the creation of the Markdown source files. By default, the Markdown source files are created.
+All output paths are relative to the input file.
 
-    ```bash
-    rendercv new "Full Name" --dont-create-markdown-source-files
-    ```
+| Option                     | Short     | Description                                              |
+| -------------------------- | --------- | -------------------------------------------------------- |
+| `--watch`                  | `-w`      | Re-render automatically when the YAML file changes       |
+| `--quiet`                  | `-q`      | Suppress all output messages                             |
+| `--design FILE`            | `-d`      | Load `design` field from a separate YAML file            |
+| `--locale-catalog FILE`    | `-lc`     | Load `locale` field from a separate YAML file            |
+| `--settings FILE`          | `-s`      | Load `rendercv_settings` field from a separate YAML file |
+| `--pdf-path PATH`          | `-pdf`    | Custom path for PDF output                               |
+| `--typst-path PATH`        | `-typ`    | Custom path for Typst source output                      |
+| `--markdown-path PATH`     | `-md`     | Custom path for Markdown output                          |
+| `--html-path PATH`         | `-html`   | Custom path for HTML output                              |
+| `--png-path PATH`          | `-png`    | Custom path for PNG output                               |
+| `--dont-generate-pdf`      | `-nopdf`  | Skip PDF generation                                      |
+| `--dont-generate-typst`    | `-notyp`  | Skip Typst generation (implies `-nopdf`, `-nopng`)       |
+| `--dont-generate-markdown` | `-nomd`   | Skip Markdown generation (implies `-nohtml`)             |
+| `--dont-generate-html`     | `-nohtml` | Skip HTML generation                                     |
+| `--dont-generate-png`      | `-nopng`  | Skip PNG generation                                      |
 
-- `#!bash --help` or `#!bash -h`
 
-    Shows the help message.
+### Overriding YAML values
 
-    ```bash
-    rendercv new --help
-    ```
+Override any field in the YAML file from the command line:
 
+```bash
+rendercv render John_Doe_CV.yaml --cv.phone "+1-555-555-5555"
+```
 
-## `rendercv render` command
+```bash
+rendercv render John_Doe_CV.yaml --cv.sections.education.0.institution "MIT"
+```
 
-- `#!bash --watch` or `#!bash -w`
+Useful for keeping sensitive information (phone, address) out of version control.
 
-    Watches the input YAML file for changes and automatically renders if there is any change.
+## `rendercv create-theme`
 
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --watch
-    ```
+Create a custom theme with Typst templates you can modify.
 
-- `#!bash --output-folder-name "OUTPUT_FOLDER_NAME"` or `#!bash -o "OUTPUT_FOLDER_NAME"`
+```bash
+rendercv create-theme "mytheme"
+```
 
-    Generates the output files in a folder with the given name. By default, the output folder name is `rendercv_output`. The output folder will be created in the current working directory.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --output-folder-name "OUTPUT_FOLDER_NAME"
-    ```
-
-- `#!bash --typst-path "PATH"` or `#!bash -typst "PATH"`
-
-    Copies the generated Typst source code from the output folder and pastes it to the specified path.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --typst-path "PATH"
-    ```
-
-- `#!bash --pdf-path "PATH"` or `#!bash -pdf "PATH"`
-
-    Copies the generated PDF file from the output folder and pastes it to the specified path.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --pdf-path "PATH"
-    ```
-
-- `#!bash --markdown-path "PATH"` or `#!bash -md "PATH"`
-
-    Copies the generated Markdown file from the output folder and pastes it to the specified path.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --markdown-path "PATH"
-    ```
-
-- `#!bash --html-path "PATH"` or `#!bash -html "PATH"`
-
-    Copies the generated HTML file from the output folder and pastes it to the specified path.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --html-path "PATH"
-    ```
-
-- `#!bash --png-path "PATH"` or `#!bash -png "PATH"`
-
-    Copies the generated PNG files from the output folder and pastes them to the specified path.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --png-path "PATH"
-    ```
-
-- `#!bash --dont-generate-markdown` or `#!bash -nomd`
-
-    Prevents the generation of the Markdown file.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --dont-generate-markdown
-    ```
-
-- `#!bash --dont-generate-html` or `#!bash -nohtml`
-
-    Prevents the generation of the HTML file.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --dont-generate-html
-    ```
-
-- `#!bash --dont-generate-png` or `#!bash -nopng`
-
-    Prevents the generation of the PNG files.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --dont-generate-png
-    ```
-- `#!bash --design design.yaml`
-   
-    Uses the given design file for the `design` field of the input YAML file.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --design "design.yaml"
-    ```
-
-- `#!bash --locale-catalog locale.yaml`
-   
-    Uses the given locale catalog file for the `locale` field of the input YAML file.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --locale-catalog "locale.yaml"
-    ```
-
-- `#!bash --rendercv-settings rendercv_settings.yaml`
-   
-    Uses the given RenderCV settings file for the `rendercv_settings` field of the input YAML file.
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --rendercv-settings "rendercv_settings.yaml"
-    ```
-
-- `#!bash --ANY.LOCATION.IN.THE.YAML.FILE "VALUE"`
-
-    Overrides the value of `ANY.LOCATION.IN.THE.YAML.FILE` with `VALUE`. This option can be used to avoid storing sensitive information in the YAML file. Sensitive information, like phone numbers, can be passed as a command-line argument with environment variables. This method is also beneficial for creating multiple CVs using the same YAML file by changing only a few values. Here are a few examples:
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --cv.phone "+905555555555"
-    ```
-
-    ```bash
-    rendercv render "Full_Name_CV.yaml" --cv.sections.education.1.institution "Your University"
-    ```
-
-    Multiple `#!bash --ANY.LOCATION.IN.THE.YAML.FILE "VALUE"` options can be used in the same command.
-
-- `#!bash --help` or `#!bash -h`
-
-    Shows the help message.
-
-    ```bash
-    rendercv render --help
-    ```
-
-## `rendercv create-theme` command
-
-- `#!bash --based-on "THEME_NAME"`
-
-    Generates a custom theme based on the specified built-in theme, instead of the default `classic` theme. Currently, the available themes are: {{available_themes}}. 
-    
-    ```bash
-    rendercv create-theme "mycustomtheme" --based-on "THEME_NAME"
-    ```
-
-- `#!bash --help` or `#!bash -h`
-
-    Shows the help message.
-
-    ```bash
-    rendercv create-theme --help
-    ```
+Creates a `mytheme/` directory in the current folder with all template files.

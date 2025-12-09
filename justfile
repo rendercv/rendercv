@@ -1,59 +1,52 @@
+# Development:
+sync:
+  uv sync --all-extras --all-groups
+
 format:
-  uv run black src tests ; uv run ruff check --fix src tests ; uv run ruff format src tests
+  uv run --locked black src tests
+  uv run --locked ruff check --fix src tests
+  uv run --locked ruff format src tests
 
 format-file target:
-  uv run -- black {{target}}; uv run -- ruff check --fix {{target}}; uv run -- ruff format {{target}}
+  uv run --locked black {{target}}
+  uv run --locked ruff check --fix {{target}}
+  uv run --locked ruff format {{target}}
 
-lint:
-  uv run -- ruff check src tests
+check:
+  uv run --locked ruff check src tests
+  uv run --locked pyright src tests
+  uv run --locked pre-commit run --all-files
 
-check-types:
-  uv run -- pyright src tests
+# Testing:
+test:
+  uv run --locked pytest
 
-pre-commit:
-  uv run -- pre-commit run --all-files
+update-testdata:
+  uv run --locked pytest --update-testdata
 
-count-lines:
-  wc -l `find src -name '*.py'`
+test-coverage:
+  uv run --locked pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
 
-update-schema:
-  uv run scripts/update_schema.py
-
-update-entry-figures:
-  uv run scripts/update_entry_figures.py
-
-update-examples:
-  uv run scripts/update_examples.py
-
-create-executable:
-  uv run scripts/create_executable.py
-
-profile-render-command:
-  uv run -- python -m cProfile -o render_command.prof -m rendercv render examples/John_Doe_ClassicTheme_CV.yaml && snakeviz render_command.prof
-
-src-tree:
-  tree src/rendercv --gitignore
-
+# Docs:
 build-docs:
-  uv run mkdocs build --clean --strict
+  uv run --locked mkdocs build --clean --strict
 
 serve-docs:
-  uv run mkdocs serve
+  uv run --locked mkdocs serve --watch-theme
 
-test:
-  uv run pytest
+# Scripts:
+update-schema:
+  uv run --locked scripts/update_schema.py
 
-test-with-coverage:
-  uv run -- pytest --cov
+update-entry-figures:
+  uv run --locked scripts/update_entry_figures.py
 
-report-coverage:
-  uv run -- pytest --cov --cov-report=html
+update-examples:
+  uv run --locked scripts/update_examples.py
 
-open video_path:
-  uv run scripts/open.py {{video_path}}
+create-executable:
+  uv run --locked scripts/create_executable.py
 
-profile target:
-  sudo -E uv run py-spy record -o profile.svg python {{target}}
-
-pull-data:
-  uv run scripts/pull_data.py
+# Utilities:
+count-lines:
+  wc -l `find src -name '*.py'`
