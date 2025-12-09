@@ -120,6 +120,40 @@
       "title": "ClassicTheme",
       "type": "object"
     },
+    "CustomConnection": {
+      "additionalProperties": false,
+      "properties": {
+        "fontawesome_icon": {
+          "title": "Fontawesome Icon",
+          "type": "string"
+        },
+        "placeholder": {
+          "title": "Placeholder",
+          "type": "string"
+        },
+        "url": {
+          "anyOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Url"
+        }
+      },
+      "required": [
+        "fontawesome_icon",
+        "placeholder",
+        "url"
+      ],
+      "title": "CustomConnection",
+      "type": "object"
+    },
     "Cv": {
       "additionalProperties": true,
       "properties": {
@@ -239,6 +273,21 @@
           ],
           "default": null,
           "title": "Social Networks"
+        },
+        "custom_connections": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/CustomConnection"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Custom Connections"
         },
         "sections": {
           "anyOf": [

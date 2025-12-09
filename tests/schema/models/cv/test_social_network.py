@@ -74,8 +74,8 @@ class TestSocialNetwork:
             ),
             (
                 "WhatsApp",
-                "14155552671",
-                "https://wa.me/14155552671",
+                "+14155552671",
+                "https://wa.me/+14155552671",
             ),
             (
                 "X",
