@@ -1125,7 +1125,7 @@ wheels = [
 
 [[package]]
 name = "rendercv"
-version = "2.3"
+version = "2.4"
 source = { editable = "." }
 dependencies = [
     { name = "jinja2" },
@@ -1146,10 +1146,12 @@ full = [
 ]
 
 [package.dev-dependencies]
+create-executable = [
+    { name = "pyinstaller" },
+]
 dev = [
     { name = "black" },
     { name = "pre-commit" },
-    { name = "pyinstaller" },
     { name = "pyright" },
     { name = "pytest" },
     { name = "pytest-cov" },
@@ -1163,6 +1165,8 @@ docs = [
     { name = "mkdocs-macros-plugin" },
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
+]
+update-entry-figures = [
     { name = "pdfcropmargins" },
     { name = "pillow" },
     { name = "pymupdf" },
@@ -1185,10 +1189,10 @@ requires-dist = [
 provides-extras = ["full"]
 
 [package.metadata.requires-dev]
+create-executable = [{ name = "pyinstaller", specifier = ">=6.17.0" }]
 dev = [
     { name = "black", specifier = ">=25.12.0" },
     { name = "pre-commit", specifier = ">=4.5.0" },
-    { name = "pyinstaller", specifier = ">=6.17.0" },
     { name = "pyright", specifier = ">=1.1.407" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },
@@ -1202,6 +1206,8 @@ docs = [
     { name = "mkdocs-macros-plugin", specifier = ">=1.5.0" },
     { name = "mkdocs-material", specifier = ">=9.7.0" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=1.0.0" },
+]
+update-entry-figures = [
     { name = "pdfcropmargins", specifier = "==2.2.1" },
     { name = "pillow", specifier = "==10.4.0" },
     { name = "pymupdf", specifier = "==1.26.5" },

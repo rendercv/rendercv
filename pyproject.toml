@@ -30,7 +30,7 @@ build-backend = "uv_build" # Build-backend object for building RenderCV
 [project]
 # Metadata about RenderCV.
 name = 'rendercv'
-version = '2.3'
+version = '2.4'
 description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
@@ -95,7 +95,6 @@ dev = [
     'pre-commit>=4.5.0',   # Run checks before committing
     'pytest>=9.0.2',       # Run tests
     'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
-    'pyinstaller>=6.17.0', # Build executables
     "pytest-xdist>=3.8.0", # Run tests in parallel
 ]
 docs = [
@@ -105,9 +104,14 @@ docs = [
     'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
     'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
     'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
-    'pdfCropMargins==2.2.1',       # Generate entry figures for documentation
-    'pillow==10.4.0',              # Lock dependency of pdfCropMargins
-    'PyMuPDF==1.26.5',             # Convert PDF files to images
+]
+update-entry-figures = [
+    'pdfCropMargins==2.2.1', # Generate entry figures for documentation
+    'pillow==10.4.0',        # Lock dependency of pdfCropMargins
+    'PyMuPDF==1.26.5',       # Convert PDF files to images
+]
+create-executable = [
+    'pyinstaller>=6.17.0', # Build executables
 ]
 
 # Tools Settings:
@@ -116,10 +120,7 @@ docs = [
 # Their configurations are specified below so contributors and IDEs can pick them up automatically.
 
 [tool.uv]
-default-groups = "all"
-
-[tool.uv.pip]
-all-extras = true
+default-groups = ["dev", "docs"]
 
 [tool.ruff]
 line-length = 88

@@ -1,9 +1,9 @@
 # Development:
 sync:
-  uv sync --all-extras --all-groups
+  uv sync --all-extras
 
 sync-locked:
-  uv sync --locked --all-extras --all-groups
+  uv sync --locked --all-extras
 
 format:
   uv run --locked black src tests
@@ -42,13 +42,13 @@ update-schema:
   uv run --locked scripts/update_schema.py
 
 update-entry-figures:
-  uv run --locked scripts/update_entry_figures.py
+  uv run --locked --all-groups scripts/update_entry_figures.py
 
 update-examples:
   uv run --locked scripts/update_examples.py
 
 create-executable:
-  uv run --locked scripts/create_executable.py
+  uv run --locked --all-groups scripts/create_executable.py
 
 # Utilities:
 count-lines:
