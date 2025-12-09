@@ -102,8 +102,7 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
     Example:
         ```py
         result = substitute_placeholders(
-            "NAME_CV_YEAR.pdf",
-            {"NAME": "John_Doe", "YEAR": "2025"}
+            "NAME_CV_YEAR.pdf", {"NAME": "John_Doe", "YEAR": "2025"}
         )
         # Returns: "John_Doe_CV_2025.pdf"
         ```

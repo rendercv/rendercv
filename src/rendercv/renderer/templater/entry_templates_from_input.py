@@ -124,10 +124,12 @@ def process_highlights(highlights: list[str]) -> str:
 
     Example:
         ```py
-        result = process_highlights([
-            "Led team of 5 engineers",
-            "Reduced costs - Server optimization - Database indexing"
-        ])
+        result = process_highlights(
+            [
+                "Led team of 5 engineers",
+                "Reduced costs - Server optimization - Database indexing",
+            ]
+        )
         # Returns:
         # - Led team of 5 engineers
         # - Reduced costs
@@ -188,7 +190,7 @@ def process_date(
             show_time_span=False,
             single_date_template="MONTH_NAME YEAR",
             date_range_template="",
-            time_span_template=""
+            time_span_template="",
         )
         # Returns: "March 2024"
 
@@ -202,7 +204,7 @@ def process_date(
             show_time_span=True,
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE to END_DATE",
-            time_span_template="HOW_MANY_YEARS YEARS"
+            time_span_template="HOW_MANY_YEARS YEARS",
         )
         # Returns: "Jun 2020 to present\n\n4 years"
         ```

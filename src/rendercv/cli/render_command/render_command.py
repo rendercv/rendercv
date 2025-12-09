@@ -57,7 +57,10 @@ def cli_command_render(
         typer.Option(
             "--typst-path",
             "-typ",
-            help="Save the generated Typst file to the specified path, relative to the input file.",
+            help=(
+                "Save the generated Typst file to the specified path, relative to the"
+                " input file."
+            ),
         ),
     ] = None,
     pdf_path: Annotated[
@@ -65,7 +68,10 @@ def cli_command_render(
         typer.Option(
             "--pdf-path",
             "-pdf",
-            help="Save the generated PDF file to the specified path, relative to the input file.",
+            help=(
+                "Save the generated PDF file to the specified path, relative to the"
+                " input file."
+            ),
         ),
     ] = None,
     markdown_path: Annotated[
@@ -73,7 +79,10 @@ def cli_command_render(
         typer.Option(
             "--markdown-path",
             "-md",
-            help="Save the generated Markdown file to the specified path, relative to the input file.",
+            help=(
+                "Save the generated Markdown file to the specified path, relative to"
+                " the input file."
+            ),
         ),
     ] = None,
     html_path: Annotated[
@@ -81,7 +90,10 @@ def cli_command_render(
         typer.Option(
             "--html-path",
             "-html",
-            help="Save the generated HTML file to the specified path, relative to the input file.",
+            help=(
+                "Save the generated HTML file to the specified path, relative to the"
+                " input file."
+            ),
         ),
     ] = None,
     png_path: Annotated[
@@ -89,7 +101,10 @@ def cli_command_render(
         typer.Option(
             "--png-path",
             "-png",
-            help="Save the generated PNG files to the specified path, relative to the input file.",
+            help=(
+                "Save the generated PNG files to the specified path, relative to the"
+                " input file."
+            ),
         ),
     ] = None,
     dont_generate_markdown: Annotated[

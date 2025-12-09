@@ -35,11 +35,7 @@ def timed_step[T, **P](
     Example:
         ```py
         pdf_path = timed_step(
-            "Generated PDF",
-            progress,
-            generate_pdf,
-            rendercv_model,
-            typst_path
+            "Generated PDF", progress, generate_pdf, rendercv_model, typst_path
         )
         # Progress shows: ✓ 150 ms  Generated PDF: ./cv.pdf
         ```
@@ -91,10 +87,7 @@ def run_rendercv(
         ```py
         with ProgressPanel() as progress:
             run_rendercv(
-                Path("cv.yaml"),
-                progress,
-                pdf_path="output.pdf",
-                dont_generate_png=True
+                Path("cv.yaml"), progress, pdf_path="output.pdf", dont_generate_png=True
             )
         # Generates PDF, skips PNG, shows progress for each step
         ```

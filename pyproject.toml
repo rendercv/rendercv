@@ -73,8 +73,8 @@ full = [
     'typer>=0.20.0',         # Command-line interface
     'markdown>=3.10',        # Convert Markdown to HTML
     'watchdog>=6.0.0',       # Monitor files for updates
-    'typst>=0.14.2',         # Render PDF from Typst source files
-    'rendercv-fonts>=0.4.0', # Font files for RenderCV
+    'typst>=0.14.4',         # Render PDF from Typst source files
+    'rendercv-fonts>=0.5.1', # Font files for RenderCV
 ]
 
 [project.urls]
@@ -97,6 +97,7 @@ rendercv = 'rendercv.cli.entry_point:entry_point'
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
     'ruff>=0.14.1', # Lint and format the code
@@ -124,27 +125,28 @@ dev = [
 =======
     'ruff>=0.14.7',        # Lint and format the code
     'black>=25.11.0',      # Format the code
+=======
+    'ruff>=0.14.8',        # Lint and format the code
+    'black>=25.12.0',      # Format the code
+>>>>>>> de0d825 (Update testdata and examples)
     'pyright>=1.1.407',    # Type checking
     'pre-commit>=4.5.0',   # Run checks before committing
-    'pytest>=9.0.1',       # Run tests
+    'pytest>=9.0.2',       # Run tests
     'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
-    'pyinstaller>=6.16.0', # Build executables
+    'pyinstaller>=6.17.0', # Build executables
     "pytest-xdist>=3.8.0", # Run tests in parallel
 >>>>>>> c137e0f (Increase test coverage)
 ]
 docs = [
     'mkdocs-material>=9.7.0',
-    'mkdocs-gen-files==0.6.0',     # Dynamic page generation for API reference
-    'mkdocs-literate-nav==0.6.0',  # Dynamic navigation for API reference
+    'mkdocs-gen-files>=0.6.0',     # Dynamic page generation for API reference
+    'mkdocs-literate-nav>=0.6.2',  # Dynamic navigation for API reference
     'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
     'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
     'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
-    'pdfCropMargins>=2.2.1',       # Generate entry figures for documentation
-    'pillow>=10.4.0',              # Lock dependency of pdfCropMargins
-    'PyMuPDF>=1.26.5',             # Convert PDF files to images
-]
-exe = [
-    'pyinstaller>=6.17.0', # Build executables
+    'pdfCropMargins==2.2.1',       # Generate entry figures for documentation
+    'pillow==10.4.0',              # Lock dependency of pdfCropMargins
+    'PyMuPDF==1.26.5',             # Convert PDF files to images
 ]
 
 # Tools Settings:
@@ -201,6 +203,8 @@ enable-unstable-feature = [
 ] # Break strings into multiple lines
 
 [tool.pyright]
+venvPath = "."
+venv = ".venv"
 typeCheckingMode = 'standard'
 enableTypeIgnoreComments = false
 reportUnnecessaryTypeIgnoreComment = true
@@ -208,7 +212,7 @@ reportIncompatibleVariableOverride = false
 reportIncompatibleMethodOverride = false
 reportMissingTypeStubs = false
 reportPrivateUsage = false
-exclude = ['rendercv/themes/*']
+exclude = ['docs/**/*']
 
 [tool.coverage.run]
 source = ['src/rendercv']         # Measure coverage in this source

@@ -19,8 +19,7 @@ def resolve_rendercv_file_path(
         ```py
         # Given model with name="John Doe" and year=2025
         path = resolve_rendercv_file_path(
-            model,
-            pathlib.Path("output/NAME_IN_LOWER_SNAKE_CASE_CV_YEAR.pdf")
+            model, pathlib.Path("output/NAME_IN_LOWER_SNAKE_CASE_CV_YEAR.pdf")
         )
         # Returns: pathlib.Path("output/john_doe_CV_2025.pdf")
         ```

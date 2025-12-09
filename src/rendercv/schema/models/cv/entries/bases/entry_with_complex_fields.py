@@ -95,7 +95,7 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
     end_date: ExactDate | Literal["present"] | None = pydantic.Field(
         default=None,
         description=(
-            "The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use \"present\" for"
+            'The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use "present" for'
             " ongoing events, or omit it to indicate the event is ongoing."
         ),
         examples=["2024-05-20", "2024-05", "2024", "present"],
@@ -116,7 +116,9 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
     )
     highlights: list[str] | None = pydantic.Field(
         default=None,
-        description="Bullet points for key achievements, responsibilities, or contributions.",
+        description=(
+            "Bullet points for key achievements, responsibilities, or contributions."
+        ),
         examples=[
             [
                 "Increased system performance by 40% through optimization.",

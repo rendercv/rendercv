@@ -350,7 +350,7 @@ locale:
     - November
     - December
 settings:
-  current_date: '2025-12-06'
+  current_date: '2025-12-09'
   render_command:
     design:
     locale:

@@ -24,7 +24,7 @@ def date_object_to_string(
         result = date_object_to_string(
             Date(2025, 3, 15),
             locale=english_locale,
-            single_date_template="MONTH_ABBREVIATION YEAR"
+            single_date_template="MONTH_ABBREVIATION YEAR",
         )
         # Returns: "Mar 2025"
         ```
@@ -77,7 +77,7 @@ def format_date_range(
             "present",
             locale=english_locale,
             single_date_template="MONTH_ABBREVIATION YEAR",
-            date_range_template="START_DATE to END_DATE"
+            date_range_template="START_DATE to END_DATE",
         )
         # Returns: "Jun 2020 to present"
         ```
@@ -136,17 +136,13 @@ def format_single_date(
         ```py
         # Standard date formatting
         result = format_single_date(
-            "2024-03",
-            locale=english_locale,
-            single_date_template="MONTH_NAME YEAR"
+            "2024-03", locale=english_locale, single_date_template="MONTH_NAME YEAR"
         )
         # Returns: "March 2024"
 
         # Custom string pass-through
         result = format_single_date(
-            "Spring 2024",
-            locale=english_locale,
-            single_date_template="MONTH_NAME YEAR"
+            "Spring 2024", locale=english_locale, single_date_template="MONTH_NAME YEAR"
         )
         # Returns: "Spring 2024"
         ```
@@ -199,7 +195,7 @@ def compute_time_span_string(
             "2023-09",
             locale=english_locale,
             current_date=Date(2025, 1, 1),
-            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS"
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
         )
         # Returns: "3 years 4 months"
         ```

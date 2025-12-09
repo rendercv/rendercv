@@ -160,7 +160,8 @@ def render_single_template(
     rendercv_model: RenderCVModel,
     **kwargs,
 ) -> str:
-    """Render single Jinja2 template with user override support.
+    """Render single Jinja2 template with user override support. Arbitrary keyword
+    arguments may be passed to the template as additional template variables.
 
     Why:
         Users can override built-in templates by placing custom templates in
@@ -169,11 +170,7 @@ def render_single_template(
 
     Example:
         ```py
-        header = render_single_template(
-            "typst",
-            "Header.j2.typ",
-            rendercv_model
-        )
+        header = render_single_template("typst", "Header.j2.typ", rendercv_model)
         # First checks for classic/Header.j2.typ in input file directory
         # Falls back to built-in typst/Header.j2.typ if not found
 
@@ -181,16 +178,14 @@ def render_single_template(
             "typst",
             "SectionBeginning.j2.typ",
             rendercv_model,
-            section_title="Experience"
+            section_title="Experience",
         )
-        # kwargs passed to template as additional variables
         ```
 
     Args:
         file_type: Format for template directory selection.
         relative_template_path: Template file path relative to format directory.
         rendercv_model: CV model providing template context.
-        kwargs: Additional template variables.
 
     Returns:
         Rendered template as string.

@@ -94,8 +94,8 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 ### Changed
 
 - $\LaTeX$ has been replaced with Typst.
-- The `design` field has been changed completely. See the [documentation](https://docs.rendercv.com/user_guide/structure_of_the_yaml_input_file/#design-field) for details.
-- The `locale_catalog` field has been renamed to `locale`, and some fields have been moved from `design` to `locale`. See the [documentation](https://docs.rendercv.com/user_guide/structure_of_the_yaml_input_file/#locale-field) for details.
+- The `design` field has been changed completely.
+- The `locale_catalog` field has been renamed to `locale`, and some fields have been moved from `design` to `locale`.
 - The `moderncv` theme's header has been changed.
 
 
@@ -169,7 +169,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Added
 
-- `rendercv_settings` field has been added to the YAML input file. For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#rendercv_settings-field). It will be extended in the future.
+- `rendercv_settings` field has been added to the YAML input file. It will be extended in the future.
 
 
 ## [1.13] - July 23, 2024
@@ -178,8 +178,8 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Added
 
-- Arbitrary keys are now allowed in the `cv` field. For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#using-arbitrary-keys).
-- Two new fields have been added to the `locale` field: `phone_number_format` and `date_style` ([#130](https://github.com/rendercv/rendercv/issues/130)). For details, see [here](../user_guide/structure_of_the_yaml_input_file.md#locale-field).
+- Arbitrary keys are now allowed in the `cv` field.
+- Two new fields have been added to the `locale` field: `phone_number_format` and `date_style` ([#130](https://github.com/rendercv/rendercv/issues/130)).
 
 ### Changed
 
@@ -197,7 +197,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Added
 
-- Arbitrary keys are now allowed in entry types. Users can use these keys in their templates. For details, see the [documentation](../user_guide/structure_of_the_yaml_input_file.md#using-arbitrary-keys).
+- Arbitrary keys are now allowed in entry types. Users can use these keys in their templates.
 - The `locale.full_names_of_months` field has been added to the data model ([#111](https://github.com/rendercv/rendercv/issues/111)).
 - The `TODAY` placeholder can be used in the `design.page_numbering_style` field now.
 
@@ -216,7 +216,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Added
 
-- CLI options now have short versions. See the [CLI documentation](https://docs.rendercv.com/user_guide/cli/) for more information.
+- CLI options now have short versions.
 - CLI now notifies the user when a new version is available ([#89](https://github.com/rendercv/rendercv/issues/89)).
 - `Google Scholar` has been added as a social network type ([#85](https://github.com/rendercv/rendercv/issues/85)).
 - Two new design options have been added to the `classic`, `sb2nov`, and `engineeringresumes` themes: `separator_between_connections` and `use_icons_for_connections`.
@@ -261,7 +261,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 ### Added
 
-- RenderCV is now a multilingual tool. English strings can be overridden with `locale` section in the YAML input file ([#26](https://github.com/rendercv/rendercv/issues/26), [#20](https://github.com/rendercv/rendercv/pull/20)). See the [documentation](../user_guide/structure_of_the_yaml_input_file.md#locale-field) for more information.
+- RenderCV is now a multilingual tool. English strings can be overridden with `locale` section in the YAML input file ([#26](https://github.com/rendercv/rendercv/issues/26), [#20](https://github.com/rendercv/rendercv/pull/20)).
 - PNG files for each page can be generated now ([#57](https://github.com/rendercv/rendercv/issues/57)).
 - `rendercv new` command now generates Markdown and $\LaTeX$ source files in addition to the YAML input file so that the default templates can be modified easily.
 - A new CLI command has been added, `rendercv create-theme`, to allow users to create their own themes easily.

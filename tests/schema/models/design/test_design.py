@@ -4,8 +4,8 @@ import pathlib
 import pydantic
 import pytest
 
-from rendercv.schema.models.validation_context import ValidationContext
 from rendercv.schema.models.design.design import Design
+from rendercv.schema.models.validation_context import ValidationContext
 
 
 class TestDesign:

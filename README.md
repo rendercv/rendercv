@@ -156,4 +156,4 @@ Edit the YAML, then render:
 rendercv render "John_Doe_CV.yaml"
 ```
 
-For more details, see the [user guide](https://docs.rendercv.com/user_guide/get_started.md).
+For more details, see the [user guide](https://docs.rendercv.com/user_guide/index.md).

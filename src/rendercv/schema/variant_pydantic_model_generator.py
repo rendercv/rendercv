@@ -32,7 +32,7 @@ def create_variant_pydantic_model[T: pydantic.BaseModel](
             base_class=BaseTheme,
             discriminator_field="theme",
             class_name_suffix="Theme",
-            module_name="rendercv.themes"
+            module_name="rendercv.themes",
         )
         # Creates class "ModernTheme" with theme="modern" as Literal type
         ```

@@ -174,7 +174,7 @@ class TestProgressPanelPrintValidationErrors:
                 yaml_location=((2, 1), (2, 1)),
                 input="not-an-email",
                 message="Invalid email format",
-            )
+            ),
         ]
 
         with pytest.raises(typer.Exit) as exc_info:

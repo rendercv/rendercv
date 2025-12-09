@@ -30,7 +30,7 @@ def render_top_note_template(
             locale=english_locale,
             current_date=date(2025, 1, 15),
             name="John Doe",
-            single_date_template="MONTH_ABBREVIATION YEAR"
+            single_date_template="MONTH_ABBREVIATION YEAR",
         )
         # Returns: "Last Updated: Jan 2025"
         ```
@@ -86,7 +86,7 @@ def render_footer_template(
             locale=english_locale,
             current_date=date(2025, 1, 15),
             name="John Doe",
-            single_date_template="MONTH_ABBREVIATION YEAR"
+            single_date_template="MONTH_ABBREVIATION YEAR",
         )
         # Returns: "context { [John Doe - Page #str(here().page()) of #str(counter(page).final().first())] }"
         ```

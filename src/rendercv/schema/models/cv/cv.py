@@ -75,8 +75,8 @@ class Cv(BaseModelWithExtraKeys):
         default=None,
         description=(
             "The sections of your CV. Keys are section titles (e.g., Experience,"
-            " Education), and values are lists of entries. Entry types are automatically"
-            " detected based on their fields."
+            " Education), and values are lists of entries. Entry types are"
+            " automatically detected based on their fields."
         ),
         examples=[
             {

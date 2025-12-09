@@ -777,7 +777,8 @@ class TestCreateVariantPydanticModel:
                 description="The font family. The default value is `Arial`.",
             )
             font_size: str = pydantic.Field(
-                default="12pt", description="The font size. The default value is `12pt`."
+                default="12pt",
+                description="The font size. The default value is `12pt`.",
             )
 
         class Config(pydantic.BaseModel):
@@ -866,7 +867,9 @@ class TestCreateVariantPydanticModel:
         assert level3_annotation is not None
         assert issubclass(level3_annotation, pydantic.BaseModel)
         level3_value_field = level3_annotation.model_fields["value"]
-        assert level3_value_field.description == "The value. The default value is `999`."
+        assert (
+            level3_value_field.description == "The value. The default value is `999`."
+        )
 
         instance = VariantClass()
         assert instance.level2.name == "custom_level2"

@@ -36,8 +36,10 @@ def update_value_by_location(
         ```py
         data = {"cv": {"sections": {"education": [{"institution": "A"}]}}}
         result = update_value_by_location(
-            data, "cv.sections.education.0.institution", "MIT",
-            "cv.sections.education.0.institution"
+            data,
+            "cv.sections.education.0.institution",
+            "MIT",
+            "cv.sections.education.0.institution",
         )
         assert result["cv"]["sections"]["education"][0]["institution"] == "MIT"
         ```

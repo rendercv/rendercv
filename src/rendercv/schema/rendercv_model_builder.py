@@ -6,8 +6,8 @@ from ruamel.yaml.comments import CommentedMap
 
 from rendercv.exception import RenderCVUserValidationError
 
-from .models.validation_context import ValidationContext
 from .models.rendercv_model import RenderCVModel
+from .models.validation_context import ValidationContext
 from .override_dictionary import apply_overrides_to_dictionary
 from .pydantic_error_handling import parse_validation_errors
 from .yaml_reader import read_yaml
@@ -46,7 +46,7 @@ def build_rendercv_dictionary(
         data = build_rendercv_dictionary(
             pathlib.Path("cv.yaml"),
             design_file_path_or_contents=pathlib.Path("classic.yaml"),
-            overrides={"cv.phone": "+1234567890"}
+            overrides={"cv.phone": "+1234567890"},
         )
         # data contains merged cv + design + overrides
         ```
@@ -149,8 +149,7 @@ def build_rendercv_dictionary_and_model(
     Example:
         ```py
         data, model = build_rendercv_dictionary_and_model(
-            pathlib.Path("cv.yaml"),
-            pdf_path="output.pdf"
+            pathlib.Path("cv.yaml"), pdf_path="output.pdf"
         )
         # model.cv.name is validated, data preserves YAML line numbers
         ```

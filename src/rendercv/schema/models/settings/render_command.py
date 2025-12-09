@@ -35,7 +35,8 @@ class RenderCommand(BaseModelWithoutExtraKeys):
     typst_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.typ"),
         description=(
-            "Output path for the Typst file, relative to the input YAML file. The default"
+            "Output path for the Typst file, relative to the input YAML file. The"
+            " default"
             " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.typ`.\n\n"
             f"{file_path_placeholders_description}"
         ),
@@ -60,7 +61,8 @@ class RenderCommand(BaseModelWithoutExtraKeys):
     html_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.html"),
         description=(
-            "Output path for the HTML file, relative to the input YAML file. The default"
+            "Output path for the HTML file, relative to the input YAML file. The"
+            " default"
             " value is `rendercv_output/NAME_IN_SNAKE_CASE_CV.html`.\n\n"
             f"{file_path_placeholders_description}"
         ),
@@ -68,7 +70,8 @@ class RenderCommand(BaseModelWithoutExtraKeys):
     png_path: PlannedPathRelativeToInput = pydantic.Field(
         default=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_CV.png"),
         description=(
-            "Output path for PNG files, relative to the input YAML file. The default value"
+            "Output path for PNG files, relative to the input YAML file. The default"
+            " value"
             " is `rendercv_output/NAME_IN_SNAKE_CASE_CV.png`.\n\n"
             f"{file_path_placeholders_description}"
         ),

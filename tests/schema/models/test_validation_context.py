@@ -32,7 +32,9 @@ class TestValidationContext:
     def test_provides_input_file_path_and_current_date(self):
         test_path = pathlib.Path("/test/input/file.yaml")
         context_date = Date(2008, 1, 15)
-        context = ValidationContext(input_file_path=test_path, current_date=context_date)
+        context = ValidationContext(
+            input_file_path=test_path, current_date=context_date
+        )
 
         model = DummyModel.model_validate(
             {"name": "test", "path_field": "dummy", "date_field": "dummy"},

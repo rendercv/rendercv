@@ -30,7 +30,10 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
 @pytest.mark.parametrize(
     ("highlights", "expected"),
     [
-        (["First line", "Second line - Nested"], "- First line\n- Second line\n  - Nested"),
+        (
+            ["First line", "Second line - Nested"],
+            "- First line\n- Second line\n  - Nested",
+        ),
         (["Single item"], "- Single item"),
         (["Item 1", "Item 2", "Item 3"], "- Item 1\n- Item 2\n- Item 3"),
         (
