@@ -1,4 +1,5 @@
 import os
+import pathlib
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -151,10 +152,8 @@ class TestCliCommandRender:
         # Create a custom design file with specific color settings
         design_file = tmp_path / "custom_design.yaml"
         design_file.write_text(
-            "design:\n"
-            "  theme: classic\n"
-            "  colors:\n"
-            "    name: rgb(255, 0, 0)\n"  # Red color for verification
+            "design:\n  theme: classic\n  colors:\n    name: rgb(255, 0, 0)\n",  # Red color for verification
+            encoding="utf-8",
         )
 
         cli_command_render(
@@ -177,7 +176,7 @@ class TestCliCommandRender:
         os.chdir(sample_cv_with_templates.parent)
 
         # Create a custom locale file
-        locale_file = tmp_path / "custom_locale.yaml"
+        locale_file: pathlib.Path = tmp_path / "custom_locale.yaml"
         locale_file.write_text(
             "locale:\n"
             "  language: turkish\n"
@@ -193,7 +192,8 @@ class TestCliCommandRender:
             "    - Eyl\n"
             "    - Eki\n"
             "    - Kas\n"
-            "    - Ara\n"
+            "    - Ara\n",
+            encoding="utf-8",
         )
 
         cli_command_render(
@@ -213,7 +213,9 @@ class TestCliCommandRender:
 
         # Create a custom settings file with a specific date
         settings_file = tmp_path / "custom_settings.yaml"
-        settings_file.write_text("settings:\n  current_date: '2024-01-15'\n")
+        settings_file.write_text(
+            "settings:\n  current_date: '2024-01-15'\n", encoding="utf-8"
+        )
 
         cli_command_render(
             input_file_name=str(sample_cv_with_templates),
