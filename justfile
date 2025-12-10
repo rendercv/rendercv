@@ -48,7 +48,7 @@ update-entry-figures:
   uv run --frozen --all-extras --group update-entry-figures scripts/update_entry_figures.py
 
 create-executable:
-  uv run --frozen --all-extras --group create-executable scripts/create_executable.py
+  uv run --frozen --all-extras --no-default-groups --group create-executable scripts/create_executable.py
 
 # Utilities:
 count-lines:
