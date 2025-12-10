@@ -10,16 +10,16 @@ jobs:
     name: Run Tests
     uses: ./.github/workflows/test.yaml
 
-  update_files:
-    name: Update schema.json, examples, and entry figures
-    uses: ./.github/workflows/update-files.yaml
-    needs:
-      - test
+  # update_files:
+  #   name: Update schema.json, examples, and entry figures
+  #   uses: ./.github/workflows/update-files.yaml
+  #   needs:
+  #     - test
 
   build:
     name: Build Package
     needs:
-      - update_files
+      - test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -44,11 +44,11 @@ jobs:
   create_executables:
     name: Create Executables
     needs:
-      - update_files
+      - test
     uses: ./.github/workflows/create-executables.yaml
 
   create_github_release:
-    name: Create GitHub Release
+    name: Add assets to the GitHub Release
     needs:
       - build
       - create_executables
