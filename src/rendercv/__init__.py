@@ -1,6 +1,6 @@
 import warnings
 
-__version__ = "2.4"
+__version__ = "2.5"
 __description__ = (
     "Write your CV or resume as YAML and get PDF. Built for academics and engineers."
 )
