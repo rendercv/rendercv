@@ -3,9 +3,10 @@ import pathlib
 from unittest.mock import MagicMock, patch
 
 import pytest
+from typer.testing import CliRunner
 
 from rendercv import __version__
-from rendercv.cli.app import app, cli_command_no_args, warn_if_new_version_is_available
+from rendercv.cli.app import app, warn_if_new_version_is_available
 
 
 def test_all_commands_are_registered():
@@ -20,14 +21,32 @@ def test_all_commands_are_registered():
 
 
 class TestCliCommandNoArgs:
-    def test_prints_version_when_requested(self, capsys):
-        cli_command_no_args(version_requested=True)
+    @patch("rendercv.cli.app.warn_if_new_version_is_available")
+    def test_prints_version_when_requested(self, mock_warn):
+        runner = CliRunner()
+        result = runner.invoke(app, ["--version"])
 
-        captured = capsys.readouterr()
-        assert f"RenderCV v{__version__}" in captured.out
+        assert result.exit_code == 0
+        assert f"RenderCV v{__version__}" in result.output
+        mock_warn.assert_called_once()
 
-    def test_runs_without_version_flag(self):
-        cli_command_no_args(version_requested=None)
+    @patch("rendercv.cli.app.warn_if_new_version_is_available")
+    def test_prints_version_with_short_flag(self, mock_warn):
+        runner = CliRunner()
+        result = runner.invoke(app, ["-v"])
+
+        assert result.exit_code == 0
+        assert f"RenderCV v{__version__}" in result.output
+        mock_warn.assert_called_once()
+
+    @patch("rendercv.cli.app.warn_if_new_version_is_available")
+    def test_shows_help_when_no_args(self, mock_warn):
+        runner = CliRunner()
+        result = runner.invoke(app, [])
+
+        assert result.exit_code == 0
+        assert "RenderCV is a command-line tool" in result.output
+        mock_warn.assert_called_once()
 
 
 class TestWarnIfNewVersionIsAvailable:
