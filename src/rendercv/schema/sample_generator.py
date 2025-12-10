@@ -200,7 +200,9 @@ def create_sample_yaml_input_file(
     yaml_locale_field = yaml_locale_part + "\n".join(below_locale_commented) + "\n"
     yaml_settings_field = settings_part + split_by_settings[1]
 
-    yaml_string = yaml_cv_field + yaml_design_field + yaml_locale_field + yaml_settings_field
+    yaml_string = (
+        yaml_cv_field + yaml_design_field + yaml_locale_field + yaml_settings_field
+    )
 
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")
