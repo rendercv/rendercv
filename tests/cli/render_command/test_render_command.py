@@ -142,3 +142,85 @@ class TestCliCommandRender:
         mock_watcher.assert_called_once()
         call_args = mock_watcher.call_args
         assert call_args[0][0] == sample_cv_with_templates.absolute()
+
+    def test_uses_custom_design_file(
+        self, sample_cv_with_templates, default_arguments, tmp_path
+    ):
+        os.chdir(sample_cv_with_templates.parent)
+
+        # Create a custom design file with specific color settings
+        design_file = tmp_path / "custom_design.yaml"
+        design_file.write_text(
+            "design:\n"
+            "  theme: classic\n"
+            "  colors:\n"
+            "    name: rgb(255, 0, 0)\n"  # Red color for verification
+        )
+
+        cli_command_render(
+            input_file_name=str(sample_cv_with_templates),
+            **{**default_arguments, "design": str(design_file)},
+        )
+
+        # Verify output was generated successfully
+        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
+        typst_file = rendercv_output / "John_Doe_CV.typ"
+        assert typst_file.exists()
+
+        # Verify the custom design was used by checking for the red color
+        typst_content = typst_file.read_text()
+        assert "colors-name: rgb(255, 0, 0)" in typst_content
+
+    def test_uses_custom_locale_file(
+        self, sample_cv_with_templates, default_arguments, tmp_path
+    ):
+        os.chdir(sample_cv_with_templates.parent)
+
+        # Create a custom locale file
+        locale_file = tmp_path / "custom_locale.yaml"
+        locale_file.write_text(
+            "locale:\n"
+            "  language: turkish\n"
+            "  month_abbreviations:\n"
+            "    - Oca\n"
+            "    - Şub\n"
+            "    - Mar\n"
+            "    - Nis\n"
+            "    - May\n"
+            "    - Haz\n"
+            "    - Tem\n"
+            "    - Ağu\n"
+            "    - Eyl\n"
+            "    - Eki\n"
+            "    - Kas\n"
+            "    - Ara\n"
+        )
+
+        cli_command_render(
+            input_file_name=str(sample_cv_with_templates),
+            **{**default_arguments, "locale": str(locale_file)},
+        )
+
+        # Verify output was generated successfully
+        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
+        assert (rendercv_output / "John_Doe_CV.pdf").exists()
+        assert (rendercv_output / "John_Doe_CV.typ").exists()
+
+    def test_uses_custom_settings_file(
+        self, sample_cv_with_templates, default_arguments, tmp_path
+    ):
+        os.chdir(sample_cv_with_templates.parent)
+
+        # Create a custom settings file with a specific date
+        settings_file = tmp_path / "custom_settings.yaml"
+        settings_file.write_text("settings:\n  current_date: '2024-01-15'\n")
+
+        cli_command_render(
+            input_file_name=str(sample_cv_with_templates),
+            **{**default_arguments, "settings": str(settings_file)},
+        )
+
+        # Verify output was generated successfully
+        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
+        assert (rendercv_output / "John_Doe_CV.pdf").exists()
+        assert (rendercv_output / "John_Doe_CV.typ").exists()

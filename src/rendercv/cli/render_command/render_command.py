@@ -185,9 +185,9 @@ def cli_command_render(
     extra_data_model_override_arguments: typer.Context = None,  # pyright: ignore[reportArgumentType]
 ):
     arguments: BuildRendercvModelArguments = {
-        "design_file_path_or_contents": design,
-        "locale_file_path_or_contents": locale,
-        "settings_file_path_or_contents": settings,
+        "design_file_path_or_contents": pathlib.Path(design) if design else None,
+        "locale_file_path_or_contents": pathlib.Path(locale) if locale else None,
+        "settings_file_path_or_contents": pathlib.Path(settings) if settings else None,
         "typst_path": typst_path,
         "pdf_path": pdf_path,
         "markdown_path": markdown_path,

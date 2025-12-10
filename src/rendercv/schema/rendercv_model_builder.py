@@ -67,9 +67,9 @@ def build_rendercv_dictionary(
         "settings": kwargs.get("settings_file_path_or_contents"),
     }
 
-    for key, path in yaml_overlays.items():
-        if path:
-            input_dict[key] = read_yaml(path)[key]
+    for key, path_or_contents in yaml_overlays.items():
+        if path_or_contents:
+            input_dict[key] = read_yaml(path_or_contents)[key]
 
     # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
