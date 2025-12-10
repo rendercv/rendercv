@@ -319,40 +319,40 @@ design:
   #     date_and_location_column: DATE
 locale:
   language: english
-  last_updated: Last updated in
-  month: month
-  months: months
-  year: year
-  years: years
-  present: present
-  month_abbreviations:
-    - Jan
-    - Feb
-    - Mar
-    - Apr
-    - May
-    - June
-    - July
-    - Aug
-    - Sept
-    - Oct
-    - Nov
-    - Dec
-  month_names:
-    - January
-    - February
-    - March
-    - April
-    - May
-    - June
-    - July
-    - August
-    - September
-    - October
-    - November
-    - December
+  # last_updated: Last updated in
+  # month: month
+  # months: months
+  # year: year
+  # years: years
+  # present: present
+  # month_abbreviations:
+  #   - Jan
+  #   - Feb
+  #   - Mar
+  #   - Apr
+  #   - May
+  #   - June
+  #   - July
+  #   - Aug
+  #   - Sept
+  #   - Oct
+  #   - Nov
+  #   - Dec
+  # month_names:
+  #   - January
+  #   - February
+  #   - March
+  #   - April
+  #   - May
+  #   - June
+  #   - July
+  #   - August
+  #   - September
+  #   - October
+  #   - November
+  #   - December
 settings:
-  current_date: '2025-12-09'
+  current_date: '2025-12-10'
   render_command:
     design:
     locale:

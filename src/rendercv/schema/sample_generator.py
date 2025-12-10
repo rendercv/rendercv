@@ -188,8 +188,19 @@ def create_sample_yaml_input_file(
     ]
     yaml_design_field = yaml_design_theme_part + "\n".join(below_design) + "\n"
 
-    yaml_locale_and_settings_fields = yaml_locale_part + split_yaml_string[1]
-    yaml_string = yaml_cv_field + yaml_design_field + yaml_locale_and_settings_fields
+    # Handle locale field commenting (similar to design)
+    locale_and_settings = split_yaml_string[1]
+    settings_part = "settings:\n"
+    split_by_settings = locale_and_settings.split(settings_part)
+    below_locale = split_by_settings[0]
+    below_locale_commented = [
+        f"  {line.replace('  ', '# ', 1)}"
+        for line in below_locale.splitlines(keepends=False)
+    ]
+    yaml_locale_field = yaml_locale_part + "\n".join(below_locale_commented) + "\n"
+    yaml_settings_field = settings_part + split_by_settings[1]
+
+    yaml_string = yaml_cv_field + yaml_design_field + yaml_locale_field + yaml_settings_field
 
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")
