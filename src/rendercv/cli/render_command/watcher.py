@@ -36,7 +36,7 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
                     self.function()
                 except Exception as e:
                     # This means an unhandled error occurred in the function.
-                    # Don't surpress it
+                    # Don't suppress it
                     raise e
 
     event_handler = EventHandler(function)
