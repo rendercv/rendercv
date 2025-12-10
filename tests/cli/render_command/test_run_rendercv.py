@@ -1,5 +1,6 @@
 import os
 import pathlib
+import sys
 
 import pytest
 import typer
@@ -133,3 +134,24 @@ design:
         progress = ProgressPanel(quiet=True)
         with pytest.raises(typer.Exit) as _, progress:
             run_rendercv(yaml_file, progress)
+
+    @pytest.mark.skipif(sys.platform == "win32", reason="chmod doesn't work the same on Windows")
+    def test_os_error_unreadable_file(self, tmp_path):
+        """Test that OSError is properly caught when file is unreadable."""
+        yaml_file = tmp_path / "unreadable.yaml"
+        yaml_file.write_text("cv:\n  name: John Doe", encoding="utf-8")
+
+        # Remove all permissions to make the file unreadable
+        original_mode = yaml_file.stat().st_mode
+        yaml_file.chmod(0o000)
+
+        progress = ProgressPanel(quiet=True)
+
+        try:
+            with pytest.raises(typer.Exit) as exc_info, progress:
+                run_rendercv(yaml_file, progress)
+
+            assert exc_info.value.exit_code == 1
+        finally:
+            # Restore permissions for cleanup
+            yaml_file.chmod(original_mode)
