@@ -191,10 +191,7 @@ relative_files = true
 
 [tool.coverage.report]
 # Exclude templates from coverage reports:
-omit = ['*.j2.*', 'rendercv/__main__.py']
-
-# Exclude specific lines from coverage:
-exclude_lines = ['if __name__ == .__main__.:']
+omit = ['*.j2.*']
 
 [tool.pytest.ini_options]
 log_cli_level = 'INFO'
