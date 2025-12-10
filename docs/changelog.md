@@ -29,14 +29,13 @@ All notable changes to this project will be documented in this file.
 - WhatsApp has been added as a social network type ([#319](https://github.com/rendercv/rendercv/issues/319)).
 - The `cv.custom_connections` field has been added to allow users to define custom header connections with a placeholder (displayed text), optional URL, and Font Awesome icon name ([#408](https://github.com/rendercv/rendercv/issues/408)).
 - Support for multiple email addresses, websites, and phone numbers has been added ([#541](https://github.com/rendercv/rendercv/issues/541)).
-- A CLI option to disable the welcome message on render has been added ([#394](https://github.com/rendercv/rendercv/issues/394)).
+- `--quiet` option has been added `rendercv render` command to suppress all messages ([#394](https://github.com/rendercv/rendercv/issues/394)).
 
 ### Changed
 
 - RenderCV now uses its own [Typst package](https://typst.app/universe/package/rendercv), making Typst templates much clearer and simpler. The package is maintained at [rendercv/rendercv-typst](https://github.com/rendercv/rendercv-typst).
 - The [documentation](https://docs.rendercv.com) has been completely rewritten, including the user guide and developer guide.
 - The `design` field structure has been completely redesigned for better clarity and organization.
-- The `locale` field structure has been completely changed.
 - The `rendercv_settings` field has been renamed to `settings`.
 - The `rendercv_settings.date` field has been renamed to `settings.current_date`.
 
