@@ -13,8 +13,8 @@ Use template overriding when you need to:
 
 For simpler customizations, try these first:
 
-- [`design`](../yaml_input_structure.md#design) for colors, fonts, spacing
-- [`design.templates`](arbitrary_keys_in_entries.md) for changing entry text layout
+- [`design`](../yaml_input_structure/design.md) for colors, fonts, spacing
+- [`design.templates`](../yaml_input_structure/design.md) for changing entry text layout
 
 ## Two Methods
 

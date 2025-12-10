@@ -8,7 +8,7 @@ toc_depth: 1
 
 You need two tools to develop RenderCV:
 
-- **[`uv`](https://docs.astral.sh/uv/)**: Package and project manager. RenderCV uses `uv` to manage dependencies. It also handles Python installations, so you don't need to install Python separately.
+- **[`uv`](https://docs.astral.sh/uv/)**: Package and project manager. It also handles Python installations, so you don't need to install Python separately.
 - **[`just`](https://github.com/casey/just)**: Command runner. Development commands are defined in the [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile), and you need `just` to run them.
 
 Install them by following their official installation guides:
@@ -54,6 +54,7 @@ That's it! You're now ready to start developing RenderCV.
 - `just sync`: Sync all dependencies (including extras and dev groups)
 - `just format`: Format code with black and ruff
 - `just check`: Run all checks (ruff, pyright, pre-commit)
+- `just lock`: Update `uv.lock` file
 
 ### Testing
 

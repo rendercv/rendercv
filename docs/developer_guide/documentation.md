@@ -12,21 +12,17 @@ We want documentation at `docs.rendercv.com`, a proper website with navigation, 
 
 1. HTML/CSS/JavaScript files
 2. A server hosting those files
-3. A domain pointing to that server
+3. A domain (e.g. `docs.rendercv.com`) pointing to that server
 
-**The problem:** Writing HTML/CSS/JavaScript manually for documentation is impractical. You want to write content in Markdown and have it become a professional website automatically.
+**The problem:** We don't want to develop a web app (writing HTML/CSS/JavaScript). We just want to put some content online.
+
+What if we could write content in Markdown and use some software to automatically generate HTML/CSS/JavaScript files from it? 
 
 **The solution:** [`mkdocs`](https://github.com/mkdocs/mkdocs) with [Material theme](https://github.com/squidfunk/mkdocs-material). You write Markdown in `docs/`, `mkdocs` generates HTML/CSS/JavaScript, and GitHub Pages hosts it at `docs.rendercv.com`.
 
-```mermaid
-flowchart LR
-    A[Markdown in docs/] --> B[MkDocs + Material]
-    B --> C[HTML/CSS/JS files]
-    C --> D[GitHub Pages hosting]
-    D --> E[docs.rendercv.com]
-```
+Tools like `mkdocs` exist because documentation sites follow a stable, well-understood pattern. They aren’t open-ended web applications with unique interfaces or behaviors; they’re a specific kind of website with predictable needs: structured pages, cross-page navigation, search, consistent styling, and readable content.
 
-**This means:** Editing Markdown files in `docs/` updates the website at `docs.rendercv.com`.
+Once a pattern becomes that well defined, entire ecosystems form around it. Just as you reach for Python rather than designing a new programming language, you reach for MkDocs rather than hand-assembling HTML, CSS, and JavaScript files for a documentation site.
 
 ## Configuration: [`mkdocs.yaml`](https://github.com/rendercv/rendercv/blob/main/mkdocs.yaml)
 
@@ -43,15 +39,15 @@ flowchart LR
 
 ### [`mkdocstrings`](https://github.com/mkdocstrings/mkdocstrings): API Reference
 
-Generates API reference from Python docstrings. The entire [API Reference](../api_reference/index.md) section is auto-generated from `src/rendercv/`.
+Generates the API reference from Python docstrings. The entire [API Reference](../api_reference/index.md) section is auto-generated from `src/rendercv/`.
 
 ### [`mkdocs-macros-plugin`](https://mkdocs-macros-plugin.readthedocs.io/): Dynamic Content
 
-Lets you inject code-generated values into Markdown. [`docs/docs_templating.py`](https://github.com/rendercv/rendercv/blob/main/docs/docs_templating.py) runs during build. It imports values directly from RenderCV's code and exposes them as variables. It's heavily used in [YAML Input Structure](../user_guide/yaml_input_structure.md) page.
+Lets you inject code-generated values into Markdown. [`docs/docs_templating.py`](https://github.com/rendercv/rendercv/blob/main/docs/docs_templating.py) runs during the build. It imports values directly from RenderCV's code and exposes them as variables. It's heavily used in [YAML Input Structure: `cv` Field](../user_guide/yaml_input_structure/cv.md) page.
 
 ## Entry Type Figures
 
-The [YAML Input Structure](../user_guide/yaml_input_structure.md) page shows visual examples of each entry type rendered in each theme.
+The [YAML Input Structure: `cv` Field](../user_guide/yaml_input_structure/cv.md) page shows example images of each entry type rendered in each theme.
 
 These are auto-generated PNG images. Run `just update-entry-figures` to regenerate them from [`docs/user_guide/sample_entries.yaml`](https://github.com/rendercv/rendercv/blob/main/docs/user_guide/sample_entries.yaml).
 
@@ -67,7 +63,7 @@ Starts a local server at `http://127.0.0.1:8000` with live reload. Edit Markdown
 just build-docs
 ```
 
-Generates the final website in `site/` directory. Mainly used by GitHub workflows for final deployment (see [GitHub Workflows](github_workflows.md)).
+Generates the final website in the `site/` directory. Mainly used by GitHub workflows for final deployment (see [GitHub Workflows](github_workflows.md)).
 
 ## Deployment
 
@@ -77,7 +73,7 @@ Every push to `main` triggers automatic deployment.
 
 1. **Trigger:** Runs on every push to `main`
 2. **Build step:**
-      - Installs dependencies (`uv`, `just`)
+      - Installs `uv` and `just`
       - Runs `just build-docs` to generate the website
       - Uploads the `site/` directory as an artifact
 3. **Deploy step:**

@@ -6,7 +6,7 @@ toc_depth: 3
 
 ## The Problem
 
-You've encountered this everywhere, even if you didn't realize it was the same problem:
+You may have encountered this before, even if you didn't realize it:
 
 **VS Code settings** (`settings.json`):
 ```json
@@ -30,7 +30,7 @@ VS Code doesn't just "know" what's valid in `settings.json`. GitHub Actions work
 
 **Someone had to tell your editor:** "Here are all the valid fields, their types, and what they mean."
 
-That "someone" is **JSON Schema**.
+That "someone" is [**JSON Schema**](https://json-schema.org).
 
 ## What is JSON Schema?
 
@@ -71,8 +71,6 @@ This schema says:
 
 Because JSON and YAML files are **everywhere**: configuration files, API requests/responses, CI/CD workflows, application settings, data files. They all share the same problem:
 
-**How do you communicate what's valid?**
-
 You could write documentation: "The `name` field is required and must be a string. The `age` field is optional and must be a non-negative integer." But **documentation is for humans to read, not machines**.
 
 JSON Schema is the **same information in machine-readable format** so editors can understand it.
@@ -83,9 +81,7 @@ This is why:
 
 - **Microsoft publishes a JSON Schema for VS Code settings:** your editor fetches it and provides autocomplete
 - **GitHub publishes a JSON Schema for Actions workflows:** that's how you get field suggestions
-- **Thousands of tools do the same:** Kubernetes, Docker, Terraform, ESLint, package.json, tsconfig.json, the list goes on
-
-JSON Schema is **infrastructure for editor tooling**.
+- **Thousands of tools do the same:** Kubernetes, Docker, Terraform, ESLint, `package.json`, `tsconfig.json`, the list goes on
 
 ## RenderCV's JSON Schema
 
@@ -95,17 +91,23 @@ RenderCV has the same problem. Users write their CVs in YAML, and we want them t
 
 ![JSON Schema of RenderCV](../assets/images/json_schema.gif)
 
-That's why [`schema.json`](https://github.com/rendercv/rendercv/blob/main/schema.json) exists in the repository. Same universal problem, same universal solution.
+That's why [`schema.json`](https://github.com/rendercv/rendercv/blob/main/schema.json) exists in the repository.
 
-## How the Schema is Generated
+## How the Schema is Generated?
 
 We don't write `schema.json` by hand. **It's automatically generated from Pydantic models.**
 
 RenderCV's entire data structure is defined using Pydantic models (see [Understanding RenderCV](understanding_rendercv.md) for details). Pydantic has a built-in feature: `model_json_schema()`, which generates JSON Schema from your models.
 
-That's what [`src/rendercv/schema/json_schema_generator.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/json_schema_generator.py) does. It calls `model_json_schema()` on our top-level model and writes the result to `schema.json`.
+Whenever data models change, run:
 
-## How Editors Know to Use RenderCV's Schema
+```bash
+just update-schema
+```
+
+This runs [`scripts/update_schema.py`](https://github.com/rendercv/rendercv/blob/main/scripts/update_schema.py), which regenerates `schema.json`.
+
+## How Editors Know to Use RenderCV's Schema?
 
 There are two ways editors discover and use RenderCV's schema:
 
@@ -134,16 +136,6 @@ In SchemaStore, RenderCV's schema is configured to automatically activate for fi
 - And your editor uses SchemaStore (VS Code with YAML extension does)
 - You get autocomplete automatically, no comment needed
 
-## When is the Schema Generated?
-
-During development, whenever data models change, run:
-
-```bash
-just update-schema
-```
-
-This runs [`scripts/update_schema.py`](https://github.com/rendercv/rendercv/blob/main/scripts/update_schema.py), which regenerates `schema.json`.
-
 ## Learn More
 
-- [Pydantic JSON Schema](https://docs.pydantic.dev/latest/concepts/json_schema/): How Pydantic generates schemas from models
+See [Pydantic JSON Schema](https://docs.pydantic.dev/latest/concepts/json_schema/) for how Pydantic generates schemas from models.

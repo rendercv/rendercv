@@ -84,7 +84,7 @@ def define_env(env):
             "yaml": dictionary_to_yaml(entry),
             "figures": [
                 {
-                    "path": f"../assets/images/{theme}/{entry_name}.png",
+                    "path": f"../../assets/images/{theme}/{entry_name}.png",
                     "alt_text": f"{proper_entry_name} in {theme}",
                     "theme": theme,
                 }

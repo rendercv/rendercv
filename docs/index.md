@@ -100,7 +100,7 @@ design:
     alignment: justified
     date_and_location_column_alignment: right
     font_family: Source Sans 3
-  # ...and more
+  # ...and much more
 ```
 
 ![Design Options of RenderCV](./assets/images/design_options.gif)

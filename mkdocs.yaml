@@ -53,8 +53,13 @@ nav:
   - User Guide:
       - Welcome: index.md
       - Get Started: user_guide/index.md
-      - YAML Input Structure: user_guide/yaml_input_structure.md
-      - CLI: user_guide/cli.md
+      - CLI Reference: user_guide/cli_reference.md
+      - YAML Input Structure:
+          - Overview: user_guide/yaml_input_structure/index.md
+          - cv Field: user_guide/yaml_input_structure/cv.md
+          - design Field: user_guide/yaml_input_structure/design.md
+          - locale Field: user_guide/yaml_input_structure/locale.md
+          - settings Field: user_guide/yaml_input_structure/settings.md
       - How-To Guides:
           - Set Up VS Code for RenderCV: user_guide/how_to/set_up_vs_code_for_rendercv.md
           - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md

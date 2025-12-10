@@ -4,7 +4,7 @@ toc_depth: 2
 
 # Testing
 
-Tests check if your code does what it's supposed to do. Every time you change something, you need to verify it still works. Instead of manually checking everything, you write test code once and rerun it automatically.
+Tests check if your code does what it's supposed to do. Every time you change something, you need to verify it still works. Instead of manually checking everything, you can write test code once and rerun it after each change.
 
 Here's a simple example:
 
@@ -27,8 +27,6 @@ All of the tests of RenderCV are written in [`tests/`](https://github.com/render
 `pytest` is a Python library that provides utilities to write and run tests. 
 
 **How does it work?** When you run `pytest`, it searches for files matching `test_*.py` in the `tests/` directory and executes all functions starting with `test_`.
-
-**Configuration:** `pytest` reads settings from `pyproject.toml` under `[tool.pytest.ini_options]`.
 
 ## Running RenderCV Tests
 
@@ -75,5 +73,3 @@ This generates two outputs:
 
 - **Terminal:** Overall coverage percentage
 - **HTML report:** Open `htmlcov/index.html` to see exactly which lines are covered (green) and which aren't (red)
-
-**Configuration:** Coverage settings are in `pyproject.toml` under `[tool.coverage.run]` and `[tool.coverage.report]`.

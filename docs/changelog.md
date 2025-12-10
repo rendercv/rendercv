@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.3...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.4...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,42 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.4] - December 10, 2025
+
+> **Full Changelog**: [v2.3...v2.4]
+
+### Added
+
+- A new optional `cv.headline` field has been added to display a position title at the top of the CV ([#442](https://github.com/rendercv/rendercv/issues/442)).
+- Built-in locale defaults for 11 languages have been added: French, German, Hindi, Italian, Japanese, Korean, Mandarin Chinese, Portuguese, Russian, Spanish, and Turkish. Users can now use these locales without writing all the translations themselves.
+- Nested bullet points are now supported in highlights ([#177](https://github.com/rendercv/rendercv/issues/177)).
+- WhatsApp has been added as a social network type ([#319](https://github.com/rendercv/rendercv/issues/319)).
+- The `cv.custom_connections` field has been added to allow users to define custom header connections with a placeholder (displayed text), optional URL, and Font Awesome icon name ([#408](https://github.com/rendercv/rendercv/issues/408)).
+- Support for multiple email addresses, websites, and phone numbers has been added ([#541](https://github.com/rendercv/rendercv/issues/541)).
+- A CLI option to disable the welcome message on render has been added ([#394](https://github.com/rendercv/rendercv/issues/394)).
+
+### Changed
+
+- RenderCV now uses its own [Typst package](https://typst.app/universe/package/rendercv), making Typst templates much clearer and simpler. The package is maintained at [rendercv/rendercv-typst](https://github.com/rendercv/rendercv-typst).
+- The [documentation](https://docs.rendercv.com) has been completely rewritten, including the user guide and developer guide.
+- The `design` field structure has been completely redesigned for better clarity and organization.
+- The `locale` field structure has been completely changed.
+- The `rendercv_settings` field has been renamed to `settings`.
+- The `rendercv_settings.date` field has been renamed to `settings.current_date`.
+
+### Fixed
+
+- Image paths are now correctly handled when providing a full image path for the photo field ([#361](https://github.com/rendercv/rendercv/issues/361)).
+- The less than symbol `<` no longer causes an "unclosed label" error ([#364](https://github.com/rendercv/rendercv/issues/364)).
+- Typst commands with parentheses (e.g., `#h(1cm)`) are now properly recognized and not escaped ([#383](https://github.com/rendercv/rendercv/issues/383)).
+- `C++` and other strings ending with `++` or special characters are now formatted correctly ([#388](https://github.com/rendercv/rendercv/issues/388), [#446](https://github.com/rendercv/rendercv/issues/446)).
+- Rendering issues when modifying `design.entry_types` templates have been fixed ([#413](https://github.com/rendercv/rendercv/issues/413)).
+- The `--watch` option now correctly triggers re-rendering when the YAML file changes ([#513](https://github.com/rendercv/rendercv/issues/513)).
+- `bold_keywords` are now properly applied to `PublicationEntry` authors ([#516](https://github.com/rendercv/rendercv/issues/516)).
+- Calling `rendercv` with invalid arguments now displays help text instead of raising a TypeError ([#526](https://github.com/rendercv/rendercv/issues/526)).
+- Page margin parsing issues in v2.3 have been resolved ([#531](https://github.com/rendercv/rendercv/issues/531)).
+- Arbitrary keys in entries are now correctly recognized and substituted in templates ([#334](https://github.com/rendercv/rendercv/issues/334), [#376](https://github.com/rendercv/rendercv/issues/376), [#534](https://github.com/rendercv/rendercv/issues/534)).
 
 ## [2.3] - October 29, 2025
 
@@ -534,6 +570,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.3...v2.4]: https://github.com/rendercv/rendercv/compare/v2.3...v2.4
 [v2.2...v2.3]: https://github.com/rendercv/rendercv/compare/v2.2...v2.3
 [v2.1...v2.2]: https://github.com/rendercv/rendercv/compare/v2.1...v2.2
 [v2.0...v2.1]: https://github.com/rendercv/rendercv/compare/v2.0...v2.1
@@ -565,6 +602,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.4]: https://github.com/rendercv/rendercv/releases/tag/v2.4
 [2.3]: https://github.com/rendercv/rendercv/releases/tag/v2.3
 [2.2]: https://github.com/rendercv/rendercv/releases/tag/v2.2
 [2.1]: https://github.com/rendercv/rendercv/releases/tag/v2.1

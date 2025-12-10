@@ -9,7 +9,7 @@ toc_depth: 3
 Every software project has repetitive tasks that must run consistently:
 
 - **On every update:** Run tests, redeploy documentation
-- **On every release:** Run tests, update `schema.json` and examples, build executables for 4 platforms, build package, upload to PyPI, push Docker image
+- **On every release:** Run tests, update `schema.json` and examples, build executables for 4 platforms, build package, upload to PyPI, publish Docker image
 
 You could do these manually. But manual means:
 
@@ -18,7 +18,7 @@ You could do these manually. But manual means:
 
 **What if you could write down these tasks once, and have them run automatically every time?**
 
-That's what **CI/CD (Continuous Integration/Continuous Deployment)** is. And **GitHub Actions** is GitHub's system for it.
+That's what **CI/CD (Continuous Integration/Continuous Deployment)** is. And **GitHub Actions** is GitHub's platform for it.
 
 ## What are GitHub Actions?
 
@@ -119,5 +119,5 @@ This is the complete release pipeline. It orchestrates everything:
 
 ## Learn More
 
-- [GitHub Actions Documentation](https://docs.github.com/en/actions): Official docs
-- [`.github/workflows/`](https://github.com/rendercv/rendercv/tree/main/.github/workflows): RenderCV's workflow files
+- See [`.github/workflows/`](https://github.com/rendercv/rendercv/tree/main/.github/workflows) for RenderCV's workflow files
+- See [GitHub Actions Documentation](https://docs.github.com/en/actions) for the official documentation.

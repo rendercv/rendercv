@@ -73,7 +73,7 @@ The rest of this guide explains what each file does.
 
 ### [`pyproject.toml`](https://github.com/rendercv/rendercv/blob/main/pyproject.toml)
 
-The project definition file. This is the standard way to configure a Python project.
+The project definition file. This is the [standard way to configure a Python project](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
 
 This file defines:
 
@@ -81,7 +81,7 @@ This file defines:
 - Dependencies (what packages RenderCV needs)
 - Entry points (makes `rendercv` a command)
 - Build configuration (how to package RenderCV)
-- Tool settings (ruff, pyright, pytest, etc.)
+- Tool settings (`ruff`, `pyright`, `pytest`, etc.)
 
 Open the file to see the full configuration with detailed comments.
 
@@ -103,16 +103,14 @@ just serve-docs     # Builds and serves documentation locally
 just update-schema  # Regenerates schema.json
 ```
 
-This is why `just sync` works so elegantly. It's a standardized command that does exactly the same thing for everyone.
-
 ### [`scripts/`](https://github.com/rendercv/rendercv/tree/main/scripts)
 
-Python scripts that automate some repetitive tasks.
+Python scripts that automate some repetitive tasks that are not part of RenderCV's functionality.
 
 **Why do we need it?** Some tasks need to be done repeatedly but are too complex for simple shell commands:
 
-- `update_schema.py`: Generate `schema.json` from pydantic models
-- `update_examples.py`: Regenerate all example YAML files and PDFs in `examples/` folder
+- `update_schema.py`: Generate `schema.json` (see [JSON Schema](json_schema.md) for more details) from pydantic models
+- `update_examples.py`: Regenerate all example YAML files and PDFs in [`examples/`](https://github.com/rendercv/rendercv/tree/main/examples) folder
 - `create_executable.py`: Build standalone executable of RenderCV
 
 These scripts are called by `just` commands (`just update-schema`, `just update-examples`, etc.).
@@ -121,17 +119,15 @@ These scripts are called by `just` commands (`just update-schema`, `just update-
 
 Configuration file for [`pre-commit`](https://pre-commit.com/), a tool that runs code quality checks.
 
-**Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically runs checks on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious. Without pre-commit, we'd have to set up our own workflow to run these checks.
-
-Run `just check` locally to check your code before committing. We don't use pre-commit as git hooks (that run before every commit). We prefer manual checks when ready.
+**Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically checks if the source code has any `ruff` or `pyright` errors on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious.
 
 ### [`uv.lock`](https://github.com/rendercv/rendercv/blob/main/uv.lock)
 
-A dependency lock file. This is a record of the exact version of every package RenderCV uses (including dependencies of dependencies).
+A dependency lock file. This is a record of the exact version of every package RenderCV uses (including dependencies of dependencies of dependencies...).
 
 **Why do we need it?** Remember development environment problem? This file solves it. When you run `just sync`, `uv` reads this file and installs the exact same versions everyone else has, not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
 
-**Never edit this manually.** `uv` generates and updates it automatically. **Always commit it to git.** That's how everyone gets identical environments.
+**Never edit this manually.** Use `just lock` to update it. **Always commit it to git.** That's how everyone gets identical environments.
 
 ## Learn More
 

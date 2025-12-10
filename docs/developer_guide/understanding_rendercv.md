@@ -18,7 +18,13 @@ flowchart LR
 
 Read a YAML file, generate a Typst file, compile it to PDF. Everything else is built on top of this foundation.
 
-Let's understand each step.
+## What is Typst?
+
+Before we dive into the steps, let's understand what [Typst](https://typst.app/) is.
+
+Typst is a computer language. Just like Python, HTML, or JavaScript. You write code in Typst to describe what a page should look like and what content it contains. You save it as a text file (`.typ` extension). When you run Typst code, you get a PDF. That's it. Typst's sole purpose is generating PDFs.
+
+RenderCV generates a Typst file from your YAML and runs Typst to get your CV as a PDF.
 
 ## Step 1: Reading the YAML File
 
@@ -42,8 +48,6 @@ We need to:
 2. Validate the data (Does `start_date` come before `end_date`? Is `name` actually provided and is it a string?)
 
 ### [`ruamel.yaml`](https://github.com/pycontribs/ruamel-yaml): YAML Parser
-
-First problem: reading YAML files.
 
 Python doesn't have a built-in YAML library. To read YAML files, you need a library. **We use `ruamel.yaml`**, one of the best YAML parsers available.
 
@@ -306,6 +310,6 @@ Everything else (Markdown support, watch mode, PNG output, HTML export) builds o
 
 ## Learn More
 
-1. [`src/rendercv/cli/render_command/run_rendercv.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/cli/render_command/run_rendercv.py): The complete flow
-2. [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py): The top-level Pydantic model
-3. [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py): Template rendering
+- [`src/rendercv/cli/render_command/run_rendercv.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/cli/render_command/run_rendercv.py): The complete flow
+- [`src/rendercv/schema/models/rendercv_model.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/schema/models/rendercv_model.py): The top-level Pydantic model
+- [`src/rendercv/renderer/templater/templater.py`](https://github.com/rendercv/rendercv/blob/main/src/rendercv/renderer/templater/templater.py): Template rendering
