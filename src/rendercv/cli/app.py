@@ -15,13 +15,13 @@ app = typer.Typer(
     rich_markup_mode="rich",
     # to make `rendercv --version` work:
     invoke_without_command=True,
-    no_args_is_help=True,
     context_settings={"help_option_names": ["-h", "--help"]},
 )
 
 
 @app.callback()
 def cli_command_no_args(
+    ctx: typer.Context,
     version_requested: Annotated[
         bool | None, typer.Option("--version", "-v", help="Show the version")
     ] = None,
@@ -33,6 +33,10 @@ def cli_command_no_args(
 
     if version_requested:
         print(f"RenderCV v{__version__}")
+    elif ctx.invoked_subcommand is None:
+        # No command was provided, show help
+        print(ctx.get_help())
+        raise typer.Exit()
 
 
 def warn_if_new_version_is_available() -> None:

@@ -154,5 +154,7 @@ def run_rendercv(
                 )
             )
         )
+    except OSError as e:
+        progress.print_user_error(RenderCVUserError(message=f"OS Error: {e}"))
     except RenderCVUserValidationError as e:
         progress.print_validation_errors(e.validation_errors)
