@@ -18,15 +18,15 @@ We want documentation at `docs.rendercv.com`, a proper website with navigation, 
 
 What if we could write content in Markdown and use some software to automatically generate HTML/CSS/JavaScript files from it? 
 
-**The solution:** [`mkdocs`](https://github.com/mkdocs/mkdocs) with [Material theme](https://github.com/squidfunk/mkdocs-material). You write Markdown in `docs/`, `mkdocs` generates HTML/CSS/JavaScript, and GitHub Pages hosts it at `docs.rendercv.com`.
+**The solution:** [MkDocs](https://github.com/mkdocs/mkdocs) with [Material theme](https://github.com/squidfunk/mkdocs-material). You write Markdown in `docs/`, MkDocs generates HTML/CSS/JavaScript, and GitHub Pages hosts it at `docs.rendercv.com`.
 
-Tools like `mkdocs` exist because documentation sites follow a stable, well-understood pattern. They aren’t open-ended web applications with unique interfaces or behaviors; they’re a specific kind of website with predictable needs: structured pages, cross-page navigation, search, consistent styling, and readable content.
+Tools like MkDocs exist because documentation sites follow a stable, well-understood pattern. They aren’t open-ended web applications with unique interfaces or behaviors; they’re a specific kind of website with predictable needs: structured pages, cross-page navigation, search, consistent styling, and readable content.
 
 Once a pattern becomes that well defined, entire ecosystems form around it. Just as you reach for Python rather than designing a new programming language, you reach for MkDocs rather than hand-assembling HTML, CSS, and JavaScript files for a documentation site.
 
 ## Configuration: [`mkdocs.yaml`](https://github.com/rendercv/rendercv/blob/main/mkdocs.yaml)
 
-`mkdocs.yaml` controls how `mkdocs` builds the website:
+`mkdocs.yaml` controls how MkDocs builds the website:
 
 - **Site metadata:** name, description, repository
 - **Theme:** Material theme with colors and features
@@ -35,7 +35,7 @@ Once a pattern becomes that well defined, entire ecosystems form around it. Just
 
 ## Plugins
 
-`mkdocs` plugins extend functionality beyond Markdown → HTML conversion.
+MkDocs plugins extend functionality beyond Markdown → HTML conversion.
 
 ### [`mkdocstrings`](https://github.com/mkdocstrings/mkdocstrings): API Reference
 

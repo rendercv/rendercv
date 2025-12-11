@@ -72,7 +72,6 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 **When it runs:**
 
 - Manually (via GitHub UI)
-- When called by the release workflow
 
 **What it does:**
 
@@ -110,12 +109,11 @@ These are single-file executables that users can download and run without instal
 This is the complete release pipeline. It orchestrates everything:
 
 1. **Run tests:** Calls `test.yaml` to ensure everything works
-2. **Update files:** Calls `update-files.yaml` to regenerate schema/examples
-3. **Build package:** Installs `uv`, builds Python wheel and source distribution using `uv build`
-4. **Create executables:** Calls `create-executables.yaml` for all platforms
-5. **Create GitHub release:** Downloads and uploads executables and wheel to the release
-6. **Publish to PyPI:** Downloads and uploads package so users can `pip install rendercv`
-7. **Publish Docker image:** Builds and pushes Docker image to GitHub Container Registry
+2. **Build package:** Installs `uv`, builds Python wheel and source distribution using `uv build`
+3. **Create executables:** Calls `create-executables.yaml` for all platforms
+4. **Add assets to GitHub release:** Downloads and adds executables and wheel to the release
+5. **Publish to PyPI:** Downloads and uploads package so users can `pip install rendercv`
+6. **Publish Docker image:** Builds and pushes Docker image to GitHub Container Registry
 
 ## Learn More
 

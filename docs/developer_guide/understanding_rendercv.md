@@ -22,9 +22,9 @@ Read a YAML file, generate a Typst file, compile it to PDF. Everything else is b
 
 Before we dive into the steps, let's understand what [Typst](https://typst.app/) is.
 
-Typst is a computer language. Just like Python, HTML, or JavaScript. You write code in Typst to describe what a page should look like and what content it contains. You save it as a text file (`.typ` extension). When you run Typst code, you get a PDF. That's it. Typst's sole purpose is generating PDFs.
+Typst is a computer language. Just like Python, HTML, or JavaScript. You write Typst code to describe what a page should look like and what content it contains. You save it as a text file (`.typ` extension). When you compile a `*.typ` file with Typst compiler, you get a PDF.
 
-RenderCV generates a Typst file from your YAML and runs Typst to get your CV as a PDF.
+RenderCV generates a Typst file from your YAML and compiles it with the Typst compiler to produce your CV as a PDF.
 
 ## Step 1: Reading the YAML File
 

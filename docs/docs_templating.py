@@ -99,11 +99,15 @@ def define_env(env):
     ]
 
     # Available themes strings (put available themes between ``)
-    themes = [f"`{theme}`" for theme in available_themes]
+    themes = [f"`{theme}`" if theme != "classic" else "`classic` (default)" for theme in available_themes]
     env.variables["available_themes"] = ", ".join(themes)
+    env.variables["theme_count"] = len(available_themes)
 
     # Available locales string
-    locales = [f"`{locale}`" for locale in available_locales]
+    locales = [
+        f"`{locale}`" if locale != "english" else "`english` (default)"
+        for locale in available_locales
+    ]
     env.variables["available_locales"] = ", ".join(locales)
 
     # Available social networks strings (put available social networks between ``)

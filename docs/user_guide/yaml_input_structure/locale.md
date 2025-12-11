@@ -11,7 +11,7 @@ locale:
   language: german
 ```
 
-Available languages: `english` (default), `french`, `german`, `hindi`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `portuguese`, `russian`, `spanish`, `turkish`.
+Available languages: << available_locales >>.
 
 ## Customizing Locale
 

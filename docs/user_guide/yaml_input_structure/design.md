@@ -2,7 +2,7 @@
 
 The `design` field controls every visual aspect of your CV: colors, fonts, spacing, and layout.
 
-## Available Themes
+## Built-in Themes
 
 RenderCV includes << theme_count >> built-in themes. To use one, simply specify the theme:
 
@@ -11,9 +11,7 @@ design:
   theme: classic
 ```
 
-Available themes: << available_themes >>
-
-## How Themes Work
+Available themes: << available_themes >>.
 
 All themes are identical except for their default values. If you specify a setting explicitly, it overrides the theme's default. This means:
 

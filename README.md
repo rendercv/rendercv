@@ -23,7 +23,7 @@ With RenderCV, you can:
 
 - Version-control your CV — it's just text.
 - Focus on content — don't wory about the formatting.
-- Get perfect typography — kerning, spacing, hierarchy, all handled. No design skills required.
+- Get perfect typography — pixel-perfect alignment and spacing, handled for you.
 
 A YAML file like this:
 

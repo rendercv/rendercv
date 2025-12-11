@@ -218,16 +218,17 @@ highlights:
   - Developed [open-source tool](https://github.com/example) with *500+ stars*
 ```
 
-| Syntax        | Result    |
-| ------------- | --------- |
-| `**text**`    | **bold**  |
-| `*text*`      | *italic*  |
-| `[text](url)` | hyperlink |
-| `` `code` ``  | `code`    |
+- `**text**` → **bold**
+- `*text*` → *italic*
+- `[text](url)` → hyperlink
+- `` `code` `` → `code`
 
 ### Using Typst
 
-All text fields support Typst math and commands.
+All text fields support
+
+- Typst math (surround with `$$` like `$$f(x) = x^2$$`)
+- Typst commands (like `#emph[emphasized]`).
 
 ```yaml
 highlights:

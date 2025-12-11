@@ -69,9 +69,9 @@ This schema says:
 
 **Why does JSON Schema exist?**
 
-Because JSON and YAML files are **everywhere**: configuration files, API requests/responses, CI/CD workflows, application settings, data files. They all share the same problem:
+Because JSON and YAML files are **everywhere**: configuration files, API requests/responses, CI/CD workflows, application settings, data files.
 
-You could write documentation: "The `name` field is required and must be a string. The `age` field is optional and must be a non-negative integer." But **documentation is for humans to read, not machines**.
+You could write documentation on how to write those JSON/YAML files: "The `name` field is required and must be a string. The `age` field is optional and must be a non-negative integer." But **documentation is for humans to read, not machines**.
 
 JSON Schema is the **same information in machine-readable format** so editors can understand it.
 
