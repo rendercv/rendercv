@@ -302,7 +302,7 @@ def process_summary(summary: str) -> str:
         ```py
         result = process_summary("Key project achievements\\nand outcomes")
         # Returns:
-        # !!! note
+        # !!! summary
         #     Key project achievements
         #     and outcomes
         ```
@@ -313,7 +313,7 @@ def process_summary(summary: str) -> str:
     Returns:
         Markdown admonition block with indented summary.
     """
-    return f"!!! note\n{textwrap.indent(summary, '    ')}"
+    return f"!!! summary\n{textwrap.indent(summary, '    ')}"
 
 
 def remove_not_provided_placeholders(

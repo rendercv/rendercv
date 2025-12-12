@@ -10,7 +10,7 @@
 
 {% endfor %}
 {% for line in entry.main_column.splitlines()[1:] %}
-{%- if line != "!!! note" -%}{{ line|replace("    ", "") }}
+{%- if line != "!!! summary" -%}{{ line|replace("    ", "") }}
 
 {% endif -%}
 {% endfor %}

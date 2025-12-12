@@ -51,7 +51,11 @@ def to_typst_string(elem: Element) -> str:
                 child_content = f'#link("{href}")[{inner}]'
 
             case "div":
-                child_content = "#summary[" + to_typst_string(child).strip("\n") + "]"
+                child_content = (
+                    "#summary["
+                    + to_typst_string(child).strip("\n").replace("\n", " \\ ")
+                    + "]"
+                )
 
             case _:
                 if getattr(child, "attrib", {}).get("class") == "admonition-title":
