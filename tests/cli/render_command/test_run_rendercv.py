@@ -135,7 +135,9 @@ design:
         with pytest.raises(typer.Exit) as _, progress:
             run_rendercv(yaml_file, progress)
 
-    @pytest.mark.skipif(sys.platform == "win32", reason="chmod doesn't work the same on Windows")
+    @pytest.mark.skipif(
+        sys.platform == "win32", reason="chmod doesn't work the same on Windows"
+    )
     def test_os_error_unreadable_file(self, tmp_path):
         """Test that OSError is properly caught when file is unreadable."""
         yaml_file = tmp_path / "unreadable.yaml"

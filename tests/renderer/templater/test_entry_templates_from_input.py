@@ -159,7 +159,10 @@ class TestProcessDoi:
         ("This is a summary", "!!! summary\n    This is a summary"),
         ("Short", "!!! summary\n    Short"),
         ("Multi word summary text", "!!! summary\n    Multi word summary text"),
-        ("This is a multi-line summary\nwith two lines", "!!! summary\n    This is a multi-line summary\n    with two lines"),
+        (
+            "This is a multi-line summary\nwith two lines",
+            "!!! summary\n    This is a multi-line summary\n    with two lines",
+        ),
     ],
 )
 def test_process_summary(summary, expected):

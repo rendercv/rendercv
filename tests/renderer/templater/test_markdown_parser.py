@@ -178,7 +178,7 @@ class TestEscapeTypstCharacters:
         (
             "!!! summary\n    This is a multi-line summary\n    with two lines",
             "#summary[This is a multi-line summary \\ with two lines]",
-        )
+        ),
     ],
 )
 def test_markdown_to_typst(markdown_string, expected_typst_string):
