@@ -200,7 +200,7 @@ def cli_command_render(
         "dont_generate_png": dont_generate_png,
         "overrides": parse_override_arguments(extra_data_model_override_arguments),
     }
-    input_file_path = pathlib.Path(input_file_name).absolute()
+    input_file_path = pathlib.Path(input_file_name)
 
     with ProgressPanel(quiet=quiet) as progress_panel:
         if watch:
