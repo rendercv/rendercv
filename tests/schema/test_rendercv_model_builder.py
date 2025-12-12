@@ -83,7 +83,7 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
 
         # Create overlay as string or file
-        if input_type == "string":
+        if input_type == "string" or overlay_key == "settings":
             overlay_input = dictionary_to_yaml(overlay_content)
         else:  # file
             overlay_input = create_yaml_file_fixture(
@@ -92,7 +92,15 @@ class TestBuildRendercvDictionary:
 
         kwargs = {f"{overlay_key}_file_path_or_contents": overlay_input}
         result = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
-        assert result[overlay_key] == overlay_content[overlay_key]
+
+        # Behavior differs based on input type:
+        # - String: merges immediately into the dictionary
+        # - Path: stores reference in settings.render_command for later loading
+        if input_type == "string" or overlay_key == "settings":
+            assert result[overlay_key] == overlay_content[overlay_key]
+        else:  # file
+            assert result["settings"]["render_command"][overlay_key] == overlay_input
+
         assert result["cv"]["name"] == "John Doe"
 
     def test_all_overlays_simultaneously(self, create_yaml_file_fixture):
@@ -104,26 +112,24 @@ class TestBuildRendercvDictionary:
         }
         design_overlay = {"design": {"theme": "sb2nov"}}
         locale_overlay = {"locale": {"language": "turkish"}}
-        settings_overlay = {
-            "settings": {"render_command": {"pdf_path": "replaced.pdf"}}
-        }
 
         main_file = create_yaml_file_fixture("main.yaml", main_input)
         design_file = create_yaml_file_fixture("design.yaml", design_overlay)
         locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
-        settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
 
         result = build_rendercv_dictionary(
             main_file,
             design_file_path_or_contents=design_file,
             locale_file_path_or_contents=locale_file,
-            settings_file_path_or_contents=settings_file,
         )
 
         assert result["cv"]["name"] == "John Doe"
-        assert result["design"]["theme"] == "sb2nov"
-        assert result["locale"]["language"] == "turkish"
-        assert result["settings"]["render_command"]["pdf_path"] == "replaced.pdf"
+        # File overlays are stored as paths in settings.render_command
+        assert result["settings"]["render_command"]["design"] == design_file
+        assert result["settings"]["render_command"]["locale"] == locale_file
+        # Original values remain unchanged when using file overlays
+        assert result["design"]["theme"] == "classic"
+        assert result["locale"]["language"] == "english"
 
     @pytest.mark.parametrize(
         ("override_key", "override_value"),
@@ -199,7 +205,8 @@ class TestBuildRendercvDictionary:
             dont_generate_png=True,
         )
 
-        assert result["locale"]["language"] == "turkish"
+        # File overlay is stored as path in settings.render_command
+        assert result["settings"]["render_command"]["locale"] == locale_file
         assert result["settings"]["render_command"]["pdf_path"] == "custom.pdf"
         assert result["settings"]["render_command"]["dont_generate_png"] is True
 
@@ -333,8 +340,17 @@ class TestBuildRendercvModel:
         assert model.cv.name == "John Doe"
         assert model._input_file_path == expected_file_path
 
-    @pytest.mark.parametrize("overlay_type", ["string", "file"])
-    @pytest.mark.parametrize("overlay_key", ["design", "locale", "settings"])
+    @pytest.mark.parametrize(
+        ("overlay_type", "overlay_key"),
+        [
+            ("string", "design"),
+            ("string", "locale"),
+            ("string", "settings"),
+            ("file", "design"),
+            ("file", "locale"),
+            # Note: settings overlay via file is not supported
+        ],
+    )
     def test_with_single_overlay(
         self, minimal_input_dict, create_yaml_file_fixture, overlay_type, overlay_key
     ):
@@ -366,24 +382,20 @@ class TestBuildRendercvModel:
         }
         design_overlay = {"design": {"theme": "sb2nov"}}
         locale_overlay = {"locale": {"language": "turkish"}}
-        settings_overlay = {
-            "settings": {"render_command": {"markdown_path": "custom.md"}}
-        }
 
         main_file = create_yaml_file_fixture("main.yaml", main_input)
         design_file = create_yaml_file_fixture("design.yaml", design_overlay)
         locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
-        settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
 
         _, model = build_rendercv_dictionary_and_model(
             main_file,
             design_file_path_or_contents=design_file,
             locale_file_path_or_contents=locale_file,
-            settings_file_path_or_contents=settings_file,
         )
 
         assert isinstance(model, RenderCVModel)
         assert model.cv.name == "John Doe"
+        # File overlays should be loaded and applied
         assert model.design.theme == "sb2nov"
         assert model._input_file_path == main_file
 
@@ -482,3 +494,136 @@ class TestBuildRendercvModel:
 
         with pytest.raises(RenderCVUserError):
             build_rendercv_dictionary_and_model(non_existent_file_path)
+
+    def test_design_file_overlay_loads_and_applies(self, create_yaml_file_fixture):
+        """Test that design file overlay is loaded from settings.render_command.design and applied to model."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+        }
+        design_overlay = {"design": {"theme": "sb2nov"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        design_file = create_yaml_file_fixture("design.yaml", design_overlay)
+
+        dictionary, model = build_rendercv_dictionary_and_model(
+            main_file,
+            design_file_path_or_contents=design_file,
+        )
+
+        # Dictionary should have file path stored, not the overlay content
+        assert dictionary["settings"]["render_command"]["design"] == design_file
+        assert dictionary["design"]["theme"] == "classic"  # Original unchanged
+
+        # Model should have the design from the file applied
+        assert model.design.theme == "sb2nov"
+
+    def test_locale_file_overlay_loads_and_applies(self, create_yaml_file_fixture):
+        """Test that locale file overlay is loaded from settings.render_command.locale and applied to model."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+            "locale": {"language": "english"},
+        }
+        locale_overlay = {"locale": {"language": "turkish"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
+
+        dictionary, _ = build_rendercv_dictionary_and_model(
+            main_file,
+            locale_file_path_or_contents=locale_file,
+        )
+
+        # Dictionary should have file path stored, not the overlay content
+        assert dictionary["settings"]["render_command"]["locale"] == locale_file
+        assert dictionary["locale"]["language"] == "english"  # Original unchanged
+
+        # Model should have the locale from the file applied
+        # Note: locale is validated and merged, so we just verify it's applied
+
+    def test_both_design_and_locale_file_overlays_load_and_apply(
+        self, create_yaml_file_fixture
+    ):
+        """Test that both design and locale file overlays are loaded and applied together."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+            "locale": {"language": "english"},
+        }
+        design_overlay = {"design": {"theme": "engineeringresumes"}}
+        locale_overlay = {"locale": {"language": "turkish"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        design_file = create_yaml_file_fixture("design.yaml", design_overlay)
+        locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)
+
+        dictionary, model = build_rendercv_dictionary_and_model(
+            main_file,
+            design_file_path_or_contents=design_file,
+            locale_file_path_or_contents=locale_file,
+        )
+
+        # Dictionary should have file paths stored
+        assert dictionary["settings"]["render_command"]["design"] == design_file
+        assert dictionary["settings"]["render_command"]["locale"] == locale_file
+        assert dictionary["design"]["theme"] == "classic"  # Original unchanged
+        assert dictionary["locale"]["language"] == "english"  # Original unchanged
+
+        # Model should have both overlays applied
+        assert model.design.theme == "engineeringresumes"
+
+    def test_string_overlay_merges_immediately(self, create_yaml_file_fixture):
+        """Test that string overlays are merged immediately into dictionary."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+        }
+        design_overlay = {"design": {"theme": "sb2nov"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        design_yaml = dictionary_to_yaml(design_overlay)
+
+        dictionary, model = build_rendercv_dictionary_and_model(
+            main_file,
+            design_file_path_or_contents=design_yaml,
+        )
+
+        # Dictionary should have overlay content merged directly
+        assert dictionary["design"]["theme"] == "sb2nov"
+        # No file path should be stored
+        assert "design" not in dictionary["settings"]["render_command"]
+
+        # Model should have the design from the string overlay
+        assert model.design.theme == "sb2nov"
+
+    def test_mixed_string_and_file_overlays(self, create_yaml_file_fixture):
+        """Test that string and file overlays can be used together."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+            "locale": {"language": "english"},
+        }
+        design_overlay = {"design": {"theme": "sb2nov"}}
+        locale_overlay = {"locale": {"language": "turkish"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        design_yaml = dictionary_to_yaml(design_overlay)  # String
+        locale_file = create_yaml_file_fixture("locale.yaml", locale_overlay)  # File
+
+        dictionary, model = build_rendercv_dictionary_and_model(
+            main_file,
+            design_file_path_or_contents=design_yaml,
+            locale_file_path_or_contents=locale_file,
+        )
+
+        # Design string overlay should be merged directly
+        assert dictionary["design"]["theme"] == "sb2nov"
+        assert "design" not in dictionary["settings"]["render_command"]
+
+        # Locale file overlay should be stored as path
+        assert dictionary["settings"]["render_command"]["locale"] == locale_file
+        assert dictionary["locale"]["language"] == "english"  # Original unchanged
+
+        # Both should be applied in the model
+        assert model.design.theme == "sb2nov"

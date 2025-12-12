@@ -59,6 +59,7 @@ def build_rendercv_dictionary(
         Merged dictionary ready for validation.
     """
     input_dict = read_yaml(main_input_file_path_or_contents)
+    input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     # Optional YAML overlays
     yaml_overlays: dict[str, pathlib.Path | str | None] = {
@@ -69,7 +70,10 @@ def build_rendercv_dictionary(
 
     for key, path_or_contents in yaml_overlays.items():
         if path_or_contents:
-            input_dict[key] = read_yaml(path_or_contents)[key]
+            if isinstance(path_or_contents, str) or key == "settings":
+                input_dict[key] = read_yaml(path_or_contents)[key]
+            elif isinstance(path_or_contents, pathlib.Path):
+                input_dict["settings"]["render_command"][key] = path_or_contents
 
     # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
@@ -84,8 +88,6 @@ def build_rendercv_dictionary(
         "dont_generate_pdf": kwargs.get("dont_generate_pdf"),
         "dont_generate_png": kwargs.get("dont_generate_png"),
     }
-
-    input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     for key, value in render_overrides.items():
         if value:
@@ -117,17 +119,25 @@ def build_rendercv_model_from_commented_map(
         Validated RenderCVModel instance.
     """
     try:
-        model = RenderCVModel.model_validate(
-            commented_map,
-            context={
-                "context": ValidationContext(
-                    input_file_path=input_file_path,
-                    current_date=commented_map.get("settings", {}).get(
-                        "current_date", None
-                    ),
-                )
-            },
-        )
+        validation_context = {
+            "context": ValidationContext(
+                input_file_path=input_file_path,
+                current_date=commented_map.get("settings", {}).get("current_date"),
+            )
+        }
+        model = RenderCVModel.model_validate(commented_map, context=validation_context)
+        if model.settings.render_command.design:
+            design = read_yaml(model.settings.render_command.design)
+            model.design = RenderCVModel.model_validate(
+                design,
+                context=validation_context,
+            ).design
+        if model.settings.render_command.locale:
+            locale = read_yaml(model.settings.render_command.locale)
+            model.locale = RenderCVModel.model_validate(
+                locale,
+                context=validation_context,
+            ).locale
     except pydantic.ValidationError as e:
         validation_errors = parse_validation_errors(e, commented_map)
         raise RenderCVUserValidationError(validation_errors) from e

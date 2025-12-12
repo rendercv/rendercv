@@ -1,5 +1,4 @@
 import os
-import pathlib
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -34,7 +33,7 @@ class TestCliCommandRender:
         }
 
     @pytest.fixture
-    def sample_cv_with_templates(self, tmp_path):
+    def input_file(self, tmp_path):
         os.chdir(tmp_path)
         cli_command_new(
             full_name="John Doe",
@@ -43,186 +42,167 @@ class TestCliCommandRender:
         )
         return tmp_path / "John_Doe_CV.yaml"
 
-    @pytest.mark.parametrize("quiet", [True, False])
-    def test_generates_all_output_files_by_default(
-        self, sample_cv_with_templates, default_arguments, quiet
-    ):
-        os.chdir(sample_cv_with_templates.parent)
-
-        cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
-            **{**default_arguments, "quiet": quiet},
-        )
-
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
-        assert (rendercv_output / "John_Doe_CV.typ").exists()
-        assert (rendercv_output / "John_Doe_CV.pdf").exists()
-        assert (rendercv_output / "John_Doe_CV_1.png").exists()
-        assert (rendercv_output / "John_Doe_CV.md").exists()
-        assert (rendercv_output / "John_Doe_CV.html").exists()
-
     @pytest.mark.parametrize(
-        ("flag", "missing_files"),
+        ("quiet", "flags", "expected_files", "missing_files"),
         [
+            # Default: generates all files
             (
-                "dont_generate_markdown",
+                False,
+                {},
+                [
+                    "John_Doe_CV.typ",
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
+                [],
+            ),
+            (
+                True,
+                {},
+                [
+                    "John_Doe_CV.typ",
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
+                [],
+            ),
+            # dont_generate_markdown: skips markdown and HTML
+            (
+                False,
+                {"dont_generate_markdown": True},
+                ["John_Doe_CV.typ", "John_Doe_CV.pdf", "John_Doe_CV_1.png"],
                 ["John_Doe_CV.md", "John_Doe_CV.html"],
             ),
-            ("dont_generate_html", ["John_Doe_CV.html"]),
+            # dont_generate_html: skips only HTML
             (
-                "dont_generate_typst",
+                False,
+                {"dont_generate_html": True},
+                [
+                    "John_Doe_CV.typ",
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                ],
+                ["John_Doe_CV.html"],
+            ),
+            # dont_generate_typst: skips Typst, PDF, and PNG
+            (
+                False,
+                {"dont_generate_typst": True},
+                ["John_Doe_CV.md", "John_Doe_CV.html"],
                 ["John_Doe_CV.typ", "John_Doe_CV.pdf", "John_Doe_CV_1.png"],
             ),
-            ("dont_generate_pdf", ["John_Doe_CV.pdf"]),
-            ("dont_generate_png", ["John_Doe_CV_1.png"]),
+            # dont_generate_pdf: skips only PDF
+            (
+                False,
+                {"dont_generate_pdf": True},
+                [
+                    "John_Doe_CV.typ",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
+                ["John_Doe_CV.pdf"],
+            ),
+            # dont_generate_png: skips only PNG
+            (
+                False,
+                {"dont_generate_png": True},
+                [
+                    "John_Doe_CV.typ",
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
+                ["John_Doe_CV_1.png"],
+            ),
         ],
     )
-    def test_respects_dont_generate_flags(
-        self, sample_cv_with_templates, default_arguments, flag, missing_files
+    def test_output_file_generation(
+        self, input_file, default_arguments, quiet, flags, expected_files, missing_files
     ):
-        os.chdir(sample_cv_with_templates.parent)
-
         cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
-            **{**default_arguments, flag: True},
+            input_file_name=input_file,
+            **{**default_arguments, "quiet": quiet, **flags},
         )
 
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
+        rendercv_output = input_file.parent / "rendercv_output"
+        for file in expected_files:
+            assert (rendercv_output / file).exists()
         for file in missing_files:
             assert not (rendercv_output / file).exists()
 
-    def test_uses_custom_output_paths(
-        self, sample_cv_with_templates, default_arguments
-    ):
-        os.chdir(sample_cv_with_templates.parent)
-
+    def test_uses_custom_output_paths(self, input_file, default_arguments):
         custom_paths = {
-            "typst_path": "custom.typ",
-            "pdf_path": "custom.pdf",
-            "markdown_path": "custom.md",
-            "html_path": "custom.html",
-            "png_path": "custom.png",
+            "typst_path": input_file.parent / "custom.typ",
+            "pdf_path": input_file.parent / "custom.pdf",
+            "markdown_path": input_file.parent / "custom.md",
+            "html_path": input_file.parent / "custom.html",
+            "png_path": input_file.parent / "custom.png",
         }
 
         cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
+            input_file_name=input_file,
             **{**default_arguments, **custom_paths},
         )
 
-        parent = sample_cv_with_templates.parent
-        assert (parent / "custom.typ").exists()
-        assert (parent / "custom.pdf").exists()
-        assert (parent / "custom.md").exists()
-        assert (parent / "custom.html").exists()
-        assert (parent / "custom_1.png").exists()
+        assert (input_file.parent / "custom.typ").exists()
+        assert (input_file.parent / "custom.pdf").exists()
+        assert (input_file.parent / "custom.md").exists()
+        assert (input_file.parent / "custom.html").exists()
+        assert (input_file.parent / "custom_1.png").exists()
 
-    def test_accepts_relative_input_file_path(
-        self, sample_cv_with_templates, default_arguments
-    ):
-        os.chdir(sample_cv_with_templates.parent)
-
+    def test_accepts_relative_input_file_path(self, input_file, default_arguments):
         cli_command_render(
-            input_file_name=sample_cv_with_templates.name,
+            input_file_name=input_file.name,
             **default_arguments,
         )
 
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
+        rendercv_output = input_file.parent / "rendercv_output"
         assert (rendercv_output / "John_Doe_CV.pdf").exists()
 
     @patch("rendercv.cli.render_command.render_command.run_function_if_file_changes")
     def test_calls_watcher_when_watch_flag_is_true(
-        self, mock_watcher, sample_cv_with_templates, default_arguments
+        self, mock_watcher, input_file, default_arguments
     ):
-        os.chdir(sample_cv_with_templates.parent)
-
         cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
+            input_file_name=input_file,
             **{**default_arguments, "watch": True},
         )
 
         mock_watcher.assert_called_once()
         call_args = mock_watcher.call_args
-        assert call_args[0][0] == sample_cv_with_templates.absolute()
+        assert call_args[0][0] == input_file.absolute()
 
-    def test_uses_custom_design_file(
-        self, sample_cv_with_templates, default_arguments, tmp_path
+    @pytest.mark.parametrize(
+        ("config_type", "config_content", "expected_in_output"),
+        [
+            ("design", "design:\n  theme: moderncv\n", "Fontin"),
+            (
+                "locale",
+                "locale:\n  language: turkish\n",
+                'locale-catalog-language: "tr"',
+            ),
+            ("settings", "settings:\n  current_date: 1999-01-15\n", "Jan 1999"),
+        ],
+    )
+    def test_uses_custom_config_files(
+        self,
+        input_file,
+        default_arguments,
+        config_type,
+        config_content,
+        expected_in_output,
     ):
-        os.chdir(sample_cv_with_templates.parent)
+        config_file = input_file.parent / f"custom_{config_type}.yaml"
+        config_file.write_text(config_content, encoding="utf-8")
 
-        # Create a custom design file with specific color settings
-        design_file = tmp_path / "custom_design.yaml"
-        design_file.write_text(
-            "design:\n  theme: classic\n  colors:\n    name: rgb(255, 0, 0)\n",  # Red color for verification
-            encoding="utf-8",
-        )
+        arguments = {**default_arguments, config_type: config_file}
+        cli_command_render(input_file_name=input_file, **arguments)
 
-        cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
-            **{**default_arguments, "design": str(design_file)},
-        )
-
-        # Verify output was generated successfully
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
-        typst_file = rendercv_output / "John_Doe_CV.typ"
-        assert typst_file.exists()
-
-        # Verify the custom design was used by checking for the red color
-        typst_content = typst_file.read_text()
-        assert "colors-name: rgb(255, 0, 0)" in typst_content
-
-    def test_uses_custom_locale_file(
-        self, sample_cv_with_templates, default_arguments, tmp_path
-    ):
-        os.chdir(sample_cv_with_templates.parent)
-
-        # Create a custom locale file
-        locale_file: pathlib.Path = tmp_path / "custom_locale.yaml"
-        locale_file.write_text(
-            "locale:\n"
-            "  language: turkish\n"
-            "  month_abbreviations:\n"
-            "    - Oca\n"
-            "    - Şub\n"
-            "    - Mar\n"
-            "    - Nis\n"
-            "    - May\n"
-            "    - Haz\n"
-            "    - Tem\n"
-            "    - Ağu\n"
-            "    - Eyl\n"
-            "    - Eki\n"
-            "    - Kas\n"
-            "    - Ara\n",
-            encoding="utf-8",
-        )
-
-        cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
-            **{**default_arguments, "locale": str(locale_file)},
-        )
-
-        # Verify output was generated successfully
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
-        assert (rendercv_output / "John_Doe_CV.pdf").exists()
-        assert (rendercv_output / "John_Doe_CV.typ").exists()
-
-    def test_uses_custom_settings_file(
-        self, sample_cv_with_templates, default_arguments, tmp_path
-    ):
-        os.chdir(sample_cv_with_templates.parent)
-
-        # Create a custom settings file with a specific date
-        settings_file = tmp_path / "custom_settings.yaml"
-        settings_file.write_text(
-            "settings:\n  current_date: '2024-01-15'\n", encoding="utf-8"
-        )
-
-        cli_command_render(
-            input_file_name=str(sample_cv_with_templates),
-            **{**default_arguments, "settings": str(settings_file)},
-        )
-
-        # Verify output was generated successfully
-        rendercv_output = sample_cv_with_templates.parent / "rendercv_output"
-        assert (rendercv_output / "John_Doe_CV.pdf").exists()
-        assert (rendercv_output / "John_Doe_CV.typ").exists()
+        typst_file = input_file.parent / "rendercv_output" / "John_Doe_CV.typ"
+        assert expected_in_output in typst_file.read_text()

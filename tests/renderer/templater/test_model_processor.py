@@ -122,7 +122,9 @@ class TestProcessModel:
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
-        assert result.cv.top_note == "*Last updated in Feb 2024*"  # pyright: ignore[reportAttributeAccessIssue]
+        assert (
+            result.cv.top_note == "*Last updated in Feb 2024*"  # pyright: ignore[reportAttributeAccessIssue]
+        )
 
         entry = result.cv.rendercv_sections[0].entries[0]
         assert entry.main_column.startswith("**Backend Work**")

@@ -17,6 +17,7 @@ class RenderCVModel(BaseModelWithExtraKeys):
     # files.
     model_config = pydantic.ConfigDict(json_schema_extra={"required": []})
     cv: Cv = pydantic.Field(
+        default_factory=Cv,
         title="CV",
         description="The content of the CV.",
     )

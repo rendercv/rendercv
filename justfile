@@ -6,13 +6,13 @@ lock:
   uv lock
 
 format:
-  uv run --frozen black src tests
-  uv run --frozen ruff check --fix src tests
-  uv run --frozen ruff format src tests
+  uv run --frozen --all-extras black src tests || true
+  uv run --frozen --all-extras ruff check --fix src tests || true
+  uv run --frozen --all-extras ruff format src tests
 
 format-file target:
-  uv run --frozen --all-extras black {{target}}
-  uv run --frozen --all-extras ruff check --fix {{target}}
+  uv run --frozen --all-extras black {{target}} || true
+  uv run --frozen --all-extras ruff check --fix {{target}} || true
   uv run --frozen --all-extras ruff format {{target}}
 
 check:

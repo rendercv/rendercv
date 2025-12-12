@@ -194,8 +194,13 @@ class TestRenderEntryTemplates:
             current_date=Date(2024, 1, 1),
         )
 
-        assert entry.main_column == "**Solo**"  # pyright: ignore [reportAttributeAccessIssue]
-        assert entry.date_and_location_column == ""  # pyright: ignore [reportAttributeAccessIssue]
+        assert (
+            entry.main_column == "**Solo**"  # pyright: ignore [reportAttributeAccessIssue]
+        )
+        assert (
+            entry.date_and_location_column  # pyright: ignore [reportAttributeAccessIssue]
+            == ""
+        )
 
     def test_populates_highlights_and_date_placeholders(self):
         entry = NormalEntry(

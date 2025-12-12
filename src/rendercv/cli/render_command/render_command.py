@@ -27,9 +27,11 @@ from .watcher import run_function_if_file_changes
 )
 @handle_user_errors
 def cli_command_render(
-    input_file_name: Annotated[str, typer.Argument(help="The YAML input file.")],
+    input_file_name: Annotated[
+        pathlib.Path, typer.Argument(help="The YAML input file.")
+    ],
     design: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--design",
             "-d",
@@ -37,7 +39,7 @@ def cli_command_render(
         ),
     ] = None,
     locale: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--locale-catalog",
             "-lc",
@@ -45,7 +47,7 @@ def cli_command_render(
         ),
     ] = None,
     settings: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--settings",
             "-s",
@@ -53,7 +55,7 @@ def cli_command_render(
         ),
     ] = None,
     typst_path: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--typst-path",
             "-typ",
@@ -64,7 +66,7 @@ def cli_command_render(
         ),
     ] = None,
     pdf_path: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--pdf-path",
             "-pdf",
@@ -75,7 +77,7 @@ def cli_command_render(
         ),
     ] = None,
     markdown_path: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--markdown-path",
             "-md",
@@ -86,7 +88,7 @@ def cli_command_render(
         ),
     ] = None,
     html_path: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--html-path",
             "-html",
@@ -97,7 +99,7 @@ def cli_command_render(
         ),
     ] = None,
     png_path: Annotated[
-        str | None,
+        pathlib.Path | None,
         typer.Option(
             "--png-path",
             "-png",
@@ -108,7 +110,7 @@ def cli_command_render(
         ),
     ] = None,
     dont_generate_markdown: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--dont-generate-markdown",
             "-nomd",
@@ -117,17 +119,17 @@ def cli_command_render(
                 " Markdown generation implicitly disables HTML."
             ),
         ),
-    ] = False,
+    ] = None,
     dont_generate_html: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--dont-generate-html",
             "-nohtml",
             help="If provided, the HTML file will not be generated.",
         ),
-    ] = False,
+    ] = None,
     dont_generate_typst: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--dont-generate-typst",
             "-notyp",
@@ -136,25 +138,25 @@ def cli_command_render(
                 " generation implicitly disables PDF and PNG."
             ),
         ),
-    ] = False,
+    ] = None,
     dont_generate_pdf: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--dont-generate-pdf",
             "-nopdf",
             help="If provided, the PDF file will not be generated.",
         ),
-    ] = False,
+    ] = None,
     dont_generate_png: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--dont-generate-png",
             "-nopng",
             help="If provided, the PNG file will not be generated.",
         ),
-    ] = False,
+    ] = None,
     watch: Annotated[
-        bool,
+        bool | None,
         typer.Option(
             "--watch",
             "-w",
@@ -163,7 +165,7 @@ def cli_command_render(
                 " updated."
             ),
         ),
-    ] = False,
+    ] = None,
     quiet: Annotated[
         bool,
         typer.Option(
@@ -185,9 +187,9 @@ def cli_command_render(
     extra_data_model_override_arguments: typer.Context = None,  # pyright: ignore[reportArgumentType]
 ):
     arguments: BuildRendercvModelArguments = {
-        "design_file_path_or_contents": pathlib.Path(design) if design else None,
-        "locale_file_path_or_contents": pathlib.Path(locale) if locale else None,
-        "settings_file_path_or_contents": pathlib.Path(settings) if settings else None,
+        "design_file_path_or_contents": design if design else None,
+        "locale_file_path_or_contents": locale if locale else None,
+        "settings_file_path_or_contents": settings if settings else None,
         "typst_path": typst_path,
         "pdf_path": pdf_path,
         "markdown_path": markdown_path,
