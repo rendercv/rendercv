@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.4...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.5...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,19 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.5] - December 13, 2025
+
+> **Full Changelog**: [v2.4...v2.5]
+
+### Changed
+
+- Top note and footer now have more placeholder options available.
+
+### Fixed
+
+- The `--design`, `--locale`, and `--settings` options of the `rendercv render` command now work correctly ([#543](https://github.com/rendercv/rendercv/issues/543)).
+- Multiline summary rendering issues in entries have been fixed.
 
 ## [2.4] - December 10, 2025
 
@@ -569,6 +582,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.4...v2.5]: https://github.com/rendercv/rendercv/compare/v2.4...v2.5
 [v2.3...v2.4]: https://github.com/rendercv/rendercv/compare/v2.3...v2.4
 [v2.2...v2.3]: https://github.com/rendercv/rendercv/compare/v2.2...v2.3
 [v2.1...v2.2]: https://github.com/rendercv/rendercv/compare/v2.1...v2.2
@@ -601,6 +615,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.5]: https://github.com/rendercv/rendercv/releases/tag/v2.5
 [2.4]: https://github.com/rendercv/rendercv/releases/tag/v2.4
 [2.3]: https://github.com/rendercv/rendercv/releases/tag/v2.3
 [2.2]: https://github.com/rendercv/rendercv/releases/tag/v2.2
