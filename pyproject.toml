@@ -198,4 +198,4 @@ testpaths = ['tests']
 
 
 [tool.codespell]
-skip = '*.md'
+skip = '*.md,src/rendercv/data/locales/*.yaml'
