@@ -107,7 +107,7 @@ docs = [
 ]
 update-entry-figures = [
     'pdfCropMargins==2.2.1', # Generate entry figures for documentation
-    'pillow==10.4.0',        # Lock dependency of pdfCropMargins
+    'pillow==12.0.0',        # Lock dependency of pdfCropMargins
     'PyMuPDF==1.26.5',       # Convert PDF files to images
 ]
 create-executable = [
