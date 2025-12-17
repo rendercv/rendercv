@@ -18,6 +18,7 @@
 - Telegram: [johndoe](https://t.me/johndoe)
 - WhatsApp: [+14155552671](https://wa.me/+14155552671)
 - X: [johndoe](https://x.com/johndoe)
+- Bluesky: [johndoe.bsky.social](https://bsky.app/profile/johndoe.bsky.social)
 
 
 # Text Entries

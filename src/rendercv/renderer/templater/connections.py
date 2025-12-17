@@ -24,6 +24,7 @@ fontawesome_icons = {
     "WhatsApp": "whatsapp",
     "Leetcode": "code",
     "X": "x-twitter",
+    "Bluesky": "bluesky",
     "location": "location-dot",
     "email": "envelope",
     "phone": "phone",
