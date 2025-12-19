@@ -1,3 +1,3 @@
 #one-col-entry(
-  content: [<<template>>]
+  content: [#bullet-entry[<<template>>]]
 )

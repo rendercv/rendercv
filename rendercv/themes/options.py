@@ -314,7 +314,7 @@ text_leading_field_info = pydantic.Field(
     description="The vertical space between adjacent lines of text.",
 )
 text_alignment_field_info: TextAlignment = pydantic.Field(
-    default="justified",
+    default="left",
     title="Alignment of Text",
     description="The alignment of the text.",
 )

@@ -24,7 +24,7 @@
 #let design-text-font-size = 10pt
 #let design-text-leading = 0.6em
 #let design-text-font-family = "Fontin"
-#let design-text-alignment = "justified"
+#let design-text-alignment = "left"
 #let design-text-date-and-location-column-alignment = right
 #let design-header-photo-width = 3.5cm
 #let design-header-use-icons-for-connections = true
@@ -4180,7 +4180,7 @@
 
 
 #one-col-entry(
-  content: [#strong[Pro#strong[gram]ming:] Python, C++, JavaScript, MATLAB]
+  content: [#bullet-entry[#strong[Pro#strong[gram]ming:] Python, C++, JavaScript, MATLAB]]
 )
 
 

@@ -363,6 +363,7 @@ def test_copy_theme_files_to_output_directory_custom_theme(
         )
 
         # create reference_directory_path:
+        reference_directory_path.mkdir(parents=True, exist_ok=True)
         os.chdir(dummytheme_path.parent)
         renderer_module.copy_theme_files_to_output_directory(
             theme_name=theme_name,
