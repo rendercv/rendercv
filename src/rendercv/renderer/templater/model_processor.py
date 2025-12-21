@@ -28,6 +28,8 @@ def process_model(
     Returns:
         Processed model ready for templates.
     """
+    rendercv_model = rendercv_model.model_copy(deep=True)
+
     string_processors: list[Callable[[str], str]] = [
         lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keywords)
     ]
