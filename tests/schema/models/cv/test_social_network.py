@@ -83,6 +83,11 @@ class TestSocialNetwork:
                 "myusername",
                 "https://x.com/myusername",
             ),
+            (
+                "Bluesky",
+                "myusername.bsky.social",
+                "https://bsky.app/profile/myusername.bsky.social"
+            ),
         ],
     )
     def test_url(self, network, username, expected_url):

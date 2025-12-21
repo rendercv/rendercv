@@ -113,6 +113,7 @@
   [#link("https://t.me/johndoe", icon: false, if-underline: false, if-color: false)[t.me\/johndoe]],
   [#link("https://wa.me/+14155552671", icon: false, if-underline: false, if-color: false)[wa.me\/+14155552671]],
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[x.com\/johndoe]],
+  [#link("https://bsky.app/profile/johndoe.bsky.social", icon: false, if-underline: false, if-color: false)[bsky.app\/profile\/johndoe.bsky.social]],
 )
   ]
 )

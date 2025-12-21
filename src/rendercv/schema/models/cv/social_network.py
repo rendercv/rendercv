@@ -26,6 +26,7 @@ type SocialNetworkName = Literal[
     "WhatsApp",
     "Leetcode",
     "X",
+    "Bluesky"
 ]
 available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
@@ -43,6 +44,7 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "WhatsApp": "https://wa.me/",
     "Leetcode": "https://leetcode.com/u/",
     "X": "https://x.com/",
+    "Bluesky": "https://bsky.app/profile/"
 }
 
 
@@ -114,7 +116,13 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         CustomPydanticErrorTypes.other.value,
                         "IMDB name should be in the format 'nmXXXXXXX'.",
                     )
-
+            case "Bluesky":
+                bluesky_username_pattern = r"^([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"
+                if not re.fullmatch(bluesky_username_pattern, username):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        "Bluesky username should be a valid handle with no '@' (e.g., 'username.bsky.social' or 'domain.com').",
+                    )
             case "WhatsApp":
                 phone_validator = pydantic.TypeAdapter(
                     pydantic_phone_numbers.PhoneNumber
