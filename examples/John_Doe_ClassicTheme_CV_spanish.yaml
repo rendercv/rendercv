@@ -4,8 +4,8 @@ cv:
   headline:
   location: San Francisco, CA
   email: juan.perez@email.com
-  photo:
-  phone:
+  photo: foto.jpg
+  phone: 
   website: https://rendercv.com/
   social_networks:
     - network: LinkedIn
