@@ -1,17 +1,13 @@
 # yaml-language-server: $schema=../../../../schema.json
 locale:
   language: da
+  last_updated: "Senest opdateret"
   month: "måned"
   months: "måneder"
   year: "år"
   years: "år"
   present: "nuværende"
-  to: "–"
-  phone_number_format: "national"
-  page_numbering_template: "NAME - Side PAGE_NUMBER af TOTAL_PAGES"
-  last_updated_date_template: "Sidst opdateret den TODAY"
-  date_template: "MONTH_ABBREVIATION YEAR"
-  abbreviations_for_months:
+  month_abbreviations:
     - "jan"
     - "feb"
     - "mar"
@@ -24,7 +20,7 @@ locale:
     - "okt"
     - "nov"
     - "dec"
-  full_names_of_months:
+  month_names:
     - "januar"
     - "februar"
     - "marts"
