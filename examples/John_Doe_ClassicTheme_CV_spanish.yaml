@@ -1,0 +1,207 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
+cv:
+  name: Juan Pérez
+  headline:
+  location: San Francisco, CA
+  email: juan.perez@email.com
+  photo:
+  phone:
+  website: https://rendercv.com/
+  social_networks:
+    - network: LinkedIn
+      username: rendercv
+    - network: GitHub
+      username: rendercv
+  custom_connections:
+  sections:
+    Bienvenido a RenderCV:
+      - RenderCV lee un CV escrito en un archivo YAML y genera un PDF con tipografía profesional.
+      - Consulta la [documentación](https://docs.rendercv.com) para más detalles.
+    educación:
+      - institution: Universidad de Princeton
+        area: Ciencias de la Computación
+        degree: PhD
+        date:
+        start_date: 2018-09
+        end_date: 2023-05
+        location: Princeton, NJ
+        summary:
+        highlights:
+          - 'Tesis: Búsqueda Eficiente de Arquitectura Neuronal para Despliegue en Entornos con Recursos Limitados'
+          - 'Asesor: Prof. Sanjeev Arora'
+          - Beca de Investigación de Postgrado de la NSF, Siebel Scholar (Clase de 2022)
+      - institution: Universidad de Boğaziçi
+        area: Ingeniería Informática
+        degree: Grado (BS)
+        date:
+        start_date: 2014-09
+        end_date: 2018-06
+        location: Estambul, Turquía
+        summary:
+        highlights:
+          - 'Promedio (GPA): 3.97/4.00, Primero de su promoción (Valedictorian)'
+          - Receptor de la beca Fulbright para estudios de postgrado
+    experiencia:
+      - company: Nexus AI
+        position: Co-fundador y CTO
+        date:
+        start_date: 2023-06
+        end_date: present
+        location: San Francisco, CA
+        summary:
+        highlights:
+          - Construcción de infraestructura de modelos base que atiende más de 2M de solicitudes de API mensuales con un 99.97% de disponibilidad
+          - Recaudación de $18M en Serie A liderada por Sequoia Capital, con participación de a16z y Founders Fund
+          - Escalado del equipo de ingeniería de 3 a 28 personas en divisiones de investigación de ML, plataforma e IA aplicada
+          - Desarrollo de optimización de inferencia propia reduciendo la latencia en un 73% en comparación con la línea base
+      - company: NVIDIA Research
+        position: Pasante de Investigación
+        date:
+        start_date: 2022-05
+        end_date: 2022-08
+        location: Santa Clara, CA
+        summary:
+        highlights:
+          - Diseño de un mecanismo de atención dispersa que reduce la huella de memoria del transformador en 4.2x
+          - Coautor de un artículo aceptado en NeurIPS 2022 (presentación spotlight, top 5% de envíos)
+      - company: Google DeepMind
+        position: Pasante de Investigación
+        date:
+        start_date: 2021-05
+        end_date: 2021-08
+        location: Londres, Reino Unido
+        summary:
+        highlights:
+          - Desarrollo de algoritmos de aprendizaje por refuerzo para la coordinación multi-agente
+          - Publicación de investigaciones en sedes de primer nivel con un impacto académico significativo
+            - Artículo de la conferencia principal de ICML 2022, citado más de 340 veces en dos años
+            - Artículo de taller en NeurIPS 2022 sobre protocolos de comunicación emergentes
+            - Extensión de revista invitada en JMLR (2023)
+      - company: Apple ML Research
+        position: Pasante de Investigación
+        date:
+        start_date: 2020-05
+        end_date: 2020-08
+        location: Cupertino, CA
+        summary:
+        highlights:
+          - Creación de una línea de compresión de redes neuronales en el dispositivo desplegada en más de 50M de dispositivos
+          - Presentación de 2 patentes sobre técnicas eficientes de cuantificación de modelos para inferencia en el borde
+      - company: Microsoft Research
+        position: Pasante de Investigación
+        date:
+        start_date: 2019-05
+        end_date: 2019-08
+        location: Redmond, WA
+        summary:
+        highlights:
+          - Implementación de un marco de aprendizaje auto-supervisado novedoso para el modelado de lenguajes de bajos recursos
+          - Investigación integrada en Azure Cognitive Services, reduciendo los requisitos de datos de entrenamiento en un 60%
+    proyectos:
+      - name: '[FlashInfer](https://github.com/)'
+        date:
+        start_date: 2023-01
+        end_date: present
+        location:
+        summary: Biblioteca de código abierto para kernels de inferencia de LLM de alto rendimiento
+        highlights:
+          - Logró una aceleración de 2.8x sobre las implementaciones de atención de línea base en GPUs A100
+          - Adoptado por 3 laboratorios de IA importantes, más de 8,500 estrellas en GitHub, más de 200 colaboradores
+      - name: '[NeuralPrune](https://github.com/)'
+        date: '2021'
+        start_date:
+        end_date:
+        location:
+        summary: Kit de herramientas de poda de redes neuronales automatizado con máscaras diferenciables
+        highlights:
+          - Reducción del tamaño del modelo en un 90% con menos del 1% de degradación de la precisión en ImageNet
+          - Presentado en las herramientas del ecosistema PyTorch, más de 4,200 estrellas en GitHub
+    publicaciones:
+      - title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
+        authors:
+          - '*Juan Pérez*'
+          - Sarah Williams
+          - David Park
+        summary:
+        doi: 10.1234/neurips.2023.1234
+        url:
+        journal: NeurIPS 2023
+        date: 2023-07
+      - title: Neural Architecture Search via Differentiable Pruning
+        authors:
+          - James Liu
+          - '*Juan Pérez*'
+        summary:
+        doi: 10.1234/neurips.2022.5678
+        url:
+        journal: NeurIPS 2022, Spotlight
+        date: 2022-12
+      - title: Multi-Agent Reinforcement Learning with Emergent Communication
+        authors:
+          - Maria Garcia
+          - '*Juan Pérez*'
+          - Tom Anderson
+        summary:
+        doi: 10.1234/icml.2022.9012
+        url:
+        journal: ICML 2022
+        date: 2022-07
+      - title: On-Device Model Compression via Learned Quantization
+        authors:
+          - '*Juan Pérez*'
+          - Kevin Wu
+        summary:
+        doi: 10.1234/iclr.2021.3456
+        url:
+        journal: ICLR 2021, Premio al Mejor Artículo
+        date: 2021-05
+    honores_seleccionados:
+      - bullet: Innovadores menores de 35 años de MIT Technology Review (2024)
+      - bullet: Forbes 30 Under 30 en Tecnología Empresarial (2024)
+      - bullet: Mención de Honor del Premio a la Disertación Doctoral de la ACM (2023)
+      - bullet: Beca de Doctorado de Google en Aprendizaje Automático (2020 – 2023)
+      - bullet: Beca Fulbright para Estudios de Postgrado (2018)
+    habilidades:
+      - label: Lenguajes
+        details: Python, C++, CUDA, Rust, Julia
+      - label: Marcos de ML
+        details: PyTorch, JAX, TensorFlow, Triton, ONNX
+      - label: Infraestructura
+        details: Kubernetes, Ray, entrenamiento distribuido, AWS, GCP
+      - label: Áreas de Investigación
+        details: Búsqueda de arquitectura neuronal, compresión de modelos, inferencia eficiente, RL multi-agente
+    patentes:
+      - number: Cuantificación adaptativa para la inferencia de redes neuronales en dispositivos de borde (Patente de EE. UU. 11,234,567)
+      - number: Patrones de dispersión dinámica para una atención de transformador eficiente (Patente de EE. UU. 11,345,678)
+      - number: Método de búsqueda de arquitectura neuronal consciente del hardware (Patente de EE. UU. 11,456,789)
+    charlas_invitadas:
+      - reversed_number: Leyes de escalado para una inferencia eficiente — Simposio HAI de Stanford (2024)
+      - reversed_number: Construcción de infraestructura de IA para la próxima década — TechCrunch Disrupt (2024)
+      - reversed_number: 'De la investigación a la producción: Lecciones en sistemas de ML — Taller de NeurIPS (2023)'
+      - reversed_number: "Aprendizaje profundo eficiente: Una perspectiva del profesional — Charla técnica de Google (2022)"
+    cualquier_titulo_de_seccion:
+      - Puedes usar cualquier título de sección que desees.
+      - 'Puedes elegir cualquier tipo de entrada para la sección: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, o `ReversedNumberedEntry`.'
+      - La sintaxis de Markdown es compatible en todas partes.
+      - El campo `design` en YAML te da control sobre casi cualquier aspecto del diseño de tu CV.
+      - Consulta la [documentación](https://docs.rendercv.com) para más detalles.
+design:
+  theme: classic
+locale:
+  language: spanish
+settings:
+  current_date: '2025-12-10'
+  render_command:
+    design:
+    locale:
+    typst_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.md
+    html_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.html
+    png_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: false
+    dont_generate_html: false
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: false
+  bold_keywords: []
