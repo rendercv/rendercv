@@ -1,6 +1,6 @@
-#German Ahmed Cruz Ramírez
-#https://www.linkedin.com/in/german-cruz-ram-in24/
-#Managua, Nicaragua 22/12/2025
+# German Ahmed Cruz Ramírez
+# https://www.linkedin.com/in/german-cruz-ram-in24/
+# Managua, Nicaragua 22/12/2025
 import pathlib
 import threading
 import tkinter as tk
@@ -42,9 +42,10 @@ class GuiProgressPanel:
     def print_validation_errors(self, errors: list[Any]) -> None:
         self._append_text("\nValidation Errors:\n")
         for error in errors:
-            loc = ".".join(str(l) for l in error.location)
+            loc = ".".join(str(loc_part) for loc_part in error.location)
             self._append_text(
-                f"- Location: {loc}\n  Input: {error.input}\n  Message: {error.message}\n"
+                f"- Location: {loc}\n  Input: {error.input}\n  Message:"
+                f" {error.message}\n"
             )
 
     def clear(self) -> None:
@@ -133,7 +134,7 @@ class RenderCVApp:
 
 def main():
     root = tk.Tk()
-    app = RenderCVApp(root)
+    RenderCVApp(root)
     root.mainloop()
 
 

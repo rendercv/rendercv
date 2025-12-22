@@ -1,5 +1,5 @@
-#German Ahmed Cruz Ramírez
-#https://www.linkedin.com/in/german-cruz-ram-in24/
+# German Ahmed Cruz Ramírez
+# https://www.linkedin.com/in/german-cruz-ram-in24/
 
 
 import pathlib
