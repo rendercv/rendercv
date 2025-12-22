@@ -18,7 +18,7 @@ format-file target:
 check:
   uv run --frozen --all-extras ruff check src tests
   uv run --frozen --all-extras ty check src tests
-  uv run --frozen --all-extras pre-commit run --all-files
+  uv run --frozen --all-extras prek run --all-files
 
 # Testing:
 test:
