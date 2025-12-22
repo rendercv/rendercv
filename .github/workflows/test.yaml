@@ -33,7 +33,7 @@ jobs:
       - name: Run prek
         uses: j178/prek-action@v1
         with:
-          extra-args: --all-files
+          extra-args: "--all-files"
       
   test:
     name: Test with Py${{ matrix.python-version }} on ${{ matrix.os }}
