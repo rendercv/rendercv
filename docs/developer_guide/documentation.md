@@ -16,7 +16,7 @@ We want documentation at `docs.rendercv.com`, a proper website with navigation, 
 
 **The problem:** We don't want to develop a web app (writing HTML/CSS/JavaScript). We just want to put some content online.
 
-What if we could write content in Markdown and use some software to automatically generate HTML/CSS/JavaScript files from it? 
+What if we could write content in Markdown and use some software to automatically generate HTML/CSS/JavaScript files from it?
 
 **The solution:** [MkDocs](https://github.com/mkdocs/mkdocs) with [Material theme](https://github.com/squidfunk/mkdocs-material). You write Markdown in `docs/`, MkDocs generates HTML/CSS/JavaScript, and GitHub Pages hosts it at `docs.rendercv.com`.
 
@@ -51,7 +51,7 @@ The [YAML Input Structure: `cv` Field](../user_guide/yaml_input_structure/cv.md)
 
 These are auto-generated PNG images. Run `just update-entry-figures` to regenerate them from [`docs/user_guide/sample_entries.yaml`](https://github.com/rendercv/rendercv/blob/main/docs/user_guide/sample_entries.yaml).
 
-## Local Preview 
+## Local Preview
 
 ```bash
 just serve-docs
@@ -84,4 +84,3 @@ Every push to `main` triggers automatic deployment.
 ## Learn More
 
 See the [MkDocs Material documentation](https://squidfunk.github.io/mkdocs-material/) for more information.
-

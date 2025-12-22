@@ -45,7 +45,7 @@ Install them by following their official installation guides:
     - Select the one in `./.venv`.
 
 
-That's it! You're now ready to start developing RenderCV. 
+That's it! You're now ready to start developing RenderCV.
 
 ## Available Commands
 

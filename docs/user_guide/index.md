@@ -25,7 +25,7 @@
         ```
 
     === "Docker"
-        
+
         Docker image is available at [ghcr.io/rendercv/rendercv](https://github.com/rendercv/rendercv/pkgs/container/rendercv).
 
         ```bash
@@ -43,7 +43,7 @@
     This creates a YAML input file called `Your_Name_CV.yaml`. This file contains the content, design options, translations and settings for RenderCV. See [YAML Input Structure](yaml_input_structure/index.md) for the full reference.
 
     See the [CLI Reference](cli_reference.md#rendercv-new) for the complete list of options available for the `new` command.
-    
+
     !!! tip
         To get started with another language or theme, you can use the `--locale` and `--theme` options:
 

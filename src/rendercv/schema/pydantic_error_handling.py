@@ -38,7 +38,7 @@ def parse_plain_pydantic_error(
 
     Args:
         plain_error: Raw Pydantic validation error.
-        user_input_as_commented_map: YAML dict with line/column metadata.
+        input_dictionary: YAML dict with line/column metadata.
 
     Returns:
         Structured error with location tuple, friendly message, and YAML coordinates.
@@ -111,7 +111,7 @@ def parse_validation_errors(
 
     Args:
         exception: Pydantic validation exception.
-        rendercv_dictionary_as_commented_map: YAML dict with location metadata.
+        input_dictionary: YAML dict with location metadata.
 
     Returns:
         Deduplicated list of user-friendly validation errors.

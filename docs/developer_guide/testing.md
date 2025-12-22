@@ -24,7 +24,7 @@ All of the tests of RenderCV are written in [`tests/`](https://github.com/render
 
 ## [`pytest`](https://github.com/pytest-dev/pytest): Testing Framework
 
-`pytest` is a Python library that provides utilities to write and run tests. 
+`pytest` is a Python library that provides utilities to write and run tests.
 
 **How does it work?** When you run `pytest`, it searches for files matching `test_*.py` in the `tests/` directory and executes all functions starting with `test_`.
 

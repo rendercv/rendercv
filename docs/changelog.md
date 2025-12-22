@@ -107,7 +107,7 @@ All notable changes to this project will be documented in this file.
 - `None` values in the entries are now handled correctly.
 - `--png-path` option of the `rendercv render` command has been fixed ([#332](https://github.com/rendercv/rendercv/issues/332)).
 - Issues with escaping Markdown characters have been fixed ([#347](https://github.com/rendercv/rendercv/issues/347)).
-  
+
 
 ## [2.1] - January 25, 2025
 
@@ -125,7 +125,7 @@ All notable changes to this project will be documented in this file.
 - Path issues in `rendercv_settings` and CLI have been fixed ([#312](https://github.com/rendercv/rendercv/pull/312)).
 - Bold and italic text rendering issues have been fixed ([#303](https://github.com/rendercv/rendercv/pull/303)).
 - Asterisk is now escaped in Typst ([#303](https://github.com/rendercv/rendercv/pull/303)).
-  
+
 ## [2.0] - January 7, 2025
 
 > **Full Changelog**: [v1.18...v2.0]
