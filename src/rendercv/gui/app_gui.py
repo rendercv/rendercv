@@ -12,6 +12,7 @@ from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
 from rendercv.exception import RenderCVUserError
 
+
 class GuiProgressPanel:
     def __init__(self, log_widget: scrolledtext.ScrolledText):
         self.log_widget = log_widget
