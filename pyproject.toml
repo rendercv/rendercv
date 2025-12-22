@@ -198,5 +198,5 @@ testpaths = ['tests']
 
 
 [tool.codespell]
-skip = '*.md,*.json,examples/John_Doe_ClassicTheme_CV_spanish.yaml'
-ignore-words-list = "profesional,foto,algoritmos,serie"
+skip = '*.md,*.json,examples/John_Doe_ClassicTheme_CV_spanish.yaml,src/rendercv/gui/app_gui.py'
+ignore-words-list = "profesional,foto,algoritmos,serie,Serie"
