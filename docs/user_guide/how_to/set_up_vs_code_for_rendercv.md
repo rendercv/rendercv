@@ -8,7 +8,7 @@ Install these two VS Code extensions:
 
 1. [**YAML Extension** by Red Hat](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml): Provides YAML language support with autocompletion and validation.
 
-2. [**PDF Viewer** by tomoki1207](https://marketplace.visualstudio.com/items?itemName=tomoki1207.pdf): Allows you to view PDF files directly within VS Code.
+2. [**PDFMore** by wytheglobal](https://marketplace.visualstudio.com/items?itemName=wytheglobal.pdfmore): Allows you to view PDF files directly within VS Code.
 
 ## Configure Auto-Save
 
