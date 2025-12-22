@@ -1,5 +1,5 @@
 import pathlib
-from typing import TypedDict, Unpack
+from typing import Any, TypedDict, Unpack
 
 import pydantic
 from ruamel.yaml.comments import CommentedMap
@@ -101,7 +101,7 @@ def build_rendercv_dictionary(
 
 
 def build_rendercv_model_from_commented_map(
-    commented_map: CommentedMap,
+    commented_map: CommentedMap | dict[str, Any],
     input_file_path: pathlib.Path | None = None,
 ) -> RenderCVModel:
     """Validate merged dictionary and build Pydantic model with error mapping.

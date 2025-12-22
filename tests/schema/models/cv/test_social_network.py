@@ -86,7 +86,7 @@ class TestSocialNetwork:
             (
                 "Bluesky",
                 "myusername.bsky.social",
-                "https://bsky.app/profile/myusername.bsky.social"
+                "https://bsky.app/profile/myusername.bsky.social",
             ),
         ],
     )

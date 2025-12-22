@@ -36,15 +36,15 @@ def process_model(
     if file_type == "typst":
         string_processors.extend([markdown_to_typst])
 
-    rendercv_model.cv.plain_name = rendercv_model.cv.name  # pyright: ignore[reportAttributeAccessIssue]
+    rendercv_model.cv.plain_name = rendercv_model.cv.name  # ty: ignore[unresolved-attribute]
     rendercv_model.cv.name = apply_string_processors(
         rendercv_model.cv.name, string_processors
     )
     rendercv_model.cv.headline = apply_string_processors(
         rendercv_model.cv.headline, string_processors
     )
-    rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # pyright: ignore[reportAttributeAccessIssue]
-    rendercv_model.cv.top_note = render_top_note_template(  # pyright: ignore[reportAttributeAccessIssue]
+    rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # ty: ignore[unresolved-attribute]
+    rendercv_model.cv.top_note = render_top_note_template(  # ty: ignore[unresolved-attribute]
         rendercv_model.design.templates.top_note,
         locale=rendercv_model.locale,
         current_date=rendercv_model.settings.current_date,
@@ -53,7 +53,7 @@ def process_model(
         string_processors=string_processors,
     )
 
-    rendercv_model.cv.footer = render_footer_template(  # pyright: ignore[reportAttributeAccessIssue]
+    rendercv_model.cv.footer = render_footer_template(  # ty: ignore[unresolved-attribute]
         rendercv_model.design.templates.footer,
         locale=rendercv_model.locale,
         current_date=rendercv_model.settings.current_date,

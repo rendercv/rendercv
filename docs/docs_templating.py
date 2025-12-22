@@ -99,7 +99,10 @@ def define_env(env):
     ]
 
     # Available themes strings (put available themes between ``)
-    themes = [f"`{theme}`" if theme != "classic" else "`classic` (default)" for theme in available_themes]
+    themes = [
+        f"`{theme}`" if theme != "classic" else "`classic` (default)"
+        for theme in available_themes
+    ]
     env.variables["available_themes"] = ", ".join(themes)
     env.variables["theme_count"] = len(available_themes)
 

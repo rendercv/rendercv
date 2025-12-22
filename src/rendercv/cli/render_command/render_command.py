@@ -184,7 +184,7 @@ def cli_command_render(
             ' [cyan bold]--cv.phone "123-456-7890"[/cyan bold].',
         ),
     ] = None,
-    extra_data_model_override_arguments: typer.Context = None,  # pyright: ignore[reportArgumentType]
+    extra_data_model_override_arguments: typer.Context = None,  # ty: ignore[invalid-parameter-default]
 ):
     arguments: BuildRendercvModelArguments = {
         "design_file_path_or_contents": design if design else None,

@@ -27,7 +27,10 @@ def run_function_if_file_changes(file_path: pathlib.Path, function: Callable):
             super().__init__()
             self.function = function
 
-        def on_modified(self, event: watchdog.events.FileModifiedEvent) -> None:
+        def on_modified(
+            self,
+            event: watchdog.events.DirModifiedEvent | watchdog.events.FileModifiedEvent,
+        ) -> None:
             if event.src_path != str(file_path.absolute()):
                 return
 

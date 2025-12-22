@@ -29,7 +29,7 @@ def pdf_to_png(pdf_file_path: pathlib.Path) -> list[pathlib.Path]:
     png_files = []
     pdf = fitz.open(pdf_file_path)  # open the PDF file
     for page in pdf:  # iterate the pages
-        image = page.get_pixmap(dpi=300)  # type: ignore
+        image = page.get_pixmap(dpi=300)
         assert page.number is not None
         png_file_path = png_directory / f"{png_file_name}_{page.number + 1}.png"
         image.save(png_file_path)

@@ -1,12 +1,20 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.8
+    # Ruff version.
+    rev: v0.14.10
     hooks:
-      - id: ruff
-  # - repo: https://github.com/RobertCraigie/pyright-python
-  #   rev: v1.1.407
-  #   hooks:
-  #     - id: pyright
+      # Run the linter.
+      - id: ruff-check
+      # Run the formatter.
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: ty-check
+        name: ty-check
+        language: python
+        entry: ty check src tests
+        pass_filenames: false
+        additional_dependencies: [ty]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.1
     hooks:

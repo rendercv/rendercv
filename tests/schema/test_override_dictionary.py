@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from rendercv.exception import RenderCVUserError
@@ -136,7 +138,7 @@ class TestUpdateValueByLocation:
         assert original == {"name": "Jane"}
 
     def test_deeply_nested_structure(self):
-        initial = {
+        initial: dict[str, Any] = {
             "cv": {
                 "sections": {
                     "education": [
@@ -230,7 +232,7 @@ class TestApplyOverridesToDictionary:
         assert result is not original
 
     def test_complex_cv_scenario(self):
-        initial = {
+        initial: dict[str, Any] = {
             "cv": {
                 "name": "John Doe",
                 "sections": {

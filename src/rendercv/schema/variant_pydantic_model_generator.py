@@ -170,7 +170,7 @@ def create_discriminator_field_spec(
     Returns:
         Tuple of Literal type annotation and Field with default value.
     """
-    field_annotation = Literal[discriminator_value]
+    field_annotation = Literal[discriminator_value]  # ty: ignore[invalid-type-form]
 
     # Update description with new default value
     updated_description = update_description_with_new_default(

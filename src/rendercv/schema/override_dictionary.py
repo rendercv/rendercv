@@ -1,29 +1,14 @@
 import copy
-from typing import overload
 
 from rendercv.exception import RenderCVUserError
 
 
-@overload
-def update_value_by_location(
-    dict_or_list: dict,
+def update_value_by_location[T: dict | list](
+    dict_or_list: T,
     key: str,
     value: str,
     full_key: str,
-) -> dict: ...
-@overload
-def update_value_by_location(
-    dict_or_list: list,
-    key: str,
-    value: str,
-    full_key: str,
-) -> list: ...
-def update_value_by_location(
-    dict_or_list: dict | list,
-    key: str,
-    value: str,
-    full_key: str,
-) -> dict | list:
+) -> T:
     """Navigate nested structure via dotted path and update value.
 
     Why:
@@ -89,21 +74,21 @@ def update_value_by_location(
         new_value = value
     else:
         new_value = update_value_by_location(
-            dict_or_list[first_key],  # pyright: ignore[reportArgumentType, reportCallIssue]
+            dict_or_list[first_key],
             remaining_key,
             value,
             full_key=full_key,
         )
 
-    dict_or_list[first_key] = new_value  # pyright: ignore[reportArgumentType, reportCallIssue]
+    dict_or_list[first_key] = new_value
 
     return dict_or_list
 
 
-def apply_overrides_to_dictionary(
-    dictionary: dict,
+def apply_overrides_to_dictionary[T: dict](
+    dictionary: T,
     overrides: dict[str, str],
-) -> dict:
+) -> T:
     """Apply multiple CLI overrides to dictionary.
 
     Why:

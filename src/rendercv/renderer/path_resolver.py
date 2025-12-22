@@ -70,6 +70,9 @@ def resolve_rendercv_file_path(
             else None
         ),
     }
+    file_path_placeholders = {
+        k: v for k, v in file_path_placeholders.items() if v is not None
+    }
     file_name = substitute_placeholders(file_path.name, file_path_placeholders)
     resolved_file_path = file_path.parent / file_name
     resolved_file_path.parent.mkdir(parents=True, exist_ok=True)

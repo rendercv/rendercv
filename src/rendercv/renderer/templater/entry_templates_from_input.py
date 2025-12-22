@@ -98,11 +98,11 @@ def render_entry_templates[EntryType: Entry](
         )
 
     if "URL" in entry_fields:
-        entry_fields["URL"] = process_url(entry)
+        entry_fields["URL"] = process_url(entry)  # ty: ignore[invalid-argument-type]
 
     if "DOI" in entry_fields:
-        entry_fields["URL"] = process_url(entry)
-        entry_fields["DOI"] = process_doi(entry)
+        entry_fields["URL"] = process_url(entry)  # ty: ignore[invalid-argument-type]
+        entry_fields["DOI"] = process_doi(entry)  # ty: ignore[invalid-argument-type]
 
     if "SUMMARY" in entry_fields:
         entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
@@ -268,9 +268,9 @@ def process_url(entry: Entry) -> str:
     """
     if isinstance(entry, PublicationEntry) and entry.doi:
         return process_doi(entry)
-    if hasattr(entry, "url") and entry.url:  # pyright: ignore[reportAttributeAccessIssue]
-        url = entry.url  # pyright: ignore[reportAttributeAccessIssue]
-        return f"[{clean_url(url)}]({url})"
+    if hasattr(entry, "url") and entry.url:
+        url = entry.url
+        return f"[{clean_url(url)}]({url})"  # ty: ignore[invalid-argument-type]
     raise RenderCVInternalError("URL is not provided for this entry.")
 
 

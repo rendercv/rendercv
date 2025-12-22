@@ -117,7 +117,7 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
 
                 for website in websites:
                     url = str(website)
-                    body = clean_url(website)
+                    body = clean_url(url)
                     connections.append(
                         Connection(
                             fontawesome_icon=fontawesome_icons[key], url=url, body=body

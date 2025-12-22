@@ -89,9 +89,9 @@ rendercv = 'rendercv.cli.entry_point:entry_point'
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-    'ruff>=0.14.8',        # Lint and format the code
+    'ruff>=0.14.10',       # Lint and format the code
     'black>=25.12.0',      # Format the code
-    'pyright>=1.1.407',    # Type checking
+    'ty>=0.0.5',           # Type checking
     'pre-commit>=4.5.0',   # Run checks before committing
     'pytest>=9.0.2',       # Run tests
     'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
@@ -170,17 +170,8 @@ enable-unstable-feature = [
     'string_processing',
 ] # Break strings into multiple lines
 
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
-typeCheckingMode = 'standard'
-enableTypeIgnoreComments = false
-reportUnnecessaryTypeIgnoreComment = true
-reportIncompatibleVariableOverride = false
-reportIncompatibleMethodOverride = false
-reportMissingTypeStubs = false
-reportPrivateUsage = false
-exclude = ['docs/**/*']
+[tool.ty.rules]
+unused-ignore-comment = "error"
 
 [tool.coverage.run]
 source = ['src/rendercv']         # Measure coverage in this source

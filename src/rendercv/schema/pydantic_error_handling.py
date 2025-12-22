@@ -1,9 +1,8 @@
 import pathlib
-from typing import cast
+from typing import Any, cast
 
 import pydantic
 import pydantic_core
-import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
 from rendercv.exception import RenderCVInternalError, RenderCVValidationError
@@ -27,7 +26,8 @@ unwanted_locations = (
 
 
 def parse_plain_pydantic_error(
-    plain_error: pydantic_core.ErrorDetails, user_input_as_commented_map: CommentedMap
+    plain_error: pydantic_core.ErrorDetails,
+    input_dictionary: CommentedMap | dict[str, Any],
 ) -> RenderCVValidationError:
     """Transform raw Pydantic error into user-friendly validation error with YAML coordinates.
 
@@ -86,16 +86,20 @@ def parse_plain_pydantic_error(
             if not isinstance(plain_error["input"], dict | list)
             else "..."
         ),
-        yaml_location=get_coordinates_of_a_key_in_a_yaml_object(
-            user_input_as_commented_map,
-            location if plain_error["type"] != "missing" else location[:-1],
+        yaml_location=(
+            get_coordinates_of_a_key_in_a_yaml_object(
+                input_dictionary,
+                location if plain_error["type"] != "missing" else location[:-1],
+            )
+            if isinstance(input_dictionary, CommentedMap)
+            else None
         ),
     )
 
 
 def parse_validation_errors(
     exception: pydantic.ValidationError,
-    rendercv_dictionary_as_commented_map: CommentedMap,
+    input_dictionary: CommentedMap | dict[str, Any],
 ) -> list[RenderCVValidationError]:
     """Extract all validation errors from Pydantic exception with deduplication.
 
@@ -117,9 +121,7 @@ def parse_validation_errors(
 
     for plain_error in all_plain_errors:
         all_final_errors.append(
-            parse_plain_pydantic_error(
-                plain_error, rendercv_dictionary_as_commented_map
-            )
+            parse_plain_pydantic_error(plain_error, input_dictionary)
         )
 
         if plain_error["type"] == CustomPydanticErrorTypes.entry_validation.value:
@@ -129,9 +131,7 @@ def parse_validation_errors(
                 loc = plain_cause_error["loc"][1:]  # Omit `entries` location
                 plain_cause_error["loc"] = plain_error["loc"] + loc
                 all_final_errors.append(
-                    parse_plain_pydantic_error(
-                        plain_cause_error, rendercv_dictionary_as_commented_map
-                    )
+                    parse_plain_pydantic_error(plain_cause_error, input_dictionary)
                 )
 
     # Remove duplicates from all_final_errors:
@@ -147,7 +147,8 @@ def parse_validation_errors(
 
 
 def get_inner_yaml_object_from_its_key(
-    yaml_object: CommentedMap, location_key: str
+    yaml_object: CommentedMap,
+    location_key: str,
 ) -> tuple[CommentedMap, tuple[tuple[int, int], tuple[int, int]]]:
     """Navigate one level into YAML structure and extract coordinates.
 
@@ -189,7 +190,7 @@ def get_inner_yaml_object_from_its_key(
 
 
 def get_coordinates_of_a_key_in_a_yaml_object(
-    yaml_object: ruamel.yaml.YAML, location: tuple[str, ...]
+    yaml_object: CommentedMap, location: tuple[str, ...]
 ) -> tuple[tuple[int, int], tuple[int, int]]:
     """Resolve dotted location path to exact YAML source coordinates.
 
@@ -215,7 +216,7 @@ def get_coordinates_of_a_key_in_a_yaml_object(
         ((start_line, start_col), (end_line, end_col)) in 1-indexed coordinates.
     """
 
-    current_yaml_object: ruamel.yaml.YAML = yaml_object
+    current_yaml_object = yaml_object
     coordinates = ((0, 0), (0, 0))
     # start from the first key and move forward:
     for location_key in location:

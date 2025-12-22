@@ -1,3 +1,5 @@
+from typing import Any
+
 import pydantic
 import pytest
 
@@ -25,7 +27,7 @@ class TestCv:
             "sections": sections,
         }
 
-        cv = Cv(**input)
+        cv = Cv.model_validate(input)
 
         assert len(cv.rendercv_sections) == len(available_entry_type_names)
         for section in cv.rendercv_sections:
@@ -45,10 +47,10 @@ class TestCv:
         }
 
         with pytest.raises(pydantic.ValidationError):
-            Cv(**input)
+            Cv.model_validate(input)
 
     def test_rejects_invalid_entries(self):
-        input = {"name": "John Doe", "sections": {}}
+        input: dict[str, Any] = {"name": "John Doe", "sections": {}}
         input["sections"]["section_title"] = [
             {
                 "this": "is",
@@ -58,16 +60,16 @@ class TestCv:
         ]
 
         with pytest.raises(pydantic.ValidationError):
-            Cv(**input)
+            Cv.model_validate(input)
 
     def test_rejects_section_without_list(self):
-        input = {"name": "John Doe", "sections": {}}
+        input: dict[str, Any] = {"name": "John Doe", "sections": {}}
         input["sections"]["section_title"] = {
             "this section": "does not have a list of entries but a single entry."
         }
 
         with pytest.raises(pydantic.ValidationError):
-            Cv(**input)
+            Cv.model_validate(input)
 
     def test_phone_serialization(self):
         input_data = {"name": "John Doe", "phone": "+905419999999"}

@@ -187,7 +187,7 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c.fontawesome_icon for c in connections]  # type: ignore
+        icons = [c.fontawesome_icon for c in connections]
         assert icons == [
             fontawesome_icons["location"],
             fontawesome_icons["email"],
@@ -208,7 +208,7 @@ class TestParseConnections:
 
         connections = parse_connections(model)
 
-        icons = [c.fontawesome_icon for c in connections]  # type: ignore
+        icons = [c.fontawesome_icon for c in connections]
         assert icons == [
             fontawesome_icons["email"],
             fontawesome_icons["LinkedIn"],

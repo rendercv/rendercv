@@ -194,13 +194,8 @@ class TestRenderEntryTemplates:
             current_date=Date(2024, 1, 1),
         )
 
-        assert (
-            entry.main_column == "**Solo**"  # pyright: ignore [reportAttributeAccessIssue]
-        )
-        assert (
-            entry.date_and_location_column  # pyright: ignore [reportAttributeAccessIssue]
-            == ""
-        )
+        assert entry.main_column == "**Solo**"  # ty: ignore[unresolved-attribute]
+        assert entry.date_and_location_column == ""  # ty: ignore[unresolved-attribute]
 
     def test_populates_highlights_and_date_placeholders(self):
         entry = NormalEntry(
@@ -218,8 +213,8 @@ class TestRenderEntryTemplates:
             current_date=Date(2024, 1, 1),
         )
 
-        assert entry.main_column == "**Project**\n- Alpha\n- Beta"  # pyright: ignore [reportAttributeAccessIssue]
-        assert entry.date_and_location_column == "Remote\nMay 2023"  # pyright: ignore [reportAttributeAccessIssue]
+        assert entry.main_column == "**Project**\n- Alpha\n- Beta"  # ty: ignore[unresolved-attribute]
+        assert entry.date_and_location_column == "Remote\nMay 2023"  # ty: ignore[unresolved-attribute]
 
     def test_formats_start_and_end_dates_in_custom_template(self):
         entry = NormalEntry(
@@ -240,7 +235,7 @@ class TestRenderEntryTemplates:
             current_date=Date(2024, 1, 1),
         )
 
-        assert entry.main_column == "Jan 2020 / Mar 2021 /  / Jan 2020 – Mar 2021"  # pyright: ignore [reportAttributeAccessIssue]
+        assert entry.main_column == "Jan 2020 / Mar 2021 /  / Jan 2020 – Mar 2021"  # ty: ignore[unresolved-attribute]
 
     def test_handles_authors_doi_and_date_placeholders(self):
         entry = PublicationEntry(
@@ -263,7 +258,7 @@ class TestRenderEntryTemplates:
         )
 
         assert (
-            entry.main_column  # pyright: ignore [reportAttributeAccessIssue]
+            entry.main_column  # ty: ignore[unresolved-attribute]
             == "Alice, Bob | [10.1000/xyz123](https://doi.org/10.1000/xyz123) | Feb"
             " 2024"
         )
@@ -289,7 +284,7 @@ class TestRenderEntryTemplates:
         )
 
         assert (
-            entry.main_column  # pyright: ignore [reportAttributeAccessIssue]
+            entry.main_column  # ty: ignore[unresolved-attribute]
             == "Linked Item [example.com/page](https://example.com/page/)"
         )
 

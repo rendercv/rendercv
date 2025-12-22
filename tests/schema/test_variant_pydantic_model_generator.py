@@ -289,7 +289,7 @@ class TestCreateNestedFieldSpec:
 
         # Check that a variant class was created with default_factory
         assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -311,7 +311,7 @@ class TestCreateNestedFieldSpec:
 
         # Check that a variant class was created with default_factory
         assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -352,7 +352,7 @@ class TestCreateNestedFieldSpec:
 
         # Check that a variant class was created with default_factory
         assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # pyright: ignore[reportArgumentType]
+        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -754,7 +754,7 @@ class TestCreateVariantPydanticModel:
                 pydantic.Field(default=old_default, description=base_description),
             ),
         }
-        Base = pydantic.create_model("Base", **base_fields)
+        Base = pydantic.create_model("Base", **base_fields)  # ty: ignore[no-matching-overload]
 
         VariantClass = create_variant_pydantic_model(
             variant_name="custom",
@@ -1045,8 +1045,8 @@ class TestCreateNestedModelVariantModel:
 
         # The variant should be created without errors
         instance = variant_class()
-        assert instance.x == 100  # pyright: ignore[reportAttributeAccessIssue]
-        assert instance.y == 2  # pyright: ignore[reportAttributeAccessIssue]
+        assert instance.x == 100  # ty: ignore[unresolved-attribute]
+        assert instance.y == 2  # ty: ignore[unresolved-attribute]
         # nonexistent_field should not be in the instance
         assert not hasattr(instance, "nonexistent_field")
 
@@ -1065,5 +1065,5 @@ class TestCreateNestedModelVariantModel:
         variant_class = create_nested_model_variant_model(ModelWithPlainDict, updates)
 
         instance = variant_class()
-        assert instance.metadata == {"new_key": "new_value"}  # pyright: ignore[reportAttributeAccessIssue]
-        assert instance.count == 10  # pyright: ignore[reportAttributeAccessIssue]
+        assert instance.metadata == {"new_key": "new_value"}  # ty: ignore[unresolved-attribute]
+        assert instance.count == 10  # ty: ignore[unresolved-attribute]

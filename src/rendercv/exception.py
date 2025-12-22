@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 @dataclass
 class RenderCVValidationError:
     location: tuple[str, ...]
-    yaml_location: tuple[tuple[int, int], tuple[int, int]]
+    yaml_location: tuple[tuple[int, int], tuple[int, int]] | None
     message: str
     input: str
 

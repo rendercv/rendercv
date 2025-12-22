@@ -68,7 +68,7 @@ class TestProcessFields:
         fn, seen = recorder
         entry = EntryWithInt(name="Test", count=42)
 
-        process_fields(entry, [fn])  # pyright: ignore[reportArgumentType]
+        process_fields(entry, [fn])  # ty: ignore[invalid-argument-type]
 
         assert "Test" in seen
         assert "42" in seen
@@ -118,12 +118,12 @@ class TestProcessModel:
         assert result.cv.headline == "Software Engineer @"
 
         # Connections and last updated date are added to cv
-        assert result.cv.connections == [  # pyright: ignore[reportAttributeAccessIssue]
+        assert result.cv.connections == [  # ty: ignore[unresolved-attribute]
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
         assert (
-            result.cv.top_note == "*Last updated in Feb 2024*"  # pyright: ignore[reportAttributeAccessIssue]
+            result.cv.top_note == "*Last updated in Feb 2024*"  # ty: ignore[unresolved-attribute]
         )
 
         entry = result.cv.rendercv_sections[0].entries[0]
@@ -157,13 +157,13 @@ class TestProcessModel:
                 entry.date_and_location_column == "#strong[Remote]\nJan 2022 – Feb 2023"
             )
             # Connections rendered as Typst links with icons by default
-            assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
-            assert "#connection-with-icon" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
+            assert result.cv.connections[0].startswith("#link(")  # ty: ignore[unresolved-attribute]
+            assert "#connection-with-icon" in result.cv.connections[0]  # ty: ignore[unresolved-attribute]
         else:
             assert "- Improved Python performance" in entry.main_column
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
-            assert result.cv.connections[0].startswith("#link(")  # pyright: ignore[reportAttributeAccessIssue]
-            assert "jane@example.com" in result.cv.connections[0]  # pyright: ignore[reportAttributeAccessIssue]
+            assert result.cv.connections[0].startswith("#link(")  # ty: ignore[unresolved-attribute]
+            assert "jane@example.com" in result.cv.connections[0]  # ty: ignore[unresolved-attribute]
 
     def test_handles_cv_with_no_sections(self):
         cv_data = {

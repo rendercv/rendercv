@@ -61,7 +61,7 @@ def timed_step[T, **P](
     elif isinstance(result, list) and result:
         if len(result) > 1:
             message = f"{message}s"
-        paths = result
+        paths = result  # ty: ignore[invalid-assignment]
 
     if paths:
         progress_panel.update_progress(

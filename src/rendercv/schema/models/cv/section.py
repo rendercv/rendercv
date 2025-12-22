@@ -37,7 +37,7 @@ available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__val
 available_entry_type_names: tuple[str, ...] = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
-type ListOfEntries = list[str] | reduce(  # pyright: ignore[reportInvalidTypeForm]
+type ListOfEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
     or_, [list[entry_type] for entry_type in available_entry_models]
 )
 
@@ -112,8 +112,8 @@ def create_section_models(
 
     return pydantic.create_model(
         model_name,
-        entry_type=(Literal[entry_type_name], ...),
-        entries=(list[entry_type], ...),
+        entry_type=(Literal[entry_type_name], ...),  # ty: ignore[invalid-type-form]
+        entries=(list[entry_type], ...),  # ty: ignore[invalid-type-form]
         __base__=BaseRenderCVSection,
     )
 
