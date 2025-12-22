@@ -1,6 +1,7 @@
 # German Ahmed Cruz Ramírez
 # https://www.linkedin.com/in/german-cruz-ram-in24/
 # Managua, Nicaragua 22/12/2025
+
 import pathlib
 import threading
 import tkinter as tk
@@ -10,10 +11,6 @@ from typing import Any, cast
 from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
 from rendercv.exception import RenderCVUserError
-
-"He creado la GUI para hacer más facil el acceso a quien necesite dar un toque profesional a su CV"
-"Agradecimiento especial a RenderCV y sus colaboradores"
-
 
 class GuiProgressPanel:
     def __init__(self, log_widget: scrolledtext.ScrolledText):
