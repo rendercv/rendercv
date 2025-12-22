@@ -9,10 +9,10 @@ from typing import Any, cast
 
 from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
+from rendercv.exception import RenderCVUserError
 
 "He creado la GUI para hacer más facil el acceso a quien necesite dar un toque profesional a su CV"
 "Agradecimiento especial a RenderCV y sus colaboradores"
-from rendercv.exception import RenderCVUserError, RenderCVValidationError
 
 
 class GuiProgressPanel:
