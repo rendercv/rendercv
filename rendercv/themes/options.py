@@ -853,6 +853,70 @@ class ExperienceEntryOptions(EntryBaseWithDate, ExperienceEntryBase):
     model_config = pydantic.ConfigDict(title="Experience Entry Options")
 
 
+consolidated_multi_role_experience_entry_main_column_first_row_template_field_info = pydantic.Field(
+    default="**COMPANY**",
+    title="Main Column, First Row",
+    description=(
+        "The content of the Main Column, first row. The available placeholders are"
+        " COMPANY, LOCATION, etc."
+    ),
+)
+
+consolidated_multi_role_experience_entry_main_column_second_row_template_field_info = pydantic.Field(
+    default="ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
+    title="Main Column, Second Row",
+    description=(
+        "The content of the Main Column, second row. Use ROLES for role list,"
+        " HIGHLIGHTS_HEADER for optional category, HIGHLIGHTS for bullets."
+    ),
+)
+
+consolidated_multi_role_experience_entry_date_and_location_column_template_field_info = pydantic.Field(
+    default="LOCATION\nDATE",
+    title="Date and Location Column",
+    description=(
+        "The content of the Date and Location Column. The available placeholders are"
+        " LOCATION, DATE (overall date range), etc."
+    ),
+)
+
+consolidated_multi_role_experience_entry_role_date_format_field_info = pydantic.Field(
+    default="only_years",
+    title="Role Date Format",
+    description=(
+        "The format for individual role dates shown in parentheses."
+        ' Options: "only_years" (e.g., 2008-2009) or "full" (e.g., Jan 2008 - Dec 2009).'
+    ),
+)
+
+
+class ConsolidatedMultiRoleExperienceEntryBase(RenderCVBaseModelWithoutExtraKeys):
+    """Base options for consolidated multi-role experience entries."""
+
+    main_column_first_row_template: str = (
+        consolidated_multi_role_experience_entry_main_column_first_row_template_field_info
+    )
+    main_column_second_row_template: str = (
+        consolidated_multi_role_experience_entry_main_column_second_row_template_field_info
+    )
+    date_and_location_column_template: str = (
+        consolidated_multi_role_experience_entry_date_and_location_column_template_field_info
+    )
+    role_date_format: Literal["only_years", "full"] = (
+        consolidated_multi_role_experience_entry_role_date_format_field_info
+    )
+
+
+class ConsolidatedMultiRoleExperienceEntryOptions(
+    EntryBaseWithDate, ConsolidatedMultiRoleExperienceEntryBase
+):
+    """Options related to consolidated multi-role experience entries."""
+
+    model_config = pydantic.ConfigDict(
+        title="Consolidated Multi-Role Experience Entry Options"
+    )
+
+
 one_line_entry_template_field_info = pydantic.Field(
     default="**LABEL:** DETAILS",
     title="Template",
@@ -895,6 +959,11 @@ entry_types_publication_entry_field_info = pydantic.Field(
     title="Publication Entry",
     description="Options related to publication entries.",
 )
+entry_types_consolidated_multi_role_experience_entry_field_info = pydantic.Field(
+    default=ConsolidatedMultiRoleExperienceEntryOptions(),
+    title="Consolidated Multi-Role Experience Entry",
+    description="Options related to consolidated multi-role experience entries.",
+)
 
 
 class EntryTypes(RenderCVBaseModelWithoutExtraKeys):
@@ -907,6 +976,9 @@ class EntryTypes(RenderCVBaseModelWithoutExtraKeys):
     experience_entry: ExperienceEntryOptions = entry_types_experience_entry_field_info
     publication_entry: PublicationEntryOptions = (
         entry_types_publication_entry_field_info
+    )
+    consolidated_multi_role_experience_entry: ConsolidatedMultiRoleExperienceEntryOptions = (
+        entry_types_consolidated_multi_role_experience_entry_field_info
     )
 
 

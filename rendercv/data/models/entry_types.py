@@ -595,6 +595,252 @@ class EducationEntry(EntryBase, EducationEntryBase, EntryType):
     model_config = pydantic.ConfigDict(title="Education Entry")
 
 
+class Role(RenderCVBaseModelWithExtraKeys):
+    """This class represents a single role within a consolidated multi-role experience
+    entry.
+    """
+
+    model_config = pydantic.ConfigDict(title="Role")
+
+    position: str = pydantic.Field(
+        title="Position",
+        description="The title of the role",
+    )
+    start_date: StartDate = pydantic.Field(
+        title="Start Date",
+        description=(
+            "The role's start date, written in YYYY-MM-DD, YYYY-MM, or YYYY format."
+        ),
+        examples=["2020-09-24"],
+    )
+    end_date: EndDate = pydantic.Field(
+        title="End Date",
+        description=(
+            "The role's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If"
+            " the role is ongoing, type 'present' or provide only the start date."
+        ),
+        examples=["2020-09-24", "present"],
+    )
+
+    @pydantic.model_validator(mode="after")  # type: ignore
+    def check_and_adjust_dates(self) -> "Role":
+        """Call the `validate_and_adjust_dates_for_an_entry` function to validate the
+        dates.
+        """
+        self.start_date, self.end_date, _ = validate_and_adjust_dates_for_an_entry(
+            start_date=self.start_date, end_date=self.end_date, date=None
+        )
+        return self
+
+    @functools.cached_property
+    def date_string(self) -> str:
+        """Return a date string for this role based on the `start_date` and `end_date`
+        fields and cache `date_string` as an attribute of the instance.
+
+        Example:
+            ```python
+            role = dm.Role(
+                position="Software Engineer",
+                start_date="2020-10-11",
+                end_date="2021-04-04"
+            ).date_string
+            ```
+            returns
+            `"Nov 2020 to Apr 2021"`
+        """
+        return computers.compute_date_string(
+            start_date=self.start_date, end_date=self.end_date, date=None
+        )
+
+    @functools.cached_property
+    def date_string_only_years(self) -> str:
+        """Return a date string that only contains years for this role based on the
+        `start_date` and `end_date` fields and cache `date_string_only_years` as an
+        attribute of the instance.
+
+        Example:
+            ```python
+            role = dm.Role(
+                position="Software Engineer",
+                start_date="2020-10-11",
+                end_date="2021-04-04"
+            ).date_string_only_years
+            ```
+            returns
+            `"2020 to 2021"`
+        """
+        return computers.compute_date_string(
+            start_date=self.start_date,
+            end_date=self.end_date,
+            date=None,
+            show_only_years=True,
+        )
+
+
+class ConsolidatedMultiRoleExperienceEntryBase(RenderCVBaseModelWithExtraKeys):
+    """This class is the parent class of the `ConsolidatedMultiRoleExperienceEntry`
+    class.
+    """
+
+    company: str = pydantic.Field(
+        title="Company",
+        description="The company name",
+    )
+    roles: list[Role] = pydantic.Field(
+        title="Roles",
+        description="List of roles held at this company",
+        min_length=1,
+    )
+    highlights_header: str | None = pydantic.Field(
+        default=None,
+        title="Highlights Header",
+        description="Optional header/category for the highlights section",
+        examples=["Portfolio Oversight / Cash Management / Compliance"],
+    )
+
+
+class ConsolidatedMultiRoleExperienceEntry(
+    EntryBase, ConsolidatedMultiRoleExperienceEntryBase, EntryType
+):
+    """This class is the data model of `ConsolidatedMultiRoleExperienceEntry`.
+    `ConsolidatedMultiRoleExperienceEntry` allows representing multiple roles at a
+    single company with consolidated highlights, showing career progression with a
+    unified list of achievements.
+    """
+
+    model_config = pydantic.ConfigDict(title="Consolidated Multi-Role Experience Entry")
+
+    @functools.cached_property
+    def overall_start_date(self) -> str | int | None:
+        """Return the earliest start date across all roles."""
+        if not self.roles:
+            return None
+
+        dates = []
+        for role in self.roles:
+            if role.start_date:
+                try:
+                    dates.append(computers.get_date_object(role.start_date))
+                except ValueError:
+                    pass
+
+        if dates:
+            return min(dates).isoformat()
+        return None
+
+    @functools.cached_property
+    def overall_end_date(self) -> str | int | None:
+        """Return the latest end date across all roles."""
+        if not self.roles:
+            return None
+
+        # Check if any role is current (present)
+        for role in self.roles:
+            if role.end_date == "present":
+                return "present"
+
+        dates = []
+        for role in self.roles:
+            if role.end_date:
+                try:
+                    dates.append(computers.get_date_object(role.end_date))
+                except ValueError:
+                    pass
+
+        if dates:
+            return max(dates).isoformat()
+        return None
+
+    @functools.cached_property
+    def overall_date_string(self) -> str:
+        """Return overall date range across all roles.
+
+        Example:
+            ```python
+            entry = dm.ConsolidatedMultiRoleExperienceEntry(
+                company="Company",
+                roles=[
+                    Role(position="Senior Engineer", start_date="2020-01", end_date="2022-01"),
+                    Role(position="Engineer", start_date="2018-01", end_date="2020-01")
+                ]
+            ).overall_date_string
+            ```
+            returns
+            `"Jan 2018 to Jan 2022"`
+        """
+        return computers.compute_date_string(
+            start_date=self.overall_start_date,
+            end_date=self.overall_end_date,
+            date=None,
+        )
+
+    @functools.cached_property
+    def overall_date_string_only_years(self) -> str:
+        """Return overall year-only date range across all roles.
+
+        Example:
+            ```python
+            entry = dm.ConsolidatedMultiRoleExperienceEntry(
+                company="Company",
+                roles=[
+                    Role(position="Senior Engineer", start_date="2020-01", end_date="2022-01"),
+                    Role(position="Engineer", start_date="2018-01", end_date="2020-01")
+                ]
+            ).overall_date_string_only_years
+            ```
+            returns
+            `"2018 to 2022"`
+        """
+        return computers.compute_date_string(
+            start_date=self.overall_start_date,
+            end_date=self.overall_end_date,
+            date=None,
+            show_only_years=True,
+        )
+
+    @functools.cached_property
+    def date_string(self) -> str:
+        """Override date_string to return overall_date_string for consistency with
+        template expectations and sorting.
+        """
+        return self.overall_date_string
+
+    @functools.cached_property
+    def date_string_only_years(self) -> str:
+        """Override date_string_only_years to return overall_date_string_only_years for
+        consistency with template expectations.
+        """
+        return self.overall_date_string_only_years
+
+    def make_keywords_bold(
+        self, keywords: list[str]
+    ) -> "ConsolidatedMultiRoleExperienceEntry":
+        """Make the given keywords bold in all text fields including role positions
+        and highlights_header.
+
+        Args:
+            keywords: The keywords to make bold.
+
+        Returns:
+            A ConsolidatedMultiRoleExperienceEntry with the keywords made bold in all
+            text fields.
+        """
+        # Process inherited fields (summary, highlights) using parent method
+        super().make_keywords_bold(keywords)
+
+        # Process role positions
+        for role in self.roles:
+            role.position = make_keywords_bold_in_a_string(role.position, keywords)
+
+        # Process highlights_header
+        if self.highlights_header:
+            self.highlights_header = make_keywords_bold_in_a_string(
+                self.highlights_header, keywords
+            )
+
+        return self
+
+
 # ======================================================================================
 # Create custom types based on the entry models: =======================================
 # ======================================================================================
@@ -605,6 +851,7 @@ Entry = (
     | ExperienceEntry
     | EducationEntry
     | PublicationEntry
+    | ConsolidatedMultiRoleExperienceEntry
     | BulletEntry
     | NumberedEntry
     | ReversedNumberedEntry
@@ -618,6 +865,7 @@ ListOfEntries = (
     | list[ExperienceEntry]
     | list[EducationEntry]
     | list[PublicationEntry]
+    | list[ConsolidatedMultiRoleExperienceEntry]
     | list[BulletEntry]
     | list[NumberedEntry]
     | list[ReversedNumberedEntry]

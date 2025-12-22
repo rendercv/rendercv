@@ -54,6 +54,34 @@ experience_entry_dictionary = {
     ],
 }
 
+consolidated_multi_role_experience_entry_dictionary = {
+    "company": "Tech Corporation",
+    "location": "San Francisco, CA",
+    "roles": [
+        {
+            "position": "Senior Software Engineer",
+            "start_date": "2022-01",
+            "end_date": "2023-06",
+        },
+        {
+            "position": "Software Engineer",
+            "start_date": "2020-07",
+            "end_date": "2022-01",
+        },
+        {
+            "position": "Junior Developer",
+            "start_date": "2019-01",
+            "end_date": "2020-07",
+        },
+    ],
+    "highlights_header": "Technical Leadership / System Architecture / Team Management",
+    "highlights": [
+        "Led development of microservices architecture serving **1M+ users**.",
+        "Mentored team of **8 engineers** across multiple projects.",
+        "Implemented CI/CD pipeline reducing deployment time by **80%**.",
+    ],
+}
+
 normal_entry_dictionary = {
     "name": "Some Project",
     "location": "Remote",
@@ -109,6 +137,12 @@ def experience_entry() -> dict[str, str]:
 def education_entry() -> dict[str, str]:
     """Return a sample education entry."""
     return copy.deepcopy(education_entry_dictionary)
+
+
+@pytest.fixture
+def consolidated_multi_role_experience_entry() -> dict:
+    """Return a sample consolidated multi-role experience entry."""
+    return copy.deepcopy(consolidated_multi_role_experience_entry_dictionary)
 
 
 @pytest.fixture

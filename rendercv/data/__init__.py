@@ -19,6 +19,7 @@ from .generator import (
 )
 from .models import (
     BulletEntry,
+    ConsolidatedMultiRoleExperienceEntry,
     CurriculumVitae,
     EducationEntry,
     Entry,
@@ -55,6 +56,7 @@ from .reader import (
 
 __all__ = [
     "BulletEntry",
+    "ConsolidatedMultiRoleExperienceEntry",
     "CurriculumVitae",
     "EducationEntry",
     "Entry",

@@ -38,6 +38,7 @@ from .design import (
 )
 from .entry_types import (
     BulletEntry,
+    ConsolidatedMultiRoleExperienceEntry,
     EducationEntry,
     Entry,
     ExperienceEntry,
@@ -58,6 +59,7 @@ warnings.filterwarnings("ignore")
 
 __all__ = [
     "BulletEntry",
+    "ConsolidatedMultiRoleExperienceEntry",
     "CurriculumVitae",
     "EducationEntry",
     "Entry",

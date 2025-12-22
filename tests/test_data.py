@@ -1160,3 +1160,146 @@ def test_sort_entries_tie_keeps_order(order):
         assert companies == ["C", "A", "B"]
     else:
         assert companies == ["A", "B", "C"]
+
+
+def test_consolidated_multi_role_experience_entry_creation(
+    consolidated_multi_role_experience_entry,
+):
+    """Test that ConsolidatedMultiRoleExperienceEntry can be created with valid data."""
+    entry = data.ConsolidatedMultiRoleExperienceEntry(
+        **consolidated_multi_role_experience_entry
+    )
+    assert entry.company == "Tech Corporation"
+    assert len(entry.roles) == 3
+    assert entry.roles[0].position == "Senior Software Engineer"
+    assert entry.highlights_header == "Technical Leadership / System Architecture / Team Management"
+    assert len(entry.highlights) == 3
+
+
+def test_consolidated_multi_role_experience_entry_overall_dates(
+    consolidated_multi_role_experience_entry,
+):
+    """Test overall date computation across all roles."""
+    entry = data.ConsolidatedMultiRoleExperienceEntry(
+        **consolidated_multi_role_experience_entry
+    )
+    # Should be from earliest start (2019-01) to latest end (2023-06)
+    assert entry.overall_start_date == "2019-01-01"
+    assert entry.overall_end_date == "2023-06-01"
+    assert "2019" in entry.overall_date_string
+    assert "2023" in entry.overall_date_string
+
+
+def test_consolidated_multi_role_experience_entry_with_present_end_date():
+    """Test that 'present' end date is handled correctly."""
+    entry_dict = {
+        "company": "Current Company",
+        "roles": [
+            {
+                "position": "Senior Engineer",
+                "start_date": "2022-01",
+                "end_date": "present",
+            },
+            {
+                "position": "Engineer",
+                "start_date": "2020-01",
+                "end_date": "2022-01",
+            },
+        ],
+        "highlights": ["Did something great."],
+    }
+    entry = data.ConsolidatedMultiRoleExperienceEntry(**entry_dict)
+    assert entry.overall_end_date == "present"
+    assert "present" in entry.overall_date_string
+
+
+def test_consolidated_multi_role_experience_entry_role_date_strings():
+    """Test role date string formatting."""
+    entry_dict = {
+        "company": "Test Company",
+        "roles": [
+            {
+                "position": "Senior Developer",
+                "start_date": "2020-10-11",
+                "end_date": "2021-04-04",
+            },
+        ],
+        "highlights": ["Built stuff."],
+    }
+    entry = data.ConsolidatedMultiRoleExperienceEntry(**entry_dict)
+    role = entry.roles[0]
+
+    # Test full date string
+    assert role.date_string == "Oct 2020 – Apr 2021"  # NOQA: RUF001
+
+    # Test years-only date string
+    assert role.date_string_only_years == "2020 – 2021"  # NOQA: RUF001
+
+
+def test_consolidated_multi_role_experience_entry_make_keywords_bold():
+    """Test that keywords are bolded in role positions and highlights_header."""
+    entry_dict = {
+        "company": "Test Company",
+        "roles": [
+            {
+                "position": "Python Developer",
+                "start_date": "2020-01",
+                "end_date": "2021-01",
+            },
+            {
+                "position": "JavaScript Engineer",
+                "start_date": "2019-01",
+                "end_date": "2020-01",
+            },
+        ],
+        "highlights_header": "Python and JavaScript Leadership",
+        "highlights": [
+            "Used Python for backend development.",
+            "Built JavaScript frontend applications.",
+        ],
+    }
+    entry = data.ConsolidatedMultiRoleExperienceEntry(**entry_dict)
+    entry_with_bold_keywords = entry.make_keywords_bold(["Python", "JavaScript"])
+
+    # Check role positions are bolded
+    assert "**Python**" in entry_with_bold_keywords.roles[0].position
+    assert "**JavaScript**" in entry_with_bold_keywords.roles[1].position
+
+    # Check highlights_header is bolded
+    assert "**Python**" in entry_with_bold_keywords.highlights_header
+    assert "**JavaScript**" in entry_with_bold_keywords.highlights_header
+
+    # Check highlights are bolded (inherited from parent)
+    assert "**Python**" in entry_with_bold_keywords.highlights[0]
+    assert "**JavaScript**" in entry_with_bold_keywords.highlights[1]
+
+
+def test_consolidated_multi_role_experience_entry_invalid_empty_roles():
+    """Test that entry with empty roles list is rejected."""
+    entry_dict = {
+        "company": "Test Company",
+        "roles": [],
+        "highlights": ["Did something."],
+    }
+    with pytest.raises(pydantic.ValidationError):
+        data.ConsolidatedMultiRoleExperienceEntry(**entry_dict)
+
+
+def test_consolidated_multi_role_experience_entry_date_string_property():
+    """Test that date_string property returns overall_date_string."""
+    entry_dict = {
+        "company": "Test Company",
+        "roles": [
+            {
+                "position": "Engineer",
+                "start_date": "2020-01",
+                "end_date": "2022-01",
+            },
+        ],
+        "highlights": ["Built things."],
+    }
+    entry = data.ConsolidatedMultiRoleExperienceEntry(**entry_dict)
+
+    # date_string should equal overall_date_string for template compatibility
+    assert entry.date_string == entry.overall_date_string
+    assert entry.date_string_only_years == entry.overall_date_string_only_years
