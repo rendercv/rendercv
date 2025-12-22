@@ -14,9 +14,6 @@ class Settings(BaseModelWithoutExtraKeys):
             'The date to use as "current date" for filenames, the "last updated" label,'
             " and time span calculations. Defaults to the actual current date."
         ),
-        json_schema_extra={
-            "default": None,
-        },
     )
     render_command: RenderCommand = pydantic.Field(
         default_factory=RenderCommand,

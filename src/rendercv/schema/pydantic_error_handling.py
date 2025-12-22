@@ -20,6 +20,7 @@ unwanted_locations = (
     "list",
     "literal",
     "int",
+    "str",
     "constrained-str",
     "function-after",
 )
