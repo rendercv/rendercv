@@ -1723,7 +1723,6 @@
       "additionalProperties": false,
       "properties": {
         "current_date": {
-          "default": null,
           "description": "The date to use as \"current date\" for filenames, the \"last updated\" label, and time span calculations. Defaults to the actual current date.",
           "format": "date",
           "title": "Date",
@@ -1817,7 +1816,8 @@
         "Telegram",
         "WhatsApp",
         "Leetcode",
-        "X"
+        "X",
+        "Bluesky"
       ],
       "type": "string"
     },
