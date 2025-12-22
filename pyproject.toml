@@ -35,7 +35,7 @@ description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"
 readme = "README.md"
-requires-python = '>=3.11' # RenderCV supports Python 3.11 and newer.
+requires-python = '>=3.12'
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
     'Jinja2>=3.1.6',                # Generate Typst and Markdown files
@@ -61,32 +61,12 @@ classifiers = [
 ] # See all classifiers at https://pypi.org/classifiers/
 
 [project.optional-dependencies]
-# Optional dependencies (extras) for RenderCV.
-# These can be installed using `pip install .[extra_name]`.
-# Note: We moved dev and docs here to ensure compatibility with standard `pip` installs.
 full = [
     'typer>=0.20.0',         # Command-line interface
     'markdown>=3.10',        # Convert Markdown to HTML
     'watchdog>=6.0.0',       # Monitor files for updates
     'typst>=0.14.4',         # Render PDF from Typst source files
     'rendercv-fonts>=0.5.1', # Font files for RenderCV
-]
-dev = [
-    'ruff>=0.14.10',       # Lint and format the code
-    'black>=25.12.0',      # Format the code
-    'ty>=0.0.5',           # Type checking
-    'prek>=0.2.23',        # Run checks before committing (pre-commit alternative)
-    'pytest>=9.0.2',       # Run tests
-    'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
-    "pytest-xdist>=3.8.0", # Run tests in parallel
-]
-docs = [
-    'mkdocs-material>=9.7.0',
-    'mkdocs-gen-files>=0.6.0',     # Dynamic page generation for API reference
-    'mkdocs-literate-nav>=0.6.2',  # Dynamic navigation for API reference
-    'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
-    'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
-    'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
 ]
 
 [project.urls]
@@ -106,16 +86,24 @@ Changelog = 'https://docs.rendercv.com/changelog'
 # `src/rendercv/cli/entry_point.py`.
 rendercv = 'rendercv.cli.entry_point:entry_point'
 
-# Virtual Environment Dependencies (PEP 735):
-# These groups are used by modern tools like `uv` to manage development environments.
-# To maintain a single source of truth, these groups reference the extras defined
-# in [project.optional-dependencies].
+# Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-    { name = "rendercv", extras = ["dev"] },
+    'ruff>=0.14.10',       # Lint and format the code
+    'black>=25.12.0',      # Format the code
+    'ty>=0.0.5',           # Type checking
+    'prek>=0.2.23',        # Run checks before committing (pre-commit alternative)
+    'pytest>=9.0.2',       # Run tests
+    'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
+    "pytest-xdist>=3.8.0", # Run tests in parallel
 ]
 docs = [
-    { name = "rendercv", extras = ["docs"] },
+    'mkdocs-material>=9.7.0',
+    'mkdocs-gen-files>=0.6.0',     # Dynamic page generation for API reference
+    'mkdocs-literate-nav>=0.6.2',  # Dynamic navigation for API reference
+    'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
+    'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
+    'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
 ]
 update-entry-figures = [
     'pdfCropMargins==2.2.1', # Generate entry figures for documentation
@@ -173,11 +161,7 @@ ignore = [
     'RUF001', # Allow other characters for locale
     'EM101',  # Allow
 ]
-
-# Specific configuration for ruff plugins:
-# Using explicit table headers for better compatibility with various TOML parsers.
-[tool.ruff.lint.flake8-unused-arguments]
-ignore-variadic-names = true
+flake8-unused-arguments.ignore-variadic-names = true
 
 [tool.black]
 line-length = 88 # Maximum line length
