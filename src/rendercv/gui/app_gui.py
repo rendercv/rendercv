@@ -1,18 +1,17 @@
 #German Ahmed Cruz Ramírez
 #https://www.linkedin.com/in/german-cruz-ram-in24/
 #Managua, Nicaragua 22/12/2025
-"He creado la GUI para hacer más facil el acceso a quien necesite dar un toque profesional a su CV"
-"Agradecimiento especial a RenderCV y sus colaboradores"
-
-
-
 import pathlib
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, scrolledtext
-from typing import Any
+from typing import Any, cast
 
+from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
+
+"He creado la GUI para hacer más facil el acceso a quien necesite dar un toque profesional a su CV"
+"Agradecimiento especial a RenderCV y sus colaboradores"
 from rendercv.exception import RenderCVUserError, RenderCVValidationError
 
 
@@ -126,7 +125,7 @@ class RenderCVApp:
         try:
             run_rendercv(
                 pathlib.Path(input_file),
-                progress_panel,
+                cast(ProgressPanel, progress_panel),
             )
         except Exception as e:
             progress_panel._append_text(f"\nUnexpected Error: {e}\n")
