@@ -107,4 +107,5 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "russian": "ru",
             "japanese": "ja",
             "korean": "ko",
+            "indonesia": "id",
         }[self.language]
