@@ -70,7 +70,6 @@ def create_sample_rendercv_pydantic_model(
     sample_content_dictionary = read_yaml(sample_content)["cv"]
     cv = Cv(**sample_content_dictionary)
 
-    name = name.encode().decode("unicode-escape")
     cv.name = name
 
     design = built_in_design_adapter.validate_python({"theme": theme})
