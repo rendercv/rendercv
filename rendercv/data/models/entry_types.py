@@ -848,10 +848,10 @@ class ConsolidatedMultiRoleExperienceEntry(
 Entry = (
     OneLineEntry
     | NormalEntry
+    | ConsolidatedMultiRoleExperienceEntry
     | ExperienceEntry
     | EducationEntry
     | PublicationEntry
-    | ConsolidatedMultiRoleExperienceEntry
     | BulletEntry
     | NumberedEntry
     | ReversedNumberedEntry
@@ -862,10 +862,10 @@ Entry = (
 ListOfEntries = (
     list[OneLineEntry]
     | list[NormalEntry]
+    | list[ConsolidatedMultiRoleExperienceEntry]
     | list[ExperienceEntry]
     | list[EducationEntry]
     | list[PublicationEntry]
-    | list[ConsolidatedMultiRoleExperienceEntry]
     | list[BulletEntry]
     | list[NumberedEntry]
     | list[ReversedNumberedEntry]
