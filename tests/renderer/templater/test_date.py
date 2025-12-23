@@ -45,9 +45,19 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
         (Date(2020, 3, 15), "YEAR-MONTH_IN_TWO_DIGITS", {}, "2020-03"),
         # Test DAY and DAY_IN_TWO_DIGITS
         (Date(2020, 12, 5), "MONTH/DAY/YEAR", {}, "12/5/2020"),
-        (Date(2020, 12, 5), "MONTH_IN_TWO_DIGITS/DAY_IN_TWO_DIGITS/YEAR", {}, "12/05/2020"),
+        (
+            Date(2020, 12, 5),
+            "MONTH_IN_TWO_DIGITS/DAY_IN_TWO_DIGITS/YEAR",
+            {},
+            "12/05/2020",
+        ),
         (Date(2020, 1, 9), "MONTH/DAY/YEAR", {}, "1/9/2020"),
-        (Date(2020, 1, 9), "MONTH_IN_TWO_DIGITS/DAY_IN_TWO_DIGITS/YEAR", {}, "01/09/2020"),
+        (
+            Date(2020, 1, 9),
+            "MONTH_IN_TWO_DIGITS/DAY_IN_TWO_DIGITS/YEAR",
+            {},
+            "01/09/2020",
+        ),
         # Custom month abbreviations
         (
             Date(2020, 1, 1),
