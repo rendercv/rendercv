@@ -801,6 +801,100 @@
       "title": "HindiLocale",
       "type": "object"
     },
+    "IndonesiaLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "indonesia",
+          "default": "indonesia",
+          "description": "The language for your CV. The default value is `indonesia`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Terakhir diperbarui",
+          "description": "Translation of \"Last updated in\". The default value is `Terakhir diperbarui`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "bulan",
+          "description": "Translation of \"month\" (singular). The default value is `bulan`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "bulan",
+          "description": "Translation of \"months\" (plural). The default value is `bulan`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "tahun",
+          "description": "Translation of \"year\" (singular). The default value is `tahun`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "tahun",
+          "description": "Translation of \"years\" (plural). The default value is `tahun`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "sekarang",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `sekarang`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Agu",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "IndonesiaLocale",
+      "type": "object"
+    },
     "ItalianLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1148,6 +1242,7 @@
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
           "hindi": "#/$defs/HindiLocale",
+          "indonesia": "#/$defs/IndonesiaLocale",
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
@@ -1171,6 +1266,9 @@
         },
         {
           "$ref": "#/$defs/HindiLocale"
+        },
+        {
+          "$ref": "#/$defs/IndonesiaLocale"
         },
         {
           "$ref": "#/$defs/ItalianLocale"

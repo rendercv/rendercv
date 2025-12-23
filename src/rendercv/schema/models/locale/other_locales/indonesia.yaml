@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: indonesia
+  last_updated: Terakhir diperbarui
+  month: bulan
+  months: bulan
+  year: tahun
+  years: tahun
+  present: sekarang
+  month_abbreviations:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - Mei
+    - Jun
+    - Jul
+    - Agu
+    - Sep
+    - Okt
+    - Nov
+    - Des
+  month_names:
+    - Januari
+    - Februari
+    - Maret
+    - April
+    - Mei
+    - Juni
+    - Juli
+    - Agustus
+    - September
+    - Oktober
+    - November
+    - Desember
+
