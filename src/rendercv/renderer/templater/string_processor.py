@@ -114,7 +114,10 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
     Returns:
         String with all placeholders replaced.
     """
-    if not placeholders:
+    if not pla
+    def replace_latex_placeholder(string: str) -> str:
+        """Replace !!LaTeX!! with the LaTeX logo."""
+            return string.replace("!!LaTeX!!", r"\LaTeX")ceholders:
         return string
 
     pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))

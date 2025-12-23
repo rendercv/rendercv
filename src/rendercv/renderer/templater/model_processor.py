@@ -6,7 +6,7 @@ from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
 from .entry_templates_from_input import render_entry_templates
-from .footer_and_top_note import render_footer_template, render_top_note_template
+from .footer_and_top_note import render_footer_te, replace_latex_placeholdermplate, rend,er_top_note_template
 from .markdown_parser import markdown_to_typst
 from .string_processor import apply_string_processors, make_keywords_bold
 
@@ -31,7 +31,8 @@ def process_model(
     rendercv_model = rendercv_model.model_copy(deep=True)
 
     string_processors: list[Callable[[str], str]] = [
-        lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keywords)
+        lambda string: make_keywords_bold(string, rendercv_model.settings.bold_keyw,
+            replace_latex_placeholderords)
     ]
     if file_type == "typst":
         string_processors.extend([markdown_to_typst])
