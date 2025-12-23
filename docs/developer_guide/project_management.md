@@ -81,7 +81,7 @@ This file defines:
 - Dependencies (what packages RenderCV needs)
 - Entry points (makes `rendercv` a command)
 - Build configuration (how to package RenderCV)
-- Tool settings (`ruff`, `pyright`, `pytest`, etc.)
+- Tool settings (`ruff`, `ty`, `pytest`, etc.)
 
 Open the file to see the full configuration with detailed comments.
 
@@ -119,7 +119,7 @@ These scripts are called by `just` commands (`just update-schema`, `just update-
 
 Configuration file for [`pre-commit`](https://pre-commit.com/), a tool that runs code quality checks.
 
-**Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically checks if the source code has any `ruff` or `pyright` errors on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious.
+**Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically checks if the source code has any `ruff` or `ty` errors on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious.
 
 ### [`uv.lock`](https://github.com/rendercv/rendercv/blob/main/uv.lock)
 

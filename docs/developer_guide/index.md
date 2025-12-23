@@ -52,8 +52,8 @@ That's it! You're now ready to start developing RenderCV.
 ### Development
 
 - `just sync`: Sync all dependencies (including extras and dev groups)
-- `just format`: Format code with black and ruff
-- `just check`: Run all checks (ruff, pyright, pre-commit)
+- `just format`: Format code with `black` and `ruff`
+- `just check`: Run all checks (`ruff`, `ty`, `pre-commit`)
 - `just lock`: Update `uv.lock` file
 
 ### Testing
