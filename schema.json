@@ -344,32 +344,32 @@
           "type": "string"
         },
         "month": {
-          "default": "Måned",
-          "description": "Translation of \"month\" (singular). The default value is `Måned`.",
+          "default": "måned",
+          "description": "Translation of \"month\" (singular). The default value is `måned`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
-          "default": "Måneder",
-          "description": "Translation of \"months\" (plural). The default value is `Måneder`.",
+          "default": "måneder",
+          "description": "Translation of \"months\" (plural). The default value is `måneder`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
-          "default": "År",
-          "description": "Translation of \"year\" (singular). The default value is `År`.",
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
-          "default": "År",
-          "description": "Translation of \"years\" (plural). The default value is `År`.",
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
-          "default": "Nuværende",
-          "description": "Translation of \"present\" for ongoing dates. The default value is `Nuværende`.",
+          "default": "nuværende",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nuværende`.",
           "title": "Present",
           "type": "string"
         },
@@ -895,13 +895,13 @@
       "title": "HindiLocale",
       "type": "object"
     },
-    "IndonesiaLocale": {
+    "IndonesianLocale": {
       "additionalProperties": false,
       "properties": {
         "language": {
-          "const": "indonesia",
-          "default": "indonesia",
-          "description": "The language for your CV. The default value is `indonesia`.",
+          "const": "indonesian",
+          "default": "indonesian",
+          "description": "The language for your CV. The default value is `indonesian`.",
           "title": "Language",
           "type": "string"
         },
@@ -986,7 +986,7 @@
           "type": "array"
         }
       },
-      "title": "IndonesiaLocale",
+      "title": "IndonesianLocale",
       "type": "object"
     },
     "ItalianLocale": {
@@ -1337,7 +1337,7 @@
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
           "hindi": "#/$defs/HindiLocale",
-          "indonesia": "#/$defs/IndonesiaLocale",
+          "indonesian": "#/$defs/IndonesianLocale",
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
@@ -1366,7 +1366,7 @@
           "$ref": "#/$defs/HindiLocale"
         },
         {
-          "$ref": "#/$defs/IndonesiaLocale"
+          "$ref": "#/$defs/IndonesianLocale"
         },
         {
           "$ref": "#/$defs/ItalianLocale"
