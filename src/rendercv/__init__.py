@@ -1,9 +1,7 @@
 import warnings
 
-__version__ = "2.5"
-__description__ = (
-    "Write your CV or resume as YAML and get PDF. Built for academics and engineers."
-)
+__version__ = "2.6"
+__description__ = "Typst-based CV/resume generator for academics and engineers."
 
 
 warnings.filterwarnings("ignore")  # Ignore Pydantic warnings

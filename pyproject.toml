@@ -30,7 +30,7 @@ build-backend = "uv_build" # Build-backend object for building RenderCV
 [project]
 # Metadata about RenderCV.
 name = 'rendercv'
-version = '2.5'
+version = '2.6'
 description = 'Typst-based CV/resume generator'
 authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
 license = "MIT"

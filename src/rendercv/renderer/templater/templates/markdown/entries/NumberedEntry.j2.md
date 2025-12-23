@@ -1,1 +1,1 @@
-- {{entry.number}}
+1. {{entry.number}}

@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.5...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.6...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,20 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.6] - December 23, 2025
+
+> **Full Changelog**: [v2.5...v2.6]
+
+### Added
+
+- Bluesky has been added as a social network type ([#560](https://github.com/rendercv/rendercv/issues/560)).
+- Built-in locale defaults for 2 additional languages have been added: Danish and Indonesian ([#556](https://github.com/rendercv/rendercv/issues/556), [#567](https://github.com/rendercv/rendercv/issues/567)).
+
+### Fixed
+
+- Unicode corruption in sample YAML name generation has been fixed ([#570](https://github.com/rendercv/rendercv/issues/570)).
+- Typst syntax is no longer included in Markdown and HTML outputs ([#563](https://github.com/rendercv/rendercv/issues/563), [#564](https://github.com/rendercv/rendercv/issues/564)).
 
 ## [2.5] - December 13, 2025
 
@@ -582,6 +596,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.5...v2.6]: https://github.com/rendercv/rendercv/compare/v2.5...v2.6
 [v2.4...v2.5]: https://github.com/rendercv/rendercv/compare/v2.4...v2.5
 [v2.3...v2.4]: https://github.com/rendercv/rendercv/compare/v2.3...v2.4
 [v2.2...v2.3]: https://github.com/rendercv/rendercv/compare/v2.2...v2.3
@@ -615,6 +630,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.6]: https://github.com/rendercv/rendercv/releases/tag/v2.6
 [2.5]: https://github.com/rendercv/rendercv/releases/tag/v2.5
 [2.4]: https://github.com/rendercv/rendercv/releases/tag/v2.4
 [2.3]: https://github.com/rendercv/rendercv/releases/tag/v2.3
