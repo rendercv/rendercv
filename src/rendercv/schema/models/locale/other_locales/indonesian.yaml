@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 locale:
-  language: indonesia
+  language: indonesian
   last_updated: Terakhir diperbarui
   month: bulan
   months: bulan
@@ -33,4 +33,3 @@ locale:
     - Oktober
     - November
     - Desember
-
