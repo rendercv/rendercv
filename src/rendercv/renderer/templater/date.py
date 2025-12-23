@@ -41,6 +41,7 @@ def date_object_to_string(
     month_abbreviations = locale.month_abbreviations
 
     month = int(date.strftime("%m"))
+    day = int(date.strftime("%d"))
     year = int(date.strftime(format="%Y"))
 
     placeholders: dict[str, str] = {
@@ -48,6 +49,8 @@ def date_object_to_string(
         "MONTH_ABBREVIATION": month_abbreviations[month - 1],
         "MONTH": str(month),
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
     }

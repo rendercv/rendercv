@@ -53,6 +53,7 @@ def render_top_note_template(
     month_abbreviations = locale.month_abbreviations
 
     month = int(current_date.strftime("%m"))
+    day = int(current_date.strftime("%d"))
     year = int(current_date.strftime(format="%Y"))
 
     placeholders: dict[str, str] = {
@@ -67,6 +68,8 @@ def render_top_note_template(
         "MONTH_ABBREVIATION": month_abbreviations[month - 1],
         "MONTH": str(month),
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
     }
