@@ -37,6 +37,11 @@ class TestCreateSampleRendercvPydanticModel:
                 name="John Doe", theme="classic", locale="invalid"
             )
 
+    def test_creates_model_with_unicode_name(self):
+        name = "Matías"
+        data_model = create_sample_rendercv_pydantic_model(name=name)
+        assert data_model.cv.name == name
+
 
 class TestCreateSampleYamlInputFile:
     @pytest.mark.parametrize(
