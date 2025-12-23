@@ -95,7 +95,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             Two-letter ISO 639-1 language code for Typst and HTML.
         """
         return {
-            "danish": "dk",
+            "danish": "da",
             "english": "en",
             "french": "fr",
             "german": "de",

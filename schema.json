@@ -327,6 +327,100 @@
       "title": "Cv",
       "type": "object"
     },
+    "DanishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "danish",
+          "default": "danish",
+          "description": "The language for your CV. The default value is `danish`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Senest opdateret",
+          "description": "Translation of \"Last updated in\". The default value is `Senest opdateret`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "Måned",
+          "description": "Translation of \"month\" (singular). The default value is `Måned`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "Måneder",
+          "description": "Translation of \"months\" (plural). The default value is `Måneder`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "År",
+          "description": "Translation of \"year\" (singular). The default value is `År`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "År",
+          "description": "Translation of \"years\" (plural). The default value is `År`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "Nuværende",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `Nuværende`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Maj",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januar",
+            "Februar",
+            "Marts",
+            "April",
+            "Maj",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "DanishLocale",
+      "type": "object"
+    },
     "EngineeringclassicTheme": {
       "additionalProperties": false,
       "properties": {
@@ -1238,6 +1332,7 @@
     "Locale": {
       "discriminator": {
         "mapping": {
+          "danish": "#/$defs/DanishLocale",
           "english": "#/$defs/EnglishLocale",
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
@@ -1257,6 +1352,9 @@
       "oneOf": [
         {
           "$ref": "#/$defs/EnglishLocale"
+        },
+        {
+          "$ref": "#/$defs/DanishLocale"
         },
         {
           "$ref": "#/$defs/FrenchLocale"

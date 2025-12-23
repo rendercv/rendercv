@@ -11,9 +11,6 @@ on:
   workflow_call: # to make the workflow triggerable from other workflows
   workflow_dispatch: # to make the workflow triggerable manually
 
-permissions:
-  statuses: write
-
 # The workflow:
 jobs:
   prek:
