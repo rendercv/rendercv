@@ -20,7 +20,7 @@ just format
 just check
 ```
 
-If there's absolutely no alternative, use `# pyright: ignore[errorCode]` or `#NOQA: errorCode` to ignore typing or linting errors.
+If there's absolutely no alternative, use `# ty: ignore[error-code]` or `#NOQA: error-code` to ignore typing or linting errors.
 
 ## Docstrings
 

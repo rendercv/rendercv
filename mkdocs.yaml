@@ -1,5 +1,5 @@
-site_name: RenderCV Engine
-site_description: CV/resume generator for academics and engineers
+site_name: RenderCV
+site_description: Typst-based CV/resume generator for academics and engineers
 copyright: Copyright &copy; 2023 - 2026 RenderCV
 repo_url: https://github.com/rendercv/rendercv
 repo_name: rendercv/rendercv
@@ -83,6 +83,7 @@ nav:
           - Add Social Network: developer_guide/how_to/add_social_network.md
   - API Reference: api_reference/
   - Changelog: changelog.md
+  - Web App: https://app.rendercv.com
 
 markdown_extensions:
   - github-callouts

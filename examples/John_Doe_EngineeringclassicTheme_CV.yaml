@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.4/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.5/schema.json
 cv:
   name: John Doe
   headline:
@@ -344,7 +344,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2025-12-10'
+  current_date: '2025-12-22'
   render_command:
     design:
     locale:

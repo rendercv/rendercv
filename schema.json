@@ -327,6 +327,100 @@
       "title": "Cv",
       "type": "object"
     },
+    "DanishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "danish",
+          "default": "danish",
+          "description": "The language for your CV. The default value is `danish`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Senest opdateret",
+          "description": "Translation of \"Last updated in\". The default value is `Senest opdateret`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "måned",
+          "description": "Translation of \"month\" (singular). The default value is `måned`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "måneder",
+          "description": "Translation of \"months\" (plural). The default value is `måneder`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "nuværende",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nuværende`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Maj",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januar",
+            "Februar",
+            "Marts",
+            "April",
+            "Maj",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "DanishLocale",
+      "type": "object"
+    },
     "EngineeringclassicTheme": {
       "additionalProperties": false,
       "properties": {
@@ -801,6 +895,100 @@
       "title": "HindiLocale",
       "type": "object"
     },
+    "IndonesianLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "indonesian",
+          "default": "indonesian",
+          "description": "The language for your CV. The default value is `indonesian`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Terakhir diperbarui",
+          "description": "Translation of \"Last updated in\". The default value is `Terakhir diperbarui`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "bulan",
+          "description": "Translation of \"month\" (singular). The default value is `bulan`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "bulan",
+          "description": "Translation of \"months\" (plural). The default value is `bulan`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "tahun",
+          "description": "Translation of \"year\" (singular). The default value is `tahun`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "tahun",
+          "description": "Translation of \"years\" (plural). The default value is `tahun`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "sekarang",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `sekarang`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mei",
+            "Jun",
+            "Jul",
+            "Agu",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januari",
+            "Februari",
+            "Maret",
+            "April",
+            "Mei",
+            "Juni",
+            "Juli",
+            "Agustus",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "IndonesianLocale",
+      "type": "object"
+    },
     "ItalianLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1144,10 +1332,12 @@
     "Locale": {
       "discriminator": {
         "mapping": {
+          "danish": "#/$defs/DanishLocale",
           "english": "#/$defs/EnglishLocale",
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
           "hindi": "#/$defs/HindiLocale",
+          "indonesian": "#/$defs/IndonesianLocale",
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
@@ -1164,6 +1354,9 @@
           "$ref": "#/$defs/EnglishLocale"
         },
         {
+          "$ref": "#/$defs/DanishLocale"
+        },
+        {
           "$ref": "#/$defs/FrenchLocale"
         },
         {
@@ -1171,6 +1364,9 @@
         },
         {
           "$ref": "#/$defs/HindiLocale"
+        },
+        {
+          "$ref": "#/$defs/IndonesianLocale"
         },
         {
           "$ref": "#/$defs/ItalianLocale"
@@ -1723,7 +1919,6 @@
       "additionalProperties": false,
       "properties": {
         "current_date": {
-          "default": null,
           "description": "The date to use as \"current date\" for filenames, the \"last updated\" label, and time span calculations. Defaults to the actual current date.",
           "format": "date",
           "title": "Date",
@@ -1817,7 +2012,8 @@
         "Telegram",
         "WhatsApp",
         "Leetcode",
-        "X"
+        "X",
+        "Bluesky"
       ],
       "type": "string"
     },

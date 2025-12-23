@@ -20,7 +20,7 @@ expected_errors:
     yaml_location: [[5, 3], [5, 9]]
 
   - location: ["cv", "website"]
-    message: Input should be a valid URL, relative URL without a base.
+    message: This is not a valid URL.
     input: not_a_valid_url
     yaml_location: [[4, 3], [4, 11]]
 
@@ -91,7 +91,7 @@ expected_errors:
     yaml_location: [[43, 5], [44, 6]]
 
   - location: ["cv", "sections", "welcome_to_rendercv_tests_7", "0", "name"]
-    message: This field should be provided or removed to use the default value.
+    message: Input should be a valid string.
     input: ...
     yaml_location: [[44, 9], [45, 10]]
 
