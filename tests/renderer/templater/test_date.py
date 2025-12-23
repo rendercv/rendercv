@@ -35,7 +35,6 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
         (Date(2020, 3, 5), "DAY_IN_TWO_DIGITS", {}, "05"),
         (Date(2020, 3, 15), "DAY_IN_TWO_DIGITS", {}, "15"),
         (Date(2020, 12, 13), "MONTH/DAY/YEAR", {}, "12/13/2020"),
-
         (
             Date(2020, 3, 15),
             "MONTH_IN_TWO_DIGITS/MONTH_IN_TWO_DIGITS/YEAR",
@@ -156,7 +155,6 @@ def test_date_object_to_string(date, template, locale_kwargs, expected):
         ("2020-03-05", "DAY_IN_TWO_DIGITS", {}, "05"),
         ("2020-03-15", "DAY_IN_TWO_DIGITS", {}, "15"),
         ("2020-12-13", "MONTH/DAY/YEAR", {}, "12/13/2020"),
-
         (
             "2020-03-15",
             "MONTH_IN_TWO_DIGITS/MONTH_IN_TWO_DIGITS/YEAR",
