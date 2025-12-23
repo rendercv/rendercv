@@ -3865,9 +3865,9 @@ Did *this* and this is a **bold** [link](https://example.com). But I must explai
 
 
 # One Line Entries
-- Programming: Python, C++, JavaScript, MATLAB
+**Programming:** Python, C++, JavaScript, MATLAB
 
-- Programming: Python, C++, JavaScript, MATLAB
+**Programming:** Python, C++, JavaScript, MATLAB
 
 # Bullet Entries
 - This is a bullet entry.
@@ -3875,16 +3875,16 @@ Did *this* and this is a **bold** [link](https://example.com). But I must explai
 - This is a bullet entry.
 
 # Numbered Entries
-- This is a numbered entry.
+1. This is a numbered entry.
 
-- This is a numbered entry.
+1. This is a numbered entry.
 
 # Reversed Numbered Entries
-- This is a reversed numbered entry.
+1. This is a reversed numbered entry.
 
-- This is a reversed numbered entry.
+1. This is a reversed numbered entry.
 
-- This is a reversed numbered entry.
+1. This is a reversed numbered entry.
 
 # A Section & with % Special Characters
 ## **A Section & with % Special Characters**

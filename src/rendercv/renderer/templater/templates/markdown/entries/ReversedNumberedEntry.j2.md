@@ -1,1 +1,1 @@
-- {{entry.reversed_number}}
+1. {{entry.reversed_number}}

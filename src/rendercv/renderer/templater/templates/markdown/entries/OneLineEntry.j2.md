@@ -1,1 +1,1 @@
-- {{entry.label}}: {{entry.details}}
+{{entry.main_column}}
