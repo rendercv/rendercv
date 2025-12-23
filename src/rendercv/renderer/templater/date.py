@@ -42,6 +42,7 @@ def date_object_to_string(
 
     month = int(date.strftime("%m"))
     year = int(date.strftime(format="%Y"))
+    day = int(date.strftime("%d"))
 
     placeholders: dict[str, str] = {
         "MONTH_NAME": month_names[month - 1],
@@ -50,6 +51,8 @@ def date_object_to_string(
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
     }
 
     return substitute_placeholders(single_date_template, placeholders)
