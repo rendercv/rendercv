@@ -96,6 +96,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         """
         return {
             "danish": "da",
+            "dutch": "nl",
             "english": "en",
             "french": "fr",
             "german": "de",

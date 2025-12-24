@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: dutch
+  last_updated: "Laatst bijgewerkt"
+  month: "Maand"
+  months: "Maanden"
+  year: "Jaar"
+  years: "Jaren"
+  present: "Huidig"
+  month_abbreviations:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+  month_names:
+    - Januari
+    - Februari
+    - Maart
+    - April
+    - Mei
+    - Juni
+    - Juli
+    - Augustus
+    - September
+    - Oktober
+    - November
+    - December
