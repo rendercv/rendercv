@@ -7,7 +7,7 @@ from .path_resolver import resolve_rendercv_file_path
 from .templater.templater import render_full_template
 
 
-def generate_typst(rendercv_model: RenderCVModel) -> pathlib.Path | None:
+def generate_typst(rendercv_model: RenderCVModel) -> pathlib.Path:
     """Generate Typst source file from CV model via Jinja2 templates.
 
     Why:
