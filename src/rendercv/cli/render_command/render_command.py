@@ -209,8 +209,17 @@ def cli_command_render(
 
     with ProgressPanel(quiet=quiet) as progress_panel:
         if watch:
+            # Watch the main input file and any included config files
+            files_to_watch = [input_file_path]
+            if design:
+                files_to_watch.append(design)
+            if locale:
+                files_to_watch.append(locale)
+            if settings:
+                files_to_watch.append(settings)
+
             run_function_if_file_changes(
-                input_file_path,
+                files_to_watch,
                 lambda: run_rendercv(input_file_path, progress_panel, **arguments),
             )
         else:
