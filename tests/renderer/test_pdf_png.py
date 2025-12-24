@@ -58,3 +58,64 @@ def test_generate_png(
     reference_filename = f"{theme}_minimal.png"
 
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+def test_generate_pdf_with_dont_generate_typst(
+    tmp_path,
+    minimal_rendercv_model: RenderCVModel,
+):
+    """Test that PDF can still be generated when dont_generate_typst is True.
+
+    This is a regression test for issue #550 where disabling typst generation
+    would also disable PDF/PNG generation.
+    """
+    model = RenderCVModel(
+        cv=minimal_rendercv_model.cv,
+        design={"theme": "classic"},
+        locale=minimal_rendercv_model.locale,
+        settings=minimal_rendercv_model.settings,
+    )
+    model.settings.render_command.dont_generate_typst = True
+    model.settings.render_command.pdf_path = tmp_path / "output.pdf"
+
+    # Generate typst (should return temp path even with dont_generate_typst=True)
+    typst_path = generate_typst(model)
+    assert typst_path is not None
+
+    # Generate PDF using the temp typst path
+    pdf_path = generate_pdf(model, typst_path)
+
+    assert pdf_path is not None
+    assert pdf_path.exists()
+    assert pdf_path.suffix == ".pdf"
+
+
+def test_generate_png_with_dont_generate_typst(
+    tmp_path,
+    minimal_rendercv_model: RenderCVModel,
+):
+    """Test that PNG can still be generated when dont_generate_typst is True.
+
+    This is a regression test for issue #550 where disabling typst generation
+    would also disable PDF/PNG generation.
+    """
+    model = RenderCVModel(
+        cv=minimal_rendercv_model.cv,
+        design={"theme": "classic"},
+        locale=minimal_rendercv_model.locale,
+        settings=minimal_rendercv_model.settings,
+    )
+    model.settings.render_command.dont_generate_typst = True
+    model.settings.render_command.png_path = tmp_path / "output.png"
+
+    # Generate typst (should return temp path even with dont_generate_typst=True)
+    typst_path = generate_typst(model)
+    assert typst_path is not None
+
+    # Generate PNG using the temp typst path
+    png_paths = generate_png(model, typst_path)
+
+    assert png_paths is not None
+    assert len(png_paths) > 0
+    assert all(p.exists() for p in png_paths)
+    assert all(p.suffix == ".png" for p in png_paths)

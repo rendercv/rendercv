@@ -11,7 +11,7 @@ from .path_resolver import resolve_rendercv_file_path
 
 
 def generate_pdf(
-    rendercv_model: RenderCVModel, typst_path: pathlib.Path | None
+    rendercv_model: RenderCVModel, typst_path: pathlib.Path
 ) -> pathlib.Path | None:
     """Compile Typst source to PDF using typst-py compiler.
 
@@ -27,7 +27,7 @@ def generate_pdf(
     Returns:
         Path to generated PDF file, or None if generation disabled.
     """
-    if rendercv_model.settings.render_command.dont_generate_pdf or typst_path is None:
+    if rendercv_model.settings.render_command.dont_generate_pdf:
         return None
     pdf_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
@@ -40,7 +40,7 @@ def generate_pdf(
 
 
 def generate_png(
-    rendercv_model: RenderCVModel, typst_path: pathlib.Path | None
+    rendercv_model: RenderCVModel, typst_path: pathlib.Path
 ) -> list[pathlib.Path] | None:
     """Compile Typst source to PNG images using typst-py compiler.
 
@@ -55,7 +55,7 @@ def generate_png(
     Returns:
         List of paths to generated PNG files, or None if generation disabled.
     """
-    if rendercv_model.settings.render_command.dont_generate_png or typst_path is None:
+    if rendercv_model.settings.render_command.dont_generate_png:
         return None
     png_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.png_path
