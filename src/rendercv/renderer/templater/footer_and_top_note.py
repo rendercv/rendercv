@@ -127,7 +127,6 @@ def render_footer_template(
     year = int(current_date.strftime(format="%Y"))
     day = int(current_date.strftime("%d"))
 
-
     placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
             current_date,
