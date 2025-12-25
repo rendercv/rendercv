@@ -438,32 +438,32 @@
           "type": "string"
         },
         "month": {
-          "default": "Maand",
-          "description": "Translation of \"month\" (singular). The default value is `Maand`.",
+          "default": "maand",
+          "description": "Translation of \"month\" (singular). The default value is `maand`.",
           "title": "Month",
           "type": "string"
         },
         "months": {
-          "default": "Maanden",
-          "description": "Translation of \"months\" (plural). The default value is `Maanden`.",
+          "default": "maanden",
+          "description": "Translation of \"months\" (plural). The default value is `maanden`.",
           "title": "Months",
           "type": "string"
         },
         "year": {
-          "default": "Jaar",
-          "description": "Translation of \"year\" (singular). The default value is `Jaar`.",
+          "default": "jaar",
+          "description": "Translation of \"year\" (singular). The default value is `jaar`.",
           "title": "Year",
           "type": "string"
         },
         "years": {
-          "default": "Jaren",
-          "description": "Translation of \"years\" (plural). The default value is `Jaren`.",
+          "default": "jaren",
+          "description": "Translation of \"years\" (plural). The default value is `jaren`.",
           "title": "Years",
           "type": "string"
         },
         "present": {
-          "default": "Huidig",
-          "description": "Translation of \"present\" for ongoing dates. The default value is `Huidig`.",
+          "default": "heden",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `heden`.",
           "title": "Present",
           "type": "string"
         },
@@ -471,14 +471,14 @@
           "default": [
             "Jan",
             "Feb",
-            "Mar",
+            "Mrt",
             "Apr",
-            "May",
+            "Mei",
             "Jun",
             "Jul",
             "Aug",
             "Sep",
-            "Oct",
+            "Okt",
             "Nov",
             "Dec"
           ],

@@ -2,22 +2,22 @@
 locale:
   language: dutch
   last_updated: "Laatst bijgewerkt"
-  month: "Maand"
-  months: "Maanden"
-  year: "Jaar"
-  years: "Jaren"
-  present: "Huidig"
+  month: "maand"
+  months: "maanden"
+  year: "jaar"
+  years: "jaren"
+  present: "heden"
   month_abbreviations:
     - Jan
     - Feb
-    - Mar
+    - Mrt
     - Apr
-    - May
+    - Mei
     - Jun
     - Jul
     - Aug
     - Sep
-    - Oct
+    - Okt
     - Nov
     - Dec
   month_names:
