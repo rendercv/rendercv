@@ -1,3 +1,5 @@
+import shutil
+
 import pytest
 
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
@@ -71,8 +73,6 @@ def test_generate_pdf_with_dont_generate_typst(
     This is a regression test for issue #550 where disabling typst generation
     would also disable PDF/PNG generation.
     """
-    import shutil
-
     model = RenderCVModel(
         cv=minimal_rendercv_model.cv,
         design={"theme": "classic"},
@@ -109,8 +109,6 @@ def test_generate_png_with_dont_generate_typst(
     This is a regression test for issue #550 where disabling typst generation
     would also disable PDF/PNG generation.
     """
-    import shutil
-
     model = RenderCVModel(
         cv=minimal_rendercv_model.cv,
         design={"theme": "classic"},
