@@ -4,6 +4,8 @@ from typing import Any, Self
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
+from rendercv.exception import RenderCVInternalError
+
 from ..base import BaseModelWithExtraKeys
 from ..path import ExistingPathRelativeToInput
 from .custom_connection import CustomConnection
@@ -190,7 +192,8 @@ class Cv(BaseModelWithExtraKeys):
         if value is None:
             return None
 
-        assert info.field_name is not None
+        if info.field_name is None:
+            raise RenderCVInternalError("field_name is None in validator")
 
         validators: tuple[
             pydantic.TypeAdapter[pydantic.EmailStr]
