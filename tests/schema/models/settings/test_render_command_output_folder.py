@@ -30,7 +30,8 @@ class TestRenderCommandOutputFolder:
         # Use pathlib for cross-platform path comparison
         pdf_path_str = str(render_command.pdf_path)
         # Check that 'build' and 'en' are in the path (works on both Windows and Unix)
-        assert "build" in pdf_path_str and "en" in pdf_path_str
+        assert "build" in pdf_path_str
+        assert "en" in pdf_path_str
         assert "build" in str(render_command.typst_path)
         assert "build" in str(render_command.markdown_path)
         assert "build" in str(render_command.html_path)
@@ -44,7 +45,8 @@ class TestRenderCommandOutputFolder:
         render_command = RenderCommand(output_folder=pathlib.Path("build/en/"))
 
         pdf_path_str = str(render_command.pdf_path)
-        assert "build" in pdf_path_str and "en" in pdf_path_str
+        assert "build" in pdf_path_str
+        assert "en" in pdf_path_str
         assert DEFAULT_OUTPUT_FOLDER not in pdf_path_str
 
     def test_output_folder_placeholder_in_custom_path(self):
