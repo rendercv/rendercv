@@ -54,6 +54,7 @@ def render_top_note_template(
 
     month = int(current_date.strftime("%m"))
     year = int(current_date.strftime(format="%Y"))
+    day = int(current_date.strftime("%d"))
 
     placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
@@ -67,6 +68,8 @@ def render_top_note_template(
         "MONTH_ABBREVIATION": month_abbreviations[month - 1],
         "MONTH": str(month),
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
     }
@@ -122,6 +125,8 @@ def render_footer_template(
 
     month = int(current_date.strftime("%m"))
     year = int(current_date.strftime(format="%Y"))
+    day = int(current_date.strftime("%d"))
+
 
     placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
@@ -136,6 +141,8 @@ def render_footer_template(
         "MONTH_ABBREVIATION": month_abbreviations[month - 1],
         "MONTH": str(month),
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": str(year)[-2:],
     }
