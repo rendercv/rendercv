@@ -126,8 +126,10 @@ def parse_validation_errors(
         )
 
         if plain_error["type"] == CustomPydanticErrorTypes.entry_validation.value:
-            assert "ctx" in plain_error
-            assert "caused_by" in plain_error["ctx"]
+            if "ctx" not in plain_error or "caused_by" not in plain_error["ctx"]:
+                raise RenderCVInternalError(
+                    "entry_validation error missing ctx or caused_by"
+                )
             for plain_cause_error in plain_error["ctx"]["caused_by"]:
                 loc = plain_cause_error["loc"][1:]  # Omit `entries` location
                 plain_cause_error["loc"] = plain_error["loc"] + loc

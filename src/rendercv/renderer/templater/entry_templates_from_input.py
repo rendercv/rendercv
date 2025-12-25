@@ -54,12 +54,14 @@ def render_entry_templates[EntryType: Entry](
     # Handle special placeholders:
     if "HIGHLIGHTS" in entry_fields:
         highlights = getattr(entry, "highlights", None)
-        assert highlights is not None
+        if highlights is None:
+            raise RenderCVInternalError("HIGHLIGHTS in fields but highlights is None")
         entry_fields["HIGHLIGHTS"] = process_highlights(highlights)
 
     if "AUTHORS" in entry_fields:
         authors = getattr(entry, "authors", None)
-        assert authors is not None
+        if authors is None:
+            raise RenderCVInternalError("AUTHORS in fields but authors is None")
         entry_fields["AUTHORS"] = process_authors(authors)
 
     if (
@@ -81,7 +83,8 @@ def render_entry_templates[EntryType: Entry](
 
     if "START_DATE" in entry_fields:
         start_date = getattr(entry, "start_date", None)
-        assert start_date is not None
+        if start_date is None:
+            raise RenderCVInternalError("START_DATE in fields but start_date is None")
         entry_fields["START_DATE"] = format_single_date(
             start_date,
             locale=locale,
@@ -90,7 +93,8 @@ def render_entry_templates[EntryType: Entry](
 
     if "END_DATE" in entry_fields:
         end_date = getattr(entry, "end_date", None)
-        assert end_date is not None
+        if end_date is None:
+            raise RenderCVInternalError("END_DATE in fields but end_date is None")
         entry_fields["END_DATE"] = format_single_date(
             end_date,
             locale=locale,
