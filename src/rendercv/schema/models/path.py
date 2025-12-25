@@ -36,8 +36,21 @@ def resolve_relative_path(
     if path:
         input_file_path = get_input_file_path(info)
         relative_to = input_file_path.parent if input_file_path else pathlib.Path.cwd()
+        # Always resolve to absolute path
         if not path.is_absolute():
-            path = relative_to / path
+            path = (relative_to / path).resolve()
+        else:
+            path = path.resolve()
+
+        # Enforce that the resolved path is within the input directory
+        try:
+            path.relative_to(relative_to)
+        except ValueError:
+            raise pydantic_core.PydanticCustomError(
+                CustomPydanticErrorTypes.other.value,
+                "The file `{file_path}` is outside the input directory.",
+                {"file_path": str(path)},
+            )
 
         if must_exist:
             if not path.exists():
