@@ -17,6 +17,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     design_yaml_file: str | None
     locale_yaml_file: str | None
     settings_yaml_file: str | None
+    output_folder: pathlib.Path | str | None
     typst_path: pathlib.Path | str | None
     pdf_path: pathlib.Path | str | None
     markdown_path: pathlib.Path | str | None
@@ -60,6 +61,7 @@ def build_rendercv_dictionary(
             overlay_sources[key] = overlay_cm
 
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
+        "output_folder": kwargs.get("output_folder"),
         "typst_path": kwargs.get("typst_path"),
         "pdf_path": kwargs.get("pdf_path"),
         "markdown_path": kwargs.get("markdown_path"),
