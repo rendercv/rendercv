@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.1.0": *
+#import "@preview/rendercv:0.2.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -7,6 +7,7 @@
   footer: {{ cv.footer }},
   top-note: [ {{ cv.top_note }} ],
   locale-catalog-language: "{{ locale.language_iso_639_1 }}",
+  text-direction: "{{ locale.text_direction }}",
   page-size: "{{ design.page.size }}",
   page-top-margin: {{ design.page.top_margin }},
   page-bottom-margin: {{ design.page.bottom_margin }},
