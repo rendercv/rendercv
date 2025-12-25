@@ -17,6 +17,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     design_file_path_or_contents: pathlib.Path | str | None
     locale_file_path_or_contents: pathlib.Path | str | None
     settings_file_path_or_contents: pathlib.Path | str | None
+    output_folder: pathlib.Path | str | None
     typst_path: pathlib.Path | str | None
     pdf_path: pathlib.Path | str | None
     markdown_path: pathlib.Path | str | None
@@ -77,6 +78,7 @@ def build_rendercv_dictionary(
 
     # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
+        "output_folder": kwargs.get("output_folder"),
         "typst_path": kwargs.get("typst_path"),
         "pdf_path": kwargs.get("pdf_path"),
         "markdown_path": kwargs.get("markdown_path"),
