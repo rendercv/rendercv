@@ -145,7 +145,13 @@ class RenderCommand(BaseModelWithoutExtraKeys):
             return data
 
         output_folder_str = str(output_folder)
-        path_fields = ["typst_path", "pdf_path", "markdown_path", "html_path", "png_path"]
+        path_fields = [
+            "typst_path",
+            "pdf_path",
+            "markdown_path",
+            "html_path",
+            "png_path",
+        ]
 
         for field_name in path_fields:
             path_value = data.get(field_name)
@@ -168,10 +174,12 @@ class RenderCommand(BaseModelWithoutExtraKeys):
                 path_str = str(path_value)
                 # Replace OUTPUT_FOLDER placeholder
                 if "OUTPUT_FOLDER" in path_str:
-                    data[field_name] = path_str.replace("OUTPUT_FOLDER", output_folder_str)
+                    data[field_name] = path_str.replace(
+                        "OUTPUT_FOLDER", output_folder_str
+                    )
                 # Replace default rendercv_output folder
-                elif path_str.startswith(DEFAULT_OUTPUT_FOLDER + "/") or path_str.startswith(
-                    DEFAULT_OUTPUT_FOLDER + "\\"
+                elif path_str.startswith(
+                    (DEFAULT_OUTPUT_FOLDER + "/", DEFAULT_OUTPUT_FOLDER + "\\")
                 ):
                     data[field_name] = path_str.replace(
                         DEFAULT_OUTPUT_FOLDER, output_folder_str, 1
