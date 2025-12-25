@@ -719,6 +719,104 @@
       "format": "path",
       "type": "string"
     },
+    "ArabicLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "arabic",
+          "default": "arabic",
+          "description": "The language for your CV. The default value is `arabic`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "آخر تحديث في",
+          "description": "Translation of \"Last updated in\". The default value is `آخر تحديث في`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "شهر",
+          "description": "Translation of \"month\" (singular). The default value is `شهر`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "أشهر",
+          "description": "Translation of \"months\" (plural). The default value is `أشهر`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "سنة",
+          "description": "Translation of \"year\" (singular). The default value is `سنة`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "سنوات",
+          "description": "Translation of \"years\" (plural). The default value is `سنوات`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "الآن",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `الآن`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "يناير",
+            "فبراير",
+            "مارس",
+            "أبريل",
+            "مايو",
+            "يونيو",
+            "يوليو",
+            "أغسطس",
+            "سبتمبر",
+            "أكتوبر",
+            "نوفمبر",
+            "ديسمبر"
+          ],
+          "description": "Month abbreviations. Since Arabic does not have standard abbreviations, full names are typically used.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "يناير",
+            "فبراير",
+            "مارس",
+            "أبريل",
+            "مايو",
+            "يونيو",
+            "يوليو",
+            "أغسطس",
+            "سبتمبر",
+            "أكتوبر",
+            "نوفمبر",
+            "ديسمبر"
+          ],
+          "description": "Full month names.",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 12,
+          "minItems": 12,
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "ArabicLocale",
+      "type": "object"
+    },
     "FrenchLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1482,7 +1580,8 @@
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
-          "turkish": "#/$defs/TurkishLocale"
+          "turkish": "#/$defs/TurkishLocale",
+          "arabic": "#/$defs/ArabicLocale"
         },
         "propertyName": "language"
       },
