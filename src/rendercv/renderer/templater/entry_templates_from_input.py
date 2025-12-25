@@ -1,6 +1,7 @@
 import re
 import textwrap
 from datetime import date as Date
+from typing import TypeVar
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
@@ -13,8 +14,10 @@ from .string_processor import clean_url, substitute_placeholders
 
 uppercase_word_pattern = re.compile(r"\b[A-Z_]+\b")
 
+EntryType = TypeVar("EntryType", bound=Entry)
 
-def render_entry_templates[EntryType: Entry](
+
+def render_entry_templates(
     entry: EntryType,
     *,
     templates: Templates,

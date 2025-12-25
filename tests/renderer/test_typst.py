@@ -1,6 +1,6 @@
+from rendercv.renderer.templater.string_processor import replace_latex_placeholder
 import pytest
 
-from rendercv.renderer.typst import generate_typst
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.rendercv_model import RenderCVModel
 

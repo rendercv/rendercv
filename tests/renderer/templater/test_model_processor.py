@@ -4,6 +4,7 @@ import pydantic
 import pytest
 
 from rendercv.renderer.templater.model_processor import process_fields, process_model
+from rendercv.renderer.templater.string_processor import replace_latex_placeholder
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.rendercv_model import RenderCVModel

@@ -1,5 +1,5 @@
 import re
-from typing import Annotated
+from typing import Annotated, TypeAlias
 
 import pydantic
 import pydantic_core
@@ -29,4 +29,6 @@ def validate_typst_dimension(dimension: str) -> str:
     return dimension
 
 
-type TypstDimension = Annotated[str, pydantic.AfterValidator(validate_typst_dimension)]
+TypstDimension: TypeAlias = Annotated[
+    str, pydantic.AfterValidator(validate_typst_dimension)
+]

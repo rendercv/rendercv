@@ -5,6 +5,7 @@ import pytest
 
 from rendercv.cli.new_command.new_command import cli_command_new
 from rendercv.cli.render_command.render_command import cli_command_render
+from rendercv.renderer.templater.string_processor import replace_latex_placeholder
 
 
 class TestCliCommandRender:

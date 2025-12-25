@@ -1,6 +1,6 @@
 import re
 from datetime import date as Date
-from typing import Annotated, Literal, Self
+from typing import Annotated, Literal, Self, TypeAlias
 
 import pydantic
 import pydantic_core
@@ -37,7 +37,9 @@ def validate_exact_date(date: str | int) -> str | int:
     return date
 
 
-type ExactDate = Annotated[str | int, pydantic.AfterValidator(validate_exact_date)]
+ExactDate: TypeAlias = Annotated[
+    str | int, pydantic.AfterValidator(validate_exact_date)
+]
 
 
 def get_date_object(date: str | int, current_date: Date | None = None) -> Date:

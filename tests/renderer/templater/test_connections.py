@@ -406,7 +406,7 @@ class TestComputeConnections:
 
 
 class TestIconMapping:
-    @pytest.mark.parametrize("network", get_args(SocialNetworkName.__value__))
+    @pytest.mark.parametrize("network", get_args(SocialNetworkName.__args__))
     def test_all_social_networks_have_icons(self, network):
         assert network in fontawesome_icons, (
             f"Missing icon for social network: {network}"

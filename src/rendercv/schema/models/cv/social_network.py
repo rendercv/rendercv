@@ -1,6 +1,6 @@
 import functools
 import re
-from typing import Literal, get_args
+from typing import Literal, TypeAlias, get_args
 
 import pydantic
 import pydantic_core
@@ -10,7 +10,7 @@ from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
 url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
-type SocialNetworkName = Literal[
+SocialNetworkName: TypeAlias = Literal[
     "LinkedIn",
     "GitHub",
     "GitLab",
@@ -28,7 +28,7 @@ type SocialNetworkName = Literal[
     "X",
     "Bluesky",
 ]
-available_social_networks = get_args(SocialNetworkName.__value__)
+available_social_networks = get_args(SocialNetworkName)
 url_dictionary: dict[SocialNetworkName, str] = {
     "LinkedIn": "https://linkedin.com/in/",
     "GitHub": "https://github.com/",

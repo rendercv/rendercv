@@ -1,14 +1,19 @@
 import copy
+from typing import TypeVar, Union
 
 from rendercv.exception import RenderCVUserError
 
 
-def update_value_by_location[T: dict | list](
-    dict_or_list: T,
+DictOrListType = TypeVar("DictOrListType", bound=Union[dict, list])
+DictionaryType = TypeVar("DictionaryType", bound=dict)
+
+
+def update_value_by_location(
+    dict_or_list: DictOrListType,
     key: str,
     value: str,
     full_key: str,
-) -> T:
+) -> DictOrListType:
     """Navigate nested structure via dotted path and update value.
 
     Why:
@@ -85,10 +90,10 @@ def update_value_by_location[T: dict | list](
     return dict_or_list
 
 
-def apply_overrides_to_dictionary[T: dict](
-    dictionary: T,
+def apply_overrides_to_dictionary(
+    dictionary: DictionaryType,
     overrides: dict[str, str],
-) -> T:
+) -> DictionaryType:
     """Apply multiple CLI overrides to dictionary.
 
     Why:

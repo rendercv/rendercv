@@ -1,5 +1,5 @@
 import pathlib
-from typing import Annotated
+from typing import Annotated, TypeAlias
 
 import pydantic
 import pydantic_core
@@ -60,14 +60,14 @@ def serialize_path(path: pathlib.Path) -> str:
     return str(path.relative_to(pathlib.Path.cwd()))
 
 
-type ExistingPathRelativeToInput = Annotated[
+ExistingPathRelativeToInput: TypeAlias = Annotated[
     pathlib.Path,
     pydantic.AfterValidator(
         lambda path, info: resolve_relative_path(path, info, must_exist=True)
     ),
 ]
 
-type PlannedPathRelativeToInput = Annotated[
+PlannedPathRelativeToInput: TypeAlias = Annotated[
     pathlib.Path,
     pydantic.AfterValidator(
         lambda path, info: resolve_relative_path(path, info, must_exist=False)

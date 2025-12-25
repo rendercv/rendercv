@@ -1,6 +1,7 @@
 import functools
 import re
 from collections.abc import Callable
+from datetime import date
 from typing import overload
 
 import pydantic
@@ -114,10 +115,7 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
     Returns:
         String with all placeholders replaced.
     """
-    if not pla
-    def replace_latex_placeholder(string: str) -> str:
-        """Replace !!LaTeX!! with the LaTeX logo."""
-            return string.replace("!!LaTeX!!", r"\LaTeX")ceholders:
+    if not placeholders:
         return string
 
     pattern = build_keyword_matcher_pattern(frozenset(placeholders.keys()))
@@ -148,3 +146,24 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
         url = url[:-1]
 
     return url
+
+
+def replace_latex_placeholder(string: str) -> str:
+    """Replace !!LaTeX!! with the LaTeX logo."""
+    return string.replace("!!LaTeX!!", r"\LaTeX")
+
+
+def replace_date_placeholders(string: str) -> str:
+    """Replace current-date placeholders with their values."""
+    today = date.today()
+    placeholders: dict[str, str] = {
+        "MONTH_NAME": today.strftime("%B"),
+        "MONTH_ABBREVIATION": today.strftime("%b"),
+        "MONTH": str(today.month),
+        "MONTH_IN_TWO_DIGITS": today.strftime("%m"),
+        "YEAR": today.strftime("%Y"),
+        "YEAR_IN_TWO_DIGITS": today.strftime("%y"),
+    }
+    if not any(token in string for token in placeholders):
+        return string
+    return substitute_placeholders(string, placeholders)

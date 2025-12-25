@@ -1,7 +1,7 @@
 import pathlib
 import time
 from collections.abc import Callable
-from typing import Unpack
+from typing import ParamSpec, TypeVar, Unpack
 
 import jinja2
 import ruamel.yaml
@@ -19,7 +19,11 @@ from rendercv.schema.rendercv_model_builder import (
 from .progress_panel import ProgressPanel
 
 
-def timed_step[T, **P](
+T = TypeVar("T")
+P = ParamSpec("P")
+
+
+def timed_step(
     message: str,
     progress_panel: ProgressPanel,
     func: Callable[P, T],

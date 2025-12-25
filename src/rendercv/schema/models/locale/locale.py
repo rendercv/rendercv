@@ -1,7 +1,7 @@
 from functools import reduce
 from operator import or_
 from pathlib import Path
-from typing import Annotated, get_args
+from typing import Annotated, TypeAlias, get_args
 
 import pydantic
 
@@ -39,12 +39,12 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
 
 
 # Build discriminated union dynamically
-type Locale = Annotated[
+Locale: TypeAlias = Annotated[
     EnglishLocale | reduce(or_, discover_other_locales()),  # ty: ignore[invalid-type-form]
     pydantic.Field(discriminator="language"),
 ]
 available_locales = [
     LocaleModel.model_fields["language"].default
-    for LocaleModel in get_args(get_args(Locale.__value__)[0])
+    for LocaleModel in get_args(get_args(Locale)[0])
 ]
 locale_adapter = pydantic.TypeAdapter(Locale)

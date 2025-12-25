@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, TypeAlias
 
 from pydantic.json_schema import SkipJsonSchema
 
@@ -50,4 +50,6 @@ available_font_families = sorted(
 )
 
 
-type FontFamily = SkipJsonSchema[str] | Literal[*tuple(available_font_families)]  # ty: ignore[invalid-type-form]
+FontFamily: TypeAlias = (
+    SkipJsonSchema[str] | Literal[*tuple(available_font_families)]
+)  # ty: ignore[invalid-type-form]

@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Literal, TypeAlias
 
 import pydantic
 
@@ -7,14 +7,16 @@ from rendercv.schema.models.design.color import Color
 from rendercv.schema.models.design.font_family import FontFamily as FontFamilyType
 from rendercv.schema.models.design.typst_dimension import TypstDimension
 
-type Bullet = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
-type BodyAlignment = Literal["left", "justified", "justified-with-no-hyphenation"]
-type Alignment = Literal["left", "center", "right"]
-type SectionTitleType = Literal[
+Bullet: TypeAlias = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
+BodyAlignment: TypeAlias = Literal[
+    "left", "justified", "justified-with-no-hyphenation"
+]
+Alignment: TypeAlias = Literal["left", "center", "right"]
+SectionTitleType: TypeAlias = Literal[
     "with_partial_line", "with_full_line", "without_line", "moderncv"
 ]
-type PhoneNumberFormatType = Literal["national", "international", "E164"]
-type PageSize = Literal["a4", "a5", "us-letter", "us-executive"]
+PhoneNumberFormatType: TypeAlias = Literal["national", "international", "E164"]
+PageSize: TypeAlias = Literal["a4", "a5", "us-letter", "us-executive"]
 
 length_common_description = (
     "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`."

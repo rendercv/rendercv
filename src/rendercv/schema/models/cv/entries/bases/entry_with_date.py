@@ -1,6 +1,6 @@
 import re
 from datetime import date as Date
-from typing import Annotated
+from typing import Annotated, TypeAlias
 
 import pydantic
 
@@ -31,7 +31,7 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     return date
 
 
-type ArbitraryDate = Annotated[
+ArbitraryDate: TypeAlias = Annotated[
     int | str, pydantic.AfterValidator(validate_arbitrary_date)
 ]
 

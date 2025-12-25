@@ -1,7 +1,7 @@
 from functools import reduce
 from operator import or_
 from pathlib import Path
-from typing import Annotated, get_args
+from typing import Annotated, TypeAlias, get_args
 
 import pydantic
 
@@ -39,12 +39,12 @@ def discover_other_themes() -> list[type[ClassicTheme]]:
 
 
 # Build discriminated union dynamically
-type BuiltInDesign = Annotated[
+BuiltInDesign: TypeAlias = Annotated[
     ClassicTheme | reduce(or_, discover_other_themes()),  # ty: ignore[invalid-type-form]
     pydantic.Field(discriminator="theme"),
 ]
 available_themes: list[str] = [
     ThemeClass.model_fields["theme"].default
-    for ThemeClass in get_args(get_args(BuiltInDesign.__value__)[0])
+    for ThemeClass in get_args(get_args(BuiltInDesign)[0])
 ]
 built_in_design_adapter = pydantic.TypeAdapter(BuiltInDesign)

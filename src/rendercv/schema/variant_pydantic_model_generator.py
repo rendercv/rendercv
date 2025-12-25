@@ -1,15 +1,17 @@
 from collections.abc import Callable
-from typing import Any, Literal, cast
+from typing import Any, Literal, TypeAlias, cast
+from typing import TypeVar
 
 import pydantic
 from pydantic.fields import FieldInfo
 
 from rendercv.exception import RenderCVInternalError
 
-type FieldSpec = tuple[type[Any], FieldInfo]
+FieldSpec: TypeAlias = tuple[type[Any], FieldInfo]
+T = TypeVar("T", bound=pydantic.BaseModel)
 
 
-def create_variant_pydantic_model[T: pydantic.BaseModel](
+def create_variant_pydantic_model(
     variant_name: str,
     defaults: dict[str, Any],
     base_class: type[T],
@@ -190,7 +192,7 @@ def create_discriminator_field_spec(
     return (cast(type[Any], field_annotation), new_field)
 
 
-def deep_merge_nested_object[T: pydantic.BaseModel](
+def deep_merge_nested_object(
     base_nested_obj: T,
     updates: dict[str, Any],
 ) -> T:

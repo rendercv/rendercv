@@ -5,6 +5,7 @@ from rendercv.renderer.templater.string_processor import (
     build_keyword_matcher_pattern,
     clean_url,
     make_keywords_bold,
+    replace_date_placeholders,
     substitute_placeholders,
 )
 
@@ -58,3 +59,27 @@ def test_build_keyword_matcher_pattern_raises_error_for_empty_keywords():
         build_keyword_matcher_pattern(frozenset())
 
     assert "Keywords cannot be empty" in str(exc_info.value)
+
+
+def test_replace_date_placeholders(monkeypatch):
+    from datetime import date as real_date
+
+    fake_today = real_date(2024, 3, 14)
+
+    class FakeDate:
+        @classmethod
+        def today(cls):
+            return fake_today
+
+    monkeypatch.setattr(
+        "rendercv.renderer.templater.string_processor.date", FakeDate
+    )
+
+    template = (
+        "Report generated in MONTH_NAME (MONTH_ABBREVIATION), "
+        "MONTH/MONTH_IN_TWO_DIGITS of YEAR (YEAR_IN_TWO_DIGITS)."
+    )
+
+    assert replace_date_placeholders(template) == (
+        "Report generated in March (Mar), 3/03 of 2024 (24)."
+    )
