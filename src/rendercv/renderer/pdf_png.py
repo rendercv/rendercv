@@ -5,6 +5,7 @@ import shutil
 import rendercv_fonts
 import typst
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .path_resolver import resolve_rendercv_file_path
@@ -69,7 +70,8 @@ def generate_png(
 
     png_files = []
     for i, png_file_bytes in enumerate(png_files_bytes):
-        assert png_file_bytes is not None
+        if png_file_bytes is None:
+            raise RenderCVInternalError("Typst compiler returned None for PNG bytes")
         png_file = png_path.parent / (png_path.stem + f"_{i + 1}.png")
         png_file.write_bytes(png_file_bytes)
         png_files.append(png_file)
