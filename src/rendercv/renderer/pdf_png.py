@@ -61,6 +61,12 @@ def generate_png(
     png_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.png_path
     )
+    
+    pattern = f"{png_path.stem}_*.png"
+    for existing_png_file in png_path.parent.glob(pattern):
+        if existing_png_file.is_file():
+            existing_png_file.unlink()
+    
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
     png_files_bytes = typst_compiler.compile(format="png")
