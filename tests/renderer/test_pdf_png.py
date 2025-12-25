@@ -25,7 +25,8 @@ def test_generate_pdf(
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
-        typst_path = generate_typst(model)
+        typst_path, is_temporary = generate_typst(model)
+        assert not is_temporary
 
         model.settings.render_command.pdf_path = output_path
         generate_pdf(model, typst_path)
@@ -50,7 +51,8 @@ def test_generate_png(
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
-        typst_path = generate_typst(model)
+        typst_path, is_temporary = generate_typst(model)
+        assert not is_temporary
 
         model.settings.render_command.png_path = output_path
         generate_png(model, typst_path)
@@ -69,6 +71,8 @@ def test_generate_pdf_with_dont_generate_typst(
     This is a regression test for issue #550 where disabling typst generation
     would also disable PDF/PNG generation.
     """
+    import shutil
+
     model = RenderCVModel(
         cv=minimal_rendercv_model.cv,
         design={"theme": "classic"},
@@ -78,16 +82,22 @@ def test_generate_pdf_with_dont_generate_typst(
     model.settings.render_command.dont_generate_typst = True
     model.settings.render_command.pdf_path = tmp_path / "output.pdf"
 
-    # Generate typst (should return temp path even with dont_generate_typst=True)
-    typst_path = generate_typst(model)
+    # Generate typst (should return temp path with is_temporary=True)
+    typst_path, is_temporary = generate_typst(model)
     assert typst_path is not None
+    assert is_temporary is True
 
-    # Generate PDF using the temp typst path
-    pdf_path = generate_pdf(model, typst_path)
+    try:
+        # Generate PDF using the temp typst path
+        pdf_path = generate_pdf(model, typst_path)
 
-    assert pdf_path is not None
-    assert pdf_path.exists()
-    assert pdf_path.suffix == ".pdf"
+        assert pdf_path is not None
+        assert pdf_path.exists()
+        assert pdf_path.suffix == ".pdf"
+    finally:
+        # Clean up temp directory (as done in run_rendercv.py)
+        if is_temporary and typst_path.parent.exists():
+            shutil.rmtree(typst_path.parent, ignore_errors=True)
 
 
 def test_generate_png_with_dont_generate_typst(
@@ -99,6 +109,8 @@ def test_generate_png_with_dont_generate_typst(
     This is a regression test for issue #550 where disabling typst generation
     would also disable PDF/PNG generation.
     """
+    import shutil
+
     model = RenderCVModel(
         cv=minimal_rendercv_model.cv,
         design={"theme": "classic"},
@@ -108,14 +120,20 @@ def test_generate_png_with_dont_generate_typst(
     model.settings.render_command.dont_generate_typst = True
     model.settings.render_command.png_path = tmp_path / "output.png"
 
-    # Generate typst (should return temp path even with dont_generate_typst=True)
-    typst_path = generate_typst(model)
+    # Generate typst (should return temp path with is_temporary=True)
+    typst_path, is_temporary = generate_typst(model)
     assert typst_path is not None
+    assert is_temporary is True
 
-    # Generate PNG using the temp typst path
-    png_paths = generate_png(model, typst_path)
+    try:
+        # Generate PNG using the temp typst path
+        png_paths = generate_png(model, typst_path)
 
-    assert png_paths is not None
-    assert len(png_paths) > 0
-    assert all(p.exists() for p in png_paths)
-    assert all(p.suffix == ".png" for p in png_paths)
+        assert png_paths is not None
+        assert len(png_paths) > 0
+        assert all(p.exists() for p in png_paths)
+        assert all(p.suffix == ".png" for p in png_paths)
+    finally:
+        # Clean up temp directory (as done in run_rendercv.py)
+        if is_temporary and typst_path.parent.exists():
+            shutil.rmtree(typst_path.parent, ignore_errors=True)
