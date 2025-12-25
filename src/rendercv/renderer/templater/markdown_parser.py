@@ -1,3 +1,4 @@
+import html
 import itertools
 import re
 from xml.etree.ElementTree import Element
@@ -181,4 +182,51 @@ def markdown_to_html(markdown_string: str) -> str:
     Returns:
         HTML-formatted string.
     """
-    return markdown.markdown(markdown_string)
+
+    # Escape dangerous HTML tags to prevent XSS attacks
+    # This escapes <script>, <iframe>, and other dangerous tags in user input
+    # while preserving Markdown syntax and Markdown-generated HTML
+    def escape_dangerous_html(text: str) -> str:
+        """Escape dangerous HTML tags while preserving Markdown syntax."""
+        # List of dangerous HTML tags that should be escaped
+        dangerous_tags = [
+            "script",
+            "iframe",
+            "object",
+            "embed",
+            "form",
+            "input",
+            "button",
+            "onerror",
+            "onload",
+        ]
+
+        result = text
+        # Escape opening tags: <script> -> &lt;script&gt;
+        for tag in dangerous_tags:
+            # Match opening tags with optional attributes
+            pattern = rf"<{tag}\b[^>]*>"
+            result = re.sub(
+                pattern, lambda m: html.escape(m.group()), result, flags=re.IGNORECASE
+            )
+            # Match closing tags
+            pattern = rf"</{tag}>"
+            result = re.sub(
+                pattern, lambda m: html.escape(m.group()), result, flags=re.IGNORECASE
+            )
+            # Match self-closing tags
+            pattern = rf"<{tag}\b[^>]*/>"
+            result = re.sub(
+                pattern, lambda m: html.escape(m.group()), result, flags=re.IGNORECASE
+            )
+            # Match event handlers in attributes
+            pattern = rf"{tag}\s*="
+            result = re.sub(
+                pattern, lambda m: html.escape(m.group()), result, flags=re.IGNORECASE
+            )
+
+        return result
+
+    # Escape dangerous HTML before processing Markdown
+    escaped_markdown = escape_dangerous_html(markdown_string)
+    return markdown.markdown(escaped_markdown)

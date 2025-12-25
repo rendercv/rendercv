@@ -50,7 +50,7 @@ def warn_if_new_version_is_available() -> None:
     url = "https://pypi.org/pypi/rendercv/json"
     try:
         with urllib.request.urlopen(
-            url, context=ssl._create_unverified_context()
+            url, context=ssl.create_default_context()
         ) as response:
             data = response.read()
             encoding = response.info().get_content_charset("utf-8")

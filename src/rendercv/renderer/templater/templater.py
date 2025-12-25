@@ -4,6 +4,7 @@ import pathlib
 from typing import Literal
 
 import jinja2
+from markupsafe import Markup
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -31,6 +32,26 @@ def get_jinja2_environment(
     Returns:
         Configured Jinja2 environment with filters and loaders.
     """
+
+    def select_autoescape(filename: str | None) -> bool:
+        """Enable autoescape only for HTML templates to prevent XSS attacks.
+
+        Typst and Markdown templates should not be escaped as they are not HTML.
+        """
+        if filename is None:
+            return False
+        # Normalize path separators for cross-platform compatibility
+        # Windows uses backslashes, Unix uses forward slashes
+        # Also normalize to lowercase for case-insensitive comparison (Windows)
+        normalized_path = str(filename).replace("\\", "/").lower()
+        # Only escape HTML templates
+        # Check for .html extension or html/ directory in path
+        return (
+            normalized_path.endswith(".html")
+            or "/html/" in normalized_path
+            or normalized_path.startswith("html/")
+        )
+
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(
             [
@@ -40,6 +61,7 @@ def get_jinja2_environment(
                 templates_directory,
             ]
         ),
+        autoescape=select_autoescape,  # Selective autoescape: only for HTML templates
         trim_blocks=True,
         lstrip_blocks=True,
     )
@@ -150,8 +172,11 @@ def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:
         Complete HTML document.
     """
     html_body = markdown_to_html(markdown)
+    # Mark html_body as safe HTML to prevent double-escaping
+    # The markdown_to_html function already handles XSS prevention
+    html_body_safe = Markup(html_body)
     return render_single_template(
-        "html", "Full.html", rendercv_model, html_body=html_body
+        "html", "Full.html", rendercv_model, html_body=html_body_safe
     )
 
 
