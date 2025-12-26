@@ -1,10 +1,9 @@
 import pathlib
 
 import ruamel.yaml
-import ruamel.yaml.composer
+import ruamel.yaml.scanner
 from ruamel.yaml.comments import CommentedMap
-from ruamel.yaml.composer import Composer
-from ruamel.yaml.nodes import ScalarNode
+from ruamel.yaml.scanner import RoundTripScanner
 
 from rendercv.exception import RenderCVInternalError, RenderCVUserError
 
@@ -27,7 +26,6 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
 
     Args:
         file_path_or_contents: File path or raw YAML string.
-        read_type: Parsing mode passed to ruamel.yaml.
 
     Returns:
         Dictionary with line/column metadata for error reporting.
@@ -69,26 +67,17 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
     return yaml_as_dictionary
 
 
-class ComposerNoAlias(Composer):
-    """Custom Composer that treats YAML aliases (*) as literal strings."""
+class ScannerNoAlias(RoundTripScanner):
+    """Custom Scanner that treats * as a regular character instead of alias syntax."""
 
-    def compose_node(self, parent, index):
-        """Override to handle alias events as literal strings."""
-        if self.parser.check_event(ruamel.yaml.events.AliasEvent):
-            event = self.parser.get_event()
-            anchor = event.anchor
-            # Return a scalar node with the literal "*anchor" value and position info
-            return ScalarNode(
-                tag="tag:yaml.org,2002:str",
-                value=f"*{anchor}",
-                start_mark=event.start_mark,
-                end_mark=event.end_mark,
-            )
-        return super().compose_node(parent, index)
+    def fetch_alias(self):
+        """Treat * as a plain scalar character instead of alias syntax."""
+        # Instead of scanning as alias, treat as plain scalar
+        self.fetch_plain()
 
 
-# Monkey-patch the Composer to treat aliases as literal strings:
-ruamel.yaml.composer.Composer = ComposerNoAlias
+# Monkey-patch the RoundTripScanner to treat * as a regular character:
+ruamel.yaml.scanner.RoundTripScanner = ScannerNoAlias  # ty: ignore[invalid-assignment]
 yaml = ruamel.yaml.YAML()
 
 # Disable ISO date parsing, keep it as a string:
