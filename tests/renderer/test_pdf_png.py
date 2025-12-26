@@ -25,7 +25,7 @@ def test_generate_pdf(
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
-        typst_path = generate_typst(model)
+        typst_path, _ = generate_typst(model)
 
         model.settings.render_command.pdf_path = output_path
         generate_pdf(model, typst_path)
@@ -50,7 +50,7 @@ def test_generate_png(
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path.with_suffix(".typ")
-        typst_path = generate_typst(model)
+        typst_path, _ = generate_typst(model)
 
         model.settings.render_command.png_path = output_path
         generate_png(model, typst_path)

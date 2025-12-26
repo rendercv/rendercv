@@ -1,4 +1,5 @@
 import pathlib
+import shutil
 import time
 from collections.abc import Callable
 from typing import Unpack
@@ -56,7 +57,12 @@ def timed_step[T, **P](
     timing_ms = f"{(end - start) * 1000:.0f}"
 
     paths: list[pathlib.Path] = []
-    if isinstance(result, pathlib.Path):
+    # Handle tuple return from generate_typst (path, is_temporary)
+    if isinstance(result, tuple) and len(result) == 2:
+        path, is_temp = result
+        if isinstance(path, pathlib.Path) and not is_temp:
+            paths = [path]
+    elif isinstance(result, pathlib.Path):
         paths = [result]
     elif isinstance(result, list) and result:
         if len(result) > 1:
@@ -97,6 +103,7 @@ def run_rendercv(
         progress: Progress panel for output display.
         kwargs: Optional overrides for design/locale files, output paths, and generation flags.
     """
+    temp_typst_dir: pathlib.Path | None = None
     try:
         _, rendercv_model = timed_step(
             "Validated the input file",
@@ -105,12 +112,14 @@ def run_rendercv(
             main_input_file_path_or_contents,
             **kwargs,
         )
-        typst_path = timed_step(
+        typst_path, is_temp_typst = timed_step(
             "Generated Typst",
             progress,
             generate_typst,
             rendercv_model,
         )
+        if is_temp_typst:
+            temp_typst_dir = typst_path.parent
         timed_step(
             "Generated PDF",
             progress,
@@ -158,3 +167,6 @@ def run_rendercv(
         progress.print_user_error(RenderCVUserError(message=f"OS Error: {e}"))
     except RenderCVUserValidationError as e:
         progress.print_validation_errors(e.validation_errors)
+    finally:
+        if temp_typst_dir is not None and temp_typst_dir.exists():
+            shutil.rmtree(temp_typst_dir)
