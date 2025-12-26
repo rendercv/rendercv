@@ -27,7 +27,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
     for yaml_file in sorted(other_locales_dir.glob("*.yaml")):
         locale_model = create_variant_pydantic_model(
             variant_name=yaml_file.stem,
-            defaults=read_yaml(yaml_file, read_type="safe")["locale"],
+            defaults=read_yaml(yaml_file)["locale"],
             base_class=EnglishLocale,
             discriminator_field="language",
             class_name_suffix="Locale",

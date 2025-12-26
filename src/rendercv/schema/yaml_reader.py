@@ -1,16 +1,15 @@
 import pathlib
-from typing import Literal
 
 import ruamel.yaml
+import ruamel.yaml.composer
 from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.composer import Composer
+from ruamel.yaml.nodes import ScalarNode
 
 from rendercv.exception import RenderCVInternalError, RenderCVUserError
 
 
-def read_yaml(
-    file_path_or_contents: pathlib.Path | str,
-    read_type: Literal["safe"] | None = None,
-) -> CommentedMap:
+def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
     """Parse YAML/JSON content from file path or string.
 
     Why:
@@ -53,13 +52,6 @@ def read_yaml(
     else:
         file_content = file_path_or_contents
 
-    yaml = ruamel.yaml.YAML(typ=read_type)
-
-    # Disable ISO date parsing, keep it as a string:
-    yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
-        lambda loader, node: loader.construct_scalar(node)
-    )
-
     yaml_as_dictionary: CommentedMap = yaml.load(file_content)
 
     if yaml_as_dictionary is None:
@@ -75,3 +67,31 @@ def read_yaml(
         raise RenderCVInternalError(message)
 
     return yaml_as_dictionary
+
+
+class ComposerNoAlias(Composer):
+    """Custom Composer that treats YAML aliases (*) as literal strings."""
+
+    def compose_node(self, parent, index):
+        """Override to handle alias events as literal strings."""
+        if self.parser.check_event(ruamel.yaml.events.AliasEvent):
+            event = self.parser.get_event()
+            anchor = event.anchor
+            # Return a scalar node with the literal "*anchor" value and position info
+            return ScalarNode(
+                tag="tag:yaml.org,2002:str",
+                value=f"*{anchor}",
+                start_mark=event.start_mark,
+                end_mark=event.end_mark,
+            )
+        return super().compose_node(parent, index)
+
+
+# Monkey-patch the Composer to treat aliases as literal strings:
+ruamel.yaml.composer.Composer = ComposerNoAlias
+yaml = ruamel.yaml.YAML()
+
+# Disable ISO date parsing, keep it as a string:
+yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
+    lambda loader, node: loader.construct_scalar(node)
+)
