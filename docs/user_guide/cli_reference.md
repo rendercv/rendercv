@@ -137,12 +137,12 @@ rendercv render John_Doe_CV.yaml --pdf-path ~/Desktop/MyCV.pdf
 
 **Override any YAML value:**
 
-Use dot notation to change specific fields. This overrides values in the YAML without editing the file.
+Use dot notation to change specific fields. This overrides values in the YAML without editing the file. Overrides are supported for fields within the `CV.yaml` and `settings.yaml` files.
 
 ```bash
 rendercv render CV.yaml --cv.phone "+1-555-555-5555"
 rendercv render CV.yaml --cv.sections.education.0.institution "MIT"
-rendercv render CV.yaml --design.theme "moderncv"
+rendercv render CV.yaml --settings.current_date "2025-12-01"
 ```
 
 ## `rendercv create-theme`
