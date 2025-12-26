@@ -155,7 +155,7 @@
       "type": "object"
     },
     "Cv": {
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "name": {
           "anyOf": [
@@ -4986,6 +4986,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5017,6 +5018,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5048,6 +5050,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5079,6 +5082,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5744,7 +5748,7 @@
       "type": "string"
     }
   },
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
     "cv": {
       "$ref": "#/$defs/Cv",
