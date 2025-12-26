@@ -1,4 +1,5 @@
 import contextlib
+import io
 import pathlib
 from dataclasses import dataclass
 
@@ -7,7 +8,6 @@ import rich.live
 import rich.panel
 import rich.table
 import typer
-import io
 
 from rendercv.exception import RenderCVUserError, RenderCVValidationError
 
