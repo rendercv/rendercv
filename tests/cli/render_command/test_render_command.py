@@ -93,7 +93,12 @@ class TestCliCommandRender:
             (
                 False,
                 {"dont_generate_typst": True},
-                ["John_Doe_CV.pdf", "John_Doe_CV_1.png", "John_Doe_CV.md", "John_Doe_CV.html"],
+                [
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
                 ["John_Doe_CV.typ"],
             ),
             # dont_generate_pdf: skips only PDF
