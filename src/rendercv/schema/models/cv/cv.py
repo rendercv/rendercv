@@ -6,7 +6,7 @@ import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 
 from rendercv.exception import RenderCVInternalError
 
-from ..base import BaseModelWithExtraKeys
+from ..base import BaseModelWithoutExtraKeys
 from ..path import ExistingPathRelativeToInput
 from .custom_connection import CustomConnection
 from .section import BaseRenderCVSection, Section, get_rendercv_sections
@@ -20,7 +20,7 @@ phone_validator = pydantic.TypeAdapter(pydantic_phone_numbers.PhoneNumber)
 phones_validator = pydantic.TypeAdapter(list[pydantic_phone_numbers.PhoneNumber])
 
 
-class Cv(BaseModelWithExtraKeys):
+class Cv(BaseModelWithoutExtraKeys):
     name: str | None = pydantic.Field(
         default=None,
         examples=["John Doe", "Jane Smith"],
