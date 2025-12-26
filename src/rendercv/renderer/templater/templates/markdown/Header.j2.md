@@ -1,5 +1,5 @@
 {% if cv.name %}
-# {{ cv.name }}'s CV
+# {{ locale.cv_title_name.replace("{name}", cv.name) }}
 {% endif %}
 
 {% if cv.phone %}
