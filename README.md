@@ -22,7 +22,7 @@ and get a PDF with perfect typography. No template wrestling. No broken layouts.
 With RenderCV, you can:
 
 - Version-control your CV — it's just text.
-- Focus on content — don't wory about the formatting.
+- Focus on content — don't worry about the formatting.
 - Get perfect typography — pixel-perfect alignment and spacing, handled for you.
 
 A YAML file like this:
