@@ -48,7 +48,7 @@ def is_valid_image_file(path: pathlib.Path) -> bool:
                 return True
 
         return False
-    except (OSError, IOError):
+    except OSError:
         return False
 
 
