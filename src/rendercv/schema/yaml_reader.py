@@ -1,16 +1,14 @@
 import pathlib
-from typing import Literal
 
 import ruamel.yaml
+import ruamel.yaml.scanner
 from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.scanner import RoundTripScanner
 
 from rendercv.exception import RenderCVInternalError, RenderCVUserError
 
 
-def read_yaml(
-    file_path_or_contents: pathlib.Path | str,
-    read_type: Literal["safe"] | None = None,
-) -> CommentedMap:
+def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
     """Parse YAML/JSON content from file path or string.
 
     Why:
@@ -28,7 +26,6 @@ def read_yaml(
 
     Args:
         file_path_or_contents: File path or raw YAML string.
-        read_type: Parsing mode passed to ruamel.yaml.
 
     Returns:
         Dictionary with line/column metadata for error reporting.
@@ -53,13 +50,6 @@ def read_yaml(
     else:
         file_content = file_path_or_contents
 
-    yaml = ruamel.yaml.YAML(typ=read_type)
-
-    # Disable ISO date parsing, keep it as a string:
-    yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
-        lambda loader, node: loader.construct_scalar(node)
-    )
-
     yaml_as_dictionary: CommentedMap = yaml.load(file_content)
 
     if yaml_as_dictionary is None:
@@ -75,3 +65,22 @@ def read_yaml(
         raise RenderCVInternalError(message)
 
     return yaml_as_dictionary
+
+
+class ScannerNoAlias(RoundTripScanner):
+    """Custom Scanner that treats * as a regular character instead of alias syntax."""
+
+    def fetch_alias(self):
+        """Treat * as a plain scalar character instead of alias syntax."""
+        # Instead of scanning as alias, treat as plain scalar
+        self.fetch_plain()
+
+
+# Monkey-patch the RoundTripScanner to treat * as a regular character:
+ruamel.yaml.scanner.RoundTripScanner = ScannerNoAlias  # ty: ignore[invalid-assignment]
+yaml = ruamel.yaml.YAML()
+
+# Disable ISO date parsing, keep it as a string:
+yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
+    lambda loader, node: loader.construct_scalar(node)
+)
