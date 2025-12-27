@@ -36,7 +36,7 @@ def is_valid_image_file(path: pathlib.Path) -> bool:
         True if the file has valid image magic bytes, False otherwise.
     """
     try:
-        with open(path, 'rb') as f:
+        with Path.open(path, 'rb') as f:
             # Read enough bytes to check all signatures (max 12 bytes needed for WebP)
             header = f.read(12)
 
