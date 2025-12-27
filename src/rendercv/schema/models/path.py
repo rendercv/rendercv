@@ -10,14 +10,14 @@ from .validation_context import get_input_file_path
 # Magic byte signatures for common image formats
 # Format: (magic_bytes, offset, format_name)
 IMAGE_SIGNATURES: list[tuple[bytes, int, str]] = [
-    (b'\x89PNG\r\n\x1a\n', 0, 'PNG'),
-    (b'\xff\xd8\xff', 0, 'JPEG'),
-    (b'GIF87a', 0, 'GIF'),
-    (b'GIF89a', 0, 'GIF'),
-    (b'BM', 0, 'BMP'),
-    (b'RIFF', 0, 'WebP'),  # WebP starts with RIFF, followed by file size, then WEBP
-    (b'II*\x00', 0, 'TIFF'),  # Little-endian TIFF
-    (b'MM\x00*', 0, 'TIFF'),  # Big-endian TIFF
+    (b"\x89PNG\r\n\x1a\n", 0, "PNG"),
+    (b"\xff\xd8\xff", 0, "JPEG"),
+    (b"GIF87a", 0, "GIF"),
+    (b"GIF89a", 0, "GIF"),
+    (b"BM", 0, "BMP"),
+    (b"RIFF", 0, "WebP"),  # WebP starts with RIFF, followed by file size, then WEBP
+    (b"II*\x00", 0, "TIFF"),  # Little-endian TIFF
+    (b"MM\x00*", 0, "TIFF"),  # Big-endian TIFF
 ]
 
 
@@ -36,14 +36,14 @@ def is_valid_image_file(path: pathlib.Path) -> bool:
         True if the file has valid image magic bytes, False otherwise.
     """
     try:
-        with path.open('rb') as f: # issue should be fixed
+        with path.open("rb") as f:
             # Read enough bytes to check all signatures (max 12 bytes needed for WebP)
             header = f.read(12)
 
         for magic, offset, _ in IMAGE_SIGNATURES:
-            if header[offset:offset + len(magic)] == magic:
+            if header[offset : offset + len(magic)] == magic:
                 # Special case for WebP: must also have 'WEBP' at offset 8
-                if magic == b'RIFF' and header[8:12] != b'WEBP':
+                if magic == b"RIFF" and header[8:12] != b"WEBP":
                     continue
                 return True
 
