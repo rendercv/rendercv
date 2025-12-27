@@ -46,7 +46,7 @@ def test_substitute_placeholders(string, placeholders, expected_string):
         ("https://example.com/", "example.com"),
         ("https://example.com/test", "example.com/test"),
         ("https://example.com/test/", "example.com/test"),
-        ("https://www.example.com/test/", "www.example.com/test"),
+        ("https://www.example.com/test/", "example.com/test"),
     ],
 )
 def test_clean_url(url, expected_clean_url):
