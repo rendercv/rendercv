@@ -7,6 +7,7 @@
   footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
   top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
+  text-direction: "ltr",
   page-size: "us-letter",
   page-top-margin: 0.7in,
   page-bottom-margin: 0.7in,
