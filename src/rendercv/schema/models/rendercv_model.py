@@ -2,7 +2,7 @@ import pathlib
 
 import pydantic
 
-from .base import BaseModelWithExtraKeys
+from .base import BaseModelWithoutExtraKeys
 from .cv.cv import Cv
 from .design.classic_theme import ClassicTheme
 from .design.design import Design
@@ -11,7 +11,7 @@ from .settings.settings import Settings
 from .validation_context import get_input_file_path
 
 
-class RenderCVModel(BaseModelWithExtraKeys):
+class RenderCVModel(BaseModelWithoutExtraKeys):
     # Technically, `cv` is a required field, but we don't pass it to the JSON Schema
     # so that the same schema can be used for standalone design, locale, and settings
     # files.

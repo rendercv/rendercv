@@ -5,6 +5,8 @@ from xml.etree.ElementTree import Element
 import markdown
 import markdown.core
 
+from rendercv.exception import RenderCVUserError
+
 
 def to_typst_string(elem: Element) -> str:
     """Recursively convert XML Element tree to Typst markup string.
@@ -49,6 +51,11 @@ def to_typst_string(elem: Element) -> str:
                 href = child.get("href", "")
                 inner = to_typst_string(child)
                 child_content = f'#link("{href}")[{inner}]'
+                if not href:
+                    message = (
+                        f"Link url is not provided for [{inner}](url) in the YAML file!"
+                    )
+                    raise RenderCVUserError(message)
 
             case "div":
                 child_content = (

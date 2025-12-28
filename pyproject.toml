@@ -43,7 +43,7 @@ dependencies = [
     'pydantic[email]>=2.10.6',      # Validate and parse input files
     'pydantic-extra-types>=2.10.6', # Validate extra types
     'ruamel.yaml>=0.18.10',         # Parse YAML files
-    "packaging>=25.0",              # For version checking
+    'markdown>=3.10',               # Convert Markdown to HTML
 ]
 classifiers = [
     "Intended Audience :: Science/Research",
@@ -63,10 +63,10 @@ classifiers = [
 [project.optional-dependencies]
 full = [
     'typer>=0.20.0',         # Command-line interface
-    'markdown>=3.10',        # Convert Markdown to HTML
     'watchdog>=6.0.0',       # Monitor files for updates
     'typst>=0.14.4',         # Render PDF from Typst source files
     'rendercv-fonts>=0.5.1', # Font files for RenderCV
+    "packaging>=25.0",       # For version checking
 ]
 
 [project.urls]
