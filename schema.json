@@ -1436,7 +1436,7 @@
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
-          "mandarin_chineese": "#/$defs/MandarinChineeseLocale",
+          "mandarin_chinese": "#/$defs/MandarinChineseLocale",
           "norwegian_bokmål": "#/$defs/NorwegianBokm_lLocale",
           "norwegian_nynorsk": "#/$defs/NorwegianNynorskLocale",
           "portuguese": "#/$defs/PortugueseLocale",
@@ -1478,7 +1478,7 @@
           "$ref": "#/$defs/KoreanLocale"
         },
         {
-          "$ref": "#/$defs/MandarinChineeseLocale"
+          "$ref": "#/$defs/MandarinChineseLocale"
         },
         {
           "$ref": "#/$defs/NorwegianBokm_lLocale"
@@ -1500,13 +1500,13 @@
         }
       ]
     },
-    "MandarinChineeseLocale": {
+    "MandarinChineseLocale": {
       "additionalProperties": false,
       "properties": {
         "language": {
-          "const": "mandarin_chineese",
-          "default": "mandarin_chineese",
-          "description": "The language for your CV. The default value is `mandarin_chineese`.",
+          "const": "mandarin_chinese",
+          "default": "mandarin_chinese",
+          "description": "The language for your CV. The default value is `mandarin_chinese`.",
           "title": "Language",
           "type": "string"
         },
@@ -1591,7 +1591,7 @@
           "type": "array"
         }
       },
-      "title": "MandarinChineeseLocale",
+      "title": "MandarinChineseLocale",
       "type": "object"
     },
     "ModerncvTheme": {
