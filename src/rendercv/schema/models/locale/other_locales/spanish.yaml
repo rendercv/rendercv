@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 locale:
   language: spanish
+  in_preposition: en
   last_updated: Última actualización
   month: mes
   months: meses

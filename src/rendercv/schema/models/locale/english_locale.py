@@ -20,7 +20,6 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
     )
     in_preposition: str = pydantic.Field(
         default="in",
-        alias="in",
         description='Translation of "in". The default value is `in`.',
     )
     month: str = pydantic.Field(
