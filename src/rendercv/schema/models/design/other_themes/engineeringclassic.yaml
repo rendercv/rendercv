@@ -29,7 +29,7 @@ design:
       space_between_items: "0.12cm"
   templates:
     education_entry:
-      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      main_column: "**INSTITUTION**, DEGREE IN_PREPOSITION AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
       date_and_location_column: DATE
       degree_column: null
     normal_entry:
