@@ -190,3 +190,8 @@ bin/
 
 # Coverage:
 coverage.md
+
+# custom cv files are excluded, but the ones in examples are included
+*_CV.yaml
+!/examples/*_CV.yaml
+
