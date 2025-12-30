@@ -607,6 +607,7 @@ class Role(RenderCVBaseModelWithExtraKeys):
         description="The title of the role",
     )
     start_date: StartDate = pydantic.Field(
+        default=None,
         title="Start Date",
         description=(
             "The role's start date, written in YYYY-MM-DD, YYYY-MM, or YYYY format."
@@ -614,6 +615,7 @@ class Role(RenderCVBaseModelWithExtraKeys):
         examples=["2020-09-24"],
     )
     end_date: EndDate = pydantic.Field(
+        default=None,
         title="End Date",
         description=(
             "The role's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If"

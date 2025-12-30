@@ -53,7 +53,7 @@
             "font_family": "Source Sans 3",
             "font_size": "10pt",
             "leading": "0.6em",
-            "alignment": "justified",
+            "alignment": "left",
             "date_and_location_column_alignment": "right"
           }
         },
@@ -151,12 +151,209 @@
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            },
+            "consolidated_multi_role_experience_entry": {
+              "date_and_location_column_template": "LOCATION\nDATE",
+              "main_column_first_row_template": "**COMPANY**",
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "role_date_format": "only_years"
             }
           },
           "title": "Templates"
         }
       },
       "title": "Theme Options",
+      "type": "object"
+    },
+    "ConsolidatedMultiRoleExperienceEntry": {
+      "additionalProperties": true,
+      "properties": {
+        "company": {
+          "description": "The company name",
+          "title": "Company",
+          "type": "string"
+        },
+        "roles": {
+          "description": "List of roles held at this company",
+          "items": {
+            "$ref": "#/$defs/Role"
+          },
+          "minItems": 1,
+          "title": "Roles",
+          "type": "array"
+        },
+        "highlights_header": {
+          "default": null,
+          "description": "Optional header/category for the highlights section",
+          "examples": [
+            "Portfolio Oversight / Cash Management / Compliance"
+          ],
+          "title": "Highlights Header",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "date": {
+          "default": null,
+          "description": "The date can be written in the formats YYYY-MM-DD, YYYY-MM, or YYYY, or as an arbitrary string such as \"Fall 2023.\"",
+          "examples": [
+            "2020-09-24",
+            "Fall 2023"
+          ],
+          "title": "Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "start_date": {
+          "default": null,
+          "description": "The event's start date, written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24"
+          ],
+          "title": "Start Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_date": {
+          "default": null,
+          "description": "The event's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is ongoing, type “present” or provide only the start date.",
+          "examples": [
+            "2020-09-24",
+            "present"
+          ],
+          "title": "End Date",
+          "oneOf": [
+            {
+              "const": "present",
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "location": {
+          "default": null,
+          "examples": [
+            "Istanbul, Türkiye"
+          ],
+          "title": "Location",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "summary": {
+          "default": null,
+          "examples": [
+            "Did this and that."
+          ],
+          "title": "Summary",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "highlights": {
+          "default": null,
+          "examples": [
+            "Did this.",
+            "Did that."
+          ],
+          "title": "Highlights",
+          "oneOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "company",
+        "roles"
+      ],
+      "title": "Consolidated Multi-Role Experience Entry",
+      "type": "object"
+    },
+    "ConsolidatedMultiRoleExperienceEntryOptions": {
+      "additionalProperties": false,
+      "description": "Options related to consolidated multi-role experience entries.",
+      "properties": {
+        "main_column_first_row_template": {
+          "default": "**COMPANY**",
+          "description": "The content of the Main Column, first row. The available placeholders are COMPANY, LOCATION, etc.",
+          "title": "Main Column, First Row",
+          "type": "string"
+        },
+        "main_column_second_row_template": {
+          "default": "SUMMARY\nHIGHLIGHTS",
+          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Main Column, Second Row",
+          "type": "string"
+        },
+        "date_and_location_column_template": {
+          "default": "LOCATION\nDATE",
+          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
+          "title": "Date and Location Column",
+          "type": "string"
+        },
+        "role_date_format": {
+          "default": "only_years",
+          "description": "The format for individual role dates shown in parentheses. Options: \"only_years\" (e.g., 2008-2009) or \"full\" (e.g., Jan 2008 - Dec 2009).",
+          "enum": [
+            "only_years",
+            "full"
+          ],
+          "title": "Role Date Format",
+          "type": "string"
+        }
+      },
+      "title": "Consolidated Multi-Role Experience Entry Options",
       "type": "object"
     },
     "CurriculumVitae": {
@@ -274,6 +471,12 @@
                   {
                     "items": {
                       "$ref": "#/$defs/NormalEntry"
+                    },
+                    "type": "array"
+                  },
+                  {
+                    "items": {
+                      "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntry"
                     },
                     "type": "array"
                   },
@@ -549,7 +752,7 @@
             "font_family": "Raleway",
             "font_size": "10pt",
             "leading": "0.6em",
-            "alignment": "justified",
+            "alignment": "left",
             "date_and_location_column_alignment": "right"
           },
           "description": "Options related to text."
@@ -652,6 +855,12 @@
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            },
+            "consolidated_multi_role_experience_entry": {
+              "date_and_location_column_template": "LOCATION\nDATE",
+              "main_column_first_row_template": "**COMPANY**",
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "role_date_format": "only_years"
             }
           },
           "description": "Options related to the templates.",
@@ -702,7 +911,7 @@
             "font_family": "XCharter",
             "font_size": "10pt",
             "leading": "0.6em",
-            "alignment": "justified",
+            "alignment": "left",
             "date_and_location_column_alignment": "right"
           },
           "description": "Options related to text."
@@ -806,6 +1015,12 @@
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            },
+            "consolidated_multi_role_experience_entry": {
+              "date_and_location_column_template": "LOCATION\nDATE",
+              "main_column_first_row_template": "**COMPANY**",
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "role_date_format": "only_years"
             }
           },
           "description": "Options related to the templates.",
@@ -865,6 +1080,16 @@
             "date_and_location_column_template": "DATE"
           },
           "title": "Publication Entry"
+        },
+        "consolidated_multi_role_experience_entry": {
+          "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
+          "default": {
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "role_date_format": "only_years"
+          },
+          "title": "Consolidated Multi-Role Experience Entry"
         }
       },
       "title": "Entry Types",
@@ -1239,7 +1464,7 @@
             "font_family": "Fontin",
             "font_size": "10pt",
             "leading": "0.6em",
-            "alignment": "justified",
+            "alignment": "left",
             "date_and_location_column_alignment": "right"
           },
           "description": "Options related to text."
@@ -1343,6 +1568,12 @@
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            },
+            "consolidated_multi_role_experience_entry": {
+              "date_and_location_column_template": "LOCATION\nDATE",
+              "main_column_first_row_template": "**COMPANY**",
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "role_date_format": "only_years"
             }
           },
           "description": "Options related to the templates.",
@@ -1867,6 +2098,67 @@
       "title": "Reversed Numbered Entry",
       "type": "object"
     },
+    "Role": {
+      "additionalProperties": true,
+      "description": "This class represents a single role within a consolidated multi-role experience\nentry.",
+      "properties": {
+        "position": {
+          "description": "The title of the role",
+          "title": "Position",
+          "type": "string"
+        },
+        "start_date": {
+          "default": null,
+          "description": "The role's start date, written in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24"
+          ],
+          "title": "Start Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "end_date": {
+          "default": null,
+          "description": "The role's end date, written in YYYY-MM-DD, YYYY-MM, or YYYY format. If the role is ongoing, type 'present' or provide only the start date.",
+          "examples": [
+            "2020-09-24",
+            "present"
+          ],
+          "title": "End Date",
+          "oneOf": [
+            {
+              "const": "present",
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "position"
+      ],
+      "title": "Role",
+      "type": "object"
+    },
     "Sb2novThemeOptions": {
       "additionalProperties": false,
       "properties": {
@@ -1907,7 +2199,7 @@
             "font_family": "New Computer Modern",
             "font_size": "10pt",
             "leading": "0.6em",
-            "alignment": "justified",
+            "alignment": "left",
             "date_and_location_column_alignment": "right"
           },
           "description": "Options related to text."
@@ -2010,6 +2302,12 @@
               "main_column_second_row_template": "AUTHORS\nURL (JOURNAL)",
               "main_column_second_row_without_journal_template": "AUTHORS\nURL",
               "main_column_second_row_without_url_template": "AUTHORS\nJOURNAL"
+            },
+            "consolidated_multi_role_experience_entry": {
+              "date_and_location_column_template": "LOCATION\nDATE",
+              "main_column_first_row_template": "**COMPANY**",
+              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "role_date_format": "only_years"
             }
           },
           "description": "Options related to the templates.",
@@ -2151,6 +2449,16 @@
             "date_and_location_column_template": "DATE"
           },
           "title": "Publication Entry"
+        },
+        "consolidated_multi_role_experience_entry": {
+          "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
+          "default": {
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "role_date_format": "only_years"
+          },
+          "title": "Consolidated Multi-Role Experience Entry"
         }
       },
       "title": "Entry Types",
@@ -2688,7 +2996,7 @@
           "type": "string"
         },
         "alignment": {
-          "default": "justified",
+          "default": "left",
           "description": "The alignment of the text.",
           "enum": [
             "left",
@@ -2952,6 +3260,16 @@
             "date_and_location_column_template": "DATE"
           },
           "title": "Publication Entry"
+        },
+        "consolidated_multi_role_experience_entry": {
+          "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
+          "default": {
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "role_date_format": "only_years"
+          },
+          "title": "Consolidated Multi-Role Experience Entry"
         }
       },
       "title": "Entry Types",
@@ -3481,7 +3799,7 @@
           "type": "string"
         },
         "alignment": {
-          "default": "justified",
+          "default": "left",
           "description": "The alignment of the text.",
           "enum": [
             "left",
@@ -3660,6 +3978,16 @@
             "date_and_location_column_template": "DATE"
           },
           "title": "Publication Entry"
+        },
+        "consolidated_multi_role_experience_entry": {
+          "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
+          "default": {
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "role_date_format": "only_years"
+          },
+          "title": "Consolidated Multi-Role Experience Entry"
         }
       },
       "title": "Entry Types",
@@ -4128,7 +4456,7 @@
           "type": "string"
         },
         "alignment": {
-          "default": "justified",
+          "default": "left",
           "description": "The alignment of the text.",
           "enum": [
             "left",
@@ -4883,7 +5211,7 @@
           "type": "string"
         },
         "alignment": {
-          "default": "justified",
+          "default": "left",
           "description": "The alignment of the text.",
           "enum": [
             "left",
@@ -5089,6 +5417,16 @@
             "date_and_location_column_template": "DATE"
           },
           "title": "Publication Entry"
+        },
+        "consolidated_multi_role_experience_entry": {
+          "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
+          "default": {
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "role_date_format": "only_years"
+          },
+          "title": "Consolidated Multi-Role Experience Entry"
         }
       },
       "title": "Entry Types",
@@ -5558,7 +5896,7 @@
           "type": "string"
         },
         "alignment": {
-          "default": "justified",
+          "default": "left",
           "description": "The alignment of the text.",
           "enum": [
             "left",
@@ -5612,7 +5950,7 @@
           "text": "rgb(0, 0, 0)"
         },
         "text": {
-          "alignment": "justified",
+          "alignment": "left",
           "date_and_location_column_alignment": "right",
           "font_family": "Source Sans 3",
           "font_size": "10pt",
@@ -5668,6 +6006,12 @@
           "vertical_space_between_highlights": "0.25cm"
         },
         "entry_types": {
+          "consolidated_multi_role_experience_entry": {
+            "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
+            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "role_date_format": "only_years"
+          },
           "education_entry": {
             "date_and_location_column_template": "LOCATION\nDATE",
             "degree_column_template": "**DEGREE**",
@@ -5736,7 +6080,7 @@
     "rendercv_settings": {
       "$ref": "#/$defs/RenderCVSettings",
       "default": {
-        "date": "2025-08-05",
+        "date": "2025-12-29",
         "render_command": null,
         "bold_keywords": [],
         "sort_entries": "none"
