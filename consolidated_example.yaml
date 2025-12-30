@@ -1,0 +1,103 @@
+cv:
+  name: Alex Johnson
+  email: alex.johnson@example.com
+  phone: "+1 234 567 8900"
+  website: https://alexjohnson.dev
+  location: San Francisco, CA
+
+  sections:
+    Summary:
+      - "Senior Software Engineer with 15+ years of experience in full-stack development, team leadership, and system architecture."
+
+    Experience:
+      # Multi-role entry WITHOUT highlights_header
+      - company: TECH INNOVATIONS INC.
+        location: San Francisco, CA
+        roles:
+          - position: Senior Software Architect
+            start_date: 2022-03
+            end_date: present
+          - position: Lead Software Engineer
+            start_date: 2020-01
+            end_date: 2022-03
+          - position: Software Engineer II
+            start_date: 2018-06
+            end_date: 2020-01
+        highlights:
+          - Designed and implemented microservices architecture serving 10M+ users daily
+          - Led team of 8 engineers, mentoring junior developers and conducting code reviews
+          - Migrated legacy monolith to AWS cloud infrastructure, reducing costs by 40%
+          - Established CI/CD pipelines using GitHub Actions, reducing deployment time by 60%
+          - Implemented comprehensive testing strategy achieving 95% code coverage
+
+      # Single-role entry WITHOUT highlights_header
+      - company: STARTUP VENTURES LLC
+        location: Palo Alto, CA
+        roles:
+          - position: Full Stack Developer
+            start_date: 2016-08
+            end_date: 2018-05
+        highlights:
+          - Built customer-facing web application from scratch using React and Node.js
+          - Collaborated with product team in agile sprints to deliver features on schedule
+          - Integrated payment processing system handling $2M+ in annual transactions
+          - Optimized database queries reducing page load times by 50%
+
+      # Multi-role entry without highlights_header
+      - company: GLOBAL CORP
+        location: New York, NY
+        roles:
+          - position: Software Developer
+            start_date: 2014-01
+            end_date: 2016-07
+          - position: Junior Developer
+            start_date: 2012-06
+            end_date: 2014-01
+          - position: Developer Intern
+            start_date: 2011-06
+            end_date: 2012-05
+        highlights:
+          - Developed internal tools used by 500+ employees across multiple departments
+          - Maintained legacy Java applications while modernizing codebase
+          - Participated in on-call rotation for production support
+          - Trained 5 new developers on company coding standards
+
+      # Single-role entry without highlights_header
+      - company: DIGITAL SOLUTIONS
+        location: Boston, MA
+        roles:
+          - position: Web Developer Intern
+            start_date: 2010-05
+            end_date: 2011-05
+        highlights:
+          - Created responsive websites for small business clients
+          - Learned modern web development practices and version control
+
+    Education:
+      - institution: University of California, Berkeley
+        area: Computer Science
+        degree: BS
+        start_date: 2006-09
+        end_date: 2010-05
+        highlights:
+          - "GPA: 3.8/4.0"
+          - Dean's List all semesters
+
+    Skills:
+      - "**Languages:** Python, JavaScript, TypeScript, Java, Go"
+      - "**Frontend:** React, Vue.js, Next.js, HTML5, CSS3, Tailwind"
+      - "**Backend:** Node.js, Django, Flask, Spring Boot, Express"
+      - "**Cloud:** AWS (EC2, S3, Lambda, RDS), Docker, Kubernetes"
+      - "**Databases:** PostgreSQL, MongoDB, Redis, MySQL"
+      - "**Tools:** Git, GitHub Actions, Jenkins, Terraform, Datadog"
+
+design:
+  theme: classic
+  page:
+    size: us-letter
+  colors:
+    section_titles: "rgb(0,79,144)"
+    name: "rgb(0,79,144)"
+    links: "rgb(0,79,144)"
+  text:
+    font_size: 10pt

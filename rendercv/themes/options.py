@@ -908,7 +908,7 @@ class ConsolidatedMultiRoleExperienceEntryBase(RenderCVBaseModelWithoutExtraKeys
 
 
 class ConsolidatedMultiRoleExperienceEntryOptions(
-    EntryBaseWithDate, ConsolidatedMultiRoleExperienceEntryBase
+    ConsolidatedMultiRoleExperienceEntryBase, EntryBaseWithDate
 ):
     """Options related to consolidated multi-role experience entries."""
 

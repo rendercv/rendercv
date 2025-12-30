@@ -155,7 +155,7 @@
             "consolidated_multi_role_experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
               "role_date_format": "only_years"
             }
           },
@@ -324,22 +324,22 @@
       "additionalProperties": false,
       "description": "Options related to consolidated multi-role experience entries.",
       "properties": {
-        "main_column_first_row_template": {
-          "default": "**COMPANY**",
-          "description": "The content of the Main Column, first row. The available placeholders are COMPANY, LOCATION, etc.",
-          "title": "Main Column, First Row",
-          "type": "string"
-        },
         "main_column_second_row_template": {
-          "default": "SUMMARY\nHIGHLIGHTS",
-          "description": "The content of the second row of the Main Column. The available placeholders are all the keys used in the entries (in uppercase).",
+          "default": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
+          "description": "The content of the Main Column, second row. Use ROLES for role list, HIGHLIGHTS_HEADER for optional category, HIGHLIGHTS for bullets.",
           "title": "Main Column, Second Row",
           "type": "string"
         },
         "date_and_location_column_template": {
           "default": "LOCATION\nDATE",
-          "description": "The content of the Date and Location Column. The available placeholders are all the keys used in the entries (in uppercase).",
+          "description": "The content of the Date and Location Column. The available placeholders are LOCATION, DATE (overall date range), etc.",
           "title": "Date and Location Column",
+          "type": "string"
+        },
+        "main_column_first_row_template": {
+          "default": "**COMPANY**",
+          "description": "The content of the Main Column, first row. The available placeholders are COMPANY, LOCATION, etc.",
+          "title": "Main Column, First Row",
           "type": "string"
         },
         "role_date_format": {
@@ -859,7 +859,7 @@
             "consolidated_multi_role_experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
               "role_date_format": "only_years"
             }
           },
@@ -1019,7 +1019,7 @@
             "consolidated_multi_role_experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
               "role_date_format": "only_years"
             }
           },
@@ -1084,9 +1084,9 @@
         "consolidated_multi_role_experience_entry": {
           "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
             "role_date_format": "only_years"
           },
           "title": "Consolidated Multi-Role Experience Entry"
@@ -1572,7 +1572,7 @@
             "consolidated_multi_role_experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
               "role_date_format": "only_years"
             }
           },
@@ -2306,7 +2306,7 @@
             "consolidated_multi_role_experience_entry": {
               "date_and_location_column_template": "LOCATION\nDATE",
               "main_column_first_row_template": "**COMPANY**",
-              "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+              "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
               "role_date_format": "only_years"
             }
           },
@@ -2453,9 +2453,9 @@
         "consolidated_multi_role_experience_entry": {
           "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
             "role_date_format": "only_years"
           },
           "title": "Consolidated Multi-Role Experience Entry"
@@ -3264,9 +3264,9 @@
         "consolidated_multi_role_experience_entry": {
           "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
             "role_date_format": "only_years"
           },
           "title": "Consolidated Multi-Role Experience Entry"
@@ -3982,9 +3982,9 @@
         "consolidated_multi_role_experience_entry": {
           "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
             "role_date_format": "only_years"
           },
           "title": "Consolidated Multi-Role Experience Entry"
@@ -5421,9 +5421,9 @@
         "consolidated_multi_role_experience_entry": {
           "$ref": "#/$defs/ConsolidatedMultiRoleExperienceEntryOptions",
           "default": {
-            "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "date_and_location_column_template": "LOCATION\nDATE",
+            "main_column_first_row_template": "**COMPANY**",
             "role_date_format": "only_years"
           },
           "title": "Consolidated Multi-Role Experience Entry"
@@ -6009,7 +6009,7 @@
           "consolidated_multi_role_experience_entry": {
             "date_and_location_column_template": "LOCATION\nDATE",
             "main_column_first_row_template": "**COMPANY**",
-            "main_column_second_row_template": "SUMMARY\nHIGHLIGHTS",
+            "main_column_second_row_template": "ROLES\n\nHIGHLIGHTS_HEADER\nHIGHLIGHTS",
             "role_date_format": "only_years"
           },
           "education_entry": {
