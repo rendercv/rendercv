@@ -140,7 +140,7 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
     Returns:
         Clean URL string.
     """
-    url = str(url).replace("https://", "").replace("http://", "")
+    url = str(url).replace("https://", "").replace("http://", "").replace("www.", "")
     if url.endswith("/"):
         url = url[:-1]
 
