@@ -41,6 +41,13 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             " `present`."
         ),
     )
+    cv_title_name: str = pydantic.Field(
+        default="{name}'s CV",
+        description=(
+            'Format string for CV title in markdown/HTML. Use {name} as placeholder. '
+            'For RTL languages like Arabic, use something like "السيرة الذاتية لـ {name}".'
+        ),
+    )
     # From https://web.library.yale.edu/cataloging/months
     month_abbreviations: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
         pydantic.Field(
@@ -111,4 +118,24 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "russian": "ru",
             "spanish": "es",
             "turkish": "tr",
+            "arabic": "ar",
         }[self.language]
+
+    @functools.cached_property
+    def is_rtl(self) -> bool:
+        """Check if language uses right-to-left text direction.
+
+        Returns:
+            True if language is RTL (Arabic, Hebrew, Persian, Urdu, etc.)
+        """
+        rtl_languages = {"arabic", "hebrew", "persian", "urdu", "pashto", "sindhi"}
+        return self.language.lower() in rtl_languages
+
+    @functools.cached_property
+    def text_direction(self) -> str:
+        """Get Typst text direction value.
+
+        Returns:
+            'rtl' for RTL languages, 'ltr' otherwise
+        """
+        return "rtl" if self.is_rtl else "ltr"
