@@ -1,6 +1,6 @@
 # yaml-language-server: $schema=../../../../../../schema.json
 locale:
-  language: mandarin_chineese
+  language: mandarin_chinese
   last_updated: 最后更新于
   month: 个月
   months: 个月
