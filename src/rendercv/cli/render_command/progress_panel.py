@@ -1,4 +1,5 @@
 import contextlib
+import io
 import pathlib
 from dataclasses import dataclass
 
@@ -29,6 +30,13 @@ class ProgressPanel(rich.live.Live):
     def __init__(self, quiet: bool = False):
         self.quiet = quiet
         self.completed_steps: list[CompletedStep] = []
+
+        console = (
+            rich.console.Console(file=io.StringIO(), force_terminal=False)
+            if quiet
+            else rich.console.Console()
+        )
+
         super().__init__(
             rich.panel.Panel(
                 "...",
@@ -36,7 +44,9 @@ class ProgressPanel(rich.live.Live):
                 title_align="left",
                 border_style="bright_black",
             ),
+            console=console,
             refresh_per_second=4,
+            auto_refresh=not quiet,
         )
 
     def update_progress(
