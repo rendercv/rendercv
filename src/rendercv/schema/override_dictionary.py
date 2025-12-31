@@ -1,4 +1,5 @@
 import copy
+from typing import Any, cast
 
 from rendercv.exception import RenderCVUserError
 
@@ -73,14 +74,32 @@ def update_value_by_location[T: dict | list](
     if len(keys) == 1:
         new_value = value
     else:
-        new_value = update_value_by_location(
-            dict_or_list[first_key],
-            remaining_key,
-            value,
-            full_key=full_key,
-        )
+        # Type narrowing: handle dict and list separately for type checker
+        if isinstance(dict_or_list, dict):
+            # For dict, first_key is str
+            item = dict_or_list[first_key]
+            new_value = update_value_by_location(
+                item,
+                remaining_key,
+                value,
+                full_key=full_key,
+            )
+        else:
+            # For list, first_key is int (already converted above)
+            item = dict_or_list[first_key]
+            new_value = update_value_by_location(
+                item,
+                remaining_key,
+                value,
+                full_key=full_key,
+            )
 
-    dict_or_list[first_key] = new_value
+    # Type narrowing: handle dict and list separately
+    # Use cast to help type checker understand the assignment is safe
+    if isinstance(dict_or_list, dict):
+        cast(dict[str, Any], dict_or_list)[cast(str, first_key)] = new_value
+    else:
+        cast(list[Any], dict_or_list)[cast(int, first_key)] = new_value
 
     return dict_or_list
 
