@@ -48,7 +48,7 @@
 
 3. Add ISO 639-1 language code to `english_locale.py`
 
-    Edit `src/rendercv/schema/models/locale/english_locale.py` line 95-108:
+    Edit `src/rendercv/schema/models/locale/english_locale.py` line 97-114:
 
     ```python
     return {

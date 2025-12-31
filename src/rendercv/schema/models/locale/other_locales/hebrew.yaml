@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: hebrew
+  last_updated: "עודכן לאחרונה"
+  month: "חודש"
+  months: "חודשים"
+  year: "שנה"
+  years: "שנים"
+  present: "הווה"
+  month_abbreviations:
+    - ינו'
+    - פבר'
+    - מרץ
+    - אפר'
+    - מאי
+    - יוני
+    - יולי
+    - אוג'
+    - ספט'
+    - אוק'
+    - נוב'
+    - דצמ'
+  month_names:
+    - ינואר
+    - פברואר
+    - מרץ
+    - אפריל
+    - מאי
+    - יוני
+    - יולי
+    - אוגוסט
+    - ספטמבר
+    - אוקטובר
+    - נובמבר
+    - דצמבר
