@@ -74,13 +74,13 @@ def update_value_by_location[T: dict | list](
         new_value = value
     else:
         new_value = update_value_by_location(
-            dict_or_list[first_key],
+            dict_or_list[first_key],  # type: ignore[invalid-argument-type]
             remaining_key,
             value,
             full_key=full_key,
         )
 
-    dict_or_list[first_key] = new_value
+    dict_or_list[first_key] = new_value  # type: ignore[invalid-assignment]
 
     return dict_or_list
 
