@@ -50,6 +50,7 @@ def render_entry_templates[EntryType: Entry](
     entry_fields: dict[str, str | str] = {
         key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
     }
+    entry_fields["IN_PREPOSITION"] = locale.in_preposition
 
     # Handle special placeholders:
     if "HIGHLIGHTS" in entry_fields:

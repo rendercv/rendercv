@@ -155,7 +155,7 @@
       "type": "object"
     },
     "Cv": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "name": {
           "anyOf": [
@@ -343,6 +343,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "måned",
           "description": "Translation of \"month\" (singular). The default value is `måned`.",
@@ -435,6 +441,12 @@
           "default": "Laatst bijgewerkt",
           "description": "Translation of \"Last updated in\". The default value is `Laatst bijgewerkt`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -611,6 +623,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "month",
           "description": "Translation of \"month\" (singular). The default value is `month`.",
@@ -723,6 +741,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "mois",
           "description": "Translation of \"month\" (singular). The default value is `mois`.",
@@ -815,6 +839,12 @@
           "default": "Zuletzt aktualisiert",
           "description": "Translation of \"Last updated in\". The default value is `Zuletzt aktualisiert`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -911,6 +941,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "महीना",
           "description": "Translation of \"month\" (singular). The default value is `महीना`.",
@@ -1003,6 +1039,12 @@
           "default": "Terakhir diperbarui",
           "description": "Translation of \"Last updated in\". The default value is `Terakhir diperbarui`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -1099,6 +1141,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "mese",
           "description": "Translation of \"month\" (singular). The default value is `mese`.",
@@ -1193,6 +1241,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "月",
           "description": "Translation of \"month\" (singular). The default value is `月`.",
@@ -1285,6 +1339,12 @@
           "default": "마지막 업데이트",
           "description": "Translation of \"Last updated in\". The default value is `마지막 업데이트`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -1508,6 +1568,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "个月",
           "description": "Translation of \"month\" (singular). The default value is `个月`.",
@@ -1680,6 +1746,12 @@
           "default": "Última atualização",
           "description": "Translation of \"Last updated in\". The default value is `Última atualização`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -1881,6 +1953,12 @@
           "default": "Последнее обновление",
           "description": "Translation of \"Last updated in\". The default value is `Последнее обновление`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -2131,6 +2209,12 @@
           "title": "Last Updated",
           "type": "string"
         },
+        "in_preposition": {
+          "default": "en",
+          "description": "Translation of \"in\". The default value is `en`.",
+          "title": "In Preposition",
+          "type": "string"
+        },
         "month": {
           "default": "mes",
           "description": "Translation of \"month\" (singular). The default value is `mes`.",
@@ -2223,6 +2307,12 @@
           "default": "Son güncelleme",
           "description": "Translation of \"Last updated in\". The default value is `Son güncelleme`.",
           "title": "Last Updated",
+          "type": "string"
+        },
+        "in_preposition": {
+          "default": "in",
+          "description": "Translation of \"in\". The default value is `in`.",
+          "title": "In Preposition",
           "type": "string"
         },
         "month": {
@@ -3456,7 +3546,7 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "default": "**INSTITUTION**, DEGREE IN_PREPOSITION AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
           "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
@@ -3488,7 +3578,7 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "default": "**INSTITUTION**, DEGREE IN_PREPOSITION AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
           "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
@@ -3520,7 +3610,7 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "default": "**INSTITUTION**, DEGREE IN_PREPOSITION AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
           "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
@@ -3552,7 +3642,7 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS",
+          "default": "**INSTITUTION**\n*DEGREE* *IN_PREPOSITION* *AREA*\nSUMMARY\nHIGHLIGHTS",
           "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"

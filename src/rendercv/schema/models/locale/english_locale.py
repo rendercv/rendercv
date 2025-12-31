@@ -18,6 +18,10 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             'Translation of "Last updated in". The default value is `Last updated in`.'
         ),
     )
+    in_preposition: str = pydantic.Field(
+        default="in",
+        description='Translation of "in". The default value is `in`.',
+    )
     month: str = pydantic.Field(
         default="month",
         description='Translation of "month" (singular). The default value is `month`.',

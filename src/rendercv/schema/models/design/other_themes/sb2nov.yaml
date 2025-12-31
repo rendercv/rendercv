@@ -34,7 +34,7 @@ design:
       nested_bullet: "◦"
   templates:
     education_entry:
-      main_column: "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS"
+      main_column: "**INSTITUTION**\n*DEGREE* *IN_PREPOSITION* *AREA*\nSUMMARY\nHIGHLIGHTS"
       degree_column: null
       date_and_location_column: "*LOCATION*\n*DATE*"
     normal_entry:
