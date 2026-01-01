@@ -4,6 +4,7 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "{{ cv.plain_name }}",
+  title: "{{ cv.plain_name }}'s CV",
   footer: {{ cv.footer }},
   top-note: [ {{ cv.top_note }} ],
   locale-catalog-language: "{{ locale.language_iso_639_1 }}",

@@ -36,6 +36,8 @@ def process_model(
     if file_type == "typst":
         string_processors.extend([markdown_to_typst])
 
+    if rendercv_model.cv.title is None:
+        rendercv_model.cv.title = f"{rendercv_model.cv.name}'s CV"
     rendercv_model.cv.plain_name = rendercv_model.cv.name  # ty: ignore[unresolved-attribute]
     rendercv_model.cv.name = apply_string_processors(
         rendercv_model.cv.name, string_processors
