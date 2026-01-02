@@ -97,6 +97,16 @@ class TestResolveRendercvFilePath:
         assert result.name == expected_filename
         assert result.parent == tmp_path
 
+    def test_resolve_rendercv_filename_placeholder(self, tmp_path: pathlib.Path):
+        model = RenderCVModel(cv=Cv(name="John Doe"))
+        model._input_file_path = pathlib.Path("John Doe CV.yaml")
+        file_path = tmp_path / "FILENAME.pdf"
+
+        result = resolve_rendercv_file_path(model, file_path)
+
+        assert result.name == "John-Doe-CV.pdf"
+        assert result.parent == tmp_path
+
     def test_creates_parent_directories(self, tmp_path: pathlib.Path):
         model = RenderCVModel(cv=Cv(name="John Doe"))
         nested_dir = tmp_path / "output" / "cv" / "final"
