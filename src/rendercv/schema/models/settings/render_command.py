@@ -20,6 +20,7 @@ file_path_placeholders_description = """The following placeholders can be used:
 - NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)
 - NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)
 - NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)
+- FILENAME: The filename of the input YAML file (e.g., John-Doe-CV)
 """
 
 

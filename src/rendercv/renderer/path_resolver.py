@@ -69,6 +69,11 @@ def resolve_rendercv_file_path(
             if rendercv_model.cv.name
             else None
         ),
+        "FILENAME": (
+            rendercv_model._input_file_path.stem.replace(" ", "-")
+            if rendercv_model._input_file_path
+            else None
+        ),
     }
     file_path_placeholders = {
         k: v for k, v in file_path_placeholders.items() if v is not None
