@@ -150,6 +150,12 @@ Create a new CV yaml file:
 rendercv new "John Doe"
 ```
 
+You can also extract CV data from an existing Word document:
+
+```
+rendercv new "John Doe" "path/to/resume.docx"
+```
+
 Edit the YAML, then render:
 
 ```

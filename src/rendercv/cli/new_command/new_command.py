@@ -10,6 +10,7 @@ from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
+from rendercv.cv_extraction.word_extractor import extract_cv_data_from_word
 
 from ..app import app
 from ..copy_templates import copy_templates
@@ -21,12 +22,17 @@ from .print_welcome import print_welcome
     name="new",
     help=(
         "Generate a YAML input file to get started. Example: [yellow]rendercv new"
-        ' "John Doe"[/yellow]. Details: [cyan]rendercv new --help[/cyan]'
+        ' "John Doe"[/yellow] or [yellow]rendercv new "John Doe" "path/to/resume.docx"[/yellow]. '
+        "Details: [cyan]rendercv new --help[/cyan]"
     ),
 )
 @handle_user_errors
 def cli_command_new(
     full_name: Annotated[str, typer.Argument(help="Your full name")],
+    word_file_path: Annotated[
+        str | None,
+        typer.Argument(help="Optional path to Word document (.docx file) to extract CV data from"),
+    ] = None,
     theme: Annotated[
         str,
         typer.Option(
@@ -82,13 +88,41 @@ def cli_command_new(
     typst_templates_folder = pathlib.Path(theme)
     markdown_folder = pathlib.Path("markdown")
 
+    # Extract CV data from Word document if provided
+    extracted_cv_data = None
+    if word_file_path:
+        word_path = pathlib.Path(word_file_path)
+        
+        # Validate file extension - only .docx files are supported
+        if word_path.suffix.lower() != ".docx":
+            message = (
+                f"Unsupported file format: {word_path.suffix}. "
+                "Only .docx files are supported for CV extraction."
+            )
+            raise RenderCVUserError(message)
+        
+        print(f"[cyan]Extracting CV data from Word document: {word_path}[/cyan]")
+        try:
+            extracted_cv_data = extract_cv_data_from_word(word_path)
+            print("[green]✓[/green] Successfully extracted CV data from Word document")
+        except RenderCVUserError as e:
+            print(f"[red]Error extracting CV data: {e}[/red]")
+            print("[yellow]Continuing with sample data instead...[/yellow]")
+        except Exception as e:
+            print(f"[red]Unexpected error: {e}[/red]")
+            print("[yellow]Continuing with sample data instead...[/yellow]")
+
     # Define all items to create: (description, path, creator, skip)
     items_to_create: list[tuple[str, pathlib.Path, Callable[[], object], bool]] = [
         (
             "Your YAML input file",
             input_file_path,
             lambda: create_sample_yaml_input_file(
-                file_path=input_file_path, name=full_name, theme=theme, locale=locale
+                file_path=input_file_path,
+                name=full_name,
+                theme=theme,
+                locale=locale,
+                extracted_cv_data=extracted_cv_data,
             ),
             True,  # never skip the input file
         ),
