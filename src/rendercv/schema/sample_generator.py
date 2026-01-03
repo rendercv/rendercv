@@ -49,7 +49,11 @@ def dictionary_to_yaml(dictionary: dict) -> str:
 
 
 def create_sample_rendercv_pydantic_model(
-    *, name: str = "John Doe", theme: str = "classic", locale: str = "english"
+    *,
+    name: str = "John Doe",
+    theme: str = "classic",
+    locale: str = "english",
+    extracted_cv_data: dict | None = None,
 ) -> RenderCVModel:
     """Build sample CV model from sample content.
 
@@ -62,6 +66,7 @@ def create_sample_rendercv_pydantic_model(
         name: Person's full name.
         theme: Design theme identifier.
         locale: Locale language identifier.
+        extracted_cv_data: Optional dictionary with extracted CV data from Word document.
 
     Returns:
         Validated model with sample content.
@@ -70,7 +75,42 @@ def create_sample_rendercv_pydantic_model(
     sample_content_dictionary = read_yaml(sample_content)["cv"]
     cv = Cv(**sample_content_dictionary)
 
-    cv.name = name
+    # Override with extracted data if provided
+    if extracted_cv_data:
+        # Update basic fields - use extracted value or None if not found
+        cv.name = extracted_cv_data.get("name") or name
+        cv.headline = extracted_cv_data.get("headline")
+        cv.email = extracted_cv_data.get("email")
+        cv.phone = extracted_cv_data.get("phone")
+        cv.website = extracted_cv_data.get("website")
+        cv.location = extracted_cv_data.get("location")
+
+        # Update sections - replace sample sections with extracted ones
+        if "sections" in extracted_cv_data:
+            extracted_sections = extracted_cv_data["sections"]
+            # Start with empty sections dict to replace sample data
+            cv.sections = {}
+
+            # Update profile
+            if "profile" in extracted_sections:
+                cv.sections["profile"] = extracted_sections["profile"]
+
+            # Update experience
+            if "experience" in extracted_sections:
+                cv.sections["experience"] = extracted_sections["experience"]
+
+            # Update education
+            if "education" in extracted_sections:
+                cv.sections["education"] = extracted_sections["education"]
+
+            # Update skills
+            if "skills" in extracted_sections:
+                cv.sections["skills"] = extracted_sections["skills"]
+        else:
+            # No sections extracted, set to empty dict
+            cv.sections = {}
+    else:
+        cv.name = name
 
     design = built_in_design_adapter.validate_python({"theme": theme})
     locale = locale_adapter.validate_python({"language": locale})
@@ -85,6 +125,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    extracted_cv_data: dict | None = None,
 ) -> str: ...
 @overload
 def create_sample_yaml_input_file(
@@ -93,6 +134,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    extracted_cv_data: dict | None = None,
 ) -> None: ...
 def create_sample_yaml_input_file(
     *,
@@ -100,6 +142,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    extracted_cv_data: dict | None = None,
 ) -> str | None:
     """Generate formatted sample YAML with schema hint and commented design options.
 
@@ -121,6 +164,7 @@ def create_sample_yaml_input_file(
         name: Person's full name.
         theme: Design theme identifier.
         locale: Language/date format identifier.
+        extracted_cv_data: Optional dictionary with extracted CV data from Word document.
 
     Returns:
         YAML string if file_path is None, otherwise None after writing file.
@@ -141,7 +185,7 @@ def create_sample_yaml_input_file(
         raise RenderCVUserError(message)
 
     data_model = create_sample_rendercv_pydantic_model(
-        name=name, theme=theme, locale=locale
+        name=name, theme=theme, locale=locale, extracted_cv_data=extracted_cv_data
     )
 
     # Instead of getting the dictionary with data_model.model_dump() directly, we
