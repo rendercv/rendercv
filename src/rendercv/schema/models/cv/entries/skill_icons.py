@@ -172,5 +172,3 @@ class SkillIconsEntry(SkillIcons, BaseEntry):
     The above will generate an image URL like:
         https://skillicons.dev/icons?i=python,js,ts,react,vue,nodejs&theme=dark&perline=6
     """
-
-    pass

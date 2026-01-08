@@ -135,9 +135,8 @@ def download_skill_icons(
             try:
                 urllib.request.urlretrieve(skillicons.url, local_file)
             except Exception as e:
-                raise RenderCVInternalError(
-                    f"Failed to download skill icons from {skillicons.url}: {e}"
-                ) from e
+                msg = f"Failed to download skill icons from {skillicons.url}: {e}"
+                raise RenderCVInternalError(msg) from e
         skillicons.local_path = local_file
         downloaded_files.append(local_file)
 
