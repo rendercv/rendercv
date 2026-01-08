@@ -678,6 +678,21 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -690,6 +705,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -704,6 +720,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -716,6 +733,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
   #regular-entry(
   [
@@ -728,6 +746,105 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
   #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -740,6 +857,9 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
   #regular-entry(
   [
@@ -761,6 +881,9 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
 #regular-entry(
   [
@@ -775,6 +898,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -787,6 +911,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -800,6 +925,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -815,6 +941,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -838,6 +965,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -852,6 +980,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -864,6 +993,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -879,6 +1009,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -903,6 +1034,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -915,6 +1047,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -930,6 +1063,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -953,6 +1087,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
   #regular-entry(
   [
@@ -967,6 +1102,297 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
   #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -987,6 +1413,9 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
   #regular-entry(
   [
@@ -1010,6 +1439,9 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
 #regular-entry(
   [
@@ -1024,6 +1456,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1036,6 +1469,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -1051,6 +1485,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1075,6 +1510,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1087,6 +1523,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -1102,6 +1539,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1126,6 +1564,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1140,6 +1579,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1163,6 +1603,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1188,6 +1629,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1202,6 +1644,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -1216,6 +1659,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1239,6 +1683,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1255,6 +1700,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1277,6 +1723,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1303,6 +1750,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1317,6 +1765,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1340,6 +1789,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1365,6 +1815,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
   #regular-entry(
   [
@@ -1389,6 +1840,23 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1401,6 +1869,429 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+  #regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+
 
 #regular-entry(
   [
@@ -1417,66 +2308,6 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
-  [
-    #strong[Software Engineer], Some Company
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[Software Engineer], Some Company -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[Software Engineer], Some Company -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
 
 #regular-entry(
   [
@@ -1488,8 +2319,6 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
   main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
 
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -1502,6 +2331,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1518,6 +2348,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1540,6 +2371,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1566,6 +2398,73 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1590,6 +2489,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1606,6 +2506,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1628,6 +2529,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1653,6 +2555,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -1679,6 +2582,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1704,6 +2608,67 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1718,6 +2683,9 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
 #regular-entry(
   [
@@ -1741,6 +2709,305 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
 
 #regular-entry(
   [
@@ -1767,30 +3034,6 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
-  [
-    #strong[Software Engineer], Some Company -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
 
 #regular-entry(
   [
@@ -1816,6 +3059,33 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
 
 #regular-entry(
   [
@@ -1842,6 +3112,79 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
 #regular-entry(
   [
     #strong[Software Engineer], Some Company -- Istanbul, Turkey
@@ -1866,6 +3209,119 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[Software Engineer], Some Company -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+
 
 == Education Entries
 
@@ -4282,6 +5738,22 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
 #regular-entry(
   [
     #strong[My Project]
@@ -4294,6 +5766,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4308,6 +5781,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project]
@@ -4320,6 +5794,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
   #regular-entry(
   [
@@ -4332,6 +5807,109 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+  #regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+  #regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
   #regular-entry(
   [
     #strong[My Project]
@@ -4344,6 +5922,10 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
   #regular-entry(
   [
@@ -4365,6 +5947,10 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
 #regular-entry(
   [
@@ -4379,6 +5965,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project]
@@ -4391,6 +5978,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4404,6 +5992,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4419,6 +6008,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4442,6 +6032,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4456,6 +6047,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4468,6 +6060,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4483,6 +6076,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4507,6 +6101,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4519,6 +6114,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4534,6 +6130,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4557,6 +6154,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
   #regular-entry(
   [
@@ -4571,6 +6169,310 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+  #regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+  #regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+  #regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
   #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4591,6 +6493,10 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
   #regular-entry(
   [
@@ -4614,6 +6520,10 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
 #regular-entry(
   [
@@ -4628,6 +6538,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4640,6 +6551,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4655,6 +6567,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4679,6 +6592,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4691,6 +6605,7 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
 
 #regular-entry(
   [
@@ -4706,6 +6621,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4730,6 +6646,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4744,6 +6661,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4767,6 +6685,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4792,6 +6711,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4806,6 +6726,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project]
@@ -4820,6 +6741,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4843,6 +6765,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4859,6 +6782,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4881,6 +6805,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4907,6 +6832,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -4921,6 +6847,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4944,6 +6871,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -4969,6 +6897,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
   #regular-entry(
   [
@@ -4993,6 +6922,24 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5005,6 +6952,448 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+  #regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+
 
 #regular-entry(
   [
@@ -5021,66 +7410,6 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
-  [
-    #strong[My Project]
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project] -- #strong[Istanbul, Turkey]
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#regular-entry(
-  [
-    #strong[My Project] -- #strong[Istanbul, Turkey]
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
 
 #regular-entry(
   [
@@ -5092,8 +7421,6 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
   main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
 
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -5106,6 +7433,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -5122,6 +7450,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5144,6 +7473,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -5170,6 +7500,73 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5194,6 +7591,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -5210,6 +7608,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5232,6 +7631,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -5257,6 +7657,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
 
 #regular-entry(
   [
@@ -5283,6 +7684,7 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5308,6 +7710,70 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5322,6 +7788,10 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
 #regular-entry(
   [
@@ -5345,6 +7815,316 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
 
 #regular-entry(
   [
@@ -5371,30 +8151,6 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
-#regular-entry(
-  [
-    #strong[My Project] -- #strong[Istanbul, Turkey]
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
 
 #regular-entry(
   [
@@ -5420,6 +8176,33 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
 
 #regular-entry(
   [
@@ -5446,6 +8229,82 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
 #regular-entry(
   [
     #strong[My Project] -- #strong[Istanbul, Turkey]
@@ -5470,6 +8329,123 @@ Third text with #link("https://example.com")[link] and more content.
 
   ],
 )
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+
+#regular-entry(
+  [
+    #strong[My Project] -- #strong[Istanbul, Turkey]
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+#v(-1em)
+#pad(left: 0.15cm)[#image("skillicons_python_js_ts_dark_15.svg", width: 80.2pt)]
+#v(0.3em)
+
 
 == One Line Entries
 
@@ -5504,16 +8480,16 @@ Third text with #link("https://example.com")[link] and more content.
 
 == Skill Icons Entries
 
-#align(center)[
-  #image("https://skillicons.dev/icons?i=python,js,ts,react,vue,nodejs&theme=dark&perline=6")
+#align(left)[
+  #image("skillicons_python_js_ts_react_vue_nodejs_dark_6.svg", width: 219.5pt)
 ]
 
-#align(center)[
-  #image("https://skillicons.dev/icons?i=docker,kubernetes,aws,gcp,azure&theme=light&perline=5")
+#align(left)[
+  #image("skillicons_docker_kubernetes_aws_gcp_azure_light_5.svg", width: 182.0pt)
 ]
 
-#align(center)[
-  #image("https://skillicons.dev/icons?i=git,github,gitlab,vscode")
+#align(left)[
+  #image("skillicons_git_github_gitlab_vscode_dark_15.svg", width: 144.5pt)
 ]
 
 == A Section & with \% Special Characters
@@ -5528,3 +8504,4 @@ Third text with #link("https://example.com")[link] and more content.
   main-column-second-row: [
   ],
 )
+
