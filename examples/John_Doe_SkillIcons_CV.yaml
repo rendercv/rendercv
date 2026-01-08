@@ -1,0 +1,79 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.5/schema.json
+# This example showcases the SkillIconsEntry feature with icons from skillicons.dev
+cv:
+  name: John Doe
+  headline: Software Engineer
+  location: San Francisco, CA
+  email: john.doe@email.com
+  photo:
+  phone:
+  website: https://rendercv.com/
+  social_networks:
+    - network: LinkedIn
+      username: rendercv
+    - network: GitHub
+      username: rendercv
+  custom_connections:
+  sections:
+    Welcome to RenderCV:
+      - This example showcases the **SkillIconsEntry** feature.
+      - Display your tech stack visually with icons from [skillicons.dev](https://skillicons.dev).
+    tech_stack:
+      - icons: py,cpp,rust,go,pytorch,tensorflow,sklearn,docker,kubernetes,aws,azure,gcp,linux,git,github,gitlab,ci,cicd
+        theme: dark
+        size: 20
+        perline: 5
+    projects:
+      - name: '[FlashInfer](https://github.com/)'
+        date:
+        start_date: 2023-01
+        end_date: present
+        location:
+        summary: Open-source library for high-performance LLM inference kernels
+        highlights:
+          - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
+          - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
+        skillicons:
+          icons: py,cpp
+          theme: dark
+          size: 20
+      - name: '[NeuralPrune](https://github.com/)'
+        date: '2021'
+        start_date:
+        end_date:
+        location:
+        summary: Automated neural network pruning toolkit with differentiable masks
+        highlights:
+          - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
+          - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
+        skillicons:
+          icons: py,pytorch,sklearn,docker
+          theme: dark
+          size: 20
+    # experience:
+    #   - company: Tech Company
+    #     position: Senior Software Engineer
+    #     start_date: 2020-01
+    #     end_date: present
+    #     location: San Francisco, CA
+    #     highlights:
+    #       - Developed scalable microservices architecture
+    #       - Led a team of 5 engineers
+    #     skillicons:
+    #       icons: py,docker,kubernetes,aws
+    #       theme: dark
+    #       size: 20
+    #       perline: 4
+    #   - company: Startup Inc.
+    #     position: Software Engineer
+    #     start_date: 2018-06
+    #     end_date: 2019-12
+    #     location: New York, NY
+    #     highlights:
+    #       - Built REST APIs and data pipelines
+    #     skillicons:
+    #       icons: js,ts,nodejs,mongodb
+    #       theme: dark
+    #       size: 20
+design:
+  theme: classic

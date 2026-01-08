@@ -100,7 +100,7 @@ def process_fields(
     Returns:
         Entry with processed fields.
     """
-    skipped = {"start_date", "end_date", "doi", "url"}
+    skipped = {"start_date", "end_date", "doi", "url", "skillicons"}
 
     if isinstance(entry, str):
         return apply_string_processors(entry, string_processors)
@@ -118,6 +118,9 @@ def process_fields(
                 field,
                 [apply_string_processors(v, string_processors) for v in value],
             )
+        elif isinstance(value, dict):
+            # Skip complex nested objects like SkillIcons
+            continue
         else:
             setattr(
                 entry, field, apply_string_processors(str(value), string_processors)

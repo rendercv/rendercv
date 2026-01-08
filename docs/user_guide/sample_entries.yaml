@@ -53,6 +53,13 @@ numbered_entry:
 reversed_numbered_entry:
   reversed_number: This is a reversed numbered entry.
 
+skill_icons_entry:
+  icons: python,js,ts,react,vue,nodejs
+  theme: dark
+  perline: 6
+  align: left
+  size: 32
+
 text_entry: This is a *TextEntry*. It is only a text and can be useful for
   sections like **Summary**. To showcase the TextEntry completely,
   this sentence is added, but it doesn't contain any information.

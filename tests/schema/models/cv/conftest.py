@@ -69,6 +69,12 @@ reversed_numbered_entry_dictionary = {
     "reversed_number": "This is a reversed numbered entry.",
 }
 
+skill_icons_entry_dictionary = {
+    "icons": "python,js,ts,react,vue,nodejs",
+    "theme": "dark",
+    "perline": 6,
+}
+
 
 @pytest.fixture
 def publication_entry() -> dict[str, Any]:
@@ -126,3 +132,9 @@ def text_entry() -> str:
         " **Summary**. To showcase the TextEntry completely, this sentence is added,"
         " but it doesn't contain any information."
     )
+
+
+@pytest.fixture
+def skill_icons_entry() -> dict[str, Any]:
+    """Return a sample skill icons entry."""
+    return copy.deepcopy(skill_icons_entry_dictionary)

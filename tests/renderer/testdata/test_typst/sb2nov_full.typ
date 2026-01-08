@@ -6142,6 +6142,20 @@ Third text with #link("https://example.com")[link] and more content.
   ],
 )
 
+== Skill Icons Entries
+
+#align(center)[
+  #image("https://skillicons.dev/icons?i=python,js,ts,react,vue,nodejs&theme=dark&perline=6")
+]
+
+#align(center)[
+  #image("https://skillicons.dev/icons?i=docker,kubernetes,aws,gcp,azure&theme=light&perline=5")
+]
+
+#align(center)[
+  #image("https://skillicons.dev/icons?i=git,github,gitlab,vscode")
+]
+
 == A Section & with \% Special Characters
 
   #regular-entry(

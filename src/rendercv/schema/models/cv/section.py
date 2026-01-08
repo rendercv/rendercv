@@ -16,6 +16,7 @@ from .entries.numbered import NumberedEntry
 from .entries.one_line import OneLineEntry
 from .entries.publication import PublicationEntry
 from .entries.reversed_numbered import ReversedNumberedEntry
+from .entries.skill_icons import SkillIconsEntry
 
 ########################################################################################
 # Below needs to be updated when new entry types are added.
@@ -30,6 +31,7 @@ type EntryModel = (
     | BulletEntry
     | NumberedEntry
     | ReversedNumberedEntry
+    | SkillIconsEntry
 )
 type Entry = EntryModel | str
 ########################################################################################

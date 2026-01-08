@@ -1,11 +1,13 @@
 import functools
 import pathlib
 import shutil
+import urllib.request
 
 import rendercv_fonts
 import typst
 
 from rendercv.exception import RenderCVInternalError
+from rendercv.schema.models.cv.entries.skill_icons import SkillIcons, SkillIconsEntry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .path_resolver import resolve_rendercv_file_path
@@ -35,6 +37,7 @@ def generate_pdf(
     )
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
+    download_skill_icons(rendercv_model, typst_path)
     typst_compiler.compile(format="pdf", output=pdf_path)
 
     return pdf_path
@@ -63,6 +66,7 @@ def generate_png(
     )
     typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
+    download_skill_icons(rendercv_model, typst_path)
     png_files_bytes = typst_compiler.compile(format="png")
 
     if not isinstance(png_files_bytes, list):
@@ -101,6 +105,52 @@ def copy_photo_next_to_typst_file(
                 rendercv_model.cv.photo,
                 typst_path.parent / rendercv_model.cv.photo.name,
             )
+
+
+def download_skill_icons(
+    rendercv_model: RenderCVModel, typst_path: pathlib.Path
+) -> list[pathlib.Path]:
+    """Download skill icons from skillicons.dev for SkillIconsEntry entries.
+
+    Why:
+        Typst compiler cannot load remote URLs directly. This downloads icons
+        locally before compilation and sets the local_path on each entry.
+
+    Args:
+        rendercv_model: CV model containing sections with possible SkillIconsEntry.
+        typst_path: Path to Typst source file (used to determine download location).
+
+    Returns:
+        List of paths to downloaded icon files.
+    """
+    downloaded_files: list[pathlib.Path] = []
+
+    if rendercv_model.cv.sections is None:
+        return downloaded_files
+
+    def download_skillicons(skillicons: SkillIcons) -> None:
+        """Helper to download a SkillIcons instance."""
+        local_file = typst_path.parent / skillicons.image_filename
+        if not local_file.exists():
+            try:
+                urllib.request.urlretrieve(skillicons.url, local_file)
+            except Exception as e:
+                raise RenderCVInternalError(
+                    f"Failed to download skill icons from {skillicons.url}: {e}"
+                ) from e
+        skillicons.local_path = local_file
+        downloaded_files.append(local_file)
+
+    for section in rendercv_model.cv.rendercv_sections:
+        for entry in section.entries:
+            # Handle standalone SkillIconsEntry
+            if isinstance(entry, SkillIconsEntry):
+                download_skillicons(entry)
+            # Handle entries with skillicons field (e.g., NormalEntry)
+            elif hasattr(entry, "skillicons") and entry.skillicons is not None:
+                download_skillicons(entry.skillicons)
+
+    return downloaded_files
 
 
 @functools.lru_cache(maxsize=1)

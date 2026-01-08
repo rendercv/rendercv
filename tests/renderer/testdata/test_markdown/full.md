@@ -3886,6 +3886,19 @@ Did *this* and this is a **bold** [link](https://example.com). But I must explai
 
 1. This is a reversed numbered entry.
 
+# Skill Icons Entries
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=python,js,ts,react,vue,nodejs&theme=dark&perline=6" alt="Skill Icons" />
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=docker,kubernetes,aws,gcp,azure&theme=light&perline=5" alt="Skill Icons" />
+</p>
+
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=git,github,gitlab,vscode" alt="Skill Icons" />
+</p>
+
 # A Section & with % Special Characters
 ## **A Section & with % Special Characters**
 
