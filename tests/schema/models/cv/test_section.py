@@ -8,6 +8,7 @@ from rendercv.schema.models.cv.entries.experience import ExperienceEntry  # NOQA
 from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.skill_icons import SkillIconsEntry  # NOQA: F401
 from rendercv.schema.models.cv.section import (
     Section,
     available_entry_models,
@@ -42,6 +43,7 @@ from rendercv.schema.models.cv.section import (
         ("one_line_entry", "OneLineEntry", "SectionWithOneLineEntries"),
         ("text_entry", "TextEntry", "SectionWithTextEntries"),
         ("bullet_entry", "BulletEntry", "SectionWithBulletEntries"),
+        ("skill_icons_entry", "SkillIconsEntry", "SectionWithSkillIconsEntries"),
     ],
 )
 def test_get_entry_type_name_and_section_model(

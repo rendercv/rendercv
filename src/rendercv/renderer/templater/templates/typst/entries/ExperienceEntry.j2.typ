@@ -26,3 +26,7 @@
   ],
 {% endif %}
 )
+{% if entry.skillicons %}
+#v(-0.3em)
+#pad(left: 0.15cm)[#image("{{ entry.skillicons.image_filename }}", width: {{ entry.skillicons.image_width }})]
+{% endif %}

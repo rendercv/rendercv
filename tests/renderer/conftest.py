@@ -19,6 +19,7 @@ from rendercv.schema.models.cv.entries.numbered import NumberedEntry
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.entries.reversed_numbered import ReversedNumberedEntry
+from rendercv.schema.models.cv.entries.skill_icons import SkillIcons, SkillIconsEntry
 from rendercv.schema.models.cv.social_network import SocialNetwork
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.models.settings.settings import Settings
@@ -201,6 +202,21 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
                     reversed_number="This is a reversed numbered entry."
                 ),
             ],
+            "Skill Icons Entries": [
+                SkillIconsEntry(
+                    icons="python,js,ts,react,vue,nodejs",
+                    theme="dark",
+                    perline=6,
+                ),
+                SkillIconsEntry(
+                    icons=["docker", "kubernetes", "aws", "gcp", "azure"],
+                    theme="light",
+                    perline=5,
+                ),
+                SkillIconsEntry(
+                    icons="git,github,gitlab,vscode",
+                ),
+            ],
             "A Section & with % Special Characters": [
                 NormalEntry(name="A Section & with % Special Characters")
             ],
@@ -282,6 +298,7 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
         "bullet": "This is a bullet entry.",
         "number": "This is a numbered entry.",
         "reversed_number": "This is a reversed numbered entry.",
+        "skillicons": SkillIcons(icons="python,js,ts", theme="dark", size=24),
     }
 
     field_type_dictionary = {

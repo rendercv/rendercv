@@ -48,7 +48,9 @@ def render_entry_templates[EntryType: Entry](
     ).model_dump(exclude_none=True)
 
     entry_fields: dict[str, str | str] = {
-        key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
+        key.upper(): value
+        for key, value in entry.model_dump(exclude_none=True).items()
+        if not isinstance(value, dict)  # Skip nested objects like skillicons
     }
 
     # Handle special placeholders:

@@ -21,6 +21,7 @@ from rendercv.schema.models.cv.section import (
     OneLineEntry,
     PublicationEntry,
     ReversedNumberedEntry,
+    SkillIconsEntry,
 )
 from rendercv.schema.models.cv.social_network import available_social_networks
 from rendercv.schema.models.design.built_in_design import available_themes
@@ -50,6 +51,7 @@ class SampleEntries(pydantic.BaseModel):
     bullet_entry: BulletEntry
     numbered_entry: NumberedEntry
     reversed_numbered_entry: ReversedNumberedEntry
+    skill_icons_entry: SkillIconsEntry
     text_entry: str
 
 

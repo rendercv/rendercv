@@ -190,6 +190,36 @@ A numbered entry that counts down (useful for publication lists where recent ite
 | ----------------- | -------- | ----------------- |
 | `reversed_number` | Yes      | The entry content |
 
+{$ elif entry_name == "SkillIconsEntry" $}
+Display technology and skill icons from [skillicons.dev](https://skillicons.dev). Perfect for showcasing your tech stack visually.
+
+| Field     | Required | Description                                                                                                      |
+| --------- | -------- | ---------------------------------------------------------------------------------------------------------------- |
+| `icons`   | Yes      | Icon name(s). Can be a comma-separated string (`"python,js,ts"`) or a list (`["python", "js", "ts"]`)            |
+| `theme`   | No       | Icon theme: `dark` (default) or `light`                                                                          |
+| `perline` | No       | Number of icons per line (1-50, default: 15)                                                                     |
+| `align`   | No       | Horizontal alignment: `left` (default), `center`, or `right`                                                     |
+| `size`    | No       | Size of each icon in pt (8-128, default: 32). Recommended: 24-48pt for inline, 32-64pt for dedicated sections    |
+
+See the [full list of available icons](https://github.com/tandpfun/skill-icons#icons-list).
+
+!!! tip "Skill Icons in other entry types"
+    You can also add skill icons to `ExperienceEntry` and `NormalEntry` using the optional `skillicons` field:
+    
+    ```yaml
+    experience:
+      - company: Tech Company
+        position: Software Engineer
+        start_date: 2020-01
+        end_date: present
+        highlights:
+          - Built scalable microservices
+        skillicons:
+          icons: python,docker,kubernetes
+          theme: dark
+          size: 20
+    ```
+
 {$ elif entry_name == "TextEntry" $}
 Plain text without structure. Just write a string.
 
