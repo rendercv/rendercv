@@ -1,22 +1,117 @@
+---
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+# using https://pre-commit.ci is a lot faster than github runners
+ci:
+  autoupdate_commit_msg: "chore: update pre-commit hooks"
+  autofix_commit_msg: "style: pre-commit fixes"
+  autoupdate_schedule: monthly
+  skip: []
+  submodules: false
+
+# Default stages for hooks
+default_stages: [pre-commit, commit-msg, pre-push]
+
+# Default hook types to install
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+
 repos:
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+  # ============================================================================
+  # PHASE 1: Fast blocking checks (fail fast, no modifications)
+  # ============================================================================
+
+  - repo: meta
+    # Built-in config validation hooks
     hooks:
-      - id: check-added-large-files
-      - id: check-toml
+      - id: check-hooks-apply      # Verify all hooks apply to current files
+      - id: check-useless-excludes  # Check for unused excludes in config
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # Collection of generic git hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files    # Prevent large files (>500KB default)
+      - id: check-merge-conflict       # Check for unresolved merge conflicts
+      - id: check-symlinks             # Detect broken symlinks
+      - id: check-case-conflict        # Prevent case-insensitive filesystem conflicts
+      - id: detect-private-key         # Scan for private keys
+
+  - repo: https://github.com/gitleaks/gitleaks
+    # Secret and credential scanner
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks                  # Comprehensive secret scanning
+
+  - repo: https://github.com/owenlamont/uv-secure
+    # Dependency vulnerability scanner for uv
+    rev: 0.15.4
+    hooks:
+      - id: uv-secure
+        name: uv-secure
+        description: "Check uv.lock dependencies for known vulnerabilities"
+        language: python
+        files: (^|.*/)(uv\.lock|requirements\.txt)$
+
+  # ============================================================================
+  # PHASE 2: Syntax and schema validation (no modifications)
+  # ============================================================================
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # Collection of generic git hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-toml                 # Validate TOML syntax
+      - id: check-yaml
+        args: ["--unsafe"]             # Allow unsafe YAML constructs (e.g., custom tags)
+      - id: debug-statements           # Check for debugger imports/calls
+      - id: fix-byte-order-marker      # Remove UTF-8 BOM (fixes file)
+
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    # JSON schema validator for configs
+    rev: 0.36.0
+    hooks:
+      - id: check-github-workflows     # Validate GitHub workflow syntax
+      - id: check-dependabot           # Validate Dependabot config
+
+  - repo: https://github.com/abravalheri/validate-pyproject
+    # pyproject.toml schema validator
+    rev: v0.24.1
+    hooks:
+      - id: validate-pyproject
+        additional_dependencies: ["validate-pyproject-schema-store[all]"]
+
+  # ============================================================================
+  # PHASE 3: Code quality and security analysis (no modifications)
+  # ============================================================================
+
   - repo: https://github.com/codespell-project/codespell
+    # Spell checker for source code
     rev: v2.4.1
     hooks:
       - id: codespell
         args:
           - --skip=src/rendercv/schema/models/locale/other_locales/*
           - --exclude-file=schema.json
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.10
+        additional_dependencies:
+          - tomli
+
+  - repo: https://github.com/PyCQA/bandit
+    # Python security linter
+    rev: 1.9.2
     hooks:
-      - id: ruff-check
-      - id: ruff-format
+      - id: bandit
+        args: ["-c", "pyproject.toml"]
+        types: [python]
+
+  - repo: https://github.com/rohaquinlop/complexipy-pre-commit
+    # Cognitive complexity analyzer
+    rev: v4.2.0
+    hooks:
+      - id: complexipy                # Measure cognitive complexity
+
   - repo: local
+    # Local machine hooks (no external repo)
     hooks:
       - id: ty-check
         name: ty-check
@@ -25,3 +120,41 @@ repos:
         pass_filenames: false
         args: [--python=.venv/]
         additional_dependencies: [ty]
+
+  # ============================================================================
+  # PHASE 4: Auto-formatters and fixers (modify files)
+  # ============================================================================
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Fast Python linter and formatter
+    rev: v0.14.11
+    hooks:
+      - id: ruff-check                 # Lint and auto-fix Python code
+        args: [--fix]
+      - id: ruff-format                # Format Python code
+
+  - repo: https://github.com/lyz-code/yamlfix
+    # YAML file auto-formatter
+    rev: 1.19.1
+    hooks:
+      - id: yamlfix                    # Format YAML files
+
+  - repo: https://github.com/rbubley/mirrors-prettier
+    # Multi-language code formatter
+    rev: v3.7.4
+    hooks:
+      - id: prettier
+        types_or: [markdown, html, css, scss, javascript, json]
+        args: [--prose-wrap=always]    # Wrap markdown at line length
+        additional_dependencies:
+          - prettier
+          - prettier-plugin-sort-json
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    # Collection of generic git hooks
+    rev: v6.0.0
+    hooks:
+      - id: end-of-file-fixer          # Ensure files end with newline
+      - id: trailing-whitespace        # Trim trailing whitespace
+      - id: mixed-line-ending
+        args: ["--fix=auto"]           # Normalize line endings (LF/CRLF)
