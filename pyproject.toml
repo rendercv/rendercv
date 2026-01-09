@@ -130,28 +130,29 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 extend-select = [
-    'B',
-    'I',
-    'ARG',
-    'C4',
-    'EM',
-    'ICN',
-    'ISC',
-    'G',
-    'PGH',
-    'PIE',
-    'PL',
-    'PT',
-    'PTH',
-    'RET',
-    'RUF',
-    'SIM',
-    'T20',
-    'UP',
-    'YTT',
-    'EXE',
-    'NPY',
-    'PD',
+    'ARG',  # flake8-unused-arguments: detects unused function arguments
+    'B',    # flake8-bugbear: catches common bugs and design problems
+    'C4',   # flake8-comprehensions: improves comprehension readability
+    'C901', # McCabe complexity: flags functions with high cyclomatic complexity
+    'EM',   # flake8-errmsg: ensures error messages are formatted with variables
+    'EXE',  # flake8-executable: checks executable file shebangs
+    'G',    # flake8-logging-format: enforces proper logging format strings
+    'I',    # isort: enforces import ordering and organization
+    'ICN',  # flake8-import-conventions: enforces standard import aliases
+    'ISC',  # flake8-implicit-str-concat: catches implicit string concatenation
+    'NPY',  # NumPy-specific rules: enforces NumPy best practices
+    'PD',   # pandas-vet: checks pandas-specific code quality
+    'PGH',  # pygrep-hooks: checks for common errors in configuration files
+    'PIE',  # flake8-pie: miscellaneous Python improvement suggestions
+    'PL',   # Pylint: comprehensive code quality and complexity analysis
+    'PT',   # flake8-pytest-style: enforces pytest best practices
+    'PTH',  # flake8-use-pathlib: encourages pathlib over os.path
+    'RET',  # flake8-return: improves return statement logic
+    'RUF',  # Ruff-specific rules: custom Ruff linter rules
+    'SIM',  # flake8-simplify: suggests simpler code alternatives
+    'T20',  # flake8-print: catches print statement usage (should use logging)
+    'UP',   # pyupgrade: suggests modern Python syntax features
+    'YTT',  # flake8-2020: detects outdated Python 2 compatibility code
 ]
 ignore = [
     'PLR',    # Design-related pylint codes
