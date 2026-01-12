@@ -1,5 +1,7 @@
 # John Doe's CV
 
+AI Researcher and Entrepreneur
+
 - Phone: +90 541 999 99 99
 - Email: [john_doe@example.com](mailto:john_doe@example.com)
 - Location: Istanbul, Turkey
