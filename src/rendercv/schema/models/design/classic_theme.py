@@ -408,6 +408,13 @@ class Header(BaseModelWithoutExtraKeys):
         + length_common_description
         + " The default value is `0.7cm`.",
     )
+    headline_separator: str = pydantic.Field(
+        default=" — ",
+        description=(
+            "Separator for the headline list items. The default value is ` — `"
+            " (em-dash)."
+        ),
+    )
     connections: Connections = pydantic.Field(
         default_factory=Connections,
         description="Contact information settings.",
