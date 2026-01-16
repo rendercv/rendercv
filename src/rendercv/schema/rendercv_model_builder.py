@@ -74,6 +74,7 @@ def build_rendercv_dictionary(
                 input_dict[key] = read_yaml(path_or_contents)[key]
             elif isinstance(path_or_contents, pathlib.Path):
                 input_dict["settings"]["render_command"][key] = path_or_contents
+            input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
