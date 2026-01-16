@@ -131,6 +131,29 @@ class TestBuildRendercvDictionary:
         assert result["design"]["theme"] == "classic"
         assert result["locale"]["language"] == "english"
 
+    def test_settings_overlay_without_render_command_allows_design_path_overlay(
+        self, create_yaml_file_fixture
+    ):
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+        }
+        settings_overlay = {"settings": {"current_date": "2024-01-01"}}
+        design_overlay = {"design": {"theme": "sb2nov"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
+        design_file = create_yaml_file_fixture("design.yaml", design_overlay)
+
+        result = build_rendercv_dictionary(
+            main_file,
+            settings_file_path_or_contents=settings_file,
+            design_file_path_or_contents=design_file,
+        )
+
+        assert result["settings"]["current_date"] == "2024-01-01"
+        assert result["settings"]["render_command"]["design"] == design_file
+
     @pytest.mark.parametrize(
         ("override_key", "override_value"),
         [
