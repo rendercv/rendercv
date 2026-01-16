@@ -6,6 +6,7 @@ import typer
 import yaml
 from rich.console import Console
 from rich.prompt import Prompt
+from pathlib import Path
 
 from ..app import app
 
@@ -83,8 +84,6 @@ def parse_date(date_val, is_start_date: bool = False):
             return f"{y}-{m:02d}" # Return YYYY-MM
         if y:
             return str(y) # Return YYYY
-        else:
-            return current_ym if is_start_date else "present"
             
     return current_ym if is_start_date else "present"
 
@@ -104,8 +103,8 @@ def clean_description(desc: str) -> list[str]:
     raw_lines = desc.split('\n')
     
     clean_lines = []
-    for line in raw_lines:
-        line = line.strip()
+    for raw_line in raw_lines:
+        line = raw_line.strip()
         if not line:
             continue
             
@@ -165,12 +164,10 @@ def fetch_linkedin_data(token: str, domains: list[str]):
     return all_data
 
 def linkedin_to_yaml(data):
-    """
-    Converts raw LinkedIn snapshot data to RenderCV YAML structure.
-    """
-    
-    cv_model = {
-        "cv": {
+    """Converts raw LinkedIn snapshot data to RenderCV YAML structure."""
+    cv_model = {}
+    cv_model["cv"] = {
+        "sections": {
             "name": "Your Name",
             "location": None,
             "email": None,
@@ -185,7 +182,8 @@ def linkedin_to_yaml(data):
         domain = record.get('snapshotDomain')
         elements = record.get('snapshotData', [])
         
-        if not elements: continue
+        if not elements:
+            continue
 
         # --- PROFILE ---
         if domain == 'PROFILE':
@@ -212,7 +210,7 @@ def linkedin_to_yaml(data):
                 p.get('headline', '')
             )
             if summary:
-                cv_model["cv"]["sections"]['summary'] = clean_description(summary)
+                cv_model["cv"]["sections"]["summary"] = clean_description(summary)
 
         # --- EMAILS ---
         elif domain == 'EMAIL_ADDRESSES':
@@ -274,7 +272,7 @@ def linkedin_to_yaml(data):
                 experience_list.append(entry)
             
             if experience_list:
-                cv_model["cv"]["sections"]['experience'] = experience_list
+                cv_model["cv"]["sections"]["experience"] = experience_list
 
         # --- EDUCATION ---
         elif domain == 'EDUCATION':
@@ -552,7 +550,7 @@ def linkedin_command(
          cv_inner["location"] = new_loc if new_loc else None
 
     # 4. Save to YAML
-    with open(output, 'w', encoding='utf-8') as f:
+    with Path(output).open('w', encoding='utf-8') as f:
         yaml.dump(cv_data, f, sort_keys=False, default_flow_style=False, allow_unicode=True)
     
     sections_count = len(cv_data["cv"]["sections"])
