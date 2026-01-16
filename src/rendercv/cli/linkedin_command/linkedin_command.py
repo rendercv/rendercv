@@ -1,10 +1,9 @@
-import json
-import yaml
 import re
-import typer
-import requests
-from typing import List, Optional
 from datetime import datetime
+
+import requests
+import typer
+import yaml
 from rich.console import Console
 from rich.prompt import Prompt
 
@@ -73,23 +72,23 @@ def parse_date(date_val, is_start_date: bool = False):
         if re.match(r'^\d{4}$', date_str):
             return date_str
             
-        # Fallback for unparseable strings
+        # Fallback for unparsable strings
         return current_ym if is_start_date else "present"
 
     # Handle Dict {year: 2020, month: 1}
-    elif isinstance(date_val, dict):
+    if isinstance(date_val, dict):
         y = date_val.get('year')
         m = date_val.get('month')
         if y and m:
             return f"{y}-{m:02d}" # Return YYYY-MM
-        elif y:
+        if y:
             return str(y) # Return YYYY
         else:
             return current_ym if is_start_date else "present"
             
     return current_ym if is_start_date else "present"
 
-def clean_description(desc: str) -> List[str]:
+def clean_description(desc: str) -> list[str]:
     """
     Splits description into a clean list of bullet points.
     Handles newlines and in-line bullets (e.g., 'Text. - Bullet') by forcing splits.
@@ -119,7 +118,7 @@ def clean_description(desc: str) -> List[str]:
             
     return clean_lines
 
-def fetch_linkedin_data(token: str, domains: List[str]):
+def fetch_linkedin_data(token: str, domains: list[str]):
     """
     Fetches member snapshot data from LinkedIn API for the specified domains.
     """
@@ -472,7 +471,7 @@ def linkedin_to_yaml(data):
 
     return cv_model
 
-def get_custom_domains() -> List[str]:
+def get_custom_domains() -> list[str]:
     """
     Prompts user to interactively select custom domains.
     Always includes core domains (Profile, Email, Phone).
