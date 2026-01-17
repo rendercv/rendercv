@@ -571,7 +571,7 @@ class TestBuildRendercvModel:
         settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
         design_file = create_yaml_file_fixture("design.yaml", design_overlay)
 
-        dictionary, model = build_rendercv_dictionary_and_model(
+        _, model = build_rendercv_dictionary_and_model(
             main_file,
             settings_file_path_or_contents=settings_file,
             design_file_path_or_contents=design_file,
