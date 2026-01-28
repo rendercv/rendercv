@@ -1,1 +1,0 @@
-- <<entry.label>>: <<entry.details>>

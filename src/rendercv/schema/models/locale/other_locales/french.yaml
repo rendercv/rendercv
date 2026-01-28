@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: french
+  last_updated: Dernière mise à jour
+  month: mois
+  months: mois
+  year: an
+  years: ans
+  present: présent
+  month_abbreviations:
+    - Jan
+    - Fév
+    - Mar
+    - Avr
+    - Mai
+    - Juin
+    - Juil
+    - Aoû
+    - Sep
+    - Oct
+    - Nov
+    - Déc
+  month_names:
+    - Janvier
+    - Février
+    - Mars
+    - Avril
+    - Mai
+    - Juin
+    - Juillet
+    - Août
+    - Septembre
+    - Octobre
+    - Novembre
+    - Décembre

@@ -1,18 +1,40 @@
 name: Test
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
   push:
     branches:
-      - "*"
+      - main
   pull_request:
     branches:
       - "*"
-  workflow_call: # to make the workflow triggerable from other workflows (publish-to-pypi.yaml)
+  workflow_call: # to make the workflow triggerable from other workflows
   workflow_dispatch: # to make the workflow triggerable manually
 
 # The workflow:
 jobs:
+  prek:
+    name: Run pre-commit checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install the project
+        run: just sync
+
+      - name: Run prek
+        uses: j178/prek-action@v1
+        with:
+          extra-args: --all-files
+      
   test:
     name: Test with Py${{ matrix.python-version }} on ${{ matrix.os }}
 
@@ -20,62 +42,65 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, windows, macos]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.12", "3.13", "3.14"]
 
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
+      - uses: actions/checkout@v6
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install just
+        uses: taiki-e/install-action@just
 
       - name: Test
-        run: hatch run test.py${{ matrix.python-version }}:test-and-report
+        run: just test-coverage
 
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
-      - name: Store coverage files
-        uses: actions/upload-artifact@v4
+      - name: Upload coverage as an artifact
+        uses: actions/upload-artifact@v5
         with:
           include-hidden-files: true
           name: coverage-${{ matrix.python-version }}-${{ matrix.os }}
           path: .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
   report-coverage:
-    # Run only if the workflow was triggered by a push event
-    if: github.event_name == 'push'
     name: Generate the coverage report
     needs: [test]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Download coverage files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v6
         with:
           pattern: coverage-* # download all the uploaded coverage reports
           path: coverage
           merge-multiple: true # download them in the same folder
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install just
+        uses: taiki-e/install-action@just
 
       - name: Combine coverage files
         run: |
-          hatch run coverage combine coverage
-          hatch run coverage report
-          hatch run coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
+          uv run --frozen coverage combine coverage
+          uv run --frozen coverage report
+          uv run --frozen coverage html --show-contexts --title "RenderCV coverage for ${{ github.sha }}"
 
       - name: Upload the coverage report to smokeshow
-        run: |
-          pip install smokeshow==0.4.0
-          smokeshow upload ./htmlcov
+        run: uv tool run smokeshow==0.4.0 upload ./htmlcov
         env:
-          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: Coverage {coverage-percentage}
+          SMOKESHOW_GITHUB_STATUS_DESCRIPTION: ${{ github.event_name != 'pull_request' && 'Coverage {coverage-percentage}' || '' }}
           SMOKESHOW_GITHUB_COVERAGE_THRESHOLD: 90
+          SMOKESHOW_GITHUB_CONTEXT: coverage
           SMOKESHOW_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SMOKESHOW_GITHUB_PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}

@@ -1,6 +1,27 @@
 repos:
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.4
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
     hooks:
-      # Run the linter.
-      - id: ruff
+      - id: check-added-large-files
+      - id: check-toml
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.1
+    hooks:
+      - id: codespell
+        args:
+          - --skip=src/rendercv/schema/models/locale/other_locales/*
+          - --exclude-file=schema.json
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.10
+    hooks:
+      - id: ruff-check
+      - id: ruff-format
+  - repo: local
+    hooks:
+      - id: ty-check
+        name: ty-check
+        language: python
+        entry: ty check src tests
+        pass_filenames: false
+        args: [--python=.venv/]
+        additional_dependencies: [ty]

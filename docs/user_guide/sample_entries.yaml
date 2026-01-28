@@ -23,6 +23,7 @@ experience_entry:
 normal_entry:
   name: Some Project
   date: 2021-09
+  summary: This is a summary of the project.
   highlights:
     - Developed a web application with **React** and **Django**.
     - Implemented a **RESTful API**
@@ -45,6 +46,12 @@ one_line_entry:
 
 bullet_entry:
   bullet: This is a bullet entry.
+
+numbered_entry:
+  number: This is a numbered entry.
+
+reversed_numbered_entry:
+  reversed_number: This is a reversed numbered entry.
 
 text_entry: This is a *TextEntry*. It is only a text and can be useful for
   sections like **Summary**. To showcase the TextEntry completely,

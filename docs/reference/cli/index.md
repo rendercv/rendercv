@@ -1,3 +1,0 @@
-# `rendercv.cli`
-
-::: rendercv.cli

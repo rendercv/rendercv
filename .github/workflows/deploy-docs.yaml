@@ -22,26 +22,26 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
 
-      - name: Build the website
-        run: |
-          hatch run docs:build
+      - name: Install just
+        uses: taiki-e/install-action@just
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - name: Build docs
+        run: just build-docs
+
+      - name: Upload the website as an artifact
+        uses: actions/upload-pages-artifact@v4
         with:
           path: site
 
-  # Deployment job
   deploy:
     name: Deploy
     environment:

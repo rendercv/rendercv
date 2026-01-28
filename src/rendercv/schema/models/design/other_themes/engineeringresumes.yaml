@@ -1,0 +1,62 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: engineeringresumes
+  page:
+    show_footer: false
+  typography:
+    font_family:
+      body: XCharter
+      name: XCharter
+      headline: XCharter
+      connections: XCharter
+      section_titles: XCharter
+    font_size:
+      name: "25pt"
+      section_titles: "1.2em"
+    bold:
+      name: false
+  header:
+    connections:
+      separator: "|"
+      show_icons: false
+      display_urls_instead_of_usernames: true
+  colors:
+    name: rgb(0,0,0)
+    connections: rgb(0,0,0)
+    headline: rgb(0,0,0)
+    section_titles: rgb(0,0,0)
+    links: rgb(0,0,0)
+  links:
+    underline: true
+    show_external_link_icon: false
+  section_titles:
+    type: with_full_line
+    space_above: "0.5cm"
+    space_below: "0.3cm"
+  sections:
+    space_between_regular_entries: "0.42cm"
+    space_between_text_based_entries: "0.15cm"
+    show_time_spans_in: []
+  entries:
+    short_second_row: false
+    summary:
+      space_above: 0.08cm
+    side_space: "0cm"
+    highlights:
+      bullet: ●
+      nested_bullet: ●
+      space_left: "0cm"
+      space_above: 0.08cm
+      space_between_items: 0.08cm
+      space_between_bullet_and_text: 0.3em
+  templates:
+    education_entry:
+      main_column: "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
+    normal_entry:
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

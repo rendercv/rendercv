@@ -1,0 +1,32 @@
+import rich
+import rich.panel
+from rich import print
+
+from rendercv import __version__
+
+
+def print_welcome():
+    """Display welcome banner with version and useful links.
+
+    Why:
+        New users need guidance on where to find documentation and support.
+    """
+    print(f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n")
+    links = {
+        "RenderCV App": "https://rendercv.com",
+        "Documentation": "https://docs.rendercv.com",
+        "Source code": "https://github.com/rendercv/rendercv/",
+        "Bug reports": "https://github.com/rendercv/rendercv/issues/",
+    }
+    link_strings = [
+        f"[bold cyan]{title + ':':<15}[/bold cyan] [link={link}]{link}[/link]"
+        for title, link in links.items()
+    ]
+    link_panel = rich.panel.Panel(
+        "\n".join(link_strings),
+        title="Useful Links",
+        title_align="left",
+        border_style="bright_black",
+    )
+
+    print(link_panel)

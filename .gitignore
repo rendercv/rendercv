@@ -165,10 +165,7 @@ cython_debug/
 # VSCode
 .vscode/
 
-# Personal CVs
-*_CV.yaml
-*_cv.py
-*_CV.typ
+# RenderCV output
 rendercv_output/
 
 # Include reference files
@@ -184,6 +181,16 @@ rendercv_output/
 
 # Mac:
 .DS_Store
+
+# Profiling:
+render_command.prof
+
+# Executables:
+bin/
+
+# Coverage:
+coverage.md
+
 
 # Virtual Env Created by pyenv
 .python-version
