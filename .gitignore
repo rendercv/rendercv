@@ -165,10 +165,7 @@ cython_debug/
 # VSCode
 .vscode/
 
-# Personal CVs
-*_CV.yaml
-*_cv.py
-*_CV.typ
+# RenderCV output
 rendercv_output/
 
 # Include reference files
@@ -190,3 +187,6 @@ render_command.prof
 
 # Executables:
 bin/
+
+# Coverage:
+coverage.md

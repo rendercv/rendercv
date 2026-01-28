@@ -1,3 +1,0 @@
-# `rendercv.data`
-
-::: rendercv.data

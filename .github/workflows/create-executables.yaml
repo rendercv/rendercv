@@ -1,8 +1,8 @@
 name: Create executables
 
-# GitHub events that triggers the workflow:
+# GitHub events that trigger the workflow:
 on:
-  workflow_call: # to make the workflow triggerable from other workflows (publish-a-release.yaml)
+  workflow_call: # to make the workflow triggerable from other workflows
   workflow_dispatch: # to make the workflow triggerable manually
 
 jobs:
@@ -19,17 +19,19 @@ jobs:
       contents: write
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - name: Install Hatch
-        uses: pypa/hatch@install
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Install just
+        uses: taiki-e/install-action@just
 
       - name: Create executable
-        run: |
-          hatch run exe:create
+        run: just create-executable
 
       - name: Upload executable as an artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: rendercv-${{ matrix.os }}
           path: bin/*

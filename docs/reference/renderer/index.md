@@ -1,3 +1,0 @@
-# `rendercv.renderer`
-
-::: rendercv.renderer

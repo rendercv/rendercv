@@ -1,8 +1,6 @@
-site_name: RenderCV Engine
-site_description: A Python package with CLI tool to write and version-control CVs and resumes as source code
-site_author: RenderCV Team
-copyright: Copyright &copy; 2023 - 2024 RenderCV
-site_url: https://docs.rendercv.com
+site_name: RenderCV
+site_description: Typst-based CV/resume generator for academics and engineers
+copyright: Copyright &copy; 2023 - 2026 RenderCV
 repo_url: https://github.com/rendercv/rendercv
 repo_name: rendercv/rendercv
 edit_uri: edit/main/docs/
@@ -37,7 +35,8 @@ theme:
     - content.action.view # view source button for pages
     - content.action.edit # view source button for pages
     - navigation.footer # the previous and next buttons in the footer
-    - navigation.indexes # allow mother pages to have their own index pages
+    - navigation.tabs # Top navbar
+    # - navigation.indexes # allow mother pages to have their own index pages
     - navigation.instant # instant navigation for faster page loads
     - navigation.instant.prefetch # prefetch pages for instant navigation
     - navigation.instant.progress # show progress bar for instant navigation
@@ -51,58 +50,43 @@ theme:
     - content.tabs.link # switch all the content tabs to the same label
 
 nav:
-  - Overview: index.md
   - User Guide:
-      - User Guide: user_guide/index.md
-      - Structure of the YAML input file: user_guide/structure_of_the_yaml_input_file.md
-      - CLI: user_guide/cli.md
-      - FAQ: user_guide/faq.md
+      - Welcome: index.md
+      - Get Started: user_guide/index.md
+      - CLI Reference: user_guide/cli_reference.md
+      - YAML Input Structure:
+          - Overview: user_guide/yaml_input_structure/index.md
+          - cv Field: user_guide/yaml_input_structure/cv.md
+          - design Field: user_guide/yaml_input_structure/design.md
+          - locale Field: user_guide/yaml_input_structure/locale.md
+          - settings Field: user_guide/yaml_input_structure/settings.md
+      - How-To Guides:
+          - Set Up VS Code for RenderCV: user_guide/how_to/set_up_vs_code_for_rendercv.md
+          - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
+          - Custom Fonts: user_guide/how_to/custom_fonts.md
+          - Override Default Templates: user_guide/how_to/override_default_templates.md
   - Developer Guide:
-      - Developer Guide: developer_guide/index.md
-      - Writing Documentation: developer_guide/writing_documentation.md
+      - Setup: developer_guide/index.md
+      - Project Management: developer_guide/project_management.md
+      - Understanding RenderCV: developer_guide/understanding_rendercv.md
       - Testing: developer_guide/testing.md
-      - FAQ: developer_guide/faq.md
-  - API Reference:
-      - Reference: reference/index.md
-      - api:
-          - api: reference/api/index.md
-          - functions.py: reference/api/functions.md
-      - cli:
-          - cli: reference/cli/index.md
-          - commands.py: reference/cli/commands.md
-          - printer.py: reference/cli/printer.md
-          - utilities.py: reference/cli/utilities.md
-      - data:
-          - data: reference/data/index.md
-          - models:
-              - models: reference/data/models/index.md
-              - base.py: reference/data/models/base.md
-              - computers.py: reference/data/models/computers.md
-              - entry_types.py: reference/data/models/entry_types.md
-              - curriculum_vitae.py: reference/data/models/curriculum_vitae.md
-              - design.py: reference/data/models/design.md
-              - locale.py: reference/data/models/locale.md
-              - rendercv_settings.py: reference/data/models/rendercv_settings.md
-              - rendercv_data_model.py: reference/data/models/rendercv_data_model.md
-          - generator.py: reference/data/generator.md
-          - reader.py: reference/data/reader.md
-      - renderer:
-          - renderer: reference/renderer/index.md
-          - renderer.py: reference/renderer/renderer.md
-          - templater.py: reference/renderer/templater.md
-      - themes:
-          - themes: reference/themes/index.md
-          - options.py: reference/themes/options.md
-          - classic: reference/themes/classic.md
-          - engineeringresumes: reference/themes/engineeringresumes.md
-          - sb2nov: reference/themes/sb2nov.md
-          - moderncv: reference/themes/moderncv.md
-          - engineeringclassic: reference/themes/engineeringclassic.md
-          - components: reference/themes/components.md
-  - Changelog:
-      - Changelog: changelog/index.md
+      - Documentation: developer_guide/documentation.md
+      - JSON Schema: developer_guide/json_schema.md
+      - GitHub Workflows: developer_guide/github_workflows.md
+      - Dockerfile: developer_guide/dockerfile.md
+      - Code Guidelines:
+          - Source Code: developer_guide/code_guidelines/source_code.md
+          - Tests: developer_guide/code_guidelines/tests.md
+      - How-To Guides:
+          - Add Theme: developer_guide/how_to/add_theme.md
+          - Add Locale: developer_guide/how_to/add_locale.md
+          - Add Social Network: developer_guide/how_to/add_social_network.md
+  - API Reference: api_reference/
+  - Changelog: changelog.md
+  - Web App: https://app.rendercv.com
 
 markdown_extensions:
+  - github-callouts
   # see https://facelessuser.github.io/pymdown-extensions/extensions/inlinehilite/ for more pymdownx info
   - pymdownx.highlight:
       anchor_linenums: true
@@ -124,19 +108,42 @@ markdown_extensions:
 
 plugins:
   - search
+  - literate-nav:
+      nav_file: SUMMARY.md
+  - gen-files:
+      scripts:
+        - docs/api_reference/api_reference.py
   - macros: # mkdocs-macros-plugin
-      module_name: docs/dynamic_content_generation
+      module_name: docs/docs_templating
+      j2_block_start_string: "{$"
+      j2_block_end_string: "$}"
+      j2_variable_start_string: "<<"
+      j2_variable_end_string: ">>"
   - mkdocstrings:
       handlers:
         python:
-          paths:
-            - rendercv
           options:
-            members_order: source
+            members_order: alphabetical
             show_bases: true
             docstring_section_style: list
             docstring_style: google
-
+            inherited_members: true
+            show_root_heading: true
+            heading_level: 1
+            show_symbol_type_heading: True
+            show_root_full_path: false
+            show_symbol_type_toc: true
+            signature_crossrefs: true
+            show_docstring_attributes: true
+            show_source: true
+            show_submodules: false
+            merge_init_into_class: true
+            annotations_path: brief
+            show_signature: true
+            show_docstring_examples: true
+            show_docstring_type_aliases: true
+            show_overloads: false
+            show_if_no_docstring: true
 extra_javascript:
   - assets/javascripts/katex.js
   - https://unpkg.com/katex@0/dist/katex.min.js

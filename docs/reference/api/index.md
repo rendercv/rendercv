@@ -1,3 +1,0 @@
-# `rendercv.api`
-
-::: rendercv.api

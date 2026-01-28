@@ -4,67 +4,74 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import zipfile
 
+root_path = pathlib.Path(__file__).parent.parent
 
-def create_executable():
-    # Make sure the current working directory is the root of the project:
-    root = pathlib.Path(__file__).parent.parent
+platform_names = {
+    "linux": "linux",
+    "darwin": "macos",
+    "win32": "windows",
+}
 
-    with tempfile.TemporaryDirectory() as temp_dir:
-        # copy rendercv to temp directory
-        shutil.copytree(root / "rendercv", pathlib.Path(temp_dir) / "rendercv")
-        temp_directory = pathlib.Path(temp_dir)
-        rendercv_file_path = temp_directory / "rendercv.py"
-        rendercv_file_path.touch()
-        rendercv_file_path.write_text("import rendercv.cli as cli; cli.app()")
+machine_names = {
+    "AMD64": "x86_64",
+    "x86_64": "x86_64",
+    "aarch64": "ARM64",
+    "arm64": "ARM64",
+}
 
-        # Run pyinstaller:
-        subprocess.run(
-            [
-                sys.executable,
-                "-m",
-                "PyInstaller",
-                "--onefile",
-                "--clean",
-                "--collect-all",
-                "rendercv",
-                "--collect-all",
-                "rendercv_fonts",
-                "--distpath",
-                "bin",
-                str(rendercv_file_path),
-            ],
-            check=True,
-        )
+with tempfile.TemporaryDirectory() as temp_dir:
+    temp_path = pathlib.Path(temp_dir)
 
-        # Rename the executable:
-        platform_name = {
-            "linux": "linux",
-            "darwin": "macos",
-            "win32": "windows",
-        }
-        machine_name = {
-            "AMD64": "x86_64",
-            "x86_64": "x86_64",
-            "aarch64": "ARM64",
-            "arm64": "ARM64",
-        }
-        executable_path = {
-            "linux": root / "bin" / "rendercv",
-            "darwin": root / "bin" / "rendercv",
-            "win32": root / "bin" / "rendercv.exe",
-        }
-        new_executable_path = (
-            root
-            / "bin"
-            / f"rendercv-{platform_name[sys.platform]}-{machine_name[platform.machine()]}"
-        )
-        if sys.platform == "win32":
-            new_executable_path = new_executable_path.with_suffix(".exe")
-        executable_path[sys.platform].rename(new_executable_path)
+    # Copy rendercv to temp directory
+    shutil.copytree(root_path / "src" / "rendercv", temp_path / "rendercv")
 
-    print('Executable created at "bin" folder.')  # NOQA: T201
+    # Create entry point script
+    rendercv_file = temp_path / "rendercv.py"
+    rendercv_file.write_text("import rendercv.cli.app as app; app.app()")
 
+    # Run PyInstaller
+    subprocess.run(
+        [
+            sys.executable,
+            "-m",
+            "PyInstaller",
+            "--onefile",
+            "--clean",
+            "--collect-all",
+            "rendercv",
+            "--collect-all",
+            "rendercv_fonts",
+            "--distpath",
+            "bin",
+            str(rendercv_file),
+        ],
+        check=True,
+    )
 
-if __name__ == "__main__":
-    create_executable()
+    # Determine executable name based on platform
+    platform_name = platform_names[sys.platform]
+    machine_name = machine_names[platform.machine()]
+
+    # Get original and new executable paths
+    match sys.platform:
+        case "win32":
+            original_name = "rendercv.exe"
+            new_name = f"rendercv-{platform_name}-{machine_name}.exe"
+        case _:
+            original_name = "rendercv"
+            new_name = f"rendercv-{platform_name}-{machine_name}"
+
+    original_path = root_path / "bin" / original_name
+    executable_path = root_path / "bin" / new_name
+    original_path.rename(executable_path)
+
+# Create zip archive with preserved executable permissions
+zip_path = executable_path.with_suffix(".zip")
+
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+    zipinfo = zipfile.ZipInfo(executable_path.name)
+    # Set Unix executable permissions (rwxr-xr-x) - 0o755 shifted to external_attr position
+    zipinfo.external_attr = 0o755 << 16
+    zipf.writestr(zipinfo, executable_path.read_bytes())

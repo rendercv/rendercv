@@ -1,3 +1,0 @@
-#  `rendercv.themes`
-
-::: rendercv.themes

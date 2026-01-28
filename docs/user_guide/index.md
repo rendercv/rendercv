@@ -1,79 +1,76 @@
-# User Guide
-
-This page provides everything you need to know about the usage of RenderCV.
+# Get Started
 
 ## Installation
 
-1. Install [Python](https://www.python.org/downloads/) (3.10 or newer).
+1. Install [Python](https://www.python.org/downloads/) (3.12 or newer).
 
 2. Run the command below to install RenderCV.
 
-```bash
-pip install "rendercv[full]"
-```
+    === "pip"
 
-## Getting started
+        ```
+        pip install "rendercv[full]"
+        ```
 
-To get started, navigate to the directory where you want to create your CV and run the command below to create the input files.
+    === "pipx"
 
-```bash
-rendercv new "Your Full Name"
-```
-This command will create the following files:
+        ```
+        pipx install "rendercv[full]"
+        ```
 
--   A YAML input file called `Your_Name_CV.yaml`.
+    === "uv"
 
-    This file contains the content and design options of your CV. A detailed explanation of the structure of the YAML input file is provided [here](structure_of_the_yaml_input_file.md).
+        ```
+        uv tool install "rendercv[full]"
+        ```
 
--   A directory called `classic`.
+    === "Docker"
 
-    This directory contains the Typst templates of RenderCV's default built-in theme, `classic`. You can update its contents to tweak the appearance of the output PDF file.
+        Docker image is available at [ghcr.io/rendercv/rendercv](https://github.com/rendercv/rendercv/pkgs/container/rendercv).
 
--   A directory called `markdown`.
+        ```bash
+        docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv new "Your Name"
+        ```
 
-    This directory contains the templates of RenderCV's default Markdown template. You can update its contents to tweak the Markdown and HTML output of the CV. 
+## Quick Start
 
-!!! note "A note about `classic` and `markdown` directories"
-    It's optional to have the `classic` and `markdown` directories. If you don't have them, RenderCV will use the built-in theme and Markdown templates.
+1. Create a new CV YAML input file
 
-!!! info    
-    Refer to the [here](cli.md#rendercv-new-command) for the complete list of CLI options available for the `new` command.
+    ```bash
+    rendercv new "Your Name"
+    ```
 
-Then, open the `Your_Name_CV.yaml` file in your favorite text editor and fill it with your information. See the [structure of the YAML input file](structure_of_the_yaml_input_file.md) for more information about the YAML input file.
+    This creates a YAML input file called `Your_Name_CV.yaml`. This file contains the content, design options, translations and settings for RenderCV. See [YAML Input Structure](yaml_input_structure/index.md) for the full reference.
 
-Finally, render the YAML input file to generate your CV.
+    See the [CLI Reference](cli_reference.md#rendercv-new) for the complete list of options available for the `new` command.
 
-```bash
-rendercv render "Your_Name_CV.yaml"
-```
+    !!! tip
+        To get started with another language or theme, you can use the `--locale` and `--theme` options:
 
-This command will generate a directory called `rendercv_output`, which contains the following files:
+        ```bash
+        rendercv new "Your Name" --locale "turkish" --theme "engineeringresumes"
+        ```
 
--   The CV in PDF format, `Your_Name_CV.pdf`.
--   Typst source code of the PDF file, `Your_Name_CV.typ`.
--   Images of each page of the PDF file in PNG format, `Your_Name_CV_1.png`, `Your_Name_CV_page_2.png`, etc.
--   The CV in Markdown format, `Your_Name_CV.md`.
--   The CV in HTML format, `Your_Name_CV.html`. You can open this file in a web browser and copy-paste the content to Grammarly for proofreading.
 
-To have RenderCV run automatically whenever the YAML input file is updated, use the `--watch` option.
+2. Render the YAML input file with
 
-```bash
-rendercv render --watch "Your_Name_CV.yaml"
-```
+    ```bash
+    rendercv render "Your_Name_CV.yaml"
+    ```
 
-!!! info
-    Refer to the [here](cli.md#rendercv-render-command) for the complete list of CLI options available for the `render` command.
+    This generates a `rendercv_output/` directory containing:
 
-## Overriding built-in themes
+    - `John_Doe_CV.pdf`: Your CV as PDF
+    - `John_Doe_CV.typ`: [Typst](https://typst.app) source code of the PDF
+    - `John_Doe_CV_1.png`, `..._2.png`, ...: PNG images of each page of the PDF
+    - `John_Doe_CV.md`: Your CV as Markdown
+    - `John_Doe_CV.html`: Your CV as HTML (generated from the Markdown)
 
-If the theme and Markdown templates are found in the directory, they will override the default built-in theme and Markdown templates. You don't need to provide all the files; you can just provide the ones you want to override.
+    See the [CLI Reference](cli_reference.md#rendercv-render) for the complete list of options available for the `render` command.
 
-For example, `ExperienceEntry` of the `classic` theme can be modified as shown below.
+    !!! tip
+        To re-render automatically whenever you save changes, use the `--watch` option:
 
-``` { .sh .no-copy }
-├── classic
-│   └── ExperienceEntry.j2.typ # (1)!
-└── Your_Full_Name_CV.yaml
-```
-
-1.  This file will override the built-in `ExperienceEntry.j2.typ` template of the `classic` theme.
+        ```bash
+        rendercv render --watch "Your_Name_CV.yaml"
+        ```
