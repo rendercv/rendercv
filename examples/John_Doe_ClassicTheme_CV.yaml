@@ -148,11 +148,11 @@ cv:
         summary: A web application for writing essays
       - name: '[Teaching on Udemy](https://example.com)'
         date: Fall 2023
-        tags: [Statics, Online Education]
+        tags: [Engineering, Online Education]
         highlights:
           - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
           - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
-          - Instructed the "Statics" course on Udemy (60,000+
+          - Instructed the "Engineering Mechanics" course on Udemy (60,000+
             students, 200,000+ hours watched)
     skills:
       - label: Programming

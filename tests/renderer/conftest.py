@@ -18,7 +18,8 @@ from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.numbered import NumberedEntry
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
-from rendercv.schema.models.cv.entries.reversed_numbered import ReversedNumberedEntry
+from rendercv.schema.models.cv.entries.reversed_numbered import \
+    ReversedNumberedEntry
 from rendercv.schema.models.cv.social_network import SocialNetwork
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.models.settings.settings import Settings
@@ -282,6 +283,8 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
         "bullet": "This is a bullet entry.",
         "number": "This is a numbered entry.",
         "reversed_number": "This is a reversed numbered entry.",
+        "tags": ["tag1", "tag2"],
+        "content": "This is a text entry content.",
     }
 
     field_type_dictionary = {

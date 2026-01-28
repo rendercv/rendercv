@@ -11,10 +11,9 @@ from rendercv.renderer.html import generate_html
 from rendercv.renderer.markdown import generate_markdown
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
 from rendercv.renderer.typst import generate_typst
+from rendercv.schema.filter import filter_rendercv_model_by_version
 from rendercv.schema.rendercv_model_builder import (
-    BuildRendercvModelArguments,
-    build_rendercv_dictionary_and_model,
-)
+    BuildRendercvModelArguments, build_rendercv_dictionary_and_model)
 
 from .progress_panel import ProgressPanel
 
@@ -95,9 +94,12 @@ def run_rendercv(
     Args:
         main_input_file_path_or_contents: YAML file path or raw content string.
         progress: Progress panel for output display.
-        kwargs: Optional overrides for design/locale files, output paths, and generation flags.
+        kwargs: Optional overrides for design/locale files, output paths, generation flags, and version.
     """
     try:
+        # Extract version from kwargs before passing to build function
+        version_name = kwargs.pop("version", None) if "version" in kwargs else None
+
         _, rendercv_model = timed_step(
             "Validated the input file",
             progress,
@@ -105,6 +107,18 @@ def run_rendercv(
             main_input_file_path_or_contents,
             **kwargs,
         )
+
+        # Apply version filtering if specified
+        if version_name:
+            rendercv_model = filter_rendercv_model_by_version(
+                rendercv_model, version_name
+            )
+            progress.update_progress(
+                time_took="0",
+                message=f"Filtered for version '{version_name}'",
+                paths=[],
+            )
+
         typst_path = timed_step(
             "Generated Typst",
             progress,

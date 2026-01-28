@@ -8,7 +8,8 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import compute_time_span_string, format_date_range, format_single_date
+from .date import (compute_time_span_string, format_date_range,
+                   format_single_date)
 from .string_processor import clean_url, substitute_placeholders
 
 uppercase_word_pattern = re.compile(r"\b[A-Z_]+\b")
@@ -48,7 +49,9 @@ def render_entry_templates[EntryType: Entry](
     ).model_dump(exclude_none=True)
 
     entry_fields: dict[str, str | str] = {
-        key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
+        key.upper(): value
+        for key, value in entry.model_dump(exclude_none=True).items()
+        if key != "tags"  # Exclude tags - they're metadata for filtering, not content
     }
 
     # Handle special placeholders:

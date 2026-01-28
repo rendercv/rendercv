@@ -11,6 +11,15 @@ entry_type_to_snake_case_pattern = re.compile(r"(?<!^)(?=[A-Z])")
 class BaseEntry(BaseModelWithExtraKeys):
     model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 
+    tags: list[str] | None = pydantic.Field(
+        default=None,
+        title="Tags",
+        description=(
+            "Tags for this entry. Used for filtering entries when generating "
+            "different versions of the CV."
+        ),
+    )
+
     @functools.cached_property
     def entry_type_in_snake_case(self) -> str:
         return entry_type_to_snake_case_pattern.sub(
