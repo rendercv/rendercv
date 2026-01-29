@@ -32,23 +32,23 @@ test-coverage:
 
 # Docs:
 build-docs:
-  uv run --frozen --all-extras mkdocs build --clean --strict
+  uv run --frozen --all-extras --active mkdocs build --clean --strict
 
 serve-docs:
-  uv run --frozen --all-extras mkdocs serve --watch-theme
+  uv run --frozen --all-extras --active mkdocs serve --watch-theme
 
 # Scripts:
 update-schema:
-  uv run --frozen --all-extras scripts/update_schema.py
+  uv run --frozen --all-extras --active scripts/update_schema.py
 
 update-examples:
-  uv run --frozen --all-extras scripts/update_examples.py
+  uv run --frozen --all-extras --active scripts/update_examples.py
 
 update-entry-figures:
-  uv run --frozen --all-extras --group update-entry-figures scripts/update_entry_figures.py
+  uv run --frozen --all-extras --active --group update-entry-figures scripts/update_entry_figures.py
 
 create-executable:
-  uv run --frozen --all-extras --no-default-groups --group create-executable scripts/create_executable.py
+  uv run --frozen --all-extras --active --no-default-groups --group create-executable scripts/create_executable.py
 
 # Utilities:
 count-lines:
