@@ -110,7 +110,7 @@ def find_version(rendercv_model: RenderCVModel, version_name: str) -> Version:
     if rendercv_model.versions is None:
         raise RenderCVUserError(
             message=(
-                f"No versions are defined in the input file, but --version "
+                "No versions are defined in the input file, but --version "
                 f"'{version_name}' was specified."
             )
         )

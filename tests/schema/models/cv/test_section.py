@@ -3,19 +3,18 @@ import pytest
 
 # They are called dynamically in the test with `eval(f"{entry_type}(**entry)")`.
 from rendercv.schema.models.cv.entries.bullet import BulletEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.education import \
-    EducationEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.experience import \
-    ExperienceEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.education import EducationEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.experience import ExperienceEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.one_line import \
-    OneLineEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.publication import \
-    PublicationEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.text import TextEntry  # NOQA: F401
 from rendercv.schema.models.cv.section import (
-    Section, available_entry_models, dictionary_key_to_proper_section_title,
-    get_entry_type_name_and_section_model)
+    Section,
+    available_entry_models,
+    dictionary_key_to_proper_section_title,
+    get_entry_type_name_and_section_model,
+)
 
 
 @pytest.mark.parametrize(

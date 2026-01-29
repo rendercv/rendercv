@@ -13,7 +13,9 @@ from rendercv.renderer.pdf_png import generate_pdf, generate_png
 from rendercv.renderer.typst import generate_typst
 from rendercv.schema.filter import filter_rendercv_model_by_version
 from rendercv.schema.rendercv_model_builder import (
-    BuildRendercvModelArguments, build_rendercv_dictionary_and_model)
+    BuildRendercvModelArguments,
+    build_rendercv_dictionary_and_model,
+)
 
 from .progress_panel import ProgressPanel
 

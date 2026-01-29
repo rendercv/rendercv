@@ -18,8 +18,7 @@ from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.numbered import NumberedEntry
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
-from rendercv.schema.models.cv.entries.reversed_numbered import \
-    ReversedNumberedEntry
+from rendercv.schema.models.cv.entries.reversed_numbered import ReversedNumberedEntry
 from rendercv.schema.models.cv.social_network import SocialNetwork
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.models.settings.settings import Settings

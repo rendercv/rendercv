@@ -3,10 +3,13 @@
 import pytest
 
 from rendercv.exception import RenderCVUserError
-from rendercv.schema.filter import (filter_entries,
-                                    filter_rendercv_model_by_version,
-                                    find_version, get_entry_tags,
-                                    should_include_entry)
+from rendercv.schema.filter import (
+    filter_entries,
+    filter_rendercv_model_by_version,
+    find_version,
+    get_entry_tags,
+    should_include_entry,
+)
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.bullet import BulletEntry
 from rendercv.schema.models.cv.entries.experience import ExperienceEntry
@@ -72,7 +75,9 @@ class TestShouldIncludeEntry:
         assert not should_include_entry(
             entry, include_tags=None, exclude_tags=["internal"]
         )
-        assert not should_include_entry(entry, include_tags=None, exclude_tags=["draft"])
+        assert not should_include_entry(
+            entry, include_tags=None, exclude_tags=["draft"]
+        )
 
     def test_entry_without_matching_exclude_tag_included(self):
         """Test that entries without matching exclude tags are included."""
@@ -95,8 +100,12 @@ class TestShouldIncludeEntry:
 
     def test_plain_string_always_included(self):
         """Test that plain strings are always included (no tags)."""
-        assert should_include_entry("Plain text", include_tags=["any"], exclude_tags=None)
-        assert should_include_entry("Plain text", include_tags=None, exclude_tags=["any"])
+        assert should_include_entry(
+            "Plain text", include_tags=["any"], exclude_tags=None
+        )
+        assert should_include_entry(
+            "Plain text", include_tags=None, exclude_tags=["any"]
+        )
 
 
 class TestFilterEntries:
