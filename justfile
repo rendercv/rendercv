@@ -1,6 +1,6 @@
 # Development:
 sync:
-  uv sync --frozen --all-extras
+  uv sync --frozen --all-extras --active
 
 lock:
   uv lock
