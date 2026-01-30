@@ -2620,7 +2620,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2629,12 +2636,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"
@@ -2781,7 +2803,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2790,12 +2819,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"
@@ -2933,7 +2977,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2942,12 +2993,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"

@@ -149,8 +149,7 @@ def filter_entries(
 
     # Filter highlights within each remaining entry
     return [
-        filter_entry_highlights(entry, include_tags, exclude_tags)
-        for entry in filtered
+        filter_entry_highlights(entry, include_tags, exclude_tags) for entry in filtered
     ]
 
 
