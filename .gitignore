@@ -190,7 +190,3 @@ bin/
 
 # Coverage:
 coverage.md
-
-
-# Virtual Env Created by pyenv
-.python-version
