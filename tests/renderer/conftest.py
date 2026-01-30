@@ -282,6 +282,8 @@ def return_value_for_field(field_name: str, field_type: typing.Any) -> typing.An
         "bullet": "This is a bullet entry.",
         "number": "This is a numbered entry.",
         "reversed_number": "This is a reversed numbered entry.",
+        "tags": ["tag1", "tag2"],
+        "content": "This is a text entry content.",
     }
 
     field_type_dictionary = {

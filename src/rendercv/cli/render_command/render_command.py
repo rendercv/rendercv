@@ -3,9 +3,7 @@ from typing import Annotated
 
 import typer
 
-from rendercv.schema.rendercv_model_builder import (
-    BuildRendercvModelArguments,
-)
+from rendercv.schema.rendercv_model_builder import BuildRendercvModelArguments
 
 from ..app import app
 from ..error_handler import handle_user_errors
@@ -155,6 +153,17 @@ def cli_command_render(
             help="If provided, the PNG file will not be generated.",
         ),
     ] = None,
+    version: Annotated[
+        str | None,
+        typer.Option(
+            "--version",
+            "-V",
+            help=(
+                "Generate CV for a specific version defined in the YAML file. "
+                "Only entries matching the version's tag filters will be included."
+            ),
+        ),
+    ] = None,
     watch: Annotated[
         bool | None,
         typer.Option(
@@ -201,6 +210,7 @@ def cli_command_render(
         "dont_generate_pdf": dont_generate_pdf,
         "dont_generate_png": dont_generate_png,
         "overrides": parse_override_arguments(extra_data_model_override_arguments),
+        "version": version,
     }
     input_file_path = pathlib.Path(input_file_name)
 

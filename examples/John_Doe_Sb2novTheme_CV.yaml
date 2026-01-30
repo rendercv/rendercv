@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.5/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.6/schema.json
 cv:
   name: John Doe
   headline:
@@ -18,7 +18,8 @@ cv:
       - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
       - See the [documentation](https://docs.rendercv.com) for more details.
     education:
-      - institution: Princeton University
+      - tags:
+        institution: Princeton University
         area: Computer Science
         degree: PhD
         date:
@@ -30,7 +31,8 @@ cv:
           - 'Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment'
           - 'Advisor: Prof. Sanjeev Arora'
           - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
-      - institution: Boğaziçi University
+      - tags:
+        institution: Boğaziçi University
         area: Computer Engineering
         degree: BS
         date:
@@ -42,7 +44,8 @@ cv:
           - 'GPA: 3.97/4.00, Valedictorian'
           - Fulbright Scholarship recipient for graduate studies
     experience:
-      - company: Nexus AI
+      - tags:
+        company: Nexus AI
         position: Co-Founder & CTO
         date:
         start_date: 2023-06
@@ -54,7 +57,8 @@ cv:
           - Raised $18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
           - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
           - Developed proprietary inference optimization reducing latency by 73% compared to baseline
-      - company: NVIDIA Research
+      - tags:
+        company: NVIDIA Research
         position: Research Intern
         date:
         start_date: 2022-05
@@ -64,7 +68,8 @@ cv:
         highlights:
           - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
           - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
-      - company: Google DeepMind
+      - tags:
+        company: Google DeepMind
         position: Research Intern
         date:
         start_date: 2021-05
@@ -77,7 +82,8 @@ cv:
             - ICML 2022 main conference paper, cited 340+ times within two years
             - NeurIPS 2022 workshop paper on emergent communication protocols
             - Invited journal extension in JMLR (2023)
-      - company: Apple ML Research
+      - tags:
+        company: Apple ML Research
         position: Research Intern
         date:
         start_date: 2020-05
@@ -87,7 +93,8 @@ cv:
         highlights:
           - Created on-device neural network compression pipeline deployed across 50M+ devices
           - Filed 2 patents on efficient model quantization techniques for edge inference
-      - company: Microsoft Research
+      - tags:
+        company: Microsoft Research
         position: Research Intern
         date:
         start_date: 2019-05
@@ -98,7 +105,8 @@ cv:
           - Implemented novel self-supervised learning framework for low-resource language modeling
           - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
     projects:
-      - name: '[FlashInfer](https://github.com/)'
+      - tags:
+        name: '[FlashInfer](https://github.com/)'
         date:
         start_date: 2023-01
         end_date: present
@@ -107,7 +115,8 @@ cv:
         highlights:
           - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
           - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
-      - name: '[NeuralPrune](https://github.com/)'
+      - tags:
+        name: '[NeuralPrune](https://github.com/)'
         date: '2021'
         start_date:
         end_date:
@@ -117,7 +126,8 @@ cv:
           - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
           - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
     publications:
-      - title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
+      - tags:
+        title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
         authors:
           - '*John Doe*'
           - Sarah Williams
@@ -127,7 +137,8 @@ cv:
         url:
         journal: NeurIPS 2023
         date: 2023-07
-      - title: Neural Architecture Search via Differentiable Pruning
+      - tags:
+        title: Neural Architecture Search via Differentiable Pruning
         authors:
           - James Liu
           - '*John Doe*'
@@ -136,7 +147,8 @@ cv:
         url:
         journal: NeurIPS 2022, Spotlight
         date: 2022-12
-      - title: Multi-Agent Reinforcement Learning with Emergent Communication
+      - tags:
+        title: Multi-Agent Reinforcement Learning with Emergent Communication
         authors:
           - Maria Garcia
           - '*John Doe*'
@@ -146,7 +158,8 @@ cv:
         url:
         journal: ICML 2022
         date: 2022-07
-      - title: On-Device Model Compression via Learned Quantization
+      - tags:
+        title: On-Device Model Compression via Learned Quantization
         authors:
           - '*John Doe*'
           - Kevin Wu
@@ -156,29 +169,45 @@ cv:
         journal: ICLR 2021, Best Paper Award
         date: 2021-05
     selected_honors:
-      - bullet: MIT Technology Review 35 Under 35 Innovators (2024)
-      - bullet: Forbes 30 Under 30 in Enterprise Technology (2024)
-      - bullet: ACM Doctoral Dissertation Award Honorable Mention (2023)
-      - bullet: Google PhD Fellowship in Machine Learning (2020 – 2023)
-      - bullet: Fulbright Scholarship for Graduate Studies (2018)
+      - tags:
+        bullet: MIT Technology Review 35 Under 35 Innovators (2024)
+      - tags:
+        bullet: Forbes 30 Under 30 in Enterprise Technology (2024)
+      - tags:
+        bullet: ACM Doctoral Dissertation Award Honorable Mention (2023)
+      - tags:
+        bullet: Google PhD Fellowship in Machine Learning (2020 – 2023)
+      - tags:
+        bullet: Fulbright Scholarship for Graduate Studies (2018)
     skills:
-      - label: Languages
+      - tags:
+        label: Languages
         details: Python, C++, CUDA, Rust, Julia
-      - label: ML Frameworks
+      - tags:
+        label: ML Frameworks
         details: PyTorch, JAX, TensorFlow, Triton, ONNX
-      - label: Infrastructure
+      - tags:
+        label: Infrastructure
         details: Kubernetes, Ray, distributed training, AWS, GCP
-      - label: Research Areas
+      - tags:
+        label: Research Areas
         details: Neural architecture search, model compression, efficient inference, multi-agent RL
     patents:
-      - number: Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
-      - number: Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
-      - number: Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
+      - tags:
+        number: Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
+      - tags:
+        number: Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
+      - tags:
+        number: Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
     invited_talks:
-      - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
-      - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
-      - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
-      - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
+      - tags:
+        reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
+      - tags:
+        reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
+      - tags:
+        reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
+      - tags:
+        reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
     any_section_title:
       - You can use any section title you want.
       - 'You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`.'
@@ -352,7 +381,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2025-12-22'
+  current_date: '2026-01-30'
   render_command:
     design:
     locale:
@@ -367,3 +396,4 @@ settings:
     dont_generate_pdf: false
     dont_generate_png: false
   bold_keywords: []
+versions:

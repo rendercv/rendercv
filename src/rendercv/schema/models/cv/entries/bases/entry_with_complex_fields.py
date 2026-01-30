@@ -9,6 +9,7 @@ from rendercv.exception import RenderCVInternalError
 
 from .....pydantic_error_handling import CustomPydanticErrorTypes
 from ....validation_context import get_current_date
+from ..text import TextEntry
 from .entry_with_date import BaseEntryWithDate
 
 
@@ -117,17 +118,24 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
             ),
         ],
     )
-    highlights: list[str] | None = pydantic.Field(
+    highlights: list[str | TextEntry] | None = pydantic.Field(
         default=None,
         description=(
-            "Bullet points for key achievements, responsibilities, or contributions."
+            "Bullet points for key achievements, responsibilities, or contributions. "
+            "Each highlight can be a plain string or a TextEntry with tags for "
+            "version-based filtering."
         ),
         examples=[
             [
                 "Increased system performance by 40% through optimization.",
                 "Mentored 3 junior developers and conducted code reviews.",
                 "Implemented CI/CD pipeline reducing deployment time by 60%.",
-            ]
+            ],
+            [
+                "Always included highlight",
+                {"content": "Academic-focused achievement", "tags": ["academic"]},
+                {"content": "Industry-focused achievement", "tags": ["industry"]},
+            ],
         ],
     )
 

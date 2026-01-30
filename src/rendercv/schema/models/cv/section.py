@@ -16,11 +16,12 @@ from .entries.numbered import NumberedEntry
 from .entries.one_line import OneLineEntry
 from .entries.publication import PublicationEntry
 from .entries.reversed_numbered import ReversedNumberedEntry
+from .entries.text import TextEntry
 
 ########################################################################################
 # Below needs to be updated when new entry types are added.
 
-# str is an entry type (TextEntry) but not a model, so it's not included in EntryModel.
+# str is also accepted for backward compatibility (TextEntry without tags).
 type EntryModel = (
     OneLineEntry
     | NormalEntry
@@ -30,12 +31,13 @@ type EntryModel = (
     | BulletEntry
     | NumberedEntry
     | ReversedNumberedEntry
+    | TextEntry
 )
 type Entry = EntryModel | str
 ########################################################################################
 available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
 available_entry_type_names: tuple[str, ...] = tuple(
-    [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
+    [entry_type.__name__ for entry_type in available_entry_models]
 )
 type ListOfEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
     or_, [list[entry_type] for entry_type in available_entry_models]
@@ -160,7 +162,7 @@ def get_entry_type_name_and_section_model(
             )
 
     elif isinstance(entry, str):
-        # Then it is a TextEntry
+        # Then it is a plain text entry (backward compatible)
         entry_type_name = "TextEntry"
         section_model = section_models[str]
 

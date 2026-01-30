@@ -28,6 +28,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     dont_generate_pdf: bool | None
     dont_generate_png: bool | None
     overrides: dict[str, str] | None
+    version: str | None
 
 
 def build_rendercv_dictionary(

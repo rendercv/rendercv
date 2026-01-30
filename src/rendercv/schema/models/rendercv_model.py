@@ -9,6 +9,7 @@ from .design.design import Design
 from .locale.locale import EnglishLocale, Locale
 from .settings.settings import Settings
 from .validation_context import get_input_file_path
+from .versions import Version
 
 
 class RenderCVModel(BaseModelWithoutExtraKeys):
@@ -39,6 +40,14 @@ class RenderCVModel(BaseModelWithoutExtraKeys):
         default_factory=Settings,
         title="RenderCV Settings",
         description="The settings of the RenderCV.",
+    )
+    versions: list[Version] | None = pydantic.Field(
+        default=None,
+        title="Versions",
+        description=(
+            "Define multiple CV versions with tag-based filtering. Use --version "
+            "CLI flag to generate a specific version."
+        ),
     )
 
     _input_file_path: pathlib.Path | None = pydantic.PrivateAttr(default=None)
