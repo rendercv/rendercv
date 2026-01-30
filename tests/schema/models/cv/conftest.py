@@ -69,6 +69,10 @@ reversed_numbered_entry_dictionary = {
     "reversed_number": "This is a reversed numbered entry.",
 }
 
+text_entry_dictionary = {
+    "content": "This is a TextEntry with tags support.",
+}
+
 
 @pytest.fixture
 def publication_entry() -> dict[str, Any]:
@@ -119,8 +123,14 @@ def reversed_numbered_entry() -> dict[str, Any]:
 
 
 @pytest.fixture
-def text_entry() -> str:
-    """Return a sample text entry."""
+def text_entry() -> dict[str, Any]:
+    """Return a sample text entry as a dict for TextEntry model."""
+    return copy.deepcopy(text_entry_dictionary)
+
+
+@pytest.fixture
+def text_entry_string() -> str:
+    """Return a sample text entry as a plain string (backward compatible)."""
     return (
         "This is a *TextEntry*. It is only a text and can be useful for sections like"
         " **Summary**. To showcase the TextEntry completely, this sentence is added,"

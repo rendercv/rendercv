@@ -65,6 +65,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "bullet": {
           "examples": [
             "Python, JavaScript, C++",
@@ -155,7 +171,7 @@
       "type": "object"
     },
     "Cv": {
-      "additionalProperties": false,
+      "additionalProperties": true,
       "properties": {
         "name": {
           "anyOf": [
@@ -1420,6 +1436,12 @@
             "$ref": "#/$defs/ReversedNumberedEntry"
           },
           "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/TextEntry"
+          },
+          "type": "array"
         }
       ]
     },
@@ -1630,6 +1652,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "number": {
           "examples": [
             "First publication about XYZ",
@@ -1851,6 +1889,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "reversed_number": {
           "description": "Reverse-numbered list item. Numbering goes in reverse (5, 4, 3, 2, 1), making recent items have higher numbers.",
           "examples": [
@@ -2209,6 +2263,41 @@
       "title": "SpanishLocale",
       "type": "object"
     },
+    "TextEntry": {
+      "additionalProperties": true,
+      "description": null,
+      "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
+        "content": {
+          "description": "The text content of the entry.",
+          "examples": [
+            "This is a text entry with optional tags."
+          ],
+          "title": "Content",
+          "type": "string"
+        }
+      },
+      "required": [
+        "content"
+      ],
+      "title": "TextEntry",
+      "type": "object"
+    },
     "TurkishLocale": {
       "additionalProperties": false,
       "properties": {
@@ -2306,10 +2395,98 @@
     "TypstDimension": {
       "type": "string"
     },
+    "Version": {
+      "additionalProperties": false,
+      "description": "A version definition for generating filtered CVs.\n\nEach version specifies which entries to include or exclude based on their tags.\nEntries without tags are always included (permissive filtering).\n\nExample:\n    ```yaml\n    versions:\n      - name: academic\n        include: [research, publications, teaching]\n      - name: industry\n        exclude: [academic-only]\n    ```",
+      "properties": {
+        "name": {
+          "description": "The unique name of this version. Used with --version CLI flag.",
+          "examples": [
+            "academic",
+            "industry",
+            "devops"
+          ],
+          "title": "Version Name",
+          "type": "string"
+        },
+        "include": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "List of tags to include. Only entries with at least one of these tags will be included. Entries without any tags are always included.",
+          "examples": [
+            [
+              "research",
+              "publications"
+            ],
+            [
+              "machine-learning",
+              "deep-learning"
+            ]
+          ],
+          "title": "Include Tags"
+        },
+        "exclude": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "List of tags to exclude. Entries with any of these tags will be excluded. Applied after include filter if both are specified.",
+          "examples": [
+            [
+              "internal",
+              "draft"
+            ],
+            [
+              "outdated"
+            ]
+          ],
+          "title": "Exclude Tags"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Version",
+      "type": "object"
+    },
     "rendercv__schema__models__cv__entries__education__EducationEntry": {
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "institution": {
           "examples": [
             "Boğaziçi University",
@@ -2443,7 +2620,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2452,12 +2636,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"
@@ -2474,6 +2673,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "company": {
           "examples": [
             "Microsoft",
@@ -2588,7 +2803,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2597,12 +2819,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"
@@ -2619,6 +2856,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "name": {
           "examples": [
             "Some Project",
@@ -2724,7 +2977,14 @@
           "anyOf": [
             {
               "items": {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/$defs/TextEntry"
+                  }
+                ]
               },
               "type": "array"
             },
@@ -2733,12 +2993,27 @@
             }
           ],
           "default": null,
-          "description": "Bullet points for key achievements, responsibilities, or contributions.",
+          "description": "Bullet points for key achievements, responsibilities, or contributions. Each highlight can be a plain string or a TextEntry with tags for version-based filtering.",
           "examples": [
             [
               "Increased system performance by 40% through optimization.",
               "Mentored 3 junior developers and conducted code reviews.",
               "Implemented CI/CD pipeline reducing deployment time by 60%."
+            ],
+            [
+              "Always included highlight",
+              {
+                "content": "Academic-focused achievement",
+                "tags": [
+                  "academic"
+                ]
+              },
+              {
+                "content": "Industry-focused achievement",
+                "tags": [
+                  "industry"
+                ]
+              }
             ]
           ],
           "title": "Highlights"
@@ -2754,6 +3029,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "label": {
           "examples": [
             "Languages",
@@ -2784,6 +3075,22 @@
       "additionalProperties": true,
       "description": null,
       "properties": {
+        "tags": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Tags for this entry. Used for filtering entries when generating different versions of the CV.",
+          "title": "Tags"
+        },
         "title": {
           "examples": [
             "Deep Learning for Computer Vision",
@@ -5769,6 +6076,22 @@
       "$ref": "#/$defs/Settings",
       "description": "The settings of the RenderCV.",
       "title": "RenderCV Settings"
+    },
+    "versions": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/Version"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Define multiple CV versions with tag-based filtering. Use --version CLI flag to generate a specific version.",
+      "title": "Versions"
     }
   },
   "required": [],
