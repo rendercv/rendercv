@@ -142,6 +142,9 @@ def get_highlight_content(highlight: str | TextEntry | Any) -> str:
         return highlight
     if isinstance(highlight, TextEntry):
         return highlight.content
+    # Handle dict representation (from model_dump or processed data)
+    if isinstance(highlight, dict) and "content" in highlight:
+        return highlight["content"]
     # Fallback for any other type
     return str(highlight)
 

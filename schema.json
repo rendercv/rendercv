@@ -2397,7 +2397,7 @@
     },
     "Version": {
       "additionalProperties": false,
-      "description": "A version definition for generating filtered CVs.\n\nEach version specifies which entries to include or exclude based on their tags.\nEntries without tags are always included (permissive filtering).\n\nExample:\n    ```yaml\n    versions:\n      - name: academic\n        include: [research, publications, teaching]\n      - name: industry\n        exclude: [academic-only]\n    ```",
+      "description": "A version definition for generating filtered CVs.\n\nEach version specifies which entries to include or exclude based on their tags.\nEntries without tags are always included (permissive filtering).\n\nExample:\n    ```yaml\n    versions:\n      - name: academic\n        include: [research, publications, teaching]\n      - name: industry\n        exclude: [academic]\n    ```",
       "properties": {
         "name": {
           "description": "The unique name of this version. Used with --version CLI flag.",
