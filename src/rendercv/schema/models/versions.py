@@ -21,7 +21,7 @@ class Version(BaseModelWithoutExtraKeys):
           - name: academic
             include: [research, publications, teaching]
           - name: industry
-            exclude: [academic-only]
+            exclude: [academic]
         ```
     """
 

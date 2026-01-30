@@ -18,10 +18,10 @@ class TestVersionModel:
 
     def test_version_with_exclude_only(self):
         """Test that a version with only exclude tags is valid."""
-        version = Version(name="industry", exclude=["academic-only"])
+        version = Version(name="industry", exclude=["academic"])
         assert version.name == "industry"
         assert version.include is None
-        assert version.exclude == ["academic-only"]
+        assert version.exclude == ["academic"]
 
     def test_version_with_both_include_and_exclude(self):
         """Test that a version with both include and exclude is valid."""
