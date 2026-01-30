@@ -72,6 +72,58 @@ def should_include_entry(
     return True
 
 
+def filter_highlights(
+    highlights: list[Any],
+    include_tags: list[str] | None,
+    exclude_tags: list[str] | None,
+) -> list[Any]:
+    """Filter highlights within an entry based on tag rules.
+
+    Highlights can be plain strings or TextEntry objects with tags.
+    Plain strings are always included (permissive filtering).
+
+    Args:
+        highlights: List of highlight strings or TextEntry objects.
+        include_tags: Tags to include.
+        exclude_tags: Tags to exclude.
+
+    Returns:
+        Filtered list of highlights.
+    """
+    return [
+        highlight
+        for highlight in highlights
+        if should_include_entry(highlight, include_tags, exclude_tags)
+    ]
+
+
+def filter_entry_highlights(
+    entry: Any,
+    include_tags: list[str] | None,
+    exclude_tags: list[str] | None,
+) -> Any:
+    """Filter highlights within an entry if it has them.
+
+    Args:
+        entry: An entry that may have highlights.
+        include_tags: Tags to include.
+        exclude_tags: Tags to exclude.
+
+    Returns:
+        Entry with filtered highlights (or original if no highlights).
+    """
+    if not hasattr(entry, "highlights") or entry.highlights is None:
+        return entry
+
+    filtered_highlights = filter_highlights(
+        entry.highlights, include_tags, exclude_tags
+    )
+
+    # Set to None if all highlights were filtered out
+    entry.highlights = filtered_highlights if filtered_highlights else None
+    return entry
+
+
 def filter_entries(
     entries: list[Any],
     include_tags: list[str] | None,
@@ -79,18 +131,26 @@ def filter_entries(
 ) -> list[Any]:
     """Filter a list of entries based on tag rules.
 
+    Also filters highlights within each entry.
+
     Args:
         entries: List of entries to filter.
         include_tags: Tags to include.
         exclude_tags: Tags to exclude.
 
     Returns:
-        Filtered list of entries.
+        Filtered list of entries with filtered highlights.
     """
-    return [
+    filtered = [
         entry
         for entry in entries
         if should_include_entry(entry, include_tags, exclude_tags)
+    ]
+
+    # Filter highlights within each remaining entry
+    return [
+        filter_entry_highlights(entry, include_tags, exclude_tags)
+        for entry in filtered
     ]
 
 

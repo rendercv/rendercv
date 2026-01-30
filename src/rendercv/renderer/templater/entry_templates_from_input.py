@@ -1,14 +1,17 @@
 import re
 import textwrap
 from datetime import date as Date
+from typing import Any
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
+from rendercv.schema.models.cv.entries.text import TextEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import compute_time_span_string, format_date_range, format_single_date
+from .date import (compute_time_span_string, format_date_range,
+                   format_single_date)
 from .string_processor import clean_url, substitute_placeholders
 
 uppercase_word_pattern = re.compile(r"\b[A-Z_]+\b")
@@ -125,8 +128,29 @@ def render_entry_templates[EntryType: Entry](
     return entry
 
 
-def process_highlights(highlights: list[str]) -> str:
+def get_highlight_content(highlight: str | TextEntry | Any) -> str:
+    """Extract text content from a highlight.
+
+    Highlights can be plain strings or TextEntry objects with a content field.
+
+    Args:
+        highlight: A plain string or TextEntry object.
+
+    Returns:
+        The text content of the highlight.
+    """
+    if isinstance(highlight, str):
+        return highlight
+    if isinstance(highlight, TextEntry):
+        return highlight.content
+    # Fallback for any other type
+    return str(highlight)
+
+
+def process_highlights(highlights: list[str | TextEntry | Any]) -> str:
     """Convert highlight list to Markdown unordered list with nested items.
+
+    Handles both plain string highlights and TextEntry objects with tags.
 
     Example:
         ```py
@@ -134,6 +158,7 @@ def process_highlights(highlights: list[str]) -> str:
             [
                 "Led team of 5 engineers",
                 "Reduced costs - Server optimization - Database indexing",
+                TextEntry(content="Published papers", tags=["academic"]),
             ]
         )
         # Returns:
@@ -141,16 +166,21 @@ def process_highlights(highlights: list[str]) -> str:
         # - Reduced costs
         #   - Server optimization
         #   - Database indexing
+        # - Published papers
         ```
 
     Args:
-        highlights: Highlight strings with optional " - " for sub-bullets.
+        highlights: Highlight strings or TextEntry objects with optional " - "
+            for sub-bullets.
 
     Returns:
         Markdown list string with nested indentation.
     """
-    highlights = ["- " + highlight.replace(" - ", "\n  - ") for highlight in highlights]
-    return "\n".join(highlights)
+    processed = [
+        "- " + get_highlight_content(highlight).replace(" - ", "\n  - ")
+        for highlight in highlights
+    ]
+    return "\n".join(processed)
 
 
 def process_authors(authors: list[str]) -> str:
