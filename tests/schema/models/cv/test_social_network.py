@@ -29,7 +29,7 @@ class TestSocialNetwork:
             ("NONAME", "@invalidusername"),
             ("WhatsApp", "invalidphone"),
             ("Bluesky", "invalidusername"),
-            ("Reddit", "invalid~username")
+            ("Reddit", "invalid~username"),
         ],
     )
     def test_rejects_invalid_networks_and_usernames(self, network, username):
@@ -90,11 +90,7 @@ class TestSocialNetwork:
                 "myusername.bsky.social",
                 "https://bsky.app/profile/myusername.bsky.social",
             ),
-            (
-                "Reddit",
-                "myusername",
-                "https://reddit.com/user/myusername"
-            ),
+            ("Reddit", "myusername", "https://reddit.com/user/myusername"),
         ],
     )
     def test_url(self, network, username, expected_url):

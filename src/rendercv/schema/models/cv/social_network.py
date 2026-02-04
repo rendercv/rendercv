@@ -27,7 +27,7 @@ type SocialNetworkName = Literal[
     "Leetcode",
     "X",
     "Bluesky",
-    "Reddit"
+    "Reddit",
 ]
 available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
@@ -46,7 +46,7 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "Leetcode": "https://leetcode.com/u/",
     "X": "https://x.com/",
     "Bluesky": "https://bsky.app/profile/",
-    "Reddit": "https://reddit.com/user/"
+    "Reddit": "https://reddit.com/user/",
 }
 
 
