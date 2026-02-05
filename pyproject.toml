@@ -19,62 +19,61 @@
 # To build RenderCV, we need to specify which build package to use. There are
 # many build backends like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
 # `uv_build`.
-requires = ["uv_build>=0.9.5,<0.10.0"] # Packages needed to build RenderCV
-
+requires = ["uv_build>=0.9.5,<0.10.0"]  # Packages needed to build RenderCV
 # Python has a standard object format called a build-backend object. This object must
 # implement specific methods that perform defined tasks. For example, it should have a
 # method called `build_wheel` that builds a wheel file.
 # See https://peps.python.org/pep-0517/
-build-backend = "uv_build" # Build-backend object for building RenderCV
+build-backend = "uv_build"  # Build-backend object for building RenderCV
 
 [project]
 # Metadata about RenderCV.
-name = 'rendercv'
-version = '2.6'
-description = 'Typst-based CV/resume generator'
-authors = [{ name = 'Sina Atalay', email = 'dev@atalay.biz' }]
-license = "MIT"
+name = "rendercv"
+version = "2.6"
+description = "Typst-based CV/resume generator"
 readme = "README.md"
-requires-python = '>=3.12'
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Sina Atalay", email = "dev@atalay.biz" }]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Printing",
+  "Topic :: Text Processing :: Markup",
+]  # See all classifiers at https://pypi.org/classifiers/
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
-    'Jinja2>=3.1.6',                # Generate Typst and Markdown files
-    'phonenumbers>=9.0.19',         # Validate phone numbers
-    'pydantic[email]>=2.10.6',      # Validate and parse input files
-    'pydantic-extra-types>=2.10.6', # Validate extra types
-    'ruamel.yaml>=0.18.10',         # Parse YAML files
-    'markdown>=3.10',               # Convert Markdown to HTML
+  "Jinja2>=3.1.6",  # Generate Typst and Markdown files
+  "markdown>=3.10",  # Convert Markdown to HTML
+  "phonenumbers>=9.0.19",  # Validate phone numbers
+  "pydantic-extra-types>=2.10.6",  # Validate extra types
+  "pydantic[email]>=2.10.6",  # Validate and parse input files
+  "ruamel.yaml>=0.18.10",  # Parse YAML files
 ]
-classifiers = [
-    "Intended Audience :: Science/Research",
-    "Intended Audience :: Education",
-    "Topic :: Text Processing :: Markup",
-    "Topic :: Printing",
-    "Development Status :: 5 - Production/Stable",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
-] # See all classifiers at https://pypi.org/classifiers/
 
 [project.optional-dependencies]
 full = [
-    'typer>=0.20.0',         # Command-line interface
-    'watchdog>=6.0.0',       # Monitor files for updates
-    'typst>=0.14.4',         # Render PDF from Typst source files
-    'rendercv-fonts>=0.5.1', # Font files for RenderCV
-    "packaging>=25.0",       # For version checking
+  "typer>=0.20.0",  # Command-line interface
+  "watchdog>=6.0.0",  # Monitor files for updates
+  "typst>=0.14.4",  # Render PDF from Typst source files
+  "rendercv-fonts>=0.5.1",  # Font files for RenderCV
+  "packaging>=25.0",  # For version checking
 ]
 
 [project.urls]
+Changelog = "https://docs.rendercv.com/changelog"
+Documentation = "https://docs.rendercv.com"
+Source = "https://github.com/rendercv/rendercv"
 # URLs related to RenderCV. Listed under the "Project links" section on PyPI.
-"Web App" = 'https://rendercv.com'
-Source = 'https://github.com/rendercv/rendercv'
-Documentation = 'https://docs.rendercv.com'
-Changelog = 'https://docs.rendercv.com/changelog'
+"Web App" = "https://rendercv.com"
 
 [project.scripts]
 # Entry points for RenderCV.
@@ -84,34 +83,34 @@ Changelog = 'https://docs.rendercv.com/changelog'
 # The key and value below mean: when someone installs RenderCV,
 # running `rendercv` in the terminal executes the function `entry_point` in
 # `src/rendercv/cli/entry_point.py`.
-rendercv = 'rendercv.cli.entry_point:entry_point'
+rendercv = "rendercv.cli.entry_point:entry_point"
 
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-    'ruff>=0.14.10',       # Lint and format the code
-    'black>=25.12.0',      # Format the code
-    'ty>=0.0.5',           # Type checking
-    'prek>=0.2.23',        # Run checks before committing (pre-commit alternative)
-    'pytest>=9.0.2',       # Run tests
-    'pytest-cov>=7.0.0',   # Coverage plugin for pytest with xdist support
-    "pytest-xdist>=3.8.0", # Run tests in parallel
-]
-docs = [
-    'mkdocs-material>=9.7.0',
-    'mkdocs-gen-files>=0.6.0',     # Dynamic page generation for API reference
-    'mkdocs-literate-nav>=0.6.2',  # Dynamic navigation for API reference
-    'mkdocs-macros-plugin>=1.5.0', # Dynamic content in docs
-    'mkdocstrings[python]>=1.0.0', # Build reference docs from docstrings
-    'markdown-callouts>=0.4.0',    # GitHub alert style admonitions
-]
-update-entry-figures = [
-    'pdfCropMargins==2.2.1', # Generate entry figures for documentation
-    'pillow==10.4.0',        # Lock dependency of pdfCropMargins
-    'PyMuPDF==1.26.5',       # Convert PDF files to images
+  "black>=26.1.0",  # Format the code
+  "prek>=0.3.1",  # Run checks before committing (pre-commit alternative)
+  "pytest>=9.0.2",  # Run tests
+  "pytest-cov>=7.0.0",  # Coverage plugin for pytest with xdist support
+  "pytest-xdist>=3.8.0",  # Run tests in parallel
+  "ruff>=0.15.0",  # Lint and format the code
+  "ty>=0.0.15",  # Type checking
 ]
 create-executable = [
-    'pyinstaller>=6.17.0', # Build executables
+  "pyinstaller>=6.17.0",  # Build executables
+]
+docs = [
+  "markdown-callouts>=0.4.0",  # GitHub alert style admonitions
+  "mkdocs-gen-files>=0.6.0",  # Dynamic page generation for API reference
+  "mkdocs-literate-nav>=0.6.2",  # Dynamic navigation for API reference
+  "mkdocs-macros-plugin>=1.5.0",  # Dynamic content in docs
+  "mkdocs-material>=9.7.1",
+  "mkdocstrings[python]>=1.0.2",  # Build reference docs from docstrings
+]
+update-entry-figures = [
+  "PyMuPDF==1.26.5",  # Convert PDF files to images
+  "pdfCropMargins==2.2.1",  # Generate entry figures for documentation
+  "pillow==10.4.0",  # Lock dependency of pdfCropMargins
 ]
 
 # Tools Settings:
@@ -130,72 +129,70 @@ docstring-code-format = true
 
 [tool.ruff.lint]
 extend-select = [
-    'B',
-    'I',
-    'ARG',
-    'C4',
-    'EM',
-    'ICN',
-    'ISC',
-    'G',
-    'PGH',
-    'PIE',
-    'PL',
-    'PT',
-    'PTH',
-    'RET',
-    'RUF',
-    'SIM',
-    'T20',
-    'UP',
-    'YTT',
-    'EXE',
-    'NPY',
-    'PD',
+  "B",
+  "I",
+  "ARG",
+  "C4",
+  "EM",
+  "ICN",
+  "ISC",
+  "G",
+  "PGH",
+  "PIE",
+  "PL",
+  "PT",
+  "PTH",
+  "RET",
+  "RUF",
+  "SIM",
+  "T20",
+  "UP",
+  "YTT",
+  "EXE",
+  "NPY",
+  "PD",
 ]
 ignore = [
-    'PLR',    # Design-related pylint codes
-    'ISC001', # Conflicts with formatter
-    'UP007',  # Allow Optional type
-    'PGH003', # Prefer not to ignore this
-    'RUF001', # Allow other characters for locale
-    'EM101',  # Allow
+  "PLR",  # Design-related pylint codes
+  "ISC001",  # Conflicts with formatter
+  "UP007",  # Allow Optional type
+  "PGH003",  # Prefer not to ignore this
+  "RUF001",  # Allow other characters for locale
+  "EM101",  # Allow
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 
 [tool.black]
-line-length = 88 # Maximum line length
-preview = true # Enable preview features
+line-length = 88  # Maximum line length
+preview = true  # Enable preview features
 enable-unstable-feature = [
-    'string_processing',
-] # Break strings into multiple lines
+  "string_processing",
+]  # Break strings into multiple lines
 
 [tool.ty.rules]
 unused-ignore-comment = "error"
 
 [tool.coverage.run]
-source = ['src/rendercv']         # Measure coverage in this source
-concurrency = ['multiprocessing'] # For watcher tests
-
+source = ["src/rendercv"]  # Measure coverage in this source
+concurrency = ["multiprocessing"]  # For watcher tests
 # Use relative paths for cross-platform coverage merging:
 relative_files = true
 
 [tool.coverage.report]
 # Exclude templates from coverage reports:
-omit = ['*.j2.*']
+omit = ["*.j2.*"]
 
 [tool.pytest.ini_options]
-log_cli_level = 'INFO'
+log_cli_level = "INFO"
 xfail_strict = true
 addopts = [
-    '-ra',                 # Show extra test summary info
-    '-v',                  # Increase verbosity
-    '--strict-markers',    # Disallow unknown markers
-    '--strict-config',     # Fail on unknown config options
-    '--numprocesses=auto', # Number of processes in parallel
+  "-ra",  # Show extra test summary info
+  "-v",  # Increase verbosity
+  "--strict-markers",  # Disallow unknown markers
+  "--strict-config",  # Fail on unknown config options
+  "--numprocesses=auto",  # Number of processes in parallel
 ]
-testpaths = ['tests']
-
+testpaths = ["tests"]
 
 [tool.codespell]
-skip = '*.md'
+skip = "*.md"
