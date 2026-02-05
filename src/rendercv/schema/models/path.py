@@ -1,3 +1,4 @@
+import contextlib
 import pathlib
 from typing import Annotated
 
@@ -57,7 +58,10 @@ def resolve_relative_path(
 
 
 def serialize_path(path: pathlib.Path) -> str:
-    return str(path.relative_to(pathlib.Path.cwd()))
+    with contextlib.suppress(ValueError):
+        return str(path.relative_to(pathlib.Path.cwd()))
+
+    return str(path)
 
 
 type ExistingPathRelativeToInput = Annotated[

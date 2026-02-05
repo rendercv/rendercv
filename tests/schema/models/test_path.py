@@ -10,6 +10,10 @@ from rendercv.schema.models.path import (
 from rendercv.schema.models.validation_context import ValidationContext
 
 
+class PlannedPathModel(pydantic.BaseModel):
+    output: PlannedPathRelativeToInput
+
+
 @pytest.fixture
 def existing_file(tmp_path):
     existing = tmp_path / "existing.txt"
@@ -228,3 +232,24 @@ class TestPathResolutionBehavior:
             nonexistent_path, context=context_with_input_file
         )
         assert result == nonexistent_path
+
+
+class TestPathSerialization:
+    def test_serializes_path_relative_to_cwd_when_possible(self):
+        input_file_path = pathlib.Path.cwd() / "input.yaml"
+        model = PlannedPathModel.model_validate(
+            {"output": "build/output.pdf"},
+            context={"context": ValidationContext(input_file_path=input_file_path)},
+        )
+
+        assert model.model_dump()["output"] == "build/output.pdf"
+
+    def test_serializes_absolute_path_outside_cwd_without_crashing(self, tmp_path):
+        input_file_path = tmp_path / "input.yaml"
+        outside_path = tmp_path / "build" / "output.pdf"
+        model = PlannedPathModel.model_validate(
+            {"output": outside_path},
+            context={"context": ValidationContext(input_file_path=input_file_path)},
+        )
+
+        assert model.model_dump()["output"] == str(outside_path)
