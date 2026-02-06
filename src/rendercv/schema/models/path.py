@@ -59,7 +59,7 @@ def resolve_relative_path(
 
 def serialize_path(path: pathlib.Path) -> str:
     with contextlib.suppress(ValueError):
-        return str(path.relative_to(pathlib.Path.cwd()))
+        return path.relative_to(pathlib.Path.cwd()).as_posix()
 
     return str(path)
 
