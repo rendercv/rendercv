@@ -19,7 +19,7 @@
 # To build RenderCV, we need to specify which build package to use. There are
 # many build backends like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
 # `uv_build`.
-requires = ["uv_build>=0.9.5,<0.10.0"]  # Packages needed to build RenderCV
+requires = ["uv_build>=0.9.5,<0.11.0"]  # Packages needed to build RenderCV
 # Python has a standard object format called a build-backend object. This object must
 # implement specific methods that perform defined tasks. For example, it should have a
 # method called `build_wheel` that builds a wheel file.
