@@ -81,3 +81,48 @@
     day: {{ settings.current_date.day }},
   ),
 )
+
+// Override the education-entry function to increase the degree column width:
+#let education-entry(main-column, date-and-location-column, degree-column: none, main-column-second-row: none) = {
+  metadata("skip-content-area")
+
+  context {
+    let config = rendercv-config.get()
+    let entries-space-between-columns = config.at("entries-space-between-columns")
+
+    // The width was hardcoded to 1cm in previous versions, which is too small for some degrees.
+    // We increased it to 2.4cm and disabled hyphenation to prevent word breaks like "certifica-do":
+    let degree-column-width = 2.4cm 
+
+    regular-entry(
+      if degree-column != none {
+        grid(
+          columns: (degree-column-width, 1fr),
+          column-gutter: entries-space-between-columns + 0.4cm,
+          align: (left, auto),
+          [
+            #set text(hyphenate: false)
+            #degree-column
+          ],
+          [
+            #main-column
+          ],
+        )
+      } else {
+        main-column
+      },
+      date-and-location-column,
+      main-column-second-row: if main-column-second-row != none {
+        [
+          #block(
+            main-column-second-row,
+            inset: (
+              left: if degree-column != none { degree-column-width + entries-space-between-columns } else { 0cm },
+              right: 0cm,
+            ),
+          )
+        ]
+      } else { none },
+    )
+  }
+}
