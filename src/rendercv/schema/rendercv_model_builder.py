@@ -61,11 +61,11 @@ def build_rendercv_dictionary(
     input_dict = read_yaml(main_input_file_path_or_contents)
     input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
-    # Optional YAML overlays
+    # Optional YAML overlays (process settings first to avoid overwriting design/locale paths)
     yaml_overlays: dict[str, pathlib.Path | str | None] = {
+        "settings": kwargs.get("settings_file_path_or_contents"),
         "design": kwargs.get("design_file_path_or_contents"),
         "locale": kwargs.get("locale_file_path_or_contents"),
-        "settings": kwargs.get("settings_file_path_or_contents"),
     }
 
     for key, path_or_contents in yaml_overlays.items():
@@ -74,6 +74,7 @@ def build_rendercv_dictionary(
                 input_dict[key] = read_yaml(path_or_contents)[key]
             elif isinstance(path_or_contents, pathlib.Path):
                 input_dict["settings"]["render_command"][key] = path_or_contents
+            input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {

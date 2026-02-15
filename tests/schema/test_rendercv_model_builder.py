@@ -131,6 +131,29 @@ class TestBuildRendercvDictionary:
         assert result["design"]["theme"] == "classic"
         assert result["locale"]["language"] == "english"
 
+    def test_settings_overlay_without_render_command_allows_design_path_overlay(
+        self, create_yaml_file_fixture
+    ):
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+        }
+        settings_overlay = {"settings": {"current_date": "2024-01-01"}}
+        design_overlay = {"design": {"theme": "sb2nov"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
+        design_file = create_yaml_file_fixture("design.yaml", design_overlay)
+
+        result = build_rendercv_dictionary(
+            main_file,
+            settings_file_path_or_contents=settings_file,
+            design_file_path_or_contents=design_file,
+        )
+
+        assert result["settings"]["current_date"] == "2024-01-01"
+        assert result["settings"]["render_command"]["design"] == design_file
+
     @pytest.mark.parametrize(
         ("override_key", "override_value"),
         [
@@ -517,6 +540,44 @@ class TestBuildRendercvModel:
 
         # Model should have the design from the file applied
         assert model.design.theme == "sb2nov"
+
+    def test_design_overlay_applies_with_settings_overlay(
+        self, create_yaml_file_fixture
+    ):
+        """Ensure design overlay applies even when settings overlay is provided."""
+        main_input = {
+            "cv": {"name": "John Doe"},
+            "design": {"theme": "classic"},
+        }
+        settings_overlay = {
+            "settings": {
+                "render_command": {
+                    "typst_path": "rendercv_output/NAME_IN_SNAKE_CASE_CV.typ",
+                    "pdf_path": "rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf",
+                    "markdown_path": "rendercv_output/NAME_IN_SNAKE_CASE_CV.md",
+                    "html_path": "rendercv_output/NAME_IN_SNAKE_CASE_CV.html",
+                    "png_path": "rendercv_output/NAME_IN_SNAKE_CASE_CV.png",
+                    "dont_generate_markdown": False,
+                    "dont_generate_html": False,
+                    "dont_generate_typst": False,
+                    "dont_generate_pdf": False,
+                    "dont_generate_png": False,
+                }
+            }
+        }
+        design_overlay = {"design": {"theme": "sb2nov"}}
+
+        main_file = create_yaml_file_fixture("main.yaml", main_input)
+        settings_file = create_yaml_file_fixture("settings.yaml", settings_overlay)
+        design_file = create_yaml_file_fixture("design.yaml", design_overlay)
+
+        _, model = build_rendercv_dictionary_and_model(
+            main_file,
+            settings_file_path_or_contents=settings_file,
+            design_file_path_or_contents=design_file,
+        )
+
+        assert model.design.theme != "classic"
 
     def test_locale_file_overlay_loads_and_applies(self, create_yaml_file_fixture):
         """Test that locale file overlay is loaded from settings.render_command.locale and applied to model."""
