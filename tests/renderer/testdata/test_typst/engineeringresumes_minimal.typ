@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.2.0": *
+#import "@preview/rendercv:0.1.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -7,7 +7,6 @@
   footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
   top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",
-  text-direction: "ltr",
   page-size: "us-letter",
   page-top-margin: 0.7in,
   page-bottom-margin: 0.7in,

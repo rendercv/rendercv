@@ -58,7 +58,15 @@
     }[self.language]
     ```
 
-4. Done. Use it:
+4. Update the JSON Schema
+
+    ```bash
+    just update-schema
+    ```
+
+    This regenerates `schema.json` so that editors can provide autocomplete and validation for the new locale. See [JSON Schema](../json_schema.md) for details.
+
+5. Done. Use it:
 
     ```bash
     rendercv new "John Doe" --locale mylanguage
