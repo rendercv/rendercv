@@ -134,8 +134,6 @@ def run_rendercv(
     try:
         main_yaml = input_file_path.read_text(encoding="utf-8")
 
-        # Resolve design/locale file references from the YAML itself
-        # (CLI flags override YAML references)
         _, rendercv_model = timed_step(
             "Validated the input file",
             progress,

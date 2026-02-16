@@ -46,6 +46,34 @@ class TestRunFunctionIfFilesChange:
 
         assert call_count > initial_count
 
+    def test_reruns_function_when_secondary_file_is_modified(self, tmp_path):
+        main_file = tmp_path / "cv.yaml"
+        main_file.write_text("main content", encoding="utf-8")
+        design_file = tmp_path / "design.yaml"
+        design_file.write_text("initial design", encoding="utf-8")
+
+        call_count = 0
+
+        def tracked_function():
+            nonlocal call_count
+            call_count += 1
+
+        watcher_thread = threading.Thread(
+            target=watcher.run_function_if_files_change,
+            args=([main_file, design_file], tracked_function),
+            daemon=True,
+        )
+        watcher_thread.start()
+
+        time.sleep(0.2)
+        count_before_edit = call_count
+
+        # Edit the design file (not the main file)
+        design_file.write_text("updated design", encoding="utf-8")
+        time.sleep(0.2)
+
+        assert call_count > count_before_edit
+
     def test_continues_watching_after_typer_exit(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial", encoding="utf-8")
