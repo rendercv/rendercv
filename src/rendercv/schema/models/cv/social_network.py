@@ -143,8 +143,9 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                 if not re.fullmatch(reddit_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
                         CustomPydanticErrorTypes.other.value,
-                        "Reddit username should be made up of uppercase/lowercase letters, numbers,"
-                        " underscores, and hyphens between 3 and 23 characters.",
+                        "Reddit username should be made up of uppercase/lowercase"
+                        " letters, numbers, underscores, and hyphens between 3 and 23"
+                        " characters.",
                     )
 
         return username
