@@ -122,7 +122,7 @@ def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:
 
 
 def clean_url(url: str | pydantic.HttpUrl) -> str:
-    """Remove protocol, www, and trailing slashes from URL.
+    """Remove protocol and trailing slashes from URL.
 
     Why:
         CV formatting displays cleaner URLs without https:// prefix. Used as
@@ -131,7 +131,7 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
     Example:
         ```py
         result = clean_url("https://www.example.com/")
-        # Returns: "example.com"
+        # Returns: "www.example.com"
         ```
 
     Args:
