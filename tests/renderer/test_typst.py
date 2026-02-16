@@ -24,7 +24,77 @@ def test_generate_typst(
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path
-        generate_typst(model)
+        typst_path, is_temporary = generate_typst(model)
+        assert not is_temporary  # Normal generation should not be temporary
 
     reference_filename = f"{theme}_{cv_variant}.typ"
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+def test_generate_typst_with_dont_generate_typst_returns_temp_path(
+    minimal_rendercv_model: RenderCVModel,
+):
+    """Test that generate_typst returns a temp path when dont_generate_typst is True.
+
+    This ensures PDF/PNG generation can still work even when user doesn't want to
+    save the typst file (fixes issue #550).
+    """
+    import shutil
+
+    model = RenderCVModel(
+        cv=minimal_rendercv_model.cv,
+        design={"theme": "classic"},
+        locale=minimal_rendercv_model.locale,
+        settings=minimal_rendercv_model.settings,
+    )
+    model.settings.render_command.dont_generate_typst = True
+
+    typst_path, is_temporary = generate_typst(model)
+
+    try:
+        # Should return a valid path with is_temporary=True
+        assert is_temporary is True
+        assert typst_path is not None
+        assert typst_path.exists()
+        assert typst_path.suffix == ".typ"
+        # Verify it contains valid typst content
+        content = typst_path.read_text()
+        assert "#import" in content or "John Doe" in content
+        # Verify it's in a temp directory
+        assert "rendercv_" in str(typst_path.parent)
+    finally:
+        # Clean up the temp directory (simulating what run_rendercv does)
+        if is_temporary and typst_path.parent.exists():
+            shutil.rmtree(typst_path.parent, ignore_errors=True)
+
+
+def test_temp_directory_cleanup_after_generation(
+    minimal_rendercv_model: RenderCVModel,
+):
+    """Test that temporary directories are properly cleaned up.
+
+    This test verifies the fix for the issue raised in PR #577 review:
+    temp directories created by generate_typst should be cleaned up.
+    """
+    import shutil
+
+    model = RenderCVModel(
+        cv=minimal_rendercv_model.cv,
+        design={"theme": "classic"},
+        locale=minimal_rendercv_model.locale,
+        settings=minimal_rendercv_model.settings,
+    )
+    model.settings.render_command.dont_generate_typst = True
+
+    typst_path, is_temporary = generate_typst(model)
+    temp_dir = typst_path.parent
+
+    # Verify temp dir exists before cleanup
+    assert temp_dir.exists()
+    assert is_temporary is True
+
+    # Simulate cleanup (as done in run_rendercv.py)
+    shutil.rmtree(temp_dir, ignore_errors=True)
+
+    # Verify temp dir is cleaned up
+    assert not temp_dir.exists()

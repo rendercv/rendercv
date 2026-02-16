@@ -89,12 +89,18 @@ class TestCliCommandRender:
                 ],
                 ["John_Doe_CV.html"],
             ),
-            # dont_generate_typst: skips Typst, PDF, and PNG
+            # dont_generate_typst: skips only Typst file, but PDF/PNG still generated
+            # (fixes issue #550 - typst is generated to temp file for compilation)
             (
                 False,
                 {"dont_generate_typst": True},
-                ["John_Doe_CV.md", "John_Doe_CV.html"],
-                ["John_Doe_CV.typ", "John_Doe_CV.pdf", "John_Doe_CV_1.png"],
+                [
+                    "John_Doe_CV.pdf",
+                    "John_Doe_CV_1.png",
+                    "John_Doe_CV.md",
+                    "John_Doe_CV.html",
+                ],
+                ["John_Doe_CV.typ"],
             ),
             # dont_generate_pdf: skips only PDF
             (
