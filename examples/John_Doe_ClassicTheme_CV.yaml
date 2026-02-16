@@ -355,13 +355,14 @@ locale:
 settings:
   current_date: '2026-02-16'
   render_command:
+    output_folder: rendercv_outputdfdf
     design:
     locale:
-    typst_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.typ
-    pdf_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.pdf
-    markdown_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.md
-    html_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.html
-    png_path: rendercv_output/NAME_IN_SNAKE_CASE_CV.png
+    typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
+    html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
+    png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
     dont_generate_markdown: false
     dont_generate_html: false
     dont_generate_typst: false

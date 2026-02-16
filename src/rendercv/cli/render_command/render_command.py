@@ -30,6 +30,17 @@ def cli_command_render(
     input_file_name: Annotated[
         pathlib.Path, typer.Argument(help="The YAML input file.")
     ],
+    output_folder: Annotated[
+        pathlib.Path | None,
+        typer.Option(
+            "--output-folder",
+            "-o",
+            help=(
+                "Base output folder for all generated files. Replaces the default"
+                " 'rendercv_output' folder."
+            ),
+        ),
+    ] = None,
     design: Annotated[
         pathlib.Path | None,
         typer.Option(
@@ -194,6 +205,7 @@ def cli_command_render(
         "settings_yaml_file": (
             settings.read_text(encoding="utf-8") if settings else None
         ),
+        "output_folder": output_folder,
         "typst_path": typst_path,
         "pdf_path": pdf_path,
         "markdown_path": markdown_path,

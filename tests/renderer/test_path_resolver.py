@@ -3,9 +3,13 @@ import pathlib
 
 import pytest
 
-from rendercv.renderer.path_resolver import resolve_rendercv_file_path
+from rendercv.renderer.path_resolver import (
+    resolve_output_folder_placeholder,
+    resolve_rendercv_file_path,
+)
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.rendercv_model import RenderCVModel
+from rendercv.schema.models.settings.render_command import RenderCommand
 from rendercv.schema.models.settings.settings import Settings
 
 
@@ -109,3 +113,94 @@ class TestResolveRendercvFilePath:
 
         assert result.parent.exists()
         assert result == nested_dir / "John_Doe_CV.pdf"
+
+    def test_output_folder_placeholder_resolved(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "rendercv_output"
+        model = RenderCVModel(
+            cv=Cv(name="John Doe"),
+            settings=Settings(
+                render_command=RenderCommand(output_folder=output_folder)
+            ),
+        )
+        file_path = tmp_path / "OUTPUT_FOLDER" / "NAME_IN_SNAKE_CASE_CV.pdf"
+
+        result = resolve_rendercv_file_path(model, file_path)
+
+        assert result == output_folder / "John_Doe_CV.pdf"
+        assert result.parent.exists()
+
+    def test_custom_output_folder(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "build" / "en"
+        model = RenderCVModel(
+            cv=Cv(name="John Doe"),
+            settings=Settings(
+                render_command=RenderCommand(output_folder=output_folder)
+            ),
+        )
+        file_path = tmp_path / "OUTPUT_FOLDER" / "NAME_IN_SNAKE_CASE_CV.pdf"
+
+        result = resolve_rendercv_file_path(model, file_path)
+
+        assert result == output_folder / "John_Doe_CV.pdf"
+
+    def test_no_output_folder_placeholder_in_path(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "build"
+        model = RenderCVModel(
+            cv=Cv(name="John Doe"),
+            settings=Settings(
+                render_command=RenderCommand(output_folder=output_folder)
+            ),
+        )
+        file_path = tmp_path / "custom_dir" / "NAME_IN_SNAKE_CASE_CV.pdf"
+
+        result = resolve_rendercv_file_path(model, file_path)
+
+        assert result == tmp_path / "custom_dir" / "John_Doe_CV.pdf"
+
+    def test_output_folder_with_subdirectory_in_path(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "build"
+        model = RenderCVModel(
+            cv=Cv(name="John Doe"),
+            settings=Settings(
+                render_command=RenderCommand(output_folder=output_folder)
+            ),
+        )
+        file_path = tmp_path / "OUTPUT_FOLDER" / "typst" / "NAME_IN_SNAKE_CASE_CV.typ"
+
+        result = resolve_rendercv_file_path(model, file_path)
+
+        assert result == output_folder / "typst" / "John_Doe_CV.typ"
+
+
+class TestResolveOutputFolderPlaceholder:
+    def test_replaces_output_folder_component(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "my_output"
+        file_path = tmp_path / "OUTPUT_FOLDER" / "file.pdf"
+
+        result = resolve_output_folder_placeholder(file_path, output_folder)
+
+        assert result == output_folder / "file.pdf"
+
+    def test_no_placeholder_returns_unchanged(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "my_output"
+        file_path = tmp_path / "some_dir" / "file.pdf"
+
+        result = resolve_output_folder_placeholder(file_path, output_folder)
+
+        assert result == file_path
+
+    def test_nested_output_folder(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "build" / "en"
+        file_path = tmp_path / "OUTPUT_FOLDER" / "sub" / "file.pdf"
+
+        result = resolve_output_folder_placeholder(file_path, output_folder)
+
+        assert result == output_folder / "sub" / "file.pdf"
+
+    def test_output_folder_only(self, tmp_path: pathlib.Path):
+        output_folder = tmp_path / "build"
+        file_path = tmp_path / "OUTPUT_FOLDER"
+
+        result = resolve_output_folder_placeholder(file_path, output_folder)
+
+        assert result == output_folder
