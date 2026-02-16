@@ -7,6 +7,8 @@ locale:
   year: Jahr
   years: Jahre
   present: gegenwärtig
+  phrases:
+    degree_with_area: DEGREE in AREA
   month_abbreviations:
     - Jan
     - Feb

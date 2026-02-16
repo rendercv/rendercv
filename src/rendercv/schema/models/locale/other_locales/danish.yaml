@@ -7,6 +7,8 @@ locale:
   year: "år"
   years: "år"
   present: "nuværende"
+  phrases:
+    degree_with_area: DEGREE i AREA
   month_abbreviations:
     - "Jan"
     - "Feb"

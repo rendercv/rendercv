@@ -7,6 +7,17 @@ import pydantic
 from ..base import BaseModelWithoutExtraKeys
 
 
+class Phrases(BaseModelWithoutExtraKeys):
+    degree_with_area: str = pydantic.Field(
+        default="DEGREE in AREA",
+        description=(
+            "Template for combining degree and area in education entries."
+            " Available placeholders: DEGREE, AREA."
+            " The default value is `DEGREE in AREA`."
+        ),
+    )
+
+
 class EnglishLocale(BaseModelWithoutExtraKeys):
     language: Literal["english"] = pydantic.Field(
         default="english",
@@ -40,6 +51,10 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             'Translation of "present" for ongoing dates. The default value is'
             " `present`."
         ),
+    )
+    phrases: Phrases = pydantic.Field(
+        default_factory=Phrases,
+        description="Locale-specific phrases used in entry templates as placeholders.",
     )
     # From https://web.library.yale.edu/cataloging/months
     month_abbreviations: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (

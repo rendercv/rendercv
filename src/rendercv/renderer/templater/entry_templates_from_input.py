@@ -51,6 +51,18 @@ def render_entry_templates[EntryType: Entry](
         key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
     }
 
+    # Expand locale phrases into templates by replacing phrase placeholders
+    # (e.g., DEGREE_WITH_AREA) with their locale-specific template text
+    # (e.g., "DEGREE in AREA" for English, "DEGREE en AREA" for French).
+    # The sub-placeholders (DEGREE, AREA) remain as normal placeholders for the
+    # rest of the pipeline to handle, preserving identical behavior for English.
+    for phrase_name, phrase_template in locale.phrases.model_dump().items():
+        phrase_placeholder = phrase_name.upper()
+        entry_templates = {
+            key: template.replace(phrase_placeholder, phrase_template)
+            for key, template in entry_templates.items()
+        }
+
     # Handle special placeholders:
     if "HIGHLIGHTS" in entry_fields:
         highlights = getattr(entry, "highlights", None)

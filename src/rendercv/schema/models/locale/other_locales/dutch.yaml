@@ -7,6 +7,8 @@ locale:
   year: "jaar"
   years: "jaren"
   present: "heden"
+  phrases:
+    degree_with_area: DEGREE in AREA
   month_abbreviations:
     - Jan
     - Feb

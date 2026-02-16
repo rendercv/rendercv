@@ -373,6 +373,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__2",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -466,6 +470,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `heden`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__3",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -641,6 +649,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -753,6 +765,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__4",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -846,6 +862,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `gegenwärtig`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__5",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -941,6 +961,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__6",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "जन",
@@ -1034,6 +1058,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `sekarang`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__7",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -1129,6 +1157,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__8",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Gen",
@@ -1223,6 +1255,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__9",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "1月",
@@ -1316,6 +1352,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `현재`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__10",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -1546,6 +1586,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__11",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "1月",
@@ -1680,6 +1724,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -1773,6 +1821,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `nåverande`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -1907,6 +1959,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `presente`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__14",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -2108,6 +2164,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `настоящее время`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__15",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -2358,6 +2418,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__16",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "Ene",
@@ -2451,6 +2515,10 @@
           "description": "Translation of \"present\" for ongoing dates. The default value is `halen`.",
           "title": "Present",
           "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__17",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
           "default": [
@@ -3622,7 +3690,7 @@
       "properties": {
         "main_column": {
           "default": "**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS",
-          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
+          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -3653,8 +3721,8 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
-          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
+          "default": "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -3685,8 +3753,8 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
-          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
+          "default": "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -3717,8 +3785,8 @@
       "additionalProperties": false,
       "properties": {
         "main_column": {
-          "default": "**INSTITUTION**, DEGREE in AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
-          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
+          "default": "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS",
+          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -3750,7 +3818,7 @@
       "properties": {
         "main_column": {
           "default": "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS",
-          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
+          "description": "Template for education entry main column. Available placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date range\n\nYou can also add arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe default value is `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`.",
           "title": "Main Column",
           "type": "string"
         },
@@ -5943,6 +6011,227 @@
         "XCharter"
       ],
       "type": "string"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__1": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__10": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__11": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__12": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__13": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__14": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE em AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE em AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__15": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE в AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE в AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__16": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE en AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE en AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__17": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA, DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA, DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__2": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__3": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__4": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE en AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE en AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__5": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__6": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA में DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA में DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__7": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE di AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE di AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__8": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__9": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
     }
   },
   "additionalProperties": false,

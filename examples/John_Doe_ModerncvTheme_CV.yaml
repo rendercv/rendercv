@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.5/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.7/schema.json
 cv:
   name: John Doe
   headline:
@@ -285,7 +285,7 @@ design:
   #     main_column: '**LABEL:** DETAILS'
   #   education_entry:
   #     main_column: |-
-  #       **INSTITUTION**, DEGREE in AREA -- LOCATION
+  #       **INSTITUTION**, DEGREE_WITH_AREA -- LOCATION
   #       SUMMARY
   #       HIGHLIGHTS
   #     degree_column:
@@ -317,6 +317,8 @@ locale:
   # year: year
   # years: years
   # present: present
+  # phrases:
+  #   degree_with_area: DEGREE in AREA
   # month_abbreviations:
   #   - Jan
   #   - Feb
@@ -344,7 +346,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2025-12-22'
+  current_date: '2026-02-16'
   render_command:
     design:
     locale:

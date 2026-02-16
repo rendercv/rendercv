@@ -7,6 +7,8 @@ locale:
   year: год
   years: лет
   present: настоящее время
+  phrases:
+    degree_with_area: "DEGREE в AREA"
   month_abbreviations:
     - Янв
     - Фев

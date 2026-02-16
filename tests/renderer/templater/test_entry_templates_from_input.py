@@ -15,8 +15,12 @@ from rendercv.renderer.templater.entry_templates_from_input import (
     remove_not_provided_placeholders,
     render_entry_templates,
 )
+from rendercv.schema.models.cv.entries.education import EducationEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
+from rendercv.schema.models.design.classic_theme import (
+    EducationEntry as EducationEntryOptions,
+)
 from rendercv.schema.models.design.classic_theme import (
     NormalEntry as NormalEntryOptions,
 )
@@ -25,6 +29,7 @@ from rendercv.schema.models.design.classic_theme import (
 )
 from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.english_locale import EnglishLocale
+from rendercv.schema.models.locale.locale import locale_adapter
 
 
 @pytest.mark.parametrize(
@@ -262,6 +267,83 @@ class TestRenderEntryTemplates:
             == "Alice, Bob | [10.1000/xyz123](https://doi.org/10.1000/xyz123) | Feb"
             " 2024"
         )
+
+    def test_substitutes_locale_phrase_in_education_entry(self):
+        entry = EducationEntry(
+            institution="MIT",
+            area="Computer Science",
+            degree="BS",
+            date="2024-05",
+        )
+
+        templates_with_phrase = Templates(
+            education_entry=EducationEntryOptions(
+                main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                degree_column=None,
+            )
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=templates_with_phrase,
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "BS in Computer Science" in entry.main_column  # ty: ignore[unresolved-attribute]
+
+    def test_substitutes_non_english_locale_phrase(self):
+        entry = EducationEntry(
+            institution="Sorbonne",
+            area="Informatique",
+            degree="Licence",
+            date="2024-05",
+        )
+
+        french_locale = locale_adapter.validate_python({"language": "french"})
+        templates_with_phrase = Templates(
+            education_entry=EducationEntryOptions(
+                main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                degree_column=None,
+            )
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=templates_with_phrase,
+            locale=french_locale,
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "Licence en Informatique" in entry.main_column  # ty: ignore[unresolved-attribute]
+
+    def test_substitutes_locale_phrase_with_reversed_word_order(self):
+        entry = EducationEntry(
+            institution="University of Tokyo",
+            area="Computer Science",
+            degree="BS",
+            date="2024-05",
+        )
+
+        japanese_locale = locale_adapter.validate_python({"language": "japanese"})
+        templates_with_phrase = Templates(
+            education_entry=EducationEntryOptions(
+                main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                degree_column=None,
+            )
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=templates_with_phrase,
+            locale=japanese_locale,
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "Computer Science BS" in entry.main_column  # ty: ignore[unresolved-attribute]
 
     def test_creates_links_for_url_placeholders(self):
         entry = NormalEntry.model_validate(

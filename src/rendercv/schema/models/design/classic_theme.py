@@ -619,7 +619,9 @@ class EducationEntry(BaseModelWithoutExtraKeys):
         description=(
             "Template for education entry main column. Available placeholders:\n-"
             " `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n-"
-            " `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n-"
+            " `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware"
+            " phrase combining degree and area (e.g., 'BS in Computer Science')\n-"
+            " `SUMMARY`: Summary text\n-"
             " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`:"
             " Formatted date or date range\n\nYou can also add arbitrary keys to"
             " entries and use them as UPPERCASE placeholders.\n\nThe default value is"

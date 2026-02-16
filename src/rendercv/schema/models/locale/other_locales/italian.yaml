@@ -7,6 +7,8 @@ locale:
   year: anno
   years: anni
   present: presente
+  phrases:
+    degree_with_area: DEGREE in AREA
   month_abbreviations:
     - Gen
     - Feb
