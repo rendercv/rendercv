@@ -1,6 +1,7 @@
 from collections.abc import Callable
-from typing import Literal
+from typing import Any, Literal
 
+from rendercv.schema.models.cv.entries.text import TextEntry
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -9,6 +10,33 @@ from .entry_templates_from_input import render_entry_templates
 from .footer_and_top_note import render_footer_template, render_top_note_template
 from .markdown_parser import markdown_to_typst
 from .string_processor import apply_string_processors, make_keywords_bold
+
+
+def process_list_item(item: Any, string_processors: list[Callable[[str], str]]) -> Any:
+    """Process a single item in a list field.
+
+    Handles both plain strings and TextEntry objects.
+
+    Args:
+        item: A string or TextEntry object.
+        string_processors: List of string processing functions.
+
+    Returns:
+        Processed string or TextEntry with processed content.
+    """
+    if isinstance(item, str):
+        return apply_string_processors(item, string_processors)
+    if isinstance(item, TextEntry):
+        item.content = apply_string_processors(item.content, string_processors)
+        return item
+    if isinstance(item, dict):
+        # Handle dict representation of TextEntry (from model_dump)
+        if "content" in item:
+            item["content"] = apply_string_processors(
+                item["content"], string_processors
+            )
+        return item
+    return item
 
 
 def process_model(
@@ -100,7 +128,7 @@ def process_fields(
     Returns:
         Entry with processed fields.
     """
-    skipped = {"start_date", "end_date", "doi", "url"}
+    skipped = {"start_date", "end_date", "doi", "url", "tags"}
 
     if isinstance(entry, str):
         return apply_string_processors(entry, string_processors)
@@ -113,11 +141,9 @@ def process_fields(
         if isinstance(value, str):
             setattr(entry, field, apply_string_processors(value, string_processors))
         elif isinstance(value, list):
-            setattr(
-                entry,
-                field,
-                [apply_string_processors(v, string_processors) for v in value],
-            )
+            # Use process_list_item to handle TextEntry objects in lists
+            processed_list = [process_list_item(v, string_processors) for v in value]
+            setattr(entry, field, processed_list)
         else:
             setattr(
                 entry, field, apply_string_processors(str(value), string_processors)

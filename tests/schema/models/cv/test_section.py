@@ -8,6 +8,7 @@ from rendercv.schema.models.cv.entries.experience import ExperienceEntry  # NOQA
 from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.text import TextEntry  # NOQA: F401
 from rendercv.schema.models.cv.section import (
     Section,
     available_entry_models,
@@ -41,6 +42,7 @@ from rendercv.schema.models.cv.section import (
         ),
         ("one_line_entry", "OneLineEntry", "SectionWithOneLineEntries"),
         ("text_entry", "TextEntry", "SectionWithTextEntries"),
+        ("text_entry_string", "TextEntry", "SectionWithTextEntries"),
         ("bullet_entry", "BulletEntry", "SectionWithBulletEntries"),
     ],
 )
@@ -53,11 +55,15 @@ def test_get_entry_type_name_and_section_model(
     assert SectionModel.__name__ == expected_section_type
 
     # Initialize the entry with the entry type to test with model instances too
-    if entry_type != "TextEntry":
-        entry = eval(f"{entry_type}(**entry)")
-        entry_type, SectionModel = get_entry_type_name_and_section_model(entry)
-        assert entry_type == expected_entry_type
-        assert SectionModel.__name__ == expected_section_type
+    # Skip for string entries (plain text entries) as they can't be instantiated
+    if entry_type != "TextEntry" or isinstance(entry, dict):
+        if isinstance(entry, str):
+            pass  # Plain strings can't be instantiated as models
+        else:
+            entry = eval(f"{entry_type}(**entry)")
+            entry_type, SectionModel = get_entry_type_name_and_section_model(entry)
+            assert entry_type == expected_entry_type
+            assert SectionModel.__name__ == expected_section_type
 
 
 @pytest.mark.parametrize(
