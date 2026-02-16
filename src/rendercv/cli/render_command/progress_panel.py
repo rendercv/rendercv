@@ -1,9 +1,8 @@
-import contextlib
-import io
 import pathlib
 from dataclasses import dataclass
 
 import rich.box
+import rich.console
 import rich.live
 import rich.panel
 import rich.table
@@ -28,15 +27,7 @@ class ProgressPanel(rich.live.Live):
     """
 
     def __init__(self, quiet: bool = False):
-        self.quiet = quiet
         self.completed_steps: list[CompletedStep] = []
-
-        console = (
-            rich.console.Console(file=io.StringIO(), force_terminal=False)
-            if quiet
-            else rich.console.Console()
-        )
-
         super().__init__(
             rich.panel.Panel(
                 "...",
@@ -44,9 +35,8 @@ class ProgressPanel(rich.live.Live):
                 title_align="left",
                 border_style="bright_black",
             ),
-            console=console,
+            console=rich.console.Console(quiet=quiet),
             refresh_per_second=4,
-            auto_refresh=not quiet,
         )
 
     def update_progress(
@@ -73,18 +63,17 @@ class ProgressPanel(rich.live.Live):
         Args:
             title: Panel title text.
         """
-        if self.quiet:
-            return
-
         lines: list[str] = []
         for step in self.completed_steps:
             paths_str = ""
             if step.paths:
-                with contextlib.suppress(ValueError):
-                    step.paths = [
+                try:
+                    paths = [
                         path.relative_to(pathlib.Path.cwd()) for path in step.paths
                     ]
-                paths_as_strings = [f"./{path}" for path in step.paths]
+                except ValueError:
+                    paths = step.paths
+                paths_as_strings = [f"./{path}" for path in paths]
                 paths_str = "; ".join(paths_as_strings)
 
             timing = f"[bold green]{step.timing_ms + ' ms':<8}[/bold green]"

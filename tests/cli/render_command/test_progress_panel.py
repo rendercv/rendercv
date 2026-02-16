@@ -51,15 +51,19 @@ class TestProgressPanelFinishProgress:
 
 
 class TestProgressPanelPrintProgressPanel:
+    def test_quiet_mode_produces_no_output(self, capsys):
+        with ProgressPanel(quiet=True) as panel:
+            panel.update_progress("100", "Test", [])
+            panel.finish_progress()
+
+        captured = capsys.readouterr()
+        assert captured.out == ""
+
     def test_respects_quiet_mode(self):
         panel = ProgressPanel(quiet=True)
         panel.completed_steps.append(CompletedStep("100", "Test", []))
 
         panel.print_progress_panel("Test Title")
-
-        # In quiet mode, nothing should be printed/updated
-        # We can't easily test the internal state of rich.live.Live, so we just
-        # verify the method doesn't raise an error
 
     def test_displays_step_without_paths(self):
         panel = ProgressPanel(quiet=True)
