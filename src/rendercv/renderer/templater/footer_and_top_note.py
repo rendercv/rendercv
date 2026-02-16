@@ -3,7 +3,7 @@ from datetime import date as Date
 
 from rendercv.schema.models.locale.locale import Locale
 
-from .date import date_object_to_string
+from .date import build_date_placeholders, date_object_to_string
 from .string_processor import apply_string_processors, substitute_placeholders
 
 
@@ -49,13 +49,6 @@ def render_top_note_template(
     if string_processors is None:
         string_processors = []
 
-    month_names = locale.month_names
-    month_abbreviations = locale.month_abbreviations
-
-    month = int(current_date.strftime("%m"))
-    year = int(current_date.strftime(format="%Y"))
-    day = int(current_date.strftime("%d"))
-
     placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
             current_date,
@@ -64,14 +57,7 @@ def render_top_note_template(
         ),
         "LAST_UPDATED": locale.last_updated,
         "NAME": name or "",
-        "MONTH_NAME": month_names[month - 1],
-        "MONTH_ABBREVIATION": month_abbreviations[month - 1],
-        "MONTH": str(month),
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "DAY": str(day),
-        "DAY_IN_TWO_DIGITS": f"{day:02d}",
-        "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+        **build_date_placeholders(current_date, locale=locale),
     }
     return apply_string_processors(
         substitute_placeholders(top_note_template, placeholders), string_processors
@@ -120,13 +106,6 @@ def render_footer_template(
     if string_processors is None:
         string_processors = []
 
-    month_names = locale.month_names
-    month_abbreviations = locale.month_abbreviations
-
-    month = int(current_date.strftime("%m"))
-    year = int(current_date.strftime(format="%Y"))
-    day = int(current_date.strftime("%d"))
-
     placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
             current_date,
@@ -136,14 +115,7 @@ def render_footer_template(
         "NAME": name or "",
         "PAGE_NUMBER": "#str(here().page())",
         "TOTAL_PAGES": "#str(counter(page).final().first())",
-        "MONTH_NAME": month_names[month - 1],
-        "MONTH_ABBREVIATION": month_abbreviations[month - 1],
-        "MONTH": str(month),
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "DAY": str(day),
-        "DAY_IN_TWO_DIGITS": f"{day:02d}",
-        "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+        **build_date_placeholders(current_date, locale=locale),
     }
     return (
         "context {"

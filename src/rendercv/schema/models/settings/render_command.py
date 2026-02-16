@@ -11,6 +11,8 @@ file_path_placeholders_description = """The following placeholders can be used:
 - MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)
 - MONTH: Month as a number (e.g., 1)
 - MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)
+- DAY: Day of the month (e.g., 5)
+- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)
 - YEAR: Year as a number (e.g., 2024)
 - YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)
 - NAME: The name of the CV owner (e.g., John Doe)

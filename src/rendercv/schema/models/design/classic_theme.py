@@ -743,6 +743,8 @@ class Templates(BaseModelWithoutExtraKeys):
             "- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n"
             "- `MONTH`: Month number (e.g., 1)\n"
             "- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n"
+            "- `DAY`: Day of the month (e.g., 5)\n"
+            "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
             "- `YEAR`: Full year (e.g., 2025)\n"
             "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
             "The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`."
@@ -757,9 +759,10 @@ class Templates(BaseModelWithoutExtraKeys):
             " `NAME`: The CV owner's name from `cv.name`\n- `MONTH_NAME`: Full month"
             " name (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month name"
             " (e.g., Jan)\n- `MONTH`: Month number (e.g., 1)\n- `MONTH_IN_TWO_DIGITS`:"
-            " Zero-padded month (e.g., 01)\n- `YEAR`: Full year (e.g., 2025)\n-"
-            " `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\nThe default value is"
-            " `*LAST_UPDATED CURRENT_DATE*`."
+            " Zero-padded month (e.g., 01)\n- `DAY`: Day of the month (e.g., 5)\n-"
+            " `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `YEAR`: Full year"
+            " (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
+            "The default value is `*LAST_UPDATED CURRENT_DATE*`."
         ),
     )
     single_date: str = pydantic.Field(
@@ -770,6 +773,8 @@ class Templates(BaseModelWithoutExtraKeys):
             "- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n"
             "- `MONTH`: Month number (e.g., 1)\n"
             "- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n"
+            "- `DAY`: Day of the month (e.g., 5)\n"
+            "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
             "- `YEAR`: Full year (e.g., 2025)\n"
             "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
             "The default value is `MONTH_ABBREVIATION YEAR`."
