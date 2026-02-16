@@ -110,7 +110,7 @@ docs = [
 update-entry-figures = [
   "PyMuPDF==1.26.5",  # Convert PDF files to images
   "pdfCropMargins==2.2.1",  # Generate entry figures for documentation
-  "pillow==10.4.0",  # Lock dependency of pdfCropMargins
+  "pillow==12.1.1",  # Lock dependency of pdfCropMargins
 ]
 
 # Tools Settings:
