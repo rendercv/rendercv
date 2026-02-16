@@ -171,7 +171,7 @@ class TestCliCommandRender:
     ):
         cli_command_render(
             input_file_name=input_file,
-            **{**default_arguments, "watch": True},
+            **{**default_arguments, "watch": True},  # ty: ignore[invalid-argument-type]
         )
 
         mock_watcher.assert_called_once()

@@ -24,4 +24,4 @@ repos:
         entry: ty check src tests
         pass_filenames: false
         args: [--python=.venv/]
-        additional_dependencies: ["ty>=0.0.15"]
+        additional_dependencies: ["ty>=0.0.17"]
