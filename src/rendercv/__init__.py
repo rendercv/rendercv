@@ -1,6 +1,6 @@
 import warnings
 
-__version__ = "2.6"
+__version__ = "2.7"
 __description__ = "Typst-based CV/resume generator for academics and engineers."
 
 

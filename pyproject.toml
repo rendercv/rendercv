@@ -19,7 +19,7 @@
 # To build RenderCV, we need to specify which build package to use. There are
 # many build backends like `setuptools`, `flit`, `poetry`, `hatchling`, etc. We will use
 # `uv_build`.
-requires = ["uv_build>=0.9.5,<0.10.0"]  # Packages needed to build RenderCV
+requires = ["uv_build>=0.10.3,<0.11.0"]  # Packages needed to build RenderCV
 # Python has a standard object format called a build-backend object. This object must
 # implement specific methods that perform defined tasks. For example, it should have a
 # method called `build_wheel` that builds a wheel file.
@@ -29,7 +29,7 @@ build-backend = "uv_build"  # Build-backend object for building RenderCV
 [project]
 # Metadata about RenderCV.
 name = "rendercv"
-version = "2.6"
+version = "2.7"
 description = "Typst-based CV/resume generator"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -52,20 +52,20 @@ classifiers = [
 # RenderCV depends on these packages. They are installed automatically when RenderCV is installed:
 dependencies = [
   "Jinja2>=3.1.6",  # Generate Typst and Markdown files
-  "markdown>=3.10",  # Convert Markdown to HTML
-  "phonenumbers>=9.0.19",  # Validate phone numbers
-  "pydantic-extra-types>=2.10.6",  # Validate extra types
-  "pydantic[email]>=2.10.6",  # Validate and parse input files
+  "markdown>=3.10.2",  # Convert Markdown to HTML
+  "phonenumbers>=9.0.24",  # Validate phone numbers
+  "pydantic-extra-types>=2.11.0",  # Validate extra types
+  "pydantic[email]>=2.12.5",  # Validate and parse input files
   "ruamel.yaml>=0.18.10",  # Parse YAML files
 ]
 
 [project.optional-dependencies]
 full = [
-  "typer>=0.20.0",  # Command-line interface
+  "typer>=0.23.1",  # Command-line interface
   "watchdog>=6.0.0",  # Monitor files for updates
-  "typst>=0.14.4",  # Render PDF from Typst source files
+  "typst>=0.14.8",  # Render PDF from Typst source files
   "rendercv-fonts>=0.5.1",  # Font files for RenderCV
-  "packaging>=25.0",  # For version checking
+  "packaging>=26.0",  # For version checking
 ]
 
 [project.urls]
@@ -182,6 +182,8 @@ relative_files = true
 # Exclude templates from coverage reports:
 omit = ["*.j2.*"]
 
+# tombi: lint.rules.deprecated.disabled = true
+# tombi: lint.rules.one-of-multiple-match.disabled = true
 [tool.pytest.ini_options]
 log_cli_level = "INFO"
 xfail_strict = true
