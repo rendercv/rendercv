@@ -106,7 +106,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "japanese": "ja",
             "korean": "ko",
             "indonesia": "id",
-            "mandarin_chineese": "zh",
+            "mandarin_chinese": "zh",
             "norwegian_bokmål": "nb",
             "norwegian_nynorsk": "nn",
             "portuguese": "pt",
