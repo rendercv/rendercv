@@ -36,12 +36,15 @@ jobs:
       - name: Update entry figures
         run: just update-entry-figures
 
+      - name: Update llms.txt
+        run: just update-llms-txt
+
       - name: Commit and push changes
         run: |
           git add -A
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update schema.json, examples, and entry figures"
+            git commit -m "Update schema.json, examples, llms.txt, and entry figures"
             git push origin HEAD:main
           fi

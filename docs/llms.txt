@@ -1,0 +1,955 @@
+# RenderCV YAML Input Reference
+
+RenderCV generates professional CVs/resumes from YAML input files. Write your CV as YAML, run `rendercv render your_cv.yaml`, and get a PDF with perfect typography.
+
+## YAML Structure Overview
+
+A RenderCV YAML file has four top-level fields. Only `cv` is required.
+
+```yaml
+cv:        # Required. Your CV content (personal info and sections).
+  ...
+design:    # Optional. Visual styling (theme, colors, fonts, spacing).
+  ...
+locale:    # Optional. Language and date formatting.
+  ...
+settings:  # Optional. Output paths, generation flags, bold keywords.
+  ...
+```
+
+## `cv` Field
+
+### Personal Information (Header)
+
+All header fields are optional. RenderCV adapts to whatever you provide.
+
+```yaml
+cv:
+  name: John Doe
+  headline: Machine Learning Engineer
+  location: San Francisco, CA
+  email: john@example.com
+  phone: "+14155551234"
+  website: https://johndoe.dev
+  photo: photo.jpg
+  social_networks:
+    - network: LinkedIn
+      username: johndoe
+    - network: GitHub
+      username: johndoe
+  custom_connections:
+    - placeholder: Book a call
+      url: https://cal.com/johndoe
+      fontawesome_icon: calendar-days
+```
+
+**Header fields:**
+
+- `name`: string. Examples: "John Doe", "Jane Smith".
+- `headline`: string. Examples: "Software Engineer", "Data Scientist", "Product Manager".
+- `location`: string. Examples: "New York, NY", "London, UK", "Istanbul, T\u00fcrkiye".
+- `email`: string. You can provide multiple emails as a list. Examples: "john.doe@example.com", ["john.doe.1@example.com", "john.doe.2@example.com"].
+- `photo`: file path. Photo file path, relative to the YAML file. Examples: "photo.jpg", "images/profile.png".
+- `phone`: string. Your phone number with country code in international format (e.g., +1 for USA, +44 for UK). The display format in the output is controlled by `design.header.connections.phone_number_format`. You can provide multiple numbers as a list. Examples: "+1-234-567-8900", ["+1-234-567-8900", "+44 20 1234 5678"].
+- `website`: string. You can provide multiple URLs as a list. Examples: "https://johndoe.com", ["https://johndoe.com", "https://www.janesmith.dev"].
+- `social_networks`: list of SocialNetwork.
+- `custom_connections`: list of CustomConnection. Additional header connections you define yourself. Each item has a `placeholder` (the displayed text), an optional `url`, and the Font Awesome icon name to render (from https://fontawesome.com/search). Examples: [{"fontawesome_icon": "calendar-days", "placeholder": "Book a call", "url": "https://cal.com/johndoe"}].
+
+**Available social networks:** LinkedIn, GitHub, GitLab, IMDB, Instagram, ORCID, Mastodon, StackOverflow, ResearchGate, YouTube, Google Scholar, Telegram, WhatsApp, Leetcode, X, Bluesky, Reddit.
+
+**`email`, `phone`, and `website` accept a single value or a list** for multiple entries.
+
+### Sections
+
+The `sections` field holds the main content of your CV. It is a dictionary where keys are section titles (displayed as headings) and values are lists of entries.
+
+```yaml
+cv:
+  sections:
+    experience:       # Section title (can be anything)
+      - company: Acme Corp
+        position: Senior Engineer
+        start_date: 2020-01
+        end_date: present
+        highlights:
+          - Led migration to microservices architecture
+    skills:
+      - label: Languages
+        details: Python, Go, Rust
+```
+
+- Section titles are arbitrary strings. Use any name you want.
+- Each section must contain only one type of entry. You cannot mix different entry types in the same section.
+- Entry types are auto-detected based on the fields you provide.
+
+### Entry Types
+
+RenderCV provides 9 entry types:
+
+#### TextEntry
+
+Plain text without structure. Just write a string.
+
+```yaml
+sections:
+  summary:
+    - Software engineer with 10 years of experience in distributed systems.
+    - See the [documentation](https://docs.rendercv.com) for more details.
+```
+
+#### OneLineEntry
+
+For compact key-value pairs, ideal for skills or technical proficiencies.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `label` | Yes | string |  |
+| `details` | Yes | string |  |
+
+```yaml
+- label: Languages
+  details: Python, C++, CUDA, Rust, Julia
+```
+
+#### NormalEntry
+
+A flexible entry for projects, awards, certifications, or anything else.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `name` | Yes | string |  |
+| `date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead |
+| `start_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The start date in YYYY-MM-DD, YYYY-MM, or YYYY format |
+| `end_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) or "present" | The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use "present" for ongoing events, or omit it to indicate the event is ongoing |
+| `location` | No | string |  |
+| `summary` | No | string |  |
+| `highlights` | No | list of strings | Bullet points for key achievements, responsibilities, or contributions |
+
+```yaml
+- name: "[FlashInfer](https://github.com/)"
+  start_date: 2023-01
+  end_date: present
+  summary: Open-source library for high-performance LLM inference
+  highlights:
+    - Achieved 2.8x speedup over baseline attention implementations
+    - 8,500+ GitHub stars, 200+ contributors
+```
+
+#### ExperienceEntry
+
+For work history and professional roles.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `company` | Yes | string |  |
+| `position` | Yes | string |  |
+| `date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead |
+| `start_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The start date in YYYY-MM-DD, YYYY-MM, or YYYY format |
+| `end_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) or "present" | The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use "present" for ongoing events, or omit it to indicate the event is ongoing |
+| `location` | No | string |  |
+| `summary` | No | string |  |
+| `highlights` | No | list of strings | Bullet points for key achievements, responsibilities, or contributions |
+
+```yaml
+- company: Nexus AI
+  position: Co-Founder & CTO
+  start_date: 2023-06
+  end_date: present
+  location: San Francisco, CA
+  summary: Building foundation model infrastructure
+  highlights:
+    - Raised $18M Series A led by Sequoia Capital
+    - Scaled engineering team from 3 to 28
+```
+
+#### EducationEntry
+
+For academic credentials.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `institution` | Yes | string |  |
+| `area` | Yes | string | Field of study or major |
+| `degree` | No | string |  |
+| `date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead |
+| `start_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The start date in YYYY-MM-DD, YYYY-MM, or YYYY format |
+| `end_date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) or "present" | The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use "present" for ongoing events, or omit it to indicate the event is ongoing |
+| `location` | No | string |  |
+| `summary` | No | string |  |
+| `highlights` | No | list of strings | Bullet points for key achievements, responsibilities, or contributions |
+
+```yaml
+- institution: Princeton University
+  area: Computer Science
+  degree: PhD
+  start_date: 2018-09
+  end_date: 2023-05
+  location: Princeton, NJ
+  highlights:
+    - "Thesis: Efficient Neural Architecture Search"
+    - NSF Graduate Research Fellowship
+```
+
+#### PublicationEntry
+
+For papers, articles, and other publications.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `title` | Yes | string |  |
+| `authors` | Yes | list of strings | You can bold your name with **double asterisks** |
+| `summary` | No | string |  |
+| `doi` | No | string | The DOI (Digital Object Identifier). If provided, it will be used as the link instead of the URL |
+| `url` | No | URL | A URL link to the publication. Ignored if DOI is provided |
+| `journal` | No | string | The journal, conference, or venue where it was published |
+| `date` | No | date (YYYY-MM-DD, YYYY-MM, YYYY, or custom text) | The date of this event in YYYY-MM-DD, YYYY-MM, or YYYY format, or any custom text like 'Fall 2023'. Use this for single-day or imprecise dates. For date ranges, use `start_date` and `end_date` instead |
+
+```yaml
+- title: "Sparse Mixture-of-Experts at Scale"
+  authors:
+    - "*John Doe*"
+    - Sarah Williams
+  doi: 10.1234/neurips.2023.1234
+  journal: NeurIPS 2023
+  date: 2023-07
+```
+
+#### BulletEntry
+
+A single bullet point. Use for simple lists.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `bullet` | Yes | string |  |
+
+```yaml
+- bullet: MIT Technology Review 35 Under 35 Innovators (2024)
+```
+
+#### NumberedEntry
+
+An automatically numbered entry.
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `number` | Yes | string |  |
+
+```yaml
+- number: "Adaptive Quantization for Neural Network Inference (US Patent 11,234,567)"
+```
+
+#### ReversedNumberedEntry
+
+A numbered entry that counts down (useful for publication lists where recent items come first).
+
+| Field | Required | Type | Description |
+| ----- | -------- | ---- | ----------- |
+| `reversed_number` | Yes | string | Reverse-numbered list item. Numbering goes in reverse (5, 4, 3, 2, 1), making recent items have higher numbers |
+
+```yaml
+- reversed_number: "Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)"
+```
+
+
+### Date Formats
+
+Fields `date`, `start_date`, and `end_date` accept:
+- Full date: `2024-01-15` (YYYY-MM-DD)
+- Month precision: `2024-01` (YYYY-MM)
+- Year only: `2024` (YYYY)
+- Custom text: `"Fall 2023"`, `"Summer 2020"` (for `date` field only)
+- Ongoing: `present` (for `end_date` only)
+
+### Text Formatting
+
+All text fields support basic Markdown:
+- `**text**` renders as bold
+- `*text*` renders as italic
+- `[text](url)` renders as a hyperlink
+- `` `code` `` renders as inline code
+
+All text fields also support Typst syntax:
+- `$$f(x) = x^2$$` renders as math
+- `#emph[text]` and other Typst commands work directly
+
+### Arbitrary Keys
+
+You can add custom fields to any entry. By default they are ignored, but you can reference them in `design.templates` as UPPERCASE placeholders.
+
+```yaml
+experience:
+  - company: Startup Inc
+    position: Founder
+    start_date: 2020-01
+    end_date: present
+    revenue: $5M ARR  # Custom field, available as REVENUE in templates
+```
+
+## `design` Field
+
+### Available Themes
+
+Available themes: classic, engineeringclassic, engineeringresumes, moderncv, sb2nov.
+
+All themes share the same design options but have different default values. If you specify a setting explicitly, it overrides the theme's default.
+
+```yaml
+design:
+  theme: classic  # Choose a theme, then override any option below
+```
+
+### Design Options
+
+Below are all available design options. All are optional; themes provide defaults.
+
+#### `design.page`
+
+- `size`: one of: "a4", "a5", "us-letter", "us-executive". The page size. Use 'a4' (international standard) or 'us-letter' (US standard). Default: `us-letter`.
+- `top_margin`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7in`.
+- `bottom_margin`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7in`.
+- `left_margin`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7in`.
+- `right_margin`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7in`.
+- `show_footer`: boolean. Show the footer at the bottom of pages. Default: `True`.
+- `show_top_note`: boolean. Show the top note at the top of the first page. Default: `True`.
+#### `design.colors`
+
+- `body`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 0, 0)`.
+- `name`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 79, 144)`.
+- `headline`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 79, 144)`.
+- `connections`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 79, 144)`.
+- `section_titles`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 79, 144)`.
+- `links`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(0, 79, 144)`.
+- `footer`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(128, 128, 128)`.
+- `top_note`: string. The color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. Default: `rgb(128, 128, 128)`.
+#### `design.typography`
+
+- `line_spacing`: dimension (e.g., 0.7in, 1.2em, 10pt). Space between lines of text. Larger values create more vertical space. Default: `0.6em`.
+- `alignment`: string. Text alignment. Options: 'left', 'justified' (spreads text across full width), 'justified-with-no-hyphenation' (justified without word breaks). Default: `justified`.
+- `date_and_location_column_alignment`: one of: "left", "center", "right". Alignment for dates and locations in entries. Options: 'left', 'center', 'right'. Default: `right`.
+- `font_family`: object or one of: "Aptos", "Arial", "Arial Rounded MT", "Arial Unicode MS", "Comic Sans MS", "Courier New", "DejaVu Sans Mono", "Didot", "EB Garamond", "Fontin", "Garamond", "Gentium Book Plus", "Georgia", "Gill Sans", "Helvetica", "Impact", "Inter", "Lato", "Libertinus Serif", "Lucida Sans Unicode", "Mukta", "New Computer Modern", "Noto Sans", "Open Sans", "Open Sauce Sans", "Poppins", "Raleway", "Roboto", "Source Sans 3", "Tahoma", "Times New Roman", "Trebuchet MS", "Ubuntu", "Verdana", "XCharter". The font family. You can provide a single font name as a string (applies to all elements), or a dictionary with keys 'body', 'name', 'headline', 'connections', and 'section_titles' to customize each element. Any system font can be used.
+##### `design.typography.font_size`
+
+- `body`: dimension (e.g., 0.7in, 1.2em, 10pt). The font size for body text. Default: `10pt`.
+- `name`: dimension (e.g., 0.7in, 1.2em, 10pt). The font size for the name. Default: `30pt`.
+- `headline`: dimension (e.g., 0.7in, 1.2em, 10pt). The font size for the headline. Default: `10pt`.
+- `connections`: dimension (e.g., 0.7in, 1.2em, 10pt). The font size for connections. Default: `10pt`.
+- `section_titles`: dimension (e.g., 0.7in, 1.2em, 10pt). The font size for section titles. Default: `1.4em`.
+##### `design.typography.small_caps`
+
+- `name`: boolean. Whether to use small caps for the name. Default: `False`.
+- `headline`: boolean. Whether to use small caps for the headline. Default: `False`.
+- `connections`: boolean. Whether to use small caps for connections. Default: `False`.
+- `section_titles`: boolean. Whether to use small caps for section titles. Default: `False`.
+##### `design.typography.bold`
+
+- `name`: boolean. Whether to make the name bold. Default: `True`.
+- `headline`: boolean. Whether to make the headline bold. Default: `False`.
+- `connections`: boolean. Whether to make connections bold. Default: `False`.
+- `section_titles`: boolean. Whether to make section titles bold. Default: `True`.
+#### `design.links`
+
+- `underline`: boolean. Underline hyperlinks. Default: `False`.
+- `show_external_link_icon`: boolean. Show an external link icon next to URLs. Default: `False`.
+#### `design.header`
+
+- `alignment`: one of: "left", "center", "right". Header alignment. Options: 'left', 'center', 'right'. Default: `center`.
+- `photo_width`: dimension (e.g., 0.7in, 1.2em, 10pt). Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `3.5cm`.
+- `photo_position`: string. Photo position (left or right). Default: `left`.
+- `photo_space_left`: dimension (e.g., 0.7in, 1.2em, 10pt). Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.4cm`.
+- `photo_space_right`: dimension (e.g., 0.7in, 1.2em, 10pt). Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.4cm`.
+- `space_below_name`: dimension (e.g., 0.7in, 1.2em, 10pt). Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7cm`.
+- `space_below_headline`: dimension (e.g., 0.7in, 1.2em, 10pt). Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7cm`.
+- `space_below_connections`: dimension (e.g., 0.7in, 1.2em, 10pt). Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.7cm`.
+##### `design.header.connections`
+
+- `phone_number_format`: one of: "national", "international", "E164". Phone number format. Default: `national`.
+- `hyperlink`: boolean. Make contact information clickable in the PDF. Default: `True`.
+- `show_icons`: boolean. Show icons next to contact information. Default: `True`.
+- `display_urls_instead_of_usernames`: boolean. Display full URLs instead of labels. Default: `False`.
+- `separator`: string. Character(s) to separate contact items (e.g., '|' or '•'). Leave empty for no separator. Default: ``.
+- `space_between_connections`: dimension (e.g., 0.7in, 1.2em, 10pt). Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.5cm`.
+#### `design.section_titles`
+
+- `type`: one of: "with_partial_line", "with_full_line", "without_line", "moderncv". Section title visual style. Use 'with_partial_line' for a line next to the title, 'with_full_line' for a line across the page, 'without_line' for no line, or 'moderncv' for the ModernCV style. Default: `with_partial_line`.
+- `line_thickness`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.5pt`.
+- `space_above`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.5cm`.
+- `space_below`: dimension (e.g., 0.7in, 1.2em, 10pt). It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.3cm`.
+#### `design.sections`
+
+- `allow_page_break`: boolean. Allow page breaks within sections. If false, sections that don't fit will start on a new page. Default: `True`.
+- `space_between_regular_entries`: dimension (e.g., 0.7in, 1.2em, 10pt). Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `1.2em`.
+- `space_between_text_based_entries`: dimension (e.g., 0.7in, 1.2em, 10pt). Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.3em`.
+- `show_time_spans_in`: list of strings. Section titles where time spans (e.g., '2 years 3 months') should be displayed. Default: `['experience']`.
+#### `design.entries`
+
+- `date_and_location_width`: dimension (e.g., 0.7in, 1.2em, 10pt). Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `4.15cm`.
+- `side_space`: dimension (e.g., 0.7in, 1.2em, 10pt). Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.2cm`.
+- `space_between_columns`: dimension (e.g., 0.7in, 1.2em, 10pt). Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.1cm`.
+- `allow_page_break`: boolean. Allow page breaks within entries. If false, entries that don't fit will move to a new page. Default: `False`.
+- `short_second_row`: boolean. Shorten the second row to align with the date/location column. Default: `True`.
+##### `design.entries.summary`
+
+- `space_above`: dimension (e.g., 0.7in, 1.2em, 10pt). Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0cm`.
+- `space_left`: dimension (e.g., 0.7in, 1.2em, 10pt). Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0cm`.
+##### `design.entries.highlights`
+
+- `bullet`: one of: "●", "•", "◦", "-", "◆", "★", "■", "—", "○". Bullet character for highlights. Default: `•`.
+- `nested_bullet`: one of: "●", "•", "◦", "-", "◆", "★", "■", "—", "○". Bullet character for nested highlights. Default: `•`.
+- `space_left`: dimension (e.g., 0.7in, 1.2em, 10pt). Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.15cm`.
+- `space_above`: dimension (e.g., 0.7in, 1.2em, 10pt). Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0cm`.
+- `space_between_items`: dimension (e.g., 0.7in, 1.2em, 10pt). Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0cm`.
+- `space_between_bullet_and_text`: dimension (e.g., 0.7in, 1.2em, 10pt). Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. Default: `0.5em`.
+#### `design.templates`
+
+- `footer`: string. Template for the footer. Default: `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`.
+- `top_note`: string. Template for the top note. Default: `*LAST_UPDATED CURRENT_DATE*`.
+- `single_date`: string. Template for single dates. Default: `MONTH_ABBREVIATION YEAR`.
+- `date_range`: string. Template for date ranges. Default: `START_DATE – END_DATE`.
+- `time_span`: string. Template for time spans (duration calculations). Default: `HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS`.
+##### `design.templates.one_line_entry`
+
+- `main_column`: string. Template for one-line entries. Default: `**LABEL:** DETAILS`.
+##### `design.templates.education_entry`
+
+- `main_column`: string. Template for education entry main column. Default: `**INSTITUTION**, AREA
+SUMMARY
+HIGHLIGHTS`.
+- `degree_column`: string. Optional degree column template. If provided, displays degree in separate column. If `null`, no degree column is shown. Default: `**DEGREE**`.
+- `date_and_location_column`: string. Template for education entry date/location column. Default: `LOCATION
+DATE`.
+##### `design.templates.normal_entry`
+
+- `main_column`: string. Template for normal entry main column. Default: `**NAME**
+SUMMARY
+HIGHLIGHTS`.
+- `date_and_location_column`: string. Template for normal entry date/location column. Default: `LOCATION
+DATE`.
+##### `design.templates.experience_entry`
+
+- `main_column`: string. Template for experience entry main column. Default: `**COMPANY**, POSITION
+SUMMARY
+HIGHLIGHTS`.
+- `date_and_location_column`: string. Template for experience entry date/location column. Default: `LOCATION
+DATE`.
+##### `design.templates.publication_entry`
+
+- `main_column`: string. Template for publication entry main column. Default: `**TITLE**
+SUMMARY
+AUTHORS
+URL (JOURNAL)`.
+- `date_and_location_column`: string. Template for publication entry date column. Default: `DATE`.
+
+### Design Example
+
+```yaml
+design:
+  theme: classic
+  page:
+    size: us-letter
+    top_margin: 0.7in
+    bottom_margin: 0.7in
+    left_margin: 0.7in
+    right_margin: 0.7in
+    show_footer: true
+    show_top_note: true
+  colors:
+    body: rgb(0, 0, 0)
+    name: rgb(0, 79, 144)
+    connections: rgb(0, 79, 144)
+    section_titles: rgb(0, 79, 144)
+    links: rgb(0, 79, 144)
+  typography:
+    line_spacing: 0.6em
+    alignment: justified
+    font_family: Source Sans 3  # Shorthand: applies to all elements
+    font_size:
+      body: 10pt
+      name: 30pt
+  links:
+    underline: false
+    show_external_link_icon: false
+  header:
+    alignment: center
+    connections:
+      phone_number_format: national
+      show_icons: true
+  section_titles:
+    type: with_partial_line
+  sections:
+    show_time_spans_in:
+      - experience
+  entries:
+    date_and_location_width: 4.15cm
+    highlights:
+      bullet: "\u2022"
+  templates:
+    footer: "*NAME -- PAGE_NUMBER/TOTAL_PAGES*"
+    top_note: "*LAST_UPDATED CURRENT_DATE*"
+    single_date: MONTH_ABBREVIATION YEAR
+    date_range: "START_DATE \u2013 END_DATE"
+    time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
+    one_line_entry:
+      main_column: "**LABEL:** DETAILS"
+    education_entry:
+      main_column: "**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS"
+      degree_column: "**DEGREE**"
+      date_and_location_column: "LOCATION\nDATE"
+    normal_entry:
+      main_column: "**NAME**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: "LOCATION\nDATE"
+    experience_entry:
+      main_column: "**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: "LOCATION\nDATE"
+    publication_entry:
+      main_column: "**TITLE**\nSUMMARY\nAUTHORS\nURL (JOURNAL)"
+      date_and_location_column: DATE
+```
+
+#### Template Placeholders
+
+Templates use UPPERCASE placeholders that map to entry fields:
+- **All entries:** DATE, LOCATION, SUMMARY, HIGHLIGHTS
+- **ExperienceEntry:** COMPANY, POSITION
+- **EducationEntry:** INSTITUTION, AREA, DEGREE
+- **PublicationEntry:** TITLE, AUTHORS, URL, DOI, JOURNAL
+- **NormalEntry:** NAME
+- **OneLineEntry:** LABEL, DETAILS
+- **Page-level:** NAME, PAGE_NUMBER, TOTAL_PAGES, LAST_UPDATED, CURRENT_DATE
+- **Date templates:** MONTH_ABBREVIATION, MONTH_NAME, YEAR, START_DATE, END_DATE, HOW_MANY_YEARS, HOW_MANY_MONTHS, YEARS, MONTHS
+
+You can also add arbitrary keys to entries and use them as UPPERCASE placeholders.
+
+## `locale` Field
+
+### Available Languages
+
+Available languages: danish, dutch, english, french, german, hindi, indonesian, italian, japanese, korean, mandarin_chinese, norwegian_bokmål, norwegian_nynorsk, portuguese, russian, spanish, turkish.
+
+```yaml
+locale:
+  language: german  # Use a built-in locale
+  present: jetzt    # Override individual fields
+```
+
+### Customizable Fields
+
+- `last_updated`: string. Translation of "Last updated in". Default: `Last updated in`.
+- `month`: string. Translation of "month" (singular). Default: `month`.
+- `months`: string. Translation of "months" (plural). Default: `months`.
+- `year`: string. Translation of "year" (singular). Default: `year`.
+- `years`: string. Translation of "years" (plural). Default: `years`.
+- `present`: string. Translation of "present" for ongoing dates. Default: `present`.
+- `phrases`: object. Locale-specific phrases used in entry templates as placeholders.
+- `month_abbreviations`: list of strings. Month abbreviations (Jan-Dec). Default: `['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']`.
+- `month_names`: list of strings. Full month names (January-December). Default: `['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']`.
+
+## `settings` Field
+
+- `current_date`: date (YYYY-MM-DD). The date to use as "current date" for filenames, the "last updated" label, and time span calculations. Defaults to the actual current date.
+- `render_command`: object. Settings for the `render` command. These correspond to command-line arguments. CLI arguments take precedence over these settings.
+- `bold_keywords`: list of strings. Keywords to automatically bold in the output. Default: `[]`.
+
+### `settings.render_command`
+
+- `output_folder`: file path. Base output folder for all generated files. Referenced as `OUTPUT_FOLDER` in output path defaults. Default: `rendercv_output`.
+- `design`: file path. Path to a YAML file containing the `design` field.
+- `locale`: file path. Path to a YAML file containing the `locale` field.
+- `typst_path`: file path. Output path for the Typst file, relative to the input YAML file. Default: `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.
+- `pdf_path`: file path. Output path for the PDF file, relative to the input YAML file. Default: `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.
+- `markdown_path`: file path. Output path for the Markdown file, relative to the input YAML file. Default: `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.
+- `html_path`: file path. Output path for the HTML file, relative to the input YAML file. Default: `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.
+- `png_path`: file path. Output path for PNG files, relative to the input YAML file. Default: `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.
+- `dont_generate_markdown`: boolean. Skip Markdown generation. This also disables HTML generation. Default: `False`.
+- `dont_generate_html`: boolean. Skip HTML generation. Default: `False`.
+- `dont_generate_typst`: boolean. Skip Typst generation. This also disables PDF and PNG generation. Default: `False`.
+- `dont_generate_pdf`: boolean. Skip PDF generation. Default: `False`.
+- `dont_generate_png`: boolean. Skip PNG generation. Default: `False`.
+
+### Path Placeholders
+
+Output path fields (`typst_path`, `pdf_path`, etc.) support these placeholders:
+
+- `OUTPUT_FOLDER`: The output folder path (e.g., rendercv_output)
+- `MONTH_NAME`: Full name of the month (e.g., January)
+- `MONTH_ABBREVIATION`: Abbreviation of the month (e.g., Jan)
+- `MONTH`: Month as a number (e.g., 1)
+- `MONTH_IN_TWO_DIGITS`: Month as a number in two digits (e.g., 01)
+- `DAY`: Day of the month (e.g., 5)
+- `DAY_IN_TWO_DIGITS`: Day of the month in two digits (e.g., 05)
+- `YEAR`: Year as a number (e.g., 2024)
+- `YEAR_IN_TWO_DIGITS`: Year as a number in two digits (e.g., 24)
+- `NAME`: The name of the CV owner (e.g., John Doe)
+- `NAME_IN_SNAKE_CASE`: The name of the CV owner in snake case (e.g., John_Doe)
+- `NAME_IN_LOWER_SNAKE_CASE`: The name of the CV owner in lower snake case (e.g., john_doe)
+- `NAME_IN_UPPER_SNAKE_CASE`: The name of the CV owner in upper snake case (e.g., JOHN_DOE)
+- `NAME_IN_KEBAB_CASE`: The name of the CV owner in kebab case (e.g., John-Doe)
+- `NAME_IN_LOWER_KEBAB_CASE`: The name of the CV owner in lower kebab case (e.g., john-doe)
+- `NAME_IN_UPPER_KEBAB_CASE`: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)
+
+## Complete Example
+
+```yaml
+cv:
+  name: John Doe
+  headline:
+  location: San Francisco, CA
+  email: john.doe@email.com
+  photo:
+  phone:
+  website: https://rendercv.com/
+  social_networks:
+    - network: LinkedIn
+      username: rendercv
+    - network: GitHub
+      username: rendercv
+  custom_connections:
+  sections:
+    Welcome to RenderCV:
+      - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
+      - See the [documentation](https://docs.rendercv.com) for more details.
+    education:
+      - institution: Princeton University
+        area: Computer Science
+        degree: PhD
+        date:
+        start_date: 2018-09
+        end_date: 2023-05
+        location: Princeton, NJ
+        summary:
+        highlights:
+          - 'Thesis: Efficient Neural Architecture Search for Resource-Constrained Deployment'
+          - 'Advisor: Prof. Sanjeev Arora'
+          - NSF Graduate Research Fellowship, Siebel Scholar (Class of 2022)
+      - institution: Boğaziçi University
+        area: Computer Engineering
+        degree: BS
+        date:
+        start_date: 2014-09
+        end_date: 2018-06
+        location: Istanbul, Türkiye
+        summary:
+        highlights:
+          - 'GPA: 3.97/4.00, Valedictorian'
+          - Fulbright Scholarship recipient for graduate studies
+    experience:
+      - company: Nexus AI
+        position: Co-Founder & CTO
+        date:
+        start_date: 2023-06
+        end_date: present
+        location: San Francisco, CA
+        summary:
+        highlights:
+          - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97% uptime
+          - Raised $18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
+          - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
+          - Developed proprietary inference optimization reducing latency by 73% compared to baseline
+      - company: NVIDIA Research
+        position: Research Intern
+        date:
+        start_date: 2022-05
+        end_date: 2022-08
+        location: Santa Clara, CA
+        summary:
+        highlights:
+          - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
+          - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
+      - company: Google DeepMind
+        position: Research Intern
+        date:
+        start_date: 2021-05
+        end_date: 2021-08
+        location: London, UK
+        summary:
+        highlights:
+          - Developed reinforcement learning algorithms for multi-agent coordination
+          - Published research at top-tier venues with significant academic impact
+            - ICML 2022 main conference paper, cited 340+ times within two years
+            - NeurIPS 2022 workshop paper on emergent communication protocols
+            - Invited journal extension in JMLR (2023)
+      - company: Apple ML Research
+        position: Research Intern
+        date:
+        start_date: 2020-05
+        end_date: 2020-08
+        location: Cupertino, CA
+        summary:
+        highlights:
+          - Created on-device neural network compression pipeline deployed across 50M+ devices
+          - Filed 2 patents on efficient model quantization techniques for edge inference
+      - company: Microsoft Research
+        position: Research Intern
+        date:
+        start_date: 2019-05
+        end_date: 2019-08
+        location: Redmond, WA
+        summary:
+        highlights:
+          - Implemented novel self-supervised learning framework for low-resource language modeling
+          - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
+    projects:
+      - name: '[FlashInfer](https://github.com/)'
+        date:
+        start_date: 2023-01
+        end_date: present
+        location:
+        summary: Open-source library for high-performance LLM inference kernels
+        highlights:
+          - Achieved 2.8x speedup over baseline attention implementations on A100 GPUs
+          - Adopted by 3 major AI labs, 8,500+ GitHub stars, 200+ contributors
+      - name: '[NeuralPrune](https://github.com/)'
+        date: '2021'
+        start_date:
+        end_date:
+        location:
+        summary: Automated neural network pruning toolkit with differentiable masks
+        highlights:
+          - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
+          - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
+    publications:
+      - title: 'Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models'
+        authors:
+          - '*John Doe*'
+          - Sarah Williams
+          - David Park
+        summary:
+        doi: 10.1234/neurips.2023.1234
+        url:
+        journal: NeurIPS 2023
+        date: 2023-07
+      - title: Neural Architecture Search via Differentiable Pruning
+        authors:
+          - James Liu
+          - '*John Doe*'
+        summary:
+        doi: 10.1234/neurips.2022.5678
+        url:
+        journal: NeurIPS 2022, Spotlight
+        date: 2022-12
+      - title: Multi-Agent Reinforcement Learning with Emergent Communication
+        authors:
+          - Maria Garcia
+          - '*John Doe*'
+          - Tom Anderson
+        summary:
+        doi: 10.1234/icml.2022.9012
+        url:
+        journal: ICML 2022
+        date: 2022-07
+      - title: On-Device Model Compression via Learned Quantization
+        authors:
+          - '*John Doe*'
+          - Kevin Wu
+        summary:
+        doi: 10.1234/iclr.2021.3456
+        url:
+        journal: ICLR 2021, Best Paper Award
+        date: 2021-05
+    selected_honors:
+      - bullet: MIT Technology Review 35 Under 35 Innovators (2024)
+      - bullet: Forbes 30 Under 30 in Enterprise Technology (2024)
+      - bullet: ACM Doctoral Dissertation Award Honorable Mention (2023)
+      - bullet: Google PhD Fellowship in Machine Learning (2020 – 2023)
+      - bullet: Fulbright Scholarship for Graduate Studies (2018)
+    skills:
+      - label: Languages
+        details: Python, C++, CUDA, Rust, Julia
+      - label: ML Frameworks
+        details: PyTorch, JAX, TensorFlow, Triton, ONNX
+      - label: Infrastructure
+        details: Kubernetes, Ray, distributed training, AWS, GCP
+      - label: Research Areas
+        details: Neural architecture search, model compression, efficient inference, multi-agent RL
+    patents:
+      - number: Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
+      - number: Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
+      - number: Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
+    invited_talks:
+      - reversed_number: Scaling Laws for Efficient Inference — Stanford HAI Symposium (2024)
+      - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
+      - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
+      - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
+    any_section_title:
+      - You can use any section title you want.
+      - 'You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`.'
+      - Markdown syntax is supported everywhere.
+      - The `design` field in YAML gives you control over almost any aspect of your CV design.
+      - See the [documentation](https://docs.rendercv.com) for more details.
+design:
+  theme: engineeringclassic
+  page:
+    size: us-letter
+    top_margin: 0.7in
+    bottom_margin: 0.7in
+    left_margin: 0.7in
+    right_margin: 0.7in
+    show_footer: true
+    show_top_note: true
+  colors:
+    body: rgb(0, 0, 0)
+    name: rgb(0, 79, 144)
+    headline: rgb(0, 79, 144)
+    connections: rgb(0, 79, 144)
+    section_titles: rgb(0, 79, 144)
+    links: rgb(0, 79, 144)
+    footer: rgb(128, 128, 128)
+    top_note: rgb(128, 128, 128)
+  typography:
+    line_spacing: 0.6em
+    alignment: justified
+    date_and_location_column_alignment: right
+    font_family:
+      body: Raleway
+      name: Raleway
+      headline: Raleway
+      connections: Raleway
+      section_titles: Raleway
+    font_size:
+      body: 10pt
+      name: 30pt
+      headline: 10pt
+      connections: 10pt
+      section_titles: 1.4em
+    small_caps:
+      name: false
+      headline: false
+      connections: false
+      section_titles: false
+    bold:
+      name: false
+      headline: false
+      connections: false
+      section_titles: false
+  links:
+    underline: false
+    show_external_link_icon: false
+  header:
+    alignment: left
+    photo_width: 3.5cm
+    photo_position: left
+    photo_space_left: 0.4cm
+    photo_space_right: 0.4cm
+    space_below_name: 0.7cm
+    space_below_headline: 0.7cm
+    space_below_connections: 0.7cm
+    connections:
+      phone_number_format: national
+      hyperlink: true
+      show_icons: true
+      display_urls_instead_of_usernames: false
+      separator: ''
+      space_between_connections: 0.5cm
+  section_titles:
+    type: with_full_line
+    line_thickness: 0.5pt
+    space_above: 0.5cm
+    space_below: 0.3cm
+  sections:
+    allow_page_break: true
+    space_between_regular_entries: 1.2em
+    space_between_text_based_entries: 0.3em
+    show_time_spans_in: []
+  entries:
+    date_and_location_width: 4.15cm
+    side_space: 0.2cm
+    space_between_columns: 0.1cm
+    allow_page_break: false
+    short_second_row: false
+    summary:
+      space_above: 0.12cm
+      space_left: 0cm
+    highlights:
+      bullet: •
+      nested_bullet: •
+      space_left: 0cm
+      space_above: 0.12cm
+      space_between_items: 0.12cm
+      space_between_bullet_and_text: 0.5em
+  templates:
+    footer: '*NAME -- PAGE_NUMBER/TOTAL_PAGES*'
+    top_note: '*LAST_UPDATED CURRENT_DATE*'
+    single_date: MONTH_ABBREVIATION YEAR
+    date_range: START_DATE – END_DATE
+    time_span: HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS
+    one_line_entry:
+      main_column: '**LABEL:** DETAILS'
+    education_entry:
+      main_column: |-
+        **INSTITUTION**, DEGREE_WITH_AREA -- LOCATION
+        SUMMARY
+        HIGHLIGHTS
+      degree_column:
+      date_and_location_column: DATE
+    normal_entry:
+      main_column: |-
+        **NAME** -- **LOCATION**
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: |-
+        **POSITION**, COMPANY -- LOCATION
+        SUMMARY
+        HIGHLIGHTS
+      date_and_location_column: DATE
+    publication_entry:
+      main_column: |-
+        **TITLE**
+        SUMMARY
+        AUTHORS
+        URL (JOURNAL)
+      date_and_location_column: DATE
+locale:
+  language: english
+  last_updated: Last updated in
+  month: month
+  months: months
+  year: year
+  years: years
+  present: present
+  phrases:
+    degree_with_area: DEGREE in AREA
+  month_abbreviations:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - June
+    - July
+    - Aug
+    - Sept
+    - Oct
+    - Nov
+    - Dec
+  month_names:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+settings:
+  current_date: '2026-02-16'
+  render_command:
+    output_folder: rendercv_output
+    design:
+    locale:
+    typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
+    pdf_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf
+    markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
+    html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
+    png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
+    dont_generate_markdown: false
+    dont_generate_html: false
+    dont_generate_typst: false
+    dont_generate_pdf: false
+    dont_generate_png: false
+  bold_keywords: []
+```
