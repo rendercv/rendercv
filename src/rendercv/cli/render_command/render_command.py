@@ -36,9 +36,8 @@ def cli_command_render(
             "--output-folder",
             "-o",
             help=(
-                "Base output folder for all generated files. Replaces the default "
-                "'rendercv_output' folder. Can also be used as OUTPUT_FOLDER "
-                "placeholder in custom paths."
+                "Base output folder for all generated files. Replaces the default"
+                " 'rendercv_output' folder."
             ),
         ),
     ] = None,
