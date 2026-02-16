@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../schema.json
+cv:
+  name: John Doe
+  headline:
+  location: San Francisco, CA
+  email: john.doe@email.com
+  photo:
+  phone:
+  website: https://rendercv.com/
+  social_networks:
+    - network: LinkedIn
+      username: rendercv
+    - network: GitHub
+      username: rendercv
+  sections:
+    "":
+      # date
+      - name: ""
+        date: "February 15, 2026"
+    " ":
+      # greeting:
+      - "Dear Hiring Manager,"
+      - "#linebreak()"
+      # opening:
+      - "#lorem(100)"
+      - "#linebreak()"
+      # middle:
+      - "#lorem(200)"
+      - "#linebreak()"
+      # closing:
+      - "#lorem(100)"
+    "   ":
+      # signature:
+      - Sincerely,
+      - John Doe

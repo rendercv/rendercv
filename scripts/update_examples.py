@@ -4,7 +4,10 @@ import tempfile
 
 from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
-from rendercv.schema.models.design.built_in_design import available_themes
+from rendercv.schema.models.design.built_in_design import (
+    available_cover_themes,
+    available_themes,
+)
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
 repository_root = pathlib.Path(__file__).parent.parent
@@ -19,14 +22,17 @@ if not examples_directory_path.exists():
     examples_directory_path.mkdir()
 
 for theme in available_themes:
+    is_cover_theme = theme in available_cover_themes
+    suffix = "Cover" if is_cover_theme else "CV"
     yaml_file_path = (
-        examples_directory_path / f"John_Doe_{theme.capitalize()}Theme_CV.yaml"
+        examples_directory_path / f"John_Doe_{theme.capitalize()}Theme_{suffix}.yaml"
     )
     create_sample_yaml_input_file(
         file_path=yaml_file_path,
         name="John Doe",
         theme=theme,
         locale="english",
+        cover=is_cover_theme,
     )
 
     with tempfile.TemporaryDirectory() as temp_directory:

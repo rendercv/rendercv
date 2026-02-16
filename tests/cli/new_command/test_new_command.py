@@ -14,6 +14,7 @@ class TestCliCommandNew:
     @pytest.mark.parametrize("input_file_exists", [True, False])
     @pytest.mark.parametrize("typst_templates_exist", [True, False])
     @pytest.mark.parametrize("markdown_templates_exist", [True, False])
+    @pytest.mark.parametrize("cover", [False])
     def test_cli_command_new(
         self,
         tmp_path,
@@ -22,11 +23,13 @@ class TestCliCommandNew:
         input_file_exists,
         typst_templates_exist,
         markdown_templates_exist,
+        cover
     ):
         os.chdir(tmp_path)
 
         full_name = "John Doe"
-        input_file_path = tmp_path / "John_Doe_CV.yaml"
+        suffix = "Cover" if cover else "CV"
+        input_file_path = tmp_path / f"John_Doe_{suffix}.yaml"
         typst_folder = tmp_path / "classic"
         markdown_folder = tmp_path / "markdown"
 
@@ -40,8 +43,10 @@ class TestCliCommandNew:
 
         cli_command_new(
             full_name=full_name,
+            theme="classic",
             create_typst_templates=create_typst_templates,
             create_markdown_templates=create_markdown_templates,
+            cover=cover
         )
 
         # Input file should always exist after command

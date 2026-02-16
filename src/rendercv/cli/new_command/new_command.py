@@ -7,7 +7,10 @@ import typer
 from rich import print
 
 from rendercv.exception import RenderCVUserError
-from rendercv.schema.models.design.built_in_design import available_themes
+from rendercv.schema.models.design.built_in_design import (
+    available_cover_themes,
+    available_themes,
+)
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
@@ -61,6 +64,10 @@ def cli_command_new(
             help="Create Markdown templates",
         ),
     ] = False,
+    cover: Annotated[
+        bool,
+        typer.Option("--cover", help="Cover letter"),
+    ] = False,
 ):
     if theme not in available_themes:
         message = (
@@ -76,9 +83,21 @@ def cli_command_new(
         )
         raise RenderCVUserError(message)
 
+    is_cover_theme = theme in available_cover_themes
+    if cover and not is_cover_theme:
+        message = (
+            f"{theme} is not a valid cover theme. Available cover themes are:"
+            f" {', '.join(available_cover_themes)}"
+        )
+        raise RenderCVUserError(message)
+    if not cover and is_cover_theme:
+        message = "--cover flag used for a CV theme. Please check if this is intended"
+        raise RenderCVUserError(message)
+
     print_welcome()
 
-    input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_CV.yaml")
+    suffix = "Cover" if cover else "CV"
+    input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_{suffix}.yaml")
     typst_templates_folder = pathlib.Path(theme)
     markdown_folder = pathlib.Path("markdown")
 
@@ -88,7 +107,11 @@ def cli_command_new(
             "Your YAML input file",
             input_file_path,
             lambda: create_sample_yaml_input_file(
-                file_path=input_file_path, name=full_name, theme=theme, locale=locale
+                file_path=input_file_path,
+                name=full_name,
+                theme=theme,
+                locale=locale,
+                cover=cover,
             ),
             True,  # never skip the input file
         ),

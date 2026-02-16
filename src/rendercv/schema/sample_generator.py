@@ -10,7 +10,11 @@ from rendercv import __version__
 from rendercv.exception import RenderCVUserError
 
 from .models.cv.cv import Cv
-from .models.design.built_in_design import available_themes, built_in_design_adapter
+from .models.design.built_in_design import (
+    available_cover_themes,
+    available_themes,
+    built_in_design_adapter,
+)
 from .models.locale.locale import available_locales, locale_adapter
 from .models.rendercv_model import RenderCVModel
 from .rendercv_model_builder import read_yaml
@@ -49,7 +53,11 @@ def dictionary_to_yaml(dictionary: dict) -> str:
 
 
 def create_sample_rendercv_pydantic_model(
-    *, name: str = "John Doe", theme: str = "classic", locale: str = "english"
+    *,
+    name: str = "John Doe",
+    theme: str = "classic",
+    locale: str = "english",
+    cover: bool = False,
 ) -> RenderCVModel:
     """Build sample CV model from sample content.
 
@@ -66,7 +74,8 @@ def create_sample_rendercv_pydantic_model(
     Returns:
         Validated model with sample content.
     """
-    sample_content = pathlib.Path(__file__).parent / "sample_content.yaml"
+    sample_file = "sample_cover_content.yaml" if cover else "sample_content.yaml"
+    sample_content = pathlib.Path(__file__).parent / sample_file
     sample_content_dictionary = read_yaml(sample_content)["cv"]
     cv = Cv(**sample_content_dictionary)
 
@@ -85,6 +94,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    cover: bool = False,
 ) -> str: ...
 @overload
 def create_sample_yaml_input_file(
@@ -93,6 +103,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    cover: bool = False,
 ) -> None: ...
 def create_sample_yaml_input_file(
     *,
@@ -100,6 +111,7 @@ def create_sample_yaml_input_file(
     name: str = "John Doe",
     theme: str = "classic",
     locale: str = "english",
+    cover: bool = False,
 ) -> str | None:
     """Generate formatted sample YAML with schema hint and commented design options.
 
@@ -140,8 +152,19 @@ def create_sample_yaml_input_file(
         )
         raise RenderCVUserError(message)
 
+    is_cover_theme = theme in available_cover_themes
+    if cover and not is_cover_theme:
+        message = (
+            f"{theme} is not a valid cover theme. Available cover themes are:"
+            f" {', '.join(available_cover_themes)}"
+        )
+        raise RenderCVUserError(message)
+    if not cover and is_cover_theme:
+        message = "--cover flag used for a CV theme. Please check if this is intended"
+        raise RenderCVUserError(message)
+
     data_model = create_sample_rendercv_pydantic_model(
-        name=name, theme=theme, locale=locale
+        name=name, theme=theme, locale=locale, cover=cover
     )
 
     # Instead of getting the dictionary with data_model.model_dump() directly, we
