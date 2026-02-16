@@ -186,10 +186,12 @@ def cli_command_render(
     ] = None,
     extra_data_model_override_arguments: typer.Context = None,  # ty: ignore[invalid-parameter-default]
 ):
+    input_file_path = pathlib.Path(input_file_name)
+
     arguments: BuildRendercvModelArguments = {
-        "design_file_path_or_contents": design if design else None,
-        "locale_file_path_or_contents": locale if locale else None,
-        "settings_file_path_or_contents": settings if settings else None,
+        "design_yaml_file": design.read_text(encoding="utf-8") if design else None,
+        "locale_yaml_file": locale.read_text(encoding="utf-8") if locale else None,
+        "settings_yaml_file": settings.read_text(encoding="utf-8") if settings else None,
         "typst_path": typst_path,
         "pdf_path": pdf_path,
         "markdown_path": markdown_path,
@@ -202,7 +204,6 @@ def cli_command_render(
         "dont_generate_png": dont_generate_png,
         "overrides": parse_override_arguments(extra_data_model_override_arguments),
     }
-    input_file_path = pathlib.Path(input_file_name)
 
     with ProgressPanel(quiet=quiet) as progress_panel:
         if watch:
