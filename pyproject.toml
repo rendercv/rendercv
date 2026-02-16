@@ -108,7 +108,7 @@ docs = [
   "mkdocstrings[python]>=1.0.2",  # Build reference docs from docstrings
 ]
 update-entry-figures = [
-  "PyMuPDF==1.26.5",  # Convert PDF files to images
+  "PyMuPDF==1.27.1",  # Convert PDF files to images
   "pdfCropMargins==2.2.1",  # Generate entry figures for documentation
   "pillow==10.4.0",  # Lock dependency of pdfCropMargins
 ]
