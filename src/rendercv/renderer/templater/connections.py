@@ -30,6 +30,7 @@ fontawesome_icons = {
     "email": "envelope",
     "phone": "phone",
     "website": "link",
+    "Reddit": "reddit",
 }
 
 

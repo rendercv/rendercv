@@ -27,6 +27,7 @@ type SocialNetworkName = Literal[
     "Leetcode",
     "X",
     "Bluesky",
+    "Reddit",
 ]
 available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
@@ -45,6 +46,7 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "Leetcode": "https://leetcode.com/u/",
     "X": "https://x.com/",
     "Bluesky": "https://bsky.app/profile/",
+    "Reddit": "https://reddit.com/user/",
 }
 
 
@@ -136,6 +138,15 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         "WhatsApp username should be your phone number with country"
                         " code in international format (e.g., +1 for USA, +44 for UK).",
                     ) from e
+            case "Reddit":
+                reddit_username_pattern = r"^[a-zA-Z0-9_-]{3,23}$"
+                if not re.fullmatch(reddit_username_pattern, username):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        "Reddit username should be made up of uppercase/lowercase"
+                        " letters, numbers, underscores, and hyphens between 3 and 23"
+                        " characters.",
+                    )
 
         return username
 

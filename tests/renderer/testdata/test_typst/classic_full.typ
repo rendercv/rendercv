@@ -114,6 +114,7 @@
   [#link("https://wa.me/+14155552671", icon: false, if-underline: false, if-color: false)[#connection-with-icon("whatsapp")[+14155552671]]],
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("x-twitter")[johndoe]]],
   [#link("https://bsky.app/profile/johndoe.bsky.social", icon: false, if-underline: false, if-color: false)[#connection-with-icon("bluesky")[johndoe.bsky.social]]],
+  [#link("https://reddit.com/user/johndoe", icon: false, if-underline: false, if-color: false)[#connection-with-icon("reddit")[johndoe]]],
 )
   ]
 )

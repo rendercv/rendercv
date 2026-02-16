@@ -136,7 +136,7 @@ class ProgressPanel(rich.live.Live):
         self.update(
             rich.panel.Panel(
                 table,
-                title="[bold red]There are errors in the input file![/bold red]",
+                title="[bold red]There are validation errors![/bold red]",
                 title_align="left",
                 border_style="bold red",
             )

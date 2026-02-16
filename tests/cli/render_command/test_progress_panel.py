@@ -130,6 +130,7 @@ class TestProgressPanelPrintValidationErrors:
             RenderCVValidationError(
                 location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
+                yaml_source=None,
                 input="123",
                 message="Invalid name",
             )
@@ -149,6 +150,7 @@ class TestProgressPanelPrintValidationErrors:
             RenderCVValidationError(
                 location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
+                yaml_source=None,
                 input="123",
                 message="Invalid name",
             )
@@ -166,12 +168,14 @@ class TestProgressPanelPrintValidationErrors:
             RenderCVValidationError(
                 location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
+                yaml_source=None,
                 input="123",
                 message="Invalid name",
             ),
             RenderCVValidationError(
                 location=("cv", "email"),
                 yaml_location=((2, 1), (2, 1)),
+                yaml_source=None,
                 input="not-an-email",
                 message="Invalid email format",
             ),

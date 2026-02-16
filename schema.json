@@ -1437,6 +1437,8 @@
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
           "mandarin_chineese": "#/$defs/MandarinChineeseLocale",
+          "norwegian_bokmål": "#/$defs/NorwegianBokm_lLocale",
+          "norwegian_nynorsk": "#/$defs/NorwegianNynorskLocale",
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
@@ -1477,6 +1479,12 @@
         },
         {
           "$ref": "#/$defs/MandarinChineeseLocale"
+        },
+        {
+          "$ref": "#/$defs/NorwegianBokm_lLocale"
+        },
+        {
+          "$ref": "#/$defs/NorwegianNynorskLocale"
         },
         {
           "$ref": "#/$defs/PortugueseLocale"
@@ -1624,6 +1632,194 @@
         }
       },
       "title": "ModerncvTheme",
+      "type": "object"
+    },
+    "NorwegianBokm_lLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "norwegian_bokmål",
+          "default": "norwegian_bokmål",
+          "description": "The language for your CV. The default value is `norwegian_bokmål`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Sist oppdatert",
+          "description": "Translation of \"Last updated in\". The default value is `Sist oppdatert`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "måned",
+          "description": "Translation of \"month\" (singular). The default value is `måned`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "måneder",
+          "description": "Translation of \"months\" (plural). The default value is `måneder`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "nåværende",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nåværende`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januar",
+            "Februar",
+            "Mars",
+            "April",
+            "Mai",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "NorwegianBokmålLocale",
+      "type": "object"
+    },
+    "NorwegianNynorskLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "norwegian_nynorsk",
+          "default": "norwegian_nynorsk",
+          "description": "The language for your CV. The default value is `norwegian_nynorsk`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Sist oppdatert",
+          "description": "Translation of \"Last updated in\". The default value is `Sist oppdatert`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "månad",
+          "description": "Translation of \"month\" (singular). The default value is `månad`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "månader",
+          "description": "Translation of \"months\" (plural). The default value is `månader`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "nåverande",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nåverande`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Mai",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Des"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januar",
+            "Februar",
+            "Mars",
+            "April",
+            "Mai",
+            "Juni",
+            "Juli",
+            "August",
+            "September",
+            "Oktober",
+            "November",
+            "Desember"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "NorwegianNynorskLocale",
       "type": "object"
     },
     "NumberedEntry": {
@@ -2111,7 +2307,8 @@
         "WhatsApp",
         "Leetcode",
         "X",
-        "Bluesky"
+        "Bluesky",
+        "Reddit"
       ],
       "type": "string"
     },
@@ -4986,6 +5183,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5017,6 +5215,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5048,6 +5247,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5079,6 +5279,7 @@
           "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
+          "default": [],
           "description": "Section titles where time spans (e.g., '2 years 3 months') should be displayed. The default value is `[]`.",
           "items": {
             "type": "string"
@@ -5744,7 +5945,7 @@
       "type": "string"
     }
   },
-  "additionalProperties": true,
+  "additionalProperties": false,
   "properties": {
     "cv": {
       "$ref": "#/$defs/Cv",

@@ -9,6 +9,26 @@ from rendercv.exception import RenderCVInternalError
 type FieldSpec = tuple[type[Any], FieldInfo]
 
 
+def sanitize_defaults(value: Any) -> Any:
+    """Recursively convert CommentedMap/CommentedSeq to dict/list.
+
+    Why:
+        ruamel.yaml returns custom types that behave like dict/list but confuse Pydantic
+        and JSON schema generation. Stripping metadata ensures clean defaults.
+
+    Args:
+        value: The value to sanitize (can be nested dict/list structure).
+
+    Returns:
+        The sanitized value with standard Python types.
+    """
+    if isinstance(value, list):
+        return [sanitize_defaults(v) for v in value]
+    if isinstance(value, dict):
+        return {k: sanitize_defaults(v) for k, v in value.items()}
+    return value
+
+
 def create_variant_pydantic_model[T: pydantic.BaseModel](
     variant_name: str,
     defaults: dict[str, Any],
@@ -49,6 +69,9 @@ def create_variant_pydantic_model[T: pydantic.BaseModel](
         New model class with overrides applied.
     """
     validate_defaults_against_base(defaults, base_class, variant_name)
+
+    # Sanitize defaults to remove ruamel.yaml metadata
+    defaults = sanitize_defaults(defaults)
 
     field_specs: dict[str, Any] = {}
     base_fields = base_class.model_fields

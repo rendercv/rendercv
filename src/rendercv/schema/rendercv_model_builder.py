@@ -14,9 +14,9 @@ from .yaml_reader import read_yaml
 
 
 class BuildRendercvModelArguments(TypedDict, total=False):
-    design_file_path_or_contents: pathlib.Path | str | None
-    locale_file_path_or_contents: pathlib.Path | str | None
-    settings_file_path_or_contents: pathlib.Path | str | None
+    design_yaml_file: str | None
+    locale_yaml_file: str | None
+    settings_yaml_file: str | None
     typst_path: pathlib.Path | str | None
     pdf_path: pathlib.Path | str | None
     markdown_path: pathlib.Path | str | None
@@ -31,51 +31,34 @@ class BuildRendercvModelArguments(TypedDict, total=False):
 
 
 def build_rendercv_dictionary(
-    main_input_file_path_or_contents: pathlib.Path | str,
+    main_yaml_file: str,
     **kwargs: Unpack[BuildRendercvModelArguments],
-) -> CommentedMap:
+) -> tuple[CommentedMap, dict[str, CommentedMap]]:
     """Merge main YAML with overlays and CLI overrides into final dictionary.
 
-    Why:
-        Users need modular configuration (separate design/locale files) and
-        quick testing (CLI overrides). This pipeline applies all modifications
-        before validation, ensuring users see complete configuration errors.
-
-    Example:
-        ```py
-        data = build_rendercv_dictionary(
-            pathlib.Path("cv.yaml"),
-            design_file_path_or_contents=pathlib.Path("classic.yaml"),
-            overrides={"cv.phone": "+1234567890"},
-        )
-        # data contains merged cv + design + overrides
-        ```
-
     Args:
-        main_input_file_path_or_contents: Primary CV YAML file or string.
-        kwargs: Optional YAML overlay paths, output paths, generation flags, and CLI overrides.
+        main_yaml_file: Primary CV YAML content string.
+        kwargs: Optional YAML overlay strings, output paths, generation flags, and CLI overrides.
 
     Returns:
-        Merged dictionary ready for validation.
+        Tuple of merged dictionary and overlay source CommentedMaps (for error reporting).
     """
-    input_dict = read_yaml(main_input_file_path_or_contents)
+    input_dict = read_yaml(main_yaml_file)
     input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
-    # Optional YAML overlays
-    yaml_overlays: dict[str, pathlib.Path | str | None] = {
-        "design": kwargs.get("design_file_path_or_contents"),
-        "locale": kwargs.get("locale_file_path_or_contents"),
-        "settings": kwargs.get("settings_file_path_or_contents"),
+    yaml_overlays: dict[str, str | None] = {
+        "settings": kwargs.get("settings_yaml_file"),
+        "design": kwargs.get("design_yaml_file"),
+        "locale": kwargs.get("locale_yaml_file"),
     }
 
-    for key, path_or_contents in yaml_overlays.items():
-        if path_or_contents:
-            if isinstance(path_or_contents, str) or key == "settings":
-                input_dict[key] = read_yaml(path_or_contents)[key]
-            elif isinstance(path_or_contents, pathlib.Path):
-                input_dict["settings"]["render_command"][key] = path_or_contents
+    overlay_sources: dict[str, CommentedMap] = {}
+    for key, yaml_content in yaml_overlays.items():
+        if yaml_content:
+            overlay_cm = read_yaml(yaml_content)
+            input_dict[key] = overlay_cm[key]
+            overlay_sources[key] = overlay_cm
 
-    # Optional render-command overrides
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
         "typst_path": kwargs.get("typst_path"),
         "pdf_path": kwargs.get("pdf_path"),
@@ -97,23 +80,20 @@ def build_rendercv_dictionary(
     if overrides:
         input_dict = apply_overrides_to_dictionary(input_dict, overrides)
 
-    return input_dict
+    return input_dict, overlay_sources
 
 
 def build_rendercv_model_from_commented_map(
     commented_map: CommentedMap | dict[str, Any],
     input_file_path: pathlib.Path | None = None,
+    overlay_sources: dict[str, CommentedMap] | None = None,
 ) -> RenderCVModel:
     """Validate merged dictionary and build Pydantic model with error mapping.
-
-    Why:
-        Validation transforms raw YAML into type-safe objects. When validation
-        fails, CommentedMap metadata enables precise error location reporting
-        instead of generic Pydantic messages.
 
     Args:
         commented_map: Merged dictionary with line/column metadata.
         input_file_path: Source file path for context and photo resolution.
+        overlay_sources: Per-section CommentedMaps from overlays (for correct error coordinates).
 
     Returns:
         Validated RenderCVModel instance.
@@ -126,56 +106,29 @@ def build_rendercv_model_from_commented_map(
             )
         }
         model = RenderCVModel.model_validate(commented_map, context=validation_context)
-        if model.settings.render_command.design:
-            design = read_yaml(model.settings.render_command.design)
-            model.design = RenderCVModel.model_validate(
-                design,
-                context=validation_context,
-            ).design
-        if model.settings.render_command.locale:
-            locale = read_yaml(model.settings.render_command.locale)
-            model.locale = RenderCVModel.model_validate(
-                locale,
-                context=validation_context,
-            ).locale
     except pydantic.ValidationError as e:
-        validation_errors = parse_validation_errors(e, commented_map)
+        validation_errors = parse_validation_errors(e, commented_map, overlay_sources)
         raise RenderCVUserValidationError(validation_errors) from e
 
     return model
 
 
 def build_rendercv_dictionary_and_model(
-    main_input_file_path_or_contents: pathlib.Path | str,
+    main_yaml_file: str,
+    *,
+    input_file_path: pathlib.Path | None = None,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ) -> tuple[CommentedMap, RenderCVModel]:
-    """Complete pipeline from raw input to validated model.
-
-    Why:
-        Main entry point for render command combines merging and validation
-        in one call. Returns both dictionary and model because error handlers
-        need dictionary metadata for location mapping.
-
-    Example:
-        ```py
-        data, model = build_rendercv_dictionary_and_model(
-            pathlib.Path("cv.yaml"), pdf_path="output.pdf"
-        )
-        # model.cv.name is validated, data preserves YAML line numbers
-        ```
+    """Complete pipeline from raw YAML string to validated model.
 
     Args:
-        main_input_file_path_or_contents: Primary CV YAML file or string.
-        kwargs: Optional YAML overlay paths, output paths, generation flags, and CLI overrides.
+        main_yaml_file: Primary CV YAML content string.
+        input_file_path: Source file path for validation context (path resolution).
+        kwargs: Optional YAML overlay strings, output paths, generation flags, and CLI overrides.
 
     Returns:
         Tuple of merged dictionary and validated model.
     """
-    d = build_rendercv_dictionary(main_input_file_path_or_contents, **kwargs)
-    input_file_path = (
-        main_input_file_path_or_contents
-        if isinstance(main_input_file_path_or_contents, pathlib.Path)
-        else None
-    )
-    m = build_rendercv_model_from_commented_map(d, input_file_path)
+    d, overlay_sources = build_rendercv_dictionary(main_yaml_file, **kwargs)
+    m = build_rendercv_model_from_commented_map(d, input_file_path, overlay_sources)
     return d, m

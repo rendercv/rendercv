@@ -52,7 +52,10 @@ class TestCliCommandNew:
             assert input_file_path.read_text(encoding="utf-8") == "existing content"
         else:
             # Make sure it's a valid YAML file
-            build_rendercv_dictionary_and_model(input_file_path)
+            yaml_content = input_file_path.read_text(encoding="utf-8")
+            build_rendercv_dictionary_and_model(
+                yaml_content, input_file_path=input_file_path
+            )
 
         # Typst templates
         if not create_typst_templates:

@@ -15,6 +15,7 @@ from rendercv.schema.rendercv_model_builder import (
     BuildRendercvModelArguments,
     build_rendercv_dictionary_and_model,
 )
+from rendercv.schema.yaml_reader import read_yaml
 
 from .progress_panel import ProgressPanel
 
@@ -72,37 +73,39 @@ def timed_step[T, **P](
 
 
 def run_rendercv(
-    main_input_file_path_or_contents: pathlib.Path | str,
+    input_file_path: pathlib.Path,
     progress: ProgressPanel,
     **kwargs: Unpack[BuildRendercvModelArguments],
 ):
     """Execute complete CV generation pipeline with progress tracking and error handling.
 
-    Why:
-        Orchestrates the full flow: YAML → Pydantic validation → Typst generation →
-        PDF/PNG/HTML/Markdown outputs. Catches all error types and displays them
-        through progress panel for clean CLI experience.
-
-    Example:
-        ```py
-        with ProgressPanel() as progress:
-            run_rendercv(
-                Path("cv.yaml"), progress, pdf_path="output.pdf", dont_generate_png=True
-            )
-        # Generates PDF, skips PNG, shows progress for each step
-        ```
-
     Args:
-        main_input_file_path_or_contents: YAML file path or raw content string.
+        input_file_path: Path to the main YAML input file.
         progress: Progress panel for output display.
-        kwargs: Optional overrides for design/locale files, output paths, and generation flags.
+        kwargs: Optional YAML overlay strings, output paths, and generation flags.
     """
     try:
+        main_yaml = input_file_path.read_text(encoding="utf-8")
+
+        # Resolve design/locale file references from the YAML itself
+        # (CLI flags override YAML references)
+        main_dict = read_yaml(main_yaml)
+        rc = main_dict.get("settings", {}).get("render_command", {})
+
+        if not kwargs.get("design_yaml_file") and rc.get("design"):
+            design_path = (input_file_path.parent / rc["design"]).resolve()
+            kwargs["design_yaml_file"] = design_path.read_text(encoding="utf-8")
+
+        if not kwargs.get("locale_yaml_file") and rc.get("locale"):
+            locale_path = (input_file_path.parent / rc["locale"]).resolve()
+            kwargs["locale_yaml_file"] = locale_path.read_text(encoding="utf-8")
+
         _, rendercv_model = timed_step(
             "Validated the input file",
             progress,
             build_rendercv_dictionary_and_model,
-            main_input_file_path_or_contents,
+            main_yaml,
+            input_file_path=input_file_path,
             **kwargs,
         )
         typst_path = timed_step(

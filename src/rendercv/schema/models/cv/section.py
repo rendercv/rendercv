@@ -246,7 +246,7 @@ def validate_section(sections_input: Any) -> Any:
 # function.
 type Section = Annotated[
     pydantic.json_schema.SkipJsonSchema[Any] | ListOfEntries,
-    pydantic.BeforeValidator(lambda entries: validate_section(entries)),
+    pydantic.BeforeValidator(validate_section),
 ]
 
 
