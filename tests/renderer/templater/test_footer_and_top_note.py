@@ -22,6 +22,12 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
             "LAST_UPDATED CURRENT_DATE by NAME",
             "Last updated in Jan 2024 by",
         ),
+        # DAY placeholders
+        (
+            "John Doe",
+            "NAME - DAY/MONTH/YEAR",
+            "John Doe - 1/1/2024",
+        ),
     ],
 )
 def test_render_top_note_template(name, top_note_template, expected):
@@ -47,6 +53,12 @@ def test_render_top_note_template(name, top_note_template, expected):
             None,
             "NAME - Page PAGE_NUMBER/TOTAL_PAGES - CURRENT_DATE",
             "- Page TYPST_PAGE_NUMBER/TYPST_TOTAL_PAGES - Jan 2024",
+        ),
+        # DAY placeholders
+        (
+            "John Doe",
+            "NAME - DAY_IN_TWO_DIGITS/MONTH_IN_TWO_DIGITS/YEAR",
+            "John Doe - 01/01/2024",
         ),
     ],
 )
