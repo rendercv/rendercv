@@ -17,13 +17,13 @@ Write your CV or resume as YAML, then run RenderCV,
 rendercv render John_Doe_CV.yaml
 ```
 
-and get a PDF with perfect typography. No template wrestling. No broken layouts. Consistent spacing, every time.
+and get a PDF with perfect typography.
 
 With RenderCV, you can:
 
 - Version-control your CV — it's just text.
 - Focus on content — don't worry about the formatting.
-- Get perfect typography — pixel-perfect alignment and spacing, handled for you.
+- Get perfect typography — consistent alignment and spacing, handled for you.
 
 A YAML file like this:
 
