@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: norwegian_nynorsk
+  last_updated: "Sist oppdatert"
+  month: "månad"
+  months: "månader"
+  year: "år"
+  years: "år"
+  present: "nåverande"
+  month_abbreviations:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - Mai
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Des
+  month_names:
+    - Januar
+    - Februar
+    - Mars
+    - April
+    - Mai
+    - Juni
+    - Juli
+    - August
+    - September
+    - Oktober
+    - November
+    - Desember

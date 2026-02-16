@@ -115,6 +115,7 @@ class TestReadVersionCache:
 
         result = read_version_cache()
 
+        assert result is not None
         assert result["latest_version"] == "2.0.0"
 
 
