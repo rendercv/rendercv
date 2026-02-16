@@ -1,3 +1,5 @@
+import pathlib
+
 import pytest
 
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
@@ -58,3 +60,78 @@ def test_generate_png(
     reference_filename = f"{theme}_minimal.png"
 
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+class TestGeneratePngCleansUpOldFiles:
+    def test_removes_stale_png_files_from_previous_run(
+        self,
+        tmp_path: pathlib.Path,
+        minimal_rendercv_model: RenderCVModel,
+    ):
+        model = RenderCVModel(
+            cv=minimal_rendercv_model.cv,
+            design={"theme": "classic"},
+            locale=minimal_rendercv_model.locale,
+            settings=minimal_rendercv_model.settings,
+        )
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        (output_dir / "John_Doe_CV_1.png").write_bytes(b"old")
+        (output_dir / "John_Doe_CV_2.png").write_bytes(b"old")
+        (output_dir / "John_Doe_CV_3.png").write_bytes(b"old")
+
+        model.settings.render_command.typst_path = output_dir / "John_Doe_CV.typ"
+        typst_path = generate_typst(model)
+        model.settings.render_command.png_path = output_dir / "John_Doe_CV.png"
+        result = generate_png(model, typst_path)
+
+        assert result is not None
+        all_pngs = list(output_dir.glob("John_Doe_CV_*.png"))
+        assert len(all_pngs) == len(result)
+
+    def test_does_not_remove_unrelated_files(
+        self,
+        tmp_path: pathlib.Path,
+        minimal_rendercv_model: RenderCVModel,
+    ):
+        model = RenderCVModel(
+            cv=minimal_rendercv_model.cv,
+            design={"theme": "classic"},
+            locale=minimal_rendercv_model.locale,
+            settings=minimal_rendercv_model.settings,
+        )
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        (output_dir / "John_Doe_CV_1.png").write_bytes(b"old")
+        (output_dir / "unrelated_file.png").write_bytes(b"old")
+        (output_dir / "Other_CV_1.png").write_bytes(b"old")
+
+        model.settings.render_command.typst_path = output_dir / "John_Doe_CV.typ"
+        typst_path = generate_typst(model)
+        model.settings.render_command.png_path = output_dir / "John_Doe_CV.png"
+        generate_png(model, typst_path)
+
+        assert (output_dir / "unrelated_file.png").exists()
+        assert (output_dir / "Other_CV_1.png").exists()
+
+    def test_works_when_no_old_files_exist(
+        self,
+        tmp_path: pathlib.Path,
+        minimal_rendercv_model: RenderCVModel,
+    ):
+        model = RenderCVModel(
+            cv=minimal_rendercv_model.cv,
+            design={"theme": "classic"},
+            locale=minimal_rendercv_model.locale,
+            settings=minimal_rendercv_model.settings,
+        )
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+
+        model.settings.render_command.typst_path = output_dir / "John_Doe_CV.typ"
+        typst_path = generate_typst(model)
+        model.settings.render_command.png_path = output_dir / "John_Doe_CV.png"
+        result = generate_png(model, typst_path)
+
+        assert result is not None
+        assert len(result) >= 1
