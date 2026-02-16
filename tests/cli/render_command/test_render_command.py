@@ -165,18 +165,16 @@ class TestCliCommandRender:
         rendercv_output = input_file.parent / "rendercv_output"
         assert (rendercv_output / "John_Doe_CV.pdf").exists()
 
-    @patch("rendercv.cli.render_command.render_command.run_function_if_file_changes")
+    @patch("rendercv.cli.render_command.render_command.run_function_if_files_change")
     def test_calls_watcher_when_watch_flag_is_true(
         self, mock_watcher, input_file, default_arguments
     ):
         cli_command_render(
             input_file_name=input_file,
-            **{**default_arguments, "watch": True},  # ty: ignore
+            **{**default_arguments, "watch": True},  # ty: ignore[invalid-argument-type]
         )
 
         mock_watcher.assert_called_once()
-        call_args = mock_watcher.call_args
-        assert call_args[0][0] == input_file.absolute()
 
     @pytest.mark.parametrize(
         ("config_type", "config_content", "expected_in_output"),

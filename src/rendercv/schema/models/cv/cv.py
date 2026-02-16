@@ -126,7 +126,7 @@ class Cv(BaseModelWithExtraKeys):
         """
         return get_rendercv_sections(self.sections)
 
-    @pydantic.model_validator(mode="wrap")  # ty: ignore
+    @pydantic.model_validator(mode="wrap")  # ty: ignore[invalid-argument-type]
     @classmethod
     def capture_input_order(
         cls, data: Any, handler: pydantic.ModelWrapValidatorHandler[Self]

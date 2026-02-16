@@ -6,7 +6,11 @@ import pytest
 import typer
 
 from rendercv.cli.render_command.progress_panel import ProgressPanel
-from rendercv.cli.render_command.run_rendercv import run_rendercv, timed_step
+from rendercv.cli.render_command.run_rendercv import (
+    collect_input_file_paths,
+    run_rendercv,
+    timed_step,
+)
 
 
 class TestTimedStep:
@@ -157,3 +161,62 @@ design:
         finally:
             # Restore permissions for cleanup
             yaml_file.chmod(original_mode)
+
+
+class TestCollectInputFilePaths:
+    def test_returns_only_input_file_by_default(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text("cv:\n  name: John Doe\n", encoding="utf-8")
+
+        result = collect_input_file_paths(yaml_file)
+
+        assert result == {"input": yaml_file}
+
+    def test_includes_cli_provided_files(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text("cv:\n  name: John Doe\n", encoding="utf-8")
+        design_file = tmp_path / "design.yaml"
+        design_file.touch()
+        settings_file = tmp_path / "settings.yaml"
+        settings_file.touch()
+
+        result = collect_input_file_paths(
+            yaml_file, design=design_file, settings=settings_file
+        )
+
+        assert result["input"] == yaml_file
+        assert result["design"] == design_file
+        assert result["settings"] == settings_file
+
+    def test_includes_yaml_referenced_files(self, tmp_path):
+        design_file = tmp_path / "my_design.yaml"
+        design_file.touch()
+
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text(
+            "cv:\n  name: John Doe\n"
+            "settings:\n  render_command:\n    design: my_design.yaml\n",
+            encoding="utf-8",
+        )
+
+        result = collect_input_file_paths(yaml_file)
+
+        assert result["input"] == yaml_file
+        assert result["design"] == design_file.resolve()
+
+    def test_cli_flags_take_precedence_over_yaml_references(self, tmp_path):
+        yaml_ref_design = tmp_path / "yaml_design.yaml"
+        yaml_ref_design.touch()
+        cli_design = tmp_path / "cli_design.yaml"
+        cli_design.touch()
+
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text(
+            "cv:\n  name: John Doe\n"
+            "settings:\n  render_command:\n    design: yaml_design.yaml\n",
+            encoding="utf-8",
+        )
+
+        result = collect_input_file_paths(yaml_file, design=cli_design)
+
+        assert result["design"] == cli_design

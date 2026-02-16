@@ -89,12 +89,12 @@ rendercv = "rendercv.cli.entry_point:entry_point"
 [dependency-groups]
 dev = [
   "black>=26.1.0",  # Format the code
-  "prek>=0.3.1",  # Run checks before committing (pre-commit alternative)
+  "prek>=0.3.3",  # Run checks before committing (pre-commit alternative)
   "pytest>=9.0.2",  # Run tests
   "pytest-cov>=7.0.0",  # Coverage plugin for pytest with xdist support
   "pytest-xdist>=3.8.0",  # Run tests in parallel
-  "ruff>=0.15.0",  # Lint and format the code
-  "ty>=0.0.15",  # Type checking
+  "ruff>=0.15.1",  # Lint and format the code
+  "ty>=0.0.17",  # Type checking
 ]
 create-executable = [
   "pyinstaller>=6.17.0",  # Build executables
