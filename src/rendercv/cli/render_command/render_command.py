@@ -11,8 +11,8 @@ from ..app import app
 from ..error_handler import handle_user_errors
 from .parse_override_arguments import parse_override_arguments
 from .progress_panel import ProgressPanel
-from .run_rendercv import run_rendercv
-from .watcher import run_function_if_file_changes
+from .run_rendercv import collect_input_file_paths, run_rendercv
+from .watcher import run_function_if_files_change
 
 
 @app.command(
@@ -209,17 +209,12 @@ def cli_command_render(
 
     with ProgressPanel(quiet=quiet) as progress_panel:
         if watch:
-            # Watch the main input file and any included config files
-            files_to_watch = [input_file_path]
-            if design:
-                files_to_watch.append(design)
-            if locale:
-                files_to_watch.append(locale)
-            if settings:
-                files_to_watch.append(settings)
-
-            run_function_if_file_changes(
-                files_to_watch,
+            run_function_if_files_change(
+                list(
+                    collect_input_file_paths(
+                        input_file_path, design, locale, settings
+                    ).values()
+                ),
                 lambda: run_rendercv(input_file_path, progress_panel, **arguments),
             )
         else:

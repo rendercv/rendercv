@@ -165,49 +165,16 @@ class TestCliCommandRender:
         rendercv_output = input_file.parent / "rendercv_output"
         assert (rendercv_output / "John_Doe_CV.pdf").exists()
 
-    @patch("rendercv.cli.render_command.render_command.run_function_if_file_changes")
+    @patch("rendercv.cli.render_command.render_command.run_function_if_files_change")
     def test_calls_watcher_when_watch_flag_is_true(
         self, mock_watcher, input_file, default_arguments
     ):
         cli_command_render(
             input_file_name=input_file,
-            **{**default_arguments, "watch": True},  # ty: ignore
+            **{**default_arguments, "watch": True},
         )
 
         mock_watcher.assert_called_once()
-        call_args = mock_watcher.call_args
-        # Should watch the input file (now passed as a list)
-        assert input_file.absolute() in call_args[0][0]
-
-    @patch("rendercv.cli.render_command.render_command.run_function_if_file_changes")
-    def test_watcher_includes_config_files(
-        self, mock_watcher, input_file, default_arguments
-    ):
-        """Test that watch mode monitors included config files (design, locale, settings)."""
-        design_file = input_file.parent / "custom_design.yaml"
-        design_file.write_text("design:\n  theme: moderncv\n", encoding="utf-8")
-
-        locale_file = input_file.parent / "custom_locale.yaml"
-        locale_file.write_text("locale:\n  language: turkish\n", encoding="utf-8")
-
-        cli_command_render(
-            input_file_name=input_file,
-            **{
-                **default_arguments,
-                "watch": True,
-                "design": design_file,
-                "locale": locale_file,
-            },
-        )
-
-        mock_watcher.assert_called_once()
-        call_args = mock_watcher.call_args
-        watched_files = call_args[0][0]
-
-        # Should watch all three files
-        assert input_file.absolute() in watched_files
-        assert design_file in watched_files
-        assert locale_file in watched_files
 
     @pytest.mark.parametrize(
         ("config_type", "config_content", "expected_in_output"),

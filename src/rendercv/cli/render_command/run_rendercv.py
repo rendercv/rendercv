@@ -1,7 +1,7 @@
 import pathlib
 import time
 from collections.abc import Callable
-from typing import Unpack
+from typing import Literal, Unpack
 
 import jinja2
 import ruamel.yaml
@@ -72,6 +72,53 @@ def timed_step[T, **P](
     return result
 
 
+def collect_input_file_paths(
+    input_file_path: pathlib.Path,
+    design: pathlib.Path | None = None,
+    locale: pathlib.Path | None = None,
+    settings: pathlib.Path | None = None,
+) -> dict[Literal["input", "design", "locale", "settings"], pathlib.Path]:
+    """Collect all input file paths involved in a render.
+
+    Why:
+        A render may involve multiple files: the main YAML, plus overlay
+        files for design/locale/settings provided via CLI flags or referenced
+        in settings.render_command. Watch mode needs this complete list to
+        monitor all of them for changes, and the render pipeline needs the
+        resolved paths to read overlay file contents.
+
+    Args:
+        input_file_path: Path to the main YAML input file.
+        design: CLI-provided design file path.
+        locale: CLI-provided locale file path.
+        settings: CLI-provided settings file path.
+
+    Returns:
+        Mapping from role ("input", "design", "locale", "settings") to path.
+    """
+    files: dict[Literal["input", "design", "locale", "settings"], pathlib.Path] = {
+        "input": input_file_path
+    }
+
+    if design:
+        files["design"] = design
+    if locale:
+        files["locale"] = locale
+    if settings:
+        files["settings"] = settings
+
+    # Also include design/locale files referenced in the YAML itself
+    # (CLI flags take precedence, so skip if already provided)
+    main_dict = read_yaml(input_file_path.read_text(encoding="utf-8"))
+    rc = main_dict.get("settings", {}).get("render_command", {})
+    if "design" not in files and rc.get("design"):
+        files["design"] = (input_file_path.parent / rc["design"]).resolve()
+    if "locale" not in files and rc.get("locale"):
+        files["locale"] = (input_file_path.parent / rc["locale"]).resolve()
+
+    return files
+
+
 def run_rendercv(
     input_file_path: pathlib.Path,
     progress: ProgressPanel,
@@ -89,17 +136,6 @@ def run_rendercv(
 
         # Resolve design/locale file references from the YAML itself
         # (CLI flags override YAML references)
-        main_dict = read_yaml(main_yaml)
-        rc = main_dict.get("settings", {}).get("render_command", {})
-
-        if not kwargs.get("design_yaml_file") and rc.get("design"):
-            design_path = (input_file_path.parent / rc["design"]).resolve()
-            kwargs["design_yaml_file"] = design_path.read_text(encoding="utf-8")
-
-        if not kwargs.get("locale_yaml_file") and rc.get("locale"):
-            locale_path = (input_file_path.parent / rc["locale"]).resolve()
-            kwargs["locale_yaml_file"] = locale_path.read_text(encoding="utf-8")
-
         _, rendercv_model = timed_step(
             "Validated the input file",
             progress,

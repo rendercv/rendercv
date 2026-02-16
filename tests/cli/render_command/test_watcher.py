@@ -7,8 +7,8 @@ import typer
 from rendercv.cli.render_command import watcher
 
 
-class TestRunFunctionIfFileChanges:
-    def test_calls_function_immediately_on_start(self, tmp_path):
+class TestRunFunctionIfFilesChange:
+    def test_runs_function_immediately_on_start(self, tmp_path):
         file_path = tmp_path / "test.yaml"
         file_path.touch()
         mock_function = MagicMock()
@@ -17,11 +17,11 @@ class TestRunFunctionIfFileChanges:
             patch.object(watcher.watchdog.observers, "Observer"),
             patch.object(watcher.time, "sleep", side_effect=KeyboardInterrupt),
         ):
-            watcher.run_function_if_file_changes(file_path, mock_function)
+            watcher.run_function_if_files_change([file_path], mock_function)
 
         mock_function.assert_called_once()
 
-    def test_calls_function_when_file_changes(self, tmp_path):
+    def test_reruns_function_when_file_is_modified(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial", encoding="utf-8")
 
@@ -32,8 +32,8 @@ class TestRunFunctionIfFileChanges:
             call_count += 1
 
         watcher_thread = threading.Thread(
-            target=watcher.run_function_if_file_changes,
-            args=(watched_file, tracked_function),
+            target=watcher.run_function_if_files_change,
+            args=([watched_file], tracked_function),
             daemon=True,
         )
         watcher_thread.start()
@@ -46,7 +46,7 @@ class TestRunFunctionIfFileChanges:
 
         assert call_count > initial_count
 
-    def test_continues_running_after_function_raises_typer_exit(self, tmp_path):
+    def test_continues_watching_after_typer_exit(self, tmp_path):
         watched_file = tmp_path / "test.yaml"
         watched_file.write_text("initial", encoding="utf-8")
 
@@ -60,8 +60,8 @@ class TestRunFunctionIfFileChanges:
                 raise typer.Exit(code=1)
 
         watcher_thread = threading.Thread(
-            target=watcher.run_function_if_file_changes,
-            args=(watched_file, tracked_function),
+            target=watcher.run_function_if_files_change,
+            args=([watched_file], tracked_function),
             daemon=True,
         )
         watcher_thread.start()
