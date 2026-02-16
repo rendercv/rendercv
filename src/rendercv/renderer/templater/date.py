@@ -9,6 +9,37 @@ from rendercv.schema.models.locale.locale import Locale
 from .string_processor import substitute_placeholders
 
 
+def build_date_placeholders(date: Date, *, locale: Locale) -> dict[str, str]:
+    """Build all date-related template placeholders from a date and locale.
+
+    Why:
+        Date placeholders are needed in single_date templates, footer, top_note,
+        and file path resolution. Centralizing construction eliminates duplication
+        and ensures new placeholders propagate everywhere.
+
+    Args:
+        date: Date to extract components from.
+        locale: Locale providing month names and abbreviations.
+
+    Returns:
+        Dict mapping placeholder names to their string values.
+    """
+    month = date.month
+    day = date.day
+    year = date.year
+
+    return {
+        "MONTH_NAME": locale.month_names[month - 1],
+        "MONTH_ABBREVIATION": locale.month_abbreviations[month - 1],
+        "MONTH": str(month),
+        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
+        "DAY": str(day),
+        "DAY_IN_TWO_DIGITS": f"{day:02d}",
+        "YEAR": str(year),
+        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+    }
+
+
 def date_object_to_string(
     date: Date, *, locale: Locale, single_date_template: str
 ) -> str:
@@ -37,22 +68,9 @@ def date_object_to_string(
     Returns:
         Formatted date string with placeholders substituted.
     """
-    month_names = locale.month_names
-    month_abbreviations = locale.month_abbreviations
-
-    month = int(date.strftime("%m"))
-    year = int(date.strftime(format="%Y"))
-
-    placeholders: dict[str, str] = {
-        "MONTH_NAME": month_names[month - 1],
-        "MONTH_ABBREVIATION": month_abbreviations[month - 1],
-        "MONTH": str(month),
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
-    }
-
-    return substitute_placeholders(single_date_template, placeholders)
+    return substitute_placeholders(
+        single_date_template, build_date_placeholders(date, locale=locale)
+    )
 
 
 def format_date_range(

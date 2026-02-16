@@ -65,6 +65,9 @@ class TestResolveRendercvFilePath:
                 datetime.date(2024, 12, 1),
                 "Dec.pdf",
             ),
+            # Day placeholders
+            ("DAY.pdf", "John Doe", datetime.date(2024, 3, 15), "15.pdf"),
+            ("DAY_IN_TWO_DIGITS.pdf", "John Doe", datetime.date(2024, 3, 5), "05.pdf"),
             # Multiple placeholders
             (
                 "NAME_IN_SNAKE_CASE_CV_YEAR-MONTH_IN_TWO_DIGITS.pdf",

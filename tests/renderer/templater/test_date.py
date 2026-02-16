@@ -3,12 +3,50 @@ from datetime import date as Date
 import pytest
 
 from rendercv.renderer.templater.date import (
+    build_date_placeholders,
     compute_time_span_string,
     date_object_to_string,
     format_date_range,
     format_single_date,
 )
 from rendercv.schema.models.locale.english_locale import EnglishLocale
+
+
+@pytest.mark.parametrize(
+    ("date", "locale_kwargs", "expected_subset"),
+    [
+        (
+            Date(2025, 3, 15),
+            {},
+            {
+                "MONTH_NAME": "March",
+                "MONTH_ABBREVIATION": "Mar",
+                "MONTH": "3",
+                "MONTH_IN_TWO_DIGITS": "03",
+                "DAY": "15",
+                "DAY_IN_TWO_DIGITS": "15",
+                "YEAR": "2025",
+                "YEAR_IN_TWO_DIGITS": "25",
+            },
+        ),
+        # Single-digit day padding
+        (
+            Date(2020, 1, 5),
+            {},
+            {"DAY": "5", "DAY_IN_TWO_DIGITS": "05"},
+        ),
+        # Custom locale propagates
+        (
+            Date(2020, 1, 10),
+            {"month_abbreviations": list("ABCDEFGHIJKL")},
+            {"MONTH_ABBREVIATION": "A", "DAY": "10"},
+        ),
+    ],
+)
+def test_build_date_placeholders(date, locale_kwargs, expected_subset):
+    result = build_date_placeholders(date, locale=EnglishLocale(**locale_kwargs))
+    for key, value in expected_subset.items():
+        assert result[key] == value
 
 
 @pytest.mark.parametrize(
@@ -30,6 +68,17 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
         (Date(2020, 5, 15), "YEAR_IN_TWO_DIGITS", {}, "20"),
         (Date(1999, 5, 15), "YEAR_IN_TWO_DIGITS", {}, "99"),
         (Date(2020, 3, 15), "MONTH/YEAR", {}, "3/2020"),
+        (Date(2020, 3, 5), "DAY", {}, "5"),
+        (Date(2020, 3, 15), "DAY", {}, "15"),
+        (Date(2020, 3, 5), "DAY_IN_TWO_DIGITS", {}, "05"),
+        (Date(2020, 3, 15), "DAY_IN_TWO_DIGITS", {}, "15"),
+        (Date(2020, 12, 13), "MONTH/DAY/YEAR", {}, "12/13/2020"),
+        (
+            Date(2020, 3, 5),
+            "YEAR-MONTH_IN_TWO_DIGITS-DAY_IN_TWO_DIGITS",
+            {},
+            "2020-03-05",
+        ),
         (
             Date(2020, 3, 15),
             "MONTH_IN_TWO_DIGITS/MONTH_IN_TWO_DIGITS/YEAR",
@@ -145,6 +194,12 @@ def test_date_object_to_string(date, template, locale_kwargs, expected):
         ("2020-05-15", "YEAR_IN_TWO_DIGITS", {}, "20"),
         ("1999-05-15", "YEAR_IN_TWO_DIGITS", {}, "99"),
         ("2020-03-15", "MONTH/YEAR", {}, "3/2020"),
+        ("2020-03-05", "DAY", {}, "5"),
+        ("2020-03-15", "DAY", {}, "15"),
+        ("2020-03-05", "DAY_IN_TWO_DIGITS", {}, "05"),
+        ("2020-03-15", "DAY_IN_TWO_DIGITS", {}, "15"),
+        ("2020-12-13", "MONTH/DAY/YEAR", {}, "12/13/2020"),
+        ("2020-03-05", "YEAR-MONTH_IN_TWO_DIGITS-DAY_IN_TWO_DIGITS", {}, "2020-03-05"),
         (
             "2020-03-15",
             "MONTH_IN_TWO_DIGITS/MONTH_IN_TWO_DIGITS/YEAR",

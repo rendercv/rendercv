@@ -2,6 +2,7 @@ import pathlib
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
+from .templater.date import build_date_placeholders
 from .templater.string_processor import substitute_placeholders
 
 
@@ -32,16 +33,8 @@ def resolve_rendercv_file_path(
         Resolved absolute path with substituted filename.
     """
     current_date = rendercv_model.settings.current_date
-    current_date_month_index = current_date.month - 1
     file_path_placeholders = {
-        "MONTH_NAME": rendercv_model.locale.month_names[current_date_month_index],
-        "MONTH_ABBREVIATION": rendercv_model.locale.month_abbreviations[
-            current_date_month_index
-        ],
-        "MONTH": str(current_date.month),
-        "MONTH_IN_TWO_DIGITS": f"{current_date.month:02d}",
-        "YEAR": str(current_date.year),
-        "YEAR_IN_TWO_DIGITS": str(current_date.year)[-2:],
+        **build_date_placeholders(current_date, locale=rendercv_model.locale),
         "NAME": rendercv_model.cv.name,
         "NAME_IN_SNAKE_CASE": (
             rendercv_model.cv.name.replace(" ", "_") if rendercv_model.cv.name else None
