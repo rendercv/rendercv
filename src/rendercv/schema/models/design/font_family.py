@@ -38,7 +38,6 @@ available_font_families = sorted(
         "Lucida Sans Unicode",
         "Helvetica",
         "Tahoma",
-        "Times New Roman",
         "Verdana",
         "Georgia",
         "Aptos",
