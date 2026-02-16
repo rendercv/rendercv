@@ -1769,8 +1769,8 @@
           "type": "string"
         },
         "present": {
-          "default": "noverande",
-          "description": "Translation of \"present\" for ongoing dates. The default value is `noverande`.",
+          "default": "nåverande",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nåverande`.",
           "title": "Present",
           "type": "string"
         },
@@ -2307,7 +2307,8 @@
         "WhatsApp",
         "Leetcode",
         "X",
-        "Bluesky"
+        "Bluesky",
+        "Reddit"
       ],
       "type": "string"
     },

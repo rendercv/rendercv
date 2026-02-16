@@ -6,7 +6,7 @@ locale:
   months: "månader"
   year: "år"
   years: "år"
-  present: "noverande"
+  present: "nåverande"
   month_abbreviations:
     - Jan
     - Feb
