@@ -191,7 +191,9 @@ def cli_command_render(
     arguments: BuildRendercvModelArguments = {
         "design_yaml_file": design.read_text(encoding="utf-8") if design else None,
         "locale_yaml_file": locale.read_text(encoding="utf-8") if locale else None,
-        "settings_yaml_file": settings.read_text(encoding="utf-8") if settings else None,
+        "settings_yaml_file": (
+            settings.read_text(encoding="utf-8") if settings else None
+        ),
         "typst_path": typst_path,
         "pdf_path": pdf_path,
         "markdown_path": markdown_path,

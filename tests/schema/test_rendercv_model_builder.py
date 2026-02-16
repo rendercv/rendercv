@@ -27,7 +27,7 @@ class TestBuildRendercvDictionary:
     def test_basic_input(self, minimal_input_dict):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        result = build_rendercv_dictionary(yaml_input)
+        result, _ = build_rendercv_dictionary(yaml_input)
 
         assert result["cv"]["name"] == "John Doe"
         assert result["design"]["theme"] == "classic"
@@ -35,7 +35,7 @@ class TestBuildRendercvDictionary:
     def test_ensures_settings_and_render_command_exist(self, minimal_input_dict):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        result = build_rendercv_dictionary(yaml_input)
+        result, _ = build_rendercv_dictionary(yaml_input)
 
         assert "settings" in result
         assert "render_command" in result["settings"]
@@ -61,7 +61,7 @@ class TestBuildRendercvDictionary:
         overlay_yaml = dictionary_to_yaml(overlay_content)
 
         kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        result = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
 
         assert result[overlay_key] == overlay_content[overlay_key]
         assert result["cv"]["name"] == "John Doe"
@@ -70,7 +70,7 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(minimal_input_dict)
         design_yaml = dictionary_to_yaml({"design": {"theme": "sb2nov"}})
 
-        result = build_rendercv_dictionary(main_yaml, design_yaml_file=design_yaml)
+        result, _ = build_rendercv_dictionary(main_yaml, design_yaml_file=design_yaml)
 
         assert result["design"]["theme"] == "sb2nov"
 
@@ -79,7 +79,7 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
         locale_yaml = dictionary_to_yaml({"locale": {"language": "turkish"}})
 
-        result = build_rendercv_dictionary(main_yaml, locale_yaml_file=locale_yaml)
+        result, _ = build_rendercv_dictionary(main_yaml, locale_yaml_file=locale_yaml)
 
         assert result["locale"]["language"] == "turkish"
 
@@ -96,7 +96,7 @@ class TestBuildRendercvDictionary:
         design_yaml = dictionary_to_yaml(design_overlay)
         locale_yaml = dictionary_to_yaml(locale_overlay)
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             main_yaml,
             design_yaml_file=design_yaml,
             locale_yaml_file=locale_yaml,
@@ -108,12 +108,10 @@ class TestBuildRendercvDictionary:
 
     def test_settings_overlay_with_design_overlay(self, minimal_input_dict):
         main_yaml = dictionary_to_yaml(minimal_input_dict)
-        settings_yaml = dictionary_to_yaml(
-            {"settings": {"current_date": "2024-01-01"}}
-        )
+        settings_yaml = dictionary_to_yaml({"settings": {"current_date": "2024-01-01"}})
         design_yaml = dictionary_to_yaml({"design": {"theme": "sb2nov"}})
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             main_yaml,
             settings_yaml_file=settings_yaml,
             design_yaml_file=design_yaml,
@@ -125,7 +123,7 @@ class TestBuildRendercvDictionary:
     def test_none_overlays_are_ignored(self, minimal_input_dict):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             yaml_input,
             design_yaml_file=None,
             locale_yaml_file=None,
@@ -155,14 +153,14 @@ class TestBuildRendercvDictionary:
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
         kwargs = {override_key: override_value}
-        result = build_rendercv_dictionary(yaml_input, **kwargs)
+        result, _ = build_rendercv_dictionary(yaml_input, **kwargs)
 
         assert result["settings"]["render_command"][override_key] == override_value
 
     def test_render_command_multiple_overrides(self, minimal_input_dict):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             yaml_input,
             pdf_path="output.pdf",
             typst_path="output.typ",
@@ -187,7 +185,7 @@ class TestBuildRendercvDictionary:
         }
         yaml_input = dictionary_to_yaml(input_dict)
 
-        result = build_rendercv_dictionary(yaml_input, typst_path="new.typ")
+        result, _ = build_rendercv_dictionary(yaml_input, typst_path="new.typ")
 
         assert result["settings"]["render_command"]["typst_path"] == "new.typ"
         assert result["settings"]["other_setting"] == "preserved"
@@ -196,7 +194,7 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(minimal_input_dict)
         locale_yaml = dictionary_to_yaml({"locale": {"language": "turkish"}})
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             main_yaml,
             locale_yaml_file=locale_yaml,
             pdf_path="custom.pdf",
@@ -227,7 +225,7 @@ class TestBuildRendercvDictionary:
     def test_overrides_parameter(self, minimal_input_dict, overrides, expected_checks):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 
-        result = build_rendercv_dictionary(yaml_input, overrides=overrides)
+        result, _ = build_rendercv_dictionary(yaml_input, overrides=overrides)
 
         for path_and_value in expected_checks:
             value = result
@@ -245,7 +243,7 @@ class TestBuildRendercvDictionary:
         }
         yaml_input = dictionary_to_yaml(input_dict)
 
-        result = build_rendercv_dictionary(
+        result, _ = build_rendercv_dictionary(
             yaml_input,
             overrides={
                 "cv.sections.education.0.institution": "Harvard",
@@ -256,6 +254,51 @@ class TestBuildRendercvDictionary:
         assert result["cv"]["sections"]["education"][0]["institution"] == "Harvard"
         assert result["cv"]["sections"]["education"][0]["degree"] == "MS"
         assert result["cv"]["name"] == "John Doe"
+
+    @pytest.mark.parametrize(
+        ("overlay_key", "main_value", "overlay_value"),
+        [
+            (
+                "design",
+                {"design": {"theme": "classic"}},
+                {"design": {"theme": "sb2nov"}},
+            ),
+            (
+                "locale",
+                {"locale": {"language": "english"}},
+                {"locale": {"language": "turkish"}},
+            ),
+            (
+                "settings",
+                {"settings": {"render_command": {"pdf_path": "original.pdf"}}},
+                {"settings": {"render_command": {"pdf_path": "overlay.pdf"}}},
+            ),
+        ],
+    )
+    def test_overlay_fully_replaces_main_section(
+        self, minimal_input_dict, overlay_key, main_value, overlay_value
+    ):
+        main_input = {**minimal_input_dict, **main_value}
+        main_yaml = dictionary_to_yaml(main_input)
+        overlay_yaml = dictionary_to_yaml(overlay_value)
+
+        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
+        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+
+        assert result[overlay_key] == overlay_value[overlay_key]
+
+    def test_overlay_replaces_not_merges(self, minimal_input_dict):
+        main_input = {
+            **minimal_input_dict,
+            "design": {"theme": "classic", "font_size": "12pt"},
+        }
+        main_yaml = dictionary_to_yaml(main_input)
+        design_yaml = dictionary_to_yaml({"design": {"theme": "sb2nov"}})
+
+        result, _ = build_rendercv_dictionary(main_yaml, design_yaml_file=design_yaml)
+
+        assert result["design"] == {"theme": "sb2nov"}
+        assert "font_size" not in result["design"]
 
 
 class TestBuildRendercvModelFromDictionary:
@@ -360,7 +403,7 @@ class TestBuildRendercvModel:
         overlay_yaml = dictionary_to_yaml(overlay_content)
 
         kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        _, model = build_rendercv_dictionary_and_model(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        _, model = build_rendercv_dictionary_and_model(main_yaml, **kwargs)  # ty: ignore[invalid-argument-type]
 
         assert isinstance(model, RenderCVModel)
 
@@ -570,3 +613,32 @@ class TestBuildRendercvModel:
         assert model.design.theme == "sb2nov"
         # Locale should remain original
         assert dictionary["locale"]["language"] == "english"
+
+    @pytest.mark.parametrize(
+        ("overlay_key", "main_section", "overlay_section", "check"),
+        [
+            (
+                "design",
+                {"theme": "classic"},
+                {"theme": "sb2nov"},
+                lambda m: m.design.theme == "sb2nov",
+            ),
+            (
+                "locale",
+                {"language": "english"},
+                {"language": "turkish"},
+                lambda m: m.locale.language == "turkish",
+            ),
+        ],
+    )
+    def test_overlay_overrides_main_in_model(
+        self, minimal_input_dict, overlay_key, main_section, overlay_section, check
+    ):
+        main_input = {**minimal_input_dict, overlay_key: main_section}
+        main_yaml = dictionary_to_yaml(main_input)
+        overlay_yaml = dictionary_to_yaml({overlay_key: overlay_section})
+
+        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
+        _, model = build_rendercv_dictionary_and_model(main_yaml, **kwargs)  # ty: ignore[invalid-argument-type]
+
+        assert check(model)

@@ -33,7 +33,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
 def build_rendercv_dictionary(
     main_yaml_file: str,
     **kwargs: Unpack[BuildRendercvModelArguments],
-) -> CommentedMap:
+) -> tuple[CommentedMap, dict[str, CommentedMap]]:
     """Merge main YAML with overlays and CLI overrides into final dictionary.
 
     Args:
@@ -41,7 +41,7 @@ def build_rendercv_dictionary(
         kwargs: Optional YAML overlay strings, output paths, generation flags, and CLI overrides.
 
     Returns:
-        Merged dictionary ready for validation.
+        Tuple of merged dictionary and overlay source CommentedMaps (for error reporting).
     """
     input_dict = read_yaml(main_yaml_file)
     input_dict.setdefault("settings", {}).setdefault("render_command", {})
@@ -52,9 +52,12 @@ def build_rendercv_dictionary(
         "locale": kwargs.get("locale_yaml_file"),
     }
 
+    overlay_sources: dict[str, CommentedMap] = {}
     for key, yaml_content in yaml_overlays.items():
         if yaml_content:
-            input_dict[key] = read_yaml(yaml_content)[key]
+            overlay_cm = read_yaml(yaml_content)
+            input_dict[key] = overlay_cm[key]
+            overlay_sources[key] = overlay_cm
 
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
         "typst_path": kwargs.get("typst_path"),
@@ -77,18 +80,20 @@ def build_rendercv_dictionary(
     if overrides:
         input_dict = apply_overrides_to_dictionary(input_dict, overrides)
 
-    return input_dict
+    return input_dict, overlay_sources
 
 
 def build_rendercv_model_from_commented_map(
     commented_map: CommentedMap | dict[str, Any],
     input_file_path: pathlib.Path | None = None,
+    overlay_sources: dict[str, CommentedMap] | None = None,
 ) -> RenderCVModel:
     """Validate merged dictionary and build Pydantic model with error mapping.
 
     Args:
         commented_map: Merged dictionary with line/column metadata.
         input_file_path: Source file path for context and photo resolution.
+        overlay_sources: Per-section CommentedMaps from overlays (for correct error coordinates).
 
     Returns:
         Validated RenderCVModel instance.
@@ -102,7 +107,7 @@ def build_rendercv_model_from_commented_map(
         }
         model = RenderCVModel.model_validate(commented_map, context=validation_context)
     except pydantic.ValidationError as e:
-        validation_errors = parse_validation_errors(e, commented_map)
+        validation_errors = parse_validation_errors(e, commented_map, overlay_sources)
         raise RenderCVUserValidationError(validation_errors) from e
 
     return model
@@ -124,6 +129,6 @@ def build_rendercv_dictionary_and_model(
     Returns:
         Tuple of merged dictionary and validated model.
     """
-    d = build_rendercv_dictionary(main_yaml_file, **kwargs)
-    m = build_rendercv_model_from_commented_map(d, input_file_path)
+    d, overlay_sources = build_rendercv_dictionary(main_yaml_file, **kwargs)
+    m = build_rendercv_model_from_commented_map(d, input_file_path, overlay_sources)
     return d, m

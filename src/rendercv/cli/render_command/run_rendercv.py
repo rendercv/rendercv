@@ -94,11 +94,11 @@ def run_rendercv(
 
         if not kwargs.get("design_yaml_file") and rc.get("design"):
             design_path = (input_file_path.parent / rc["design"]).resolve()
-            kwargs["design_yaml_file"] = design_path.read_text(encoding="utf-8")  # ty: ignore[literal-required]
+            kwargs["design_yaml_file"] = design_path.read_text(encoding="utf-8")
 
         if not kwargs.get("locale_yaml_file") and rc.get("locale"):
             locale_path = (input_file_path.parent / rc["locale"]).resolve()
-            kwargs["locale_yaml_file"] = locale_path.read_text(encoding="utf-8")  # ty: ignore[literal-required]
+            kwargs["locale_yaml_file"] = locale_path.read_text(encoding="utf-8")
 
         _, rendercv_model = timed_step(
             "Validated the input file",
