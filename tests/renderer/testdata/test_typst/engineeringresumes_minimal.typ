@@ -4,6 +4,7 @@
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
+  title: "John Doe's CV",
   footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
   top-note: [ #emph[Last updated in Nov 2025] ],
   locale-catalog-language: "en",

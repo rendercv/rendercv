@@ -178,3 +178,18 @@ class TestProcessModel:
         assert result.cv.name == "Jane Doe"
         assert result.cv.headline == "Software Engineer"
         assert hasattr(result.cv, "connections")
+
+    def test_pdf_title_default_placeholder_resolution(self, model):
+        result = process_model(model, "typst")
+
+        assert result.settings.pdf_title == "Jane Doe @'s CV"
+
+    def test_pdf_title_custom_placeholder_resolution(self):
+        cv = Cv.model_validate({"name": "John Doe"})
+        rendercv_model = RenderCVModel(cv=cv)
+        rendercv_model.settings.current_date = Date(2024, 3, 15)
+        rendercv_model.settings.pdf_title = "NAME - Resume YEAR"
+
+        result = process_model(rendercv_model, "typst")
+
+        assert result.settings.pdf_title == "John Doe - Resume 2024"

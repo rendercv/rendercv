@@ -28,6 +28,26 @@ class Settings(BaseModelWithoutExtraKeys):
         title="Bold Keywords",
         description="Keywords to automatically bold in the output.",
     )
+    pdf_title: str = pydantic.Field(
+        default="NAME's CV",
+        title="PDF Title",
+        description=(
+            "Title metadata for the PDF document. This appears in browser tabs and"
+            " PDF readers. Available placeholders:\n"
+            "- `NAME`: The CV owner's name from `cv.name`\n"
+            "- `CURRENT_DATE`: Formatted date based on"
+            " `design.templates.single_date`\n"
+            "- `MONTH_NAME`: Full month name (e.g., January)\n"
+            "- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n"
+            "- `MONTH`: Month number (e.g., 1)\n"
+            "- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n"
+            "- `DAY`: Day of the month (e.g., 5)\n"
+            "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
+            "- `YEAR`: Full year (e.g., 2025)\n"
+            "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
+            "The default value is `NAME's CV`."
+        ),
+    )
 
     @pydantic.field_validator("bold_keywords")
     @classmethod
