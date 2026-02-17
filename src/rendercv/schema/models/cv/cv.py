@@ -33,7 +33,7 @@ class Cv(BaseModelWithExtraKeys):
         default=None,
         examples=["John Doe", "Jane Smith"],
     )
-    headline: str | None = pydantic.Field(
+    headline: str | list[str] | None = pydantic.Field(
         default=None,
         examples=["Software Engineer", "Data Scientist", "Product Manager"],
     )

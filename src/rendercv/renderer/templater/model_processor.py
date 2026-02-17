@@ -45,9 +45,15 @@ def process_model(
     rendercv_model.cv.name = apply_string_processors(
         rendercv_model.cv.name, string_processors
     )
-    rendercv_model.cv.headline = apply_string_processors(
-        rendercv_model.cv.headline, string_processors
-    )
+    if isinstance(rendercv_model.cv.headline, list):
+        rendercv_model.cv.headline = [
+            apply_string_processors(line, string_processors)
+            for line in rendercv_model.cv.headline
+        ]
+    else:
+        rendercv_model.cv.headline = apply_string_processors(
+            rendercv_model.cv.headline, string_processors
+        )
     rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # ty: ignore[unresolved-attribute]
     rendercv_model.cv.top_note = render_top_note_template(  # ty: ignore[unresolved-attribute]
         rendercv_model.design.templates.top_note,

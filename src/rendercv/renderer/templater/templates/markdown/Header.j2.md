@@ -2,6 +2,14 @@
 # {{ cv.name }}'s CV
 {% endif %}
 
+{% if cv.headline %}
+{% if cv.headline is string %}
+{{ cv.headline }}
+{% else %}
+{{ cv.headline|join(design.header.headline_separator) }}
+{% endif %}
+{% endif %}
+
 {% if cv.phone %}
 - Phone: {{cv.phone|replace("tel:", "")|replace("-"," ")}}
 {% endif %}

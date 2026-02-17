@@ -24,7 +24,11 @@
 {% endif %}
 
 {% if cv.headline %}
+{% if cv.headline is string %}
   #headline([{{ cv.headline }}])
+{% else %}
+  #headline([{{ cv.headline|join(design.header.headline_separator) }}])
+{% endif %}
 
 {% endif %}
 #connections(
