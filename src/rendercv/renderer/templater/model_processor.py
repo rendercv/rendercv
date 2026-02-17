@@ -5,10 +5,15 @@ from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
 from .connections import compute_connections
+from .date import build_date_placeholders, date_object_to_string
 from .entry_templates_from_input import render_entry_templates
 from .footer_and_top_note import render_footer_template, render_top_note_template
 from .markdown_parser import markdown_to_typst
-from .string_processor import apply_string_processors, make_keywords_bold
+from .string_processor import (
+    apply_string_processors,
+    make_keywords_bold,
+    substitute_placeholders,
+)
 
 
 def process_model(
@@ -61,6 +66,22 @@ def process_model(
         single_date_template=rendercv_model.design.templates.single_date,
         string_processors=string_processors,
     )
+
+    pdf_title_placeholders: dict[str, str] = {
+        "CURRENT_DATE": date_object_to_string(
+            rendercv_model.settings.current_date,
+            locale=rendercv_model.locale,
+            single_date_template=rendercv_model.design.templates.single_date,
+        ),
+        "NAME": rendercv_model.cv.plain_name or "",  # ty: ignore[unresolved-attribute]
+        **build_date_placeholders(
+            rendercv_model.settings.current_date, locale=rendercv_model.locale
+        ),
+    }
+    rendercv_model.settings.pdf_title = substitute_placeholders(
+        rendercv_model.settings.pdf_title, pdf_title_placeholders
+    )
+
     if rendercv_model.cv.sections is None:
         return rendercv_model
 
