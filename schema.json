@@ -54,6 +54,10 @@
           "title": "Present",
           "type": "string"
         },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
         "month_abbreviations": {
           "default": [
             "ينا",
@@ -1571,11 +1575,7 @@
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
           "korean": "#/$defs/KoreanLocale",
-<<<<<<< HEAD
           "mandarin_chinese": "#/$defs/MandarinChineseLocale",
-=======
-          "mandarin_chineese": "#/$defs/MandarinChineeseLocale",
->>>>>>> 15ad2b17 (Improve implementation)
           "norwegian_bokmål": "#/$defs/NorwegianBokm_lLocale",
           "norwegian_nynorsk": "#/$defs/NorwegianNynorskLocale",
           "portuguese": "#/$defs/PortugueseLocale",
@@ -1621,12 +1621,6 @@
         },
         {
           "$ref": "#/$defs/MandarinChineseLocale"
-        },
-        {
-          "$ref": "#/$defs/NorwegianBokm_lLocale"
-        },
-        {
-          "$ref": "#/$defs/NorwegianNynorskLocale"
         },
         {
           "$ref": "#/$defs/NorwegianBokm_lLocale"
@@ -1832,13 +1826,10 @@
           "title": "Present",
           "type": "string"
         },
-<<<<<<< HEAD
         "phrases": {
           "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
-=======
->>>>>>> 15ad2b17 (Improve implementation)
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -1933,13 +1924,10 @@
           "title": "Present",
           "type": "string"
         },
-<<<<<<< HEAD
         "phrases": {
           "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
-=======
->>>>>>> 15ad2b17 (Improve implementation)
         "month_abbreviations": {
           "default": [
             "Jan",
@@ -3994,6 +3982,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Summary text settings."
@@ -4035,6 +4028,11 @@
           "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
+        },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
@@ -4078,6 +4076,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__3",
           "description": "Summary text settings."
@@ -4120,6 +4123,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__4",
           "description": "Summary text settings."
@@ -4161,6 +4169,11 @@
           "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
+        },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
