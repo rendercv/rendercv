@@ -9,7 +9,7 @@ import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
 from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
-url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
+url_validator = pydantic.TypeAdapter[pydantic.HttpUrl](pydantic.HttpUrl)
 type SocialNetworkName = Literal[
     "LinkedIn",
     "GitHub",
@@ -127,7 +127,7 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         " 'username.bsky.social' or 'domain.com').",
                     )
             case "WhatsApp":
-                phone_validator = pydantic.TypeAdapter(
+                phone_validator = pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber](
                     pydantic_phone_numbers.PhoneNumber
                 )
                 try:

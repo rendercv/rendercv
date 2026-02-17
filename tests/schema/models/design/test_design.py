@@ -11,7 +11,7 @@ from rendercv.schema.models.validation_context import ValidationContext
 class TestDesign:
     @pytest.fixture
     def design_adapter(self):
-        return pydantic.TypeAdapter(Design)
+        return pydantic.TypeAdapter[Design](Design)
 
     def test_rejects_nonexistent_custom_theme(self, design_adapter):
         with pytest.raises(pydantic.ValidationError):

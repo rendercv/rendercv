@@ -47,4 +47,4 @@ available_locales = [
     LocaleModel.model_fields["language"].default
     for LocaleModel in get_args(get_args(Locale.__value__)[0])
 ]
-locale_adapter = pydantic.TypeAdapter(Locale)
+locale_adapter = pydantic.TypeAdapter[Locale](Locale)
