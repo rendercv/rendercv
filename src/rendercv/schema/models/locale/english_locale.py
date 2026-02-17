@@ -138,14 +138,5 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         Returns:
             True if language is RTL (Arabic, Hebrew, Persian, Urdu, etc.)
         """
-        rtl_languages = {"arabic", "hebrew", "persian", "urdu", "pashto", "sindhi"}
-        return self.language.lower() in rtl_languages
-
-    @functools.cached_property
-    def text_direction(self) -> str:
-        """Get Typst text direction value.
-
-        Returns:
-            'rtl' for RTL languages, 'ltr' otherwise
-        """
-        return "rtl" if self.is_rtl else "ltr"
+        rtl_languages = {"arabic"}
+        return self.language in rtl_languages
