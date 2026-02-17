@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.1.0": *
+#import "@preview/rendercv:0.2.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -67,6 +67,7 @@
   entries-space-between-columns: {{ design.entries.space_between_columns }},
   entries-allow-page-break: {{ design.entries.allow_page_break|lower }},
   entries-short-second-row: {{ design.entries.short_second_row|lower }},
+  entries-degree-width: {{ design.entries.degree_width }},
   entries-summary-space-left: {{ design.entries.summary.space_left }},
   entries-summary-space-above: {{ design.entries.summary.space_above }},
   entries-highlights-bullet: {% if design.entries.highlights.bullet == "●" %} text(13pt, [•], baseline: -0.6pt) {% else %} "{{ design.entries.highlights.bullet }}" {% endif %},

@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.1.0": *
+#import "@preview/rendercv:0.2.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -67,6 +67,7 @@
   entries-space-between-columns: 0.1cm,
   entries-allow-page-break: false,
   entries-short-second-row: false,
+  entries-degree-width: 1cm,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0cm,
   entries-highlights-bullet:  "◦" ,
