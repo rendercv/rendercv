@@ -1013,6 +1013,100 @@
       "title": "GermanLocale",
       "type": "object"
     },
+    "HebrewLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "hebrew",
+          "default": "hebrew",
+          "description": "The language for your CV. The default is `hebrew`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "עודכן לאחרונה",
+          "description": "Translation of \"Last updated in\". The default value is `עודכן לאחרונה`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "חודש",
+          "description": "Translation of \"month\" (singular). The default value is `חודש`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "חודשים",
+          "description": "Translation of \"months\" (plural). The default value is `חודשים`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "שנה",
+          "description": "Translation of \"year\" (singular). The default value is `שנה`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "שנים",
+          "description": "Translation of \"years\" (plural). The default value is `שנים`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "הווה",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `הווה`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "month_abbreviations": {
+          "default": [
+            "ינו'",
+            "פבר'",
+            "מרץ",
+            "אפר'",
+            "מאי",
+            "יוני",
+            "יולי",
+            "אוג'",
+            "ספט'",
+            "אוק'",
+            "נוב'",
+            "דצמ'"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "ינואר",
+            "פברואר",
+            "מרץ",
+            "אפריל",
+            "מאי",
+            "יוני",
+            "יולי",
+            "אוגוסט",
+            "ספטמבר",
+            "אוקטובר",
+            "נובמבר",
+            "דצמבר"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "HebrewLocale",
+      "type": "object"
+    },
     "HindiLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1570,6 +1664,7 @@
           "english": "#/$defs/EnglishLocale",
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
+          "hebrew": "#/$defs/HebrewLocale",
           "hindi": "#/$defs/HindiLocale",
           "indonesian": "#/$defs/IndonesianLocale",
           "italian": "#/$defs/ItalianLocale",
@@ -1603,6 +1698,9 @@
         },
         {
           "$ref": "#/$defs/GermanLocale"
+        },
+        {
+          "$ref": "#/$defs/HebrewLocale"
         },
         {
           "$ref": "#/$defs/HindiLocale"

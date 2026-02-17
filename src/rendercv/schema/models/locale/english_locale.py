@@ -115,6 +115,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "english": "en",
             "french": "fr",
             "german": "de",
+            "hebrew": "he",
             "hindi": "hi",
             "italian": "it",
             "indonesian": "id",
