@@ -13,11 +13,19 @@ from .section import BaseRenderCVSection, Section, get_rendercv_sections
 from .social_network import SocialNetwork
 
 email_validator = pydantic.TypeAdapter[pydantic.EmailStr](pydantic.EmailStr)
-emails_validator = pydantic.TypeAdapter[list[pydantic.EmailStr]](list[pydantic.EmailStr])
+emails_validator = pydantic.TypeAdapter[list[pydantic.EmailStr]](
+    list[pydantic.EmailStr]
+)
 website_validator = pydantic.TypeAdapter[pydantic.HttpUrl](pydantic.HttpUrl)
-websites_validator = pydantic.TypeAdapter[list[pydantic.HttpUrl]](list[pydantic.HttpUrl])
-phone_validator = pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber](pydantic_phone_numbers.PhoneNumber)
-phones_validator = pydantic.TypeAdapter[list[pydantic_phone_numbers.PhoneNumber]](list[pydantic_phone_numbers.PhoneNumber])
+websites_validator = pydantic.TypeAdapter[list[pydantic.HttpUrl]](
+    list[pydantic.HttpUrl]
+)
+phone_validator = pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber](
+    pydantic_phone_numbers.PhoneNumber
+)
+phones_validator = pydantic.TypeAdapter[list[pydantic_phone_numbers.PhoneNumber]](
+    list[pydantic_phone_numbers.PhoneNumber]
+)
 
 
 class Cv(BaseModelWithExtraKeys):

@@ -73,9 +73,9 @@ def create_sample_rendercv_pydantic_model(
     cv.name = name
 
     design = built_in_design_adapter.validate_python({"theme": theme})
-    locale = locale_adapter.validate_python({"language": locale})
+    validated_locale = locale_adapter.validate_python({"language": locale})
 
-    return RenderCVModel(cv=cv, design=design, locale=locale)
+    return RenderCVModel(cv=cv, design=design, locale=validated_locale)
 
 
 @overload
