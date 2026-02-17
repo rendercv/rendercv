@@ -33,6 +33,7 @@ design:
     type: without_line
     space_above: "0.5cm"
     space_below: "0.3cm"
+    hidden: true
   sections:
     space_between_regular_entries: "0.42cm"
     space_between_text_based_entries: "0.15cm"

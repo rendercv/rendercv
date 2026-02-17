@@ -47,5 +47,7 @@ available_themes: list[str] = [
     ThemeClass.model_fields["theme"].default
     for ThemeClass in get_args(get_args(BuiltInDesign.__value__)[0])
 ]
-available_cover_themes: list[str] = [theme for theme in available_themes if "cover" in theme]
+available_cover_themes: list[str] = [
+    theme for theme in available_themes if "cover" in theme
+]
 built_in_design_adapter = pydantic.TypeAdapter[BuiltInDesign](BuiltInDesign)

@@ -13,23 +13,17 @@ cv:
     - network: GitHub
       username: rendercv
   sections:
-    "":
-      # date
+    date:
       - name: ""
         date: "February 15, 2026"
-    " ":
-      # greeting:
+    greeting:
       - "Dear Hiring Manager,"
-      - "#linebreak()"
-      # opening:
+    opening:
       - "#lorem(100)"
-      - "#linebreak()"
-      # middle:
+    middle:
       - "#lorem(200)"
-      - "#linebreak()"
       # closing:
       - "#lorem(100)"
-    "   ":
-      # signature:
+    signature:
       - Sincerely,
       - John Doe

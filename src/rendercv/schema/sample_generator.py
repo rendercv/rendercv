@@ -17,6 +17,8 @@ from .models.design.built_in_design import (
 )
 from .models.locale.locale import available_locales, locale_adapter
 from .models.rendercv_model import RenderCVModel
+from .models.settings.render_command import RenderCommand
+from .models.settings.settings import Settings
 from .rendercv_model_builder import read_yaml
 
 
@@ -84,7 +86,26 @@ def create_sample_rendercv_pydantic_model(
     design = built_in_design_adapter.validate_python({"theme": theme})
     validated_locale = locale_adapter.validate_python({"language": locale})
 
-    return RenderCVModel(cv=cv, design=design, locale=validated_locale)
+    if cover:
+        settings = Settings(
+            render_command=RenderCommand(
+                typst_path=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_Cover.typ"),
+                pdf_path=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_Cover.pdf"),
+                markdown_path=pathlib.Path(
+                    "rendercv_output/NAME_IN_SNAKE_CASE_Cover.md"
+                ),
+                html_path=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_Cover.html"),
+                png_path=pathlib.Path("rendercv_output/NAME_IN_SNAKE_CASE_Cover.png"),
+            )
+        )
+
+        return RenderCVModel(cv=cv, design=design, locale=validated_locale, settings=settings)
+
+    return RenderCVModel(
+        cv=cv,
+        design=design,
+        locale=validated_locale,
+    )
 
 
 @overload

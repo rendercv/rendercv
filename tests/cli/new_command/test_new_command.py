@@ -23,7 +23,7 @@ class TestCliCommandNew:
         input_file_exists,
         typst_templates_exist,
         markdown_templates_exist,
-        cover
+        cover,
     ):
         os.chdir(tmp_path)
 
@@ -46,7 +46,7 @@ class TestCliCommandNew:
             theme="classic",
             create_typst_templates=create_typst_templates,
             create_markdown_templates=create_markdown_templates,
-            cover=cover
+            cover=cover,
         )
 
         # Input file should always exist after command

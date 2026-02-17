@@ -74,11 +74,14 @@ class TestCreateSampleYamlInputFile:
 
     @pytest.mark.parametrize(
         "key",
-        ["theme", "locale"],
+        [
+            {"theme": "invalid"},
+            {"locale": "invalid"},
+        ],
     )
     def test_rejects_invalid_theme_or_locale(self, key):
         with pytest.raises(RenderCVUserError):
-            create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
+            create_sample_yaml_input_file(file_path=None, **key)
 
 
 def test_dictionary_to_yaml():
