@@ -190,3 +190,6 @@ bin/
 
 # Coverage:
 coverage.md
+
+# MkDocs Material:
+mkdocs-material/

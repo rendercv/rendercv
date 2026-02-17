@@ -7,21 +7,22 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
-  logo: assets/images/icon.svg
+  icon:
+    logo: custom/rendercv
   language: en
   custom_dir: docs/overrides
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: indigo
-      accent: indigo
+      primary: default
+      accent: default
       toggle:
         icon: material/lightbulb-outline
         name: "Switch to dark mode"
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: indigo
-      accent: indigo
+      primary: default
+      accent: default
       toggle:
         icon: material/lightbulb
         name: "Switch to light mode"
