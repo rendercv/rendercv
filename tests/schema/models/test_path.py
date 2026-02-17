@@ -26,8 +26,12 @@ def context_with_input_file(tmp_path):
     return {"context": ValidationContext(input_file_path=tmp_path / "input.yaml")}
 
 
-existing_input_relative_path_adapter = pydantic.TypeAdapter(ExistingPathRelativeToInput)
-planned_input_relative_path_adapter = pydantic.TypeAdapter(PlannedPathRelativeToInput)
+existing_input_relative_path_adapter = pydantic.TypeAdapter[
+    ExistingPathRelativeToInput
+](ExistingPathRelativeToInput)
+planned_input_relative_path_adapter = pydantic.TypeAdapter[PlannedPathRelativeToInput](
+    PlannedPathRelativeToInput
+)
 
 
 class TestExistingInputRelativePath:

@@ -6,7 +6,7 @@ import pydantic
 from .bases.entry import BaseEntry
 from .bases.entry_with_date import BaseEntryWithDate
 
-url_validator = pydantic.TypeAdapter(pydantic.HttpUrl)
+url_validator = pydantic.TypeAdapter[pydantic.HttpUrl](pydantic.HttpUrl)
 
 
 class BasePublicationEntry(BaseEntry):

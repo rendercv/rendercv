@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: arabic
+  last_updated: آخر تحديث في
+  month: شهر
+  months: أشهر
+  year: سنة
+  years: سنوات
+  present: الحاضر
+  month_abbreviations:
+    - ينا
+    - فبر
+    - مار
+    - أبر
+    - ماي
+    - يون
+    - يول
+    - أغس
+    - سبت
+    - أكت
+    - نوف
+    - ديس
+  month_names:
+    - يناير
+    - فبراير
+    - مارس
+    - أبريل
+    - مايو
+    - يونيو
+    - يوليو
+    - أغسطس
+    - سبتمبر
+    - أكتوبر
+    - نوفمبر
+    - ديسمبر

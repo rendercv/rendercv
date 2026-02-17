@@ -7,6 +7,7 @@
   footer: {{ cv.footer }},
   top-note: [ {{ cv.top_note }} ],
   locale-catalog-language: "{{ locale.language_iso_639_1 }}",
+  text-direction: {% if locale.is_rtl %}rtl{% else %}ltr{% endif %},
   page-size: "{{ design.page.size }}",
   page-top-margin: {{ design.page.top_margin }},
   page-bottom-margin: {{ design.page.bottom_margin }},

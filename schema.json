@@ -8,6 +8,104 @@
       ],
       "type": "string"
     },
+    "ArabicLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "arabic",
+          "default": "arabic",
+          "description": "The language for your CV. The default value is `arabic`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "آخر تحديث في",
+          "description": "Translation of \"Last updated in\". The default value is `آخر تحديث في`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "شهر",
+          "description": "Translation of \"month\" (singular). The default value is `شهر`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "أشهر",
+          "description": "Translation of \"months\" (plural). The default value is `أشهر`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "سنة",
+          "description": "Translation of \"year\" (singular). The default value is `سنة`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "سنوات",
+          "description": "Translation of \"years\" (plural). The default value is `سنوات`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "الحاضر",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `الحاضر`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "ينا",
+            "فبر",
+            "مار",
+            "أبر",
+            "ماي",
+            "يون",
+            "يول",
+            "أغس",
+            "سبت",
+            "أكت",
+            "نوف",
+            "ديس"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "يناير",
+            "فبراير",
+            "مارس",
+            "أبريل",
+            "مايو",
+            "يونيو",
+            "يوليو",
+            "أغسطس",
+            "سبتمبر",
+            "أكتوبر",
+            "نوفمبر",
+            "ديسمبر"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "ArabicLocale",
+      "type": "object"
+    },
     "ArbitraryDate": {
       "anyOf": [
         {
@@ -1466,6 +1564,7 @@
     "Locale": {
       "discriminator": {
         "mapping": {
+          "arabic": "#/$defs/ArabicLocale",
           "danish": "#/$defs/DanishLocale",
           "dutch": "#/$defs/DutchLocale",
           "english": "#/$defs/EnglishLocale",
@@ -1489,6 +1588,9 @@
       "oneOf": [
         {
           "$ref": "#/$defs/EnglishLocale"
+        },
+        {
+          "$ref": "#/$defs/ArabicLocale"
         },
         {
           "$ref": "#/$defs/DanishLocale"
@@ -3880,6 +3982,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
           "description": "Summary text settings."
@@ -3921,6 +4028,11 @@
           "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
+        },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
@@ -3964,6 +4076,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__3",
           "description": "Summary text settings."
@@ -4006,6 +4123,11 @@
           "title": "Short Second Row",
           "type": "boolean"
         },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+        },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__4",
           "description": "Summary text settings."
@@ -4047,6 +4169,11 @@
           "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
+        },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
