@@ -11,6 +11,31 @@ import typer
 from rendercv.exception import RenderCVUserError, RenderCVValidationError
 
 
+def format_validation_error_location(error_object: RenderCVValidationError) -> str:
+    """Format schema/YAML location for validation error table rows.
+
+    Why:
+        YAML parsing errors don't have schema locations, so we show source file
+        and line/column coordinates to keep the location column actionable.
+
+    Args:
+        error_object: Validation error with schema and YAML location metadata.
+
+    Returns:
+        Human-readable location string for table display.
+    """
+    if error_object.schema_location is not None:
+        return ".".join(error_object.schema_location)
+
+    if error_object.yaml_location is None:
+        return error_object.yaml_source
+
+    (start_line, _), (end_line, _) = error_object.yaml_location
+    if start_line == end_line:
+        return f"{error_object.yaml_source}: line {start_line}"
+    return f"{error_object.yaml_source}: line {start_line} to line {end_line}"
+
+
 class ProgressPanel(rich.live.Live):
     """Live-updating terminal panel showing CV generation progress with timing.
 
@@ -127,7 +152,7 @@ class ProgressPanel(rich.live.Live):
 
         for error_object in errors:
             table.add_row(
-                ".".join(error_object.location),
+                format_validation_error_location(error_object),
                 error_object.input,
                 error_object.message,
             )

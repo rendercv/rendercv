@@ -1,10 +1,10 @@
+import contextlib
 import pathlib
 import time
 from collections.abc import Callable
 from typing import Literal, Unpack
 
 import jinja2
-import ruamel.yaml
 
 from rendercv.exception import RenderCVUserError, RenderCVUserValidationError
 from rendercv.renderer.html import generate_html
@@ -14,8 +14,8 @@ from rendercv.renderer.typst import generate_typst
 from rendercv.schema.rendercv_model_builder import (
     BuildRendercvModelArguments,
     build_rendercv_dictionary_and_model,
+    read_yaml_with_validation_errors,
 )
-from rendercv.schema.yaml_reader import read_yaml
 
 from .progress_panel import ProgressPanel
 
@@ -108,13 +108,18 @@ def collect_input_file_paths(
         files["settings"] = settings
 
     # Also include design/locale files referenced in the YAML itself
-    # (CLI flags take precedence, so skip if already provided)
-    main_dict = read_yaml(input_file_path.read_text(encoding="utf-8"))
-    rc = main_dict.get("settings", {}).get("render_command", {})
-    if "design" not in files and rc.get("design"):
-        files["design"] = (input_file_path.parent / rc["design"]).resolve()
-    if "locale" not in files and rc.get("locale"):
-        files["locale"] = (input_file_path.parent / rc["locale"]).resolve()
+    # (CLI flags take precedence, so skip if already provided).
+    # If YAML is invalid, watch mode should still start by watching the main file.
+    with contextlib.suppress(RenderCVUserValidationError):
+        main_dict = read_yaml_with_validation_errors(
+            input_file_path.read_text(encoding="utf-8"),
+            "main_yaml_file",
+        )
+        rc = main_dict.get("settings", {}).get("render_command", {})
+        if "design" not in files and rc.get("design"):
+            files["design"] = (input_file_path.parent / rc["design"]).resolve()
+        if "locale" not in files and rc.get("locale"):
+            files["locale"] = (input_file_path.parent / rc["locale"]).resolve()
 
     return files
 
@@ -178,10 +183,6 @@ def run_rendercv(
         progress.finish_progress()
     except RenderCVUserError as e:
         progress.print_user_error(e)
-    except ruamel.yaml.YAMLError as e:
-        progress.print_user_error(
-            RenderCVUserError(message=f"This is not a valid YAML file!\n\n{e}")
-        )
     except jinja2.exceptions.TemplateSyntaxError as e:
         progress.print_user_error(
             RenderCVUserError(

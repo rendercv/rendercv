@@ -2,9 +2,17 @@ import pathlib
 from typing import Any, TypedDict, Unpack
 
 import pydantic
+import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 
-from rendercv.exception import RenderCVUserValidationError
+from rendercv.exception import (
+    OVERLAY_SOURCE_TO_YAML_SOURCE,
+    OverlaySourceKey,
+    RenderCVUserValidationError,
+    RenderCVValidationError,
+    YamlLocation,
+    YamlSource,
+)
 
 from .models.rendercv_model import RenderCVModel
 from .models.validation_context import ValidationContext
@@ -31,6 +39,68 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     overrides: dict[str, str] | None
 
 
+def get_yaml_error_location(error: ruamel.yaml.YAMLError) -> YamlLocation | None:
+    """Extract 1-indexed line/column coordinates from ruamel parser errors.
+
+    Args:
+        error: YAML parsing exception raised by ruamel.
+
+    Returns:
+        Start/end coordinates when available, otherwise None.
+    """
+    context_mark = getattr(error, "context_mark", None)
+    problem_mark = getattr(error, "problem_mark", None)
+    start_mark = context_mark or problem_mark
+    end_mark = problem_mark or context_mark
+
+    if start_mark is None or end_mark is None:
+        return None
+
+    return (
+        (start_mark.line + 1, start_mark.column + 1),
+        (end_mark.line + 1, end_mark.column + 1),
+    )
+
+
+def read_yaml_with_validation_errors(
+    yaml_content: str, yaml_source: YamlSource
+) -> CommentedMap:
+    """Parse YAML content and convert parser failures into validation errors.
+
+    Why:
+        YAML syntax errors should use the same error pipeline as schema validation,
+        so the CLI can display all input issues through one consistent path.
+
+    Args:
+        yaml_content: YAML string content.
+        yaml_source: Which input file this YAML content came from.
+
+    Returns:
+        Parsed YAML map preserving source coordinates.
+
+    Raises:
+        RenderCVUserValidationError: If YAML cannot be parsed.
+    """
+    try:
+        return read_yaml(yaml_content)
+    except ruamel.yaml.YAMLError as e:
+        parser_message = str(e).splitlines()[0].strip()
+        if not parser_message.endswith("."):
+            parser_message += "."
+
+        raise RenderCVUserValidationError(
+            validation_errors=[
+                RenderCVValidationError(
+                    schema_location=None,
+                    yaml_location=get_yaml_error_location(e),
+                    yaml_source=yaml_source,
+                    message=f"This is not a valid YAML file. {parser_message}",
+                    input="...",
+                )
+            ]
+        ) from e
+
+
 def build_rendercv_dictionary(
     main_yaml_file: str,
     **kwargs: Unpack[BuildRendercvModelArguments],
@@ -44,10 +114,10 @@ def build_rendercv_dictionary(
     Returns:
         Tuple of merged dictionary and overlay source CommentedMaps (for error reporting).
     """
-    input_dict = read_yaml(main_yaml_file)
+    input_dict = read_yaml_with_validation_errors(main_yaml_file, "main_yaml_file")
     input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
-    yaml_overlays: dict[str, str | None] = {
+    yaml_overlays: dict[OverlaySourceKey, str | None] = {
         "settings": kwargs.get("settings_yaml_file"),
         "design": kwargs.get("design_yaml_file"),
         "locale": kwargs.get("locale_yaml_file"),
@@ -56,7 +126,9 @@ def build_rendercv_dictionary(
     overlay_sources: dict[str, CommentedMap] = {}
     for key, yaml_content in yaml_overlays.items():
         if yaml_content:
-            overlay_cm = read_yaml(yaml_content)
+            overlay_cm = read_yaml_with_validation_errors(
+                yaml_content, OVERLAY_SOURCE_TO_YAML_SOURCE[key]
+            )
             input_dict[key] = overlay_cm[key]
             overlay_sources[key] = overlay_cm
 

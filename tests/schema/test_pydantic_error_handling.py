@@ -44,7 +44,9 @@ class TestParseValidationErrors:
                 expected_error["yaml_location"] = tuple(
                     tuple(part) for part in expected_error["yaml_location"]
                 )
-                expected_error["location"] = tuple(expected_error["location"])
+                expected_error["schema_location"] = tuple(
+                    expected_error["schema_location"]
+                )
                 assert validation_error == expected_error, (
                     f"expected {expected_error} but got {validation_error}"
                 )
@@ -76,7 +78,13 @@ cv:
         except pydantic.ValidationError as e:
             errors = parse_validation_errors(e, yaml_object)
             end_date_error = next(
-                (err for err in errors if "end_date" in err.location), None
+                (
+                    err
+                    for err in errors
+                    if err.schema_location is not None
+                    and "end_date" in err.schema_location
+                ),
+                None,
             )
             assert end_date_error is not None
             assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
@@ -103,13 +111,19 @@ class TestParseValidationErrorsWithOverlaySources:
             errors = parse_validation_errors(e, main_cm, overlay_sources)
 
         design_error = next(
-            (err for err in errors if err.location[0] == "design"), None
+            (
+                err
+                for err in errors
+                if err.schema_location is not None
+                and err.schema_location[0] == "design"
+            ),
+            None,
         )
         assert design_error is not None
-        assert design_error.yaml_source == "design"
+        assert design_error.yaml_source == "design_yaml_file"
         assert design_error.yaml_location is not None
 
-    def test_main_file_error_has_no_yaml_source(self):
+    def test_main_file_error_has_main_yaml_source(self):
         main_yaml = (
             "cv:\n"
             "  name: John Doe\n"
@@ -130,7 +144,7 @@ class TestParseValidationErrorsWithOverlaySources:
 
         assert len(errors) > 0
         for error in errors:
-            assert error.yaml_source is None
+            assert error.yaml_source == "main_yaml_file"
 
     def test_mixed_errors_from_main_and_overlay(self):
         main_yaml = "cv:\n  name: John Doe\n  phone: not_a_valid_phone\n"
@@ -150,16 +164,24 @@ class TestParseValidationErrorsWithOverlaySources:
         except pydantic.ValidationError as e:
             errors = parse_validation_errors(e, main_cm, overlay_sources)
 
-        cv_errors = [err for err in errors if err.location[0] == "cv"]
-        design_errors = [err for err in errors if err.location[0] == "design"]
+        cv_errors = [
+            err
+            for err in errors
+            if err.schema_location is not None and err.schema_location[0] == "cv"
+        ]
+        design_errors = [
+            err
+            for err in errors
+            if err.schema_location is not None and err.schema_location[0] == "design"
+        ]
 
         assert len(cv_errors) > 0
         assert len(design_errors) > 0
 
         for err in cv_errors:
-            assert err.yaml_source is None
+            assert err.yaml_source == "main_yaml_file"
         for err in design_errors:
-            assert err.yaml_source == "design"
+            assert err.yaml_source == "design_yaml_file"
 
 
 class TestGetInnerYamlObjectFromItsKey:

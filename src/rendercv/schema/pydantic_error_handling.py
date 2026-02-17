@@ -1,13 +1,16 @@
 import pathlib
-from typing import Any, Literal, cast
+from typing import Any, cast
 
 import pydantic
 import pydantic_core
 from ruamel.yaml.comments import CommentedMap
 
 from rendercv.exception import (
+    OVERLAY_SOURCE_TO_YAML_SOURCE,
+    OverlaySourceKey,
     RenderCVInternalError,
     RenderCVValidationError,
+    YamlSource,
 )
 
 from .models.custom_error_types import CustomPydanticErrorTypes
@@ -65,7 +68,7 @@ def parse_plain_pydantic_error(
     )
     # Special case for end_date because Pydantic returns multiple end_date errors
     # since it has multiple valid formats:
-    if "end_date" in location[-1]:
+    if location and "end_date" in location[-1]:
         plain_error["msg"] = (
             "This is not a valid `end_date`! Please use either YYYY-MM-DD, YYYY-MM,"
             ' or YYYY format or "present"!'
@@ -81,21 +84,19 @@ def parse_plain_pydantic_error(
 
     # Determine which YAML source this error came from and use the correct
     # CommentedMap for coordinate lookup
-    yaml_source: Literal["design", "locale", "settings"] | None = None
+    yaml_source: YamlSource = "main_yaml_file"
+    coord_dict: CommentedMap | dict[str, Any] = input_dictionary
     if overlay_sources and location and location[0] in overlay_sources:
-        yaml_source = cast(Literal["design", "locale", "settings"], location[0])
+        source_key = cast(OverlaySourceKey, location[0])
+        yaml_source = OVERLAY_SOURCE_TO_YAML_SOURCE[source_key]
+        coord_dict = overlay_sources[source_key]
 
-    coord_dict: CommentedMap | dict[str, Any] = (
-        overlay_sources[yaml_source]
-        if yaml_source and overlay_sources
-        else input_dictionary
-    )
     location_for_coords = (
         location if plain_error["type"] != "missing" else location[:-1]
     )
 
     return RenderCVValidationError(
-        location=location,
+        schema_location=location,
         yaml_location=(
             get_coordinates_of_a_key_in_a_yaml_object(
                 coord_dict,
@@ -155,9 +156,9 @@ def parse_validation_errors(
     error_locations = set()
     errors_without_duplicates = []
     for error in all_final_errors:
-        location = error.location
-        if location not in error_locations:
-            error_locations.add(location)
+        schema_location = error.schema_location
+        if schema_location not in error_locations:
+            error_locations.add(schema_location)
             errors_without_duplicates.append(error)
 
     return errors_without_duplicates

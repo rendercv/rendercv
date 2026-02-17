@@ -266,6 +266,7 @@ design:
   #   space_between_columns: 0.1cm
   #   allow_page_break: false
   #   short_second_row: true
+  #   degree_width: 1cm
   #   summary:
   #     space_above: 0cm
   #     space_left: 0cm
@@ -353,9 +354,9 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2026-02-16'
+  current_date: '2026-02-17'
   render_command:
-    output_folder: rendercv_outputdfdf
+    output_folder: rendercv_output
     design:
     locale:
     typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
@@ -369,3 +370,5 @@ settings:
     dont_generate_pdf: false
     dont_generate_png: false
   bold_keywords: []
+  pdf_title: NAME
+            - CV

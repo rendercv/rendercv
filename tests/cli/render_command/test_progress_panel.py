@@ -3,8 +3,63 @@ import pathlib
 import pytest
 import typer
 
-from rendercv.cli.render_command.progress_panel import CompletedStep, ProgressPanel
+from rendercv.cli.render_command.progress_panel import (
+    CompletedStep,
+    ProgressPanel,
+    format_validation_error_location,
+)
 from rendercv.exception import RenderCVUserError, RenderCVValidationError
+
+
+class TestFormatValidationErrorLocation:
+    def test_returns_schema_location_when_available(self):
+        error = RenderCVValidationError(
+            schema_location=("cv", "email"),
+            yaml_location=((2, 3), (2, 8)),
+            yaml_source="main_yaml_file",
+            input="x",
+            message="m",
+        )
+
+        assert format_validation_error_location(error) == "cv.email"
+
+    def test_returns_yaml_source_and_single_coordinate_when_schema_location_missing(
+        self,
+    ):
+        error = RenderCVValidationError(
+            schema_location=None,
+            yaml_location=((3, 7), (3, 7)),
+            yaml_source="design_yaml_file",
+            input="x",
+            message="m",
+        )
+
+        assert format_validation_error_location(error) == "design_yaml_file: line 3"
+
+    def test_returns_yaml_source_and_range_when_schema_location_missing(self):
+        error = RenderCVValidationError(
+            schema_location=None,
+            yaml_location=((3, 7), (4, 2)),
+            yaml_source="main_yaml_file",
+            input="x",
+            message="m",
+        )
+
+        assert (
+            format_validation_error_location(error)
+            == "main_yaml_file: line 3 to line 4"
+        )
+
+    def test_returns_yaml_source_when_yaml_location_is_missing(self):
+        error = RenderCVValidationError(
+            schema_location=None,
+            yaml_location=None,
+            yaml_source="locale_yaml_file",
+            input="x",
+            message="m",
+        )
+
+        assert format_validation_error_location(error) == "locale_yaml_file"
 
 
 class TestProgressPanelUpdateProgress:
@@ -132,9 +187,9 @@ class TestProgressPanelPrintValidationErrors:
         panel = ProgressPanel(quiet=True)
         errors: list[RenderCVValidationError] = [
             RenderCVValidationError(
-                location=("cv", "name"),
+                schema_location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
-                yaml_source=None,
+                yaml_source="main_yaml_file",
                 input="123",
                 message="Invalid name",
             )
@@ -152,9 +207,9 @@ class TestProgressPanelPrintValidationErrors:
         )
         errors: list[RenderCVValidationError] = [
             RenderCVValidationError(
-                location=("cv", "name"),
+                schema_location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
-                yaml_source=None,
+                yaml_source="main_yaml_file",
                 input="123",
                 message="Invalid name",
             )
@@ -170,19 +225,36 @@ class TestProgressPanelPrintValidationErrors:
         panel = ProgressPanel(quiet=True)
         errors: list[RenderCVValidationError] = [
             RenderCVValidationError(
-                location=("cv", "name"),
+                schema_location=("cv", "name"),
                 yaml_location=((1, 1), (1, 1)),
-                yaml_source=None,
+                yaml_source="main_yaml_file",
                 input="123",
                 message="Invalid name",
             ),
             RenderCVValidationError(
-                location=("cv", "email"),
+                schema_location=("cv", "email"),
                 yaml_location=((2, 1), (2, 1)),
-                yaml_source=None,
+                yaml_source="main_yaml_file",
                 input="not-an-email",
                 message="Invalid email format",
             ),
+        ]
+
+        with pytest.raises(typer.Exit) as exc_info:
+            panel.print_validation_errors(errors)
+
+        assert exc_info.value.exit_code == 1
+
+    def test_handles_yaml_parse_error_with_no_location(self):
+        panel = ProgressPanel(quiet=True)
+        errors: list[RenderCVValidationError] = [
+            RenderCVValidationError(
+                schema_location=None,
+                yaml_location=((3, 7), (3, 7)),
+                yaml_source="main_yaml_file",
+                input="...",
+                message="This is not a valid YAML file.",
+            )
         ]
 
         with pytest.raises(typer.Exit) as exc_info:

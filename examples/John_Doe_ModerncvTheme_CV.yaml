@@ -265,6 +265,7 @@ design:
   #   space_between_columns: 0.3cm
   #   allow_page_break: false
   #   short_second_row: false
+  #   degree_width: 1cm
   #   summary:
   #     space_above: 0.1cm
   #     space_left: 0cm
@@ -346,7 +347,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2026-02-16'
+  current_date: '2026-02-17'
   render_command:
     output_folder: rendercv_output
     design:
@@ -362,3 +363,5 @@ settings:
     dont_generate_pdf: false
     dont_generate_png: false
   bold_keywords: []
+  pdf_title: NAME
+            - CV

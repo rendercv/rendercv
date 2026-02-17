@@ -133,6 +133,31 @@ class TestBuildRendercvDictionary:
         assert result["cv"]["name"] == "John Doe"
         assert result["design"]["theme"] == "classic"
 
+    def test_invalid_main_yaml_raises_validation_error(self):
+        invalid_main_yaml = "cv:\n  name: John Doe\n   phone: 123"
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary(invalid_main_yaml)
+
+        assert len(exc_info.value.validation_errors) == 1
+        error = exc_info.value.validation_errors[0]
+        assert error.schema_location is None
+        assert error.yaml_source == "main_yaml_file"
+        assert error.yaml_location is not None
+
+    def test_invalid_overlay_yaml_raises_validation_error(self, minimal_input_dict):
+        main_yaml = dictionary_to_yaml(minimal_input_dict)
+        invalid_design_yaml = "design:\n  theme: classic\n   show_timespan_in: bad"
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary(main_yaml, design_yaml_file=invalid_design_yaml)
+
+        assert len(exc_info.value.validation_errors) == 1
+        error = exc_info.value.validation_errors[0]
+        assert error.schema_location is None
+        assert error.yaml_source == "design_yaml_file"
+        assert error.yaml_location is not None
+
     @pytest.mark.parametrize(
         ("override_key", "override_value"),
         [

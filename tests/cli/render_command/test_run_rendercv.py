@@ -204,6 +204,14 @@ class TestCollectInputFilePaths:
         assert result["input"] == yaml_file
         assert result["design"] == design_file.resolve()
 
+    def test_invalid_yaml_still_returns_input_file(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text("invalid: yaml: content: :", encoding="utf-8")
+
+        result = collect_input_file_paths(yaml_file)
+
+        assert result == {"input": yaml_file}
+
     def test_cli_flags_take_precedence_over_yaml_references(self, tmp_path):
         yaml_ref_design = tmp_path / "yaml_design.yaml"
         yaml_ref_design.touch()
