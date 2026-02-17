@@ -22,7 +22,7 @@ class TestSettings:
     def test_pdf_title_default(self):
         settings = Settings()
 
-        assert settings.pdf_title == "NAME's CV"
+        assert settings.pdf_title == "NAME - CV"
 
     def test_pdf_title_custom(self):
         settings = Settings(pdf_title="NAME - Resume YEAR")

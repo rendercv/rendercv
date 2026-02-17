@@ -29,7 +29,7 @@ class Settings(BaseModelWithoutExtraKeys):
         description="Keywords to automatically bold in the output.",
     )
     pdf_title: str = pydantic.Field(
-        default="NAME's CV",
+        default="NAME - CV",
         title="PDF Title",
         description=(
             "Title metadata for the PDF document. This appears in browser tabs and"
@@ -45,7 +45,7 @@ class Settings(BaseModelWithoutExtraKeys):
             "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
             "- `YEAR`: Full year (e.g., 2025)\n"
             "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
-            "The default value is `NAME's CV`."
+            "The default value is `NAME - CV`."
         ),
     )
 

@@ -182,7 +182,7 @@ class TestProcessModel:
     def test_pdf_title_default_placeholder_resolution(self, model):
         result = process_model(model, "typst")
 
-        assert result.settings.pdf_title == "Jane Doe @'s CV"
+        assert result.settings.pdf_title == "Jane Doe @ - CV"
 
     def test_pdf_title_custom_placeholder_resolution(self):
         cv = Cv.model_validate({"name": "John Doe"})
