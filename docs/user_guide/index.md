@@ -29,7 +29,7 @@
         Docker image is available at [ghcr.io/rendercv/rendercv](https://github.com/rendercv/rendercv/pkgs/container/rendercv).
 
         ```bash
-        docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv new "Your Name"
+        docker run --rm -v "$PWD":/work -u $(id -u):$(id -g) -w /work ghcr.io/rendercv/rendercv new "Your Name"
         ```
 
 ## Quick Start
