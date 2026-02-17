@@ -254,6 +254,7 @@ design:
   #   line_thickness: 0.15cm
   #   space_above: 0.55cm
   #   space_below: 0.3cm
+  #   hidden: false
   # sections:
   #   allow_page_break: true
   #   space_between_regular_entries: 1.2em
@@ -347,7 +348,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2026-02-17'
+  current_date: '2026-02-18'
   render_command:
     output_folder: rendercv_output
     design:

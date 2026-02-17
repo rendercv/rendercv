@@ -96,6 +96,7 @@ def cli_command_new(
 
     print_welcome()
 
+    # --cover flag to identify CV or Cover
     suffix = "Cover" if cover else "CV"
     input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_{suffix}.yaml")
     typst_templates_folder = pathlib.Path(theme)

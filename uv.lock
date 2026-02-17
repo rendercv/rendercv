@@ -1190,7 +1190,7 @@ requires-dist = [
     { name = "pydantic", extras = ["email"], specifier = ">=2.12.5" },
     { name = "pydantic-extra-types", specifier = ">=2.11.0" },
     { name = "rendercv-fonts", marker = "extra == 'full'", specifier = ">=0.5.1" },
-    { name = "ruamel-yaml", specifier = ">=0.18.10" },
+    { name = "ruamel-yaml", specifier = ">=0.19.1" },
     { name = "typer", marker = "extra == 'full'", specifier = ">=0.23.1" },
     { name = "typst", marker = "extra == 'full'", specifier = ">=0.14.8" },
     { name = "watchdog", marker = "extra == 'full'", specifier = ">=6.0.0" },

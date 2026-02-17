@@ -86,6 +86,7 @@ def create_sample_rendercv_pydantic_model(
     design = built_in_design_adapter.validate_python({"theme": theme})
     validated_locale = locale_adapter.validate_python({"language": locale})
 
+    # Override settings to rename output files for cover
     if cover:
         settings = Settings(
             render_command=RenderCommand(
@@ -99,7 +100,9 @@ def create_sample_rendercv_pydantic_model(
             )
         )
 
-        return RenderCVModel(cv=cv, design=design, locale=validated_locale, settings=settings)
+        return RenderCVModel(
+            cv=cv, design=design, locale=validated_locale, settings=settings
+        )
 
     return RenderCVModel(
         cv=cv,

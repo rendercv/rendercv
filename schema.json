@@ -2163,7 +2163,6 @@
       "properties": {
         "output_folder": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "rendercv_output",
           "description": "Base output folder for all generated files. The default value is `rendercv_output`. Referenced as `OUTPUT_FOLDER` in output path defaults.\n\n"
         },
         "design": {
@@ -2192,28 +2191,23 @@
         },
         "typst_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ",
           "description": "Output path for the Typst file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf",
           "description": "Output path for the PDF file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md",
           "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html",
           "description": "Output path for the HTML file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png",
           "description": "Output path for PNG files, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_markdown": {
@@ -2442,6 +2436,12 @@
           },
           "title": "Bold Keywords",
           "type": "array"
+        },
+        "pdf_title": {
+          "default": "NAME - CV",
+          "description": "Title metadata for the PDF document. This appears in browser tabs and PDF readers. Available placeholders:\n- `NAME`: The CV owner's name from `cv.name`\n- `CURRENT_DATE`: Formatted date based on `design.templates.single_date`\n- `MONTH_NAME`: Full month name (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n- `MONTH`: Month number (e.g., 1)\n- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n- `DAY`: Day of the month (e.g., 5)\n- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `YEAR`: Full year (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\nThe default value is `NAME - CV`.",
+          "title": "PDF Title",
+          "type": "string"
         }
       },
       "title": "Settings",
@@ -4366,6 +4366,11 @@
           "description": "Shorten the second row to align with the date/location column. The default value is `true`.",
           "title": "Short Second Row",
           "type": "boolean"
+        },
+        "degree_width": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "1cm",
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__5",

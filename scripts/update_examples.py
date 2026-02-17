@@ -22,6 +22,7 @@ if not examples_directory_path.exists():
     examples_directory_path.mkdir()
 
 for theme in available_themes:
+    # file name based on cover theme
     is_cover_theme = theme in available_cover_themes
     suffix = "Cover" if is_cover_theme else "CV"
     yaml_file_path = (

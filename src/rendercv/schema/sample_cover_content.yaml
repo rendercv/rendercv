@@ -15,7 +15,7 @@ cv:
   sections:
     date:
       - name: ""
-        date: "February 15, 2026"
+        date: "MONTH DD, YYYY"
     greeting:
       - "Dear Hiring Manager,"
     opening:
