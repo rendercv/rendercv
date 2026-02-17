@@ -79,8 +79,8 @@
   entries-highlights-space-between-items: {{ design.entries.highlights.space_between_items }},
   entries-highlights-space-between-bullet-and-text: {{ design.entries.highlights.space_between_bullet_and_text }},
   date: datetime(
-    year: {{ settings.current_date.year }},
-    month: {{ settings.current_date.month }},
-    day: {{ settings.current_date.day }},
+    year: {{ settings._resolved_current_date.year }},
+    month: {{ settings._resolved_current_date.month }},
+    day: {{ settings._resolved_current_date.day }},
   ),
 )

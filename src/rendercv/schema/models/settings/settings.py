@@ -1,4 +1,5 @@
 import datetime
+from typing import Literal
 
 import pydantic
 
@@ -7,8 +8,8 @@ from .render_command import RenderCommand
 
 
 class Settings(BaseModelWithoutExtraKeys):
-    current_date: datetime.date = pydantic.Field(
-        default_factory=datetime.date.today,
+    current_date: datetime.date | Literal["today"] = pydantic.Field(
+        default="today",
         title="Date",
         description=(
             'The date to use as "current date" for filenames, the "last updated" label,'
@@ -48,6 +49,7 @@ class Settings(BaseModelWithoutExtraKeys):
             "The default value is `NAME - CV`."
         ),
     )
+    _resolved_current_date: datetime.date = pydantic.PrivateAttr()
 
     @pydantic.field_validator("bold_keywords")
     @classmethod
@@ -65,3 +67,10 @@ class Settings(BaseModelWithoutExtraKeys):
             List with unique keywords only.
         """
         return list(set(value))
+
+    @pydantic.model_validator(mode="after")
+    def resolve_current_date(self) -> "Settings":
+        self._resolved_current_date = (
+            datetime.date.today() if self.current_date == "today" else self.current_date
+        )
+        return self

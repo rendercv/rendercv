@@ -1,13 +1,13 @@
 import pathlib
 from datetime import date as Date
-from typing import cast
+from typing import Literal, cast
 
 import pydantic
 
 
 class ValidationContext(pydantic.BaseModel):
     input_file_path: pathlib.Path | None = None
-    current_date: Date | None = None
+    current_date: Date | Literal["today"] | None = None
 
 
 def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path | None:
@@ -37,7 +37,8 @@ def get_current_date(info: pydantic.ValidationInfo) -> Date:
     Why:
         Date calculations (like months of experience) must use consistent
         reference dates. Users can override via settings.current_date for
-        reproducible builds, otherwise defaults to today.
+        reproducible builds, otherwise defaults to today. The ``"today"``
+        keyword is resolved to the actual current date.
 
     Args:
         info: Pydantic validation info containing context.
@@ -47,5 +48,7 @@ def get_current_date(info: pydantic.ValidationInfo) -> Date:
     """
     if isinstance(info.context, dict):
         context = cast(ValidationContext, info.context["context"])
+        if context.current_date == "today":
+            return Date.today()
         return context.current_date or Date.today()
     return Date.today()

@@ -70,7 +70,7 @@ def resolve_rendercv_file_path(
     output_folder = rendercv_model.settings.render_command.output_folder
     file_path = resolve_output_folder_placeholder(file_path, output_folder)
 
-    current_date = rendercv_model.settings.current_date
+    current_date = rendercv_model.settings._resolved_current_date
     file_path_placeholders = {
         **build_date_placeholders(current_date, locale=rendercv_model.locale),
         "NAME": rendercv_model.cv.name,
