@@ -1,5 +1,5 @@
-{% if cv.title %}
-# {{ cv.title }}
+{% if cv.name %}
+# {{ cv.name }}'s CV
 {% endif %}
 
 {% if cv.phone %}

@@ -29,10 +29,6 @@ phones_validator = pydantic.TypeAdapter[list[pydantic_phone_numbers.PhoneNumber]
 
 
 class Cv(BaseModelWithExtraKeys):
-    title: str | None = pydantic.Field(
-        default=None,
-        examples=["John Doe's CV", "Jane Smith's CV"],
-    )
     name: str | None = pydantic.Field(
         default=None,
         examples=["John Doe", "Jane Smith"],
