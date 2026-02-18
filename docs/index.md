@@ -16,13 +16,13 @@ Write your CV or resume as YAML, then run RenderCV,
 rendercv render John_Doe_CV.yaml
 ```
 
-and get a PDF with perfect typography. No template wrestling. No broken layouts. Consistent spacing, every time.
+and get a PDF with perfect typography.
 
 With RenderCV, you can:
 
 - Version-control your CV — it's just text.
 - Focus on content — don't worry about the formatting.
-- Get perfect typography — pixel-perfect alignment and spacing, handled for you.
+- Get perfect typography — consistent alignment and spacing, handled for you.
 
 A YAML file like this:
 
@@ -68,7 +68,7 @@ becomes one of these PDFs. Click on the images to preview.
 
 RenderCV's JSON Schema lets you fill out the YAML interactively, with autocompletion and inline documentation.
 
-![JSON Schema of RenderCV](./assets/images/json_schema.gif)
+![JSON Schema of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/json_schema.gif)
 
 
 ## Extensive Design Options
@@ -103,16 +103,16 @@ design:
   # ...and much more
 ```
 
-![Design Options of RenderCV](./assets/images/design_options.gif)
+![Design Options of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/design_options.gif)
 
 > [!TIP]
-> Want to set up a live preview environment like the one shown above? See [how to set up VS Code for RenderCV](user_guide/how_to/set_up_vs_code_for_rendercv.md).
+> Want to set up a live preview environment like the one shown above? See [how to set up VS Code for RenderCV](https://docs.rendercv.com/user_guide/how_to/set_up_vs_code_for_rendercv).
 
 ## Strict Validation
 
 No surprises. If something's wrong, you'll know exactly what and where. If it's valid, you get a perfect PDF.
 
-![Strict Validation Feature of RenderCV](./assets/images/validation.gif)
+![Strict Validation Feature of RenderCV](https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/validation.gif)
 
 
 ## Any Language
@@ -155,4 +155,4 @@ Edit the YAML, then render:
 rendercv render "John_Doe_CV.yaml"
 ```
 
-For more details, see the [user guide](user_guide/index.md).
+For more details, see the [user guide](https://docs.rendercv.com/user_guide/).

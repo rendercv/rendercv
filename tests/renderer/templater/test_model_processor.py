@@ -7,6 +7,7 @@ from rendercv.renderer.templater.model_processor import process_fields, process_
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.rendercv_model import RenderCVModel
+from rendercv.schema.models.settings.settings import Settings
 
 
 @pytest.fixture
@@ -103,8 +104,9 @@ def model(request: pytest.FixtureRequest) -> RenderCVModel:
     }
     cv = Cv.model_validate(cv_data)
 
-    rendercv_model = RenderCVModel(cv=cv)
-    rendercv_model.settings.current_date = Date(2024, 2, 1)
+    rendercv_model = RenderCVModel(
+        cv=cv, settings=Settings(current_date=Date(2024, 2, 1))
+    )
     rendercv_model.settings.bold_keywords = request.param
 
     return rendercv_model
@@ -186,8 +188,9 @@ class TestProcessModel:
 
     def test_pdf_title_custom_placeholder_resolution(self):
         cv = Cv.model_validate({"name": "John Doe"})
-        rendercv_model = RenderCVModel(cv=cv)
-        rendercv_model.settings.current_date = Date(2024, 3, 15)
+        rendercv_model = RenderCVModel(
+            cv=cv, settings=Settings(current_date=Date(2024, 3, 15))
+        )
         rendercv_model.settings.pdf_title = "NAME - Resume YEAR"
 
         result = process_model(rendercv_model, "typst")

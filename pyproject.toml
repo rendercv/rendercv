@@ -105,7 +105,8 @@ docs = [
   "mkdocs-literate-nav>=0.6.2",  # Dynamic navigation for API reference
   "mkdocs-macros-plugin>=1.5.0",  # Dynamic content in docs
   "mkdocs-material>=9.7.1",
-  "mkdocstrings[python]>=1.0.2",  # Build reference docs from docstrings
+  "griffe>=1.0,<2",  # Pin to v1 (v2 broke mkdocstrings-python compatibility)
+  "mkdocstrings[python]>=1.0.3",  # Build reference docs from docstrings
 ]
 update-entry-figures = [
   "PyMuPDF==1.26.5",  # Convert PDF files to images

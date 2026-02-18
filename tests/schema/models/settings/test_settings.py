@@ -1,4 +1,31 @@
+import datetime
+
+import pydantic
+import pytest
+
 from rendercv.schema.models.settings.settings import Settings
+
+
+class TestCurrentDate:
+    def test_accepts_today_string(self):
+        settings = Settings(current_date="today")
+
+        assert settings.current_date == "today"
+
+    def test_accepts_date_object(self):
+        date = datetime.date(2024, 6, 15)
+        settings = Settings(current_date=date)
+
+        assert settings.current_date == date
+
+    def test_accepts_iso_date_string(self):
+        settings = Settings(current_date="2024-06-15")  # ty: ignore[invalid-argument-type]
+
+        assert settings.current_date == datetime.date(2024, 6, 15)
+
+    def test_rejects_invalid_string(self):
+        with pytest.raises(pydantic.ValidationError):
+            Settings(current_date="not-a-date")  # ty: ignore[invalid-argument-type]
 
 
 class TestSettings:

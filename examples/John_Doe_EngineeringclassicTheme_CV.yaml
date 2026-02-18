@@ -348,7 +348,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2026-02-18'
+  current_date: today
   render_command:
     output_folder: rendercv_output
     design:

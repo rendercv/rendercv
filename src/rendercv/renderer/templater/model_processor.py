@@ -52,7 +52,7 @@ def process_model(
     rendercv_model.cv.top_note = render_top_note_template(  # ty: ignore[unresolved-attribute]
         rendercv_model.design.templates.top_note,
         locale=rendercv_model.locale,
-        current_date=rendercv_model.settings.current_date,
+        current_date=rendercv_model.settings._resolved_current_date,
         name=rendercv_model.cv.name,
         single_date_template=rendercv_model.design.templates.single_date,
         string_processors=string_processors,
@@ -61,7 +61,7 @@ def process_model(
     rendercv_model.cv.footer = render_footer_template(  # ty: ignore[unresolved-attribute]
         rendercv_model.design.templates.footer,
         locale=rendercv_model.locale,
-        current_date=rendercv_model.settings.current_date,
+        current_date=rendercv_model.settings._resolved_current_date,
         name=rendercv_model.cv.name,
         single_date_template=rendercv_model.design.templates.single_date,
         string_processors=string_processors,
@@ -69,13 +69,13 @@ def process_model(
 
     pdf_title_placeholders: dict[str, str] = {
         "CURRENT_DATE": date_object_to_string(
-            rendercv_model.settings.current_date,
+            rendercv_model.settings._resolved_current_date,
             locale=rendercv_model.locale,
             single_date_template=rendercv_model.design.templates.single_date,
         ),
         "NAME": rendercv_model.cv.plain_name or "",  # ty: ignore[unresolved-attribute]
         **build_date_placeholders(
-            rendercv_model.settings.current_date, locale=rendercv_model.locale
+            rendercv_model.settings._resolved_current_date, locale=rendercv_model.locale
         ),
     }
     rendercv_model.settings.pdf_title = substitute_placeholders(
@@ -97,7 +97,7 @@ def process_model(
                 templates=rendercv_model.design.templates,
                 locale=rendercv_model.locale,
                 show_time_span=show_time_span,
-                current_date=rendercv_model.settings.current_date,
+                current_date=rendercv_model.settings._resolved_current_date,
             )
             section.entries[i] = process_fields(entry, string_processors)
 
