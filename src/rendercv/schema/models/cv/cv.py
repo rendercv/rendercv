@@ -116,6 +116,10 @@ class Cv(BaseModelWithoutExtraKeys):
         ],
     )
 
+    _plain_name: str | None = pydantic.PrivateAttr()
+    _connections: list[str] = pydantic.PrivateAttr()
+    _top_note: str = pydantic.PrivateAttr()
+    _footer: str = pydantic.PrivateAttr()
     # Store the order of the keys so that the header can be rendered in the same order
     # that the user defines.
     _key_order: list[str] = pydantic.PrivateAttr(default_factory=list)

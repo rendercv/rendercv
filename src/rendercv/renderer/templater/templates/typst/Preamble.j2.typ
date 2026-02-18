@@ -3,10 +3,10 @@
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
-  name: "{{ cv.plain_name }}",
+  name: "{{ cv._plain_name }}",
   title: "{{ settings.pdf_title }}",
-  footer: {{ cv.footer }},
-  top-note: [ {{ cv.top_note }} ],
+  footer: {{ cv._footer }},
+  top-note: [ {{ cv._top_note }} ],
   locale-catalog-language: "{{ locale.language_iso_639_1 }}",
   text-direction: {% if locale.is_rtl %}rtl{% else %}ltr{% endif %},
   page-size: "{{ design.page.size }}",

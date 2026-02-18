@@ -41,15 +41,15 @@ def process_model(
     if file_type == "typst":
         string_processors.extend([markdown_to_typst])
 
-    rendercv_model.cv.plain_name = rendercv_model.cv.name  # ty: ignore[unresolved-attribute]
+    rendercv_model.cv._plain_name = rendercv_model.cv.name
     rendercv_model.cv.name = apply_string_processors(
         rendercv_model.cv.name, string_processors
     )
     rendercv_model.cv.headline = apply_string_processors(
         rendercv_model.cv.headline, string_processors
     )
-    rendercv_model.cv.connections = compute_connections(rendercv_model, file_type)  # ty: ignore[unresolved-attribute]
-    rendercv_model.cv.top_note = render_top_note_template(  # ty: ignore[unresolved-attribute]
+    rendercv_model.cv._connections = compute_connections(rendercv_model, file_type)
+    rendercv_model.cv._top_note = render_top_note_template(
         rendercv_model.design.templates.top_note,
         locale=rendercv_model.locale,
         current_date=rendercv_model.settings._resolved_current_date,
@@ -58,7 +58,7 @@ def process_model(
         string_processors=string_processors,
     )
 
-    rendercv_model.cv.footer = render_footer_template(  # ty: ignore[unresolved-attribute]
+    rendercv_model.cv._footer = render_footer_template(
         rendercv_model.design.templates.footer,
         locale=rendercv_model.locale,
         current_date=rendercv_model.settings._resolved_current_date,
@@ -73,7 +73,7 @@ def process_model(
             locale=rendercv_model.locale,
             single_date_template=rendercv_model.design.templates.single_date,
         ),
-        "NAME": rendercv_model.cv.plain_name or "",  # ty: ignore[unresolved-attribute]
+        "NAME": rendercv_model.cv._plain_name or "",
         **build_date_placeholders(
             rendercv_model.settings._resolved_current_date, locale=rendercv_model.locale
         ),

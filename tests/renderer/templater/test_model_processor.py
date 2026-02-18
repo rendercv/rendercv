@@ -120,13 +120,11 @@ class TestProcessModel:
         assert result.cv.headline == "Software Engineer @"
 
         # Connections and last updated date are added to cv
-        assert result.cv.connections == [  # ty: ignore[unresolved-attribute]
+        assert result.cv._connections == [
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
-        assert (
-            result.cv.top_note == "*Last updated in Feb 2024*"  # ty: ignore[unresolved-attribute]
-        )
+        assert result.cv._top_note == "*Last updated in Feb 2024*"
 
         entry = result.cv.rendercv_sections[0].entries[0]
         assert entry.main_column.startswith("**Backend Work**")
@@ -159,13 +157,13 @@ class TestProcessModel:
                 entry.date_and_location_column == "#strong[Remote]\nJan 2022 – Feb 2023"
             )
             # Connections rendered as Typst links with icons by default
-            assert result.cv.connections[0].startswith("#link(")  # ty: ignore[unresolved-attribute]
-            assert "#connection-with-icon" in result.cv.connections[0]  # ty: ignore[unresolved-attribute]
+            assert result.cv._connections[0].startswith("#link(")
+            assert "#connection-with-icon" in result.cv._connections[0]
         else:
             assert "- Improved Python performance" in entry.main_column
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
-            assert result.cv.connections[0].startswith("#link(")  # ty: ignore[unresolved-attribute]
-            assert "jane@example.com" in result.cv.connections[0]  # ty: ignore[unresolved-attribute]
+            assert result.cv._connections[0].startswith("#link(")
+            assert "jane@example.com" in result.cv._connections[0]
 
     def test_handles_cv_with_no_sections(self):
         cv_data = {
@@ -179,7 +177,6 @@ class TestProcessModel:
 
         assert result.cv.name == "Jane Doe"
         assert result.cv.headline == "Software Engineer"
-        assert hasattr(result.cv, "connections")
 
     def test_pdf_title_default_placeholder_resolution(self, model):
         result = process_model(model, "typst")
