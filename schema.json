@@ -253,7 +253,7 @@
       "type": "object"
     },
     "Cv": {
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "name": {
           "anyOf": [
@@ -2380,10 +2380,19 @@
       "additionalProperties": false,
       "properties": {
         "current_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "const": "today",
+              "type": "string"
+            }
+          ],
+          "default": "today",
           "description": "The date to use as \"current date\" for filenames, the \"last updated\" label, and time span calculations. Defaults to the actual current date.",
-          "format": "date",
-          "title": "Date",
-          "type": "string"
+          "title": "Date"
         },
         "render_command": {
           "$ref": "#/$defs/RenderCommand",
@@ -2398,6 +2407,12 @@
           },
           "title": "Bold Keywords",
           "type": "array"
+        },
+        "pdf_title": {
+          "default": "NAME - CV",
+          "description": "Title metadata for the PDF document. This appears in browser tabs and PDF readers. Available placeholders:\n- `NAME`: The CV owner's name from `cv.name`\n- `CURRENT_DATE`: Formatted date based on `design.templates.single_date`\n- `MONTH_NAME`: Full month name (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n- `MONTH`: Month number (e.g., 1)\n- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n- `DAY`: Day of the month (e.g., 5)\n- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `YEAR`: Full year (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\nThe default value is `NAME - CV`.",
+          "title": "PDF Title",
+          "type": "string"
         }
       },
       "title": "Settings",
