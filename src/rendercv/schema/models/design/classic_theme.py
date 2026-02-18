@@ -436,6 +436,13 @@ class SectionTitles(BaseModelWithoutExtraKeys):
         default="0.3cm",
         description=length_common_description + " The default value is `0.3cm`.",
     )
+    # hidden option to hide section titles for cover
+    hidden: bool = pydantic.Field(
+        default=False,
+        description=(
+            "Whether the section title should be hidden. The default value is `false`."
+        ),
+    )
 
 
 class Sections(BaseModelWithoutExtraKeys):

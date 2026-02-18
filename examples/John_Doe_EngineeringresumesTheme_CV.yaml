@@ -254,6 +254,7 @@ design:
   #   line_thickness: 0.5pt
   #   space_above: 0.5cm
   #   space_below: 0.3cm
+  #   hidden: false
   # sections:
   #   allow_page_break: true
   #   space_between_regular_entries: 0.42cm

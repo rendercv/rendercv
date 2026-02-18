@@ -2,7 +2,10 @@ import pytest
 import ruamel.yaml
 
 from rendercv.exception import RenderCVUserError
-from rendercv.schema.models.design.built_in_design import available_themes
+from rendercv.schema.models.design.built_in_design import (
+    available_cover_themes,
+    available_themes,
+)
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.sample_generator import (
@@ -23,7 +26,10 @@ class TestCreateSampleRendercvPydanticModel:
     )
     def test_creates_valid_model_for_all_themes_and_locales(self, theme, locale):
         data_model = create_sample_rendercv_pydantic_model(
-            name="John Doe", theme=theme, locale=locale
+            name="John Doe",
+            theme=theme,
+            locale=locale,
+            cover=(theme in available_cover_themes),
         )
         assert isinstance(data_model, RenderCVModel)
 
@@ -57,7 +63,10 @@ class TestCreateSampleYamlInputFile:
     ):
         dummy_file_path = tmp_path / "dummy.yaml"
         yaml_contents = create_sample_yaml_input_file(
-            file_path=dummy_file_path, theme=theme, locale=locale
+            file_path=dummy_file_path,
+            theme=theme,
+            locale=locale,
+            cover=(theme in available_cover_themes),
         )
 
         assert dummy_file_path.exists()
@@ -65,11 +74,14 @@ class TestCreateSampleYamlInputFile:
 
     @pytest.mark.parametrize(
         "key",
-        ["theme", "locale"],
+        [
+            {"theme": "invalid"},
+            {"locale": "invalid"},
+        ],
     )
     def test_rejects_invalid_theme_or_locale(self, key):
         with pytest.raises(RenderCVUserError):
-            create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
+            create_sample_yaml_input_file(file_path=None, **key)
 
 
 def test_dictionary_to_yaml():
