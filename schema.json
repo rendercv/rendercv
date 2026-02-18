@@ -1013,6 +1013,104 @@
       "title": "GermanLocale",
       "type": "object"
     },
+    "HebrewLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "hebrew",
+          "default": "hebrew",
+          "description": "The language for your CV. The default value is `hebrew`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "עודכן לאחרונה ב",
+          "description": "Translation of \"Last updated in\". The default value is `עודכן לאחרונה ב`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "חודש",
+          "description": "Translation of \"month\" (singular). The default value is `חודש`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "חודשים",
+          "description": "Translation of \"months\" (plural). The default value is `חודשים`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "שנה",
+          "description": "Translation of \"year\" (singular). The default value is `שנה`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "שנים",
+          "description": "Translation of \"years\" (plural). The default value is `שנים`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "הווה",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `הווה`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "ינו'",
+            "פבר'",
+            "מרץ",
+            "אפר'",
+            "מאי",
+            "יוני",
+            "יולי",
+            "אוג'",
+            "ספט'",
+            "אוק'",
+            "נוב'",
+            "דצמ'"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "ינואר",
+            "פברואר",
+            "מרץ",
+            "אפריל",
+            "מאי",
+            "יוני",
+            "יולי",
+            "אוגוסט",
+            "ספטמבר",
+            "אוקטובר",
+            "נובמבר",
+            "דצמבר"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "HebrewLocale",
+      "type": "object"
+    },
     "HindiLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1570,6 +1668,7 @@
           "english": "#/$defs/EnglishLocale",
           "french": "#/$defs/FrenchLocale",
           "german": "#/$defs/GermanLocale",
+          "hebrew": "#/$defs/HebrewLocale",
           "hindi": "#/$defs/HindiLocale",
           "indonesian": "#/$defs/IndonesianLocale",
           "italian": "#/$defs/ItalianLocale",
@@ -1578,6 +1677,7 @@
           "mandarin_chinese": "#/$defs/MandarinChineseLocale",
           "norwegian_bokmål": "#/$defs/NorwegianBokm_lLocale",
           "norwegian_nynorsk": "#/$defs/NorwegianNynorskLocale",
+          "persian": "#/$defs/PersianLocale",
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
@@ -1605,6 +1705,9 @@
           "$ref": "#/$defs/GermanLocale"
         },
         {
+          "$ref": "#/$defs/HebrewLocale"
+        },
+        {
           "$ref": "#/$defs/HindiLocale"
         },
         {
@@ -1627,6 +1730,9 @@
         },
         {
           "$ref": "#/$defs/NorwegianNynorskLocale"
+        },
+        {
+          "$ref": "#/$defs/PersianLocale"
         },
         {
           "$ref": "#/$defs/PortugueseLocale"
@@ -2003,6 +2109,104 @@
         "us-executive"
       ],
       "type": "string"
+    },
+    "PersianLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "persian",
+          "default": "persian",
+          "description": "The language for your CV. The default value is `persian`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "آخرین به‌روزرسانی در",
+          "description": "Translation of \"Last updated in\". The default value is `آخرین به‌روزرسانی در`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "ماه",
+          "description": "Translation of \"month\" (singular). The default value is `ماه`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "ماه",
+          "description": "Translation of \"months\" (plural). The default value is `ماه`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "سال",
+          "description": "Translation of \"year\" (singular). The default value is `سال`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "سال",
+          "description": "Translation of \"years\" (plural). The default value is `سال`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "حال",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `حال`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "ژان",
+            "فور",
+            "مار",
+            "آور",
+            "مه",
+            "ژون",
+            "ژول",
+            "اوت",
+            "سپت",
+            "اکت",
+            "نوا",
+            "دسا"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "ژانویه",
+            "فوریه",
+            "مارس",
+            "آوریل",
+            "مه",
+            "ژوئن",
+            "ژوئیه",
+            "اوت",
+            "سپتامبر",
+            "اکتبر",
+            "نوامبر",
+            "دسامبر"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "PersianLocale",
+      "type": "object"
     },
     "PhoneNumberFormatType": {
       "enum": [

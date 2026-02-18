@@ -27,6 +27,8 @@ def test_available_locales():
     "language",
     [
         "arabic",
+        "hebrew",
+        "persian",
     ],
 )
 def test_locale_adapter_rtl_languages(language: str):

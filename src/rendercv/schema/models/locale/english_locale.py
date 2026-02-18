@@ -129,6 +129,8 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "spanish": "es",
             "turkish": "tr",
             "arabic": "ar",
+            "hebrew": "he",
+            "persian": "fa",
         }[self.language]
 
     @functools.cached_property
@@ -138,5 +140,5 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         Returns:
             True if language is RTL (Arabic, Hebrew, Persian, Urdu, etc.)
         """
-        rtl_languages = {"arabic"}
+        rtl_languages = {"arabic", "hebrew", "persian"}
         return self.language in rtl_languages

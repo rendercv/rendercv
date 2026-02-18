@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: persian
+  last_updated: آخرین به‌روزرسانی در
+  month: ماه
+  months: ماه
+  year: سال
+  years: سال
+  present: حال
+  month_abbreviations:
+    - ژان
+    - فور
+    - مار
+    - آور
+    - مه
+    - ژون
+    - ژول
+    - اوت
+    - سپت
+    - اکت
+    - نوا
+    - دسا
+  month_names:
+    - ژانویه
+    - فوریه
+    - مارس
+    - آوریل
+    - مه
+    - ژوئن
+    - ژوئیه
+    - اوت
+    - سپتامبر
+    - اکتبر
+    - نوامبر
+    - دسامبر
