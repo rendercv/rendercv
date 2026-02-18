@@ -30,7 +30,7 @@ build-backend = "uv_build"  # Build-backend object for building RenderCV
 # Metadata about RenderCV.
 name = "rendercv"
 version = "2.7"
-description = "Typst-based CV/resume generator"
+description = "CV/resume generator for academics and engineers"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
@@ -41,8 +41,6 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: MIT License",
   "Operating System :: OS Independent",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: 3.14",

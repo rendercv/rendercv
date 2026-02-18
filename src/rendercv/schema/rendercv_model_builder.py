@@ -176,7 +176,9 @@ def build_rendercv_model_from_commented_map(
         validation_context = {
             "context": ValidationContext(
                 input_file_path=input_file_path,
-                current_date=commented_map.get("settings", {}).get("current_date"),
+                current_date=commented_map.get("settings", {}).get(
+                    "current_date", "today"
+                ),
             )
         }
         model = RenderCVModel.model_validate(commented_map, context=validation_context)

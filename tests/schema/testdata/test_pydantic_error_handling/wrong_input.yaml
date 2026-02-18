@@ -57,3 +57,5 @@ cv:
 design:
   theme: not_a_valid_theme
   extra_field_in_design: I don't think this is allowed.
+settings:
+  current_date: todady

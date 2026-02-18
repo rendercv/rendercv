@@ -143,3 +143,9 @@ expected_errors:
     input: not_a_valid_theme
     yaml_location: [[58, 3], [58, 9]]
     yaml_source: main_yaml_file
+
+  - schema_location: ["settings", "current_date"]
+    message: 'This is not a valid `current_date`! Please use YYYY-MM-DD format or "today".'
+    input: todady
+    yaml_location: [[61, 3], [61, 16]]
+    yaml_source: main_yaml_file

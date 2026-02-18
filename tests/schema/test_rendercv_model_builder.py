@@ -389,6 +389,51 @@ class TestBuildRendercvModelFromDictionary:
         with pytest.raises(RenderCVUserValidationError):
             build_rendercv_model_from_commented_map(invalid_dict)
 
+    @pytest.mark.parametrize(
+        "invalid_date",
+        ["todady", "not-a-date", "2024-13-01", "yesterday"],
+    )
+    def test_invalid_current_date_raises_user_validation_error(
+        self, minimal_input_dict, invalid_date
+    ):
+        # current_date uses datetime.date | Literal["today"]. Pydantic emits one
+        # error per union branch, including a "date" suffix that has no counterpart
+        # in the YAML. parse_plain_pydantic_error must truncate the location to
+        # ("settings", "current_date") or the coordinate lookup raises an error.
+        yaml_input = dictionary_to_yaml(
+            {**minimal_input_dict, "settings": {"current_date": invalid_date}}
+        )
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary_and_model(yaml_input)
+
+        errors = exc_info.value.validation_errors
+        assert len(errors) >= 1
+        assert any(
+            error.schema_location is not None
+            and "settings" in error.schema_location
+            and "current_date" in error.schema_location
+            for error in errors
+        )
+
+    def test_valid_current_date_string_works(self, minimal_input_dict):
+        yaml_input = dictionary_to_yaml(
+            {**minimal_input_dict, "settings": {"current_date": "2024-06-15"}}
+        )
+
+        _, model = build_rendercv_dictionary_and_model(yaml_input)
+
+        assert model.settings.current_date == Date(2024, 6, 15)
+
+    def test_today_keyword_in_current_date_works(self, minimal_input_dict):
+        yaml_input = dictionary_to_yaml(
+            {**minimal_input_dict, "settings": {"current_date": "today"}}
+        )
+
+        _, model = build_rendercv_dictionary_and_model(yaml_input)
+
+        assert model.settings.current_date == "today"
+
 
 class TestBuildRendercvModel:
     def test_basic_model_creation(self, minimal_input_dict):

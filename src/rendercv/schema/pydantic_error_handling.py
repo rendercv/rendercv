@@ -74,6 +74,18 @@ def parse_plain_pydantic_error(
             ' or YYYY format or "present"!'
         )
 
+    # Special case for current_date: the field is typed as datetime.date |
+    # Literal["today"]. Pydantic appends "date" to the loc for the datetime.date
+    # union branch (e.g. ("settings", "current_date", "date")). Strip that suffix
+    # first so the field name lands at location[-1], matching the end_date pattern.
+    if len(location) >= 2 and location[-1] == "date" and location[-2] == "current_date":
+        location = location[:-1]
+    if location and "current_date" in location[-1]:
+        plain_error["msg"] = (
+            "This is not a valid `current_date`! Please use YYYY-MM-DD format or"
+            ' "today".'
+        )
+
     for old_error_message, new_error_message in error_dictionary.items():
         if old_error_message in plain_error["msg"]:
             plain_error["msg"] = new_error_message
