@@ -16,7 +16,7 @@ cv:
   sections:
     date:
       - name: ''
-        date: February 15, 2026
+        date: MONTH DD, YYYY
         start_date:
         end_date:
         location:
@@ -196,7 +196,7 @@ locale:
   #   - November
   #   - December
 settings:
-  current_date: '2026-02-18'
+  current_date: today
   render_command:
     output_folder: rendercv_output
     design:
