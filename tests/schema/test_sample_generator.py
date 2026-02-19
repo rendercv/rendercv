@@ -6,7 +6,12 @@ from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.sample_generator import (
+    create_sample_cv_file,
+    create_sample_design_file,
+    create_sample_locale_file,
     create_sample_rendercv_pydantic_model,
+    create_sample_settings_file,
+    create_sample_yaml_file,
     create_sample_yaml_input_file,
     dictionary_to_yaml,
 )
@@ -70,6 +75,94 @@ class TestCreateSampleYamlInputFile:
     def test_rejects_invalid_theme_or_locale(self, key):
         with pytest.raises(RenderCVUserError):
             create_sample_yaml_input_file(file_path=None, **{key: "invalid"})
+
+
+class TestCreateSampleYamlFile:
+    def test_writes_file_and_returns_matching_content(self, tmp_path):
+        dictionary = {"key": "value", "list": [1, 2, 3]}
+        file_path = tmp_path / "test.yaml"
+        result = create_sample_yaml_file(dictionary=dictionary, file_path=file_path)
+
+        assert file_path.exists()
+        assert result == file_path.read_text(encoding="utf-8")
+
+    def test_returns_string_without_file(self):
+        dictionary = {"key": "value"}
+        result = create_sample_yaml_file(dictionary=dictionary, file_path=None)
+
+        yaml_object = ruamel.yaml.YAML()
+        assert yaml_object.load(result) == dictionary
+
+
+class TestCreateSampleCvFile:
+    def test_creates_valid_yaml_with_only_cv_key(self, tmp_path):
+        file_path = tmp_path / "cv.yaml"
+        result = create_sample_cv_file(file_path=file_path, name="Jane Smith")
+
+        assert file_path.exists()
+        assert result == file_path.read_text(encoding="utf-8")
+
+        yaml_object = ruamel.yaml.YAML()
+        data = yaml_object.load(result)
+        assert list(data.keys()) == ["cv"]
+        assert data["cv"]["name"] == "Jane Smith"
+
+
+class TestCreateSampleDesignFile:
+    @pytest.mark.parametrize(
+        "theme",
+        available_themes,
+    )
+    def test_creates_valid_yaml_for_all_themes(self, tmp_path, theme):
+        file_path = tmp_path / "design.yaml"
+        result = create_sample_design_file(file_path=file_path, theme=theme)
+
+        assert file_path.exists()
+        assert result == file_path.read_text(encoding="utf-8")
+
+        yaml_object = ruamel.yaml.YAML()
+        data = yaml_object.load(result)
+        assert list(data.keys()) == ["design"]
+        assert data["design"]["theme"] == theme
+
+    def test_rejects_invalid_theme(self):
+        with pytest.raises(RenderCVUserError):
+            create_sample_design_file(file_path=None, theme="invalid")
+
+
+class TestCreateSampleLocaleFile:
+    @pytest.mark.parametrize(
+        "locale",
+        available_locales,
+    )
+    def test_creates_valid_yaml_for_all_locales(self, tmp_path, locale):
+        file_path = tmp_path / "locale.yaml"
+        result = create_sample_locale_file(file_path=file_path, locale=locale)
+
+        assert file_path.exists()
+        assert result == file_path.read_text(encoding="utf-8")
+
+        yaml_object = ruamel.yaml.YAML()
+        data = yaml_object.load(result)
+        assert list(data.keys()) == ["locale"]
+        assert data["locale"]["language"] == locale
+
+    def test_rejects_invalid_locale(self):
+        with pytest.raises(RenderCVUserError):
+            create_sample_locale_file(file_path=None, locale="invalid")
+
+
+class TestCreateSampleSettingsFile:
+    def test_creates_valid_yaml_with_only_settings_key(self, tmp_path):
+        file_path = tmp_path / "settings.yaml"
+        result = create_sample_settings_file(file_path=file_path)
+
+        assert file_path.exists()
+        assert result == file_path.read_text(encoding="utf-8")
+
+        yaml_object = ruamel.yaml.YAML()
+        data = yaml_object.load(result)
+        assert list(data.keys()) == ["settings"]
 
 
 def test_dictionary_to_yaml():
