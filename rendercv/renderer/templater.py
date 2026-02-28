@@ -395,7 +395,7 @@ def input_template_to_typst(
         placeholders: The placeholders and their values.
 
     Returns:
-        Typst string.
+        Typst string, or empty string if input is None or result is empty.
     """
     if input_template is None:
         return ""
@@ -448,7 +448,7 @@ def input_template_to_typst(
     output = re.sub(r"^[^\w\s#\[\]\n\(\)]*", "", output)
     output = re.sub(r"[^\w\s#\[\]\n\(\)]*$", "", output)
 
-    return output  # noqa: RET504
+    return output if output else ""  # noqa: RET504
 
 
 @overload

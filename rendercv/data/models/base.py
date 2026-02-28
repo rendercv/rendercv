@@ -3,7 +3,19 @@ The `rendercv.data.models.base` module contains the parent classes of all the da
 models in RenderCV.
 """
 
+from typing import Any
+
 import pydantic
+
+
+def convert_empty_strings_to_none(data: Any) -> Any:
+    """Convert all empty string values to None in a dictionary."""
+    if isinstance(data, dict):
+        return {
+            key: None if value == "" else value
+            for key, value in data.items()
+        }
+    return data
 
 
 class RenderCVBaseModelWithoutExtraKeys(pydantic.BaseModel):
@@ -14,6 +26,11 @@ class RenderCVBaseModelWithoutExtraKeys(pydantic.BaseModel):
 
     model_config = pydantic.ConfigDict(extra="forbid", validate_default=True)
 
+    @pydantic.model_validator(mode="before")
+    @classmethod
+    def empty_strings_to_none(cls, data: Any) -> Any:
+        return convert_empty_strings_to_none(data)
+
 
 class RenderCVBaseModelWithExtraKeys(pydantic.BaseModel):
     """This class is the parent class of the data models that allow extra keys. It has
@@ -22,3 +39,8 @@ class RenderCVBaseModelWithExtraKeys(pydantic.BaseModel):
     """
 
     model_config = pydantic.ConfigDict(extra="allow", validate_default=True)
+
+    @pydantic.model_validator(mode="before")
+    @classmethod
+    def empty_strings_to_none(cls, data: Any) -> Any:
+        return convert_empty_strings_to_none(data)

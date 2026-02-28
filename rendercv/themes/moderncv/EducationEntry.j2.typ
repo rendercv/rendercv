@@ -1,4 +1,4 @@
-((* if date_and_location_column_template and design.entry_types.education_entry.degree_column_template *))
+((* if date_and_location_column_template and degree_column_template *))
 // YES DATE, YES DEGREE
 #three-col-entry(
   left-column-width: <<design.entry_types.education_entry.degree_column_width>>,
@@ -29,9 +29,10 @@
   ),
 )
 ((* endif *))
-((* elif date_and_location_column_template and not design.entry_types.education_entry.degree_column_template *))
+((* elif date_and_location_column_template and not degree_column_template *))
 // YES DATE, NO DEGREE
 #two-col-entry(
+  right-column-width: design-entries-date-and-location-width + design-entry-types-education-entry-degree-column-width - 1.5cm,
   left-content: [
     <<main_column_first_row_template>>
     ((* if design.entries.short_second_row or date_and_location_column_template.count("\n\n") > main_column_first_row_template.count("\n\n") or design.section_titles.type=="moderncv" *))
@@ -58,7 +59,7 @@
   ),
 )
 ((* endif *))
-((* elif not date_and_location_column_template and design.entry_types.education_entry.degree_column_template *))
+((* elif not date_and_location_column_template and degree_column_template *))
 // NO DATE, YES DEGREE
 #two-col-entry(
   left-column-width: <<design.entry_types.education_entry.degree_column_width>>,

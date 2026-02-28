@@ -59,7 +59,7 @@ dependencies = [
     'Jinja2>=3.1.3',                # to generate Typst and Markdown files
     'phonenumbers==9.0.16',        # to validate phone numbers
     'email-validator==2.3.0',       # to validate email addresses
-    'pydantic==2.11.9',             # to validate and parse the input file
+    'pydantic==2.12.5',             # to validate and parse the input file
     'pycountry==24.6.1',            # for ISO 639-3 validation
     'pydantic-extra-types==2.10.6', # to validate some extra types
     'ruamel.yaml==0.18.6',          # to parse YAML files
@@ -133,7 +133,7 @@ dependencies = [
     "pre-commit",          # to run the checks before committing
     "pytest==8.3.4",       # to run the tests
     "coverage==7.6.10",    # to generate coverage reports
-    "pypdf==5.1.0",        # to read PDF files
+    "pypdf==6.7.4",        # to read PDF files
     "snakeviz==2.2.2",     # for profiling
     "pyinstaller==6.11.1", # to build the executable
 ]

@@ -1303,3 +1303,56 @@ def test_consolidated_multi_role_experience_entry_date_string_property():
     # date_string should equal overall_date_string for template compatibility
     assert entry.date_string == entry.overall_date_string
     assert entry.date_string_only_years == entry.overall_date_string_only_years
+
+
+class TestEmptyStringsConvertedToNone:
+    def test_optional_field_empty_string_becomes_none(self):
+        entry = data.EducationEntry(
+            institution="MIT",
+            area="CS",
+            degree="",
+            location="",
+            start_date="2020-01",
+            end_date="2022-01",
+        )
+        assert entry.degree is None
+        assert entry.location is None
+
+    def test_optional_date_field_empty_string_becomes_none(self):
+        entry = data.EducationEntry(
+            institution="MIT",
+            area="CS",
+            start_date="",
+            end_date="2022-01",
+        )
+        assert entry.start_date is None
+
+    def test_optional_website_empty_string_becomes_none(self):
+        cv = curriculum_vitae.CurriculumVitae(
+            name="Test",
+            website="",
+        )
+        assert cv.website is None
+
+    def test_required_field_empty_string_raises_error(self):
+        with pytest.raises(pydantic.ValidationError):
+            data.EducationEntry(
+                institution="",
+                area="CS",
+                start_date="2020-01",
+                end_date="2022-01",
+            )
+
+    def test_non_empty_strings_unchanged(self):
+        entry = data.EducationEntry(
+            institution="MIT",
+            area="Computer Science",
+            degree="BS",
+            location="Cambridge, MA",
+            start_date="2020-01",
+            end_date="2022-01",
+        )
+        assert entry.institution == "MIT"
+        assert entry.area == "Computer Science"
+        assert entry.degree == "BS"
+        assert entry.location == "Cambridge, MA"

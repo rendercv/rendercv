@@ -731,6 +731,62 @@ def test_input_template_to_typst(
     assert output == expected_output
 
 
+def test_education_entry_without_degree_uses_two_col_layout(tmp_path):
+    cv = data.CurriculumVitae(
+        name="Test User",
+        sections={
+            "Education": [
+                data.EducationEntry(
+                    institution="Test University",
+                    area="Computer Science",
+                    start_date="2020-01",
+                    end_date="2024-06",
+                    location="Test City",
+                ),
+            ]
+        },
+    )
+
+    data_model = data.RenderCVDataModel(
+        cv=cv,
+        design={"theme": "classic"},
+    )
+
+    file = renderer.create_a_typst_file(data_model, tmp_path)
+    contents = file.read_text()
+
+    assert "// YES DATE, NO DEGREE" in contents
+    assert "// YES DATE, YES DEGREE" not in contents
+
+
+def test_education_entry_with_degree_uses_three_col_layout(tmp_path):
+    cv = data.CurriculumVitae(
+        name="Test User",
+        sections={
+            "Education": [
+                data.EducationEntry(
+                    institution="Test University",
+                    area="Computer Science",
+                    degree="BS",
+                    start_date="2020-01",
+                    end_date="2024-06",
+                    location="Test City",
+                ),
+            ]
+        },
+    )
+
+    data_model = data.RenderCVDataModel(
+        cv=cv,
+        design={"theme": "classic"},
+    )
+
+    file = renderer.create_a_typst_file(data_model, tmp_path)
+    contents = file.read_text()
+
+    assert "// YES DATE, YES DEGREE" in contents
+
+
 def test_render_a_typst_file_with_none_name(tmp_path):
     cv = data.CurriculumVitae(
         name=None,
