@@ -36,7 +36,7 @@ jobs:
         run: uv build
 
       - name: Upload the wheel and source distribution as artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: dist
           path: dist
