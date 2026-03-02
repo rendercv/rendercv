@@ -33,9 +33,9 @@ def generate_pdf(
     pdf_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
     )
-    typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(rendercv_model._input_file_path)
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
-    typst_compiler.compile(format="pdf", output=pdf_path)
+    typst_compiler.compile(input=typst_path, format="pdf", output=pdf_path)
 
     return pdf_path
 
@@ -67,9 +67,9 @@ def generate_png(
         if existing_png_file.is_file():
             existing_png_file.unlink()
 
-    typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(rendercv_model._input_file_path)
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
-    png_files_bytes = typst_compiler.compile(format="png")
+    png_files_bytes = typst_compiler.compile(input=typst_path, format="png")
 
     if not isinstance(png_files_bytes, list):
         png_files_bytes = [png_files_bytes]
@@ -108,25 +108,25 @@ def copy_photo_next_to_typst_file(
 
 @functools.lru_cache(maxsize=1)
 def get_typst_compiler(
-    file_path: pathlib.Path,
     input_file_path: pathlib.Path | None,
 ) -> typst.Compiler:
     """Create cached Typst compiler with font paths configured.
 
     Why:
-        Compiler initialization is expensive. Caching enables reuse for both
-        PDF and PNG generation. Font paths include package fonts and optional
-        user fonts from input file directory.
+        Compiler initialization is expensive. Caching enables reuse across
+        all compilations. The source file is passed per compile() call, so
+        the compiler survives output filename changes (e.g., when cv.name
+        changes). Font paths include package fonts and optional user fonts
+        from input file directory.
 
     Args:
-        file_path: Typst source file to compile.
         input_file_path: Original input file path for relative font resolution.
 
     Returns:
         Configured Typst compiler instance.
     """
     return typst.Compiler(
-        file_path,
+        root=pathlib.Path("/"),
         font_paths=[
             *rendercv_fonts.paths_to_font_folders,
             (
