@@ -193,6 +193,9 @@ def validate_section(sections_input: Any) -> Any:
         Validated list of entry instances.
     """
     if isinstance(sections_input, list):
+        if len(sections_input) == 0:
+            return sections_input
+
         # Find the entry type based on the first identifiable entry:
         entry_type_name = None
         section_type = None
@@ -336,11 +339,14 @@ def get_rendercv_sections(
         for title, entries in sections.items():
             formatted_title = dictionary_key_to_proper_section_title(title)
 
-            # The first entry can be used because all the entries in the section are
-            # already validated with the `validate_a_section` function:
-            entry_type_name, _ = get_entry_type_name_and_section_model(
-                entries[0],
-            )
+            if len(entries) == 0:
+                entry_type_name = "TextEntry"
+            else:
+                # The first entry can be used because all the entries in the section
+                # are already validated with the `validate_a_section` function:
+                entry_type_name, _ = get_entry_type_name_and_section_model(
+                    entries[0],
+                )
 
             # SectionBase is used so that entries are not validated again:
             section = BaseRenderCVSection(

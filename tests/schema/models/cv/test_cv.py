@@ -71,6 +71,15 @@ class TestCv:
         with pytest.raises(pydantic.ValidationError):
             Cv.model_validate(input)
 
+    def test_empty_section(self):
+        input_data = {"name": "John Doe", "sections": {"References": []}}
+        cv = Cv.model_validate(input_data)
+        assert len(cv.rendercv_sections) == 1
+        section = cv.rendercv_sections[0]
+        assert section.title == "References"
+        assert section.entry_type == "TextEntry"
+        assert section.entries == []
+
     def test_phone_serialization(self):
         input_data = {"name": "John Doe", "phone": "+905419999999"}
         cv = Cv.model_validate(input_data)

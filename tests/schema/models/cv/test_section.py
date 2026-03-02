@@ -103,3 +103,9 @@ def test_section_rejects_none_entries():
     section_adapter = pydantic.TypeAdapter[Section](Section)
     with pytest.raises(pydantic.ValidationError):
         section_adapter.validate_python([None])
+
+
+def test_section_accepts_empty_list():
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+    result = section_adapter.validate_python([])
+    assert result == []

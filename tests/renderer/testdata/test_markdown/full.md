@@ -3891,3 +3891,6 @@ Did *this* and this is a **bold** [link](https://example.com). But I must explai
 ## **A Section & with % Special Characters**
 
 
+
+# Empty Section
+

@@ -5580,3 +5580,7 @@ Third text with #link("https://example.com")[link] and more content.
   [
   ],
 )
+
+== Empty Section
+
+
