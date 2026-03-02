@@ -209,3 +209,19 @@
     0 0.2rem 0.5rem hsla(0, 0%, 0%, 0.4),
     0 0 0.05rem hsla(0, 0%, 0%, 0.35);
 }
+
+.md-header__button.md-logo {
+  overflow: visible;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.md-header__button.md-logo svg {
+  overflow: visible;
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.md-header__topic {
+  margin-left: 0;
+}
