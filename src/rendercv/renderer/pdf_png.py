@@ -33,7 +33,9 @@ def generate_pdf(
     pdf_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
     )
-    typst_compiler = get_typst_compiler(rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(
+        rendercv_model._input_file_path, typst_path.parent
+    )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
     typst_compiler.compile(input=typst_path, format="pdf", output=pdf_path)
 
@@ -67,7 +69,9 @@ def generate_png(
         if existing_png_file.is_file():
             existing_png_file.unlink()
 
-    typst_compiler = get_typst_compiler(rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(
+        rendercv_model._input_file_path, typst_path.parent
+    )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
     png_files_bytes = typst_compiler.compile(input=typst_path, format="png")
 
@@ -109,6 +113,7 @@ def copy_photo_next_to_typst_file(
 @functools.lru_cache(maxsize=1)
 def get_typst_compiler(
     input_file_path: pathlib.Path | None,
+    root: pathlib.Path,
 ) -> typst.Compiler:
     """Create cached Typst compiler with font paths configured.
 
@@ -121,12 +126,13 @@ def get_typst_compiler(
 
     Args:
         input_file_path: Original input file path for relative font resolution.
+        root: Root directory for Typst project. Must contain the input file.
 
     Returns:
         Configured Typst compiler instance.
     """
     return typst.Compiler(
-        root=pathlib.Path("/"),
+        root=root,
         font_paths=[
             *rendercv_fonts.paths_to_font_folders,
             (
