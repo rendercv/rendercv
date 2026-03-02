@@ -17,7 +17,7 @@ type PhoneNumberFormatType = Literal["national", "international", "E164"]
 type PageSize = Literal["a4", "a5", "us-letter", "us-executive"]
 
 length_common_description = (
-    "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`."
+    "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
 )
 
 
