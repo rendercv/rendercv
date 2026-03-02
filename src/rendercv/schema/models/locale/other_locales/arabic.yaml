@@ -7,6 +7,8 @@ locale:
   year: سنة
   years: سنوات
   present: الحاضر
+  phrases:
+    degree_with_area: "DEGREE في AREA"
   month_abbreviations:
     - ينا
     - فبر

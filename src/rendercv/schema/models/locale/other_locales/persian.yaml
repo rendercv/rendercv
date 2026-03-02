@@ -7,6 +7,8 @@ locale:
   year: سال
   years: سال
   present: حال
+  phrases:
+    degree_with_area: "DEGREE در AREA"
   month_abbreviations:
     - ژان
     - فور
