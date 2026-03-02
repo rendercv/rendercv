@@ -99,14 +99,11 @@ def copy_photo_next_to_typst_file(
         rendercv_model: CV model containing photo path.
         typst_path: Path to Typst source file.
     """
-    if rendercv_model.cv.photo:
-        photo_path = rendercv_model.cv.photo
+    photo_path = rendercv_model.cv.photo
+    if isinstance(photo_path, pathlib.Path):
         copy_to = typst_path.parent / photo_path.name
         if photo_path != copy_to:
-            shutil.copy(
-                rendercv_model.cv.photo,
-                typst_path.parent / rendercv_model.cv.photo.name,
-            )
+            shutil.copy(photo_path, copy_to)
 
 
 @functools.lru_cache(maxsize=1)

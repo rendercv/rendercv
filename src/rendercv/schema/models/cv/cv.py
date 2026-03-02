@@ -49,10 +49,11 @@ class Cv(BaseModelWithoutExtraKeys):
             ["john.doe.1@example.com", "john.doe.2@example.com"],
         ],
     )
-    photo: ExistingPathRelativeToInput | None = pydantic.Field(
+    photo: ExistingPathRelativeToInput | pydantic.HttpUrl | None = pydantic.Field(
         default=None,
-        description="Photo file path, relative to the YAML file.",
-        examples=["photo.jpg", "images/profile.png"],
+        union_mode="left_to_right",
+        description="Photo file path (relative to the YAML file) or a URL.",
+        examples=["photo.jpg", "images/profile.png", "https://example.com/photo.jpg"],
     )
     phone: (
         pydantic_phone_numbers.PhoneNumber

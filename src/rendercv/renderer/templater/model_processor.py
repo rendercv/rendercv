@@ -1,6 +1,10 @@
+import pathlib
+import urllib.parse
+import urllib.request
 from collections.abc import Callable
 from typing import Literal
 
+from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.cv.section import Entry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
@@ -14,6 +18,44 @@ from .string_processor import (
     make_keywords_bold,
     substitute_placeholders,
 )
+
+
+def download_photo_from_url(rendercv_model: RenderCVModel) -> None:
+    """Download photo from URL to output directory and update model to local path.
+
+    Why:
+        Templates and Typst compiler require cv.photo to be a local pathlib.Path.
+        When user provides a URL, this downloads the image before template
+        rendering, preserving the local-path invariant for all downstream code.
+
+    Args:
+        rendercv_model: CV model whose photo URL will be downloaded in-place.
+    """
+    if rendercv_model.cv.photo is None or isinstance(
+        rendercv_model.cv.photo, pathlib.Path
+    ):
+        return
+
+    url_str = str(rendercv_model.cv.photo)
+
+    parsed = urllib.parse.urlparse(url_str)
+    filename = pathlib.PurePosixPath(parsed.path).name
+    if not filename or "." not in filename:
+        filename = "photo.jpg"
+
+    output_dir = rendercv_model.settings.render_command.output_folder
+    output_dir.mkdir(parents=True, exist_ok=True)
+    destination = output_dir / filename
+
+    if not destination.exists():
+        try:
+            urllib.request.urlretrieve(url_str, destination)
+        except Exception as e:
+            raise RenderCVUserError(
+                message=f"Failed to download photo from {url_str}: {e}"
+            ) from e
+
+    rendercv_model.cv.photo = destination
 
 
 def process_model(

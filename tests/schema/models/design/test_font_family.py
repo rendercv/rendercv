@@ -4,7 +4,11 @@ import rendercv_fonts
 from rendercv.schema.models.design.font_family import available_font_families
 
 icon_font_families = {"Font Awesome 7"}
-typst_built_in_font_families = {"Libertinus Serif", "New Computer Modern", "DejaVu Sans Mono"}
+typst_built_in_font_families = {
+    "Libertinus Serif",
+    "New Computer Modern",
+    "DejaVu Sans Mono",
+}
 
 
 @pytest.mark.parametrize(
