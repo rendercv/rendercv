@@ -16,7 +16,9 @@ cv:
   sections:
     Welcome to RenderCV:
       - RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
-      - See the [documentation](https://docs.rendercv.com) for more details.
+      - Each section title is arbitrary.
+      - You can choose any of the 9 entry types for each section.
+      - Markdown syntax is supported everywhere. This is **bold**, *italic*, and [link](https://example.com).
     education:
       - institution: Princeton University
         area: Computer Science
@@ -40,7 +42,7 @@ cv:
         summary:
         highlights:
           - 'GPA: 3.97/4.00, Valedictorian'
-          - Fulbright Scholarship recipient for graduate studies
+          - Fulbright Scholarship recipient for Graduate Studies
     experience:
       - company: Nexus AI
         position: Co-Founder & CTO
@@ -179,12 +181,6 @@ cv:
       - reversed_number: Building AI Infrastructure for the Next Decade — TechCrunch Disrupt (2024)
       - reversed_number: 'From Research to Production: Lessons in ML Systems — NeurIPS Workshop (2023)'
       - reversed_number: "Efficient Deep Learning: A Practitioner's Perspective — Google Tech Talk (2022)"
-    any_section_title:
-      - You can use any section title you want.
-      - 'You can choose any entry type for the section: `TextEntry`, `ExperienceEntry`, `EducationEntry`, `PublicationEntry`, `BulletEntry`, `NumberedEntry`, or `ReversedNumberedEntry`.'
-      - Markdown syntax is supported everywhere.
-      - The `design` field in YAML gives you control over almost any aspect of your CV design.
-      - See the [documentation](https://docs.rendercv.com) for more details.
 design:
   theme: classic
   # page:
