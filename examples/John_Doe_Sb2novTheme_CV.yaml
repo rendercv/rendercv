@@ -367,5 +367,4 @@ settings:
     dont_generate_pdf: false
     dont_generate_png: false
   bold_keywords: []
-  pdf_title: NAME
-            - CV
+  pdf_title: NAME - CV

@@ -148,8 +148,13 @@ def create_sample_yaml_input_file(
 
     yaml_string = dictionary_to_yaml(data_model_as_dictionary)
 
-    # Process for nested bullets:
-    yaml_string = re.sub(r"(?<! ) - (?! )", "\n            - ", yaml_string)
+    # Process for nested bullets (only in YAML list items, not mapping values):
+    yaml_string = "\n".join(
+        re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+        if re.match(r"\s+- ", line)
+        else line
+        for line in yaml_string.split("\n")
+    )
 
     # Add a comment to the first line, for JSON Schema:
     comment_to_add = (
@@ -247,8 +252,13 @@ def create_sample_yaml_file(
     """
     yaml_string = dictionary_to_yaml(dictionary)
 
-    # Process for nested bullets:
-    yaml_string = re.sub(r"(?<! ) - (?! )", "\n            - ", yaml_string)
+    # Process for nested bullets (only in YAML list items, not mapping values):
+    yaml_string = "\n".join(
+        re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+        if re.match(r"\s+- ", line)
+        else line
+        for line in yaml_string.split("\n")
+    )
 
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")
