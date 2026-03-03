@@ -11,6 +11,7 @@ from rendercv.schema.rendercv_model_builder import (
     build_rendercv_dictionary,
     build_rendercv_dictionary_and_model,
     build_rendercv_model_from_commented_map,
+    get_yaml_error_location,
 )
 from rendercv.schema.sample_generator import dictionary_to_yaml
 
@@ -712,3 +713,12 @@ class TestBuildRendercvModel:
         _, model = build_rendercv_dictionary_and_model(main_yaml, **kwargs)  # ty: ignore[invalid-argument-type]
 
         assert check(model)
+
+
+class TestGetYamlErrorLocation:
+    def test_returns_none_when_no_marks(self):
+        error = ruamel.yaml.YAMLError()
+
+        result = get_yaml_error_location(error)
+
+        assert result is None

@@ -1,9 +1,11 @@
 from dataclasses import asdict
+from unittest.mock import MagicMock
 
 import pydantic
 import pytest
 
 from rendercv.exception import RenderCVInternalError
+from rendercv.schema.models.custom_error_types import CustomPydanticErrorTypes
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.models.validation_context import ValidationContext
 from rendercv.schema.pydantic_error_handling import (
@@ -182,6 +184,26 @@ class TestParseValidationErrorsWithOverlaySources:
             assert err.yaml_source == "main_yaml_file"
         for err in design_errors:
             assert err.yaml_source == "design_yaml_file"
+
+
+class TestParseValidationErrorsInternalErrors:
+    def test_raises_for_entry_validation_error_missing_ctx(self):
+        mock_exception = MagicMock(spec=pydantic.ValidationError)
+        mock_exception.errors.return_value = [
+            {
+                "type": CustomPydanticErrorTypes.entry_validation.value,
+                "loc": ("cv",),
+                "msg": "entry validation failed",
+                "input": {},
+            }
+        ]
+
+        input_dict = read_yaml("cv:\n  name: John Doe")
+
+        with pytest.raises(
+            RenderCVInternalError, match="entry_validation error missing"
+        ):
+            parse_validation_errors(mock_exception, input_dict)
 
 
 class TestGetInnerYamlObjectFromItsKey:

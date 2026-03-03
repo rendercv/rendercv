@@ -1,7 +1,9 @@
 import pathlib
+from unittest.mock import MagicMock, patch
 
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.pdf_png import generate_pdf, generate_png
 from rendercv.renderer.typst import generate_typst
 from rendercv.schema.models.design.built_in_design import available_themes
@@ -135,3 +137,32 @@ class TestGeneratePngCleansUpOldFiles:
 
         assert result is not None
         assert len(result) >= 1
+
+
+def test_raises_error_when_typst_returns_none_bytes(
+    tmp_path: pathlib.Path,
+    minimal_rendercv_model: RenderCVModel,
+):
+    model = RenderCVModel(
+        cv=minimal_rendercv_model.cv,
+        design={"theme": "classic"},
+        locale=minimal_rendercv_model.locale,
+        settings=minimal_rendercv_model.settings,
+    )
+    output_dir = tmp_path / "output"
+    output_dir.mkdir()
+
+    model.settings.render_command.typst_path = output_dir / "John_Doe_CV.typ"
+    typst_path = generate_typst(model)
+    model.settings.render_command.png_path = output_dir / "John_Doe_CV.png"
+
+    mock_compiler = MagicMock()
+    mock_compiler.compile.return_value = [None]
+
+    with (
+        patch(
+            "rendercv.renderer.pdf_png.get_typst_compiler", return_value=mock_compiler
+        ),
+        pytest.raises(RenderCVInternalError, match="Typst compiler returned None"),
+    ):
+        generate_png(model, typst_path)

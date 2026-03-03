@@ -2,7 +2,7 @@ import json
 import pathlib
 import sys
 import time
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 from typer.testing import CliRunner
@@ -11,7 +11,10 @@ from rendercv import __version__
 from rendercv.cli.app import (
     VERSION_CHECK_TTL_SECONDS,
     app,
+    fetch_and_cache_latest_version,
+    fetch_latest_version_from_pypi,
     get_cache_dir,
+    get_version_cache_file,
     read_version_cache,
     warn_if_new_version_is_available,
     write_version_cache,
@@ -75,6 +78,13 @@ class TestGetCacheDir:
         assert get_cache_dir() == tmp_path / "rendercv"
 
 
+def test_get_version_cache_file():
+    result = get_version_cache_file()
+
+    assert result.name == "version_check.json"
+    assert result.parent == get_cache_dir()
+
+
 class TestReadVersionCache:
     def test_returns_none_for_missing_file(self, tmp_path, monkeypatch):
         monkeypatch.setattr(
@@ -132,6 +142,60 @@ class TestWriteVersionCache:
         data = json.loads(cache_file.read_text(encoding="utf-8"))
         assert data["latest_version"] == "2.0.0"
         assert "last_check" in data
+
+    def test_silently_ignores_os_error(self, monkeypatch):
+        monkeypatch.setattr(
+            "rendercv.cli.app.get_version_cache_file",
+            lambda: pathlib.Path("/nonexistent/readonly/path/version_check.json"),
+        )
+
+        write_version_cache("2.0.0")
+
+
+class TestFetchLatestVersionFromPypi:
+    def test_returns_version_on_success(self, monkeypatch):
+        response_data = json.dumps({"info": {"version": "3.0.0"}}).encode()
+        mock_response = MagicMock()
+        mock_response.read.return_value = response_data
+        mock_response.info.return_value.get_content_charset.return_value = "utf-8"
+        mock_response.__enter__ = lambda s: s
+        mock_response.__exit__ = MagicMock(return_value=False)
+
+        monkeypatch.setattr(
+            "rendercv.cli.app.urllib.request.urlopen",
+            lambda *a, **kw: mock_response,
+        )
+
+        result = fetch_latest_version_from_pypi()
+
+        assert result == "3.0.0"
+
+    @patch(
+        "rendercv.cli.app.urllib.request.urlopen",
+        side_effect=ConnectionError("fail"),
+    )
+    def test_returns_none_on_failure(self, mock_urlopen):  # NOQA: ARG002
+        result = fetch_latest_version_from_pypi()
+
+        assert result is None
+
+
+class TestFetchAndCacheLatestVersion:
+    @patch("rendercv.cli.app.write_version_cache")
+    @patch("rendercv.cli.app.fetch_latest_version_from_pypi", return_value="3.0.0")
+    def test_fetches_and_writes_cache(self, mock_fetch, mock_write):
+        fetch_and_cache_latest_version()
+
+        mock_fetch.assert_called_once()
+        mock_write.assert_called_once_with("3.0.0")
+
+    @patch("rendercv.cli.app.write_version_cache")
+    @patch("rendercv.cli.app.fetch_latest_version_from_pypi", return_value=None)
+    def test_does_not_write_cache_on_fetch_failure(self, mock_fetch, mock_write):
+        fetch_and_cache_latest_version()
+
+        mock_fetch.assert_called_once()
+        mock_write.assert_not_called()
 
 
 def write_cache(tmp_path, version, age_seconds=0):
@@ -240,3 +304,15 @@ class TestWarnIfNewVersionIsAvailable:
 
         data = json.loads(cache_file.read_text(encoding="utf-8"))
         assert data["latest_version"] == "99.0.0"
+
+    def test_handles_invalid_version_in_cache(self, tmp_path, capsys, monkeypatch):
+        write_cache(tmp_path, "not.a.version", age_seconds=0)
+        monkeypatch.setattr(
+            "rendercv.cli.app.get_version_cache_file",
+            lambda: tmp_path / "version_check.json",
+        )
+
+        warn_if_new_version_is_available()
+
+        captured = capsys.readouterr()
+        assert "new version" not in captured.out.lower()

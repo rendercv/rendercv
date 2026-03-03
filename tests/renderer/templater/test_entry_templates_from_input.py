@@ -1,4 +1,5 @@
 from datetime import date as Date
+from unittest.mock import patch
 
 import pydantic
 import pytest
@@ -487,6 +488,95 @@ class TestRenderEntryTemplates:
 def test_remove_not_provided_placeholders(entry_templates, entry_fields, expected):
     result = remove_not_provided_placeholders(entry_templates, entry_fields)
     assert result == expected
+
+
+class TestRenderEntryTemplatesInternalErrors:
+    """Test defensive guards when model_dump includes a key but the attribute is None."""
+
+    @pytest.mark.parametrize(
+        ("entry_type", "field_name"),
+        [
+            ("education", "highlights"),
+            ("publication", "authors"),
+        ],
+    )
+    def test_raises_when_field_in_dump_but_attribute_is_none(
+        self, entry_type, field_name
+    ):
+        if entry_type == "education":
+            entry = EducationEntry.model_validate(
+                {
+                    "institution": "MIT",
+                    "area": "CS",
+                    "highlights": ["A"],
+                    "start_date": "2020-01",
+                    "end_date": "2021-01",
+                }
+            )
+        else:
+            entry = PublicationEntry.model_validate(
+                {
+                    "title": "Paper",
+                    "authors": ["John"],
+                    "date": "2024-01",
+                }
+            )
+
+        # Set the attribute to None while model_dump still includes it
+        original_model_dump = entry.model_dump
+
+        def patched_model_dump(**kwargs):
+            result = original_model_dump(**kwargs)
+            result[field_name] = "placeholder"
+            return result
+
+        entry.model_dump = patched_model_dump  # ty: ignore[invalid-assignment]
+        setattr(entry, field_name, None)
+
+        with pytest.raises(RenderCVInternalError):
+            render_entry_templates(
+                entry,
+                templates=Templates(),
+                locale=EnglishLocale(),
+                show_time_span=False,
+                current_date=Date(2024, 1, 1),
+            )
+
+    @pytest.mark.parametrize("field_name", ["start_date", "end_date"])
+    def test_raises_when_date_field_in_dump_but_attribute_is_none(self, field_name):
+        entry = EducationEntry.model_validate(
+            {
+                "institution": "MIT",
+                "area": "CS",
+                "start_date": "2020-01",
+                "end_date": "2021-01",
+            }
+        )
+
+        original_model_dump = entry.model_dump
+
+        def patched_model_dump(**kwargs):
+            result = original_model_dump(**kwargs)
+            result[field_name] = "placeholder"
+            return result
+
+        entry.model_dump = patched_model_dump  # ty: ignore[invalid-assignment]
+        setattr(entry, field_name, None)
+
+        with (
+            patch(
+                "rendercv.renderer.templater.entry_templates_from_input.process_date",
+                return_value="Jan 2020 – Jan 2021",
+            ),
+            pytest.raises(RenderCVInternalError),
+        ):
+            render_entry_templates(
+                entry,
+                templates=Templates(),
+                locale=EnglishLocale(),
+                show_time_span=False,
+                current_date=Date(2024, 1, 1),
+            )
 
 
 @pytest.mark.parametrize(

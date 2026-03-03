@@ -1,8 +1,10 @@
 from typing import Any
+from unittest.mock import MagicMock
 
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.section import available_entry_type_names
 
@@ -87,3 +89,10 @@ class TestCv:
 
         assert "tel:" not in serialized["phone"]
         assert serialized["phone"] == "+90-541-999-99-99"
+
+    def test_raises_internal_error_when_field_name_is_none(self):
+        mock_info = MagicMock(spec=pydantic.ValidationInfo)
+        mock_info.field_name = None
+
+        with pytest.raises(RenderCVInternalError, match="field_name is None"):
+            Cv.validate_list_or_scalar_fields("test@example.com", mock_info)

@@ -1,9 +1,11 @@
 import os
 import pathlib
+from unittest.mock import MagicMock, patch
 
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.design.design import Design
 from rendercv.schema.models.validation_context import ValidationContext
 
@@ -139,4 +141,57 @@ class SomeOtherClass(BaseModel):
         with pytest.raises(pydantic.ValidationError):
             design_adapter.validate_python(
                 {"theme": "classic", "colors": "invalid_value_not_a_dict"}
+            )
+
+    def test_raises_internal_error_when_spec_is_none(self, design_adapter, tmp_path):
+        custom_theme_path = tmp_path / "mytheme"
+        custom_theme_path.mkdir()
+        (custom_theme_path / "EducationEntry.j2.typ").touch()
+        (custom_theme_path / "__init__.py").write_text("# empty", encoding="utf-8")
+
+        with (
+            patch(
+                "rendercv.schema.models.design.design.importlib.util"
+                ".spec_from_file_location",
+                return_value=None,
+            ),
+            pytest.raises(RenderCVInternalError, match="Failed to load spec"),
+        ):
+            design_adapter.validate_python(
+                {"theme": "mytheme"},
+                context={
+                    "context": ValidationContext(
+                        input_file_path=tmp_path / "input.yaml"
+                    )
+                },
+            )
+
+    def test_raises_internal_error_when_spec_loader_is_none(
+        self, design_adapter, tmp_path
+    ):
+        custom_theme_path = tmp_path / "mytheme"
+        custom_theme_path.mkdir()
+        (custom_theme_path / "EducationEntry.j2.typ").touch()
+        (custom_theme_path / "__init__.py").write_text("# empty", encoding="utf-8")
+
+        mock_spec = MagicMock()
+        mock_spec.name = "theme"
+        mock_spec.loader = None
+        mock_spec.submodule_search_locations = None
+
+        with (
+            patch(
+                "rendercv.schema.models.design.design.importlib.util"
+                ".spec_from_file_location",
+                return_value=mock_spec,
+            ),
+            pytest.raises(RenderCVInternalError, match=r"spec\.loader is None"),
+        ):
+            design_adapter.validate_python(
+                {"theme": "mytheme"},
+                context={
+                    "context": ValidationContext(
+                        input_file_path=tmp_path / "input.yaml"
+                    )
+                },
             )

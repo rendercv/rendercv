@@ -36,3 +36,9 @@ class TestReadYaml:
 
         with pytest.raises(RenderCVUserError, match="empty"):
             read_yaml(empty_file_path)
+
+    def test_treats_asterisk_as_plain_text(self):
+        result = read_yaml("key: *not_an_alias")
+
+        assert isinstance(result, CommentedMap)
+        assert result["key"] == "*not_an_alias"
