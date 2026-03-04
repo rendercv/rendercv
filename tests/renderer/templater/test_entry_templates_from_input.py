@@ -17,6 +17,7 @@ from rendercv.renderer.templater.entry_templates_from_input import (
     render_entry_templates,
 )
 from rendercv.schema.models.cv.entries.education import EducationEntry
+from rendercv.schema.models.cv.entries.experience import ExperienceEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.design.classic_theme import (
@@ -370,6 +371,80 @@ class TestRenderEntryTemplates:
             entry.main_column  # ty: ignore[unresolved-attribute]
             == "Linked Item [example.com/page](https://example.com/page/)"
         )
+
+    @pytest.mark.parametrize(
+        ("institution", "area", "expected_main_column"),
+        [
+            ("", "Computer Science", "Computer Science"),
+            ("MIT", "", "**MIT**"),
+            ("", "", ""),
+        ],
+    )
+    def test_removes_formatting_around_empty_string_fields(
+        self, institution, area, expected_main_column
+    ):
+        entry = EducationEntry(
+            institution=institution,
+            area=area,
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == expected_main_column  # ty: ignore[unresolved-attribute]
+
+    def test_removes_formatting_around_empty_name(self):
+        entry = NormalEntry(name="")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == ""  # ty: ignore[unresolved-attribute]
+        assert entry.date_and_location_column == ""  # ty: ignore[unresolved-attribute]
+
+    def test_removes_formatting_around_empty_position(self):
+        entry = ExperienceEntry(
+            company="Google",
+            position="",
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == "**Google**"  # ty: ignore[unresolved-attribute]
+
+    def test_empty_summary_does_not_produce_admonition(self):
+        entry = NormalEntry(name="Project", summary="")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" not in entry.main_column  # ty: ignore[unresolved-attribute]
+        assert entry.main_column == "**Project**"  # ty: ignore[unresolved-attribute]
 
 
 @pytest.mark.parametrize(

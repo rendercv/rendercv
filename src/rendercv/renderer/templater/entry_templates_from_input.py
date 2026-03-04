@@ -51,6 +51,10 @@ def render_entry_templates[EntryType: Entry](
         key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
     }
 
+    # Treat empty-string values as not provided so their surrounding
+    # formatting characters (like ** for bold, commas) are cleaned up:
+    entry_fields = {k: v for k, v in entry_fields.items() if v != ""}
+
     # Expand locale phrases into templates by replacing phrase placeholders
     # (e.g., DEGREE_WITH_AREA) with their locale-specific template text
     # (e.g., "DEGREE in AREA" for English, "DEGREE en AREA" for French).
