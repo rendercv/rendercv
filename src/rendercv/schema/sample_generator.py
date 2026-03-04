@@ -150,9 +150,11 @@ def create_sample_yaml_input_file(
 
     # Process for nested bullets (only in YAML list items, not mapping values):
     yaml_string = "\n".join(
-        re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-        if re.match(r"\s+- ", line)
-        else line
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
         for line in yaml_string.split("\n")
     )
 
@@ -254,9 +256,11 @@ def create_sample_yaml_file(
 
     # Process for nested bullets (only in YAML list items, not mapping values):
     yaml_string = "\n".join(
-        re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-        if re.match(r"\s+- ", line)
-        else line
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
         for line in yaml_string.split("\n")
     )
 
@@ -396,15 +400,18 @@ def create_sample_locale_file(
 def create_sample_settings_file(
     *,
     file_path: None,
+    omitted_fields: list[str] | None = None,
 ) -> str: ...
 @overload
 def create_sample_settings_file(
     *,
     file_path: pathlib.Path,
+    omitted_fields: list[str] | None = None,
 ) -> None: ...
 def create_sample_settings_file(
     *,
     file_path: pathlib.Path | None = None,
+    omitted_fields: list[str] | None = None,
 ) -> str | None:
     """Generate a sample YAML file containing only the settings section.
 
@@ -420,6 +427,9 @@ def create_sample_settings_file(
     """
     data_model = create_sample_rendercv_pydantic_model()
     dictionary = rendercv_model_to_dictionary(data_model)
+    if omitted_fields is not None:
+        for field in omitted_fields:
+            dictionary["settings"].pop(field, None)
     return create_sample_yaml_file(
         dictionary={"settings": dictionary["settings"]}, file_path=file_path
     )
