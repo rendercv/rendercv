@@ -55,7 +55,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__2",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -323,15 +323,23 @@
               "$ref": "#/$defs/ExistingPathRelativeToInput"
             },
             {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
               "type": "null"
             }
           ],
           "default": null,
-          "description": "Photo file path, relative to the YAML file.",
+          "description": "Photo file path (relative to the YAML file) or a URL.",
           "examples": [
             "photo.jpg",
-            "images/profile.png"
-          ]
+            "images/profile.png",
+            "https://example.com/photo.jpg"
+          ],
+          "title": "Photo"
         },
         "phone": {
           "default": null,
@@ -472,7 +480,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__2",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__3",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -570,7 +578,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__3",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__4",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -864,7 +872,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__4",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__5",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -962,7 +970,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__5",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__6",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1060,7 +1068,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__7",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1158,7 +1166,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__6",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__8",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1256,7 +1264,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__7",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__9",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1354,7 +1362,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__8",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__10",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1452,7 +1460,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__9",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__11",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1550,7 +1558,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__10",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1795,7 +1803,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__11",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1933,7 +1941,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__14",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2031,7 +2039,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__15",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2157,7 +2165,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__1",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__16",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2267,7 +2275,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__14",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__17",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2477,7 +2485,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__15",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__18",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2745,7 +2753,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__16",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__19",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2843,7 +2851,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__17",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__20",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3923,7 +3931,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -3964,7 +3972,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -4005,7 +4013,7 @@
         "space_between_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "Horizontal space between contact items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         }
       },
       "title": "Connections",
@@ -4177,17 +4185,17 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -4204,7 +4212,7 @@
         "degree_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
-          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
@@ -4224,17 +4232,17 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -4251,7 +4259,7 @@
         "degree_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
-          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__2",
@@ -4271,17 +4279,17 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -4298,7 +4306,7 @@
         "degree_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
-          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__3",
@@ -4318,17 +4326,17 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.3cm`. The default value is `0.3cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, em). For example, `0.3cm`. The default value is `0.3cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -4345,7 +4353,7 @@
         "degree_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
-          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__4",
@@ -4365,17 +4373,17 @@
         "date_and_location_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Width of the date/location column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "side_space": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.2cm",
-          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.2cm`."
+          "description": "Left and right margins. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.2cm`."
         },
         "space_between_columns": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between main content and date/location columns. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "allow_page_break": {
           "default": false,
@@ -4392,7 +4400,7 @@
         "degree_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1cm",
-          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1cm`."
+          "description": "Width of the degree column. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1cm`."
         },
         "summary": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Summary__1",
@@ -4640,7 +4648,7 @@
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
@@ -4655,27 +4663,27 @@
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
@@ -4696,7 +4704,7 @@
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
@@ -4711,27 +4719,27 @@
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
@@ -4752,7 +4760,7 @@
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
@@ -4767,27 +4775,27 @@
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__2",
@@ -4808,7 +4816,7 @@
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "4.15cm",
-          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `4.15cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `4.15cm`."
         },
         "photo_position": {
           "default": "left",
@@ -4823,27 +4831,27 @@
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__1",
@@ -4864,7 +4872,7 @@
         "photo_width": {
           "$ref": "#/$defs/TypstDimension",
           "default": "3.5cm",
-          "description": "Photo width. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `3.5cm`."
+          "description": "Photo width. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `3.5cm`."
         },
         "photo_position": {
           "default": "left",
@@ -4879,27 +4887,27 @@
         "photo_space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the left of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "photo_space_right": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.4cm",
-          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.4cm`."
+          "description": "Space to the right of the photo. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.4cm`."
         },
         "space_below_name": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below your name. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_headline": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below the headline. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "space_below_connections": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7cm",
-          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7cm`."
+          "description": "Space below contact information. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7cm`."
         },
         "connections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Connections__3",
@@ -4925,22 +4933,22 @@
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -4962,22 +4970,22 @@
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -4999,22 +5007,22 @@
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         }
       },
       "title": "Highlights",
@@ -5036,22 +5044,22 @@
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         }
       },
       "title": "Highlights",
@@ -5073,22 +5081,22 @@
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "Left indentation. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space above highlights. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_items": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space between highlight items. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_between_bullet_and_text": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5em",
-          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5em`."
+          "description": "Space between bullet and text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5em`."
         }
       },
       "title": "Highlights",
@@ -5308,22 +5316,22 @@
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "bottom_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "left_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "right_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "show_footer": {
           "default": true,
@@ -5352,22 +5360,22 @@
         "top_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "bottom_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "left_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "right_margin": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.7in",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.7in`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "show_footer": {
           "default": false,
@@ -5415,17 +5423,17 @@
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5pt`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -5442,17 +5450,17 @@
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5pt`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -5469,17 +5477,17 @@
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5pt`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -5496,17 +5504,17 @@
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.55cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.55cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.55cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -5523,17 +5531,17 @@
         "line_thickness": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5pt",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5pt`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5pt`."
         },
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.5cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.5cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3cm",
-          "description": "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3cm`."
+          "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3cm`."
         }
       },
       "title": "SectionTitles",
@@ -5551,12 +5559,12 @@
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "default": [
@@ -5594,12 +5602,12 @@
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "default": [],
@@ -5626,12 +5634,12 @@
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.42cm",
-          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.42cm`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.42cm`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.15cm",
-          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.15cm`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.15cm`."
         },
         "show_time_spans_in": {
           "default": [],
@@ -5658,12 +5666,12 @@
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "default": [],
@@ -5690,12 +5698,12 @@
         "space_between_regular_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "1.2em",
-          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `1.2em`."
+          "description": "Vertical space between entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `1.2em`."
         },
         "space_between_text_based_entries": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.3em",
-          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.3em`."
+          "description": "Vertical space between text-based entries. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.3em`."
         },
         "show_time_spans_in": {
           "default": [],
@@ -5716,12 +5724,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -5733,12 +5741,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.12cm",
-          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.12cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.12cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -5750,12 +5758,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.08cm",
-          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.08cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.08cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -5767,12 +5775,12 @@
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0.1cm",
-          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0.1cm`."
+          "description": "Space above summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.1cm`."
         },
         "space_left": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Left margin for summary text. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "Summary",
@@ -6325,26 +6333,12 @@
     },
     "rendercv__schema__models__design__font_family__FontFamily": {
       "enum": [
-        "Aptos",
-        "Arial",
-        "Arial Rounded MT",
-        "Arial Unicode MS",
-        "Comic Sans MS",
-        "Courier New",
         "DejaVu Sans Mono",
-        "Didot",
         "EB Garamond",
         "Fontin",
-        "Garamond",
         "Gentium Book Plus",
-        "Georgia",
-        "Gill Sans",
-        "Helvetica",
-        "Impact",
-        "Inter",
         "Lato",
         "Libertinus Serif",
-        "Lucida Sans Unicode",
         "Mukta",
         "New Computer Modern",
         "Noto Sans",
@@ -6354,11 +6348,7 @@
         "Raleway",
         "Roboto",
         "Source Sans 3",
-        "Tahoma",
-        "Times New Roman",
-        "Trebuchet MS",
         "Ubuntu",
-        "Verdana",
         "XCharter"
       ],
       "type": "string"
@@ -6380,8 +6370,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "AREA DEGREE",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -6406,8 +6396,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE i AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -6416,6 +6406,19 @@
       "type": "object"
     },
     "rendercv__schema__models__locale__english_locale__Phrases__13": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__14": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6428,7 +6431,33 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__14": {
+    "rendercv__schema__models__locale__english_locale__Phrases__15": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__16": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE در AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE در AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__17": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6441,7 +6470,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__15": {
+    "rendercv__schema__models__locale__english_locale__Phrases__18": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6454,7 +6483,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__16": {
+    "rendercv__schema__models__locale__english_locale__Phrases__19": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6467,7 +6496,20 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__17": {
+    "rendercv__schema__models__locale__english_locale__Phrases__2": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE في AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE في AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__20": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6480,7 +6522,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__2": {
+    "rendercv__schema__models__locale__english_locale__Phrases__3": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6493,7 +6535,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__3": {
+    "rendercv__schema__models__locale__english_locale__Phrases__4": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6506,7 +6548,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__4": {
+    "rendercv__schema__models__locale__english_locale__Phrases__5": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6519,7 +6561,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__5": {
+    "rendercv__schema__models__locale__english_locale__Phrases__6": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6532,7 +6574,20 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__6": {
+    "rendercv__schema__models__locale__english_locale__Phrases__7": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE בAREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE בAREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__8": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -6545,38 +6600,12 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__7": {
+    "rendercv__schema__models__locale__english_locale__Phrases__9": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
           "default": "DEGREE di AREA",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE di AREA`.",
-          "title": "Degree With Area",
-          "type": "string"
-        }
-      },
-      "title": "Phrases",
-      "type": "object"
-    },
-    "rendercv__schema__models__locale__english_locale__Phrases__8": {
-      "additionalProperties": false,
-      "properties": {
-        "degree_with_area": {
-          "default": "DEGREE in AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
-          "title": "Degree With Area",
-          "type": "string"
-        }
-      },
-      "title": "Phrases",
-      "type": "object"
-    },
-    "rendercv__schema__models__locale__english_locale__Phrases__9": {
-      "additionalProperties": false,
-      "properties": {
-        "degree_with_area": {
-          "default": "AREA DEGREE",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -6611,7 +6640,7 @@
   "required": [],
   "title": "RenderCV",
   "type": "object",
-  "description": "Typst-based CV/resume generator for academics and engineers.",
+  "description": "Resume builder for academics and engineers",
   "$id": "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#"
 }
