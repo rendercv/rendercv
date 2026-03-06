@@ -84,7 +84,7 @@ nav:
           - Add Social Network: developer_guide/how_to/add_social_network.md
   - API Reference: api_reference/
   - Changelog: changelog.md
-  - Web App: https://app.rendercv.com
+  - New Web App!: https://rendercv.com
 
 markdown_extensions:
   - github-callouts
