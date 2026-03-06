@@ -1,7 +1,7 @@
 # RenderCV
 
 <div align="center" markdown>
-*CV/resume generator for academics and engineers*
+*Resume builder for academics and engineers*
 
 [![test](https://github.com/rendercv/rendercv/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/rendercv/rendercv/actions/workflows/test.yaml)
 [![coverage](https://coverage-badge.samuelcolvin.workers.dev/rendercv/rendercv.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/rendercv/rendercv)

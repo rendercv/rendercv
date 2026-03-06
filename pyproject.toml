@@ -30,7 +30,7 @@ build-backend = "uv_build"  # Build-backend object for building RenderCV
 # Metadata about RenderCV.
 name = "rendercv"
 version = "2.7"
-description = "CV/resume generator for academics and engineers"
+description = "Resume builder for academics and engineers"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"

@@ -1,7 +1,7 @@
 <div align="center">
 <h1>RenderCV</h1>
 
-_CV/resume generator for academics and engineers_
+_Resume builder for academics and engineers, deployed at [rendercv.com](https://rendercv.com)_
 
 [![test](https://github.com/rendercv/rendercv/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/rendercv/rendercv/actions/workflows/test.yaml)
 [![coverage](https://coverage-badge.samuelcolvin.workers.dev/rendercv/rendercv.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/rendercv/rendercv)

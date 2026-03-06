@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.6...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.7...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,52 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.7] - March 6, 2026
+
+> **Full Changelog**: [v2.6...v2.7]
+
+### Added
+
+- A new `settings.pdf_title` field has been added to customize the title of produced PDF documents ([#624](https://github.com/rendercv/rendercv/issues/624)).
+- A new `locale.phrases` field has been added for customizable phrases in the CV, allowing translations like "DEGREE in AREA" to be adapted per language ([#618](https://github.com/rendercv/rendercv/issues/618), [#650](https://github.com/rendercv/rendercv/issues/650), [#660](https://github.com/rendercv/rendercv/issues/660)).
+- A new `design.entries.degree_width` field has been added ([#671](https://github.com/rendercv/rendercv/issues/671)).
+- `--output-folder` option has been added to the `rendercv render` command to specify the output directory ([#578](https://github.com/rendercv/rendercv/issues/578)).
+- Watch mode now monitors included config files and re-renders when they change ([#579](https://github.com/rendercv/rendercv/issues/579)).
+- `DAY` and `DAY_IN_TWO_DIGITS` placeholders have been added to date formatting ([#548](https://github.com/rendercv/rendercv/issues/548)).
+- Reddit has been added as a social network type ([#658](https://github.com/rendercv/rendercv/issues/658)).
+- Right-to-left (RTL) language support has been added, with Arabic ([#591](https://github.com/rendercv/rendercv/issues/591)), Hebrew, and Persian as built-in locales ([#452](https://github.com/rendercv/rendercv/issues/452), [#645](https://github.com/rendercv/rendercv/issues/645)).
+- Built-in locale defaults for 3 additional languages have been added: Dutch ([#585](https://github.com/rendercv/rendercv/issues/585)), Norwegian Bokmål, and Norwegian Nynorsk ([#652](https://github.com/rendercv/rendercv/issues/652)).
+- URLs are now allowed for the `cv.photo` field.
+- Empty sections are now allowed.
+- `"today"` is now supported as a value for `settings.current_date`.
+
+### Changed
+
+- PyPI version check is now non-blocking ([#615](https://github.com/rendercv/rendercv/issues/615)).
+- `bold_keywords` now only matches full words instead of sub-words.
+- Extra keys are no longer allowed in the top-level YAML input and in the `cv` field.
+- Obsolete PNG files are now automatically deleted when re-rendering ([#590](https://github.com/rendercv/rendercv/issues/590)).
+- YAML aliases are now treated as literal strings.
+
+### Fixed
+
+- The `--quiet` option of the `rendercv render` command now works correctly ([#608](https://github.com/rendercv/rendercv/issues/608)).
+- The design file not applying when used with a settings file has been fixed ([#642](https://github.com/rendercv/rendercv/issues/642)).
+- `bold_keywords` no longer applies to placeholder variables in file paths and PDF titles ([#557](https://github.com/rendercv/rendercv/issues/557)).
+- `DAY` and `DAY_IN_TWO_DIGITS` placeholders now work correctly in output file paths ([#684](https://github.com/rendercv/rendercv/issues/684)).
+- Vertical alignment of titles with icons for education entries has been fixed ([#603](https://github.com/rendercv/rendercv/issues/603)).
+- Mandarin Chinese locale spelling and schema validation have been corrected ([#617](https://github.com/rendercv/rendercv/issues/617), [#678](https://github.com/rendercv/rendercv/issues/678)).
+- `settings.current_date` issues have been fixed.
+- Arabic, Hebrew, and Persian locale issues have been fixed.
+- Empty links no longer cause failures.
+- A duplicate font has been removed from `available_font_families` ([#643](https://github.com/rendercv/rendercv/issues/643)).
+- YAML error handling has been improved.
+- Pydantic error handling for multiple YAML sources has been improved.
+
+### Removed
+
+- The `ex` unit is no longer accepted in dimension fields (e.g., margins, spacing).
 
 ## [2.6] - December 23, 2025
 
@@ -596,6 +642,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.6...v2.7]: https://github.com/rendercv/rendercv/compare/v2.6...v2.7
 [v2.5...v2.6]: https://github.com/rendercv/rendercv/compare/v2.5...v2.6
 [v2.4...v2.5]: https://github.com/rendercv/rendercv/compare/v2.4...v2.5
 [v2.3...v2.4]: https://github.com/rendercv/rendercv/compare/v2.3...v2.4
@@ -630,6 +677,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.7]: https://github.com/rendercv/rendercv/releases/tag/v2.7
 [2.6]: https://github.com/rendercv/rendercv/releases/tag/v2.6
 [2.5]: https://github.com/rendercv/rendercv/releases/tag/v2.5
 [2.4]: https://github.com/rendercv/rendercv/releases/tag/v2.4
