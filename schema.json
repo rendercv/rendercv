@@ -1924,7 +1924,8 @@
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
-          "turkish": "#/$defs/TurkishLocale"
+          "turkish": "#/$defs/TurkishLocale",
+          "vietnamese": "#/$defs/VietnameseLocale"
         },
         "propertyName": "language"
       },
@@ -1991,6 +1992,9 @@
         },
         {
           "$ref": "#/$defs/TurkishLocale"
+        },
+        {
+          "$ref": "#/$defs/VietnameseLocale"
         }
       ]
     },
@@ -3155,6 +3159,104 @@
     },
     "TypstDimension": {
       "type": "string"
+    },
+    "VietnameseLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "vietnamese",
+          "default": "vietnamese",
+          "description": "The language for your CV. The default value is `vietnamese`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Cập nhật lần cuối vào",
+          "description": "Translation of \"Last updated in\". The default value is `Cập nhật lần cuối vào`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "tháng",
+          "description": "Translation of \"month\" (singular). The default value is `tháng`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "tháng",
+          "description": "Translation of \"months\" (plural). The default value is `tháng`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "năm",
+          "description": "Translation of \"year\" (singular). The default value is `năm`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "năm",
+          "description": "Translation of \"years\" (plural). The default value is `năm`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "hiện tại",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `hiện tại`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Th01",
+            "Th02",
+            "Th03",
+            "Th04",
+            "Th05",
+            "Th06",
+            "Th07",
+            "Th08",
+            "Th09",
+            "Th10",
+            "Th11",
+            "Th12"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Tháng Một",
+            "Tháng Hai",
+            "Tháng Ba",
+            "Tháng Tư",
+            "Tháng Năm",
+            "Tháng Sáu",
+            "Tháng Bảy",
+            "Tháng Tám",
+            "Tháng Chín",
+            "Tháng Mười",
+            "Tháng Mười Một",
+            "Tháng Mười Hai"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "VietnameseLocale",
+      "type": "object"
     },
     "rendercv__schema__models__cv__entries__education__EducationEntry": {
       "additionalProperties": true,
@@ -9329,6 +9431,19 @@
         "degree_with_area": {
           "default": "AREA, DEGREE",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA, DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE ngành AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE ngành AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
