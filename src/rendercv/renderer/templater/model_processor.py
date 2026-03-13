@@ -129,6 +129,11 @@ def process_model(
 
     for section in rendercv_model.cv.rendercv_sections:
         section.title = apply_string_processors(section.title, string_processors)
+        if section.subsections is not None:
+            for subsection in section.subsections:
+                subsection.title = apply_string_processors(
+                    subsection.title, string_processors
+                )
         show_time_span = (
             section.snake_case_title
             in rendercv_model.design.sections.show_time_spans_in

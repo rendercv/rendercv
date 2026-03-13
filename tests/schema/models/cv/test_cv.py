@@ -82,6 +82,32 @@ class TestCv:
         assert section.entry_type == "TextEntry"
         assert section.entries == []
 
+    def test_grouped_publication_section(self, publication_entry):
+        input_data = {
+            "name": "John Doe",
+            "sections": {
+                "publications": {
+                    "journal_articles": [publication_entry],
+                    "conference_proceedings": [],
+                }
+            },
+        }
+
+        cv = Cv.model_validate(input_data)
+
+        assert len(cv.rendercv_sections) == 1
+        section = cv.rendercv_sections[0]
+        assert section.title == "Publications"
+        assert section.entry_type == "PublicationEntry"
+        assert len(section.entries) == 1
+        assert section.subsections is not None
+        assert [subsection.title for subsection in section.subsections] == [
+            "Journal Articles",
+            "Conference Proceedings",
+        ]
+        assert len(section.subsections[0].entries) == 1
+        assert section.subsections[1].entries == []
+
     def test_phone_serialization(self):
         input_data = {"name": "John Doe", "phone": "+905419999999"}
         cv = Cv.model_validate(input_data)

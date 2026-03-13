@@ -49,9 +49,9 @@ class TestParseValidationErrors:
                 expected_error["schema_location"] = tuple(
                     expected_error["schema_location"]
                 )
-                assert validation_error == expected_error, (
-                    f"expected {expected_error} but got {validation_error}"
-                )
+                assert (
+                    validation_error == expected_error
+                ), f"expected {expected_error} but got {validation_error}"
 
     def test_provides_helpful_message_for_invalid_date_format(self, tmp_path):
         yaml_content = """
@@ -91,6 +91,51 @@ cv:
             assert end_date_error is not None
             assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
             assert 'or "present"' in end_date_error.message
+
+    def test_reports_nested_location_for_grouped_publication_errors(self, tmp_path):
+        yaml_content = """
+cv:
+    name: John Doe
+    sections:
+        publications:
+            journal_articles:
+                - authors:
+                    - John Doe
+"""
+        yaml_file = tmp_path / "test.yaml"
+        yaml_file.write_text(yaml_content, encoding="utf-8")
+
+        yaml_object = read_yaml(yaml_file)
+
+        try:
+            RenderCVModel.model_validate(
+                yaml_object,
+                context={
+                    "context": ValidationContext(
+                        input_file_path=yaml_file,
+                    )
+                },
+            )
+        except pydantic.ValidationError as e:
+            errors = parse_validation_errors(e, yaml_object)
+            title_error = next(
+                (
+                    err
+                    for err in errors
+                    if err.schema_location
+                    == (
+                        "cv",
+                        "sections",
+                        "publications",
+                        "journal_articles",
+                        "0",
+                        "title",
+                    )
+                ),
+                None,
+            )
+            assert title_error is not None
+            assert title_error.message == "This field is required."
 
 
 class TestParseValidationErrorsWithOverlaySources:

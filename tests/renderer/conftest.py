@@ -122,6 +122,38 @@ def minimal_rendercv_model() -> RenderCVModel:
 
 
 @pytest.fixture
+def grouped_publications_rendercv_model() -> RenderCVModel:
+    """Create a RenderCVModel with grouped publication subsections."""
+    cv = Cv(
+        name="Jane Doe",
+        headline="Research Scientist",
+        sections={
+            "Publications": {
+                "Journal Articles": [
+                    PublicationEntry(
+                        title="Journal Paper",
+                        authors=["Jane Doe", "John Smith"],
+                        journal="Journal of Examples",
+                        date="2024-01",
+                    )
+                ],
+                "Conference Proceedings": [
+                    PublicationEntry(
+                        title="Conference Paper",
+                        authors=["Jane Doe"],
+                        url=pydantic.HttpUrl("https://example.com/paper"),
+                        journal="Conference on Examples",
+                        date="2023-06",
+                    )
+                ],
+                "Preprints": [],
+            }
+        },
+    )
+    return RenderCVModel(cv=cv, settings=Settings(current_date=Date(2025, 11, 30)))
+
+
+@pytest.fixture
 def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
     """Create a comprehensive RenderCVModel with all entry combinations.
 

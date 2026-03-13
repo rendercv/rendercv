@@ -104,8 +104,10 @@ class Cv(BaseModelWithoutExtraKeys):
         default=None,
         description=(
             "The sections of your CV. Keys are section titles (e.g., Experience,"
-            " Education), and values are lists of entries. Entry types are"
-            " automatically detected based on their fields."
+            " Education), and values are usually lists of entries. Publication"
+            " sections can also use grouped subsections as a mapping from subgroup"
+            " titles to publication entry lists. Entry types are automatically"
+            " detected based on their fields."
         ),
         examples=[
             {
@@ -113,6 +115,10 @@ class Cv(BaseModelWithoutExtraKeys):
                 "Education": "...",
                 "Projects": "...",
                 "Skills": "...",
+                "Publications": {
+                    "Journal Articles": "...",
+                    "Conference Proceedings": "...",
+                },
             }
         ],
     )
@@ -221,7 +227,9 @@ class Cv(BaseModelWithoutExtraKeys):
             "website": (website_validator, websites_validator),
             "email": (email_validator, emails_validator),
             "phone": (phone_validator, phones_validator),
-        }[info.field_name]
+        }[
+            info.field_name
+        ]
 
         if isinstance(value, list):
             return validators[1].validate_python(value)

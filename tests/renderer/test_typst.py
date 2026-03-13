@@ -28,3 +28,25 @@ def test_generate_typst(
 
     reference_filename = f"{theme}_{cv_variant}.typ"
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+@pytest.mark.parametrize("theme", available_themes)
+def test_generate_typst_grouped_publications(
+    compare_file_with_reference,
+    theme: str,
+    grouped_publications_rendercv_model: RenderCVModel,
+):
+    model = RenderCVModel(
+        cv=grouped_publications_rendercv_model.cv,
+        design={"theme": theme},
+        locale=grouped_publications_rendercv_model.locale,
+        settings=grouped_publications_rendercv_model.settings,
+    )
+
+    def generate_file(output_path):
+        model.settings.render_command.typst_path = output_path
+        generate_typst(model)
+
+    assert compare_file_with_reference(
+        generate_file, f"{theme}_grouped_publications.typ"
+    )

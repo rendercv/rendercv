@@ -112,20 +112,65 @@ def render_full_template(
             rendercv_model,
             entry_type=rendercv_section.entry_type,
         )
-        entry_codes = []
-        for entry in rendercv_section.entries:
-            entry_code = render_single_template(
-                file_type,
-                f"entries/{rendercv_section.entry_type}.j2.{extension}",
+        section_blocks = []
+        if rendercv_section.subsections is None:
+            entries_code = render_section_entries(
                 rendercv_model,
-                entry=entry,
+                file_type,
+                extension,
+                rendercv_section.entry_type,
+                rendercv_section.entries,
             )
-            entry_codes.append(entry_code)
-        entries_code = "\n\n".join(entry_codes)
-        section_code = f"{section_beginning}\n{entries_code}\n{section_ending}"
+            if entries_code:
+                section_blocks.append(entries_code)
+        else:
+            for subsection in rendercv_section.subsections:
+                if len(subsection.entries) == 0:
+                    continue
+
+                subsection_heading = render_single_template(
+                    file_type,
+                    f"SubsectionHeading.j2.{extension}",
+                    rendercv_model,
+                    subsection_title=subsection.title,
+                    snake_case_subsection_title=subsection.snake_case_title,
+                    entry_type=rendercv_section.entry_type,
+                )
+                entries_code = render_section_entries(
+                    rendercv_model,
+                    file_type,
+                    extension,
+                    rendercv_section.entry_type,
+                    subsection.entries,
+                )
+                section_blocks.append(f"{subsection_heading}\n\n{entries_code}")
+
+        section_body = "\n\n".join(section_blocks)
+        section_code = f"{section_beginning}\n{section_body}\n{section_ending}"
         code += f"\n{section_code}"
 
     return code
+
+
+def render_section_entries(
+    rendercv_model: RenderCVModel,
+    file_type: Literal["typst", "markdown"],
+    extension: str,
+    entry_type: str,
+    entries: list[object],
+) -> str:
+    """Render a homogeneous list of entries with the template for its entry type."""
+    entry_codes = []
+    for entry in entries:
+        entry_code = render_single_template(
+            file_type,
+            f"entries/{entry_type}.j2.{extension}",
+            rendercv_model,
+            entry=entry,
+        )
+        entry_codes.append(entry_code)
+
+    return "\n\n".join(entry_codes)
 
 
 def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:

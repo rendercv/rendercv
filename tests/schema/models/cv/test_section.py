@@ -7,7 +7,7 @@ from rendercv.schema.models.cv.entries.education import EducationEntry  # NOQA: 
 from rendercv.schema.models.cv.entries.experience import ExperienceEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import (
     Section,
     available_entry_models,
@@ -109,3 +109,27 @@ def test_section_accepts_empty_list():
     section_adapter = pydantic.TypeAdapter[Section](Section)
     result = section_adapter.validate_python([])
     assert result == []
+
+
+def test_section_accepts_grouped_publication_subsections(publication_entry):
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+    result = section_adapter.validate_python(
+        {
+            "journal_articles": [publication_entry],
+            "conference_proceedings": [],
+        }
+    )
+
+    assert list(result.keys()) == ["journal_articles", "conference_proceedings"]
+    assert isinstance(result["journal_articles"][0], PublicationEntry)
+    assert result["conference_proceedings"] == []
+
+
+def test_section_rejects_grouped_non_publication_entries(experience_entry):
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+
+    with pytest.raises(
+        pydantic.ValidationError,
+        match="Grouped subsections are only supported for PublicationEntry sections",
+    ):
+        section_adapter.validate_python({"journal_articles": [experience_entry]})

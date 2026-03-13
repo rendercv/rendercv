@@ -35,7 +35,7 @@ cv:
 The `sections` field holds the main content of your CV. It's a dictionary where:
 
 - **Keys** are section titles (displayed as headings). Section titles can be anything.
-- **Values** are lists of entries
+- **Values** are usually lists of entries
 
 ```yaml
 cv:
@@ -68,6 +68,24 @@ cv:
         details: Kubernetes, Terraform, AWS
 ```
 
+Publication sections can also be grouped into subsections with a nested mapping:
+
+```yaml
+cv:
+  sections:
+    publications:
+      journal_articles:
+        - title: Example Journal Paper
+          authors:
+            - John Doe
+          date: 2024-01
+      conference_proceedings:
+        - title: Example Conference Paper
+          authors:
+            - John Doe
+          date: 2023-06
+```
+
 
 **Section names are just titles.** You can use any of the << entry_count >> entry types in any section. Choose what works best for your content.
 
@@ -95,6 +113,8 @@ sections:
 
 !!! warning "One entry type per section"
     Each section must contain only one type of entry. For example, you cannot mix `ExperienceEntry` and `EducationEntry` in the same section.
+
+    `PublicationEntry` sections may also use grouped subsections, but every subgroup must still contain only publication entries.
 
 ## Entry Types
 
