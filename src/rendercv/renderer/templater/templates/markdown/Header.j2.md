@@ -1,6 +1,9 @@
 {% if cv.name %}
 # {{ cv.name }}'s CV
 {% endif %}
+{% if cv.postnominals %}
+## {{ cv.postnominals | join(", ") }}
+{% endif %}
 
 {% if cv.phone %}
 - Phone: {{cv.phone|replace("tel:", "")|replace("-"," ")}}

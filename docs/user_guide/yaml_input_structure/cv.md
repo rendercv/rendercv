@@ -7,28 +7,32 @@ The `cv` field begins with your personal information. All fields are optional. R
 ```yaml
 cv:
   name: John Doe
+  postnominals: # (1)!
+    - PhD
+    - FRCS
   headline: Machine Learning Engineer
   location: San Francisco, CA
-  email: john@example.com # (1)!
-  phone: +14155551234 # (2)!
-  website: https://johndoe.dev # (3)!
+  email: john@example.com # (2)!
+  phone: +14155551234 # (3)!
+  website: https://johndoe.dev # (4)!
   photo: photo.jpg
   social_networks:
-    - network: LinkedIn # (4)!
+    - network: LinkedIn # (5)!
       username: johndoe
     - network: GitHub
       username: johndoe
   custom_connections:
-    - placeholder: Book a call # (5)!
+    - placeholder: Book a call # (6)!
       url: https://cal.com/johndoe
       fontawesome_icon: calendar-days
 ```
 
-1. Multiple emails can be provided as a list.
-2. Multiple phone numbers can be provided as a list.
-3. Multiple websites can be provided as a list.
-4. Available social networks: << available_social_networks >>
-5. Custom connections let you add any extra link (or plain text if `url` is omitted) with your own display text (`placeholder`) and a Font Awesome icon name (e.g., `calendar-days`, `envelope`). For the list of available icons, see [fontawesome.com/search](https://fontawesome.com/search).
+1. Multiple post-nominals can be provided as a list.
+2. Multiple emails can be provided as a list.
+3. Multiple phone numbers can be provided as a list.
+4. Multiple websites can be provided as a list.
+5. Available social networks: << available_social_networks >>
+6. Custom connections let you add any extra link (or plain text if `url` is omitted) with your own display text (`placeholder`) and a Font Awesome icon name (e.g., `calendar-days`, `envelope`). For the list of available icons, see [fontawesome.com/search](https://fontawesome.com/search).
 
 ## Sections
 

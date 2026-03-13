@@ -1,6 +1,7 @@
 # yaml-language-server: $schema=../../../schema.json
 cv:
   name: John Doe
+  postnominals:
   headline:
   location: San Francisco, CA
   email: john.doe@email.com

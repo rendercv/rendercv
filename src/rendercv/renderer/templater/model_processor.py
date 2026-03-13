@@ -90,6 +90,11 @@ def process_model(
     rendercv_model.cv.headline = apply_string_processors(
         rendercv_model.cv.headline, string_processors
     )
+    if rendercv_model.cv.postnominals is not None:
+        rendercv_model.cv.postnominals = [
+            apply_string_processors(item, string_processors)
+            for item in rendercv_model.cv.postnominals
+        ]
     rendercv_model.cv._connections = compute_connections(rendercv_model, file_type)
     rendercv_model.cv._top_note = render_top_note_template(
         rendercv_model.design.templates.top_note,

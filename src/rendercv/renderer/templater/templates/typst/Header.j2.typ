@@ -23,6 +23,10 @@
 = {{ cv.name }}
 {% endif %}
 
+{% if cv.postnominals %}
+  #headline([{{ cv.postnominals | join(", ") }}])
+
+{% endif %}
 {% if cv.headline %}
   #headline([{{ cv.headline }}])
 

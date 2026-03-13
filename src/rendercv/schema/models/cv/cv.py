@@ -1,5 +1,5 @@
 import functools
-from typing import Any, Self
+from typing import Any, Self, cast
 
 import pydantic
 import pydantic_extra_types.phone_numbers as pydantic_phone_numbers
@@ -32,6 +32,14 @@ class Cv(BaseModelWithoutExtraKeys):
     name: str | None = pydantic.Field(
         default=None,
         examples=["John Doe", "Jane Smith"],
+    )
+    postnominals: list[str] | None = pydantic.Field(
+        default=None,
+        description=(
+            "Post-nominal letters to display as a subheading below your name. Provide"
+            " as a list; they will be joined with ', ' in the output."
+        ),
+        examples=[["PhD"], ["MD", "FACS"], ["BSc", "MSc", "PhD"], ["FRCS", "FRCP"]],
     )
     headline: str | None = pydantic.Field(
         default=None,
@@ -163,7 +171,9 @@ class Cv(BaseModelWithoutExtraKeys):
             return data
 
         # Capture the input order before validation
-        key_order = list(data.keys()) if isinstance(data, dict) else []
+        key_order: list[str] = []
+        if isinstance(data, dict):
+            key_order = cast(list[str], list(data.keys()))
 
         # Let Pydantic do its validation
         instance = handler(data)

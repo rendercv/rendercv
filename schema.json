@@ -271,6 +271,40 @@
           ],
           "title": "Name"
         },
+        "postnominals": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Post-nominal letters to display as a subheading below your name. Provide as a list; they will be joined with ', ' in the output.",
+          "examples": [
+            [
+              "PhD"
+            ],
+            [
+              "MD",
+              "FACS"
+            ],
+            [
+              "BSc",
+              "MSc",
+              "PhD"
+            ],
+            [
+              "FRCS",
+              "FRCP"
+            ]
+          ],
+          "title": "Postnominals"
+        },
         "headline": {
           "anyOf": [
             {
