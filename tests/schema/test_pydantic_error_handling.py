@@ -23,7 +23,7 @@ class TestParseValidationErrors:
         expected_errors_file_path = testdata_dir / "expected_errors.yaml"
         expected_errors = read_yaml(expected_errors_file_path)["expected_errors"]
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 wrong_input_commented_map,
                 context={
@@ -35,23 +35,23 @@ class TestParseValidationErrors:
                     )
                 },
             )
-        except pydantic.ValidationError as e:
-            validation_errors = [
-                asdict(error)
-                for error in parse_validation_errors(e, wrong_input_commented_map)
-            ]
-            for validation_error, expected_error in zip(
-                validation_errors, expected_errors, strict=True
-            ):
-                expected_error["yaml_location"] = tuple(
-                    tuple(part) for part in expected_error["yaml_location"]
-                )
-                expected_error["schema_location"] = tuple(
-                    expected_error["schema_location"]
-                )
-                assert validation_error == expected_error, (
-                    f"expected {expected_error} but got {validation_error}"
-                )
+
+        validation_errors = [
+            asdict(error)
+            for error in parse_validation_errors(
+                exc_info.value, wrong_input_commented_map
+            )
+        ]
+        for validation_error, expected_error in zip(
+            validation_errors, expected_errors, strict=True
+        ):
+            expected_error["yaml_location"] = tuple(
+                tuple(part) for part in expected_error["yaml_location"]
+            )
+            expected_error["schema_location"] = tuple(expected_error["schema_location"])
+            assert validation_error == expected_error, (
+                f"expected {expected_error} but got {validation_error}"
+            )
 
     def test_provides_helpful_message_for_invalid_date_format(self, tmp_path):
         yaml_content = """
@@ -68,7 +68,7 @@ cv:
 
         yaml_object = read_yaml(yaml_file)
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 yaml_object,
                 context={
@@ -77,20 +77,19 @@ cv:
                     )
                 },
             )
-        except pydantic.ValidationError as e:
-            errors = parse_validation_errors(e, yaml_object)
-            end_date_error = next(
-                (
-                    err
-                    for err in errors
-                    if err.schema_location is not None
-                    and "end_date" in err.schema_location
-                ),
-                None,
-            )
-            assert end_date_error is not None
-            assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
-            assert 'or "present"' in end_date_error.message
+
+        errors = parse_validation_errors(exc_info.value, yaml_object)
+        end_date_error = next(
+            (
+                err
+                for err in errors
+                if err.schema_location is not None and "end_date" in err.schema_location
+            ),
+            None,
+        )
+        assert end_date_error is not None
+        assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
+        assert 'or "present"' in end_date_error.message
 
     def test_reports_nested_location_for_grouped_publication_errors(self, tmp_path):
         yaml_content = """
@@ -107,7 +106,7 @@ cv:
 
         yaml_object = read_yaml(yaml_file)
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 yaml_object,
                 context={
@@ -116,26 +115,26 @@ cv:
                     )
                 },
             )
-        except pydantic.ValidationError as e:
-            errors = parse_validation_errors(e, yaml_object)
-            title_error = next(
-                (
-                    err
-                    for err in errors
-                    if err.schema_location
-                    == (
-                        "cv",
-                        "sections",
-                        "publications",
-                        "journal_articles",
-                        "0",
-                        "title",
-                    )
-                ),
-                None,
-            )
-            assert title_error is not None
-            assert title_error.message == "This field is required."
+
+        errors = parse_validation_errors(exc_info.value, yaml_object)
+        title_error = next(
+            (
+                err
+                for err in errors
+                if err.schema_location
+                == (
+                    "cv",
+                    "sections",
+                    "publications",
+                    "journal_articles",
+                    "0",
+                    "title",
+                )
+            ),
+            None,
+        )
+        assert title_error is not None
+        assert title_error.message == "This field is required."
 
 
 class TestParseValidationErrorsWithOverlaySources:
@@ -148,14 +147,13 @@ class TestParseValidationErrorsWithOverlaySources:
         main_cm["design"] = design_cm["design"]
         overlay_sources = {"design": design_cm}
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 main_cm,
                 context={"context": ValidationContext()},
             )
-            pytest.fail("Expected ValidationError")
-        except pydantic.ValidationError as e:
-            errors = parse_validation_errors(e, main_cm, overlay_sources)
+
+        errors = parse_validation_errors(exc_info.value, main_cm, overlay_sources)
 
         design_error = next(
             (
@@ -180,14 +178,13 @@ class TestParseValidationErrorsWithOverlaySources:
         )
         main_cm = read_yaml(main_yaml)
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 main_cm,
                 context={"context": ValidationContext()},
             )
-            pytest.fail("Expected ValidationError")
-        except pydantic.ValidationError as e:
-            errors = parse_validation_errors(e, main_cm)
+
+        errors = parse_validation_errors(exc_info.value, main_cm)
 
         assert len(errors) > 0
         for error in errors:
@@ -202,14 +199,13 @@ class TestParseValidationErrorsWithOverlaySources:
         main_cm["design"] = design_cm["design"]
         overlay_sources = {"design": design_cm}
 
-        try:
+        with pytest.raises(pydantic.ValidationError) as exc_info:
             RenderCVModel.model_validate(
                 main_cm,
                 context={"context": ValidationContext()},
             )
-            pytest.fail("Expected ValidationError")
-        except pydantic.ValidationError as e:
-            errors = parse_validation_errors(e, main_cm, overlay_sources)
+
+        errors = parse_validation_errors(exc_info.value, main_cm, overlay_sources)
 
         cv_errors = [
             err
