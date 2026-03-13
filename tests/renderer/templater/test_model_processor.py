@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from datetime import date as Date
 from unittest.mock import patch
 
@@ -33,7 +34,10 @@ def recorder():
 
 class TestProcessFields:
     def test_applies_processors_in_order(self):
-        processors = [lambda s: s.upper(), lambda s: f"{s}!"]
+        processors: list[Callable[[str], str]] = [
+            lambda s: s.upper(),
+            lambda s: f"{s}!",
+        ]
         result = process_fields("content", processors)
         assert result == "CONTENT!"
 

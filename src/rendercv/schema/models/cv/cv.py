@@ -169,7 +169,7 @@ class Cv(BaseModelWithoutExtraKeys):
             return data
 
         # Capture the input order before validation
-        key_order = list(data.keys()) if isinstance(data, dict) else []
+        key_order = [str(key) for key in data.keys()] if isinstance(data, dict) else []
 
         # Let Pydantic do its validation
         instance = handler(data)
@@ -227,9 +227,7 @@ class Cv(BaseModelWithoutExtraKeys):
             "website": (website_validator, websites_validator),
             "email": (email_validator, emails_validator),
             "phone": (phone_validator, phones_validator),
-        }[
-            info.field_name
-        ]
+        }[info.field_name]
 
         if isinstance(value, list):
             return validators[1].validate_python(value)

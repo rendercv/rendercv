@@ -1,3 +1,5 @@
+from typing import cast
+
 import pydantic
 import pytest
 
@@ -9,6 +11,7 @@ from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import (
+    GroupedPublicationEntries,
     Section,
     available_entry_models,
     dictionary_key_to_proper_section_title,
@@ -113,11 +116,14 @@ def test_section_accepts_empty_list():
 
 def test_section_accepts_grouped_publication_subsections(publication_entry):
     section_adapter = pydantic.TypeAdapter[Section](Section)
-    result = section_adapter.validate_python(
-        {
-            "journal_articles": [publication_entry],
-            "conference_proceedings": [],
-        }
+    result = cast(
+        GroupedPublicationEntries,
+        section_adapter.validate_python(
+            {
+                "journal_articles": [publication_entry],
+                "conference_proceedings": [],
+            }
+        ),
     )
 
     assert list(result.keys()) == ["journal_articles", "conference_proceedings"]

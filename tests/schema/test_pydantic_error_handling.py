@@ -49,9 +49,9 @@ class TestParseValidationErrors:
                 expected_error["schema_location"] = tuple(
                     expected_error["schema_location"]
                 )
-                assert (
-                    validation_error == expected_error
-                ), f"expected {expected_error} but got {validation_error}"
+                assert validation_error == expected_error, (
+                    f"expected {expected_error} but got {validation_error}"
+                )
 
     def test_provides_helpful_message_for_invalid_date_format(self, tmp_path):
         yaml_content = """
