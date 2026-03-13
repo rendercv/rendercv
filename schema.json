@@ -205,6 +205,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__1"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
         },
@@ -660,6 +663,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__2"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__2"
         },
@@ -699,6 +705,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__3"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__3"
@@ -1894,6 +1903,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__4"
         },
@@ -2576,6 +2588,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__5"
         },
@@ -2822,6 +2837,23 @@
         }
       },
       "title": "SpanishLocale",
+      "type": "object"
+    },
+    "SubsectionTitles": {
+      "additionalProperties": false,
+      "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Space above grouped subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+        },
+        "space_below": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Space below grouped subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+        }
+      },
+      "title": "SubsectionTitles",
       "type": "object"
     },
     "TurkishLocale": {

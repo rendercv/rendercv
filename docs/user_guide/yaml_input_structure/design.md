@@ -109,6 +109,10 @@ design:
     space_above: 0.5cm
     space_below: 0.3cm
 
+  subsection_titles:
+    space_above: 0cm
+    space_below: 0cm
+
   sections:
     allow_page_break: true
     space_between_regular_entries: 1.2em
@@ -181,6 +185,7 @@ design:
 4. **Section title styles:** << available_section_title_types >>
    `with_partial_line` adds a line next to the title, `with_full_line` spans the page, `without_line` has no line, `moderncv` uses ModernCV style
 5. **Show time spans:** Specify which sections should display duration calculations (e.g., "2 years 3 months")
+   `design.subsection_titles` controls spacing around grouped subsection headings such as publication subgroups
 6. **Bullet characters:** << available_bullets >>
 7. **Phone number formats:** << available_phone_number_formats >>
    `national` formats for domestic use, `international` includes country code, `E164` is the standard international format

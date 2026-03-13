@@ -98,6 +98,7 @@
 
 #text(weight: "bold")[Journal Articles]
 
+
 #regular-entry(
   [
     #strong[Journal Paper]
@@ -114,6 +115,7 @@
 )
 
 #text(weight: "bold")[Conference Proceedings]
+
 
 #regular-entry(
   [

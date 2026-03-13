@@ -50,3 +50,28 @@ def test_generate_typst_grouped_publications(
     assert compare_file_with_reference(
         generate_file, f"{theme}_grouped_publications.typ"
     )
+
+
+def test_grouped_publication_subsection_spacing_is_rendered(
+    tmp_path, grouped_publications_rendercv_model: RenderCVModel
+):
+    model = RenderCVModel(
+        cv=grouped_publications_rendercv_model.cv,
+        design={
+            "theme": "classic",
+            "subsection_titles": {
+                "space_above": "0.2cm",
+                "space_below": "0.1cm",
+            },
+        },
+        locale=grouped_publications_rendercv_model.locale,
+        settings=grouped_publications_rendercv_model.settings,
+    )
+
+    model.settings.render_command.typst_path = tmp_path / "grouped_publications.typ"
+    typst_path = generate_typst(model)
+
+    assert typst_path is not None
+    typst_contents = typst_path.read_text(encoding="utf-8")
+    assert "#v(0.2cm)" in typst_contents
+    assert "#v(0.1cm)" in typst_contents
