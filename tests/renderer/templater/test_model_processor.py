@@ -175,6 +175,22 @@ class TestProcessModel:
             assert result.cv._connections[0].startswith("#link(")
             assert "jane@example.com" in result.cv._connections[0]
 
+    def test_markdown_preserves_postnominals_unescaped(self):
+        cv = Cv.model_validate({"name": "Jane Doe", "postnominals": ["PhD @", "MSc #"]})
+        rendercv_model = RenderCVModel(cv=cv)
+
+        result = process_model(rendercv_model, "markdown")
+
+        assert result.cv.postnominals == ["PhD @", "MSc #"]
+
+    def test_typst_escapes_postnominals_special_characters(self):
+        cv = Cv.model_validate({"name": "Jane Doe", "postnominals": ["PhD @", "MSc #"]})
+        rendercv_model = RenderCVModel(cv=cv)
+
+        result = process_model(rendercv_model, "typst")
+
+        assert result.cv.postnominals == ["PhD \\@", "MSc \\#"]
+
     def test_handles_cv_with_no_sections(self):
         cv_data = {
             "name": "Jane Doe",
