@@ -169,7 +169,7 @@ class Cv(BaseModelWithoutExtraKeys):
             return data
 
         # Capture the input order before validation
-        key_order = [str(key) for key in data.keys()] if isinstance(data, dict) else []
+        key_order = [str(key) for key in data] if isinstance(data, dict) else []
 
         # Let Pydantic do its validation
         instance = handler(data)
