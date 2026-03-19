@@ -1875,7 +1875,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -1897,7 +1897,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -1910,7 +1910,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -1923,7 +1923,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -1936,7 +1936,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -1947,7 +1947,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -1960,7 +1960,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2065,7 +2065,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2078,7 +2078,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2091,7 +2091,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2104,7 +2104,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2119,7 +2119,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2142,7 +2142,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2155,7 +2155,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2168,7 +2168,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2183,7 +2183,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2206,7 +2206,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2219,7 +2219,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2234,7 +2234,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2257,7 +2257,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2270,7 +2270,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2291,7 +2291,7 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2563,7 +2563,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2576,7 +2576,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2589,7 +2589,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2604,7 +2604,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2627,7 +2627,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2640,7 +2640,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2655,7 +2655,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2678,7 +2678,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2693,7 +2693,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2716,7 +2716,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -2741,7 +2741,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -2754,385 +2754,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    Sept 2015 – June 2020
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    Sept 2015 – June 2020
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2015 – present
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2015 – present
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    Sept 2015 – present
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    June 2020
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    June 2020
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    June 2020
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-  #education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
-    Sept 2015 – June 2020
-
-  ],
-  main-column-second-row: [
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -3147,7 +2769,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -3170,7 +2792,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3185,7 +2807,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3208,7 +2830,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -3233,7 +2855,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3248,7 +2870,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3271,7 +2893,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Mechanical Engineering
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -3296,33 +2918,46 @@ Third text with #link("https://example.com")[link] and more content.
 
   #education-entry(
   [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+
+#education-entry(
+  [
     #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
-
-  ],
-  [
     Sept 2021
 
   ],
@@ -3332,7 +2967,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3347,7 +2982,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3370,7 +3005,20 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3385,7 +3033,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3408,32 +3056,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3448,7 +3071,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3471,7 +3094,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3496,32 +3119,20 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
-    Sept 2021
+    Sept 2015 – June 2020
 
   ],
   main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
   ],
 )
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3536,7 +3147,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3559,16 +3170,29 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
-    Sept 2015 – June 2020
+    Sept 2015 – present
 
   ],
   main-column-second-row: [
     #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
 
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
     - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
 
     - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
@@ -3584,7 +3208,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering
 
   ],
   [
@@ -3609,7 +3233,383 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering
+
+  ],
+  [
+    June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+  #education-entry(
+  [
+    #strong[Boğaziçi University], BS in Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering
+
+  ],
+  [
+    Sept 2015 – June 2020
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2015 – present
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3949,7 +3949,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3964,7 +3964,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -3987,32 +3987,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering
-
-  ],
-  [
-    Sept 2021
-
-  ],
-  main-column-second-row: [
-    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
-
-    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
-
-  ],
-)
-
-#education-entry(
-  [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering
 
   ],
   [
@@ -4037,7 +4012,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -4062,7 +4037,32 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
+
+  ],
+  [
+    Sept 2021
+
+  ],
+  main-column-second-row: [
+    #summary[Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.]
+
+    - Did #emph[this] and this is a #strong[bold] #link("https://example.com")[link]. But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+      - Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+    - Did that. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure.
+
+  ],
+)
+
+#education-entry(
+  [
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
@@ -4225,7 +4225,7 @@ Third text with #link("https://example.com")[link] and more content.
 
 #education-entry(
   [
-    #strong[Boğaziçi University],  in Mechanical Engineering -- Istanbul, Turkey
+    #strong[Boğaziçi University], Mechanical Engineering -- Istanbul, Turkey
 
   ],
   [
