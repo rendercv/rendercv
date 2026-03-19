@@ -7,7 +7,6 @@ docs/ats_compatibility.md.
 from pathlib import Path
 
 import jinja2
-
 from common import (
     ANALYSIS_DIR,
     RENDERED_DIR,

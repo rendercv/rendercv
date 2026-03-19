@@ -18,7 +18,6 @@ from common import (
     write_json,
 )
 
-
 # ---------------------------------------------------------------------------
 # Matching functions
 # ---------------------------------------------------------------------------
@@ -28,8 +27,7 @@ def normalize(text: str) -> str:
     """Normalize text for comparison."""
     text = text.lower().strip()
     text = re.sub(r"\s+", " ", text)
-    text = re.sub(r"[^\w\s@.+\-/]", "", text)
-    return text
+    return re.sub(r"[^\w\s@.+\-/]", "", text)
 
 
 def exact_match(expected: str, extracted: str) -> float:

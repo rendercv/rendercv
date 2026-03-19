@@ -691,9 +691,17 @@ class TestRemoveConnectorsOfMissingPlaceholders:
             # No connector word to remove (just space) — stays as-is
             ("AREA DEGREE", {"DEGREE"}, "AREA DEGREE"),
             # Formatting preserved, only connector word removed
-            ("**INSTITUTION**, DEGREE in AREA -- LOCATION", {"DEGREE"}, "**INSTITUTION**, DEGREE  AREA -- LOCATION"),
+            (
+                "**INSTITUTION**, DEGREE in AREA -- LOCATION",
+                {"DEGREE"},
+                "**INSTITUTION**, DEGREE  AREA -- LOCATION",
+            ),
             # Connector "at" removed between JOB_TITLE and COMPANY
-            ("**JOB_TITLE** at COMPANY_NAME", {"COMPANY_NAME"}, "**JOB_TITLE**  COMPANY_NAME"),
+            (
+                "**JOB_TITLE** at COMPANY_NAME",
+                {"COMPANY_NAME"},
+                "**JOB_TITLE**  COMPANY_NAME",
+            ),
             # No connector between placeholders separated by punctuation only
             ("NAME, LOCATION", {"LOCATION"}, "NAME, LOCATION"),
             # Hindi connector removed
@@ -721,7 +729,9 @@ class TestRenderEntryTemplatesWithMissingDegree:
             entry,
             templates=Templates(
                 education_entry=EducationEntryOptions(
-                    main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
                     degree_column=None,
                 )
             ),
@@ -745,7 +755,9 @@ class TestRenderEntryTemplatesWithMissingDegree:
             entry,
             templates=Templates(
                 education_entry=EducationEntryOptions(
-                    main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
                     degree_column=None,
                 )
             ),
@@ -770,7 +782,9 @@ class TestRenderEntryTemplatesWithMissingDegree:
             entry,
             templates=Templates(
                 education_entry=EducationEntryOptions(
-                    main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
                     degree_column=None,
                 )
             ),

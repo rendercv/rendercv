@@ -11,7 +11,6 @@ from collections.abc import Callable
 from pathlib import Path
 
 import fitz  # PyMuPDF
-
 from common import (
     RENDERED_DIR,
     RESULTS_DIR,
@@ -23,7 +22,7 @@ from common import (
     normalize_quotes,
     write_json,
 )
-
+from ruamel.yaml import YAML
 
 # ---------------------------------------------------------------------------
 # Extractors
@@ -102,8 +101,6 @@ def analyze_pdf(pdf_path: Path) -> dict:
     # Get CV name for reading order check
     name = ""
     if yaml_path:
-        from ruamel.yaml import YAML
-
         yaml = YAML()
         with yaml_path.open(encoding="utf-8") as f:
             data = yaml.load(f)
@@ -227,18 +224,18 @@ def main() -> None:
     )
 
     # Print summary
-    print(
+    print(  # noqa: T201
         f"\nStructural: {structural_pass}/{len(pdfs)} passed ({structural_summary['pass_rate']})"
-    )  # noqa: T201
+    )
     for name, s in extraction_summary["extractors"].items():
-        print(
+        print(  # noqa: T201
             f"Extraction ({name}): {s['average_accuracy']} avg accuracy, {s['garbled_count']} garbled"
-        )  # noqa: T201
+        )
 
     if structural_pass < len(pdfs):
-        print(
+        print(  # noqa: T201
             f"\nWARNING: {len(pdfs) - structural_pass} PDFs failed structural analysis."
-        )  # noqa: T201
+        )
         sys.exit(1)
 
 

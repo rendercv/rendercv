@@ -12,7 +12,6 @@ import time
 from pathlib import Path
 
 import httpx
-
 from common import RENDERED_DIR, RESULTS_DIR, find_rendered_pdfs, write_json
 
 RESULTS_SUBDIR: str = "commercial/edenai"

@@ -8,10 +8,10 @@ import sys
 import tempfile
 from pathlib import Path
 
+from common import RENDERED_DIR, THEMES, find_corpus_yamls
+
 from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import run_rendercv
-
-from common import RENDERED_DIR, THEMES, find_corpus_yamls
 
 
 def render_with_theme(yaml_path: Path, theme: str, output_dir: Path) -> Path | None:

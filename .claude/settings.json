@@ -1,0 +1,17 @@
+{
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "cd \"$CLAUDE_PROJECT_DIR\" && just check",
+                        "timeout": 120,
+                        "statusMessage": "Running just check..."
+                    }
+                ]
+            }
+        ]
+    }
+}
