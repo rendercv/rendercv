@@ -1,0 +1,53 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: harvard
+  page:
+    top_margin: 0.5in
+    bottom_margin: 0.5in
+    left_margin: 0.5in
+    right_margin: 0.5in
+    show_top_note: false
+  colors:
+    name: rgb(0,0,0)
+    headline: rgb(0,0,0)
+    connections: rgb(0,0,0)
+    section_titles: rgb(0,0,0)
+    links: rgb(0,0,0)
+  typography:
+    font_family:
+      body: XCharter
+      name: XCharter
+      headline: XCharter
+      connections: XCharter
+      section_titles: XCharter
+    font_size:
+      name: 25pt
+      connections: 9pt
+      section_titles: 1.3em
+  header:
+    space_below_name: 0.5cm
+    space_below_headline: 0.5cm
+    space_below_connections: 0.5cm
+    connections:
+      show_icons: false
+      separator: "•"
+      space_between_connections: 0.4cm
+  section_titles:
+    type: with_full_line
+    space_below: 0.2cm
+  sections:
+    space_between_regular_entries: 1em
+    show_time_spans_in: []
+  entries:
+    short_second_row: false
+  templates:
+    time_span: ''
+    education_entry:
+      main_column: "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    normal_entry:
+      main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: "**COMPANY**, POSITION -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
