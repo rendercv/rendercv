@@ -120,6 +120,11 @@ update-entry-figures = [
 [tool.uv]
 default-groups = ["dev", "docs"]
 
+[tool.uv.workspace]
+members = [
+    "scripts/ats_proof",
+]
+
 [tool.ruff]
 line-length = 88
 

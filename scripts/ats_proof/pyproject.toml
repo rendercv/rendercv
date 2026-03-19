@@ -1,0 +1,14 @@
+[project]
+name = "ats-proof"
+version = "1.0.0"
+description = "ATS compatibility testing suite for RenderCV"
+requires-python = ">=3.12"
+dependencies = [
+    "rendercv[full]",
+    "ruamel-yaml>=0.18",
+    "pymupdf>=1.24",
+    "httpx>=0.27",
+]
+
+[tool.uv.sources]
+rendercv = { workspace = true }

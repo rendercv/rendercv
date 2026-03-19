@@ -83,6 +83,7 @@ nav:
           - Add Locale: developer_guide/how_to/add_locale.md
           - Add Social Network: developer_guide/how_to/add_social_network.md
   - API Reference: api_reference/
+  - ATS Compatibility: ats_compatibility.md
   - Changelog: changelog.md
   - New Web App!: https://rendercv.com
 
