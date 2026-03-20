@@ -98,7 +98,6 @@
 
 
 == Welcome to RenderCV
-
 RenderCV reads a CV written in a YAML file, and generates a PDF with professional typography.
 
 Each section title is arbitrary.
@@ -108,7 +107,6 @@ You can choose any of the 9 entry types for each section.
 Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], and #link("https://example.com")[link].
 
 == Education
-
 #education-entry(
   [
     #strong[Princeton University] -- Princeton, NJ
@@ -146,7 +144,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 )
 
 == Experience
-
 #regular-entry(
   [
     #strong[Nexus AI], #emph[Co-Founder & CTO] -- San Francisco, CA
@@ -189,11 +186,11 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     - Published research at top-tier venues with significant academic impact
 
-      - ICML 2022 main conference paper, cited 340+ times within two years
+    - ICML 2022 main conference paper, cited 340+ times within two years
 
-      - NeurIPS 2022 workshop paper on emergent communication protocols
+    - NeurIPS 2022 workshop paper on emergent communication protocols
 
-      - Invited journal extension in JMLR (2023)
+    - Invited journal extension in JMLR (2023)
 
   ],
   [
@@ -233,7 +230,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 )
 
 == Projects
-
 #regular-entry(
   [
     #strong[#link("https://github.com/")[FlashInfer]]
@@ -269,7 +265,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 )
 
 == Publications
-
 #regular-entry(
   [
     #strong[Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models]
@@ -331,7 +326,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 )
 
 == Selected Honors
-
 - MIT Technology Review 35 Under 35 Innovators (2024)
 
 - Forbes 30 Under 30 in Enterprise Technology (2024)
@@ -343,7 +337,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 - Fulbright Scholarship for Graduate Studies (2018)
 
 == Skills
-
 #strong[Languages:] Python, C++, CUDA, Rust, Julia
 
 #strong[ML Frameworks:] PyTorch, JAX, TensorFlow, Triton, ONNX
@@ -353,7 +346,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 #strong[Research Areas:] Neural architecture search, model compression, efficient inference, multi-agent RL
 
 == Patents
-
 + Adaptive Quantization for Neural Network Inference on Edge Devices (US Patent 11,234,567)
 
 + Dynamic Sparsity Patterns for Efficient Transformer Attention (US Patent 11,345,678)
@@ -361,7 +353,6 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 + Hardware-Aware Neural Architecture Search Method (US Patent 11,456,789)
 
 == Invited Talks
-
 #reversed-numbered-entries(
   [
 

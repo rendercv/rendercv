@@ -771,6 +771,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__4"
         },
@@ -1181,6 +1184,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__5"
         },
@@ -1514,6 +1520,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__6"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__6"
@@ -2293,6 +2302,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__8"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__8"

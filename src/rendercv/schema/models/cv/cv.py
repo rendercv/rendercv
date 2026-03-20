@@ -182,7 +182,7 @@ class Cv(BaseModelWithoutExtraKeys):
 
         # Set the private attribute on the instance:
         # If the values of those keys are None, remove the key from the key_order
-        instance._key_order = [key for key in key_order if data.get(key) is not None]  # ty: ignore[invalid-assignment]
+        instance._key_order = [key for key in key_order if data.get(key) is not None]
 
         return instance
 
