@@ -82,14 +82,24 @@ class TestCv:
         assert section.entry_type == "TextEntry"
         assert section.entries == []
 
-    def test_grouped_publication_section(self, publication_entry):
+    def test_subsection_based_section(self, publication_entry):
         input_data = {
             "name": "John Doe",
             "sections": {
-                "publications": {
-                    "journal_articles": [publication_entry],
-                    "conference_proceedings": [],
-                }
+                "selected_work": [
+                    {
+                        "title": "summary",
+                        "entries": ["A text entry."],
+                    },
+                    {
+                        "title": "journal_articles",
+                        "entries": [publication_entry],
+                    },
+                    {
+                        "title": "conference_proceedings",
+                        "entries": [],
+                    },
+                ]
             },
         }
 
@@ -97,16 +107,23 @@ class TestCv:
 
         assert len(cv.rendercv_sections) == 1
         section = cv.rendercv_sections[0]
-        assert section.title == "Publications"
-        assert section.entry_type == "PublicationEntry"
-        assert len(section.entries) == 1
+        assert section.title == "Selected Work"
+        assert section.entry_type == "SubsectionEntry"
+        assert len(section.entries) == 2
         assert section.subsections is not None
         assert [subsection.title for subsection in section.subsections] == [
+            "Summary",
             "Journal Articles",
             "Conference Proceedings",
         ]
-        assert len(section.subsections[0].entries) == 1
-        assert section.subsections[1].entries == []
+        assert [subsection.entry_type for subsection in section.subsections] == [
+            "TextEntry",
+            "PublicationEntry",
+            "TextEntry",
+        ]
+        assert section.subsections[0].entries == ["A text entry."]
+        assert len(section.subsections[1].entries) == 1
+        assert section.subsections[2].entries == []
 
     def test_phone_serialization(self):
         input_data = {"name": "John Doe", "phone": "+905419999999"}

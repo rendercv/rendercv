@@ -31,32 +31,30 @@ def test_generate_typst(
 
 
 @pytest.mark.parametrize("theme", available_themes)
-def test_generate_typst_grouped_publications(
+def test_generate_typst_subsections(
     compare_file_with_reference,
     theme: str,
-    grouped_publications_rendercv_model: RenderCVModel,
+    subsections_rendercv_model: RenderCVModel,
 ):
     model = RenderCVModel(
-        cv=grouped_publications_rendercv_model.cv,
+        cv=subsections_rendercv_model.cv,
         design={"theme": theme},
-        locale=grouped_publications_rendercv_model.locale,
-        settings=grouped_publications_rendercv_model.settings,
+        locale=subsections_rendercv_model.locale,
+        settings=subsections_rendercv_model.settings,
     )
 
     def generate_file(output_path):
         model.settings.render_command.typst_path = output_path
         generate_typst(model)
 
-    assert compare_file_with_reference(
-        generate_file, f"{theme}_grouped_publications.typ"
-    )
+    assert compare_file_with_reference(generate_file, f"{theme}_subsections.typ")
 
 
-def test_grouped_publication_subsection_spacing_is_rendered(
-    tmp_path, grouped_publications_rendercv_model: RenderCVModel
+def test_subsection_spacing_is_rendered(
+    tmp_path, subsections_rendercv_model: RenderCVModel
 ):
     model = RenderCVModel(
-        cv=grouped_publications_rendercv_model.cv,
+        cv=subsections_rendercv_model.cv,
         design={
             "theme": "classic",
             "subsection_titles": {
@@ -64,11 +62,11 @@ def test_grouped_publication_subsection_spacing_is_rendered(
                 "space_below": "0.1cm",
             },
         },
-        locale=grouped_publications_rendercv_model.locale,
-        settings=grouped_publications_rendercv_model.settings,
+        locale=subsections_rendercv_model.locale,
+        settings=subsections_rendercv_model.settings,
     )
 
-    model.settings.render_command.typst_path = tmp_path / "grouped_publications.typ"
+    model.settings.render_command.typst_path = tmp_path / "subsections.typ"
     typst_path = generate_typst(model)
 
     assert typst_path is not None

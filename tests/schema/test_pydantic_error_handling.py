@@ -91,13 +91,14 @@ cv:
         assert "YYYY-MM-DD, YYYY-MM" in end_date_error.message
         assert 'or "present"' in end_date_error.message
 
-    def test_reports_nested_location_for_grouped_publication_errors(self, tmp_path):
+    def test_reports_nested_location_for_subsection_errors(self, tmp_path):
         yaml_content = """
 cv:
     name: John Doe
     sections:
         publications:
-            journal_articles:
+            - title: Journal Articles
+              entries:
                 - authors:
                     - John Doe
 """
@@ -126,7 +127,8 @@ cv:
                     "cv",
                     "sections",
                     "publications",
-                    "journal_articles",
+                    "0",
+                    "entries",
                     "0",
                     "title",
                 )

@@ -421,16 +421,22 @@
             }
           ],
           "default": null,
-          "description": "The sections of your CV. Keys are section titles (e.g., Experience, Education), and values are usually lists of entries. Publication sections can also use grouped subsections as a mapping from subgroup titles to publication entry lists. Entry types are automatically detected based on their fields.",
+          "description": "The sections of your CV. Keys are section titles (e.g., Experience, Education), and values are usually lists of entries. Sections can also be defined as lists of subsection entries, where each subsection has a title and its own list of entries. Entry types are automatically detected based on their fields.",
           "examples": [
             {
               "Education": "...",
               "Experience": "...",
               "Projects": "...",
-              "Publications": {
-                "Conference Proceedings": "...",
-                "Journal Articles": "..."
-              },
+              "Selected Work": [
+                {
+                  "entries": "...",
+                  "title": "Featured Projects"
+                },
+                {
+                  "entries": "...",
+                  "title": "Open Source"
+                }
+              ],
               "Skills": "..."
             }
           ],
@@ -838,6 +844,64 @@
       "format": "path",
       "type": "string"
     },
+    "FlatSectionEntries": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/rendercv__schema__models__cv__entries__one_line__OneLineEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/rendercv__schema__models__cv__entries__normal__NormalEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/rendercv__schema__models__cv__entries__experience__ExperienceEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/rendercv__schema__models__cv__entries__education__EducationEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/rendercv__schema__models__cv__entries__publication__PublicationEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/BulletEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/NumberedEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/ReversedNumberedEntry"
+          },
+          "type": "array"
+        }
+      ]
+    },
     "FrenchLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1032,15 +1096,6 @@
         }
       },
       "title": "GermanLocale",
-      "type": "object"
-    },
-    "GroupedPublicationEntries": {
-      "additionalProperties": {
-        "items": {
-          "$ref": "#/$defs/rendercv__schema__models__cv__entries__publication__PublicationEntry"
-        },
-        "type": "array"
-      },
       "type": "object"
     },
     "HebrewLocale": {
@@ -1630,64 +1685,6 @@
       },
       "title": "KoreanLocale",
       "type": "object"
-    },
-    "ListOfEntries": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/rendercv__schema__models__cv__entries__one_line__OneLineEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/rendercv__schema__models__cv__entries__normal__NormalEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/rendercv__schema__models__cv__entries__experience__ExperienceEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/rendercv__schema__models__cv__entries__education__EducationEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/rendercv__schema__models__cv__entries__publication__PublicationEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/BulletEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/NumberedEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/ReversedNumberedEntry"
-          },
-          "type": "array"
-        }
-      ]
     },
     "Locale": {
       "discriminator": {
@@ -2607,10 +2604,13 @@
     "Section": {
       "anyOf": [
         {
-          "$ref": "#/$defs/ListOfEntries"
+          "$ref": "#/$defs/FlatSectionEntries"
         },
         {
-          "$ref": "#/$defs/GroupedPublicationEntries"
+          "items": {
+            "$ref": "#/$defs/SubsectionEntry"
+          },
+          "type": "array"
         }
       ]
     },
@@ -2839,18 +2839,36 @@
       "title": "SpanishLocale",
       "type": "object"
     },
+    "SubsectionEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "entries": {
+          "title": "Entries"
+        }
+      },
+      "required": [
+        "title",
+        "entries"
+      ],
+      "title": "SubsectionEntry",
+      "type": "object"
+    },
     "SubsectionTitles": {
       "additionalProperties": false,
       "properties": {
         "space_above": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space above grouped subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space above subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         },
         "space_below": {
           "$ref": "#/$defs/TypstDimension",
           "default": "0cm",
-          "description": "Space below grouped subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+          "description": "Space below subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
         }
       },
       "title": "SubsectionTitles",

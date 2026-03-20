@@ -27,11 +27,11 @@
   typography-line-spacing: 0.6em,
   typography-alignment: "justified",
   typography-date-and-location-column-alignment: right,
-  typography-font-family-body: "Raleway",
-  typography-font-family-name: "Raleway",
-  typography-font-family-headline: "Raleway",
-  typography-font-family-connections: "Raleway",
-  typography-font-family-section-titles: "Raleway",
+  typography-font-family-body: "Source Sans 3",
+  typography-font-family-name: "Source Sans 3",
+  typography-font-family-headline: "Source Sans 3",
+  typography-font-family-connections: "Source Sans 3",
+  typography-font-family-section-titles: "Source Sans 3",
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
@@ -41,13 +41,13 @@
   typography-small-caps-headline: false,
   typography-small-caps-connections: false,
   typography-small-caps-section-titles: false,
-  typography-bold-name: false,
+  typography-bold-name: true,
   typography-bold-headline: false,
   typography-bold-connections: false,
-  typography-bold-section-titles: false,
+  typography-bold-section-titles: true,
   links-underline: false,
   links-show-external-link-icon: false,
-  header-alignment: left,
+  header-alignment: center,
   header-photo-width: 3.5cm,
   header-space-below-name: 0.7cm,
   header-space-below-headline: 0.7cm,
@@ -57,7 +57,7 @@
   header-connections-display-urls-instead-of-usernames: false,
   header-connections-separator: "",
   header-connections-space-between-connections: 0.5cm,
-  section-titles-type: "with_full_line",
+  section-titles-type: "with_partial_line",
   section-titles-line-thickness: 0.5pt,
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
@@ -68,15 +68,15 @@
   entries-side-space: 0.2cm,
   entries-space-between-columns: 0.1cm,
   entries-allow-page-break: false,
-  entries-short-second-row: false,
+  entries-short-second-row: true,
   entries-degree-width: 1cm,
   entries-summary-space-left: 0cm,
-  entries-summary-space-above: 0.12cm,
+  entries-summary-space-above: 0cm,
   entries-highlights-bullet:  "•" ,
   entries-highlights-nested-bullet:  "•" ,
-  entries-highlights-space-left: 0cm,
-  entries-highlights-space-above: 0.12cm,
-  entries-highlights-space-between-items: 0.12cm,
+  entries-highlights-space-left: 0.15cm,
+  entries-highlights-space-above: 0cm,
+  entries-highlights-space-between-items: 0cm,
   entries-highlights-space-between-bullet-and-text: 0.5em,
   date: datetime(
     year: 2025,
@@ -94,44 +94,36 @@
 )
 
 
-== Publications
+== Selected Work
+#text(weight: "bold")[Career Highlights]
 
-#text(weight: "bold")[Journal Articles]
+
+Built a research platform that supports **mixed subsection entry types**.
+
+#text(weight: "bold")[Featured Projects]
 
 
 #regular-entry(
   [
-    #strong[Journal Paper]
+    #strong[Subsection Support]
+
+    #summary[Implemented subsection-based sections across schema, rendering, and docs.]
 
   ],
   [
-    Jan 2024
-
-  ],
-  main-column-second-row: [
-    Jane Doe, John Smith
-
-     (Journal of Examples)
+    Feb 2024
 
   ],
 )
 
-#text(weight: "bold")[Conference Proceedings]
+#text(weight: "bold")[Recent Milestones]
 
 
-#regular-entry(
+#reversed-numbered-entries(
   [
-    #strong[Conference Paper]
 
-  ],
-  [
-    June 2023
++ Rolled out subsection rendering
 
-  ],
-  main-column-second-row: [
-    Jane Doe
-
-    #link("https://example.com/paper")[example.com\/paper] (Conference on Examples)
-
++ Added schema and snapshot coverage
   ],
 )

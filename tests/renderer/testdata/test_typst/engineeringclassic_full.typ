@@ -124,7 +124,6 @@
 
 
 == Text Entries
-
 This is a #emph[TextEntry]. It is only a text and can be useful for sections like #strong[Summary]. To showcase the TextEntry completely, this sentence is added, but it doesn't contain any information.
 
 Another text entry with #emph[markdown] and #strong[bold] text. This is the second text entry.
@@ -132,7 +131,6 @@ Another text entry with #emph[markdown] and #strong[bold] text. This is the seco
 Third text with #link("https://example.com")[link] and more content.
 
 == Publication Entries
-
   #regular-entry(
   [
     #strong[Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis of No-Insulation Coils]
@@ -670,7 +668,6 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == Experience Entries
-
   #regular-entry(
   [
     #strong[Software Engineer], Some Company
@@ -1872,7 +1869,6 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == Education Entries
-
   #education-entry(
   [
     #strong[Boğaziçi University],  in Mechanical Engineering
@@ -4274,7 +4270,6 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == Normal Entries
-
   #regular-entry(
   [
     #strong[My Project]
@@ -5476,25 +5471,21 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == One Line Entries
-
 #strong[Programming:] Python, C++, JavaScript, MATLAB
 
 #strong[Programming:] Python, C++, JavaScript, MATLAB
 
 == Bullet Entries
-
 - This is a bullet entry.
 
 - This is a bullet entry.
 
 == Numbered Entries
-
 + This is a numbered entry.
 
 + This is a numbered entry.
 
 == Reversed Numbered Entries
-
 #reversed-numbered-entries(
   [
 
@@ -5507,7 +5498,6 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == A Section & with \% Special Characters
-
   #regular-entry(
   [
     #strong[A Section & with \% Special Characters]
@@ -5520,5 +5510,4 @@ Third text with #link("https://example.com")[link] and more content.
 )
 
 == Empty Section
-
 

@@ -104,9 +104,9 @@ class Cv(BaseModelWithoutExtraKeys):
         default=None,
         description=(
             "The sections of your CV. Keys are section titles (e.g., Experience,"
-            " Education), and values are usually lists of entries. Publication"
-            " sections can also use grouped subsections as a mapping from subgroup"
-            " titles to publication entry lists. Entry types are automatically"
+            " Education), and values are usually lists of entries. Sections can"
+            " also be defined as lists of subsection entries, where each subsection"
+            " has a title and its own list of entries. Entry types are automatically"
             " detected based on their fields."
         ),
         examples=[
@@ -115,10 +115,16 @@ class Cv(BaseModelWithoutExtraKeys):
                 "Education": "...",
                 "Projects": "...",
                 "Skills": "...",
-                "Publications": {
-                    "Journal Articles": "...",
-                    "Conference Proceedings": "...",
-                },
+                "Selected Work": [
+                    {
+                        "title": "Featured Projects",
+                        "entries": "...",
+                    },
+                    {
+                        "title": "Open Source",
+                        "entries": "...",
+                    },
+                ],
             }
         ],
     )

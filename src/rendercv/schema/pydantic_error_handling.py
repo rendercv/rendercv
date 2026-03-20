@@ -145,24 +145,10 @@ def parse_validation_errors(
     all_plain_errors = exception.errors()
     all_final_errors: list[RenderCVValidationError] = []
 
-    for plain_error in all_plain_errors:
+    for plain_error in flatten_entry_validation_errors(all_plain_errors):
         all_final_errors.append(
             parse_plain_pydantic_error(plain_error, input_dictionary, overlay_sources)
         )
-
-        if plain_error["type"] == CustomPydanticErrorTypes.entry_validation.value:
-            if "ctx" not in plain_error or "caused_by" not in plain_error["ctx"]:
-                raise RenderCVInternalError(
-                    "entry_validation error missing ctx or caused_by"
-                )
-            for plain_cause_error in plain_error["ctx"]["caused_by"]:
-                loc = plain_cause_error["loc"][1:]  # Omit `entries` location
-                plain_cause_error["loc"] = plain_error["loc"] + loc
-                all_final_errors.append(
-                    parse_plain_pydantic_error(
-                        plain_cause_error, input_dictionary, overlay_sources
-                    )
-                )
 
     # Remove duplicates from all_final_errors:
     error_locations = set()
@@ -174,6 +160,35 @@ def parse_validation_errors(
             errors_without_duplicates.append(error)
 
     return errors_without_duplicates
+
+
+def flatten_entry_validation_errors(
+    plain_errors: list[pydantic_core.ErrorDetails],
+) -> list[pydantic_core.ErrorDetails]:
+    """Recursively expand nested entry validation errors with full locations."""
+    flattened_errors: list[pydantic_core.ErrorDetails] = []
+
+    for plain_error in plain_errors:
+        flattened_errors.append(plain_error)
+
+        if plain_error["type"] != CustomPydanticErrorTypes.entry_validation.value:
+            continue
+
+        if "ctx" not in plain_error or "caused_by" not in plain_error["ctx"]:
+            raise RenderCVInternalError("entry_validation error missing ctx or caused_by")
+
+        for cause_error in plain_error["ctx"]["caused_by"]:
+            plain_cause_error = cast(
+                pydantic_core.ErrorDetails, dict(cause_error)
+            )
+            loc = plain_cause_error["loc"]
+            if len(loc) != 0 and loc[0] == "entries":
+                loc = loc[1:]
+
+            plain_cause_error["loc"] = plain_error["loc"] + loc
+            flattened_errors.extend(flatten_entry_validation_errors([plain_cause_error]))
+
+    return flattened_errors
 
 
 def get_inner_yaml_object_from_its_key(

@@ -442,7 +442,7 @@ class SubsectionTitles(BaseModelWithoutExtraKeys):
     space_above: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Space above grouped subsection titles. "
+            "Space above subsection titles. "
             + length_common_description
             + " The default value is `0cm`."
         ),
@@ -450,7 +450,7 @@ class SubsectionTitles(BaseModelWithoutExtraKeys):
     space_below: TypstDimension = pydantic.Field(
         default="0cm",
         description=(
-            "Space below grouped subsection titles. "
+            "Space below subsection titles. "
             + length_common_description
             + " The default value is `0cm`."
         ),

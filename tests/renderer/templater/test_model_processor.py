@@ -188,21 +188,27 @@ class TestProcessModel:
         assert result.cv.name == "Jane Doe"
         assert result.cv.headline == "Software Engineer"
 
-    def test_processes_grouped_publication_subsections(self):
+    def test_processes_subsection_titles_and_entries(self):
         cv = Cv.model_validate(
             {
                 "name": "Jane Doe",
                 "sections": {
-                    "publications": {
-                        "Python Journal Articles": [
-                            {
-                                "title": "Python Paper",
-                                "authors": ["Jane Doe"],
-                                "date": "2024-01",
-                            }
-                        ],
-                        "conference_proceedings": [],
-                    }
+                    "selected_work": [
+                        {
+                            "title": "Python Journal Articles",
+                            "entries": [
+                                {
+                                    "title": "Python Paper",
+                                    "authors": ["Jane Doe"],
+                                    "date": "2024-01",
+                                }
+                            ],
+                        },
+                        {
+                            "title": "conference_proceedings",
+                            "entries": [],
+                        },
+                    ]
                 },
             }
         )

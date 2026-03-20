@@ -134,13 +134,13 @@ def render_full_template(
                     rendercv_model,
                     subsection_title=subsection.title,
                     snake_case_subsection_title=subsection.snake_case_title,
-                    entry_type=rendercv_section.entry_type,
+                    entry_type=subsection.entry_type,
                 )
                 entries_code = render_section_entries(
                     rendercv_model,
                     file_type,
                     extension,
-                    rendercv_section.entry_type,
+                    subsection.entry_type,
                     subsection.entries,
                 )
                 section_blocks.append(f"{subsection_heading}\n\n{entries_code}")
@@ -170,7 +170,21 @@ def render_section_entries(
         )
         entry_codes.append(entry_code)
 
-    return "\n\n".join(entry_codes)
+    entries_code = "\n\n".join(entry_codes)
+    return wrap_entries_code(file_type, entry_type, entries_code)
+
+
+def wrap_entries_code(
+    file_type: Literal["typst", "markdown"], entry_type: str, entries_code: str
+) -> str:
+    """Wrap rendered entry blocks for entry types that need extra container markup."""
+    if entries_code == "" or entry_type != "ReversedNumberedEntry":
+        return entries_code
+
+    if file_type == "typst":
+        return f"#reversed-numbered-entries(\n  [\n\n{entries_code}\n  ],\n)"
+
+    return entries_code
 
 
 def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:

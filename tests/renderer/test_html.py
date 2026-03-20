@@ -30,14 +30,14 @@ def test_generate_html(
     assert compare_file_with_reference(generate_file, reference_filename)
 
 
-def test_generate_html_grouped_publications(
+def test_generate_html_subsections(
     compare_file_with_reference,
-    grouped_publications_rendercv_model: RenderCVModel,
+    subsections_rendercv_model: RenderCVModel,
 ):
     model = RenderCVModel(
-        cv=grouped_publications_rendercv_model.cv,
-        locale=grouped_publications_rendercv_model.locale,
-        settings=grouped_publications_rendercv_model.settings,
+        cv=subsections_rendercv_model.cv,
+        locale=subsections_rendercv_model.locale,
+        settings=subsections_rendercv_model.settings,
     )
 
     def generate_file(output_path):
@@ -47,4 +47,4 @@ def test_generate_html_grouped_publications(
         model.settings.render_command.html_path = output_path
         generate_html(model, markdown_path)
 
-    assert compare_file_with_reference(generate_file, "grouped_publications.html")
+    assert compare_file_with_reference(generate_file, "subsections.html")

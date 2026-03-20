@@ -68,24 +68,29 @@ cv:
         details: Kubernetes, Terraform, AWS
 ```
 
-Publication sections can also be grouped into subsections with a nested mapping:
+Sections can also be grouped into subsections with `SubsectionEntry`:
 
 ```yaml
 cv:
   sections:
-    publications:
-      journal_articles:
-        - title: Example Journal Paper
-          authors:
-            - John Doe
-          date: 2024-01
-      conference_proceedings:
-        - title: Example Conference Paper
-          authors:
-            - John Doe
-          date: 2023-06
+    selected_work:
+      - title: Journal Articles
+        entries:
+          - title: Example Journal Paper
+            authors:
+              - John Doe
+            date: 2024-01
+      - title: Featured Projects
+        entries:
+          - name: RenderCV
+            summary: Support subsection-based sections across the whole CV.
 ```
 
+`SubsectionEntry` is a grouping model rather than a standalone rendered entry type:
+
+```yaml
+<< subsection_entry_yaml >>
+```
 
 **Section names are just titles.** You can use any of the << entry_count >> entry types in any section. Choose what works best for your content.
 
@@ -111,10 +116,10 @@ sections:
 ```
 
 
-!!! warning "One entry type per section"
-    Each section must contain only one type of entry. For example, you cannot mix `ExperienceEntry` and `EducationEntry` in the same section.
+!!! warning "Keep section structure consistent"
+    Each section must contain only one kind of top-level item: either a flat list of entries or a list of `SubsectionEntry`.
 
-    `PublicationEntry` sections may also use grouped subsections, but every subgroup must still contain only publication entries.
+    Flat sections must contain only one entry type. In subsection-based sections, each subsection must still contain only one entry type, but different subsections can use different entry types.
 
 ## Entry Types
 
