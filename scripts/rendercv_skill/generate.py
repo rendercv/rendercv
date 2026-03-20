@@ -321,15 +321,16 @@ def generate_skill_file() -> None:
     output_path.write_text(rendered, encoding="utf-8")
     llms_txt_path.write_text(rendered, encoding="utf-8")
 
-    # Generate ZIP for Claude Desktop skill upload
-    # Use a fixed timestamp so the zip is reproducible across runs.
+    # Generate ZIP for Claude Desktop skill upload.
+    # Use a fixed timestamp and store the file without compression so the zip is
+    # byte-identical across Python versions and operating systems.
     fixed_date = (2025, 1, 1, 0, 0, 0)
     skill_zip_path.parent.mkdir(parents=True, exist_ok=True)
-    with zipfile.ZipFile(skill_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+    with zipfile.ZipFile(skill_zip_path, "w", zipfile.ZIP_STORED) as zf:
         info = zipfile.ZipInfo("rendercv/SKILL.md", date_time=fixed_date)
         # Normalize zip metadata so the archive is byte-identical on Windows,
         # macOS, and Linux.
-        info.compress_type = zipfile.ZIP_DEFLATED
+        info.compress_type = zipfile.ZIP_STORED
         info.create_system = 3
         info.external_attr = 0o100644 << 16
         zf.writestr(info, rendered)
