@@ -447,6 +447,44 @@ class TestRenderEntryTemplates:
         assert "!!!" not in entry.main_column  # ty: ignore[unresolved-attribute]
         assert entry.main_column == "**Project**"  # ty: ignore[unresolved-attribute]
 
+    def test_inline_summary_not_wrapped_in_admonition(self):
+        templates = Templates(
+            experience_entry=Templates().experience_entry.model_copy(
+                update={"main_column": "**COMPANY**, SUMMARY\nHIGHLIGHTS"}
+            )
+        )
+        entry = ExperienceEntry(
+            company="Google",
+            position="Engineer",
+            summary="Built search",
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=templates,
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" not in entry.main_column  # ty: ignore[unresolved-attribute]
+        assert "Built search" in entry.main_column  # ty: ignore[unresolved-attribute]
+
+    def test_standalone_summary_uses_admonition(self):
+        entry = NormalEntry(name="Project", summary="Project description")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" in entry.main_column  # ty: ignore[unresolved-attribute]
+
 
 @pytest.mark.parametrize(
     ("entry_templates", "entry_fields", "expected"),

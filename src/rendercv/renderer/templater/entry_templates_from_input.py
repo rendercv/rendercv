@@ -203,7 +203,13 @@ def render_entry_templates[EntryType: Entry](
         entry_fields["DOI"] = process_doi(entry)  # ty: ignore[invalid-argument-type]
 
     if "SUMMARY" in entry_fields:
-        entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
+        summary_is_standalone = any(
+            line.strip() == "SUMMARY"
+            for template in entry_templates.values()
+            for line in template.split("\n")
+        )
+        if summary_is_standalone:
+            entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
 
     entry_templates = remove_not_provided_placeholders(entry_templates, entry_fields)
 
