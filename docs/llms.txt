@@ -6,7 +6,7 @@ description: >-
   publication-quality PDFs via Typst typesetting. Full control over every visual
   detail: colors, fonts, margins, spacing, section title styles, entry layouts,
   and more. 6 built-in themes with unlimited
-  customization. Any language supported (20 built-in, or define your own). Outputs
+  customization. Any language supported (21 built-in, or define your own). Outputs
   PDF, PNG, HTML, and Markdown. Use when the user wants to create, edit,
   customize, or render a CV or resume.
 ---
@@ -14,7 +14,7 @@ description: >-
 ## Quick Start
 
 **Available themes:** `classic`, `harvard`, `engineeringresumes`, `engineeringclassic`, `sb2nov`, `moderncv`
-**Available locales:** `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`
+**Available locales:** `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `hungarian`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`
 
 These are starting points — every aspect of the design and locale can be fully customized in the YAML file.
 
@@ -172,7 +172,7 @@ All built-in themes share the same structure — they only differ in default val
 
 ### Locale (`locale`)
 
-Built-in locales: `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`
+Built-in locales: `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `hungarian`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`
 
 Set `locale.language` to a built-in locale name to use it. Override any field to customize translations. Set `language` to any string and provide all translations for a fully custom locale.
 
