@@ -131,7 +131,6 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "arabic": "ar",
             "hebrew": "he",
             "persian": "fa",
-            "hungarian": "hu",
             "vietnamese": "vi",
         }[self.language]
 
