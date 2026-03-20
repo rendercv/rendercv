@@ -7,8 +7,6 @@ description: Pick up a GitHub issue (or accept one), fully understand the Render
 
 Pick a GitHub issue from the `rendercv` repository, implement a complete solution with tests, and open a pull request to `origin/main`.
 
-**IMPORTANT:** This skill MUST be run inside a git worktree (`isolation: "worktree"`). All work happens in the worktree so the main working tree stays clean.
-
 ## Step 1: Select an issue
 
 If an issue number or URL is provided, use it. Otherwise, pick the highest-priority open issue automatically:
@@ -68,11 +66,11 @@ The test structure mirrors `src/rendercv/`. Read the test files in the area rela
 
 ## Step 3: Set up the branch
 
-Always use the same branch name `fix-issues` so that fixes stack when the skill is invoked multiple times:
+Create a branch from `origin/main` named after the issue:
 
 ```bash
 git fetch origin main
-git checkout fix-issues 2>/dev/null || git checkout -b fix-issues origin/main
+git checkout -b claude/issue-<number> origin/main
 ```
 
 ## Step 4: Reproduce the problem (bugs only)
@@ -125,22 +123,47 @@ If reference files changed intentionally, update them:
 just update-testdata
 ```
 
-## Step 7: Commit
+## Step 7: Commit and push
 
-Stage only the files you changed. Write a clear commit message:
+Stage only the files you changed. Write a clear commit message and push:
 
 ```bash
 git add <specific-files>
 git commit -m "Fix #<number>: <concise description of what and why>"
+git push origin claude/issue-<number>
 ```
 
-## Step 8: Report results
+## Step 8: Open a pull request
 
-Do NOT push or create a PR. The user will review the changes in the worktree first.
+Create a PR targeting `main`:
+
+```bash
+gh pr create \
+  --repo rendercv/rendercv \
+  --base main \
+  --head claude/issue-<number> \
+  --title "Fix #<number>: <concise description>" \
+  --body "$(cat <<'EOF'
+## Summary
+
+<1-3 bullet points explaining what was done and why>
+
+Closes #<number>
+
+## Changes
+
+<list of files changed and why>
+
+## Test plan
+
+<what tests were added or modified>
+EOF
+)"
+```
 
 Tell the user:
 1. What the issue was (root cause)
 2. How it was fixed (approach)
 3. What tests were added or modified
 4. Coverage status (must remain 100%)
-5. The worktree path so they can review the changes
+5. Link to the PR

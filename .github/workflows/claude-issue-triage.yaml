@@ -1,0 +1,28 @@
+name: Claude Issue Triage
+
+# When a new issue is opened, Claude analyzes it and posts a comment.
+# Requires: Install the Claude GitHub App (https://github.com/apps/claude)
+# and add ANTHROPIC_API_KEY to repository secrets.
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: "--model claude-sonnet-4-6"
+          prompt: |
+            Follow .claude/skills/triage-rendercv-issue/SKILL.md to triage issue #${{ github.event.issue.number }}.
