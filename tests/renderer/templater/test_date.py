@@ -8,8 +8,10 @@ from rendercv.renderer.templater.date import (
     date_object_to_string,
     format_date_range,
     format_single_date,
+    get_localized_label,
 )
 from rendercv.schema.models.locale.english_locale import EnglishLocale
+from rendercv.schema.models.locale.locale import locale_adapter
 
 
 @pytest.mark.parametrize(
@@ -592,3 +594,156 @@ def test_compute_time_span_string(
         time_span_template=time_span_template,
     )
     assert result == expected
+
+
+class TestGetLocalizedLabel:
+    @pytest.mark.parametrize(
+        ("count", "singular", "plural_data", "lang", "expected"),
+        [
+            # Zero always returns empty
+            (0, "year", "years", "en", ""),
+            (0, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", ""),
+            # Singular always returns singular_label
+            (1, "year", "years", "en", "year"),
+            (1, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "rok"),
+            # Simple string plural (English-style)
+            (2, "year", "years", "en", "years"),
+            (5, "month", "months", "en", "months"),
+            (100, "year", "years", "de", "years"),
+            # Dict-based plural (Polish-style)
+            (2, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lata"),
+            (3, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lata"),
+            (4, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lata"),
+            (5, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lat"),
+            (12, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lat"),
+            (22, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl", "lata"),
+            # Dict-based plural — months
+            (
+                2,
+                "miesiąc",
+                {"one": "miesiąc", "few": "miesiące", "many": "miesięcy"},
+                "pl",
+                "miesiące",
+            ),
+            (
+                5,
+                "miesiąc",
+                {"one": "miesiąc", "few": "miesiące", "many": "miesięcy"},
+                "pl",
+                "miesięcy",
+            ),
+            # Dict with missing category falls back to "many"
+            (7, "x", {"many": "fallback"}, "pl", "fallback"),
+        ],
+    )
+    def test_returns_correct_label(self, count, singular, plural_data, lang, expected):
+        assert get_localized_label(count, singular, plural_data, lang) == expected
+
+
+class TestComputeTimeSpanStringPolish:
+    """Test compute_time_span_string with Polish locale's complex pluralization."""
+
+    @pytest.fixture
+    def polish_locale(self):
+        return locale_adapter.validate_python({"language": "polish"})
+
+    @pytest.mark.parametrize(
+        ("start_date", "end_date", "current_date", "expected"),
+        [
+            # 1 year — singular
+            (2020, 2021, Date(2024, 1, 1), "1 rok"),
+            # 2 years — "few" form (lata)
+            (2020, 2022, Date(2024, 1, 1), "2 lata"),
+            # 3 years — "few" form (lata)
+            (2020, 2023, Date(2024, 1, 1), "3 lata"),
+            # 4 years — "few" form (lata)
+            (2020, 2024, Date(2024, 1, 1), "4 lata"),
+            # 5 years — "many" form (lat)
+            (2020, 2025, Date(2024, 1, 1), "5 lat"),
+            # 10 years — "many" form (lat)
+            (2010, 2020, Date(2024, 1, 1), "10 lat"),
+            # 22 years — "few" form (lata)
+            (2000, 2022, Date(2024, 1, 1), "22 lata"),
+            # 12 years — "many" form (lat), exception for 12-14
+            (2010, 2022, Date(2024, 1, 1), "12 lat"),
+        ],
+    )
+    def test_year_only_pluralization(
+        self, polish_locale, start_date, end_date, current_date, expected
+    ):
+        result = compute_time_span_string(
+            start_date,
+            end_date,
+            locale=polish_locale,
+            current_date=current_date,
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        )
+        assert result == expected
+
+    @pytest.mark.parametrize(
+        ("start_date", "end_date", "current_date", "expected"),
+        [
+            # 1 year 1 month
+            (
+                "2020-01-01",
+                "2021-01-01",
+                Date(2024, 1, 1),
+                "1 rok 1 miesiąc",
+            ),
+            # 1 year 2 months — "few" months
+            (
+                "2020-01",
+                "2021-02-01",
+                Date(2024, 1, 1),
+                "1 rok 2 miesiące",
+            ),
+            # 2 years 3 months — "few" years, "few" months
+            (
+                "2020-01-01",
+                "2022-02-01",
+                Date(2024, 1, 1),
+                "2 lata 2 miesiące",
+            ),
+            # 5 years — "many" years, no months
+            (
+                "2020-02-01",
+                "2025-01-01",
+                Date(2025, 1, 1),
+                "5 lat",
+            ),
+        ],
+    )
+    def test_years_and_months_pluralization(
+        self, polish_locale, start_date, end_date, current_date, expected
+    ):
+        result = compute_time_span_string(
+            start_date,
+            end_date,
+            locale=polish_locale,
+            current_date=current_date,
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        )
+        assert result == expected
+
+    @pytest.mark.parametrize(
+        ("start_date", "end_date", "current_date", "expected"),
+        [
+            # 1 month
+            ("2020-10-10", "2020-11-05", Date(2024, 1, 1), "1 miesiąc"),
+            # 3 months — "few" form
+            ("2020-01-01", "2020-03-15", Date(2024, 1, 1), "3 miesiące"),
+            # 5 months — "many" form
+            ("2020-01-01", "2020-05-15", Date(2024, 1, 1), "5 miesięcy"),
+        ],
+    )
+    def test_months_only_pluralization(
+        self, polish_locale, start_date, end_date, current_date, expected
+    ):
+        result = compute_time_span_string(
+            start_date,
+            end_date,
+            locale=polish_locale,
+            current_date=current_date,
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        )
+        assert result == expected

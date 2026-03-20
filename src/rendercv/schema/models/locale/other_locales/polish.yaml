@@ -13,6 +13,8 @@ locale:
     few: "lata"
     many: "lat"
   present: "obecnie"
+  phrases:
+    degree_with_area: "DEGREE w AREA"
   month_abbreviations:
     - Sty 
     - Lut 

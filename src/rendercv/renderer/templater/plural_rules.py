@@ -1,7 +1,27 @@
-# https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+"""CLDR plural category resolution for localized time span labels.
+
+Why:
+    Languages like Polish have three plural forms (one/few/many) instead of
+    English's two (one/other). This module maps counts to CLDR plural
+    categories so time span strings use grammatically correct labels.
+
+See: https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html
+"""
+
+from collections.abc import Callable
+
+type PluralRule = Callable[[int], str]
 
 
-def polish_rule(count: int) -> str:
+def polish_plural_rule(count: int) -> str:
+    """Return CLDR plural category for Polish.
+
+    Args:
+        count: The number to categorize.
+
+    Returns:
+        CLDR category: "one", "few", or "many".
+    """
     if count == 1:
         return "one"
     if 2 <= count % 10 <= 4 and not (12 <= count % 100 <= 14):
@@ -9,49 +29,48 @@ def polish_rule(count: int) -> str:
     return "many"
 
 
-# Registry mapping ISO codes to rule functions
-PLURAL_RULES = {
-    "pl": polish_rule,
-    # add here new set of rules
+def default_plural_rule(count: int) -> str:
+    """Return CLDR plural category for simple singular/plural languages.
+
+    Args:
+        count: The number to categorize.
+
+    Returns:
+        CLDR category: "one" or "other".
+    """
+    return "one" if count == 1 else "other"
+
+
+PLURAL_RULES: dict[str, PluralRule] = {
+    "pl": polish_plural_rule,
 }
 
 
-def default_rule(n: int) -> str:
-    """Fallback rule for simple singular/plural languages."""
-    return "one" if n == 1 else "other"
-
-
-def get_plural_rules(count: int, language_code: str):
-    """Determine the appropriate CLDR (Unicode Common Locale Data Repository) plural category
-    for a given count and language code.
+def get_plural_category(count: int, language_code: str) -> str:
+    """Return the CLDR plural category for a count in the given language.
 
     Why:
-        This function returns the grammatical plural category that should be used for a specific number in a given language. Different languages have different plural rules - for example, English has two forms (singular/plural), while Polish has three, and Arabic has six.
+        Different languages have different plural rules — English has two forms
+        (singular/plural), Polish has three, Arabic has six. This function
+        selects the right rule set and returns the grammatical category needed
+        to pick the correct localized label.
 
     Example:
         ```py
-        >>> get_plural_rules(1, "en")
+        >>> get_plural_category(1, "en")
         'one'
-        >>> get_plural_rules(5, "en")
-        'other'
+        >>> get_plural_category(5, "pl")
+        'many'
+        >>> get_plural_category(3, "pl")
+        'few'
         ```
 
     Args:
-        count (int): The number for which to determine the plural category.
-        language_code (str): The ISO language code (e.g., 'en', 'pl', 'ar') identifying
-            which language's plural rules to apply.
+        count: The number for which to determine the plural category.
+        language_code: ISO 639-1 language code (e.g., "en", "pl").
 
     Returns:
-        str: The CLDR plural category, typically one of: 'zero', 'one', 'two', 'few', 'many', or 'other'.
-            The exact categories available depend on the language's plural rules.
-
-    Note:
-        - This function relies on a PLURAL_RULES dictionary that maps language codes to their
-          respective plural rule functions.
-        - If the language_code is not found in PLURAL_RULES, a default_rule function is used
-          as a fallback.
-        - CLDR plural categories are used for proper localization and internationalization (i18n) of text that contains numbers.
-
+        CLDR plural category: "one", "two", "few", "many", or "other".
     """
-    rule = PLURAL_RULES.get(language_code, default_rule)
+    rule = PLURAL_RULES.get(language_code, default_plural_rule)
     return rule(count)

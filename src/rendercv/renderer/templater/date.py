@@ -6,7 +6,7 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
 )
 from rendercv.schema.models.locale.locale import Locale
 
-from .plural_rules import get_plural_rules
+from .plural_rules import get_plural_category
 from .string_processor import substitute_placeholders
 
 
@@ -192,6 +192,51 @@ def format_single_date(
     return date_string
 
 
+def get_localized_label(
+    count: int,
+    singular_label: str,
+    plural_data: str | dict[str, str],
+    language_code: str,
+) -> str:
+    """Select the correct localized label based on count and plural rules.
+
+    Why:
+        Languages like Polish have multiple plural forms (one/few/many).
+        This function picks the right form for a given count, supporting
+        both simple string plurals (English, German) and dict-based
+        plurals (Polish, Russian) keyed by CLDR category.
+
+    Example:
+        ```py
+        >>> get_localized_label(1, "year", "years", "en")
+        'year'
+        >>> get_localized_label(5, "rok", {"one": "rok", "few": "lata", "many": "lat"}, "pl")
+        'lat'
+        ```
+
+    Args:
+        count: The quantity determining which plural form to use.
+        singular_label: Label for count == 1.
+        plural_data: Either a plain string (simple plural) or a dict
+            mapping CLDR categories to localized labels.
+        language_code: ISO 639-1 language code (e.g., "en", "pl").
+
+    Returns:
+        Localized label string, or empty string if count is 0.
+    """
+    if count == 0:
+        return ""
+
+    if count == 1:
+        return singular_label
+
+    if isinstance(plural_data, dict):
+        category = get_plural_category(count, language_code)
+        return plural_data.get(category, plural_data.get("many", ""))
+
+    return plural_data
+
+
 def compute_time_span_string(
     start_date: str | int,
     end_date: str | int,
@@ -229,48 +274,6 @@ def compute_time_span_string(
     Returns:
         Formatted time span string with years and months.
     """
-
-    def _get_localized_label(
-        count: int,
-        singular_label: str,
-        plural_data: str | dict[str, str],
-        lang_iso: str,
-    ) -> str:
-        """Select the correct localized label based on count and language plural rules.
-
-        Why:
-            This helper function returns the appropriate singular, plural, or language-specific
-            plural form of a label based on the count value and the target language's pluralization rules.
-
-        Args:
-            count: The quantity used to determine which plural form to use.
-            singular_label: The label to return when count equals 1.
-            plural_data: Either a string (for simple plural forms) or a dictionary mapping
-                plural categories ('one', 'few', 'many', etc.) to their localized labels.
-            lang_iso: ISO 639-1 language code (e.g., 'en', 'de', 'ru') used to determine
-                plural rules and categories.
-
-        Returns:
-            The appropriate localized label (string) for the given count and language.
-            Returns an empty string if count is 0.
-            Returns singular_label if count is 1.
-            Returns the language-specific plural form from plural_data if count > 1.
-        """
-        if count == 0:
-            return ""
-
-        if count == 1:
-            return singular_label
-
-        if isinstance(plural_data, dict):
-            # Determine the category tag (one, few, many)
-            category = get_plural_rules(count, lang_iso)
-            # Return the specific form, or 'many' as a fallback
-            return plural_data.get(category, plural_data.get("many", ""))
-
-        # Fallback for standard string-based locales (english, german, etc.)
-        return plural_data
-
     lang_iso = locale.language_iso_639_1
 
     if isinstance(start_date, int) or isinstance(end_date, int):
@@ -281,7 +284,7 @@ def compute_time_span_string(
 
         time_span_in_years = end_year - start_year
 
-        locale_years = _get_localized_label(
+        locale_years = get_localized_label(
             time_span_in_years, locale.year, locale.years, lang_iso
         )
 
@@ -310,14 +313,14 @@ def compute_time_span_string(
     how_many_months %= 12
 
     # Format the number of years and months between start_date and end_date:
-    locale_years = _get_localized_label(
+    locale_years = get_localized_label(
         how_many_years, locale.year, locale.years, lang_iso
     )
     if locale_years == "":
         how_many_years = ""
 
     # Format the number of months between start_date and end_date:
-    locale_months = _get_localized_label(
+    locale_months = get_localized_label(
         how_many_months, locale.month, locale.months, lang_iso
     )
     if locale_months == "":
