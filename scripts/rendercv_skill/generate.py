@@ -322,9 +322,12 @@ def generate_skill_file() -> None:
     llms_txt_path.write_text(rendered, encoding="utf-8")
 
     # Generate ZIP for Claude Desktop skill upload
+    # Use a fixed timestamp so the zip is reproducible across runs.
+    fixed_date = (2025, 1, 1, 0, 0, 0)
     skill_zip_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(skill_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        zf.writestr("rendercv/SKILL.md", rendered)
+        info = zipfile.ZipInfo("rendercv/SKILL.md", date_time=fixed_date)
+        zf.writestr(info, rendered)
 
 
 if __name__ == "__main__":
