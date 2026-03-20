@@ -160,8 +160,11 @@ def markdown_to_typst(markdown_string: str) -> str:
 
     Why:
         Users write content in Markdown for readability. Typst compilation
-        requires Typst markup. Custom Markdown parser with Typst output
-        format bridges this gap.
+        requires Typst markup. Lines are processed independently to prevent
+        emphasis markers on adjacent lines from interacting in the Markdown
+        parser (single-newline-separated lines form one paragraph in Markdown,
+        causing cross-line marker interference). Admonition blocks are kept
+        together since they span multiple lines by design.
 
     Args:
         markdown_string: Markdown content.
@@ -169,7 +172,22 @@ def markdown_to_typst(markdown_string: str) -> str:
     Returns:
         Typst-formatted string.
     """
-    return md.convert(markdown_string)
+    lines = markdown_string.split("\n")
+    result_parts: list[str] = []
+    i = 0
+    while i < len(lines):
+        if lines[i].startswith("!!!"):
+            # Admonition block: collect the !!! line + all following indented lines
+            block = [lines[i]]
+            i += 1
+            while i < len(lines) and lines[i].startswith("    "):
+                block.append(lines[i])
+                i += 1
+            result_parts.append(md.convert("\n".join(block)))
+        else:
+            result_parts.append(md.convert(lines[i]))
+            i += 1
+    return "\n".join(result_parts)
 
 
 def markdown_to_html(markdown_string: str) -> str:
