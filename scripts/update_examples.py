@@ -9,7 +9,7 @@ from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
 repository_root = pathlib.Path(__file__).parent.parent
 rendercv_path = repository_root / "rendercv"
-image_assets_directory = repository_root / "docs" / "assets" / "images"
+image_assets_directory = repository_root / "docs" / "assets" / "images" / "examples"
 
 
 examples_directory_path = pathlib.Path(__file__).parent.parent / "examples"
