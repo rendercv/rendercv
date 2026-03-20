@@ -33,7 +33,7 @@ design:
       separator: "•"
       space_between_connections: 0.4cm
   section_titles:
-    type: with_full_line
+    type: centered_with_centered_partial_line
     space_below: 0.2cm
   sections:
     space_between_regular_entries: 1em

@@ -57,7 +57,7 @@
   header-connections-display-urls-instead-of-usernames: false,
   header-connections-separator: "•",
   header-connections-space-between-connections: 0.4cm,
-  section-titles-type: "with_full_line",
+  section-titles-type: "centered_with_centered_partial_line",
   section-titles-line-thickness: 0.5pt,
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.2cm,
