@@ -29,21 +29,11 @@ gh issue list --repo rendercv/rendercv --state all --search "<key terms from iss
 
 ## Step 2: Understand the relevant code
 
-First, read the project architecture:
+Familiarize yourself with the project architecture and the specific area the issue relates to:
 
-- @CLAUDE.md
-- @docs/developer_guide/understanding_rendercv.md
+- @.claude/skills/rendercv-development-context/SKILL.md
 
-Then explore the specific part of the codebase that the issue relates to:
-
-```
-src/rendercv/
-  schema/     — Data models and validation (YAML parsing, pydantic models)
-  renderer/   — Output generation (Typst templates, PDF/PNG, HTML, Markdown)
-  cli/        — CLI commands (render, new, create-theme)
-```
-
-Read the relevant source files and their corresponding tests to understand the current behavior.
+Read the architecture and source structure sections, then explore the specific source files and tests related to the issue.
 
 ## Step 3: Post a comment
 
@@ -70,6 +60,6 @@ EOF
 - If the issue is unclear or missing information, ask clarifying questions instead of guessing.
 - If it's a duplicate, out of scope, or `wontfix` material, explain why politely and suggest closing.
 - If it's a question (not a bug or feature), answer it directly.
-- Use the project's conventions (no underscore prefixes, strict typing, Python 3.12+ syntax) when discussing the approach.
+- Follow the project's conventions from the development context when discussing the approach.
 - Don't promise timelines or complexity estimates.
 - Don't label or assign the issue unless explicitly asked.

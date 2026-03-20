@@ -76,9 +76,6 @@ nav:
       - JSON Schema: developer_guide/json_schema.md
       - GitHub Workflows: developer_guide/github_workflows.md
       - Dockerfile: developer_guide/dockerfile.md
-      - Code Guidelines:
-          - Source Code: developer_guide/code_guidelines/source_code.md
-          - Tests: developer_guide/code_guidelines/tests.md
       - How-To Guides:
           - Add Theme: developer_guide/how_to/add_theme.md
           - Add Locale: developer_guide/how_to/add_locale.md

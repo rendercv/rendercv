@@ -23,44 +23,12 @@ gh pr view <number> --repo rendercv/rendercv
 
 ## Step 2: Understand RenderCV
 
-Before reviewing, build a deep understanding of the project by reading these files **in order**:
+Before reviewing, build a deep understanding of the project:
 
-### 2a: Project metadata and dependencies
+- @.claude/skills/rendercv-development-context/SKILL.md
+- @.claude/skills/rendercv-testing-context/SKILL.md
 
-- @pyproject.toml
-
-### 2b: Architecture and design
-
-- @docs/developer_guide/understanding_rendercv.md
-
-### 2c: Code guidelines
-
-- @docs/developer_guide/code_guidelines/source_code.md
-
-### 2d: Testing guidelines
-
-- @docs/developer_guide/code_guidelines/tests.md
-- @docs/developer_guide/testing.md
-
-### 2e: Source structure
-
-Explore the three top-level packages to understand the module layout:
-
-- @src/rendercv/schema/
-- @src/rendercv/renderer/
-- @src/rendercv/cli/
-
-For each, read the directory tree and skim key files relevant to the PR.
-
-### 2f: Test structure
-
-- @tests/
-
-The test structure mirrors `src/rendercv/`. Read the test files in the area related to the PR.
-
-### 2g: Available commands
-
-- @justfile
+Read the referenced files, focusing on modules relevant to the PR.
 
 ## Step 3: Analyze the PR diff
 
@@ -94,41 +62,7 @@ Also read the corresponding source and test files in the main branch to understa
 
 Check each of these categories systematically:
 
-### 5a: Correctness
-
-- Does the change solve the stated problem or implement the requested feature?
-- Are there edge cases not handled?
-- Could the change introduce regressions?
-- Is the logic sound?
-
-### 5b: Code conventions
-
-- **No private API syntax**: No underscore-prefixed names (`_Foo`, `_bar`). All names must be public.
-- **Strict typing**: Every function, variable, and class attribute must have type annotations. Use Python 3.12+ syntax (`type` statements, `X | Y` unions, `X | None`).
-- **Docstrings**: Google-style with Why/Args/Returns/Raises sections for new functions/classes.
-- **No unnecessary changes**: Only code directly related to the issue should be touched. No drive-by refactors, no added comments to existing code, no unrelated "improvements."
-
-### 5c: Architecture
-
-- Does the change fit RenderCV's pipeline (`YAML → pydantic → jinja2 → Typst → PDF`)?
-- Is code placed in the correct module? (`schema/` for models, `renderer/` for output, `cli/` for commands)
-- Is the solution the simplest correct approach? No over-engineering, no duct tape.
-- Is there code duplication that should be consolidated?
-
-### 5d: Testing
-
-- Are new code paths tested?
-- Do tests follow the mirror structure (`src/rendercv/renderer/foo.py` → `tests/renderer/test_foo.py`)?
-- Are tests named by expected behavior, not by input?
-- Is `@pytest.mark.parametrize` used for variations instead of duplicate tests?
-- Are existing fixtures from `conftest.py` files reused where appropriate?
-- If output changed, were reference files updated with `just update-testdata`?
-
-### 5e: Security and robustness
-
-- No command injection, path traversal, or unsafe deserialization.
-- User inputs validated at system boundaries.
-- No hardcoded secrets or credentials.
+Evaluate the PR against @.claude/skills/rendercv-development-context/SKILL.md and @.claude/skills/rendercv-testing-context/SKILL.md. Also check for correctness (edge cases, regressions) and security (no injection, path traversal, or hardcoded secrets).
 
 ## Step 6: Check CI status
 

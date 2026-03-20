@@ -1,6 +1,16 @@
-# Guidelines for Writing Tests
+---
+name: rendercv-testing-context
+description: RenderCV test authoring standards, structure, and conventions. Use when writing or reviewing tests.
+---
 
-## File Structure
+# RenderCV Testing Context
+
+## References
+
+- @tests/
+- @docs/developer_guide/testing.md
+
+## File structure
 
 Each test file tests all classes and functions in its corresponding source file. The structure mirrors `src/rendercv/`:
 
@@ -14,7 +24,7 @@ src/rendercv/schema/models/cv/section.py
     (tests all functions and classes in section.py)
 ```
 
-## Naming Conventions
+## Naming conventions
 
 Test names must include the name of the function or class being tested.
 
@@ -60,7 +70,7 @@ class TestComputeDateString:
         ...
 ```
 
-## Use Parametrize for Variations
+## Use parametrize for variations
 
 Instead of writing multiple similar tests, use `@pytest.mark.parametrize`:
 
@@ -78,7 +88,7 @@ def test_date_ranges(self, input_a, input_b, expected):
     assert result == expected
 ```
 
-## Shared Fixtures with conftest.py
+## Shared fixtures with conftest.py
 
 Place shared fixtures in `conftest.py`. Use the closest one possible:
 
@@ -99,7 +109,7 @@ tests/
     └── ...
 ```
 
-## Testing Principles
+## Testing principles
 
 **Keep tests focused.** Test functions in isolation: input → output.
 

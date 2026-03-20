@@ -25,44 +25,12 @@ gh issue view <number> --repo rendercv/rendercv
 
 ## Step 2: Understand RenderCV
 
-Before writing any code, build a deep understanding of the project by reading these files **in order**:
+Before writing any code, build a deep understanding of the project:
 
-### 2a: Project metadata and dependencies
+- @.claude/skills/rendercv-development-context/SKILL.md
+- @.claude/skills/rendercv-testing-context/SKILL.md
 
-- @pyproject.toml
-
-### 2b: Architecture and design
-
-- @docs/developer_guide/understanding_rendercv.md
-
-### 2c: Code guidelines
-
-- @docs/developer_guide/code_guidelines/source_code.md
-
-### 2d: Testing guidelines
-
-- @docs/developer_guide/code_guidelines/tests.md
-- @docs/developer_guide/testing.md
-
-### 2e: Source structure
-
-Explore the three top-level packages to understand the module layout:
-
-- @src/rendercv/schema/
-- @src/rendercv/renderer/
-- @src/rendercv/cli/
-
-For each, read the directory tree and skim key files relevant to the issue.
-
-### 2f: Test structure
-
-- @tests/
-
-The test structure mirrors `src/rendercv/`. Read the test files in the area related to the issue.
-
-### 2g: Available commands
-
-- @justfile
+Read the referenced files, focusing on modules relevant to the issue.
 
 ## Step 3: Set up the branch
 
@@ -77,7 +45,7 @@ git checkout -b claude/issue-<number> origin/main
 
 For bug reports:
 
-1. Write a **failing test** that demonstrates the bug. Place it in the correct test file following the mirror structure (`src/rendercv/renderer/foo.py` → `tests/renderer/test_foo.py`).
+1. Write a **failing test** that demonstrates the bug. Place it in the correct test file per the testing standards in the development context.
 2. Run only that test to confirm it fails:
    ```bash
    uv run --frozen --all-extras pytest tests/path/to/test_file.py::test_name -x
@@ -86,42 +54,11 @@ For bug reports:
 
 ## Step 5: Implement the solution
 
-Write the fix or feature. Follow these principles strictly:
-
-### Code quality
-
-- **Lean and DRY**: No duplication. No dead code. No commented-out code.
-- **Elegant architecture**: The simplest correct solution. No duct tape. No over-engineering.
-- **Strict typing**: Every function, variable, and class attribute must have type annotations. Use Python 3.12+ syntax (`type` statements, `X | Y` unions, `X | None`).
-- **No private API syntax**: Never use underscore-prefixed names (`_Foo`, `_bar`). All names are public.
-- **Docstrings**: Google-style with Why/Args/Returns/Raises sections, only for new functions/classes.
-- **No unnecessary changes**: Only touch code directly related to the issue. Don't refactor surrounding code, don't add comments to existing code, don't "improve" unrelated things.
-
-### Testing
-
-- **Every new code path must be tested.** If you add a function, test it. If you add a branch, cover it.
-- **100% coverage must be maintained.** Run `just test-coverage` and verify no coverage is lost.
-- **Test placement**: Mirror the source structure. Tests for `src/rendercv/renderer/foo.py` go in `tests/renderer/test_foo.py`.
-- **Use existing fixtures**: Check `tests/conftest.py` and the relevant `conftest.py` files for existing fixtures before creating new ones.
+Write the fix or feature following @.claude/skills/rendercv-development-context/SKILL.md and @.claude/skills/rendercv-testing-context/SKILL.md.
 
 ## Step 6: Verify the solution
 
-Run all checks and tests. Every single one must pass:
-
-```bash
-just format
-just check
-just test
-just test-coverage
-```
-
-If `just check` or `just test` shows any errors, fix them before proceeding. If coverage dropped, add more tests.
-
-If reference files changed intentionally, update them:
-
-```bash
-just update-testdata
-```
+Run all verification commands from the development context (`just format`, `just check`, `just test`, `just test-coverage`). Every single one must pass before proceeding.
 
 ## Step 7: Commit and push
 
