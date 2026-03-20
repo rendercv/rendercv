@@ -259,6 +259,47 @@ class TestBuildRendercvDictionary:
                 value = value[key]
             assert value == path_and_value[-1]
 
+    def test_design_override_with_separate_design_file(self):
+        """Test that design overrides work when design is in a separate file (#595)."""
+        main_yaml = dictionary_to_yaml({"cv": {"name": "John Doe"}})
+        design_yaml = dictionary_to_yaml({"design": {"theme": "classic"}})
+
+        result, _ = build_rendercv_dictionary(
+            main_yaml,
+            design_yaml_file=design_yaml,
+            overrides={"design.theme": "moderncv"},
+        )
+
+        assert result["design"]["theme"] == "moderncv"
+
+    def test_design_override_without_design_in_main_yaml(self):
+        """Test that design overrides create the design key if missing (#595)."""
+        main_yaml = dictionary_to_yaml(
+            {"cv": {"name": "John Doe"}, "design": {"theme": "classic"}}
+        )
+
+        result, _ = build_rendercv_dictionary(
+            main_yaml,
+            overrides={"design.theme": "moderncv"},
+        )
+
+        assert result["design"]["theme"] == "moderncv"
+
+    def test_locale_override_with_separate_locale_file(self):
+        """Test that locale overrides work when locale is in a separate file (#595)."""
+        main_yaml = dictionary_to_yaml(
+            {"cv": {"name": "John Doe"}, "design": {"theme": "classic"}}
+        )
+        locale_yaml = dictionary_to_yaml({"locale": {"language": "english"}})
+
+        result, _ = build_rendercv_dictionary(
+            main_yaml,
+            locale_yaml_file=locale_yaml,
+            overrides={"locale.language": "turkish"},
+        )
+
+        assert result["locale"]["language"] == "turkish"
+
     def test_overrides_with_nested_paths(self, minimal_input_dict):
         input_dict = {
             **minimal_input_dict,
