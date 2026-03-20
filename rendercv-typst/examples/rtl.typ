@@ -1,6 +1,6 @@
 // RTL (Right-to-Left) example with Persian content.
 // Requires a Persian font such as "Vazirmatn" to be installed.
-#import "@preview/rendercv:0.2.0": *
+#import "@preview/rendercv:0.3.0": *
 
 #show: rendercv.with(
   name: "علی احمدی",

@@ -602,7 +602,8 @@
 
   // Section titles:
   #show heading.where(level: 2): it => [
-    #set align(start-align)
+    #let is-centered = section-titles-type in ("centered_without_line", "centered_with_partial_line", "centered_with_centered_partial_line", "centered_with_full_line")
+    #set align(if is-centered { center } else { start-align })
     #set text(size: (1em / 1.2)) // reset
     #set text(
       font: typography-font-family-section-titles,
@@ -640,6 +641,30 @@
               #section-title
             ],
           )
+        ] else if section-titles-type == "centered_without_line" [
+          #section-title
+        ] else if section-titles-type == "centered_with_partial_line" [
+          #grid(
+            columns: (1fr, auto, 1fr),
+            align: (bottom, center + bottom, bottom),
+            column-gutter: 0.3em,
+            [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
+            [#section-title],
+            [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
+          )
+        ] else if section-titles-type == "centered_with_centered_partial_line" [
+          #grid(
+            columns: (1fr, auto, 1fr),
+            align: (horizon, center, horizon),
+            column-gutter: 0.3em,
+            [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
+            [#section-title],
+            [#box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)],
+          )
+        ] else if section-titles-type == "centered_with_full_line" [
+          #section-title
+          #v(typography-font-size-body * 0.3)
+          #box(width: 1fr, height: section-titles-line-thickness, fill: colors-section-titles)
         ] else [
           #section-title
           #if section-titles-type == "with_partial_line" [

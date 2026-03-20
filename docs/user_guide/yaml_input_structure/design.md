@@ -179,7 +179,7 @@ design:
    `justified` spreads text across the full width, `justified-with-no-hyphenation` does the same without breaking words
 3. **Header alignment:** << available_alignments >>
 4. **Section title styles:** << available_section_title_types >>
-   `with_partial_line` adds a line next to the title, `with_full_line` spans the page, `without_line` has no line, `moderncv` uses ModernCV style
+   `with_partial_line` adds a line next to the title, `with_full_line` spans the page, `without_line` has no line, `moderncv` uses ModernCV style, `centered_without_line` centers the title with no line, `centered_with_partial_line` centers with baseline partial lines on both sides, `centered_with_centered_partial_line` centers with middle-aligned lines on both sides, `centered_with_full_line` centers with a full line underneath
 5. **Show time spans:** Specify which sections should display duration calculations (e.g., "2 years 3 months")
 6. **Bullet characters:** << available_bullets >>
 7. **Phone number formats:** << available_phone_number_formats >>

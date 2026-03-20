@@ -26,13 +26,13 @@ typst init @preview/rendercv
 Or import into an existing file:
 
 ```typst
-#import "@preview/rendercv:0.2.0": *
+#import "@preview/rendercv:0.3.0": *
 ```
 
 ## Usage
 
 ```typst
-#import "@preview/rendercv:0.2.0": *
+#import "@preview/rendercv:0.3.0": *
 
 #show: rendercv.with(
   name: "John Doe",
@@ -114,7 +114,7 @@ Everything is customizable through `rendercv.with()`. A few examples:
   header-connections-show-icons: true,
 
   // Section titles
-  section-titles-type: "with_partial_line", // "with_full_line", "moderncv"
+  section-titles-type: "with_partial_line", // "with_full_line", "without_line", "moderncv", "centered_without_line", "centered_with_partial_line", "centered_with_centered_partial_line", "centered_with_full_line"
 
   // Entries
   entries-date-and-location-width: 4.15cm,
