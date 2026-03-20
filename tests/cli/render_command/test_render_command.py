@@ -165,6 +165,18 @@ class TestCliCommandRender:
         rendercv_output = input_file.parent / "rendercv_output"
         assert (rendercv_output / "John_Doe_CV.pdf").exists()
 
+    @patch("rendercv.cli.render_command.render_command.run_rendercv")
+    def test_converts_relative_input_path_to_absolute(
+        self, mock_run, input_file, default_arguments
+    ):
+        cli_command_render(
+            input_file_name=input_file.name,
+            **default_arguments,
+        )
+
+        called_path = mock_run.call_args[0][0]
+        assert called_path.is_absolute()
+
     @patch("rendercv.cli.render_command.render_command.run_function_if_files_change")
     def test_calls_watcher_when_watch_flag_is_true(
         self, mock_watcher, input_file, default_arguments
