@@ -1,0 +1,18 @@
+[package]
+name = "rendercv"
+version = "0.2.0"
+entrypoint = "lib.typ"
+authors = ["Sina Atalay <dev@atalay.biz>"]
+license = "MIT"
+description = "Resume builder for academics and engineers"
+repository = "https://github.com/rendercv/rendercv"
+keywords = ["rendercv", "cv", "resume", "curriculum-vitae"]
+categories = ["cv"]
+disciplines = []
+compiler = "0.14.0"
+exclude = ["examples/*.pdf"]
+
+[template]
+path = "template"
+entrypoint = "main.typ"
+thumbnail = "thumbnail.png"
