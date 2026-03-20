@@ -1,0 +1,123 @@
+# Test case: academic
+# Category: stress_tests
+# Full academic CV
+cv:
+  name: Dr. Zhen Wei
+  headline: Associate Professor of Computer Science
+  location: Zurich, Switzerland
+  email: zhen.wei@email.com
+  website: https://zhenwei.ch
+  social_networks:
+  - network: Google Scholar
+    username: DEF456GHI
+  - network: ORCID
+    username: 0000-0003-9876-5432
+  - network: GitHub
+    username: zhenwei
+  sections:
+    education:
+    - institution: ETH Zurich
+      area: Computer Science
+      degree: PhD
+      start_date: 2012-09
+      end_date: 2017-03
+      location: Zurich, Switzerland
+      highlights:
+      - 'Thesis: Scalable Graph Neural Networks for Molecular Discovery'
+    - institution: Tsinghua University
+      area: Computer Science
+      degree: MS
+      start_date: 2010-09
+      end_date: 2012-07
+      location: Beijing, China
+    - institution: Peking University
+      area: Mathematics
+      degree: BS
+      start_date: 2006-09
+      end_date: 2010-07
+      location: Beijing, China
+      highlights:
+      - 'GPA: 3.9/4.0'
+    academic_positions:
+    - company: ETH Zurich
+      position: Associate Professor
+      start_date: 2022-09
+      end_date: present
+      location: Zurich, Switzerland
+      highlights:
+      - Lead Computational Science Lab with 12 PhD students and 4 postdocs
+      - 'Teaching: Advanced Machine Learning (300+ students), Graph Neural Networks (150+ students)'
+    - company: ETH Zurich
+      position: Assistant Professor
+      start_date: 2017-09
+      end_date: 2022-08
+      location: Zurich, Switzerland
+      highlights:
+      - Established research group, secured CHF 3M+ in competitive funding
+    - company: Stanford University
+      position: Postdoctoral Researcher
+      start_date: 2017-04
+      end_date: 2017-08
+      location: Stanford, CA
+      highlights:
+      - Collaborated with Prof. Jure Leskovec on graph representation learning
+    publications:
+    - title: Equivariant Graph Neural Networks for 3D Molecular Generation
+      authors:
+      - '*Zhen Wei*'
+      - Anna Mueller
+      journal: Nature Machine Intelligence
+      date: 2024-01
+      doi: 10.1038/s42256-024-0001
+    - title: Scalable Message Passing on Large Graphs via Stochastic Training
+      authors:
+      - '*Zhen Wei*'
+      - Li Zhang
+      - Marco Rossi
+      journal: ICML 2023
+      date: 2023-07
+      doi: 10.5555/icml.2023.001
+    - title: Self-Supervised Pre-Training for Molecular Property Prediction
+      authors:
+      - David Kim
+      - '*Zhen Wei*'
+      journal: NeurIPS 2022
+      date: 2022-12
+      doi: 10.5555/neurips.2022.001
+    - title: Geometric Deep Learning on Protein Surfaces
+      authors:
+      - '*Zhen Wei*'
+      - Sarah Johnson
+      journal: Science
+      date: 2022-06
+      doi: 10.1126/science.2022
+    - title: Graph Transformers with Spectral Attention
+      authors:
+      - '*Zhen Wei*'
+      journal: ICLR 2022
+      date: 2022-04
+      doi: 10.5555/iclr.2022.001
+    grants:
+    - bullet: Swiss National Science Foundation Eccellenza Grant (CHF 1.8M, 2023-2028)
+    - bullet: ERC Starting Grant (EUR 1.5M, 2020-2025)
+    - bullet: ETH Research Grant (CHF 500K, 2018-2021)
+    awards:
+    - bullet: ELLIS Fellow (2023)
+    - bullet: MIT Technology Review Innovators Under 35 Europe (2022)
+    - bullet: ETH Zurich Latsis Prize for Outstanding Young Researcher (2021)
+    - bullet: ICML Best Paper Award (2019)
+    service:
+    - bullet: 'Area Chair: NeurIPS (2022, 2023, 2024), ICML (2023, 2024), ICLR (2024)'
+    - bullet: 'Associate Editor: IEEE TPAMI (2023-present)'
+    - bullet: 'Program Committee: KDD, AAAI, IJCAI, WWW'
+    skills:
+    - label: Languages
+      details: Python, C++, Julia, MATLAB
+    - label: ML Frameworks
+      details: PyTorch, JAX, PyG, DGL
+    - label: Scientific Computing
+      details: NumPy, SciPy, RDKit, Open Babel, GROMACS
+design:
+  theme: classic
+locale:
+  language: english

@@ -66,6 +66,7 @@ nav:
           - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
           - Custom Fonts: user_guide/how_to/custom_fonts.md
           - Override Default Templates: user_guide/how_to/override_default_templates.md
+          - Use the AI Agent Skill: user_guide/how_to/use_the_ai_agent_skill.md
   - Developer Guide:
       - Setup: developer_guide/index.md
       - Project Management: developer_guide/project_management.md
@@ -75,14 +76,12 @@ nav:
       - JSON Schema: developer_guide/json_schema.md
       - GitHub Workflows: developer_guide/github_workflows.md
       - Dockerfile: developer_guide/dockerfile.md
-      - Code Guidelines:
-          - Source Code: developer_guide/code_guidelines/source_code.md
-          - Tests: developer_guide/code_guidelines/tests.md
       - How-To Guides:
           - Add Theme: developer_guide/how_to/add_theme.md
           - Add Locale: developer_guide/how_to/add_locale.md
           - Add Social Network: developer_guide/how_to/add_social_network.md
   - API Reference: api_reference/
+  - ATS Compatibility: ats_compatibility.md
   - Changelog: changelog.md
   - New Web App!: https://rendercv.com
 

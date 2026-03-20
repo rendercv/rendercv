@@ -73,6 +73,9 @@ def update_value_by_location[T: dict | list](
     if len(keys) == 1:
         new_value = value
     else:
+        if isinstance(dict_or_list, dict) and first_key not in dict_or_list:
+            dict_or_list[first_key] = {}  # ty: ignore[invalid-assignment]
+
         new_value = update_value_by_location(
             dict_or_list[first_key],  # ty: ignore[invalid-argument-type]
             remaining_key,

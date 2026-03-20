@@ -199,6 +199,15 @@ def cli_command_render(
 ):
     input_file_path = pathlib.Path(input_file_name)
 
+    # Resolve design/locale overlay files from YAML settings when not
+    # provided via CLI flags. collect_input_file_paths already handles
+    # parsing the YAML and resolving paths relative to the input file.
+    resolved_files = collect_input_file_paths(input_file_path, design, locale, settings)
+    if design is None and "design" in resolved_files:
+        design = resolved_files["design"]
+    if locale is None and "locale" in resolved_files:
+        locale = resolved_files["locale"]
+
     arguments: BuildRendercvModelArguments = {
         "design_yaml_file": design.read_text(encoding="utf-8") if design else None,
         "locale_yaml_file": locale.read_text(encoding="utf-8") if locale else None,
@@ -222,11 +231,7 @@ def cli_command_render(
     with ProgressPanel(quiet=quiet) as progress_panel:
         if watch:
             run_function_if_files_change(
-                list(
-                    collect_input_file_paths(
-                        input_file_path, design, locale, settings
-                    ).values()
-                ),
+                list(resolved_files.values()),
                 lambda: run_rendercv(input_file_path, progress_panel, **arguments),
             )
         else:

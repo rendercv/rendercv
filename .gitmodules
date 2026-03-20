@@ -1,0 +1,3 @@
+[submodule ".claude/skills/rendercv-skill"]
+	path = .claude/skills/rendercv-skill
+	url = https://github.com/rendercv/rendercv-skill.git

@@ -50,6 +50,35 @@ class TestUpdateValueByLocation:
         assert result == expected
 
     @pytest.mark.parametrize(
+        ("initial_dict", "key", "value", "expected"),
+        [
+            (
+                {},
+                "design.theme",
+                "moderncv",
+                {"design": {"theme": "moderncv"}},
+            ),
+            (
+                {"cv": {"name": "John"}},
+                "design.theme",
+                "classic",
+                {"cv": {"name": "John"}, "design": {"theme": "classic"}},
+            ),
+            (
+                {"cv": {}},
+                "cv.sections.education",
+                "MIT",
+                {"cv": {"sections": {"education": "MIT"}}},
+            ),
+        ],
+    )
+    def test_missing_intermediate_keys_are_created(
+        self, initial_dict, key, value, expected
+    ):
+        result = update_value_by_location(initial_dict, key, value, key)
+        assert result == expected
+
+    @pytest.mark.parametrize(
         ("initial_list", "key", "value", "expected"),
         [
             (["a", "b", "c"], "0", "x", ["x", "b", "c"]),

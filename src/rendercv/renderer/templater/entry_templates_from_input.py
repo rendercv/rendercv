@@ -14,6 +14,84 @@ from .string_processor import clean_url, substitute_placeholders
 uppercase_word_pattern = re.compile(r"\b[A-Z_]+\b")
 
 
+# Matches a bare connector word between placeholders: starts with a non-uppercase
+# Unicode letter, followed by any non-whitespace chars. Surrounded by whitespace
+# so formatting like "*in*" and punctuation-only separators like "--" are skipped.
+connector_word_pattern = re.compile(r"(?<=\s)(?![A-Z])[^\W\d_]\S*(?=\s)")
+
+
+def remove_connectors_of_missing_placeholders(
+    template: str, not_provided_placeholders: set[str]
+) -> str:
+    """Remove connector words between placeholders when an adjacent placeholder is missing.
+
+    Why:
+        Templates contain connector words between placeholders (e.g., "in" between
+        DEGREE and AREA, "at" between JOB_TITLE and COMPANY). When a placeholder is
+        removed, these connectors must be dropped too — otherwise orphaned words like
+        "in Computer Science" or "Engineer at" appear in the output.
+
+    Example:
+        ```py
+        # "in" removed because DEGREE is missing
+        remove_connectors_of_missing_placeholders(
+            "**INSTITUTION**, DEGREE in AREA", {"DEGREE"}
+        )
+        # Returns: "**INSTITUTION**, DEGREE  AREA"
+
+        # "at" removed because COMPANY_NAME is missing
+        remove_connectors_of_missing_placeholders(
+            "**JOB_TITLE** at COMPANY_NAME", {"COMPANY_NAME"}
+        )
+        # Returns: "**JOB_TITLE**  COMPANY_NAME"
+        ```
+
+    Args:
+        template: Template string with uppercase placeholders and connector text.
+        not_provided_placeholders: Set of placeholder names that are missing.
+
+    Returns:
+        Template with connector words adjacent to missing placeholders removed.
+    """
+    tokens = re.split(r"(\b[A-Z_]+\b)", template)
+
+    for i, token in enumerate(tokens):
+        if uppercase_word_pattern.fullmatch(token):
+            continue
+
+        # Find the nearest placeholder on each side of this separator
+        prev_ph = next(
+            (
+                tokens[j]
+                for j in range(i - 1, -1, -1)
+                if uppercase_word_pattern.fullmatch(tokens[j])
+            ),
+            None,
+        )
+        next_ph = next(
+            (
+                tokens[j]
+                for j in range(i + 1, len(tokens))
+                if uppercase_word_pattern.fullmatch(tokens[j])
+            ),
+            None,
+        )
+
+        # Only strip connectors from separators between two placeholders
+        # where at least one side is missing:
+        if (
+            prev_ph is not None
+            and next_ph is not None
+            and (
+                prev_ph in not_provided_placeholders
+                or next_ph in not_provided_placeholders
+            )
+        ):
+            tokens[i] = connector_word_pattern.sub("", token)
+
+    return "".join(tokens)
+
+
 def render_entry_templates[EntryType: Entry](
     entry: EntryType,
     *,
@@ -125,7 +203,13 @@ def render_entry_templates[EntryType: Entry](
         entry_fields["DOI"] = process_doi(entry)  # ty: ignore[invalid-argument-type]
 
     if "SUMMARY" in entry_fields:
-        entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
+        summary_is_standalone = any(
+            line.strip() == "SUMMARY"
+            for template in entry_templates.values()
+            for line in template.split("\n")
+        )
+        if summary_is_standalone:
+            entry_fields["SUMMARY"] = process_summary(entry_fields["SUMMARY"])
 
     entry_templates = remove_not_provided_placeholders(entry_templates, entry_fields)
 
@@ -370,11 +454,27 @@ def remove_not_provided_placeholders(
         entry_fields.keys()
     )
     if not_provided_placeholders:
+        # First, remove connector words (like "in", "at") between placeholders
+        # where at least one side is missing:
+        entry_templates = {
+            key: re.sub(
+                r" {2,}",
+                " ",
+                remove_connectors_of_missing_placeholders(
+                    value, not_provided_placeholders
+                ),
+            )
+            for key, value in entry_templates.items()
+        }
+
+        # Then remove the placeholders themselves and adjacent non-space chars:
         not_provided_placeholders_pattern = re.compile(
             r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
         )
         entry_templates = {
-            key: clean_trailing_parts(not_provided_placeholders_pattern.sub("", value))
+            key: clean_trailing_parts(
+                re.sub(r" {2,}", " ", not_provided_placeholders_pattern.sub("", value))
+            )
             for key, value in entry_templates.items()
         }
 

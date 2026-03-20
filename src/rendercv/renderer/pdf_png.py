@@ -1,6 +1,8 @@
+import atexit
 import functools
 import pathlib
 import shutil
+import tempfile
 
 import rendercv_fonts
 import typst
@@ -111,6 +113,44 @@ def copy_photo_next_to_typst_file(
 
 
 @functools.lru_cache(maxsize=1)
+def get_package_path() -> pathlib.Path:
+    """Set up local Typst package resolution from bundled rendercv-typst files.
+
+    Why:
+        The rendercv-typst Typst package is bundled inside the Python package
+        so that PDF compilation works without downloading from Typst Universe.
+        The Typst compiler expects packages in a directory structure of
+        preview/{name}/{version}/, so this creates a temporary directory with
+        that layout and copies the bundled typst.toml and lib.typ into it.
+
+    Returns:
+        Path to temporary package cache directory.
+    """
+    bundled_typst_package = pathlib.Path(__file__).parent / "rendercv_typst"
+    typst_toml_path = bundled_typst_package / "typst.toml"
+
+    version = None
+    for line in typst_toml_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("version"):
+            version = stripped.split("=", 1)[1].strip().strip('"')
+            break
+
+    if version is None:
+        raise RenderCVInternalError("Could not find version in bundled typst.toml")
+
+    temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="rendercv-pkg-"))
+    atexit.register(shutil.rmtree, str(temp_dir), True)
+
+    package_directory = temp_dir / "preview" / "rendercv" / version
+    package_directory.mkdir(parents=True)
+    shutil.copy2(bundled_typst_package / "typst.toml", package_directory / "typst.toml")
+    shutil.copy2(bundled_typst_package / "lib.typ", package_directory / "lib.typ")
+
+    return temp_dir
+
+
+@functools.lru_cache(maxsize=1)
 def get_typst_compiler(
     input_file_path: pathlib.Path | None,
     root: pathlib.Path,
@@ -141,4 +181,5 @@ def get_typst_compiler(
                 else pathlib.Path.cwd() / "fonts"
             ),
         ],
+        package_path=get_package_path(),
     )

@@ -204,3 +204,43 @@ class TestCliCommandRender:
 
         typst_file = input_file.parent / "rendercv_output" / "John_Doe_CV.typ"
         assert expected_in_output in typst_file.read_text()
+
+    @pytest.mark.parametrize(
+        ("render_command_field", "config_content", "expected_in_output"),
+        [
+            ("design", "design:\n  theme: moderncv\n", "Fontin"),
+            (
+                "locale",
+                "locale:\n  language: turkish\n",
+                'locale-catalog-language: "tr"',
+            ),
+        ],
+    )
+    def test_loads_overlay_files_from_yaml_settings(
+        self,
+        tmp_path,
+        default_arguments,
+        render_command_field,
+        config_content,
+        expected_in_output,
+    ):
+        os.chdir(tmp_path)
+
+        config_file = tmp_path / f"my_{render_command_field}.yaml"
+        config_file.write_text(config_content, encoding="utf-8")
+
+        # Create a minimal YAML with render_command referencing the overlay file
+        input_file = tmp_path / "test_cv.yaml"
+        input_file.write_text(
+            "cv:\n"
+            "  name: John Doe\n"
+            "settings:\n"
+            "  render_command:\n"
+            f"    {render_command_field}: my_{render_command_field}.yaml\n",
+            encoding="utf-8",
+        )
+
+        cli_command_render(input_file_name=input_file, **default_arguments)
+
+        typst_file = tmp_path / "rendercv_output" / "John_Doe_CV.typ"
+        assert expected_in_output in typst_file.read_text()

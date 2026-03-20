@@ -164,6 +164,15 @@ class TestCreateSampleSettingsFile:
         data = yaml_object.load(result)
         assert list(data.keys()) == ["settings"]
 
+    def test_omits_specified_fields(self):
+        result = create_sample_settings_file(
+            file_path=None, omitted_fields=["render_command"]
+        )
+
+        yaml_object = ruamel.yaml.YAML()
+        data = yaml_object.load(result)
+        assert "render_command" not in data["settings"]
+
 
 def test_dictionary_to_yaml():
     input_dictionary = {
