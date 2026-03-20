@@ -9,6 +9,7 @@ Why:
 
 import pathlib
 import subprocess
+import sys
 
 import pytest
 
@@ -28,6 +29,9 @@ def run_just(recipe: str) -> None:
     )
 
 
+@pytest.mark.skipif(
+    sys.platform == "win32", reason="Schema generation differs on Windows"
+)
 def test_schema_json_is_up_to_date() -> None:
     schema_path = repository_root / "schema.json"
     before = schema_path.read_text(encoding="utf-8")
@@ -64,7 +68,15 @@ def test_example_yaml_is_up_to_date(theme: str) -> None:
 
 
 def test_skill_md_is_up_to_date() -> None:
-    skill_path = repository_root / "skills" / "rendercv" / "SKILL.md"
+    skill_path = (
+        repository_root
+        / ".claude"
+        / "skills"
+        / "rendercv-skill"
+        / "skills"
+        / "rendercv"
+        / "SKILL.md"
+    )
     before = skill_path.read_text(encoding="utf-8")
 
     llms_txt_path = repository_root / "docs" / "llms.txt"

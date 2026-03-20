@@ -141,10 +141,10 @@ locale:
 Let AI coding agents create and edit your CV. Install the RenderCV skill:
 
 ```bash
-npx skills add rendercv/rendercv
+npx skills add rendercv/rendercv-skill
 ```
 
-Works with Claude Code, Cursor, Codex, Copilot, Windsurf, Gemini CLI, and [20+ other agents](https://docs.rendercv.com/user_guide/how_to/use_the_ai_agent_skill).
+Works with Claude Code, Claude Desktop, Cursor, Codex, Copilot, Windsurf, Gemini CLI, and [20+ other agents](https://docs.rendercv.com/user_guide/how_to/use_the_ai_agent_skill).
 
 ## Get Started
 

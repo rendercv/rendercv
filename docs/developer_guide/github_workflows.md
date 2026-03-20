@@ -51,8 +51,9 @@ RenderCV has 4 workflows. Each handles a specific automation task.
 
 **What it does:**
 
-1. Runs `just test-coverage` across **9 different environments** (3 operating systems × 3 Python versions: 3.12, 3.13, 3.14)
-2. Combines all coverage reports and uploads them to show the coverage report
+1. Checks out the repository with submodules (the [rendercv-skill](https://github.com/rendercv/rendercv-skill) submodule is needed for generated-file staleness tests)
+2. Runs `just test-coverage` across **9 different environments** (3 operating systems × 3 Python versions: 3.12, 3.13, 3.14)
+3. Combines all coverage reports and uploads them to show the coverage report
 
 ### 2. [`deploy-docs.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/deploy-docs.yaml): Deploy Documentation
 

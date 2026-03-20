@@ -7,6 +7,7 @@ RenderCV provides an AI agent skill that teaches AI coding assistants how to cre
 The skill works with any AI coding agent that supports the skills protocol, including:
 
 - Claude Code
+- Claude Desktop
 - Cursor
 - Codex
 - Copilot
@@ -19,30 +20,39 @@ The skill works with any AI coding agent that supports the skills protocol, incl
 === "Vercel Skills CLI"
 
     ```bash
-    npx skills add rendercv/rendercv
+    npx skills add rendercv/rendercv-skill
     ```
 
     You can also target a specific agent:
 
     ```bash
-    npx skills add rendercv/rendercv -a claude-code
-    npx skills add rendercv/rendercv -a cursor
-    npx skills add rendercv/rendercv -a codex
+    npx skills add rendercv/rendercv-skill -a claude-code
+    npx skills add rendercv/rendercv-skill -a cursor
+    npx skills add rendercv/rendercv-skill -a codex
     ```
 
 === "OpenSkills"
 
     ```bash
-    npx openskills install rendercv/rendercv
+    npx openskills install rendercv/rendercv-skill
     ```
+
+=== "Claude Desktop"
+
+    1. Download [`rendercv_skill.zip`](../../assets/rendercv_skill.zip).
+    2. In Claude Desktop, go to **Customize > Skills**.
+    3. Click **"+"** and select **"Upload a skill"**.
+    4. Upload the downloaded ZIP file.
+
+    The skill will appear in your Skills list and Claude will automatically use it when working with your CV.
 
 === "Manual"
 
-    Copy the content of [`skills/rendercv/SKILL.md`](https://github.com/rendercv/rendercv/blob/main/skills/rendercv/SKILL.md) into your agent's skill directory. For example, for Claude Code:
+    Copy the content of [`skills/rendercv/SKILL.md`](https://github.com/rendercv/rendercv-skill/blob/main/skills/rendercv/SKILL.md) into your agent's skill directory. For example, for Claude Code:
 
     ```bash
-    git clone https://github.com/rendercv/rendercv.git
-    cp -r rendercv/skills/rendercv ~/.claude/skills/
+    git clone https://github.com/rendercv/rendercv-skill.git
+    cp -r rendercv-skill/skills/rendercv ~/.claude/skills/
     ```
 
 ## What the Skill Provides

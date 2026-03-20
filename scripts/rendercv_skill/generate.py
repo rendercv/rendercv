@@ -12,6 +12,7 @@ import ast
 import io
 import pathlib
 import re
+import zipfile
 
 import jinja2
 import ruamel.yaml
@@ -27,8 +28,17 @@ from rendercv.schema.sample_generator import (
 repository_root = pathlib.Path(__file__).parent.parent.parent
 script_directory = pathlib.Path(__file__).parent
 template_path = script_directory / "skill_template.j2.md"
-output_path = repository_root / "skills" / "rendercv" / "SKILL.md"
+output_path = (
+    repository_root
+    / ".claude"
+    / "skills"
+    / "rendercv-skill"
+    / "skills"
+    / "rendercv"
+    / "SKILL.md"
+)
 llms_txt_path = repository_root / "docs" / "llms.txt"
+skill_zip_path = repository_root / "docs" / "assets" / "rendercv_skill.zip"
 
 # Paths to key model source files for dynamic inclusion.
 models_dir = repository_root / "src" / "rendercv" / "schema" / "models"
@@ -286,7 +296,7 @@ def build_template_context() -> dict:
 
 
 def generate_skill_file() -> None:
-    """Render the Jinja2 template and write SKILL.md and docs/llms.txt."""
+    """Render the Jinja2 template and write SKILL.md, docs/llms.txt, and ZIP."""
     env = jinja2.Environment(
         loader=jinja2.FileSystemLoader(script_directory),
         keep_trailing_newline=True,
@@ -301,6 +311,11 @@ def generate_skill_file() -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(rendered, encoding="utf-8")
     llms_txt_path.write_text(rendered, encoding="utf-8")
+
+    # Generate ZIP for Claude Desktop skill upload
+    skill_zip_path.parent.mkdir(parents=True, exist_ok=True)
+    with zipfile.ZipFile(skill_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.writestr("rendercv/SKILL.md", rendered)
 
 
 if __name__ == "__main__":
