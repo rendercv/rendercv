@@ -6,13 +6,13 @@ disable-model-invocation: true
 
 # Publish rendercv-typst to Typst Universe
 
-Create a pull request to `typst/packages` to publish the current version of `rendercv-typst/`.
+Create a pull request to `typst/packages` to publish the current version of `src/rendercv/renderer/rendercv_typst/`.
 
 The clone location for the typst/packages fork is `$HOME/.cache/rendercv/typst-packages`.
 
 ## Step 1: Read package metadata
 
-Read `rendercv-typst/typst.toml` to get the version and all metadata fields.
+Read `src/rendercv/renderer/rendercv_typst/typst.toml` to get the version and all metadata fields.
 
 ## Step 2: Validate package integrity
 
@@ -20,7 +20,7 @@ Run ALL checks below. Collect ALL failures and report them together. Do NOT proc
 
 ### 2a: Required files
 
-Verify these exist in `rendercv-typst/`:
+Verify these exist in `src/rendercv/renderer/rendercv_typst/`:
 - `lib.typ`
 - `typst.toml`
 - `README.md`
@@ -39,19 +39,19 @@ Parse `typst.toml` and verify it has:
 Check that the version string in `typst.toml` appears correctly in:
 - `README.md` import statements (`@preview/rendercv:X.Y.Z`)
 - `template/main.typ` import statement (`@preview/rendercv:X.Y.Z`)
-- All example files in `rendercv-typst/examples/*.typ` (if they have import statements)
+- All example files in `src/rendercv/renderer/rendercv_typst/examples/*.typ` (if they have import statements)
 
 If ANY file references an old version, stop and report which files need updating.
 
 ### 2d: CHANGELOG entry
 
-Read `rendercv-typst/CHANGELOG.md` and verify there is an entry for the version being published.
+Read `src/rendercv/renderer/rendercv_typst/CHANGELOG.md` and verify there is an entry for the version being published.
 
 ### 2e: All themes have example files
 
-This is critical. Extract all theme names shown in the README by finding image references that match the pattern `examples/<theme-name>.png` in the image URLs. Then verify that EVERY theme has a corresponding `<theme-name>.typ` file in `rendercv-typst/examples/`.
+This is critical. Extract all theme names shown in the README by finding image references that match the pattern `examples/<theme-name>.png` in the image URLs. Then verify that EVERY theme has a corresponding `<theme-name>.typ` file in `src/rendercv/renderer/rendercv_typst/examples/`.
 
-For example, if the README shows images for classic, engineeringresumes, sb2nov, moderncv, engineeringclassic, and harvard, then ALL of these must exist as `.typ` files in `rendercv-typst/examples/`.
+For example, if the README shows images for classic, engineeringresumes, sb2nov, moderncv, engineeringclassic, and harvard, then ALL of these must exist as `.typ` files in `src/rendercv/renderer/rendercv_typst/examples/`.
 
 If any example file is missing, STOP and tell the user exactly which files are missing.
 
@@ -133,7 +133,7 @@ Look at existing directories in `packages/preview/rendercv/` to find the most re
 
 ## Step 7: Build PR description
 
-Read `rendercv-typst/CHANGELOG.md` and extract the changes for the current version.
+Read `src/rendercv/renderer/rendercv_typst/CHANGELOG.md` and extract the changes for the current version.
 
 **PR title:** `rendercv:{version}`
 

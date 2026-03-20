@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.renderer.pdf_png import generate_pdf, generate_png
+from rendercv.renderer.pdf_png import generate_pdf, generate_png, get_package_path
 from rendercv.renderer.typst import generate_typst
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.rendercv_model import RenderCVModel
@@ -62,6 +62,29 @@ def test_generate_png(
     reference_filename = f"{theme}_minimal.png"
 
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+class TestGetPackagePath:
+    def test_creates_correct_directory_structure(self):
+        get_package_path.cache_clear()
+        result = get_package_path()
+
+        # Find the version-named directory under preview/rendercv/:
+        rendercv_package_dir = result / "preview" / "rendercv"
+        assert rendercv_package_dir.is_dir()
+
+        version_dirs = list(rendercv_package_dir.iterdir())
+        assert len(version_dirs) == 1
+
+        package_dir = version_dirs[0]
+        assert (package_dir / "typst.toml").is_file()
+        assert (package_dir / "lib.typ").is_file()
+
+    def test_returns_cached_result(self):
+        get_package_path.cache_clear()
+        first_result = get_package_path()
+        second_result = get_package_path()
+        assert first_result == second_result
 
 
 class TestGeneratePngCleansUpOldFiles:

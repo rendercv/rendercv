@@ -10,7 +10,9 @@ from rendercv.schema.sample_generator import create_sample_yaml_input_file
 repository_root = pathlib.Path(__file__).parent.parent
 rendercv_path = repository_root / "rendercv"
 image_assets_directory = repository_root / "docs" / "assets" / "images" / "examples"
-rendercv_typst_examples_directory = repository_root / "rendercv-typst" / "examples"
+rendercv_typst_examples_directory = (
+    repository_root / "src" / "rendercv" / "renderer" / "rendercv_typst" / "examples"
+)
 
 examples_directory_path = pathlib.Path(__file__).parent.parent / "examples"
 

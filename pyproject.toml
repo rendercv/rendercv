@@ -29,7 +29,7 @@ build-backend = "uv_build"  # Build-backend object for building RenderCV
 [project]
 # Metadata about RenderCV.
 name = "rendercv"
-version = "2.7"
+version = "2.8"
 description = "Resume builder for academics and engineers"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -119,6 +119,18 @@ update-entry-figures = [
 
 [tool.uv]
 default-groups = ["dev", "docs"]
+
+[tool.uv.build-backend]
+# The rendercv-typst Typst package lives in src/rendercv/renderer/rendercv_typst/.
+# Only lib.typ and typst.toml are needed at runtime; exclude everything else from the wheel.
+wheel-exclude = [
+    "renderer/rendercv_typst/examples/**",
+    "renderer/rendercv_typst/template/**",
+    "renderer/rendercv_typst/README.md",
+    "renderer/rendercv_typst/CHANGELOG.md",
+    "renderer/rendercv_typst/LICENSE",
+    "renderer/rendercv_typst/thumbnail.png",
+]
 
 [tool.uv.workspace]
 members = [

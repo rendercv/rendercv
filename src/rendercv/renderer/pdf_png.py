@@ -113,26 +113,21 @@ def copy_photo_next_to_typst_file(
 
 
 @functools.lru_cache(maxsize=1)
-def get_local_package_path() -> pathlib.Path | None:
-    """Set up local Typst package resolution for development.
+def get_package_path() -> pathlib.Path:
+    """Set up local Typst package resolution from bundled rendercv-typst files.
 
     Why:
-        During development, the rendercv-typst package version referenced in
-        templates may not be published to the Typst registry yet. This detects
-        if the rendercv-typst/ directory exists in the repository and creates a
-        temporary package cache so the Typst compiler resolves the import
-        locally. In production (installed via pip), rendercv-typst/ won't exist
-        and the compiler falls back to the Typst registry.
+        The rendercv-typst Typst package is bundled inside the Python package
+        so that PDF compilation works without downloading from Typst Universe.
+        The Typst compiler expects packages in a directory structure of
+        preview/{name}/{version}/, so this creates a temporary directory with
+        that layout and copies the bundled typst.toml and lib.typ into it.
 
     Returns:
-        Path to temporary package cache directory, or None if not in development.
+        Path to temporary package cache directory.
     """
-    repository_root = pathlib.Path(__file__).parent.parent.parent.parent
-    rendercv_typst_directory = repository_root / "rendercv-typst"
-    typst_toml_path = rendercv_typst_directory / "typst.toml"
-
-    if not typst_toml_path.is_file():
-        return None
+    bundled_typst_package = pathlib.Path(__file__).parent / "rendercv_typst"
+    typst_toml_path = bundled_typst_package / "typst.toml"
 
     version = None
     for line in typst_toml_path.read_text(encoding="utf-8").splitlines():
@@ -142,17 +137,15 @@ def get_local_package_path() -> pathlib.Path | None:
             break
 
     if version is None:
-        return None
+        raise RenderCVInternalError("Could not find version in bundled typst.toml")
 
     temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="rendercv-pkg-"))
     atexit.register(shutil.rmtree, str(temp_dir), True)
 
     package_directory = temp_dir / "preview" / "rendercv" / version
-    shutil.copytree(
-        rendercv_typst_directory,
-        package_directory,
-        ignore=shutil.ignore_patterns(".git*", "CHANGELOG.md", "*.pdf"),
-    )
+    package_directory.mkdir(parents=True)
+    shutil.copy2(bundled_typst_package / "typst.toml", package_directory / "typst.toml")
+    shutil.copy2(bundled_typst_package / "lib.typ", package_directory / "lib.typ")
 
     return temp_dir
 
@@ -188,5 +181,5 @@ def get_typst_compiler(
                 else pathlib.Path.cwd() / "fonts"
             ),
         ],
-        package_path=get_local_package_path(),
+        package_path=get_package_path(),
     )
