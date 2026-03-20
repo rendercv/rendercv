@@ -4,18 +4,18 @@ All six looks below are produced by the same package with different parameter va
 
 <table>
 <tr>
-<td><img alt="Classic" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/classic.png" width="350"></td>
-<td><img alt="Engineering Resumes" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/engineeringresumes.png" width="350"></td>
-<td><img alt="Sb2nov" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/sb2nov.png" width="350"></td>
+<td><img alt="Example CV using the Classic theme with blue accents and partial section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/classic.png" width="350"></td>
+<td><img alt="Example CV using the Engineering Resumes theme with a minimal single-column layout" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/engineeringresumes.png" width="350"></td>
+<td><img alt="Example CV using the Sb2nov theme with full-width section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/sb2nov.png" width="350"></td>
 </tr>
 <tr>
-<td><img alt="ModernCV" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/moderncv.png" width="350"></td>
-<td><img alt="Engineering Classic" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/engineeringclassic.png" width="350"></td>
-<td><img alt="Harvard" src="https://raw.githubusercontent.com/rendercv/rendercv/main/docs/assets/images/examples/harvard.png" width="350"></td>
+<td><img alt="Example CV using the ModernCV theme with a sidebar layout and colored name" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/moderncv.png" width="350"></td>
+<td><img alt="Example CV using the Engineering Classic theme with a traditional academic style" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/engineeringclassic.png" width="350"></td>
+<td><img alt="Example CV using the Harvard theme with a clean serif font and full-width lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/harvard.png" width="350"></td>
 </tr>
 </table>
 
-See the [examples](https://github.com/rendercv/rendercv-typst/tree/main/examples) directory for the full source of each.
+See the [examples](examples/) directory for the full source of each.
 
 ## Getting Started
 
@@ -126,7 +126,7 @@ Everything is customizable through `rendercv.with()`. A few examples:
 )
 ```
 
-For the full list of parameters with defaults, see [`lib.typ`](https://github.com/rendercv/rendercv-typst/blob/main/lib.typ).
+For the full list of parameters with defaults, see [`lib.typ`](lib.typ).
 
 ## RenderCV
 
