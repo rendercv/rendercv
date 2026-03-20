@@ -144,6 +144,15 @@ def render_entry_templates[EntryType: Entry](
             key: template.replace(phrase_placeholder, phrase_template)
             for key, template in entry_templates.items()
         }
+    requested_placeholders = set(
+        uppercase_word_pattern.findall(" ".join(entry_templates.values()))
+    )
+
+    # When the user explicitly places TIME_SPAN in a template, suppress the
+    # automatic time-span suffix that DATE normally appends so the duration
+    # does not appear twice in the rendered output.
+    time_span_explicitly_used = "TIME_SPAN" in requested_placeholders
+    show_time_span_in_date = show_time_span and not time_span_explicitly_used
 
     # Handle special placeholders:
     if "HIGHLIGHTS" in entry_fields:
@@ -168,7 +177,7 @@ def render_entry_templates[EntryType: Entry](
             start_date=getattr(entry, "start_date", None),
             end_date=getattr(entry, "end_date", None),
             locale=locale,
-            show_time_span=show_time_span,
+            show_time_span=show_time_span_in_date,
             current_date=current_date,
             single_date_template=templates.single_date,
             date_range_template=templates.date_range,
@@ -194,6 +203,18 @@ def render_entry_templates[EntryType: Entry](
             locale=locale,
             single_date_template=templates.single_date,
         )
+
+    if time_span_explicitly_used:
+        start_date = getattr(entry, "start_date", None)
+        end_date = getattr(entry, "end_date", None)
+        if show_time_span and start_date is not None and end_date is not None:
+            entry_fields["TIME_SPAN"] = compute_time_span_string(
+                start_date,
+                end_date,
+                locale=locale,
+                current_date=current_date,
+                time_span_template=templates.time_span,
+            )
 
     if "URL" in entry_fields:
         entry_fields["URL"] = process_url(entry)  # ty: ignore[invalid-argument-type]

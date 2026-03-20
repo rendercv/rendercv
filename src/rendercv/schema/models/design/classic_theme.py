@@ -640,10 +640,12 @@ class EducationEntry(BaseModelWithoutExtraKeys):
             " `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n-"
             " `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware"
             " phrase combining degree and area (e.g., 'BS in Computer Science')\n-"
-            " `SUMMARY`: Summary text\n-"
-            " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`:"
-            " Formatted date or date range\n\nYou can also add arbitrary keys to"
-            " entries and use them as UPPERCASE placeholders.\n\nThe default value is"
+            " `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points list\n-"
+            " `LOCATION`: Location text\n- `DATE`: Formatted date or date range"
+            " (includes the time span when enabled)\n- `START_DATE`: Formatted start"
+            " date\n- `END_DATE`: Formatted end date\n- `TIME_SPAN`: Calculated time"
+            " span string when enabled\n\nYou can also add arbitrary keys to entries"
+            " and use them as UPPERCASE placeholders.\n\nThe default value is"
             " `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`."
         ),
     )
@@ -654,10 +656,12 @@ class EducationEntry(BaseModelWithoutExtraKeys):
             " column. If `null`, no degree column is shown. Available placeholders:\n-"
             " `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n-"
             " `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n-"
-            " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`:"
-            " Formatted date or date range\n\nYou can also add arbitrary keys to"
-            " entries and use them as UPPERCASE placeholders.\n\nThe default value is"
-            " `**DEGREE**`."
+            " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n-"
+            " `DATE`: Formatted date or date range (includes the time span when"
+            " enabled)\n- `START_DATE`: Formatted start date\n- `END_DATE`: Formatted"
+            " end date\n- `TIME_SPAN`: Calculated time span string when enabled\n\nYou"
+            " can also add arbitrary keys to entries and use them as UPPERCASE"
+            " placeholders.\n\nThe default value is `**DEGREE**`."
         ),
     )
     date_and_location_column: str = pydantic.Field(
@@ -667,9 +671,11 @@ class EducationEntry(BaseModelWithoutExtraKeys):
             " placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of"
             " study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`:"
             " Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location"
-            " text\n- `DATE`: Formatted date or date range\n\nYou can also add"
-            " arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe"
-            " default value is `LOCATION\\nDATE`."
+            " text\n- `DATE`: Formatted date or date range (includes the time span"
+            " when enabled)\n- `START_DATE`: Formatted start date\n- `END_DATE`:"
+            " Formatted end date\n- `TIME_SPAN`: Calculated time span string when"
+            " enabled\n\nYou can also add arbitrary keys to entries and use them as"
+            " UPPERCASE placeholders.\n\nThe default value is `LOCATION\\nDATE`."
         ),
     )
 
@@ -681,8 +687,11 @@ class NormalEntry(BaseModelWithoutExtraKeys):
             "Template for normal entry main column. Available placeholders:\n- `NAME`:"
             " Entry name/title\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet"
             " points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or"
-            " date range\n\nYou can also add arbitrary keys to entries and use them as"
-            " UPPERCASE placeholders.\n\nThe default value is"
+            " date range (includes the time span when enabled)\n- `START_DATE`:"
+            " Formatted start date\n- `END_DATE`: Formatted end date\n- `TIME_SPAN`:"
+            " Calculated time span string when enabled\n\nYou can also add arbitrary"
+            " keys to entries and use them as UPPERCASE placeholders.\n\nThe default"
+            " value is"
             " `**NAME**\\nSUMMARY\\nHIGHLIGHTS`."
         ),
     )
@@ -691,9 +700,12 @@ class NormalEntry(BaseModelWithoutExtraKeys):
         description=(
             "Template for normal entry date/location column. Available placeholders:\n-"
             " `NAME`: Entry name/title\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`:"
-            " Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date"
-            " or date range\n\nYou can also add arbitrary keys to entries and use them"
-            " as UPPERCASE placeholders.\n\nThe default value is `LOCATION\\nDATE`."
+            " Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted"
+            " date or date range (includes the time span when enabled)\n-"
+            " `START_DATE`: Formatted start date\n- `END_DATE`: Formatted end date\n-"
+            " `TIME_SPAN`: Calculated time span string when enabled\n\nYou can also"
+            " add arbitrary keys to entries and use them as UPPERCASE placeholders."
+            "\n\nThe default value is `LOCATION\\nDATE`."
         ),
     )
 
@@ -705,9 +717,12 @@ class ExperienceEntry(BaseModelWithoutExtraKeys):
             "Template for experience entry main column. Available placeholders:\n-"
             " `COMPANY`: Company name\n- `POSITION`: Job title/position\n- `SUMMARY`:"
             " Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location"
-            " text\n- `DATE`: Formatted date or date range\n\nYou can also add"
-            " arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe"
-            " default value is `**COMPANY**, POSITION\\nSUMMARY\\nHIGHLIGHTS`."
+            " text\n- `DATE`: Formatted date or date range (includes the time span"
+            " when enabled)\n- `START_DATE`: Formatted start date\n- `END_DATE`:"
+            " Formatted end date\n- `TIME_SPAN`: Calculated time span string when"
+            " enabled\n\nYou can also add arbitrary keys to entries and use them as"
+            " UPPERCASE placeholders.\n\nThe default value is `**COMPANY**,"
+            " POSITION\\nSUMMARY\\nHIGHLIGHTS`."
         ),
     )
     date_and_location_column: str = pydantic.Field(
@@ -717,8 +732,11 @@ class ExperienceEntry(BaseModelWithoutExtraKeys):
             " placeholders:\n- `COMPANY`: Company name\n- `POSITION`: Job"
             " title/position\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points"
             " list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date"
-            " range\n\nYou can also add arbitrary keys to entries and use them as"
-            " UPPERCASE placeholders.\n\nThe default value is `LOCATION\\nDATE`."
+            " range (includes the time span when enabled)\n- `START_DATE`: Formatted"
+            " start date\n- `END_DATE`: Formatted end date\n- `TIME_SPAN`: Calculated"
+            " time span string when enabled\n\nYou can also add arbitrary keys to"
+            " entries and use them as UPPERCASE placeholders.\n\nThe default value is"
+            " `LOCATION\\nDATE`."
         ),
     )
 
