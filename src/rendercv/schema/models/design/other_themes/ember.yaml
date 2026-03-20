@@ -1,0 +1,87 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: ember
+  page:
+    top_margin: 0.6in
+    bottom_margin: 0.6in
+    left_margin: 0.6in
+    right_margin: 0.6in
+  typography:
+    line_spacing: 0.6em
+    alignment: justified-with-no-hyphenation
+    font_family:
+      body: Ubuntu
+      name: Gentium Book Plus
+      headline: Gentium Book Plus
+      connections: Ubuntu
+      section_titles: Ubuntu
+    font_size:
+      body: 10pt
+      name: 30pt
+      headline: 10.5pt
+      connections: 9pt
+      section_titles: 1.25em
+    small_caps:
+      name: false
+      headline: true
+      connections: false
+      section_titles: true
+    bold:
+      name: true
+      headline: false
+      connections: false
+      section_titles: false
+  colors:
+    body: rgb(35, 31, 32)
+    name: rgb(155, 35, 25)
+    headline: rgb(90, 60, 55)
+    connections: rgb(100, 75, 68)
+    section_titles: rgb(155, 35, 25)
+    links: rgb(155, 35, 25)
+    footer: rgb(140, 125, 118)
+    top_note: rgb(140, 125, 118)
+  header:
+    alignment: center
+    space_below_name: 0.5cm
+    space_below_headline: 0.4cm
+    space_below_connections: 0.6cm
+    connections:
+      separator: "·"
+      show_icons: false
+      space_between_connections: 0.5cm
+  links:
+    underline: true
+    show_external_link_icon: false
+  section_titles:
+    type: centered_without_line
+    line_thickness: 0.5pt
+    space_above: 0.55cm
+    space_below: 0.25cm
+  sections:
+    space_between_regular_entries: 1.1em
+    space_between_text_based_entries: 0.3em
+    show_time_spans_in: []
+  entries:
+    short_second_row: false
+    side_space: 0.1cm
+    space_between_columns: 0.15cm
+    summary:
+      space_above: 0.05cm
+    highlights:
+      bullet: "◆"
+      nested_bullet: "◦"
+      space_left: 0.15cm
+      space_above: 0.05cm
+      space_between_items: 0.04cm
+      space_between_bullet_and_text: 0.5em
+  templates:
+    education_entry:
+      main_column: "**INSTITUTION** -- LOCATION\n*DEGREE_WITH_AREA*\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
+    normal_entry:
+      main_column: "**NAME** -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: "**COMPANY** -- LOCATION\n*POSITION*\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
