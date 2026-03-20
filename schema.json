@@ -9031,33 +9031,26 @@
       "type": "object"
     },
     "rendercv__schema__models__design__font_family__FontFamily": {
-      "anyOf": [
-        {
-          "type": "string"
-        },
-        {
-          "enum": [
-            "DejaVu Sans Mono",
-            "EB Garamond",
-            "Fontin",
-            "Gentium Book Plus",
-            "Lato",
-            "Libertinus Serif",
-            "Mukta",
-            "New Computer Modern",
-            "Noto Sans",
-            "Open Sans",
-            "Open Sauce Sans",
-            "Poppins",
-            "Raleway",
-            "Roboto",
-            "Source Sans 3",
-            "Ubuntu",
-            "XCharter"
-          ],
-          "type": "string"
-        }
-      ]
+      "enum": [
+        "DejaVu Sans Mono",
+        "EB Garamond",
+        "Fontin",
+        "Gentium Book Plus",
+        "Lato",
+        "Libertinus Serif",
+        "Mukta",
+        "New Computer Modern",
+        "Noto Sans",
+        "Open Sans",
+        "Open Sauce Sans",
+        "Poppins",
+        "Raleway",
+        "Roboto",
+        "Source Sans 3",
+        "Ubuntu",
+        "XCharter"
+      ],
+      "type": "string"
     },
     "rendercv__schema__models__locale__english_locale__Phrases__1": {
       "additionalProperties": false,
