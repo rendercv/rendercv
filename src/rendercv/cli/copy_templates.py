@@ -1,5 +1,7 @@
+import os
 import pathlib
 import shutil
+import stat
 from typing import Literal
 
 
@@ -29,3 +31,23 @@ def copy_templates(
         copy_templates_to,
         ignore=shutil.ignore_patterns("__init__.py", "__pycache__"),
     )
+    make_tree_writable(copy_templates_to)
+
+
+def make_tree_writable(path: pathlib.Path) -> None:
+    """Add user-write permission to all files and directories in a tree.
+
+    Why:
+        On immutable distributions like NixOS, package files are read-only.
+        shutil.copytree preserves source permissions, so copied files remain
+        read-only. Users need write access to customize templates.
+
+    Args:
+        path: Root directory to make writable.
+    """
+    for dirpath, _, filenames in os.walk(path):
+        dp = pathlib.Path(dirpath)
+        dp.chmod(dp.stat().st_mode | stat.S_IWUSR)
+        for filename in filenames:
+            fp = dp / filename
+            fp.chmod(fp.stat().st_mode | stat.S_IWUSR)
