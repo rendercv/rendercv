@@ -1,0 +1,16 @@
+description: RenderCV Skill Evaluation
+
+providers:
+  - id: anthropic:messages:claude-sonnet-4-6
+    config:
+      temperature: 0.0
+      max_tokens: 4096
+
+prompts:
+  - file://prompts/skill_chat.js
+
+tests:
+  - file://tests/cv_generation.yaml
+  - file://tests/design.yaml
+  - file://tests/cli_workflow.yaml
+  - file://tests/pdf_parsing.yaml

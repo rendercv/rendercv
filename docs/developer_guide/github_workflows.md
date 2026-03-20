@@ -36,7 +36,7 @@ GitHub reads these files and executes them automatically when the triggering eve
 
 ## RenderCV's Workflows
 
-RenderCV has 5 workflows. Each handles a specific automation task.
+RenderCV has 4 workflows. Each handles a specific automation task.
 
 **How workflows start:** Every workflow begins the same way: clone the repository, install `uv`, install `just`, then run some `just` commands. This recreates the same environment you'd have locally (see [Setup](index.md)).
 
@@ -67,21 +67,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 2. Uploads it to GitHub Pages
 3. Documentation is now live at https://docs.rendercv.com
 
-### 3. [`update-files.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/update-files.yaml): Update Generated Files
-
-**When it runs:**
-
-- Manually (via GitHub UI)
-
-**What it does:**
-
-1. Regenerates files derived from code:
-   - `schema.json` using `just update-schema`
-   - Example YAML files and PDFs in `examples/` folder using `just update-examples`
-   - Entry figures using `just update-entry-figures`
-2. Commits and pushes these changes to the repository
-
-### 4. [`create-executables.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/create-executables.yaml): Create Executables
+### 3. [`create-executables.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/create-executables.yaml): Create Executables
 
 **When it runs:**
 
@@ -98,7 +84,7 @@ RenderCV has 5 workflows. Each handles a specific automation task.
 
 These are single-file executables that users can download and run without installing Python.
 
-### 5. [`release.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/release.yaml): Publish a Release
+### 4. [`release.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/release.yaml): Publish a Release
 
 **When it runs:**
 

@@ -66,6 +66,7 @@ nav:
           - Arbitrary Keys in Entries: user_guide/how_to/arbitrary_keys_in_entries.md
           - Custom Fonts: user_guide/how_to/custom_fonts.md
           - Override Default Templates: user_guide/how_to/override_default_templates.md
+          - Use the AI Agent Skill: user_guide/how_to/use_the_ai_agent_skill.md
   - Developer Guide:
       - Setup: developer_guide/index.md
       - Project Management: developer_guide/project_management.md

@@ -1,0 +1,20 @@
+SARAH JOHNSON
+Software Developer | San Francisco, CA | sarah.j@email.com | linkedin.com/in/sarahj
+
+EXPERIENCE
+Meta, Software Engineer, Jan 2022 - Present, Menlo Park, CA
+- Built real-time data pipeline processing 10M events/day
+- Led migration from monolith to microservices architecture
+
+Stripe, Junior Developer, Jun 2020 - Dec 2021, San Francisco, CA
+- Developed payment integration APIs used by 500+ merchants
+- Reduced API response time by 40%
+
+EDUCATION
+University of Washington, B.S. Computer Science, 2016 - 2020, Seattle, WA
+- GPA: 3.85/4.0, Dean's List
+
+SKILLS
+Languages: Python, Java, Go, TypeScript
+Frameworks: React, Django, gRPC
+Tools: AWS, Docker, Kubernetes, Terraform

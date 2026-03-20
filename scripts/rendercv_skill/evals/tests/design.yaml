@@ -1,0 +1,23 @@
+- description: "Change theme to moderncv"
+  vars:
+    query: "Create a simple RenderCV YAML for John Doe with just a name and one skill. Use the moderncv theme."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: contains
+      value: "moderncv"
+
+- description: "Custom colors and margins"
+  vars:
+    query: "Create a RenderCV YAML for John Doe with just a name and one skill. Use dark red (#8B0000) for the name and section titles, 1-inch margins on all sides, and A4 paper. Keep the classic theme."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output includes a design section with:
+        - design.colors.name set to a red color (like #8B0000 or rgb equivalent)
+        - design.colors.section_titles set to the same red color
+        - Margins set to 1in
+        - design.page.size set to 'a4'
+        - theme remains 'classic'

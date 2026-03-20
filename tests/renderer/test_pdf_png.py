@@ -88,12 +88,12 @@ class TestGetPackagePath:
 
     def test_raises_error_when_version_missing_from_typst_toml(self):
         get_package_path.cache_clear()
-        toml_without_version = "[package]\nname = \"rendercv\"\n"
+        toml_without_version = '[package]\nname = "rendercv"\n'
         with (
             patch("pathlib.Path.read_text", return_value=toml_without_version),
             pytest.raises(
                 RenderCVInternalError,
-                match="Could not find version in bundled typst.toml",
+                match=r"Could not find version in bundled typst\.toml",
             ),
         ):
             get_package_path()

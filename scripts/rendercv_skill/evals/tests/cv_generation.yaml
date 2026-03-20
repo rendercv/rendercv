@@ -1,0 +1,73 @@
+- description: "Software engineer CV"
+  vars:
+    query: "Create a complete RenderCV YAML file for a software engineer named Alice Chen. She has 5 years of experience: 3 years at Google as a Senior Software Engineer and 2 years at Microsoft as a Software Engineer. She has a CS degree from Stanford (BS, 2017-2021). Her skills include Python, Go, Kubernetes, and React. She has two side projects: an open-source CLI tool and a personal blog engine."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output contains a RenderCV YAML with:
+        - cv.name set to Alice Chen
+        - Experience entries for Google and Microsoft with correct roles
+        - Education at Stanford
+        - A skills section
+        - A projects section
+
+- description: "Academic researcher CV"
+  vars:
+    query: "Create a RenderCV YAML file for Dr. Maria Rodriguez, a physics professor at MIT. She has a PhD from Caltech (2012-2017) and a BS from Berkeley (2008-2012). She has published 3 papers in Nature and Physical Review Letters. She was a postdoc at CERN (2017-2020) before joining MIT as assistant professor (2020-present). Include a grants section with two NSF grants."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output contains:
+        - cv.name is Dr. Maria Rodriguez
+        - A publications section with 3 papers
+        - Education at Caltech and Berkeley
+        - Experience for postdoc at CERN and professor at MIT
+        - A grants section with two NSF grants
+
+- description: "Fresh graduate CV"
+  vars:
+    query: "Create a RenderCV YAML file for James Park, a fresh CS graduate from UC Berkeley (2020-2024, GPA 3.8). He has no work experience but has 3 class projects and relevant coursework. His skills are Python, Java, SQL, and machine learning. Use the engineeringresumes theme."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: contains
+      value: "engineeringresumes"
+    - type: llm-rubric
+      value: |
+        The output:
+        - Uses engineeringresumes theme
+        - Has education at UC Berkeley
+        - Has a projects section with 3 projects
+        - Has a skills section
+        - Does NOT have an experience section (fresh graduate)
+
+- description: "Non-English CV with French locale"
+  vars:
+    query: "Create a RenderCV YAML file for Pierre Dupont, an engineer in Paris. He works at Airbus as a mechanical engineer (2019-present). He studied at Ecole Polytechnique (2014-2019). Use the French locale and the classic theme."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output:
+        - Sets locale language to french
+        - Has cv.name as Pierre Dupont
+        - Has experience at Airbus
+        - Has education at Ecole Polytechnique
+
+- description: "Minimal CV"
+  vars:
+    query: "Create the simplest possible RenderCV YAML file for someone named Sam Lee with just their name and a skills section listing 'Python, JavaScript, SQL'."
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output is minimal:
+        - cv.name is Sam Lee
+        - Has a skills section with Python, JavaScript, SQL
+        - Does not have unnecessary empty sections

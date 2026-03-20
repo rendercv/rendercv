@@ -1189,7 +1189,7 @@ wheels = [
 
 [[package]]
 name = "rendercv"
-version = "2.7"
+version = "2.8"
 source = { editable = "." }
 dependencies = [
     { name = "jinja2" },
