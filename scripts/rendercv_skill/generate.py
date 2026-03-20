@@ -327,6 +327,11 @@ def generate_skill_file() -> None:
     skill_zip_path.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(skill_zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
         info = zipfile.ZipInfo("rendercv/SKILL.md", date_time=fixed_date)
+        # Normalize zip metadata so the archive is byte-identical on Windows,
+        # macOS, and Linux.
+        info.compress_type = zipfile.ZIP_DEFLATED
+        info.create_system = 3
+        info.external_attr = 0o100644 << 16
         zf.writestr(info, rendered)
 
 
