@@ -1,7 +1,5 @@
 from typing import Literal
 
-from pydantic.json_schema import SkipJsonSchema
-
 available_font_families = sorted(
     [
         # Typst built-ins
@@ -27,4 +25,4 @@ available_font_families = sorted(
 )
 
 
-type FontFamily = SkipJsonSchema[str] | Literal[*tuple(available_font_families)]  # ty: ignore[invalid-type-form]
+type FontFamily = str | Literal[*tuple(available_font_families)]  # ty: ignore[invalid-type-form]
