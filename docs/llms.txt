@@ -13,7 +13,7 @@ description: >-
 
 ## Quick Start
 
-**Available themes:** `classic`, `engineeringclassic`, `engineeringresumes`, `harvard`, `moderncv`, `sb2nov`
+**Available themes:** `classic`, `harvard`, `engineeringresumes`, `engineeringclassic`, `sb2nov`, `moderncv`
 **Available locales:** `english`, `arabic`, `danish`, `dutch`, `french`, `german`, `hebrew`, `hindi`, `indonesian`, `italian`, `japanese`, `korean`, `mandarin_chinese`, `norwegian_bokmål`, `norwegian_nynorsk`, `persian`, `portuguese`, `russian`, `spanish`, `turkish`
 
 These are starting points — every aspect of the design and locale can be fully customized in the YAML file.
@@ -579,38 +579,51 @@ design:
 
 Other themes only override specific fields from the classic defaults above. To use a theme, set `design.theme` and optionally override any field. Each theme also customizes `design.templates` (entry layout patterns) — see the classic sample above for the full template structure. The override YAMLs below omit templates for brevity.
 
-#### engineeringclassic
+#### harvard
 
 ```yaml
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
-  theme: engineeringclassic
+  theme: harvard
+  page:
+    top_margin: 0.5in
+    bottom_margin: 0.5in
+    left_margin: 0.5in
+    right_margin: 0.5in
+    show_top_note: false
+  colors:
+    name: rgb(0,0,0)
+    headline: rgb(0,0,0)
+    connections: rgb(0,0,0)
+    section_titles: rgb(0,0,0)
+    links: rgb(0,0,0)
   typography:
     font_family:
-      body: Raleway
-      name: Raleway
-      headline: Raleway
-      connections: Raleway
-      section_titles: Raleway
-    bold:
-      name: false
-      section_titles: false
+      body: XCharter
+      name: XCharter
+      headline: XCharter
+      connections: XCharter
+      section_titles: XCharter
+    font_size:
+      name: 25pt
+      connections: 9pt
+      section_titles: 1.3em
   header:
-    alignment: left
-  links:
-    show_external_link_icon: false
+    space_below_name: 0.5cm
+    space_below_headline: 0.5cm
+    space_below_connections: 0.5cm
+    connections:
+      show_icons: false
+      separator: •
+      space_between_connections: 0.4cm
   section_titles:
-    type: with_full_line
+    type: centered_with_centered_partial_line
+    space_below: 0.2cm
   sections:
+    space_between_regular_entries: 1em
     show_time_spans_in: []
   entries:
     short_second_row: false
-    summary:
-      space_above: 0.12cm
-    highlights:
-      space_left: 0cm
-      space_above: 0.12cm
-      space_between_items: 0.12cm
 ```
 
 #### engineeringresumes
@@ -669,51 +682,77 @@ design:
       space_between_bullet_and_text: 0.3em
 ```
 
-#### harvard
+#### engineeringclassic
 
 ```yaml
 # yaml-language-server: $schema=../../../../../../schema.json
 design:
-  theme: harvard
-  page:
-    top_margin: 0.5in
-    bottom_margin: 0.5in
-    left_margin: 0.5in
-    right_margin: 0.5in
-    show_top_note: false
-  colors:
-    name: rgb(0,0,0)
-    headline: rgb(0,0,0)
-    connections: rgb(0,0,0)
-    section_titles: rgb(0,0,0)
-    links: rgb(0,0,0)
+  theme: engineeringclassic
   typography:
     font_family:
-      body: XCharter
-      name: XCharter
-      headline: XCharter
-      connections: XCharter
-      section_titles: XCharter
-    font_size:
-      name: 25pt
-      connections: 9pt
-      section_titles: 1.3em
+      body: Raleway
+      name: Raleway
+      headline: Raleway
+      connections: Raleway
+      section_titles: Raleway
+    bold:
+      name: false
+      section_titles: false
   header:
-    space_below_name: 0.5cm
-    space_below_headline: 0.5cm
-    space_below_connections: 0.5cm
-    connections:
-      show_icons: false
-      separator: •
-      space_between_connections: 0.4cm
+    alignment: left
+  links:
+    show_external_link_icon: false
   section_titles:
-    type: centered_with_centered_partial_line
-    space_below: 0.2cm
+    type: with_full_line
   sections:
-    space_between_regular_entries: 1em
     show_time_spans_in: []
   entries:
     short_second_row: false
+    summary:
+      space_above: 0.12cm
+    highlights:
+      space_left: 0cm
+      space_above: 0.12cm
+      space_between_items: 0.12cm
+```
+
+#### sb2nov
+
+```yaml
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: sb2nov
+  typography:
+    font_family:
+      body: New Computer Modern
+      name: New Computer Modern
+      headline: New Computer Modern
+      connections: New Computer Modern
+      section_titles: New Computer Modern
+  colors:
+    name: rgb(0,0,0)
+    connections: rgb(0,0,0)
+    section_titles: rgb(0,0,0)
+    headline: rgb(0,0,0)
+    links: rgb(0,0,0)
+  links:
+    underline: true
+    show_external_link_icon: false
+  section_titles:
+    type: with_full_line
+  sections:
+    show_time_spans_in: []
+  header:
+    connections:
+      hyperlink: true
+      show_icons: false
+      display_urls_instead_of_usernames: true
+      separator: •
+  entries:
+    short_second_row: false
+    highlights:
+      bullet: ◦
+      nested_bullet: ◦
 ```
 
 #### moderncv
@@ -762,44 +801,5 @@ design:
       space_above: 0.15cm
       space_between_items: 0.1cm
       space_between_bullet_and_text: 0.3em
-```
-
-#### sb2nov
-
-```yaml
-# yaml-language-server: $schema=../../../../../../schema.json
-design:
-  theme: sb2nov
-  typography:
-    font_family:
-      body: New Computer Modern
-      name: New Computer Modern
-      headline: New Computer Modern
-      connections: New Computer Modern
-      section_titles: New Computer Modern
-  colors:
-    name: rgb(0,0,0)
-    connections: rgb(0,0,0)
-    section_titles: rgb(0,0,0)
-    headline: rgb(0,0,0)
-    links: rgb(0,0,0)
-  links:
-    underline: true
-    show_external_link_icon: false
-  section_titles:
-    type: with_full_line
-  sections:
-    show_time_spans_in: []
-  header:
-    connections:
-      hyperlink: true
-      show_icons: false
-      display_urls_instead_of_usernames: true
-      separator: •
-  entries:
-    short_second_row: false
-    highlights:
-      bullet: ◦
-      nested_bullet: ◦
 ```
 
