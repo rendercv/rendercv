@@ -1,5 +1,5 @@
 ---
-name: publish-typst-package
+name: publish-rendercv-typst-package
 description: Create a PR to publish a new version of the rendercv-typst package to the Typst Universe (typst/packages repository). Validates package integrity, forks/clones the repo, copies files, and opens a PR.
 disable-model-invocation: true
 ---
