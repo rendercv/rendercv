@@ -175,18 +175,20 @@ def flatten_entry_validation_errors(
             continue
 
         if "ctx" not in plain_error or "caused_by" not in plain_error["ctx"]:
-            raise RenderCVInternalError("entry_validation error missing ctx or caused_by")
+            raise RenderCVInternalError(
+                "entry_validation error missing ctx or caused_by"
+            )
 
         for cause_error in plain_error["ctx"]["caused_by"]:
-            plain_cause_error = cast(
-                pydantic_core.ErrorDetails, dict(cause_error)
-            )
+            plain_cause_error = cast(pydantic_core.ErrorDetails, dict(cause_error))
             loc = plain_cause_error["loc"]
             if len(loc) != 0 and loc[0] == "entries":
                 loc = loc[1:]
 
             plain_cause_error["loc"] = plain_error["loc"] + loc
-            flattened_errors.extend(flatten_entry_validation_errors([plain_cause_error]))
+            flattened_errors.extend(
+                flatten_entry_validation_errors([plain_cause_error])
+            )
 
     return flattened_errors
 
