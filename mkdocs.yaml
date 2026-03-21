@@ -1,4 +1,4 @@
-site_name: RenderCV
+site_name: RenderCV CLI
 site_description: Typst-based CV/resume generator for academics and engineers
 copyright: Copyright &copy; 2023 - 2026 RenderCV
 repo_url: https://github.com/rendercv/rendercv
@@ -17,18 +17,18 @@ theme:
       primary: default
       accent: default
       toggle:
-        icon: material/lightbulb-outline
+        icon: custom/sun
         name: "Switch to dark mode"
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: default
       accent: default
       toggle:
-        icon: material/lightbulb
+        icon: custom/moon
         name: "Switch to light mode"
 
   font:
-    text: Roboto
+    text: DM Sans
     code: Roboto Mono
 
   features:
@@ -146,6 +146,7 @@ plugins:
             show_if_no_docstring: true
 extra_javascript:
   - assets/javascripts/katex.js
+  - assets/javascripts/rendercv-logo.js
   - https://unpkg.com/katex@0/dist/katex.min.js
   - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
 
