@@ -4,16 +4,7 @@ RenderCV provides an AI agent skill that teaches AI coding assistants how to cre
 
 ## Supported Agents
 
-The skill works with any AI coding agent that supports the skills protocol, including:
-
-- Claude Code
-- Claude Desktop
-- Cursor
-- Codex
-- Copilot
-- Windsurf
-- Gemini CLI
-- and 20+ others
+The skill works with any AI agent that supports the [skills standard](https://skills.sh), including Claude Code, Claude Desktop, Cursor, Codex, Copilot, Windsurf, and Gemini CLI.
 
 ## Install the Skill
 
@@ -54,6 +45,12 @@ The skill works with any AI coding agent that supports the skills protocol, incl
     git clone https://github.com/rendercv/rendercv-skill.git
     cp -r rendercv-skill/skills/rendercv ~/.claude/skills/
     ```
+
+## Auto-Generated and Evaluated
+
+The skill is auto-generated from RenderCV's source code. A [build script](https://github.com/rendercv/rendercv/blob/main/scripts/rendercv_skill/generate.py) parses the Pydantic models via AST, strips them down to schema-relevant fields, generates sample CVs and design configs, and renders everything into a single SKILL.md through a Jinja2 template. This keeps the skill always in sync with the latest RenderCV version.
+
+We maintain a [promptfoo eval suite](https://github.com/rendercv/rendercv/tree/main/scripts/rendercv_skill/evals) that validates the skill's quality. The evals cover CV generation (software engineers, academics, fresh graduates, non-English locales), design customization, CLI workflows, and parsing messy CV text into clean YAML. Each generated YAML is validated through RenderCV's own Pydantic pipeline, the same validation `rendercv render` uses, so schema violations are caught deterministically, not just with LLM-as-judge.
 
 ## What the Skill Provides
 

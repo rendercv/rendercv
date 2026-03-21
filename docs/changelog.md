@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.7...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.8...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,32 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.8] - March 21, 2026
+
+> **Full Changelog**: [v2.7...v2.8]
+
+### Added
+
+- Four new themes have been added: `harvard`, `ink`, `opal`, and `ember`.
+- Four new centered section title types have been added: `centered_without_line`, `centered_with_partial_line`, `centered_with_centered_partial_line`, and `centered_with_full_line`.
+- Built-in locale defaults for 2 additional languages have been added: Vietnamese and Hungarian.
+- Multi-platform Docker builds are now available for both `linux/amd64` and `linux/arm64` ([#697](https://github.com/rendercv/rendercv/issues/697)).
+
+### Changed
+
+- The `rendercv-typst` Typst package is now bundled inside the Python package. RenderCV no longer requires an internet connection to compile PDFs, as it no longer needs to download the package from Typst Universe at runtime. The package will continue to be published on Typst Universe for standalone Typst users.
+
+### Fixed
+
+- Custom fonts folder not being found when using a relative input path has been fixed ([#692](https://github.com/rendercv/rendercv/issues/692)).
+- CLI overrides like `--design.theme` no longer crash when the target section is not present in the main YAML file ([#595](https://github.com/rendercv/rendercv/issues/595)).
+- The `SUMMARY` placeholder can now be used inline in templates ([#653](https://github.com/rendercv/rendercv/issues/653)).
+- Design and locale overlay files specified in YAML `settings.render_command` are now loaded correctly ([#690](https://github.com/rendercv/rendercv/issues/690)).
+- Copied template files are now made writable for immutable distributions like NixOS ([#673](https://github.com/rendercv/rendercv/issues/673)).
+- Markdown lines are now processed independently to prevent cross-line emphasis interference ([#685](https://github.com/rendercv/rendercv/issues/685)).
+- Connector words in phrases no longer appear when their associated placeholder is empty (e.g., "BS in Mechanical Engineering" now correctly renders as "Mechanical Engineering" when the degree is omitted, instead of "in Mechanical Engineering").
+- `EducationEntry` location placement in markdown output has been fixed ([#691](https://github.com/rendercv/rendercv/issues/691)).
 
 ## [2.7] - March 6, 2026
 
@@ -642,6 +668,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.7...v2.8]: https://github.com/rendercv/rendercv/compare/v2.7...v2.8
 [v2.6...v2.7]: https://github.com/rendercv/rendercv/compare/v2.6...v2.7
 [v2.5...v2.6]: https://github.com/rendercv/rendercv/compare/v2.5...v2.6
 [v2.4...v2.5]: https://github.com/rendercv/rendercv/compare/v2.4...v2.5
@@ -677,6 +704,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.8]: https://github.com/rendercv/rendercv/releases/tag/v2.8
 [2.7]: https://github.com/rendercv/rendercv/releases/tag/v2.7
 [2.6]: https://github.com/rendercv/rendercv/releases/tag/v2.6
 [2.5]: https://github.com/rendercv/rendercv/releases/tag/v2.5

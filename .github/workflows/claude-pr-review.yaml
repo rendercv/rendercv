@@ -5,10 +5,8 @@ name: Claude PR Review
 # and add ANTHROPIC_API_KEY to repository secrets.
 
 on:
-  # Review runs need repository secrets/write-capable auth on fork PRs, so use the
-  # base-repository event context and avoid checking out untrusted PR code.
-  pull_request_target:
-    types: [opened, synchronize, ready_for_review]
+  pull_request:
+    types: [opened, ready_for_review]
 
 jobs:
   review:
@@ -21,7 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
           submodules: true
           fetch-depth: 0
 

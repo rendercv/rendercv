@@ -1,10 +1,10 @@
 """Tests that auto-generated files are up to date with the source code.
 
 Why:
-    Several files in the repository (schema.json, example YAMLs, llms.txt,
-    skill zip) are derived from source code. These tests fail when the
-    committed files diverge from what the generation code produces, catching
-    staleness on every PR instead of silently regenerating in CI.
+    Several files in the repository (schema.json, example YAMLs, llms.txt)
+    are derived from source code. These tests fail when the committed files
+    diverge from what the generation code produces, catching staleness on
+    every PR instead of silently regenerating in CI.
 """
 
 import pathlib
@@ -67,7 +67,7 @@ def test_example_yaml_is_up_to_date(theme: str) -> None:
     )
 
 
-def test_skill_artifacts_are_up_to_date() -> None:
+def test_skill_docs_are_up_to_date() -> None:
     skill_path = (
         repository_root
         / ".claude"
@@ -87,20 +87,15 @@ def test_skill_artifacts_are_up_to_date() -> None:
     run_just("update-skill")
 
     llms_after = llms_txt_path.read_text(encoding="utf-8")
-    skill_zip_after = skill_zip_path.read_bytes()
-
     # Restore original content
     skill_path.write_text(before, encoding="utf-8")
     llms_txt_path.write_text(llms_before, encoding="utf-8")
     skill_zip_path.write_bytes(skill_zip_before)
 
-    # The distributable skill artifacts are tracked in this repository, while the
-    # source SKILL.md lives in a separate submodule repository. Keep the working
-    # tree clean by restoring the submodule file, but only enforce freshness for
-    # the top-level artifacts generated in this repo.
-    assert skill_zip_before == skill_zip_after, (
-        "docs/assets/rendercv_skill.zip is stale. Run `just update-skill` to regenerate."
-    )
+    # The source SKILL.md lives in a separate submodule repository and the
+    # distributable ZIP is updated separately from feature PRs. Restore both to
+    # keep the working tree clean, but only enforce freshness for docs/llms.txt
+    # in this repository.
     assert llms_before == llms_after, (
         "docs/llms.txt is stale. Run `just update-skill` to regenerate."
     )
