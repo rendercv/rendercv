@@ -145,6 +145,7 @@ members = [
 
 [tool.ruff]
 line-length = 88
+extend-exclude = ["src/rendercv/renderer/typst_fontawesome"]
 
 [tool.ruff.format]
 docstring-code-format = true
