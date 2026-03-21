@@ -13,6 +13,9 @@ OFFLINE_ENV = {
     "http_proxy": "http://0.0.0.0:1",
     "https_proxy": "http://0.0.0.0:1",
     "no_proxy": "",
+    # Prevent UnicodeEncodeError on Windows where the default console encoding
+    # (cp1252) cannot handle Unicode characters like ✓ used by rich output.
+    "PYTHONIOENCODING": "utf-8",
 }
 
 
