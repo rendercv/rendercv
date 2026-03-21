@@ -234,15 +234,19 @@
   cursor: pointer;
 }
 
-/* Hovering logo dims both (forward sibling) */
-.md-header__button.md-logo:hover,
-.md-header__button.md-logo:hover ~ .md-header__title .md-header__topic:first-child {
+/* Hovering logo dims both logo + title (only when not scrolled) */
+.md-header__button.md-logo:hover {
+  opacity: 0.7;
+}
+.md-header__button.md-logo:hover ~ .md-header__title:not(.md-header__title--active) .md-header__topic:first-child {
   opacity: 0.7;
 }
 
-/* Hovering title dims both (backward via :has) */
-.md-header__inner:has(.md-header__title:hover) .md-header__button.md-logo,
-.md-header__inner:has(.md-header__title:hover) .md-header__topic:first-child {
+/* Hovering title dims both logo + title (only when not scrolled) */
+.md-header__inner:has(.md-header__title:not(.md-header__title--active):hover) .md-header__button.md-logo {
+  opacity: 0.7;
+}
+.md-header__inner:has(.md-header__title:not(.md-header__title--active):hover) .md-header__topic:first-child {
   opacity: 0.7;
 }
 
