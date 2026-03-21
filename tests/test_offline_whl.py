@@ -18,9 +18,17 @@ OFFLINE_ENV = {
 
 def run(args: list[str], **kwargs) -> subprocess.CompletedProcess[str]:
     """Run a subprocess with sensible defaults."""
-    return subprocess.run(
-        args, capture_output=True, text=True, timeout=120, check=True, **kwargs
+    result = subprocess.run(
+        args, capture_output=True, text=True, timeout=120, check=False, **kwargs
     )
+    if result.returncode != 0:
+        message = (
+            f"Command {args} failed with exit code {result.returncode}\n"
+            f"stdout:\n{result.stdout}\n"
+            f"stderr:\n{result.stderr}"
+        )
+        raise AssertionError(message)
+    return result
 
 
 def test_rendercv_renders_pdf_offline(tmp_path: pathlib.Path) -> None:
