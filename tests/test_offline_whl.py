@@ -29,9 +29,13 @@ def test_rendercv_renders_pdf_offline(tmp_path: pathlib.Path) -> None:
     run(["uv", "build", "--wheel", "--out-dir", str(dist_dir)], cwd=PROJECT_ROOT)
 
     wheel = next(dist_dir.glob("rendercv-*.whl"))
-    venv_python = tmp_path / "venv" / "bin" / "python"
+    venv_dir = tmp_path / "venv"
+    if sys.platform == "win32":
+        venv_python = venv_dir / "Scripts" / "python.exe"
+    else:
+        venv_python = venv_dir / "bin" / "python"
 
-    run(["uv", "venv", str(venv_python.parent.parent), "--python", sys.executable])
+    run(["uv", "venv", str(venv_dir), "--python", sys.executable])
     run(["uv", "pip", "install", "--python", str(venv_python), f"{wheel}[full]"])
 
     (tmp_path / "cv.yaml").write_text(
