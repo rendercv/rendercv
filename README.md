@@ -145,7 +145,7 @@ Let AI coding agents create and edit your CV. Install the RenderCV skill:
 npx skills add rendercv/rendercv-skill
 ```
 
-Works with Claude Code, Claude Desktop, Cursor, Codex, Copilot, Windsurf, Gemini CLI, and [20+ other agents](https://docs.rendercv.com/user_guide/how_to/use_the_ai_agent_skill).
+Works with any AI agent that supports the [skills standard](https://skills.sh). The skill is [auto-generated](https://github.com/rendercv/rendercv/blob/main/scripts/rendercv_skill/generate.py) from RenderCV's source code and [evaluated](https://github.com/rendercv/rendercv/tree/main/scripts/rendercv_skill/evals) with promptfoo against RenderCV's own Pydantic validation pipeline. See the [documentation](https://docs.rendercv.com/user_guide/how_to/use_the_ai_agent_skill) for details.
 
 ## Get Started
 

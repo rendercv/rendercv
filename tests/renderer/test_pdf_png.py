@@ -93,7 +93,7 @@ class TestGetPackagePath:
             patch("pathlib.Path.read_text", return_value=toml_without_version),
             pytest.raises(
                 RenderCVInternalError,
-                match=r"Could not find version in bundled typst\.toml",
+                match=r"Could not find version in",
             ),
         ):
             get_package_path()

@@ -6,7 +6,7 @@ name: Claude PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, ready_for_review]
+    types: [opened, ready_for_review]
 
 jobs:
   review:

@@ -1313,6 +1313,104 @@
       "title": "HindiLocale",
       "type": "object"
     },
+    "HungarianLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "hungarian",
+          "default": "hungarian",
+          "description": "The language for your CV. The default value is `hungarian`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Utoljára frissítve",
+          "description": "Translation of \"Last updated in\". The default value is `Utoljára frissítve`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "hónap",
+          "description": "Translation of \"month\" (singular). The default value is `hónap`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "hónap",
+          "description": "Translation of \"months\" (plural). The default value is `hónap`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "év",
+          "description": "Translation of \"year\" (singular). The default value is `év`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "év",
+          "description": "Translation of \"years\" (plural). The default value is `év`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "jelenleg",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `jelenleg`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__9",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Febr",
+            "Márc",
+            "Ápr",
+            "Máj",
+            "Jún",
+            "Júl",
+            "Aug",
+            "Szept",
+            "Okt",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Január",
+            "Február",
+            "Március",
+            "Április",
+            "Május",
+            "Június",
+            "Július",
+            "Augusztus",
+            "Szeptember",
+            "Október",
+            "November",
+            "December"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "HungarianLocale",
+      "type": "object"
+    },
     "IndonesianLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1360,7 +1458,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__9",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__10",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1498,7 +1596,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__10",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__11",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1596,7 +1694,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__11",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1694,7 +1792,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__12",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -1814,6 +1912,7 @@
           "german": "#/$defs/GermanLocale",
           "hebrew": "#/$defs/HebrewLocale",
           "hindi": "#/$defs/HindiLocale",
+          "hungarian": "#/$defs/HungarianLocale",
           "indonesian": "#/$defs/IndonesianLocale",
           "italian": "#/$defs/ItalianLocale",
           "japanese": "#/$defs/JapaneseLocale",
@@ -1825,7 +1924,8 @@
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
-          "turkish": "#/$defs/TurkishLocale"
+          "turkish": "#/$defs/TurkishLocale",
+          "vietnamese": "#/$defs/VietnameseLocale"
         },
         "propertyName": "language"
       },
@@ -1853,6 +1953,9 @@
         },
         {
           "$ref": "#/$defs/HindiLocale"
+        },
+        {
+          "$ref": "#/$defs/HungarianLocale"
         },
         {
           "$ref": "#/$defs/IndonesianLocale"
@@ -1889,6 +1992,9 @@
         },
         {
           "$ref": "#/$defs/TurkishLocale"
+        },
+        {
+          "$ref": "#/$defs/VietnameseLocale"
         }
       ]
     },
@@ -1939,7 +2045,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__13",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__14",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2077,7 +2183,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__14",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__15",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2175,7 +2281,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__15",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__16",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2341,7 +2447,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__16",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__17",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2451,7 +2557,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__17",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__18",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2661,7 +2767,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__18",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__19",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -2902,7 +3008,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__19",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__20",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3000,7 +3106,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__20",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3053,6 +3159,104 @@
     },
     "TypstDimension": {
       "type": "string"
+    },
+    "VietnameseLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "vietnamese",
+          "default": "vietnamese",
+          "description": "The language for your CV. The default value is `vietnamese`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Cập nhật lần cuối vào",
+          "description": "Translation of \"Last updated in\". The default value is `Cập nhật lần cuối vào`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "tháng",
+          "description": "Translation of \"month\" (singular). The default value is `tháng`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "tháng",
+          "description": "Translation of \"months\" (plural). The default value is `tháng`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "năm",
+          "description": "Translation of \"year\" (singular). The default value is `năm`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "năm",
+          "description": "Translation of \"years\" (plural). The default value is `năm`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "hiện tại",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `hiện tại`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Th01",
+            "Th02",
+            "Th03",
+            "Th04",
+            "Th05",
+            "Th06",
+            "Th07",
+            "Th08",
+            "Th09",
+            "Th10",
+            "Th11",
+            "Th12"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Tháng Một",
+            "Tháng Hai",
+            "Tháng Ba",
+            "Tháng Tư",
+            "Tháng Năm",
+            "Tháng Sáu",
+            "Tháng Bảy",
+            "Tháng Tám",
+            "Tháng Chín",
+            "Tháng Mười",
+            "Tháng Mười Một",
+            "Tháng Mười Hai"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "VietnameseLocale",
+      "type": "object"
     },
     "rendercv__schema__models__cv__entries__education__EducationEntry": {
       "additionalProperties": true,
@@ -9069,8 +9273,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE in AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
+          "default": "DEGREE di AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE di AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9082,8 +9286,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "AREA DEGREE",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
+          "default": "DEGREE in AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE in AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9121,8 +9325,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE i AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "default": "AREA DEGREE",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA DEGREE`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9147,6 +9351,19 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__17": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
           "default": "DEGREE در AREA",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE در AREA`.",
           "title": "Degree With Area",
@@ -9156,7 +9373,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__17": {
+    "rendercv__schema__models__locale__english_locale__Phrases__18": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -9169,25 +9386,12 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__18": {
+    "rendercv__schema__models__locale__english_locale__Phrases__19": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
           "default": "DEGREE в AREA",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE в AREA`.",
-          "title": "Degree With Area",
-          "type": "string"
-        }
-      },
-      "title": "Phrases",
-      "type": "object"
-    },
-    "rendercv__schema__models__locale__english_locale__Phrases__19": {
-      "additionalProperties": false,
-      "properties": {
-        "degree_with_area": {
-          "default": "DEGREE en AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE en AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9212,8 +9416,34 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
+          "default": "DEGREE en AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE en AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__21": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
           "default": "AREA, DEGREE",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA, DEGREE`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
+          "default": "DEGREE ngành AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE ngành AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9303,8 +9533,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE di AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE di AREA`.",
+          "default": "DEGREE AREA szakon",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE AREA szakon`.",
           "title": "Degree With Area",
           "type": "string"
         }
