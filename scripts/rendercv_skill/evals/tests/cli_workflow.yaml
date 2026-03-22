@@ -1,0 +1,42 @@
+- description: "Install command uses rendercv[full]"
+  vars:
+    query: "How do I install RenderCV?"
+  assert:
+    - type: contains
+      value: "rendercv[full]"
+
+- description: "Separate design file workflow"
+  vars:
+    query: "I want to keep my CV content and design in separate YAML files so I can reuse the same design across multiple CVs. How do I set this up?"
+  assert:
+    - type: contains
+      value: "--design"
+    - type: llm-rubric
+      value: |
+        The response explains:
+        - The main YAML file contains cv content (and optionally locale/settings), but no design
+        - A separate YAML file contains the design configuration under the design: key
+        - Use 'rendercv render cv.yaml --design design.yaml' to combine them
+
+- description: "Watch mode for live editing"
+  vars:
+    query: "How can I see my CV update in real-time as I edit the YAML file?"
+  assert:
+    - type: contains
+      value: "--watch"
+
+- description: "CLI field overrides with dot notation"
+  vars:
+    query: "I want to render my CV but temporarily change my name to 'Jane Smith' and switch to the moderncv theme without editing the YAML file. How?"
+  assert:
+    - type: contains
+      value: "--cv.name"
+    - type: contains
+      value: "--design.theme"
+
+- description: "Bold keywords in settings"
+  vars:
+    query: "I want RenderCV to automatically bold certain keywords in my CV: 'Python', 'Machine Learning', and 'Kubernetes'. How do I set this up?"
+  assert:
+    - type: contains
+      value: "bold_keywords"

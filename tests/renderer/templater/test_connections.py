@@ -3,6 +3,7 @@ from typing import Literal, get_args
 import pydantic
 import pytest
 
+from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.connections import (
     compute_connections,
     compute_connections_for_markdown,
@@ -417,3 +418,22 @@ class TestIconMapping:
         assert conn_type in fontawesome_icons, (
             f"Missing icon for connection type: {conn_type}"
         )
+
+
+class TestParseConnectionsInternalErrors:
+    """Test defensive guards when _key_order contains a key but the field is None."""
+
+    def _make_model_with_none_field(self, key: str) -> RenderCVModel:
+        cv = Cv.model_validate({"name": "John Doe"})
+        cv._key_order = [key]
+        return create_rendercv_model(cv)
+
+    @pytest.mark.parametrize(
+        "key",
+        ["phone", "website", "social_networks", "custom_connections"],
+    )
+    def test_raises_for_none_field_in_key_order(self, key):
+        model = self._make_model_with_none_field(key)
+
+        with pytest.raises(RenderCVInternalError):
+            parse_connections(model)

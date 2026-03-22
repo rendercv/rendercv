@@ -6,6 +6,7 @@
 
 {% endif -%}
 {% for line in entry.date_and_location_column.splitlines() %}
+
 {{ line }}
 
 {% endfor %}

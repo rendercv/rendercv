@@ -5,14 +5,14 @@ repos:
       - id: check-added-large-files
       - id: check-toml
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
       - id: codespell
         args:
           - --skip=src/rendercv/schema/models/locale/other_locales/*
           - --exclude-file=schema.json
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.10
+    rev: v0.15.7
     hooks:
       - id: ruff-check
       - id: ruff-format
@@ -24,4 +24,4 @@ repos:
         entry: ty check src tests
         pass_filenames: false
         args: [--python=.venv/]
-        additional_dependencies: ["ty>=0.0.17"]
+        additional_dependencies: ["ty>=0.0.24"]

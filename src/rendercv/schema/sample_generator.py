@@ -144,28 +144,19 @@ def create_sample_yaml_input_file(
         name=name, theme=theme, locale=locale
     )
 
-    # Instead of getting the dictionary with data_model.model_dump() directly, we
-    # convert it to JSON and then to a dictionary. Because the YAML library we are
-    # using sometimes has problems with the dictionary returned by model_dump().
-
-    # We exclude "cv.sections" because the data model automatically generates them.
-    # The user's "cv.sections" input is actually "cv.sections_input" in the data
-    # model. It is shown as "cv.sections" in the YAML file because an alias is being
-    # used. If"cv.sections" were not excluded, the automatically generated
-    # "cv.sections" would overwrite the "cv.sections_input". "cv.sections" are
-    # automatically generated from "cv.sections_input" to make the templating
-    # process easier. "cv.sections_input" exists for the convenience of the user.
-    # Also, we don't want to show the cv.photo field in the Web app.
-    data_model_as_json = data_model.model_dump_json(
-        exclude_none=False,
-        by_alias=True,
-    )
-    data_model_as_dictionary = json.loads(data_model_as_json)
+    data_model_as_dictionary = rendercv_model_to_dictionary(data_model)
 
     yaml_string = dictionary_to_yaml(data_model_as_dictionary)
 
-    # Process for nested bullets:
-    yaml_string = re.sub(r"(?<! ) - (?! )", "\n            - ", yaml_string)
+    # Process for nested bullets (only in YAML list items, not mapping values):
+    yaml_string = "\n".join(
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
+        for line in yaml_string.split("\n")
+    )
 
     # Add a comment to the first line, for JSON Schema:
     comment_to_add = (
@@ -207,3 +198,238 @@ def create_sample_yaml_input_file(
         file_path.write_text(yaml_string, encoding="utf-8")
 
     return yaml_string
+
+
+def rendercv_model_to_dictionary(data_model: RenderCVModel) -> dict:
+    """Convert a RenderCVModel to a plain dictionary via JSON serialization.
+
+    Why:
+        The YAML library sometimes has problems with the dictionary returned by
+        Pydantic's model_dump(). Converting through JSON first produces clean
+        Python dicts that serialize reliably.
+
+    Args:
+        data_model: Validated RenderCV model.
+
+    Returns:
+        Plain dictionary representation of the model.
+    """
+    data_model_as_json = data_model.model_dump_json(
+        exclude_none=False,
+        by_alias=True,
+    )
+    return json.loads(data_model_as_json)
+
+
+@overload
+def create_sample_yaml_file(
+    *,
+    dictionary: dict,
+    file_path: None,
+) -> str: ...
+@overload
+def create_sample_yaml_file(
+    *,
+    dictionary: dict,
+    file_path: pathlib.Path,
+) -> None: ...
+def create_sample_yaml_file(
+    *,
+    dictionary: dict,
+    file_path: pathlib.Path | None = None,
+) -> str | None:
+    """Convert a dictionary to formatted YAML and optionally write to file.
+
+    Why:
+        Multiple sample file generators share the same conversion and
+        file-writing logic. Centralizing it avoids duplication across
+        create_sample_cv_file, create_sample_design_file, etc.
+
+    Args:
+        dictionary: Data structure to convert to YAML.
+        file_path: Optional path to write file.
+
+    Returns:
+        YAML string if file_path is None, otherwise None after writing file.
+    """
+    yaml_string = dictionary_to_yaml(dictionary)
+
+    # Process for nested bullets (only in YAML list items, not mapping values):
+    yaml_string = "\n".join(
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
+        for line in yaml_string.split("\n")
+    )
+
+    if file_path is not None:
+        file_path.write_text(yaml_string, encoding="utf-8")
+
+    return yaml_string
+
+
+@overload
+def create_sample_cv_file(
+    *,
+    file_path: None,
+    name: str = "John Doe",
+) -> str: ...
+@overload
+def create_sample_cv_file(
+    *,
+    file_path: pathlib.Path,
+    name: str = "John Doe",
+) -> None: ...
+def create_sample_cv_file(
+    *,
+    file_path: pathlib.Path | None = None,
+    name: str = "John Doe",
+) -> str | None:
+    """Generate a sample YAML file containing only the CV section.
+
+    Why:
+        Standalone CV files let users focus on content separately from
+        design, locale, and settings configuration.
+
+    Args:
+        file_path: Optional path to write file.
+        name: Person's full name.
+
+    Returns:
+        YAML string if file_path is None, otherwise None after writing file.
+    """
+    data_model = create_sample_rendercv_pydantic_model(name=name)
+    dictionary = rendercv_model_to_dictionary(data_model)
+    return create_sample_yaml_file(
+        dictionary={"cv": dictionary["cv"]}, file_path=file_path
+    )
+
+
+@overload
+def create_sample_design_file(
+    *,
+    file_path: None,
+    theme: str = "classic",
+) -> str: ...
+@overload
+def create_sample_design_file(
+    *,
+    file_path: pathlib.Path,
+    theme: str = "classic",
+) -> None: ...
+def create_sample_design_file(
+    *,
+    file_path: pathlib.Path | None = None,
+    theme: str = "classic",
+) -> str | None:
+    """Generate a sample YAML file containing only the design section.
+
+    Why:
+        Standalone design files let users explore all theme options
+        without mixing in CV content or locale settings.
+
+    Args:
+        file_path: Optional path to write file.
+        theme: Design theme identifier.
+
+    Returns:
+        YAML string if file_path is None, otherwise None after writing file.
+    """
+    if theme not in available_themes:
+        message = (
+            f"The theme {theme} is not available. The available themes are:"
+            f" {available_themes}"
+        )
+        raise RenderCVUserError(message)
+
+    data_model = create_sample_rendercv_pydantic_model(theme=theme)
+    dictionary = rendercv_model_to_dictionary(data_model)
+    return create_sample_yaml_file(
+        dictionary={"design": dictionary["design"]}, file_path=file_path
+    )
+
+
+@overload
+def create_sample_locale_file(
+    *,
+    file_path: None,
+    locale: str = "english",
+) -> str: ...
+@overload
+def create_sample_locale_file(
+    *,
+    file_path: pathlib.Path,
+    locale: str = "english",
+) -> None: ...
+def create_sample_locale_file(
+    *,
+    file_path: pathlib.Path | None = None,
+    locale: str = "english",
+) -> str | None:
+    """Generate a sample YAML file containing only the locale section.
+
+    Why:
+        Standalone locale files let users customize language and date
+        formatting independently from CV content and design.
+
+    Args:
+        file_path: Optional path to write file.
+        locale: Language/date format identifier.
+
+    Returns:
+        YAML string if file_path is None, otherwise None after writing file.
+    """
+    if locale not in available_locales:
+        message = (
+            f"The locale {locale} is not available. The available locales are:"
+            f" {available_locales}. \n\nBut you can continue with `English`, and then"
+            " write your own `locale` field in the input file."
+        )
+        raise RenderCVUserError(message)
+
+    data_model = create_sample_rendercv_pydantic_model(locale=locale)
+    dictionary = rendercv_model_to_dictionary(data_model)
+    return create_sample_yaml_file(
+        dictionary={"locale": dictionary["locale"]}, file_path=file_path
+    )
+
+
+@overload
+def create_sample_settings_file(
+    *,
+    file_path: None,
+    omitted_fields: list[str] | None = None,
+) -> str: ...
+@overload
+def create_sample_settings_file(
+    *,
+    file_path: pathlib.Path,
+    omitted_fields: list[str] | None = None,
+) -> None: ...
+def create_sample_settings_file(
+    *,
+    file_path: pathlib.Path | None = None,
+    omitted_fields: list[str] | None = None,
+) -> str | None:
+    """Generate a sample YAML file containing only the settings section.
+
+    Why:
+        Standalone settings files let users configure render options
+        independently from CV content, design, and locale.
+
+    Args:
+        file_path: Optional path to write file.
+
+    Returns:
+        YAML string if file_path is None, otherwise None after writing file.
+    """
+    data_model = create_sample_rendercv_pydantic_model()
+    dictionary = rendercv_model_to_dictionary(data_model)
+    if omitted_fields is not None:
+        for field in omitted_fields:
+            dictionary["settings"].pop(field, None)
+    return create_sample_yaml_file(
+        dictionary={"settings": dictionary["settings"]}, file_path=file_path
+    )

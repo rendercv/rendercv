@@ -1,0 +1,51 @@
+name: Claude
+
+# Interactive Claude: responds to @claude mentions in issue and PR comments.
+# This is how you tell Claude "okay, make a PR" or give follow-up instructions.
+# Requires: Install the Claude GitHub App (https://github.com/apps/claude)
+# and add ANTHROPIC_API_KEY to repository secrets.
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
+      (github.event_name == 'pull_request_review' && contains(github.event.review.body, '@claude'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install dependencies
+        run: just sync
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: "--model claude-sonnet-4-6"
+          prompt: |
+            Use the skills in .claude/skills/ as appropriate. For fixing issues, follow .claude/skills/solve-rendercv-issue/SKILL.md. For reviewing PRs, follow .claude/skills/review-rendercv-pr/SKILL.md.

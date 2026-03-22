@@ -1,6 +1,8 @@
+import atexit
 import functools
 import pathlib
 import shutil
+import tempfile
 
 import rendercv_fonts
 import typst
@@ -33,9 +35,11 @@ def generate_pdf(
     pdf_path = resolve_rendercv_file_path(
         rendercv_model, rendercv_model.settings.render_command.pdf_path
     )
-    typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(
+        rendercv_model._input_file_path, typst_path.parent
+    )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
-    typst_compiler.compile(format="pdf", output=pdf_path)
+    typst_compiler.compile(input=typst_path, format="pdf", output=pdf_path)
 
     return pdf_path
 
@@ -67,9 +71,11 @@ def generate_png(
         if existing_png_file.is_file():
             existing_png_file.unlink()
 
-    typst_compiler = get_typst_compiler(typst_path, rendercv_model._input_file_path)
+    typst_compiler = get_typst_compiler(
+        rendercv_model._input_file_path, typst_path.parent
+    )
     copy_photo_next_to_typst_file(rendercv_model, typst_path)
-    png_files_bytes = typst_compiler.compile(format="png")
+    png_files_bytes = typst_compiler.compile(input=typst_path, format="png")
 
     if not isinstance(png_files_bytes, list):
         png_files_bytes = [png_files_bytes]
@@ -99,37 +105,126 @@ def copy_photo_next_to_typst_file(
         rendercv_model: CV model containing photo path.
         typst_path: Path to Typst source file.
     """
-    if rendercv_model.cv.photo:
-        photo_path = rendercv_model.cv.photo
+    photo_path = rendercv_model.cv.photo
+    if isinstance(photo_path, pathlib.Path):
         copy_to = typst_path.parent / photo_path.name
         if photo_path != copy_to:
-            shutil.copy(
-                rendercv_model.cv.photo,
-                typst_path.parent / rendercv_model.cv.photo.name,
-            )
+            shutil.copy(photo_path, copy_to)
+
+
+def read_version_from_typst_toml(typst_toml_path: pathlib.Path) -> str:
+    """Read the version field from a typst.toml file.
+
+    Why:
+        Multiple bundled Typst packages need their version extracted for
+        directory layout. Centralizes the parsing logic.
+
+    Args:
+        typst_toml_path: Path to the typst.toml file.
+
+    Returns:
+        The version string.
+    """
+    for line in typst_toml_path.read_text(encoding="utf-8").splitlines():
+        stripped = line.strip()
+        if stripped.startswith("version"):
+            return stripped.split("=", 1)[1].strip().strip('"')
+
+    message = f"Could not find version in {typst_toml_path}"
+    raise RenderCVInternalError(message)
+
+
+def install_bundled_typst_package(
+    bundled_path: pathlib.Path,
+    package_name: str,
+    temp_dir: pathlib.Path,
+    typ_files: list[str],
+) -> None:
+    """Copy a bundled Typst package into the temporary package cache.
+
+    Why:
+        The Typst compiler expects packages in a directory structure of
+        preview/{name}/{version}/. This copies the required files from
+        a bundled package into that layout.
+
+    Args:
+        bundled_path: Path to the bundled package directory.
+        package_name: Name of the Typst package (used in directory structure).
+        temp_dir: Root of the temporary package cache.
+        typ_files: List of .typ filenames to copy alongside typst.toml.
+    """
+    version = read_version_from_typst_toml(bundled_path / "typst.toml")
+    package_directory = temp_dir / "preview" / package_name / version
+    package_directory.mkdir(parents=True)
+    shutil.copy2(bundled_path / "typst.toml", package_directory / "typst.toml")
+    for typ_file in typ_files:
+        shutil.copy2(bundled_path / typ_file, package_directory / typ_file)
+
+
+@functools.lru_cache(maxsize=1)
+def get_package_path() -> pathlib.Path:
+    """Set up local Typst package resolution from bundled Typst packages.
+
+    Why:
+        Bundled Typst packages (rendercv, fontawesome) are shipped inside the
+        Python package so that PDF compilation works without downloading from
+        Typst Universe. The Typst compiler expects packages in a directory
+        structure of preview/{name}/{version}/, so this creates a temporary
+        directory with that layout.
+
+    Returns:
+        Path to temporary package cache directory.
+    """
+    temp_dir = pathlib.Path(tempfile.mkdtemp(prefix="rendercv-pkg-"))
+    atexit.register(shutil.rmtree, str(temp_dir), True)
+
+    renderer_dir = pathlib.Path(__file__).parent
+
+    install_bundled_typst_package(
+        bundled_path=renderer_dir / "rendercv_typst",
+        package_name="rendercv",
+        temp_dir=temp_dir,
+        typ_files=["lib.typ"],
+    )
+
+    install_bundled_typst_package(
+        bundled_path=renderer_dir / "typst_fontawesome",
+        package_name="fontawesome",
+        temp_dir=temp_dir,
+        typ_files=[
+            "lib.typ",
+            "lib-impl.typ",
+            "lib-gen-func.typ",
+            "lib-gen-map.typ",
+        ],
+    )
+
+    return temp_dir
 
 
 @functools.lru_cache(maxsize=1)
 def get_typst_compiler(
-    file_path: pathlib.Path,
     input_file_path: pathlib.Path | None,
+    root: pathlib.Path,
 ) -> typst.Compiler:
     """Create cached Typst compiler with font paths configured.
 
     Why:
-        Compiler initialization is expensive. Caching enables reuse for both
-        PDF and PNG generation. Font paths include package fonts and optional
-        user fonts from input file directory.
+        Compiler initialization is expensive. Caching enables reuse across
+        all compilations. The source file is passed per compile() call, so
+        the compiler survives output filename changes (e.g., when cv.name
+        changes). Font paths include package fonts and optional user fonts
+        from input file directory.
 
     Args:
-        file_path: Typst source file to compile.
         input_file_path: Original input file path for relative font resolution.
+        root: Root directory for Typst project. Must contain the input file.
 
     Returns:
         Configured Typst compiler instance.
     """
     return typst.Compiler(
-        file_path,
+        root=root,
         font_paths=[
             *rendercv_fonts.paths_to_font_folders,
             (
@@ -138,4 +233,5 @@ def get_typst_compiler(
                 else pathlib.Path.cwd() / "fonts"
             ),
         ],
+        package_path=get_package_path(),
     )

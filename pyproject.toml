@@ -29,8 +29,8 @@ build-backend = "uv_build"  # Build-backend object for building RenderCV
 [project]
 # Metadata about RenderCV.
 name = "rendercv"
-version = "2.7"
-description = "CV/resume generator for academics and engineers"
+version = "2.8"
+description = "Resume builder for academics and engineers"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
@@ -59,7 +59,7 @@ dependencies = [
 
 [project.optional-dependencies]
 full = [
-  "typer>=0.23.1",  # Command-line interface
+  "typer>=0.24.1",  # Command-line interface
   "watchdog>=6.0.0",  # Monitor files for updates
   "typst>=0.14.8",  # Render PDF from Typst source files
   "rendercv-fonts>=0.5.1",  # Font files for RenderCV
@@ -86,13 +86,13 @@ rendercv = "rendercv.cli.entry_point:entry_point"
 # Virtual Environment Dependencies:
 [dependency-groups]
 dev = [
-  "black>=26.1.0",  # Format the code
-  "prek>=0.3.3",  # Run checks before committing (pre-commit alternative)
+  "black>=26.3.1",  # Format the code
+  "prek>=0.3.6",  # Run checks before committing (pre-commit alternative)
   "pytest>=9.0.2",  # Run tests
   "pytest-cov>=7.0.0",  # Coverage plugin for pytest with xdist support
   "pytest-xdist>=3.8.0",  # Run tests in parallel
-  "ruff>=0.15.1",  # Lint and format the code
-  "ty>=0.0.17",  # Type checking
+  "ruff>=0.15.7",  # Lint and format the code
+  "ty>=0.0.24",  # Type checking
 ]
 create-executable = [
   "pyinstaller>=6.17.0",  # Build executables
@@ -103,7 +103,7 @@ docs = [
   "mkdocs-literate-nav>=0.6.2",  # Dynamic navigation for API reference
   "mkdocs-macros-plugin>=1.5.0",  # Dynamic content in docs
   "mkdocs-material>=9.7.1",
-  "griffe>=1.0,<2",  # Pin to v1 (v2 broke mkdocstrings-python compatibility)
+  "griffe>=1.0,<3",  # Pin to v1 (v2 broke mkdocstrings-python compatibility)
   "mkdocstrings[python]>=1.0.3",  # Build reference docs from docstrings
 ]
 update-entry-figures = [
@@ -120,8 +120,32 @@ update-entry-figures = [
 [tool.uv]
 default-groups = ["dev", "docs"]
 
+[tool.uv.build-backend]
+# The rendercv-typst Typst package lives in src/rendercv/renderer/rendercv_typst/.
+# Only lib.typ and typst.toml are needed at runtime; exclude everything else from the wheel.
+wheel-exclude = [
+    "renderer/rendercv_typst/examples/**",
+    "renderer/rendercv_typst/template/**",
+    "renderer/rendercv_typst/README.md",
+    "renderer/rendercv_typst/CHANGELOG.md",
+    "renderer/rendercv_typst/LICENSE",
+    "renderer/rendercv_typst/thumbnail.png",
+    "renderer/typst_fontawesome/example.typ",
+    "renderer/typst_fontawesome/gallery.typ",
+    "renderer/typst_fontawesome/helper.py",
+    "renderer/typst_fontawesome/README.md",
+    "renderer/typst_fontawesome/LICENSE",
+    "renderer/typst_fontawesome/.gitignore",
+]
+
+[tool.uv.workspace]
+members = [
+    "scripts/ats_proof",
+]
+
 [tool.ruff]
 line-length = 88
+extend-exclude = ["src/rendercv/renderer/typst_fontawesome"]
 
 [tool.ruff.format]
 docstring-code-format = true

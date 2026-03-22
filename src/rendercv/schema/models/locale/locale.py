@@ -32,6 +32,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
             discriminator_field="language",
             class_name_suffix="Locale",
             module_name="rendercv.schema.models.locale",
+            require_all_fields=True,
         )
         discovered.append(locale_model)
 

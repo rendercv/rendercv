@@ -1,0 +1,88 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+design:
+  theme: opal
+  page:
+    top_margin: 0.65in
+    bottom_margin: 0.65in
+    left_margin: 0.65in
+    right_margin: 0.65in
+    show_footer: false
+    show_top_note: false
+  typography:
+    line_spacing: 0.6em
+    alignment: left
+    font_family:
+      body: Lato
+      name: Lato
+      headline: Lato
+      connections: Lato
+      section_titles: Lato
+    font_size:
+      body: 10pt
+      name: 26pt
+      headline: 10pt
+      connections: 9pt
+      section_titles: 1.2em
+    small_caps:
+      name: false
+      headline: true
+      connections: false
+      section_titles: true
+    bold:
+      name: true
+      headline: false
+      connections: false
+      section_titles: false
+  colors:
+    name: rgb(0, 100, 90)
+    headline: rgb(0, 80, 72)
+    connections: rgb(0, 80, 72)
+    section_titles: rgb(0, 100, 90)
+    links: rgb(0, 100, 90)
+    footer: rgb(100, 140, 135)
+    top_note: rgb(100, 140, 135)
+  header:
+    alignment: center
+    space_below_name: 0.3cm
+    space_below_headline: 0.3cm
+    space_below_connections: 0.6cm
+    connections:
+      separator: "•"
+      show_icons: true
+      space_between_connections: 0.5cm
+  links:
+    underline: false
+    show_external_link_icon: false
+  section_titles:
+    type: centered_without_line
+    line_thickness: 0.4pt
+    space_above: 0.55cm
+    space_below: 0.25cm
+  sections:
+    space_between_regular_entries: 1.1em
+    space_between_text_based_entries: 0.3em
+    show_time_spans_in: []
+  entries:
+    short_second_row: true
+    side_space: 0.15cm
+    space_between_columns: 0.1cm
+    summary:
+      space_above: 0.04cm
+    highlights:
+      bullet: "◦"
+      nested_bullet: "◦"
+      space_left: 0.15cm
+      space_above: 0.04cm
+      space_between_items: 0.04cm
+      space_between_bullet_and_text: 0.5em
+  templates:
+    education_entry:
+      main_column: "**INSTITUTION** -- LOCATION\nDEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+      degree_column: null
+    normal_entry:
+      main_column: "**NAME** -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE
+    experience_entry:
+      main_column: "**COMPANY**, *POSITION* -- LOCATION\nSUMMARY\nHIGHLIGHTS"
+      date_and_location_column: DATE

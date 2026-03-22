@@ -21,7 +21,7 @@ Install them by following their official installation guides:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/rendercv/rendercv.git
+    git clone --recursive https://github.com/rendercv/rendercv.git
     ```
 
     and change to the repository directory:
@@ -29,6 +29,9 @@ Install them by following their official installation guides:
     ```bash
     cd rendercv
     ```
+
+    > [!NOTE]
+    > The `--recursive` flag clones the [rendercv-skill](https://github.com/rendercv/rendercv-skill) submodule. If you forgot it, run `git submodule update --init` inside the repo.
 
 2. Set up the development environment (creates a virtual environment in `./.venv` with all dependencies):
 

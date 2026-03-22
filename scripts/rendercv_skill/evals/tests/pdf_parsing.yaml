@@ -1,0 +1,109 @@
+- description: "Parse simple one-page CV text"
+  vars:
+    query: |
+      Convert this CV text into a RenderCV YAML file:
+
+      SARAH JOHNSON
+      Software Developer | San Francisco, CA | sarah.j@email.com | linkedin.com/in/sarahj
+
+      EXPERIENCE
+      Meta, Software Engineer, Jan 2022 - Present, Menlo Park, CA
+      - Built real-time data pipeline processing 10M events/day
+      - Led migration from monolith to microservices architecture
+
+      Stripe, Junior Developer, Jun 2020 - Dec 2021, San Francisco, CA
+      - Developed payment integration APIs used by 500+ merchants
+      - Reduced API response time by 40%
+
+      EDUCATION
+      University of Washington, B.S. Computer Science, 2016 - 2020, Seattle, WA
+      - GPA: 3.85/4.0, Dean's List
+
+      SKILLS
+      Languages: Python, Java, Go, TypeScript
+      Frameworks: React, Django, gRPC
+      Tools: AWS, Docker, Kubernetes, Terraform
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output correctly parses the CV text into RenderCV YAML:
+        - cv.name is Sarah Johnson
+        - cv.location is San Francisco, CA
+        - cv.email is sarah.j@email.com
+        - Experience includes Meta and Stripe with bullet points preserved
+        - Education includes University of Washington
+        - Skills include Languages, Frameworks, Tools categories
+        - LinkedIn is included in social_networks
+
+- description: "Parse academic CV with publications"
+  vars:
+    query: |
+      Convert this academic CV into RenderCV YAML:
+
+      DR. ELENA PETROV
+      Associate Professor of Chemistry
+      Stanford University | elena.petrov@stanford.edu
+
+      ACADEMIC POSITIONS
+      Stanford University, Associate Professor, 2020 - Present
+      Stanford University, Assistant Professor, 2015 - 2020
+      MIT, Postdoctoral Fellow, 2013 - 2015
+
+      EDUCATION
+      University of Cambridge, PhD Chemistry, 2009 - 2013
+      Moscow State University, BSc Chemistry, 2005 - 2009
+
+      SELECTED PUBLICATIONS
+      1. "Catalytic Mechanisms in Organic Synthesis" - E. Petrov, J. Smith, Nature Chemistry, 2023
+      2. "Novel Metal-Organic Frameworks for CO2 Capture" - E. Petrov, A. Lee, K. Wang, JACS, 2021
+      3. "Photocatalytic Water Splitting" - M. Brown, E. Petrov, Science, 2019
+
+      GRANTS
+      NSF CAREER Award ($750,000), 2018 - 2023
+      DOE Early Career Research Grant ($500,000), 2016 - 2020
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        The output correctly handles the academic CV:
+        - cv.name is Dr. Elena Petrov or Elena Petrov
+        - Publications section has 3 entries with titles and authors
+        - Academic positions are included (Stanford, MIT)
+        - Education includes Cambridge and Moscow State
+        - Grants section is present
+
+- description: "Parse messy CV with inconsistent formatting"
+  vars:
+    query: |
+      Please convert this poorly formatted CV into clean RenderCV YAML:
+
+      Bob Martinez
+      bob@gmail.com, (650) 321-7654
+
+      Work History:
+      * Senior Dev at Amazon (2021-now) - Seattle
+        Built recommendation engine
+        Managed team of 5
+      * Developer, Netflix, from July 2018 to December 2020, in Los Gatos
+        - Worked on streaming backend
+      * Intern @ Google summer 2017
+
+      School:
+      UC Berkeley - CS degree (graduated 2018)
+
+      I know: Python, Java, C++, and also React and Node.js
+  assert:
+    - type: python
+      value: file://graders/rendercv_validation.py
+    - type: llm-rubric
+      value: |
+        Despite the messy input, the output produces clean RenderCV YAML:
+        - cv.name is Bob Martinez
+        - Experience includes Amazon, Netflix, and Google
+        - Amazon has end_date 'present' (from "now")
+        - Education includes UC Berkeley
+        - Skills are structured properly
+        - Email is included

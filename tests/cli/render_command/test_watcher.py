@@ -3,8 +3,10 @@ import time
 from unittest.mock import MagicMock, patch
 
 import typer
+import watchdog.events
 
 from rendercv.cli.render_command import watcher
+from rendercv.cli.render_command.watcher import EventHandler
 
 
 class TestRunFunctionIfFilesChange:
@@ -108,3 +110,32 @@ class TestRunFunctionIfFilesChange:
         time.sleep(0.2)
 
         assert call_count > count_after_exit
+
+
+class TestEventHandler:
+    def test_ignores_events_for_unwatched_files(self):
+        mock_fn = MagicMock()
+        handler = EventHandler(mock_fn, watched_files={"/watched/file.yaml"})
+
+        event = watchdog.events.FileModifiedEvent("/other/file.yaml")
+        handler.on_modified(event)
+
+        mock_fn.assert_not_called()
+
+    def test_calls_function_for_watched_file(self):
+        mock_fn = MagicMock()
+        handler = EventHandler(mock_fn, watched_files={"/watched/file.yaml"})
+
+        event = watchdog.events.FileModifiedEvent("/watched/file.yaml")
+        handler.on_modified(event)
+
+        mock_fn.assert_called_once()
+
+    def test_suppresses_typer_exit(self):
+        mock_fn = MagicMock(side_effect=typer.Exit(code=1))
+        handler = EventHandler(mock_fn, watched_files={"/watched/file.yaml"})
+
+        event = watchdog.events.FileModifiedEvent("/watched/file.yaml")
+        handler.on_modified(event)
+
+        mock_fn.assert_called_once()

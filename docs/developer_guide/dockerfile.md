@@ -22,7 +22,7 @@ But Docker makes sense if you want:
 
 The RenderCV Docker image is a ready-made environment with Python and RenderCV pre-installed. Just run:
 ```bash
-docker run -v "$PWD":/work -w /work ghcr.io/rendercv/rendercv new "Your Name"
+docker run --rm -v "$PWD":/work -u $(id -u):$(id -g) -e HOME=/tmp -w /work ghcr.io/rendercv/rendercv new "Your Name"
 ```
 
 ## How the Image Gets Published

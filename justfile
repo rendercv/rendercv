@@ -44,11 +44,11 @@ update-schema:
 update-examples:
   uv run --frozen --all-extras scripts/update_examples.py
 
+update-skill:
+  uv run --frozen --all-extras scripts/rendercv_skill/generate.py
+
 update-entry-figures:
   uv run --frozen --all-extras --group update-entry-figures scripts/update_entry_figures.py
-
-update-llms-txt:
-  uv run --frozen --all-extras scripts/update_llms_txt/update_llms_txt.py
 
 create-executable:
   uv run --frozen --all-extras --no-default-groups --group create-executable scripts/create_executable.py

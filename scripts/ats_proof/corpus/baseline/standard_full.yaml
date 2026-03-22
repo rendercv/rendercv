@@ -1,0 +1,81 @@
+# Test case: standard_full
+# Category: baseline
+# Complete resume with all common sections
+cv:
+  name: Alice Chen
+  location: San Francisco, CA
+  email: alice.chen@email.com
+  phone: +1-415-555-0142
+  website: https://alicechen.dev
+  social_networks:
+  - network: LinkedIn
+    username: alicechen
+  - network: GitHub
+    username: alicechen
+  sections:
+    summary:
+    - Senior software engineer with 8 years of experience in distributed systems and cloud infrastructure. Led teams of 
+      5-12 engineers at two Fortune 500 companies.
+    experience:
+    - company: Stripe
+      position: Staff Software Engineer
+      start_date: 2021-03
+      end_date: present
+      location: San Francisco, CA
+      highlights:
+      - Designed and implemented real-time fraud detection pipeline processing 50M+ transactions daily with 99.99% 
+        uptime
+      - Led migration of payment processing infrastructure from monolith to microservices, reducing deployment time by 
+        80%
+      - Mentored 6 engineers across 2 teams, with 3 promoted to senior level within 18 months
+    - company: Google
+      position: Senior Software Engineer
+      start_date: 2018-06
+      end_date: 2021-02
+      location: Mountain View, CA
+      highlights:
+      - Built distributed caching layer for Google Cloud Storage serving 100K+ QPS with sub-millisecond latency
+      - Reduced infrastructure costs by $2.4M annually through optimization of resource allocation algorithms
+      - Contributed to open-source gRPC framework with 40K+ GitHub stars
+    - company: Amazon Web Services
+      position: Software Development Engineer
+      start_date: 2016-07
+      end_date: 2018-05
+      location: Seattle, WA
+      highlights:
+      - Developed auto-scaling algorithms for EC2 fleet management across 3 AWS regions
+      - Implemented end-to-end monitoring dashboard used by 200+ internal teams
+    education:
+    - institution: Stanford University
+      area: Computer Science
+      degree: MS
+      start_date: 2014-09
+      end_date: 2016-06
+      location: Stanford, CA
+      highlights:
+      - 'Focus: Distributed Systems and Database Theory'
+    - institution: UC Berkeley
+      area: Electrical Engineering and Computer Science
+      degree: BS
+      start_date: 2010-08
+      end_date: 2014-05
+      location: Berkeley, CA
+      highlights:
+      - 'GPA: 3.92/4.00, Magna Cum Laude'
+    skills:
+    - label: Languages
+      details: Python, Go, Java, C++, TypeScript, SQL
+    - label: Infrastructure
+      details: Kubernetes, Docker, Terraform, AWS, GCP
+    - label: Databases
+      details: PostgreSQL, Redis, DynamoDB, BigQuery, Cassandra
+    - label: Tools
+      details: Git, CI/CD, Prometheus, Grafana, Datadog
+    certifications:
+    - bullet: AWS Solutions Architect Professional (2023)
+    - bullet: Google Cloud Professional Cloud Architect (2022)
+    - bullet: Certified Kubernetes Administrator (2021)
+design:
+  theme: classic
+locale:
+  language: english

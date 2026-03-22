@@ -1,6 +1,7 @@
 import os
 import pathlib
 import sys
+from unittest.mock import patch
 
 import pytest
 import typer
@@ -11,6 +12,7 @@ from rendercv.cli.render_command.run_rendercv import (
     run_rendercv,
     timed_step,
 )
+from rendercv.exception import RenderCVUserError
 
 
 class TestTimedStep:
@@ -162,6 +164,24 @@ design:
             # Restore permissions for cleanup
             yaml_file.chmod(original_mode)
 
+    def test_user_error_during_rendering(self, tmp_path):
+        yaml_file = tmp_path / "test.yaml"
+        yaml_file.write_text("cv:\n  name: John Doe\n", encoding="utf-8")
+        progress = ProgressPanel(quiet=True)
+
+        with (
+            patch(
+                "rendercv.cli.render_command.run_rendercv"
+                ".build_rendercv_dictionary_and_model",
+                side_effect=RenderCVUserError(message="test error"),
+            ),
+            pytest.raises(typer.Exit) as exc_info,
+            progress,
+        ):
+            run_rendercv(yaml_file, progress)
+
+        assert exc_info.value.exit_code == 1
+
 
 class TestCollectInputFilePaths:
     def test_returns_only_input_file_by_default(self, tmp_path):
@@ -211,6 +231,33 @@ class TestCollectInputFilePaths:
         result = collect_input_file_paths(yaml_file)
 
         assert result == {"input": yaml_file}
+
+    def test_includes_cli_provided_locale_file(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text("cv:\n  name: John Doe\n", encoding="utf-8")
+        locale_file = tmp_path / "locale.yaml"
+        locale_file.touch()
+
+        result = collect_input_file_paths(yaml_file, locale=locale_file)
+
+        assert result["input"] == yaml_file
+        assert result["locale"] == locale_file
+
+    def test_includes_yaml_referenced_locale_file(self, tmp_path):
+        locale_file = tmp_path / "my_locale.yaml"
+        locale_file.touch()
+
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text(
+            "cv:\n  name: John Doe\n"
+            "settings:\n  render_command:\n    locale: my_locale.yaml\n",
+            encoding="utf-8",
+        )
+
+        result = collect_input_file_paths(yaml_file)
+
+        assert result["input"] == yaml_file
+        assert result["locale"] == locale_file.resolve()
 
     def test_cli_flags_take_precedence_over_yaml_references(self, tmp_path):
         yaml_ref_design = tmp_path / "yaml_design.yaml"

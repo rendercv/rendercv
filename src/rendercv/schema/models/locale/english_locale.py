@@ -132,6 +132,8 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "hebrew": "he",
             "persian": "fa",
             "polish": "pl",
+            "vietnamese": "vi",
+            "hungarian": "hu",
         }[self.language]
 
     @functools.cached_property

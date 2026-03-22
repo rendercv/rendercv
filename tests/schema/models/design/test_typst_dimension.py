@@ -14,7 +14,6 @@ class TestTypstDimension:
             "0.5in",
             "12pt",
             "1.25em",
-            "2ex",
             "100pt",
             "0.1cm",
             "-1cm",
@@ -34,6 +33,7 @@ class TestTypstDimension:
             "1 cm",
             "1.5.5cm",
             "1px",
+            "2ex",
             "1.em",
             "1.5rem",
             "cm1",
@@ -49,7 +49,7 @@ class TestTypstDimension:
 
     @pytest.mark.parametrize(
         "unit",
-        ["cm", "in", "pt", "mm", "ex", "em"],
+        ["cm", "in", "pt", "mm", "em"],
     )
     def test_supports_all_units(self, unit):
         typst_dimension_adapter = pydantic.TypeAdapter[TypstDimension](TypstDimension)

@@ -1,0 +1,41 @@
+name: Claude PR Review
+
+# When a PR is opened or updated, Claude reviews it.
+# Requires: Install the Claude GitHub App (https://github.com/apps/claude)
+# and add ANTHROPIC_API_KEY to repository secrets.
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          python-version: "3.13"
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Install dependencies
+        run: just sync
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          claude_args: "--model claude-sonnet-4-6"
+          prompt: |
+            Follow .claude/skills/review-rendercv-pr/SKILL.md to review PR #${{ github.event.pull_request.number }}.

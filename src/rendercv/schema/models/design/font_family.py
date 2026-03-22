@@ -23,28 +23,6 @@ available_font_families = sorted(
         "Poppins",
         "Raleway",
         "XCharter",
-        # Common system fonts
-        "Arial",
-        "Arial Rounded MT",
-        "Arial Unicode MS",
-        "Courier New",
-        "Times New Roman",
-        "Trebuchet MS",
-        "Verdana",
-        "Georgia",
-        "Tahoma",
-        "Impact",
-        "Comic Sans MS",
-        "Lucida Sans Unicode",
-        "Helvetica",
-        "Tahoma",
-        "Verdana",
-        "Georgia",
-        "Aptos",
-        "Inter",
-        "Garamond",
-        "Gill Sans",
-        "Didot",
     ]
 )
 

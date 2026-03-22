@@ -21,6 +21,7 @@ from rendercv.renderer.templater.string_processor import (
         ("Python and python", ["Python"], "**Python** and python"),
         ("", ["test"], ""),
         ("Test word", [], "Test word"),
+        ("I can read well", ["re"], "I can read well"),
     ],
 )
 def test_make_keywords_bold(text, keywords, expected):

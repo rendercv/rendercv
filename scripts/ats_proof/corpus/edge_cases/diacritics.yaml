@@ -1,0 +1,55 @@
+# Test case: diacritics
+# Category: edge_cases
+# Names and locations with diacritics
+cv:
+  name: Jose Garcia-Lopez
+  headline: Ingeniero de Software Senior
+  location: Barcelona, Spain
+  email: jose.garcia@email.com
+  phone: +34-612-345-678
+  social_networks:
+  - network: LinkedIn
+    username: josegarcia
+  - network: GitHub
+    username: josegarcia
+  sections:
+    experience:
+    - company: Glovo
+      position: Senior Backend Engineer
+      start_date: 2021-03
+      end_date: present
+      location: Barcelona, Spain
+      highlights:
+      - Architected microservices platform handling 5M+ daily orders across 25 countries
+      - Led migration from monolithic PHP application to Go microservices
+    - company: Banco Santander
+      position: Software Engineer
+      start_date: 2018-09
+      end_date: 2021-02
+      location: Madrid, Spain
+      highlights:
+      - Developed real-time transaction processing system for retail banking
+    education:
+    - institution: Universidad Politecnica de Madrid
+      area: Computer Science
+      degree: MS
+      start_date: 2016-09
+      end_date: 2018-06
+      location: Madrid, Spain
+    - institution: Universitat de Barcelona
+      area: Mathematics
+      degree: BS
+      start_date: 2012-09
+      end_date: 2016-06
+      location: Barcelona, Spain
+      highlights:
+      - 'GPA: 9.2/10.0, Cum Laude'
+    skills:
+    - label: Languages
+      details: Go, Python, Java, PHP, SQL
+    - label: Infrastructure
+      details: Kubernetes, Docker, AWS, Terraform
+design:
+  theme: classic
+locale:
+  language: english

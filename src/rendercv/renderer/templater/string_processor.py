@@ -39,7 +39,9 @@ def apply_string_processors(
 
 
 @functools.lru_cache(maxsize=64)
-def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
+def build_keyword_matcher_pattern(
+    keywords: frozenset[str], word_boundary: bool = False
+) -> re.Pattern:
     """Build cached regex pattern for matching keywords with longest-first priority.
 
     Why:
@@ -49,6 +51,8 @@ def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
 
     Args:
         keywords: Set of keywords to match.
+        word_boundary: When True, add \\b word boundaries so only whole-word
+            matches are found.
 
     Returns:
         Compiled regex pattern.
@@ -60,6 +64,8 @@ def build_keyword_matcher_pattern(keywords: frozenset[str]) -> re.Pattern:
     escaped: list[str] = [re.escape(k) for k in keywords]
     escaped.sort(key=len, reverse=True)
     pattern = "(" + "|".join(escaped) + ")"
+    if word_boundary:
+        pattern = r"\b" + pattern + r"\b"
     return re.compile(pattern)
 
 
@@ -87,7 +93,7 @@ def make_keywords_bold(string: str, keywords: list[str]) -> str:
     if not keywords:
         return string
 
-    pattern = build_keyword_matcher_pattern(frozenset(keywords))
+    pattern = build_keyword_matcher_pattern(frozenset(keywords), word_boundary=True)
     return pattern.sub(lambda m: f"**{m.group(0)}**", string)
 
 

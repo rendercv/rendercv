@@ -1,0 +1,26 @@
+# Test case: minimal
+# Category: baseline
+# Minimal resume: name, email, 1 job, 1 education
+cv:
+  name: Bob Smith
+  email: bob.smith@email.com
+  sections:
+    experience:
+    - company: Acme Corp
+      position: Software Engineer
+      start_date: 2022-01
+      end_date: present
+      location: New York, NY
+      highlights:
+      - Developed REST APIs serving 10K requests per second
+    education:
+    - institution: MIT
+      area: Computer Science
+      degree: BS
+      start_date: 2018-09
+      end_date: 2022-05
+      location: Cambridge, MA
+design:
+  theme: classic
+locale:
+  language: english

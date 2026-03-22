@@ -1,4 +1,5 @@
 from datetime import date as Date
+from unittest.mock import patch
 
 import pydantic
 import pytest
@@ -12,10 +13,12 @@ from rendercv.renderer.templater.entry_templates_from_input import (
     process_highlights,
     process_summary,
     process_url,
+    remove_connectors_of_missing_placeholders,
     remove_not_provided_placeholders,
     render_entry_templates,
 )
 from rendercv.schema.models.cv.entries.education import EducationEntry
+from rendercv.schema.models.cv.entries.experience import ExperienceEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.design.classic_theme import (
@@ -240,7 +243,7 @@ class TestRenderEntryTemplates:
             current_date=Date(2024, 1, 1),
         )
 
-        assert entry.main_column == "Jan 2020 / Mar 2021 /  / Jan 2020 – Mar 2021"  # ty: ignore[unresolved-attribute]
+        assert entry.main_column == "Jan 2020 / Mar 2021 / / Jan 2020 – Mar 2021"  # ty: ignore[unresolved-attribute]
 
     def test_handles_authors_doi_and_date_placeholders(self):
         entry = PublicationEntry(
@@ -370,6 +373,118 @@ class TestRenderEntryTemplates:
             == "Linked Item [example.com/page](https://example.com/page/)"
         )
 
+    @pytest.mark.parametrize(
+        ("institution", "area", "expected_main_column"),
+        [
+            ("", "Computer Science", "Computer Science"),
+            ("MIT", "", "**MIT**"),
+            ("", "", ""),
+        ],
+    )
+    def test_removes_formatting_around_empty_string_fields(
+        self, institution, area, expected_main_column
+    ):
+        entry = EducationEntry(
+            institution=institution,
+            area=area,
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == expected_main_column  # ty: ignore[unresolved-attribute]
+
+    def test_removes_formatting_around_empty_name(self):
+        entry = NormalEntry(name="")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == ""  # ty: ignore[unresolved-attribute]
+        assert entry.date_and_location_column == ""  # ty: ignore[unresolved-attribute]
+
+    def test_removes_formatting_around_empty_position(self):
+        entry = ExperienceEntry(
+            company="Google",
+            position="",
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == "**Google**"  # ty: ignore[unresolved-attribute]
+
+    def test_empty_summary_does_not_produce_admonition(self):
+        entry = NormalEntry(name="Project", summary="")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" not in entry.main_column  # ty: ignore[unresolved-attribute]
+        assert entry.main_column == "**Project**"  # ty: ignore[unresolved-attribute]
+
+    def test_inline_summary_not_wrapped_in_admonition(self):
+        templates = Templates(
+            experience_entry=Templates().experience_entry.model_copy(
+                update={"main_column": "**COMPANY**, SUMMARY\nHIGHLIGHTS"}
+            )
+        )
+        entry = ExperienceEntry(
+            company="Google",
+            position="Engineer",
+            summary="Built search",
+            start_date="2020-01",
+            end_date="2021-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=templates,
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" not in entry.main_column  # ty: ignore[unresolved-attribute]
+        assert "Built search" in entry.main_column  # ty: ignore[unresolved-attribute]
+
+    def test_standalone_summary_uses_admonition(self):
+        entry = NormalEntry(name="Project", summary="Project description")
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert "!!!" in entry.main_column  # ty: ignore[unresolved-attribute]
+
 
 @pytest.mark.parametrize(
     ("entry_templates", "entry_fields", "expected"),
@@ -402,7 +517,7 @@ class TestRenderEntryTemplates:
         (
             {"main": "NAME | LOCATION | DATE"},
             {"NAME": "John", "DATE": "2024"},
-            {"main": "NAME |  | DATE"},
+            {"main": "NAME | | DATE"},
         ),
         # Multiple templates - both get trailing parts cleaned
         (
@@ -450,7 +565,7 @@ class TestRenderEntryTemplates:
         (
             {"main": "NAME LOCATION DATE"},
             {"NAME": "John", "DATE": "2024"},
-            {"main": "NAME  DATE"},
+            {"main": "NAME DATE"},
         ),
         # Complex surrounding characters - trailing dash removed
         (
@@ -474,19 +589,108 @@ class TestRenderEntryTemplates:
         (
             {"main": "NAME (COMPANY_NAME) | START_DATE"},
             {"NAME": "John", "START_DATE": "2020"},
-            {"main": "NAME  | START_DATE"},
+            {"main": "NAME | START_DATE"},
         ),
-        # Underscore placeholder with complex delimiters - "at" remains (letters are allowed)
+        # Connector word "at" removed because adjacent placeholder is missing
         (
             {"main": "**JOB_TITLE** at COMPANY_NAME (LOCATION)"},
             {"JOB_TITLE": "Engineer"},
-            {"main": "**JOB_TITLE** at"},
+            {"main": "**JOB_TITLE**"},
         ),
     ],
 )
 def test_remove_not_provided_placeholders(entry_templates, entry_fields, expected):
     result = remove_not_provided_placeholders(entry_templates, entry_fields)
     assert result == expected
+
+
+class TestRenderEntryTemplatesInternalErrors:
+    """Test defensive guards when model_dump includes a key but the attribute is None."""
+
+    @pytest.mark.parametrize(
+        ("entry_type", "field_name"),
+        [
+            ("education", "highlights"),
+            ("publication", "authors"),
+        ],
+    )
+    def test_raises_when_field_in_dump_but_attribute_is_none(
+        self, entry_type, field_name
+    ):
+        if entry_type == "education":
+            entry = EducationEntry.model_validate(
+                {
+                    "institution": "MIT",
+                    "area": "CS",
+                    "highlights": ["A"],
+                    "start_date": "2020-01",
+                    "end_date": "2021-01",
+                }
+            )
+        else:
+            entry = PublicationEntry.model_validate(
+                {
+                    "title": "Paper",
+                    "authors": ["John"],
+                    "date": "2024-01",
+                }
+            )
+
+        # Set the attribute to None while model_dump still includes it
+        original_model_dump = entry.model_dump
+
+        def patched_model_dump(**kwargs):
+            result = original_model_dump(**kwargs)
+            result[field_name] = "placeholder"
+            return result
+
+        entry.model_dump = patched_model_dump  # ty: ignore[invalid-assignment]
+        setattr(entry, field_name, None)
+
+        with pytest.raises(RenderCVInternalError):
+            render_entry_templates(
+                entry,
+                templates=Templates(),
+                locale=EnglishLocale(),
+                show_time_span=False,
+                current_date=Date(2024, 1, 1),
+            )
+
+    @pytest.mark.parametrize("field_name", ["start_date", "end_date"])
+    def test_raises_when_date_field_in_dump_but_attribute_is_none(self, field_name):
+        entry = EducationEntry.model_validate(
+            {
+                "institution": "MIT",
+                "area": "CS",
+                "start_date": "2020-01",
+                "end_date": "2021-01",
+            }
+        )
+
+        original_model_dump = entry.model_dump
+
+        def patched_model_dump(**kwargs):
+            result = original_model_dump(**kwargs)
+            result[field_name] = "placeholder"
+            return result
+
+        entry.model_dump = patched_model_dump  # ty: ignore[invalid-assignment]
+        setattr(entry, field_name, None)
+
+        with (
+            patch(
+                "rendercv.renderer.templater.entry_templates_from_input.process_date",
+                return_value="Jan 2020 – Jan 2021",
+            ),
+            pytest.raises(RenderCVInternalError),
+        ):
+            render_entry_templates(
+                entry,
+                templates=Templates(),
+                locale=EnglishLocale(),
+                show_time_span=False,
+                current_date=Date(2024, 1, 1),
+            )
 
 
 @pytest.mark.parametrize(
@@ -508,3 +712,125 @@ def test_remove_not_provided_placeholders(entry_templates, entry_fields, expecte
 )
 def test_clean_trailing_parts(input_text, expected):
     assert clean_trailing_parts(input_text) == expected
+
+
+class TestRemoveConnectorsOfMissingPlaceholders:
+    @pytest.mark.parametrize(
+        ("template", "not_provided", "expected"),
+        [
+            # No missing placeholders — unchanged
+            ("DEGREE in AREA", set(), "DEGREE in AREA"),
+            # Connector "in" removed when left placeholder missing
+            ("DEGREE in AREA", {"DEGREE"}, "DEGREE  AREA"),
+            # Connector "en" removed (French)
+            ("DEGREE en AREA", {"DEGREE"}, "DEGREE  AREA"),
+            # Connector "in" removed when right placeholder missing
+            ("DEGREE in AREA", {"AREA"}, "DEGREE  AREA"),
+            # No connector word to remove (just space) — stays as-is
+            ("AREA DEGREE", {"DEGREE"}, "AREA DEGREE"),
+            # Formatting preserved, only connector word removed
+            (
+                "**INSTITUTION**, DEGREE in AREA -- LOCATION",
+                {"DEGREE"},
+                "**INSTITUTION**, DEGREE  AREA -- LOCATION",
+            ),
+            # Connector "at" removed between JOB_TITLE and COMPANY
+            (
+                "**JOB_TITLE** at COMPANY_NAME",
+                {"COMPANY_NAME"},
+                "**JOB_TITLE**  COMPANY_NAME",
+            ),
+            # No connector between placeholders separated by punctuation only
+            ("NAME, LOCATION", {"LOCATION"}, "NAME, LOCATION"),
+            # Hindi connector removed
+            ("AREA \u092e\u0947\u0902 DEGREE", {"DEGREE"}, "AREA  DEGREE"),
+            # Both sides missing — connector removed
+            ("DEGREE in AREA", {"DEGREE", "AREA"}, "DEGREE  AREA"),
+        ],
+    )
+    def test_removes_connector_words(self, template, not_provided, expected):
+        assert (
+            remove_connectors_of_missing_placeholders(template, not_provided)
+            == expected
+        )
+
+
+class TestRenderEntryTemplatesWithMissingDegree:
+    def test_no_connector_word_when_degree_is_none(self):
+        entry = EducationEntry(
+            institution="MIT",
+            area="Computer Science",
+            date="2024-05",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                education_entry=EducationEntryOptions(
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
+                    degree_column=None,
+                )
+            ),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        main = entry.main_column  # ty: ignore[unresolved-attribute]
+        assert "Computer Science" in main
+        assert " in " not in main
+
+    def test_no_connector_word_in_french_when_degree_is_none(self):
+        entry = EducationEntry(
+            institution="Sorbonne",
+            area="Informatique",
+            date="2024-05",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                education_entry=EducationEntryOptions(
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
+                    degree_column=None,
+                )
+            ),
+            locale=locale_adapter.validate_python({"language": "french"}),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        main = entry.main_column  # ty: ignore[unresolved-attribute]
+        assert "Informatique" in main
+        assert " en " not in main
+
+    def test_no_connector_word_when_area_is_empty(self):
+        entry = EducationEntry(
+            institution="MIT",
+            area="",
+            degree="PhD",
+            date="2024-05",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                education_entry=EducationEntryOptions(
+                    main_column=(
+                        "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
+                    ),
+                    degree_column=None,
+                )
+            ),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        main = entry.main_column  # ty: ignore[unresolved-attribute]
+        assert "PhD" in main
+        assert " in " not in main

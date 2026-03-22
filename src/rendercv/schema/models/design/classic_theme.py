@@ -11,13 +11,20 @@ type Bullet = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○
 type BodyAlignment = Literal["left", "justified", "justified-with-no-hyphenation"]
 type Alignment = Literal["left", "center", "right"]
 type SectionTitleType = Literal[
-    "with_partial_line", "with_full_line", "without_line", "moderncv"
+    "with_partial_line",
+    "with_full_line",
+    "without_line",
+    "moderncv",
+    "centered_without_line",
+    "centered_with_partial_line",
+    "centered_with_centered_partial_line",
+    "centered_with_full_line",
 ]
 type PhoneNumberFormatType = Literal["national", "international", "E164"]
 type PageSize = Literal["a4", "a5", "us-letter", "us-executive"]
 
 length_common_description = (
-    "It can be specified with units (cm, in, pt, mm, ex, em). For example, `0.1cm`."
+    "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
 )
 
 
@@ -420,8 +427,12 @@ class SectionTitles(BaseModelWithoutExtraKeys):
         description=(
             "Section title visual style. Use 'with_partial_line' for a line next to the"
             " title, 'with_full_line' for a line across the page, 'without_line' for no"
-            " line, or 'moderncv' for the ModernCV style. The default value is"
-            " `with_partial_line`."
+            " line, 'moderncv' for the ModernCV style, 'centered_without_line' for a"
+            " centered title with no line, 'centered_with_partial_line' for a centered"
+            " title with baseline partial lines on both sides,"
+            " 'centered_with_centered_partial_line' for a centered title with"
+            " middle-aligned lines on both sides, or 'centered_with_full_line' for a"
+            " full-width line underneath. The default value is `with_partial_line`."
         ),
     )
     line_thickness: TypstDimension = pydantic.Field(

@@ -28,7 +28,7 @@ unwanted_locations = (
     "int",
     "str",
     "constrained-str",
-    "function-after",
+    "function-",
 )
 
 

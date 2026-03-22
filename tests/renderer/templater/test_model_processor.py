@@ -1,9 +1,16 @@
+from collections.abc import Callable
 from datetime import date as Date
+from unittest.mock import patch
 
 import pydantic
 import pytest
 
-from rendercv.renderer.templater.model_processor import process_fields, process_model
+from rendercv.exception import RenderCVUserError
+from rendercv.renderer.templater.model_processor import (
+    download_photo_from_url,
+    process_fields,
+    process_model,
+)
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.rendercv_model import RenderCVModel
@@ -27,7 +34,10 @@ def recorder():
 
 class TestProcessFields:
     def test_applies_processors_in_order(self):
-        processors = [lambda s: s.upper(), lambda s: f"{s}!"]
+        processors: list[Callable[[str], str]] = [
+            lambda s: s.upper(),
+            lambda s: f"{s}!",
+        ]
         result = process_fields("content", processors)
         assert result == "CONTENT!"
 
@@ -193,3 +203,85 @@ class TestProcessModel:
         result = process_model(rendercv_model, "typst")
 
         assert result.settings.pdf_title == "John Doe - Resume 2024"
+
+
+class TestDownloadPhotoFromUrl:
+    def test_skips_when_photo_is_none(self):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+
+        download_photo_from_url(model)
+
+        assert model.cv.photo is None
+
+    def test_skips_when_photo_is_local_path(self, tmp_path):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+        model.cv.photo = tmp_path / "photo.jpg"
+
+        download_photo_from_url(model)
+
+        assert model.cv.photo == tmp_path / "photo.jpg"
+
+    def test_downloads_photo_from_url(self, tmp_path):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
+        model.settings.render_command.output_folder = tmp_path / "output"
+
+        with patch(
+            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
+        ) as mock_retrieve:
+            download_photo_from_url(model)
+
+        mock_retrieve.assert_called_once()
+        assert model.cv.photo == tmp_path / "output" / "photo.jpg"
+
+    def test_uses_photo_jpg_fallback_when_no_filename_in_url(self, tmp_path):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+        model.cv.photo = pydantic.HttpUrl("https://example.com/")
+        model.settings.render_command.output_folder = tmp_path / "output"
+
+        with patch(
+            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
+        ):
+            download_photo_from_url(model)
+
+        assert model.cv.photo == tmp_path / "output" / "photo.jpg"
+
+    def test_skips_download_when_file_already_exists(self, tmp_path):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
+        output_dir = tmp_path / "output"
+        output_dir.mkdir()
+        (output_dir / "photo.jpg").write_bytes(b"existing")
+        model.settings.render_command.output_folder = output_dir
+
+        with patch(
+            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
+        ) as mock_retrieve:
+            download_photo_from_url(model)
+
+        mock_retrieve.assert_not_called()
+        assert model.cv.photo == output_dir / "photo.jpg"
+
+    def test_raises_user_error_on_download_failure(self, tmp_path):
+        cv = Cv.model_validate({"name": "John Doe"})
+        model = RenderCVModel(cv=cv)
+        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
+        model.settings.render_command.output_folder = tmp_path / "output"
+
+        with (
+            patch(
+                "rendercv.renderer.templater.model_processor"
+                ".urllib.request.urlretrieve",
+                side_effect=ConnectionError("network error"),
+            ),
+            pytest.raises(RenderCVUserError) as exc_info,
+        ):
+            download_photo_from_url(model)
+
+        assert exc_info.value.message is not None
+        assert "Failed to download photo" in exc_info.value.message

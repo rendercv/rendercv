@@ -185,6 +185,33 @@ def test_markdown_to_typst(markdown_string, expected_typst_string):
     assert markdown_to_typst(markdown_string) == expected_typst_string
 
 
+class TestMarkdownToTypstMultiLine:
+    """Tests for multi-line markdown where emphasis markers could interact across lines."""
+
+    def test_emphasis_markers_do_not_interact_across_lines(self):
+        result = markdown_to_typst("**bold text**\n*italic text*")
+        assert result == "#strong[bold text]\n#emph[italic text]"
+
+    def test_nested_emphasis_across_lines_stay_independent(self):
+        result = markdown_to_typst("**a *b* c**\n*d **e** f*")
+        assert "#strong[" in result.split("\n")[0]
+        assert "#emph[" in result.split("\n")[1]
+        # Each line should have balanced brackets
+        for line in result.split("\n"):
+            assert line.count("[") == line.count("]")
+
+    def test_admonition_still_works_with_line_processing(self):
+        result = markdown_to_typst("**bold**\n!!! summary\n    Some text\n*italic*")
+        lines = result.split("\n")
+        assert lines[0] == "#strong[bold]"
+        assert lines[1] == "#summary[Some text]"
+        assert lines[2] == "#emph[italic]"
+
+    def test_empty_lines_preserved(self):
+        result = markdown_to_typst("**bold**\n\n*italic*")
+        assert result == "#strong[bold]\n\n#emph[italic]"
+
+
 def test_markdown_to_html():
     assert (
         markdown_to_html("Hello, **world**!") == "<p>Hello, <strong>world</strong>!</p>"

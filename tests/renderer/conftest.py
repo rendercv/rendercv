@@ -205,6 +205,7 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
             "A Section & with % Special Characters": [
                 NormalEntry(name="A Section & with % Special Characters")
             ],
+            "Empty Section": [],
         },
     )
 

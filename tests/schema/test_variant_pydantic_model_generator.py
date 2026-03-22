@@ -895,6 +895,94 @@ class TestCreateVariantPydanticModel:
         assert instance.level2.name == "custom_level2"
         assert instance.level2.level3.value == 999
 
+    def test_require_all_fields_raises_on_missing_field(self):
+        defaults = {
+            "discriminator": "variant",
+            "field1": "value",
+            # field2 and field3 are missing
+        }
+
+        with pytest.raises(RenderCVInternalError, match="Missing fields"):
+            create_variant_pydantic_model(
+                variant_name="variant",
+                defaults=defaults,
+                base_class=SimpleModel,
+                discriminator_field="discriminator",
+                class_name_suffix="Class",
+                module_name="test",
+                require_all_fields=True,
+            )
+
+    def test_require_all_fields_raises_on_missing_nested_field(self):
+        class Inner(pydantic.BaseModel):
+            x: int = 1
+            y: int = 2
+
+        class Outer(pydantic.BaseModel):
+            disc: str = "base"
+            inner: Inner = Inner()
+
+        defaults = {
+            "disc": "variant",
+            "inner": {"x": 10},  # y is missing
+        }
+
+        with pytest.raises(RenderCVInternalError, match="Missing nested fields"):
+            create_variant_pydantic_model(
+                variant_name="variant",
+                defaults=defaults,
+                base_class=Outer,
+                discriminator_field="disc",
+                class_name_suffix="Class",
+                module_name="test",
+                require_all_fields=True,
+            )
+
+    def test_require_all_fields_passes_when_all_provided(self):
+        defaults = {
+            "discriminator": "variant",
+            "field1": "value",
+            "field2": 99,
+            "field3": ["x"],
+        }
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="variant",
+            defaults=defaults,
+            base_class=SimpleModel,
+            discriminator_field="discriminator",
+            class_name_suffix="Class",
+            module_name="test",
+            require_all_fields=True,
+        )
+
+        instance = VariantClass()
+        assert instance.field1 == "value"
+        assert instance.field2 == 99
+        assert instance.field3 == ["x"]
+
+    def test_require_all_fields_false_allows_partial(self):
+        defaults = {
+            "discriminator": "variant",
+            "field1": "value",
+            # field2 and field3 are missing — allowed when require_all_fields=False
+        }
+
+        VariantClass = create_variant_pydantic_model(
+            variant_name="variant",
+            defaults=defaults,
+            base_class=SimpleModel,
+            discriminator_field="discriminator",
+            class_name_suffix="Class",
+            module_name="test",
+            require_all_fields=False,
+        )
+
+        instance = VariantClass()
+        assert instance.field1 == "value"
+        assert instance.field2 == 42  # English/base default preserved
+        assert instance.field3 == ["a", "b"]  # English/base default preserved
+
     def test_preserves_descriptions_for_partial_nested_updates(self):
         class Nested(pydantic.BaseModel):
             field1: str = pydantic.Field(

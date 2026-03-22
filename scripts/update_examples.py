@@ -9,8 +9,10 @@ from rendercv.schema.sample_generator import create_sample_yaml_input_file
 
 repository_root = pathlib.Path(__file__).parent.parent
 rendercv_path = repository_root / "rendercv"
-image_assets_directory = repository_root / "docs" / "assets" / "images"
-
+image_assets_directory = repository_root / "docs" / "assets" / "images" / "examples"
+rendercv_typst_examples_directory = (
+    repository_root / "src" / "rendercv" / "renderer" / "rendercv_typst" / "examples"
+)
 
 examples_directory_path = pathlib.Path(__file__).parent.parent / "examples"
 
@@ -45,6 +47,12 @@ for theme in available_themes:
         shutil.copy(
             temp_directory_path / f"{yaml_file_path.stem}_1.png",
             image_assets_directory / f"{theme}.png",
+        )
+
+        rendercv_typst_examples_directory.mkdir(parents=True, exist_ok=True)
+        shutil.copy(
+            temp_directory_path / f"{yaml_file_path.stem}.typ",
+            rendercv_typst_examples_directory / f"{theme}.typ",
         )
 
 
