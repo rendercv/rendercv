@@ -130,6 +130,12 @@ wheel-exclude = [
     "renderer/rendercv_typst/CHANGELOG.md",
     "renderer/rendercv_typst/LICENSE",
     "renderer/rendercv_typst/thumbnail.png",
+    "renderer/typst_fontawesome/example.typ",
+    "renderer/typst_fontawesome/gallery.typ",
+    "renderer/typst_fontawesome/helper.py",
+    "renderer/typst_fontawesome/README.md",
+    "renderer/typst_fontawesome/LICENSE",
+    "renderer/typst_fontawesome/.gitignore",
 ]
 
 [tool.uv.workspace]
@@ -139,6 +145,7 @@ members = [
 
 [tool.ruff]
 line-length = 88
+extend-exclude = ["src/rendercv/renderer/typst_fontawesome"]
 
 [tool.ruff.format]
 docstring-code-format = true

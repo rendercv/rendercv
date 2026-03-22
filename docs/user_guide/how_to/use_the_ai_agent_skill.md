@@ -31,11 +31,11 @@ The skill works with any AI agent that supports the [skills standard](https://sk
 === "Claude Desktop"
 
     1. Download [`rendercv_skill.zip`](../../assets/rendercv_skill.zip).
-    2. In Claude Desktop, go to **Customize > Skills**.
+    2. In Claude Desktop, click **Customize** (top left), then select **Skills**.
     3. Click **"+"** and select **"Upload a skill"**.
     4. Upload the downloaded ZIP file.
 
-    The skill will appear in your Skills list and Claude will automatically use it when working with your CV.
+    The skill will appear in your Skills list and Claude will automatically use it when working with your CV. See [Claude's official guide](https://support.claude.com/en/articles/12512180-use-skills-in-claude) for detailed screenshots.
 
 === "Manual"
 
