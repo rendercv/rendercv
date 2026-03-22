@@ -13,14 +13,25 @@ OFFLINE_ENV = {
     "http_proxy": "http://0.0.0.0:1",
     "https_proxy": "http://0.0.0.0:1",
     "no_proxy": "",
+    # Prevent UnicodeEncodeError on Windows where the default console encoding
+    # (cp1252) cannot handle Unicode characters like ✓ used by rich output.
+    "PYTHONIOENCODING": "utf-8",
 }
 
 
 def run(args: list[str], **kwargs) -> subprocess.CompletedProcess[str]:
     """Run a subprocess with sensible defaults."""
-    return subprocess.run(
-        args, capture_output=True, text=True, timeout=120, check=True, **kwargs
+    result = subprocess.run(
+        args, capture_output=True, text=True, timeout=120, check=False, **kwargs
     )
+    if result.returncode != 0:
+        message = (
+            f"Command {args} failed with exit code {result.returncode}\n"
+            f"stdout:\n{result.stdout}\n"
+            f"stderr:\n{result.stderr}"
+        )
+        raise AssertionError(message)
+    return result
 
 
 def test_rendercv_renders_pdf_offline(tmp_path: pathlib.Path) -> None:
@@ -29,9 +40,13 @@ def test_rendercv_renders_pdf_offline(tmp_path: pathlib.Path) -> None:
     run(["uv", "build", "--wheel", "--out-dir", str(dist_dir)], cwd=PROJECT_ROOT)
 
     wheel = next(dist_dir.glob("rendercv-*.whl"))
-    venv_python = tmp_path / "venv" / "bin" / "python"
+    venv_dir = tmp_path / "venv"
+    if sys.platform == "win32":
+        venv_python = venv_dir / "Scripts" / "python.exe"
+    else:
+        venv_python = venv_dir / "bin" / "python"
 
-    run(["uv", "venv", str(venv_python.parent.parent), "--python", sys.executable])
+    run(["uv", "venv", str(venv_dir), "--python", sys.executable])
     run(["uv", "pip", "install", "--python", str(venv_python), f"{wheel}[full]"])
 
     (tmp_path / "cv.yaml").write_text(

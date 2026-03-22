@@ -25,7 +25,7 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --sidebar: oklch(0.984 0.003 247.858);
   --sidebar-foreground: oklch(0.129 0.042 264.695);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.45 0.2 295);
   --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
   --sidebar-accent: oklch(0.968 0.007 247.896);
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
@@ -218,10 +218,83 @@
 
 .md-header__button.md-logo svg {
   overflow: visible;
-  width: 1.6rem;
-  height: 1.6rem;
+  width: 2rem;
+  height: 2rem;
 }
 
-.md-header__topic {
-  margin-left: 0;
+.md-header__topic:first-child {
+  margin-left: -0.3rem;
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.md-header__site-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Hovering logo dims both logo + title (only when not scrolled) */
+.md-header__button.md-logo:hover {
+  opacity: 0.7;
+}
+.md-header__button.md-logo:hover ~ .md-header__title:not(.md-header__title--active) .md-header__topic:first-child {
+  opacity: 0.7;
+}
+
+/* Hovering title dims both logo + title (only when not scrolled) */
+.md-header__inner:has(.md-header__title:not(.md-header__title--active):hover) .md-header__button.md-logo {
+  opacity: 0.7;
+}
+.md-header__inner:has(.md-header__title:not(.md-header__title--active):hover) .md-header__topic:first-child {
+  opacity: 0.7;
+}
+
+/* Filled button for external tab link */
+.md-tabs__item--external .md-tabs__link {
+  background: var(--md-accent-fg-color);
+  color: var(--md-primary-fg-color);
+  border-radius: 999px;
+  padding: 0.15em 0.85em;
+  margin-top: calc(0.8rem - 0.15em);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: transform;
+}
+
+.md-tabs__item--external .md-tabs__link:hover,
+.md-tabs__item--external .md-tabs__link:focus {
+  transform: scale(1.08) !important;
+}
+
+.md-tabs__item--external .md-tabs__link::after {
+  content: "\2197";
+  margin-left: 0.2em;
+  font-size: 0.75em;
+  vertical-align: -0.05em;
+}
+
+/* Lucide-style stroke-only toggle icons */
+[data-md-component="palette"] svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+@keyframes rendercv-blink {
+  0%, 93%, 97%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.05); }
+}
+
+.rendercv-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rendercv-blink 4s ease-in-out infinite;
+}
+
+.rendercv-eye[data-eye="right"] {
+  animation-delay: 0.1s;
 }
