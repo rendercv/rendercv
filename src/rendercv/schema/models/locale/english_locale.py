@@ -136,6 +136,44 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         }[self.language]
 
     @functools.cached_property
+    def flag_emoji(self) -> str:
+        """Get flag emoji for the locale's primary country.
+
+        Why:
+            Flag emojis are displayed next to locale names in the UI. Deriving
+            flags here keeps the mapping in one place alongside the ISO language
+            codes.
+
+        Returns:
+            Flag emoji string (e.g., "🇬🇧" for English).
+        """
+        country = {
+            "arabic": "SA",
+            "danish": "DK",
+            "dutch": "NL",
+            "english": "GB",
+            "french": "FR",
+            "german": "DE",
+            "hebrew": "IL",
+            "hindi": "IN",
+            "hungarian": "HU",
+            "indonesian": "ID",
+            "italian": "IT",
+            "japanese": "JP",
+            "korean": "KR",
+            "mandarin_chinese": "CN",
+            "norwegian_bokmål": "NO",
+            "norwegian_nynorsk": "NO",
+            "persian": "IR",
+            "portuguese": "PT",
+            "russian": "RU",
+            "spanish": "ES",
+            "turkish": "TR",
+            "vietnamese": "VN",
+        }[self.language]
+        return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in country)
+
+    @functools.cached_property
     def is_rtl(self) -> bool:
         """Check if language uses right-to-left text direction.
 
