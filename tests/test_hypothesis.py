@@ -213,9 +213,6 @@ class TestCleanUrlProperties:
     @settings(deadline=None)
     @given(url=urls())
     def test_no_trailing_slash(self, url: str) -> None:
-        # clean_url strips one trailing slash; URLs with double trailing slashes
-        # are pathological and not expected in practice.
-        assume(not url.endswith("//"))
         result = clean_url(url)
         if result:
             assert not result.endswith("/")
@@ -363,7 +360,7 @@ class TestGetDateObjectProperties:
         assert isinstance(result, Date)
 
     @settings(deadline=None)
-    @given(year=st.integers(min_value=1000, max_value=9999))
+    @given(year=st.integers(min_value=1, max_value=9999))
     def test_integer_years_produce_jan_first(self, year: int) -> None:
         result = get_date_object(year)
         assert result == Date(year, 1, 1)
@@ -415,10 +412,8 @@ class TestBuildDatePlaceholdersProperties:
         assert len(result["DAY_IN_TWO_DIGITS"]) == 2
 
     @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(10, 1, 1), max_value=Date(9999, 12, 31)))
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
     def test_year_in_two_digits_always_two_chars(self, date: Date) -> None:
-        # Years < 10 produce 1-char result from str(year)[-2:], but these are
-        # unrealistic for CV dates. The invariant holds for years >= 10.
         result = build_date_placeholders(date, locale=EnglishLocale())
         assert len(result["YEAR_IN_TWO_DIGITS"]) == 2
 
