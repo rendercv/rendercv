@@ -5,7 +5,7 @@ from datetime import date as Date
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
-from rendercv.schema.models.design.classic_theme import Templates
+from rendercv.schema.models.design.templates import Templates
 from rendercv.schema.models.locale.locale import Locale
 
 from .date import compute_time_span_string, format_date_range, format_single_date

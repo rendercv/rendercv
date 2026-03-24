@@ -14,11 +14,8 @@ from rendercv.renderer.templater.connections import (
 from rendercv.schema.models.cv.custom_connection import CustomConnection
 from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.cv.social_network import SocialNetwork, SocialNetworkName
-from rendercv.schema.models.design.classic_theme import (
-    ClassicTheme,
-    Connections,
-    Header,
-)
+from rendercv.schema.models.design.classic_theme import ClassicTheme
+from rendercv.schema.models.design.header import Connections, Header
 from rendercv.schema.models.locale.locale import EnglishLocale
 from rendercv.schema.models.rendercv_model import RenderCVModel
 

@@ -1,4 +1,4 @@
-from rendercv.schema.models.design.classic_theme import FontFamily, Typography
+from rendercv.schema.models.design.typography import FontFamily, Typography
 
 
 class TestTypography:

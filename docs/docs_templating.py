@@ -25,13 +25,12 @@ from rendercv.schema.models.cv.section import (
 from rendercv.schema.models.cv.social_network import available_social_networks
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.design.classic_theme import (
-    Alignment,
-    BodyAlignment,
     Bullet,
     PageSize,
-    PhoneNumberFormatType,
     SectionTitleType,
 )
+from rendercv.schema.models.design.header import PhoneNumberFormatType
+from rendercv.schema.models.design.typography import Alignment, BodyAlignment
 from rendercv.schema.models.design.font_family import available_font_families
 from rendercv.schema.models.locale.locale import available_locales
 from rendercv.schema.yaml_reader import read_yaml

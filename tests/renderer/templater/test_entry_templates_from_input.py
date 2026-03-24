@@ -21,16 +21,12 @@ from rendercv.schema.models.cv.entries.education import EducationEntry
 from rendercv.schema.models.cv.entries.experience import ExperienceEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
-from rendercv.schema.models.design.classic_theme import (
-    EducationEntry as EducationEntryOptions,
+from rendercv.schema.models.design.templates import (
+    EducationEntryTemplate,
+    NormalEntryTemplate,
+    PublicationEntryTemplate,
+    Templates,
 )
-from rendercv.schema.models.design.classic_theme import (
-    NormalEntry as NormalEntryOptions,
-)
-from rendercv.schema.models.design.classic_theme import (
-    PublicationEntry as PublicationEntryOptions,
-)
-from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 from rendercv.schema.models.locale.locale import locale_adapter
 
@@ -234,7 +230,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="START_DATE / END_DATE / LOCATION / DATE",
                 )
             ),
@@ -256,7 +252,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                publication_entry=PublicationEntryOptions(
+                publication_entry=PublicationEntryTemplate(
                     main_column="AUTHORS | DOI | DATE | OPTIONAL",
                 )
             ),
@@ -280,7 +276,7 @@ class TestRenderEntryTemplates:
         )
 
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -306,7 +302,7 @@ class TestRenderEntryTemplates:
 
         french_locale = locale_adapter.validate_python({"language": "french"})
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -332,7 +328,7 @@ class TestRenderEntryTemplates:
 
         japanese_locale = locale_adapter.validate_python({"language": "japanese"})
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -359,7 +355,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="NAME URL OPTIONAL",
                 )
             ),
@@ -766,7 +762,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),
@@ -792,7 +788,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),
@@ -819,7 +815,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),
