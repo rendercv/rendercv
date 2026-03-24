@@ -186,7 +186,7 @@ def cli_command_render(
         ),
     ] = False,
     # Dummy argument that only exists to show the override syntax in --help:
-    override_hint: Annotated[
+    yaml_field_override: Annotated[
         str | None,
         typer.Option(
             "--YAMLLOCATION",
