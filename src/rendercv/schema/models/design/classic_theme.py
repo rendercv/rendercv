@@ -5,29 +5,16 @@ import pydantic
 from rendercv.schema.models.base import BaseModelWithoutExtraKeys
 from rendercv.schema.models.design.color import Color
 from rendercv.schema.models.design.header import (
-    Connections,
     Header,
     Links,
-    PhoneNumberFormatType,
 )
 from rendercv.schema.models.design.templates import (
-    EducationEntryTemplate,
-    ExperienceEntryTemplate,
-    NormalEntryTemplate,
-    OneLineEntryTemplate,
-    PublicationEntryTemplate,
     Templates,
 )
-from rendercv.schema.models.design.typst_dimension import TypstDimension
 from rendercv.schema.models.design.typography import (
-    Alignment,
-    BodyAlignment,
-    Bold,
-    FontFamily,
-    FontSize,
-    SmallCaps,
     Typography,
 )
+from rendercv.schema.models.design.typst_dimension import TypstDimension
 
 type Bullet = Literal["●", "•", "◦", "-", "◆", "★", "■", "—", "○"]
 type SectionTitleType = Literal[

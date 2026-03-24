@@ -2,6 +2,8 @@ from typing import get_args
 
 import pydantic
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from rendercv.schema.models.cv.social_network import (
     SocialNetwork,
@@ -96,3 +98,47 @@ class TestSocialNetwork:
     def test_url(self, network, username, expected_url):
         social_network = SocialNetwork(network=network, username=username)
         assert str(social_network.url) == expected_url
+
+
+# ── Property-based tests ─────────────────────────────────────────────────────
+
+
+class TestSocialNetworkUsernameProperties:
+    @settings(deadline=None)
+    @given(
+        username=st.from_regex(
+            r"@[a-zA-Z0-9_]{1,15}@[a-z]{2,10}\.[a-z]{2,4}", fullmatch=True
+        )
+    )
+    def test_mastodon_valid_format_accepted(self, username: str) -> None:
+        sn = SocialNetwork(network="Mastodon", username=username)
+        assert sn.username == username
+
+    @settings(deadline=None)
+    @given(username=st.from_regex(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", fullmatch=True))
+    def test_orcid_valid_format_accepted(self, username: str) -> None:
+        sn = SocialNetwork(network="ORCID", username=username)
+        assert sn.username == username
+
+    @settings(deadline=None)
+    @given(username=st.from_regex(r"\d{1,8}/[a-zA-Z0-9_-]+", fullmatch=True))
+    def test_stackoverflow_valid_format_accepted(self, username: str) -> None:
+        sn = SocialNetwork(network="StackOverflow", username=username)
+        assert sn.username == username
+
+    @settings(deadline=None)
+    @given(username=st.from_regex(r"[a-zA-Z0-9_-]{3,23}", fullmatch=True))
+    def test_reddit_valid_format_accepted(self, username: str) -> None:
+        sn = SocialNetwork(network="Reddit", username=username)
+        assert sn.username == username
+
+    @settings(deadline=None)
+    @given(
+        network=st.sampled_from(["LinkedIn", "GitHub", "GitLab", "X"]),
+        username=st.from_regex(r"[a-zA-Z0-9_-]{1,20}", fullmatch=True),
+    )
+    def test_valid_network_url_is_valid_http_url(
+        self, network: str, username: str
+    ) -> None:
+        sn = SocialNetwork(network=network, username=username)
+        pydantic.TypeAdapter(pydantic.HttpUrl).validate_strings(sn.url)

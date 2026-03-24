@@ -1,6 +1,9 @@
+import re
 from datetime import date as Date
 
 import pytest
+from hypothesis import assume, given, settings
+from hypothesis import strategies as st
 
 from rendercv.renderer.templater.date import (
     build_date_placeholders,
@@ -9,7 +12,11 @@ from rendercv.renderer.templater.date import (
     format_date_range,
     format_single_date,
 )
+from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
+    get_date_object,
+)
 from rendercv.schema.models.locale.english_locale import EnglishLocale
+from tests.strategies import valid_date_strings
 
 
 @pytest.mark.parametrize(
@@ -592,3 +599,150 @@ def test_compute_time_span_string(
         time_span_template=time_span_template,
     )
     assert result == expected
+
+
+# ── Property-based tests ─────────────────────────────────────────────────────
+
+
+class TestGetDateObjectProperties:
+    @settings(deadline=None)
+    @given(date_str=valid_date_strings())
+    def test_valid_strings_produce_date_objects(self, date_str: str) -> None:
+        result = get_date_object(date_str)
+        assert isinstance(result, Date)
+
+    @settings(deadline=None)
+    @given(year=st.integers(min_value=1, max_value=9999))
+    def test_integer_years_produce_jan_first(self, year: int) -> None:
+        result = get_date_object(year)
+        assert result == Date(year, 1, 1)
+
+    @settings(deadline=None)
+    @given(current_date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_present_returns_current_date(self, current_date: Date) -> None:
+        assert get_date_object("present", current_date) == current_date
+
+    @settings(deadline=None)
+    @given(
+        year=st.integers(min_value=1, max_value=9999),
+        month=st.integers(min_value=1, max_value=12),
+    )
+    def test_yyyy_mm_format_sets_day_to_first(self, year: int, month: int) -> None:
+        result = get_date_object(f"{year:04d}-{month:02d}")
+        assert result.day == 1
+
+
+class TestBuildDatePlaceholdersProperties:
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_always_returns_8_keys(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result) == 8
+        expected_keys = {
+            "MONTH_NAME",
+            "MONTH_ABBREVIATION",
+            "MONTH",
+            "MONTH_IN_TWO_DIGITS",
+            "DAY",
+            "DAY_IN_TWO_DIGITS",
+            "YEAR",
+            "YEAR_IN_TWO_DIGITS",
+        }
+        assert set(result.keys()) == expected_keys
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_month_in_range(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert 1 <= int(result["MONTH"]) <= 12
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_two_digit_variants_always_two_chars(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result["MONTH_IN_TWO_DIGITS"]) == 2
+        assert len(result["DAY_IN_TWO_DIGITS"]) == 2
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_year_in_two_digits_always_two_chars(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result["YEAR_IN_TWO_DIGITS"]) == 2
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_month_name_from_locale(self, date: Date) -> None:
+        locale = EnglishLocale()
+        result = build_date_placeholders(date, locale=locale)
+        assert result["MONTH_NAME"] == locale.month_names[date.month - 1]
+
+
+class TestComputeTimeSpanStringProperties:
+    @settings(deadline=None)
+    @given(
+        start_year=st.integers(min_value=1900, max_value=2100),
+        delta_years=st.integers(min_value=0, max_value=50),
+    )
+    def test_year_only_inputs_produce_year_only_output(
+        self, start_year: int, delta_years: int
+    ) -> None:
+        end_year = start_year + delta_years
+        assume(end_year <= 9999)
+        locale = EnglishLocale()
+        result = compute_time_span_string(
+            start_year,
+            end_year,
+            locale=locale,
+            current_date=Date(2025, 1, 1),
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        )
+        assert locale.month not in result
+        assert locale.months not in result
+
+    @settings(deadline=None)
+    @given(
+        start=valid_date_strings(),
+        delta_days=st.integers(min_value=0, max_value=36500),
+    )
+    def test_non_negative_duration(self, start: str, delta_days: int) -> None:
+        start_date = get_date_object(start)
+        end_date = Date.fromordinal(
+            min(start_date.toordinal() + delta_days, Date(9999, 12, 31).toordinal())
+        )
+        assume(end_date >= start_date)
+        end_str = end_date.isoformat()
+        locale = EnglishLocale()
+        result = compute_time_span_string(
+            start,
+            end_str,
+            locale=locale,
+            current_date=Date(2025, 1, 1),
+            time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+        )
+        numbers = re.findall(r"\d+", result)
+        for n in numbers:
+            assert int(n) >= 0
+
+    @settings(deadline=None)
+    @given(
+        start_year=st.integers(min_value=1900, max_value=2050),
+        delta_years=st.integers(min_value=1, max_value=50),
+    )
+    def test_singular_plural_correctness(
+        self, start_year: int, delta_years: int
+    ) -> None:
+        end_year = start_year + delta_years
+        assume(end_year <= 9999)
+        locale = EnglishLocale()
+        result = compute_time_span_string(
+            start_year,
+            end_year,
+            locale=locale,
+            current_date=Date(2025, 1, 1),
+            time_span_template="HOW_MANY_YEARS YEARS",
+        )
+        if delta_years == 1:
+            assert locale.year in result
+            assert locale.years not in result
+        elif delta_years > 1:
+            assert locale.years in result

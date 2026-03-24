@@ -223,6 +223,7 @@ addopts = [
   "--numprocesses=auto",  # Number of processes in parallel
 ]
 testpaths = ["tests"]
+pythonpath = ["."]
 
 [tool.codespell]
 skip = "*.md"

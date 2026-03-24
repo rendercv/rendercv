@@ -1,4 +1,8 @@
+import string
+
 import pytest
+from hypothesis import assume, given, settings
+from hypothesis import strategies as st
 
 from rendercv.renderer.templater.markdown_parser import (
     escape_typst_characters,
@@ -216,3 +220,101 @@ def test_markdown_to_html():
     assert (
         markdown_to_html("Hello, **world**!") == "<p>Hello, <strong>world</strong>!</p>"
     )
+
+
+# ── Property-based tests ─────────────────────────────────────────────────────
+
+
+class TestEscapeTypstCharactersProperties:
+    @settings(deadline=None)
+    @given(text=st.text(max_size=200))
+    def test_never_crashes(self, text: str) -> None:
+        escape_typst_characters(text)
+
+    @settings(deadline=None)
+    @given(
+        text=st.text(
+            alphabet=st.characters(
+                categories=(), include_characters=string.ascii_letters + " "
+            ),
+            min_size=1,
+            max_size=50,
+        )
+    )
+    def test_plain_ascii_letters_unchanged(self, text: str) -> None:
+        assume("*" not in text)
+        assert escape_typst_characters(text) == text
+
+    @settings(deadline=None)
+    @given(
+        name=st.from_regex(r"[a-zA-Z][a-zA-Z-]{0,10}", fullmatch=True),
+        arg=st.from_regex(r"[a-zA-Z0-9 ]{0,10}", fullmatch=True),
+    )
+    def test_typst_commands_preserved(self, name: str, arg: str) -> None:
+        command = f"#{name}[{arg}]"
+        result = escape_typst_characters(command)
+        assert command in result
+
+
+class TestMarkdownToTypstProperties:
+    @settings(deadline=None)
+    @given(text=st.text(max_size=300))
+    def test_never_crashes_on_arbitrary_input(self, text: str) -> None:
+        markdown_to_typst(text)
+
+    @settings(deadline=None)
+    @given(
+        text=st.text(
+            alphabet=st.characters(
+                categories=(),
+                include_characters=string.ascii_letters + string.digits + " ",
+            ),
+            min_size=0,
+            max_size=100,
+        )
+    )
+    def test_plain_text_content_preserved(self, text: str) -> None:
+        assume("*" not in text and "!" not in text)
+        assume(text.strip())
+        result = markdown_to_typst(text)
+        assert result.split() == text.split()
+
+    @settings(deadline=None)
+    @given(
+        text=st.text(max_size=200).filter(
+            lambda s: (
+                "!!!" not in s and "\t" not in s and "    " not in s and "\r" not in s
+            )
+        )
+    )
+    def test_line_count_preserved_for_non_admonition(self, text: str) -> None:
+        result = markdown_to_typst(text)
+        assert result.count("\n") == text.count("\n")
+
+    @settings(deadline=None)
+    @given(
+        word=st.text(
+            alphabet=st.characters(
+                categories=(), include_characters=string.ascii_letters + string.digits
+            ),
+            min_size=1,
+            max_size=20,
+        )
+    )
+    def test_bold_produces_strong(self, word: str) -> None:
+        result = markdown_to_typst(f"**{word}**")
+        assert f"#strong[{word}]" in result
+
+    @settings(deadline=None)
+    @given(
+        word=st.text(
+            alphabet=st.characters(
+                categories=(), include_characters=string.ascii_letters + string.digits
+            ),
+            min_size=1,
+            max_size=20,
+        )
+    )
+    def test_italic_produces_emph(self, word: str) -> None:
+        result = markdown_to_typst(f"*{word}*")
+        assert f"#emph[{word}]" in result

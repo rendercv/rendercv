@@ -287,8 +287,7 @@ class TestDownloadPhotoFromUrl:
 
         with (
             patch(
-                "rendercv.renderer.templater.model_processor"
-                ".urllib.request.urlopen",
+                "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
                 side_effect=OSError("network error"),
             ),
             pytest.raises(RenderCVUserError) as exc_info,
