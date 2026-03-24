@@ -41,7 +41,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
 
 # Build discriminated union dynamically
 type Locale = Annotated[
-    EnglishLocale | reduce(or_, discover_other_locales()),  # ty: ignore[invalid-type-form]
+    reduce(or_, discover_other_locales(), EnglishLocale),  # ty: ignore[invalid-type-form]
     pydantic.Field(discriminator="language"),
 ]
 available_locales = [

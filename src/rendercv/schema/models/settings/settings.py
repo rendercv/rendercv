@@ -66,7 +66,7 @@ class Settings(BaseModelWithoutExtraKeys):
         Returns:
             List with unique keywords only.
         """
-        return list(set(value))
+        return list(dict.fromkeys(value))
 
     @pydantic.model_validator(mode="after")
     def resolve_current_date(self) -> "Settings":

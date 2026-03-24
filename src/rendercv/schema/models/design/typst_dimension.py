@@ -20,6 +20,7 @@ def validate_typst_dimension(dimension: str) -> str:
     Returns:
         Original dimension if valid.
     """
+    # Negative dimensions are valid in Typst for negative spacing/offsets:
     if not re.fullmatch(r"-?\d+(?:\.\d+)?(cm|in|pt|mm|em)", dimension):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,

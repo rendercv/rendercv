@@ -3,6 +3,7 @@ from datetime import date as Date
 from typing import Annotated
 
 import pydantic
+import pydantic_core
 
 from .entry import BaseEntry
 
@@ -24,9 +25,23 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     date_str = str(date)
 
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
-        Date.fromisoformat(date_str)
+        try:
+            Date.fromisoformat(date_str)
+        except ValueError as e:
+            raise pydantic_core.PydanticCustomError(
+                "value_error",
+                "'{date_str}' is not a valid calendar date.",
+                {"date_str": date_str},
+            ) from e
     elif re.fullmatch(r"\d{4}-\d{2}", date_str):
-        Date.fromisoformat(f"{date_str}-01")
+        try:
+            Date.fromisoformat(f"{date_str}-01")
+        except ValueError as e:
+            raise pydantic_core.PydanticCustomError(
+                "value_error",
+                "'{date_str}' has an invalid month.",
+                {"date_str": date_str},
+            ) from e
 
     return date
 
