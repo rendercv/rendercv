@@ -99,11 +99,6 @@ class TestSocialNetwork:
         social_network = SocialNetwork(network=network, username=username)
         assert str(social_network.url) == expected_url
 
-
-# ── Property-based tests ─────────────────────────────────────────────────────
-
-
-class TestSocialNetworkUsernameProperties:
     @settings(deadline=None)
     @given(
         username=st.from_regex(

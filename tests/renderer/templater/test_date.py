@@ -19,41 +19,85 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
 from tests.strategies import valid_date_strings
 
 
-@pytest.mark.parametrize(
-    ("date", "locale_kwargs", "expected_subset"),
-    [
-        (
-            Date(2025, 3, 15),
-            {},
-            {
-                "MONTH_NAME": "March",
-                "MONTH_ABBREVIATION": "Mar",
-                "MONTH": "3",
-                "MONTH_IN_TWO_DIGITS": "03",
-                "DAY": "15",
-                "DAY_IN_TWO_DIGITS": "15",
-                "YEAR": "2025",
-                "YEAR_IN_TWO_DIGITS": "25",
-            },
-        ),
-        # Single-digit day padding
-        (
-            Date(2020, 1, 5),
-            {},
-            {"DAY": "5", "DAY_IN_TWO_DIGITS": "05"},
-        ),
-        # Custom locale propagates
-        (
-            Date(2020, 1, 10),
-            {"month_abbreviations": list("ABCDEFGHIJKL")},
-            {"MONTH_ABBREVIATION": "A", "DAY": "10"},
-        ),
-    ],
-)
-def test_build_date_placeholders(date, locale_kwargs, expected_subset):
-    result = build_date_placeholders(date, locale=EnglishLocale(**locale_kwargs))
-    for key, value in expected_subset.items():
-        assert result[key] == value
+class TestBuildDatePlaceholders:
+    @pytest.mark.parametrize(
+        ("date", "locale_kwargs", "expected_subset"),
+        [
+            (
+                Date(2025, 3, 15),
+                {},
+                {
+                    "MONTH_NAME": "March",
+                    "MONTH_ABBREVIATION": "Mar",
+                    "MONTH": "3",
+                    "MONTH_IN_TWO_DIGITS": "03",
+                    "DAY": "15",
+                    "DAY_IN_TWO_DIGITS": "15",
+                    "YEAR": "2025",
+                    "YEAR_IN_TWO_DIGITS": "25",
+                },
+            ),
+            # Single-digit day padding
+            (
+                Date(2020, 1, 5),
+                {},
+                {"DAY": "5", "DAY_IN_TWO_DIGITS": "05"},
+            ),
+            # Custom locale propagates
+            (
+                Date(2020, 1, 10),
+                {"month_abbreviations": list("ABCDEFGHIJKL")},
+                {"MONTH_ABBREVIATION": "A", "DAY": "10"},
+            ),
+        ],
+    )
+    def test_build_date_placeholders(self, date, locale_kwargs, expected_subset):
+        result = build_date_placeholders(date, locale=EnglishLocale(**locale_kwargs))
+        for key, value in expected_subset.items():
+            assert result[key] == value
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_always_returns_8_keys(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result) == 8
+        expected_keys = {
+            "MONTH_NAME",
+            "MONTH_ABBREVIATION",
+            "MONTH",
+            "MONTH_IN_TWO_DIGITS",
+            "DAY",
+            "DAY_IN_TWO_DIGITS",
+            "YEAR",
+            "YEAR_IN_TWO_DIGITS",
+        }
+        assert set(result.keys()) == expected_keys
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_month_in_range(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert 1 <= int(result["MONTH"]) <= 12
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_two_digit_variants_always_two_chars(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result["MONTH_IN_TWO_DIGITS"]) == 2
+        assert len(result["DAY_IN_TWO_DIGITS"]) == 2
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_year_in_two_digits_always_two_chars(self, date: Date) -> None:
+        result = build_date_placeholders(date, locale=EnglishLocale())
+        assert len(result["YEAR_IN_TWO_DIGITS"]) == 2
+
+    @settings(deadline=None)
+    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_month_name_from_locale(self, date: Date) -> None:
+        locale = EnglishLocale()
+        result = build_date_placeholders(date, locale=locale)
+        assert result["MONTH_NAME"] == locale.month_names[date.month - 1]
 
 
 @pytest.mark.parametrize(
@@ -403,281 +447,205 @@ def test_format_date_range(
     assert result == expected
 
 
-@pytest.mark.parametrize(
-    (
-        "start_date",
-        "end_date",
-        "current_date",
-        "time_span_template",
-        "locale_kwargs",
-        "expected",
-    ),
-    [
-        # Year only calculations
+class TestComputeTimeSpanString:
+    @pytest.mark.parametrize(
         (
-            2020,
-            2021,
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year",
+            "start_date",
+            "end_date",
+            "current_date",
+            "time_span_template",
+            "locale_kwargs",
+            "expected",
         ),
-        (
-            2020,
-            2022,
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "2 years",
-        ),
-        (
-            2020,
-            2024,
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "4 years",
-        ),
-        (
-            "2020-10-10",
-            2022,
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "2 years",
-        ),
-        (
-            2022,
-            "2023-10-10",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year",
-        ),
-        # Years and months
-        (
-            "2020-01-01",
-            "2021-01-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year 1 month",
-        ),
-        (
-            "2020-01-01",
-            "2022-01-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "2 years 1 month",
-        ),
-        (
-            "2020-01",
-            "2021-02-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year 2 months",
-        ),
-        (
-            "2020-01-01",
-            "2023-03-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "3 years 3 months",
-        ),
-        # Months only
-        (
-            "2020-10-10",
-            "2020-11-05",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 month",
-        ),
-        (
-            "2020-01-01",
-            "2020-03-15",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "3 months",
-        ),
-        # Years only (no months)
-        (
-            "2020-01-01",
-            "2021-12-10",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "2 years",
-        ),
-        (
-            "2020-02-01",
-            "2024-01-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "4 years",
-        ),
-        # Present as end date
-        (
-            "2020-01-01",
-            "present",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "4 years 1 month",
-        ),
-        (
-            "2020-02-01",
-            "present",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "4 years",
-        ),
-        (
-            2020,
-            "present",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "4 years",
-        ),
-        # Month overflow handling
-        (
-            "2020-01-01",
-            "2021-01-15",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year 1 month",
-        ),
-        # Custom locale translations
-        (
-            "2020-01-01",
-            "2021-02-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {"year": "año", "years": "años", "month": "mes", "months": "meses"},
-            "1 año 2 meses",
-        ),
-        (
-            2020,
-            2022,
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
-            {"year": "año", "years": "años", "month": "mes", "months": "meses"},
-            "2 años",
-        ),
-        # Custom time span template
-        (
-            "2020-01-01",
-            "2021-02-01",
-            Date(2024, 1, 1),
-            "HOW_MANY_YEARS YEARS, HOW_MANY_MONTHS MONTHS",
-            {},
-            "1 year, 2 months",
-        ),
-    ],
-)
-def test_compute_time_span_string(
-    start_date,
-    end_date,
-    current_date,
-    time_span_template,
-    locale_kwargs,
-    expected,
-):
-    result = compute_time_span_string(
+        [
+            # Year only calculations
+            (
+                2020,
+                2021,
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year",
+            ),
+            (
+                2020,
+                2022,
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "2 years",
+            ),
+            (
+                2020,
+                2024,
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "4 years",
+            ),
+            (
+                "2020-10-10",
+                2022,
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "2 years",
+            ),
+            (
+                2022,
+                "2023-10-10",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year",
+            ),
+            # Years and months
+            (
+                "2020-01-01",
+                "2021-01-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year 1 month",
+            ),
+            (
+                "2020-01-01",
+                "2022-01-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "2 years 1 month",
+            ),
+            (
+                "2020-01",
+                "2021-02-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year 2 months",
+            ),
+            (
+                "2020-01-01",
+                "2023-03-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "3 years 3 months",
+            ),
+            # Months only
+            (
+                "2020-10-10",
+                "2020-11-05",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 month",
+            ),
+            (
+                "2020-01-01",
+                "2020-03-15",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "3 months",
+            ),
+            # Years only (no months)
+            (
+                "2020-01-01",
+                "2021-12-10",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "2 years",
+            ),
+            (
+                "2020-02-01",
+                "2024-01-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "4 years",
+            ),
+            # Present as end date
+            (
+                "2020-01-01",
+                "present",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "4 years 1 month",
+            ),
+            (
+                "2020-02-01",
+                "present",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "4 years",
+            ),
+            (
+                2020,
+                "present",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "4 years",
+            ),
+            # Month overflow handling
+            (
+                "2020-01-01",
+                "2021-01-15",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year 1 month",
+            ),
+            # Custom locale translations
+            (
+                "2020-01-01",
+                "2021-02-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {"year": "año", "years": "años", "month": "mes", "months": "meses"},
+                "1 año 2 meses",
+            ),
+            (
+                2020,
+                2022,
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+                {"year": "año", "years": "años", "month": "mes", "months": "meses"},
+                "2 años",
+            ),
+            # Custom time span template
+            (
+                "2020-01-01",
+                "2021-02-01",
+                Date(2024, 1, 1),
+                "HOW_MANY_YEARS YEARS, HOW_MANY_MONTHS MONTHS",
+                {},
+                "1 year, 2 months",
+            ),
+        ],
+    )
+    def test_compute_time_span_string(
+        self,
         start_date,
         end_date,
-        locale=EnglishLocale(**locale_kwargs),
-        current_date=current_date,
-        time_span_template=time_span_template,
-    )
-    assert result == expected
+        current_date,
+        time_span_template,
+        locale_kwargs,
+        expected,
+    ):
+        result = compute_time_span_string(
+            start_date,
+            end_date,
+            locale=EnglishLocale(**locale_kwargs),
+            current_date=current_date,
+            time_span_template=time_span_template,
+        )
+        assert result == expected
 
-
-# ── Property-based tests ─────────────────────────────────────────────────────
-
-
-class TestGetDateObjectProperties:
-    @settings(deadline=None)
-    @given(date_str=valid_date_strings())
-    def test_valid_strings_produce_date_objects(self, date_str: str) -> None:
-        result = get_date_object(date_str)
-        assert isinstance(result, Date)
-
-    @settings(deadline=None)
-    @given(year=st.integers(min_value=1, max_value=9999))
-    def test_integer_years_produce_jan_first(self, year: int) -> None:
-        result = get_date_object(year)
-        assert result == Date(year, 1, 1)
-
-    @settings(deadline=None)
-    @given(current_date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_present_returns_current_date(self, current_date: Date) -> None:
-        assert get_date_object("present", current_date) == current_date
-
-    @settings(deadline=None)
-    @given(
-        year=st.integers(min_value=1, max_value=9999),
-        month=st.integers(min_value=1, max_value=12),
-    )
-    def test_yyyy_mm_format_sets_day_to_first(self, year: int, month: int) -> None:
-        result = get_date_object(f"{year:04d}-{month:02d}")
-        assert result.day == 1
-
-
-class TestBuildDatePlaceholdersProperties:
-    @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_always_returns_8_keys(self, date: Date) -> None:
-        result = build_date_placeholders(date, locale=EnglishLocale())
-        assert len(result) == 8
-        expected_keys = {
-            "MONTH_NAME",
-            "MONTH_ABBREVIATION",
-            "MONTH",
-            "MONTH_IN_TWO_DIGITS",
-            "DAY",
-            "DAY_IN_TWO_DIGITS",
-            "YEAR",
-            "YEAR_IN_TWO_DIGITS",
-        }
-        assert set(result.keys()) == expected_keys
-
-    @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_month_in_range(self, date: Date) -> None:
-        result = build_date_placeholders(date, locale=EnglishLocale())
-        assert 1 <= int(result["MONTH"]) <= 12
-
-    @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_two_digit_variants_always_two_chars(self, date: Date) -> None:
-        result = build_date_placeholders(date, locale=EnglishLocale())
-        assert len(result["MONTH_IN_TWO_DIGITS"]) == 2
-        assert len(result["DAY_IN_TWO_DIGITS"]) == 2
-
-    @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_year_in_two_digits_always_two_chars(self, date: Date) -> None:
-        result = build_date_placeholders(date, locale=EnglishLocale())
-        assert len(result["YEAR_IN_TWO_DIGITS"]) == 2
-
-    @settings(deadline=None)
-    @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_month_name_from_locale(self, date: Date) -> None:
-        locale = EnglishLocale()
-        result = build_date_placeholders(date, locale=locale)
-        assert result["MONTH_NAME"] == locale.month_names[date.month - 1]
-
-
-class TestComputeTimeSpanStringProperties:
     @settings(deadline=None)
     @given(
         start_year=st.integers(min_value=1900, max_value=2100),
@@ -746,3 +714,31 @@ class TestComputeTimeSpanStringProperties:
             assert locale.years not in result
         elif delta_years > 1:
             assert locale.years in result
+
+
+class TestGetDateObject:
+    @settings(deadline=None)
+    @given(date_str=valid_date_strings())
+    def test_valid_strings_produce_date_objects(self, date_str: str) -> None:
+        result = get_date_object(date_str)
+        assert isinstance(result, Date)
+
+    @settings(deadline=None)
+    @given(year=st.integers(min_value=1, max_value=9999))
+    def test_integer_years_produce_jan_first(self, year: int) -> None:
+        result = get_date_object(year)
+        assert result == Date(year, 1, 1)
+
+    @settings(deadline=None)
+    @given(current_date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
+    def test_present_returns_current_date(self, current_date: Date) -> None:
+        assert get_date_object("present", current_date) == current_date
+
+    @settings(deadline=None)
+    @given(
+        year=st.integers(min_value=1, max_value=9999),
+        month=st.integers(min_value=1, max_value=12),
+    )
+    def test_yyyy_mm_format_sets_day_to_first(self, year: int, month: int) -> None:
+        result = get_date_object(f"{year:04d}-{month:02d}")
+        assert result.day == 1

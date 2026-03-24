@@ -38,7 +38,7 @@ class TestTypography:
         assert typography.font_family.section_titles == "Tahoma"
 
 
-class TestTypstDimensionProperties:
+class TestTypstDimension:
     @settings(deadline=None)
     @given(dim=typst_dimensions())
     def test_valid_dimensions_accepted(self, dim: str) -> None:

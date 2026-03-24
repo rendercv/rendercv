@@ -208,11 +208,35 @@ class TestResolveOutputFolderPlaceholder:
 
         assert result == output_folder
 
+    @settings(deadline=None)
+    @given(
+        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+    )
+    def test_idempotent(self, suffix: str, folder: str) -> None:
+        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
+        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
+        first = resolve_output_folder_placeholder(
+            pathlib.Path(path), pathlib.Path(output_folder)
+        )
+        second = resolve_output_folder_placeholder(first, pathlib.Path(output_folder))
+        assert first == second
 
-# ── Property-based tests ─────────────────────────────────────────────────────
+    @settings(deadline=None)
+    @given(
+        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+    )
+    def test_output_folder_absent_in_result(self, suffix: str, folder: str) -> None:
+        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
+        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
+        result = resolve_output_folder_placeholder(
+            pathlib.Path(path), pathlib.Path(output_folder)
+        )
+        assert "OUTPUT_FOLDER" not in result.parts
 
 
-class TestBuildNameVariantsProperties:
+class TestBuildNameVariants:
     def test_none_returns_empty_dict(self) -> None:
         assert build_name_variants(None) == {}
 
@@ -269,32 +293,3 @@ class TestBuildNameVariantsProperties:
     def test_original_name_preserved(self, name: str) -> None:
         result = build_name_variants(name)
         assert result["NAME"] == name
-
-
-class TestResolveOutputFolderPlaceholderProperties:
-    @settings(deadline=None)
-    @given(
-        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
-        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
-    )
-    def test_idempotent(self, suffix: str, folder: str) -> None:
-        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
-        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
-        first = resolve_output_folder_placeholder(
-            pathlib.Path(path), pathlib.Path(output_folder)
-        )
-        second = resolve_output_folder_placeholder(first, pathlib.Path(output_folder))
-        assert first == second
-
-    @settings(deadline=None)
-    @given(
-        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
-        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
-    )
-    def test_output_folder_absent_in_result(self, suffix: str, folder: str) -> None:
-        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
-        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
-        result = resolve_output_folder_placeholder(
-            pathlib.Path(path), pathlib.Path(output_folder)
-        )
-        assert "OUTPUT_FOLDER" not in result.parts

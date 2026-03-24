@@ -58,6 +58,37 @@ class TestEscapeTypstCharacters:
 
         assert escape_typst_characters(string) == expected
 
+    @settings(deadline=None)
+    @given(text=st.text(max_size=200))
+    def test_never_crashes_on_arbitrary_input(self, text: str) -> None:
+        escape_typst_characters(text)
+
+    @settings(deadline=None)
+    @given(
+        text=st.text(
+            alphabet=st.characters(
+                categories=(), include_characters=string.ascii_letters + " "
+            ),
+            min_size=1,
+            max_size=50,
+        )
+    )
+    def test_leaves_plain_ascii_letters_unchanged(self, text: str) -> None:
+        assume("*" not in text)
+        assert escape_typst_characters(text) == text
+
+    @settings(deadline=None)
+    @given(
+        name=st.from_regex(r"[a-zA-Z][a-zA-Z-]{0,10}", fullmatch=True),
+        arg=st.from_regex(r"[a-zA-Z0-9 ]{0,10}", fullmatch=True),
+    )
+    def test_preserves_typst_commands_with_random_content(
+        self, name: str, arg: str
+    ) -> None:
+        command = f"#{name}[{arg}]"
+        result = escape_typst_characters(command)
+        assert command in result
+
 
 @pytest.mark.parametrize(
     ("markdown_string", "expected_typst_string"),
@@ -189,9 +220,7 @@ def test_markdown_to_typst(markdown_string, expected_typst_string):
     assert markdown_to_typst(markdown_string) == expected_typst_string
 
 
-class TestMarkdownToTypstMultiLine:
-    """Tests for multi-line markdown where emphasis markers could interact across lines."""
-
+class TestMarkdownToTypst:
     def test_emphasis_markers_do_not_interact_across_lines(self):
         result = markdown_to_typst("**bold text**\n*italic text*")
         assert result == "#strong[bold text]\n#emph[italic text]"
@@ -200,7 +229,6 @@ class TestMarkdownToTypstMultiLine:
         result = markdown_to_typst("**a *b* c**\n*d **e** f*")
         assert "#strong[" in result.split("\n")[0]
         assert "#emph[" in result.split("\n")[1]
-        # Each line should have balanced brackets
         for line in result.split("\n"):
             assert line.count("[") == line.count("]")
 
@@ -215,48 +243,6 @@ class TestMarkdownToTypstMultiLine:
         result = markdown_to_typst("**bold**\n\n*italic*")
         assert result == "#strong[bold]\n\n#emph[italic]"
 
-
-def test_markdown_to_html():
-    assert (
-        markdown_to_html("Hello, **world**!") == "<p>Hello, <strong>world</strong>!</p>"
-    )
-
-
-# ── Property-based tests ─────────────────────────────────────────────────────
-
-
-class TestEscapeTypstCharactersProperties:
-    @settings(deadline=None)
-    @given(text=st.text(max_size=200))
-    def test_never_crashes(self, text: str) -> None:
-        escape_typst_characters(text)
-
-    @settings(deadline=None)
-    @given(
-        text=st.text(
-            alphabet=st.characters(
-                categories=(), include_characters=string.ascii_letters + " "
-            ),
-            min_size=1,
-            max_size=50,
-        )
-    )
-    def test_plain_ascii_letters_unchanged(self, text: str) -> None:
-        assume("*" not in text)
-        assert escape_typst_characters(text) == text
-
-    @settings(deadline=None)
-    @given(
-        name=st.from_regex(r"[a-zA-Z][a-zA-Z-]{0,10}", fullmatch=True),
-        arg=st.from_regex(r"[a-zA-Z0-9 ]{0,10}", fullmatch=True),
-    )
-    def test_typst_commands_preserved(self, name: str, arg: str) -> None:
-        command = f"#{name}[{arg}]"
-        result = escape_typst_characters(command)
-        assert command in result
-
-
-class TestMarkdownToTypstProperties:
     @settings(deadline=None)
     @given(text=st.text(max_size=300))
     def test_never_crashes_on_arbitrary_input(self, text: str) -> None:
@@ -273,7 +259,7 @@ class TestMarkdownToTypstProperties:
             max_size=100,
         )
     )
-    def test_plain_text_content_preserved(self, text: str) -> None:
+    def test_preserves_plain_text_content(self, text: str) -> None:
         assume("*" not in text and "!" not in text)
         assume(text.strip())
         result = markdown_to_typst(text)
@@ -287,7 +273,7 @@ class TestMarkdownToTypstProperties:
             )
         )
     )
-    def test_line_count_preserved_for_non_admonition(self, text: str) -> None:
+    def test_preserves_line_count_for_non_admonition(self, text: str) -> None:
         result = markdown_to_typst(text)
         assert result.count("\n") == text.count("\n")
 
@@ -318,3 +304,9 @@ class TestMarkdownToTypstProperties:
     def test_italic_produces_emph(self, word: str) -> None:
         result = markdown_to_typst(f"*{word}*")
         assert f"#emph[{word}]" in result
+
+
+def test_markdown_to_html():
+    assert (
+        markdown_to_html("Hello, **world**!") == "<p>Hello, <strong>world</strong>!</p>"
+    )
