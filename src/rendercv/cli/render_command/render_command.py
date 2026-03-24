@@ -196,7 +196,7 @@ def cli_command_render(
         ),
     ] = None,
     extra_data_model_override_arguments: typer.Context = None,  # ty: ignore[invalid-parameter-default]
-):
+) -> None:
     input_file_path = pathlib.Path(input_file_name).absolute()
 
     # Resolve design/locale overlay files from YAML settings when not

@@ -1,7 +1,7 @@
 import pathlib
 from dataclasses import dataclass
 from datetime import date as Date
-from typing import Any, cast
+from typing import cast
 
 import pydantic
 
@@ -9,7 +9,7 @@ import pydantic
 @dataclass
 class ValidationContext:
     input_file_path: pathlib.Path | None = None
-    current_date: Any = None
+    current_date: Date | str | None = None
 
 
 def get_input_file_path(info: pydantic.ValidationInfo) -> pathlib.Path | None:

@@ -128,7 +128,7 @@ def run_rendercv(
     input_file_path: pathlib.Path,
     progress: ProgressPanel,
     **kwargs: Unpack[BuildRendercvModelArguments],
-):
+) -> None:
     """Execute complete CV generation pipeline with progress tracking and error handling.
 
     Args:
