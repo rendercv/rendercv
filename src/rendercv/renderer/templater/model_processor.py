@@ -1,4 +1,5 @@
 import pathlib
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Callable
@@ -49,8 +50,9 @@ def download_photo_from_url(rendercv_model: RenderCVModel) -> None:
 
     if not destination.exists():
         try:
-            urllib.request.urlretrieve(url_str, destination)
-        except Exception as e:
+            with urllib.request.urlopen(url_str, timeout=30) as response:
+                destination.write_bytes(response.read())
+        except (urllib.error.URLError, OSError) as e:
             raise RenderCVUserError(
                 message=f"Failed to download photo from {url_str}: {e}"
             ) from e
