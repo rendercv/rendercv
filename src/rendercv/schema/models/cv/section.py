@@ -33,10 +33,13 @@ type EntryModel = (
 )
 type Entry = EntryModel | str
 ########################################################################################
+# __value__ is standard PEP 695 type alias access (not a private API):
 available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__value__)
 available_entry_type_names: tuple[str, ...] = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
+# ty:ignore is unavoidable here: reduce() constructs a union type at runtime
+# that type checkers cannot verify statically:
 type ListOfEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
     or_, [list[entry_type] for entry_type in available_entry_models]
 )

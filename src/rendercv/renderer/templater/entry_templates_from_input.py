@@ -196,9 +196,12 @@ def render_entry_templates[EntryType: Entry](
         )
 
     if "URL" in entry_fields:
+        # entry is guaranteed to be an EntryModel (not str) here because str entries
+        # have no URL field. The ty:ignore is due to Entry = EntryModel | str union.
         entry_fields["URL"] = process_url(entry)  # ty: ignore[invalid-argument-type]
 
     if "DOI" in entry_fields:
+        # Same as above: entry is an EntryModel with doi/url fields.
         entry_fields["URL"] = process_url(entry)  # ty: ignore[invalid-argument-type]
         entry_fields["DOI"] = process_doi(entry)  # ty: ignore[invalid-argument-type]
 
@@ -374,6 +377,7 @@ def process_url(entry: Entry) -> str:
         return process_doi(entry)
     if hasattr(entry, "url") and entry.url:
         url = entry.url
+        # url is str | HttpUrl; clean_url accepts both. ty false positive:
         return f"[{clean_url(url)}]({url})"  # ty: ignore[invalid-argument-type]
     raise RenderCVInternalError("URL is not provided for this entry.")
 
