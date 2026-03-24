@@ -125,7 +125,7 @@ def render_entry_templates[EntryType: Entry](
         templates, entry.entry_type_in_snake_case
     ).model_dump(exclude_none=True)
 
-    entry_fields: dict[str, str | str] = {
+    entry_fields: dict[str, str] = {
         key.upper(): value for key, value in entry.model_dump(exclude_none=True).items()
     }
 
