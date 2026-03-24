@@ -18,6 +18,30 @@ from .models.rendercv_model import RenderCVModel
 from .rendercv_model_builder import read_yaml
 
 
+def expand_nested_bullets(yaml_string: str) -> str:
+    """Expand inline nested bullets in YAML list items to indented sub-items.
+
+    Why:
+        YAML dumper renders highlights like ``"Main point - Sub point"`` as a
+        single string. Users expect nested bullets to appear as indented sub-items
+        in the generated sample file for readability.
+
+    Args:
+        yaml_string: YAML string with potential inline nested bullets.
+
+    Returns:
+        YAML string with nested bullets expanded to indented sub-items.
+    """
+    return "\n".join(
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
+        for line in yaml_string.split("\n")
+    )
+
+
 def dictionary_to_yaml(dictionary: dict) -> str:
     """Convert dictionary to formatted YAML string with multiline preservation.
 
@@ -150,17 +174,7 @@ def create_sample_yaml_input_file(
 
     data_model_as_dictionary = rendercv_model_to_dictionary(data_model)
 
-    yaml_string = dictionary_to_yaml(data_model_as_dictionary)
-
-    # Process for nested bullets (only in YAML list items, not mapping values):
-    yaml_string = "\n".join(
-        (
-            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-            if re.match(r"\s+- ", line)
-            else line
-        )
-        for line in yaml_string.split("\n")
-    )
+    yaml_string = expand_nested_bullets(dictionary_to_yaml(data_model_as_dictionary))
 
     # Add a comment to the first line, for JSON Schema:
     comment_to_add = (
@@ -256,17 +270,7 @@ def create_sample_yaml_file(
     Returns:
         YAML string if file_path is None, otherwise None after writing file.
     """
-    yaml_string = dictionary_to_yaml(dictionary)
-
-    # Process for nested bullets (only in YAML list items, not mapping values):
-    yaml_string = "\n".join(
-        (
-            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-            if re.match(r"\s+- ", line)
-            else line
-        )
-        for line in yaml_string.split("\n")
-    )
+    yaml_string = expand_nested_bullets(dictionary_to_yaml(dictionary))
 
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")
