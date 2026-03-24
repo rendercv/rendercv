@@ -185,9 +185,8 @@ def cli_command_render(
             help="If provided, RenderCV will not print any messages.",
         ),
     ] = False,
-    # This is a dummy argument for the help message for
-    # extra_data_model_override_argumets:
-    _: Annotated[
+    # Dummy argument that only exists to show the override syntax in --help:
+    override_hint: Annotated[
         str | None,
         typer.Option(
             "--YAMLLOCATION",
