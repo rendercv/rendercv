@@ -97,7 +97,7 @@ def fetch_latest_version_from_pypi() -> str | None:
             encoding = response.info().get_content_charset("utf-8")
             json_data = json.loads(data.decode(encoding))
             return json_data["info"]["version"]
-    except Exception:
+    except (OSError, json.JSONDecodeError, KeyError, ValueError):
         return None
 
 
