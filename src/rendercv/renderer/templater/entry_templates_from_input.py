@@ -376,9 +376,8 @@ def process_url(entry: Entry) -> str:
     if isinstance(entry, PublicationEntry) and entry.doi:
         return process_doi(entry)
     if hasattr(entry, "url") and entry.url:
-        url = entry.url
-        # url is str | HttpUrl; clean_url accepts both. ty false positive:
-        return f"[{clean_url(url)}]({url})"  # ty: ignore[invalid-argument-type]
+        url = str(entry.url)
+        return f"[{clean_url(url)}]({url})"
     raise RenderCVInternalError("URL is not provided for this entry.")
 
 
