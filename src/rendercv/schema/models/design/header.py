@@ -3,8 +3,8 @@ from typing import Literal
 import pydantic
 
 from rendercv.schema.models.base import BaseModelWithoutExtraKeys
-from rendercv.schema.models.design.typst_dimension import TypstDimension
 from rendercv.schema.models.design.typography import Alignment
+from rendercv.schema.models.design.typst_dimension import TypstDimension
 
 type PhoneNumberFormatType = Literal["national", "international", "E164"]
 
