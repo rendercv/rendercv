@@ -191,6 +191,10 @@ preview = true  # Enable preview features
 enable-unstable-feature = [
   "string_processing",
 ]  # Break strings into multiple lines
+extend-exclude = "src/rendercv/renderer/typst_fontawesome"
+
+[tool.ty.src]
+exclude = ["src/rendercv/renderer/typst_fontawesome"]
 
 [tool.ty.rules]
 unused-ignore-comment = "error"
