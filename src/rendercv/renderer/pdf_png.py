@@ -126,13 +126,13 @@ def read_version_from_typst_toml(typst_toml_path: pathlib.Path) -> str:
     Returns:
         The version string.
     """
-    with open(typst_toml_path, "rb") as f:
+    with typst_toml_path.open("rb") as f:
         data = tomllib.load(f)
     try:
         return data["package"]["version"]
-    except KeyError:
+    except KeyError as e:
         message = f"Could not find version in {typst_toml_path}"
-        raise RenderCVInternalError(message)
+        raise RenderCVInternalError(message) from e
 
 
 def install_bundled_typst_package(

@@ -15,10 +15,9 @@ class TestRunFunctionIfFilesChange:
         file_path.touch()
         mock_function = MagicMock()
 
-        with (
-            patch.object(watcher.watchdog.observers, "Observer"),
-            patch.object(watcher.time, "sleep", side_effect=KeyboardInterrupt),
-        ):
+        mock_observer_class = MagicMock()
+        mock_observer_class.return_value.join.side_effect = KeyboardInterrupt
+        with patch.object(watcher.watchdog.observers, "Observer", mock_observer_class):
             watcher.run_function_if_files_change([file_path], mock_function)
 
         mock_function.assert_called_once()

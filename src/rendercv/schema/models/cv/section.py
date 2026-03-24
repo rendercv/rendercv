@@ -38,8 +38,8 @@ available_entry_models: tuple[type[EntryModel], ...] = get_args(EntryModel.__val
 available_entry_type_names: tuple[str, ...] = tuple(
     [entry_type.__name__ for entry_type in available_entry_models] + ["TextEntry"]
 )
-# ty:ignore is unavoidable here: reduce() constructs a union type at runtime
-# that type checkers cannot verify statically:
+# reduce() constructs a union type at runtime that type checkers cannot verify
+# statically, so the ty:ignore below is unavoidable:
 type ListOfEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
     or_, [list[entry_type] for entry_type in available_entry_models]
 )
