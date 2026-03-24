@@ -4,7 +4,12 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from rendercv.exception import RenderCVInternalError
-from rendercv.renderer.pdf_png import generate_pdf, generate_png, get_package_path
+from rendercv.renderer.pdf_png import (
+    generate_pdf,
+    generate_png,
+    get_package_path,
+    read_version_from_typst_toml,
+)
 from rendercv.renderer.typst import generate_typst
 from rendercv.schema.models.design.built_in_design import available_themes
 from rendercv.schema.models.rendercv_model import RenderCVModel
@@ -86,17 +91,15 @@ class TestGetPackagePath:
         second_result = get_package_path()
         assert first_result == second_result
 
-    def test_raises_error_when_version_missing_from_typst_toml(self):
+    def test_raises_error_when_version_missing_from_typst_toml(self, tmp_path):
         get_package_path.cache_clear()
-        toml_without_version = '[package]\nname = "rendercv"\n'
-        with (
-            patch("pathlib.Path.read_text", return_value=toml_without_version),
-            pytest.raises(
-                RenderCVInternalError,
-                match=r"Could not find version in",
-            ),
+        toml_file = tmp_path / "typst.toml"
+        toml_file.write_text('[package]\nname = "rendercv"\n', encoding="utf-8")
+        with pytest.raises(
+            RenderCVInternalError,
+            match=r"Could not find version in",
         ):
-            get_package_path()
+            read_version_from_typst_toml(toml_file)
 
 
 class TestGeneratePngCleansUpOldFiles:

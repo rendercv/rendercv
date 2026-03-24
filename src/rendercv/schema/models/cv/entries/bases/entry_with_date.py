@@ -3,7 +3,6 @@ from datetime import date as Date
 from typing import Annotated
 
 import pydantic
-import pydantic_core
 
 from .entry import BaseEntry
 
@@ -14,7 +13,10 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     Why:
         Users enter dates like "Fall 2023" or "2020-09" for events. Strict
         dates (YYYY-MM-DD/YYYY-MM/YYYY) get validated via ISO parsing, while
-        custom text passes through for template rendering.
+        custom text passes through for template rendering. ValueError from
+        fromisoformat() propagates to Pydantic, which converts it into a
+        specific user-friendly message (e.g., "The month must be between
+        1 and 12.").
 
     Args:
         date: Date value to validate.
@@ -25,23 +27,9 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     date_str = str(date)
 
     if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
-        try:
-            Date.fromisoformat(date_str)
-        except ValueError as e:
-            raise pydantic_core.PydanticCustomError(
-                "value_error",
-                "'{date_str}' is not a valid calendar date.",
-                {"date_str": date_str},
-            ) from e
+        Date.fromisoformat(date_str)
     elif re.fullmatch(r"\d{4}-\d{2}", date_str):
-        try:
-            Date.fromisoformat(f"{date_str}-01")
-        except ValueError as e:
-            raise pydantic_core.PydanticCustomError(
-                "value_error",
-                "'{date_str}' has an invalid month.",
-                {"date_str": date_str},
-            ) from e
+        Date.fromisoformat(f"{date_str}-01")
 
     return date
 

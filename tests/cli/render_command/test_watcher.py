@@ -16,7 +16,8 @@ class TestRunFunctionIfFilesChange:
         mock_function = MagicMock()
 
         mock_observer_class = MagicMock()
-        mock_observer_class.return_value.join.side_effect = KeyboardInterrupt
+        # First join() raises KeyboardInterrupt; second join() (after stop) succeeds:
+        mock_observer_class.return_value.join.side_effect = [KeyboardInterrupt, None]
         with patch.object(watcher.watchdog.observers, "Observer", mock_observer_class):
             watcher.run_function_if_files_change([file_path], mock_function)
 

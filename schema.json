@@ -236,6 +236,7 @@
     },
     "CustomConnection": {
       "additionalProperties": false,
+      "description": "User-defined contact method with custom icon and URL.\n\nWhy:\n    Built-in social networks cover common platforms, but users need\n    arbitrary contact methods (personal websites, custom platforms).\n    CustomConnection provides a FontAwesome icon, display text, and\n    optional URL for any contact channel.",
       "properties": {
         "fontawesome_icon": {
           "title": "Fontawesome Icon",
@@ -9544,6 +9545,7 @@
     }
   },
   "additionalProperties": false,
+  "description": "Resume builder for academics and engineers",
   "properties": {
     "cv": {
       "$ref": "#/$defs/Cv",
@@ -9569,7 +9571,6 @@
   "required": [],
   "title": "RenderCV",
   "type": "object",
-  "description": "Resume builder for academics and engineers",
   "$id": "https://raw.githubusercontent.com/rendercv/rendercv/main/schema.json",
   "$schema": "http://json-schema.org/draft-07/schema#"
 }
