@@ -70,7 +70,7 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
 class ScannerNoAlias(RoundTripScanner):
     """Custom Scanner that treats * as a regular character instead of alias syntax."""
 
-    def fetch_alias(self):
+    def fetch_alias(self) -> None:
         """Treat * as a plain scalar character instead of alias syntax."""
         # Instead of scanning as alias, treat as plain scalar
         self.fetch_plain()

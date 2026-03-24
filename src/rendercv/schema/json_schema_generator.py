@@ -2,6 +2,7 @@ import json
 import pathlib
 
 import pydantic
+import pydantic_core
 
 from rendercv import __description__
 
@@ -21,7 +22,11 @@ def generate_json_schema() -> dict:
     """
 
     class RenderCVSchemaGenerator(pydantic.json_schema.GenerateJsonSchema):
-        def generate(self, schema, mode="validation"):
+        def generate(
+            self,
+            schema: pydantic_core.CoreSchema,
+            mode: pydantic.json_schema.JsonSchemaMode = "validation",
+        ) -> pydantic.json_schema.JsonSchemaValue:
             json_schema = super().generate(schema, mode=mode)
             json_schema["title"] = "RenderCV"
             json_schema["description"] = __description__
