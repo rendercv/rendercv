@@ -6,6 +6,33 @@ from .templater.date import build_date_placeholders
 from .templater.string_processor import substitute_placeholders
 
 
+def build_name_variants(name: str | None) -> dict[str, str]:
+    """Generate all case/separator variants of a name for placeholder substitution.
+
+    Why:
+        Output file paths use placeholders like NAME_IN_LOWER_SNAKE_CASE.
+        Centralizing variant generation avoids repeating the same
+        null-check-and-transform pattern for each variant.
+
+    Args:
+        name: The CV owner's name, or None.
+
+    Returns:
+        Dictionary mapping placeholder names to their values.
+    """
+    if name is None:
+        return {}
+    return {
+        "NAME": name,
+        "NAME_IN_SNAKE_CASE": name.replace(" ", "_"),
+        "NAME_IN_LOWER_SNAKE_CASE": name.replace(" ", "_").lower(),
+        "NAME_IN_UPPER_SNAKE_CASE": name.replace(" ", "_").upper(),
+        "NAME_IN_KEBAB_CASE": name.replace(" ", "-"),
+        "NAME_IN_LOWER_KEBAB_CASE": name.replace(" ", "-").lower(),
+        "NAME_IN_UPPER_KEBAB_CASE": name.replace(" ", "-").upper(),
+    }
+
+
 def resolve_output_folder_placeholder(
     file_path: pathlib.Path, output_folder: pathlib.Path
 ) -> pathlib.Path:
@@ -71,38 +98,9 @@ def resolve_rendercv_file_path(
     file_path = resolve_output_folder_placeholder(file_path, output_folder)
 
     current_date = rendercv_model.settings._resolved_current_date
-    file_path_placeholders = {
+    file_path_placeholders: dict[str, str] = {
         **build_date_placeholders(current_date, locale=rendercv_model.locale),
-        "NAME": rendercv_model.cv.name,
-        "NAME_IN_SNAKE_CASE": (
-            rendercv_model.cv.name.replace(" ", "_") if rendercv_model.cv.name else None
-        ),
-        "NAME_IN_LOWER_SNAKE_CASE": (
-            rendercv_model.cv.name.replace(" ", "_").lower()
-            if rendercv_model.cv.name
-            else None
-        ),
-        "NAME_IN_UPPER_SNAKE_CASE": (
-            rendercv_model.cv.name.replace(" ", "_").upper()
-            if rendercv_model.cv.name
-            else None
-        ),
-        "NAME_IN_KEBAB_CASE": (
-            rendercv_model.cv.name.replace(" ", "-") if rendercv_model.cv.name else None
-        ),
-        "NAME_IN_LOWER_KEBAB_CASE": (
-            rendercv_model.cv.name.replace(" ", "-").lower()
-            if rendercv_model.cv.name
-            else None
-        ),
-        "NAME_IN_UPPER_KEBAB_CASE": (
-            rendercv_model.cv.name.replace(" ", "-").upper()
-            if rendercv_model.cv.name
-            else None
-        ),
-    }
-    file_path_placeholders = {
-        k: v for k, v in file_path_placeholders.items() if v is not None
+        **build_name_variants(rendercv_model.cv.name),
     }
     file_name = substitute_placeholders(file_path.name, file_path_placeholders)
     resolved_file_path = file_path.parent / file_name

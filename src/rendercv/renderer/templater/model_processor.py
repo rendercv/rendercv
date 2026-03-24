@@ -134,14 +134,14 @@ def process_model(
             in rendercv_model.design.sections.show_time_spans_in
         )
         for i, entry in enumerate(section.entries):
-            entry = render_entry_templates(  # NOQA: PLW2901
+            processed_entry = render_entry_templates(
                 entry,
                 templates=rendercv_model.design.templates,
                 locale=rendercv_model.locale,
                 show_time_span=show_time_span,
                 current_date=rendercv_model.settings._resolved_current_date,
             )
-            section.entries[i] = process_fields(entry, string_processors)
+            section.entries[i] = process_fields(processed_entry, string_processors)
 
     return rendercv_model
 

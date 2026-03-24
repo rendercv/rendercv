@@ -10,6 +10,9 @@ from ...pydantic_error_handling import CustomPydanticErrorTypes
 from ..base import BaseModelWithoutExtraKeys
 
 url_validator = pydantic.TypeAdapter[pydantic.HttpUrl](pydantic.HttpUrl)
+phone_validator = pydantic.TypeAdapter[pydantic_phone_numbers.PhoneNumber](
+    pydantic_phone_numbers.PhoneNumber
+)
 type SocialNetworkName = Literal[
     "LinkedIn",
     "GitHub",
@@ -127,9 +130,6 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         " 'username.bsky.social' or 'domain.com').",
                     )
             case "WhatsApp":
-                phone_validator = pydantic.TypeAdapter[
-                    pydantic_phone_numbers.PhoneNumber
-                ](pydantic_phone_numbers.PhoneNumber)
                 try:
                     phone_validator.validate_python(username)
                 except pydantic.ValidationError as e:
