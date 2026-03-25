@@ -61,18 +61,23 @@ def build_keyword_matcher_pattern(
         message = "Keywords cannot be empty"
         raise RenderCVInternalError(message)
 
-    def add_word_boundaries(kw: str) -> str:
-        # Only add \b if the edge is a letter
-        start = "\\b" if kw and kw[0].isalnum() else ""
-        end = "\\b" if kw and kw[-1].isalnum() else ""
-        return f"{start}{re.escape(kw)}{end}"
-
     if word_boundary:
-        processed = [add_word_boundaries(k) for k in keywords]
+        parts: list[str] = []
+        for k in keywords:
+            esc = re.escape(k)
+            # Only add \b on sides where the keyword character is a word
+            # character (\w). Non-word characters like ":" or "+" have no
+            # word boundary to match against adjacent spaces.
+            prefix = r"\b" if re.match(r"\w", k[0]) else ""
+            suffix = r"\b" if re.match(r"\w", k[-1]) else ""
+            parts.append(f"{prefix}{esc}{suffix}")
+        parts.sort(key=len, reverse=True)
+        pattern = "(" + "|".join(parts) + ")"
     else:
-        processed = [re.escape(k) for k in keywords]
-    processed.sort(key=len, reverse=True)
-    pattern = "(" + "|".join(processed) + ")"
+        escaped: list[str] = [re.escape(k) for k in keywords]
+        escaped.sort(key=len, reverse=True)
+        pattern = "(" + "|".join(escaped) + ")"
+
     return re.compile(pattern)
 
 

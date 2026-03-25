@@ -26,6 +26,13 @@ class TestMakeKeywordsBold:
             ("", ["test"], ""),
             ("Test word", [], "Test word"),
             ("I can read well", ["re"], "I can read well"),
+            # Issue #706: keywords with non-word boundary characters
+            (
+                "Tech stack: Python, Java",
+                ["Tech stack:"],
+                "**Tech stack:** Python, Java",
+            ),
+            ("Use C++ and C#", ["C++", "C#"], "Use **C++** and **C#**"),
         ],
     )
     def test_returns_expected_output(self, text, keywords, expected):
@@ -62,6 +69,15 @@ class TestMakeKeywordsBold:
         text = f"before {keyword.lower()} after"
         result = make_keywords_bold(text, [keyword])
         assert f"**{keyword.lower()}**" not in result
+
+    @settings(deadline=None)
+    @given(
+        keyword=st.text(min_size=1, max_size=20).filter(lambda s: s.strip()),
+    )
+    def test_keyword_in_text_always_gets_bolded(self, keyword: str) -> None:
+        text = f"before {keyword} after"
+        result = make_keywords_bold(text, [keyword])
+        assert f"**{keyword}**" in result
 
 
 class TestSubstitutePlaceholders:
