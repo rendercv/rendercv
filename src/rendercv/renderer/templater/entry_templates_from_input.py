@@ -5,7 +5,7 @@ from datetime import date as Date
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.cv.section import Entry
-from rendercv.schema.models.design.templates import Templates
+from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.locale import Locale
 
 from .date import compute_time_span_string, format_date_range, format_single_date
@@ -450,10 +450,10 @@ def remove_not_provided_placeholders(
     """
     # Remove the not provided placeholders from the templates, including characters
     # around them:
-    used_placeholders_in_templates = set(
+    used_placeholders_in_templates: set[str] = set(
         uppercase_word_pattern.findall(" ".join(entry_templates.values()))
     )
-    not_provided_placeholders = used_placeholders_in_templates - set(
+    not_provided_placeholders: set[str] = used_placeholders_in_templates - set(
         entry_fields.keys()
     )
     if not_provided_placeholders:
@@ -474,7 +474,7 @@ def remove_not_provided_placeholders(
         # Sort longest-first so e.g. "AAA" matches before "AA":
         sorted_placeholders = sorted(not_provided_placeholders, key=len, reverse=True)
         not_provided_placeholders_pattern = re.compile(
-            r"\S*\b(?:" + "|".join(sorted_placeholders) + r")\b\S*"
+            r"\S*\b(?:" + "|".join(sorted_placeholders) + r")\b\S*"  # ty: ignore[no-matching-overload]
         )
         entry_templates = {
             key: clean_trailing_parts(

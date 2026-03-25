@@ -1270,7 +1270,7 @@ provides-extras = ["full"]
 create-executable = [{ name = "pyinstaller", specifier = ">=6.17.0" }]
 dev = [
     { name = "black", specifier = ">=26.3.1" },
-    { name = "hypothesis", specifier = ">=6.100.0" },
+    { name = "hypothesis", specifier = ">=6.151.9" },
     { name = "prek", specifier = ">=0.3.6" },
     { name = "pytest", specifier = ">=9.0.2" },
     { name = "pytest-cov", specifier = ">=7.0.0" },

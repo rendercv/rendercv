@@ -1,3 +1,4 @@
+import calendar
 from datetime import date as Date
 
 import pydantic
@@ -13,7 +14,21 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
 from rendercv.schema.models.cv.entries.bases.entry_with_date import (
     validate_arbitrary_date,
 )
-from tests.strategies import valid_date_strings
+
+
+@st.composite
+def valid_date_strings(draw: st.DrawFn) -> str:
+    """Generate date strings in YYYY-MM-DD, YYYY-MM, or YYYY format."""
+    year = draw(st.integers(min_value=1, max_value=9999))
+    fmt = draw(st.sampled_from(["year", "year_month", "year_month_day"]))
+    if fmt == "year":
+        return f"{year:04d}"
+    month = draw(st.integers(min_value=1, max_value=12))
+    if fmt == "year_month":
+        return f"{year:04d}-{month:02d}"
+    max_day = calendar.monthrange(year, month)[1]
+    day = draw(st.integers(min_value=1, max_value=max_day))
+    return f"{year:04d}-{month:02d}-{day:02d}"
 
 
 class TestGetDateObject:
@@ -69,7 +84,7 @@ class TestBaseEntryWithComplexFields:
             )
 
     @settings(deadline=None)
-    @given(date=valid_date_strings())
+    @given(date=valid_date_strings())  # ty: ignore[missing-argument]
     def test_date_only_clears_start_and_end(self, date: str) -> None:
         entry = BaseEntryWithComplexFields(
             date=date, start_date="2020-01", end_date="2021-01"
@@ -88,7 +103,7 @@ class TestBaseEntryWithComplexFields:
         assert entry.end_date == "present"
 
     @settings(deadline=None)
-    @given(end_date=valid_date_strings())
+    @given(end_date=valid_date_strings())  # ty: ignore[missing-argument]
     def test_end_only_becomes_date(self, end_date: str) -> None:
         entry = BaseEntryWithComplexFields(end_date=end_date)
         assert entry.date == end_date
@@ -98,7 +113,7 @@ class TestBaseEntryWithComplexFields:
 
 class TestValidateArbitraryDate:
     @settings(deadline=None)
-    @given(date_str=valid_date_strings())
+    @given(date_str=valid_date_strings())  # ty: ignore[missing-argument]
     def test_valid_date_strings_pass_through(self, date_str: str) -> None:
         result = validate_arbitrary_date(date_str)
         assert result == date_str
@@ -120,9 +135,9 @@ class TestValidateArbitraryDate:
         assert result == text
 
     def test_invalid_month_raises(self) -> None:
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="month must be in"):
             validate_arbitrary_date("2020-13-01")
 
     def test_invalid_day_raises(self) -> None:
-        with pytest.raises(ValueError):
+        with pytest.raises(ValueError, match="day is out of range"):
             validate_arbitrary_date("2020-02-30")

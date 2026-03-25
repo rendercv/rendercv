@@ -8,7 +8,19 @@ from rendercv.schema.models.design.typst_dimension import (
     TypstDimension,
     validate_typst_dimension,
 )
-from tests.strategies import typst_dimensions
+
+
+@st.composite
+def typst_dimensions(draw: st.DrawFn) -> str:
+    """Generate valid Typst dimension strings."""
+    sign = draw(st.sampled_from(["", "-"]))
+    integer_part = draw(st.integers(min_value=0, max_value=999))
+    has_decimal = draw(st.booleans())
+    decimal_part = ""
+    if has_decimal:
+        decimal_part = "." + str(draw(st.integers(min_value=0, max_value=99)))
+    unit = draw(st.sampled_from(["cm", "in", "pt", "mm", "em"]))
+    return f"{sign}{integer_part}{decimal_part}{unit}"
 
 
 class TestTypstDimension:
@@ -65,7 +77,7 @@ class TestTypstDimension:
         assert result == dimension
 
     @settings(deadline=None)
-    @given(dim=typst_dimensions())
+    @given(dim=typst_dimensions())  # ty: ignore[missing-argument]
     def test_accepts_random_valid_dimensions(self, dim: str) -> None:
         assert validate_typst_dimension(dim) == dim
 

@@ -158,7 +158,4 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
     Returns:
         Clean URL string.
     """
-    url = str(url).replace("https://", "").replace("http://", "")
-    url = url.rstrip("/")
-
-    return url
+    return str(url).replace("https://", "").replace("http://", "").rstrip("/")

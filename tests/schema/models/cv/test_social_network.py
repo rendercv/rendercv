@@ -147,7 +147,7 @@ class TestSocialNetwork:
         username=st.from_regex(r"[a-zA-Z0-9_-]{1,20}", fullmatch=True),
     )
     def test_valid_network_url_is_valid_http_url(
-        self, network: str, username: str
+        self, network: SocialNetworkName, username: str
     ) -> None:
         sn = SocialNetwork(network=network, username=username)
         pydantic.TypeAdapter(pydantic.HttpUrl).validate_strings(sn.url)

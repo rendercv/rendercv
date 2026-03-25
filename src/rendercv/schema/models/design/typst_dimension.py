@@ -31,3 +31,7 @@ def validate_typst_dimension(dimension: str) -> str:
 
 
 type TypstDimension = Annotated[str, pydantic.AfterValidator(validate_typst_dimension)]
+
+length_common_description = (
+    "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`."
+)

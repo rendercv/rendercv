@@ -1,3 +1,4 @@
+import calendar
 import re
 from datetime import date as Date
 
@@ -16,7 +17,21 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     get_date_object,
 )
 from rendercv.schema.models.locale.english_locale import EnglishLocale
-from tests.strategies import valid_date_strings
+
+
+@st.composite
+def valid_date_strings(draw: st.DrawFn) -> str:
+    """Generate date strings in YYYY-MM-DD, YYYY-MM, or YYYY format."""
+    year = draw(st.integers(min_value=1, max_value=9999))
+    fmt = draw(st.sampled_from(["year", "year_month", "year_month_day"]))
+    if fmt == "year":
+        return f"{year:04d}"
+    month = draw(st.integers(min_value=1, max_value=12))
+    if fmt == "year_month":
+        return f"{year:04d}-{month:02d}"
+    max_day = calendar.monthrange(year, month)[1]
+    day = draw(st.integers(min_value=1, max_value=max_day))
+    return f"{year:04d}-{month:02d}-{day:02d}"
 
 
 class TestBuildDatePlaceholders:
@@ -669,7 +684,7 @@ class TestComputeTimeSpanString:
 
     @settings(deadline=None)
     @given(
-        start=valid_date_strings(),
+        start=valid_date_strings(),  # ty: ignore[missing-argument]
         delta_days=st.integers(min_value=0, max_value=36500),
     )
     def test_non_negative_duration(self, start: str, delta_days: int) -> None:
@@ -718,7 +733,7 @@ class TestComputeTimeSpanString:
 
 class TestGetDateObject:
     @settings(deadline=None)
-    @given(date_str=valid_date_strings())
+    @given(date_str=valid_date_strings())  # ty: ignore[missing-argument]
     def test_valid_strings_produce_date_objects(self, date_str: str) -> None:
         result = get_date_object(date_str)
         assert isinstance(result, Date)

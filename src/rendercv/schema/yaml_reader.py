@@ -81,7 +81,7 @@ class ScannerNoAlias(RoundTripScanner):
 
 
 yaml = ruamel.yaml.YAML()
-yaml.Scanner = ScannerNoAlias  # ty: ignore[invalid-assignment]
+yaml.Scanner = ScannerNoAlias
 
 # Disable ISO date parsing, keep it as a string:
 yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (

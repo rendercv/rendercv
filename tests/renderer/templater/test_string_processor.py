@@ -9,7 +9,53 @@ from rendercv.renderer.templater.string_processor import (
     make_keywords_bold,
     substitute_placeholders,
 )
-from tests.strategies import keyword_lists, placeholder_dicts, urls
+
+keyword_lists = st.lists(
+    st.text(
+        alphabet=st.characters(categories=("L", "N", "Zs")),
+        min_size=1,
+        max_size=30,
+    ).filter(lambda s: s.strip()),
+    min_size=0,
+    max_size=10,
+)
+
+
+@st.composite
+def placeholder_dicts(draw: st.DrawFn) -> dict[str, str]:
+    """Generate placeholder dicts with UPPERCASE keys."""
+    keys = draw(
+        st.lists(
+            st.from_regex(r"[A-Z]{1,15}", fullmatch=True),
+            min_size=0,
+            max_size=5,
+            unique=True,
+        )
+    )
+    values = draw(
+        st.lists(
+            st.text(
+                alphabet=st.characters(categories=("L", "N", "Zs")),
+                min_size=0,
+                max_size=20,
+            ),
+            min_size=len(keys),
+            max_size=len(keys),
+        )
+    )
+    return dict(zip(keys, values, strict=True))
+
+
+@st.composite
+def urls(draw: st.DrawFn) -> str:
+    """Generate realistic URL strings with http/https protocol."""
+    protocol = draw(st.sampled_from(["https://", "http://"]))
+    domain = draw(st.from_regex(r"[a-z]{2,10}\.[a-z]{2,4}", fullmatch=True))
+    path = draw(st.from_regex(r"[a-z0-9_-]{0,20}", fullmatch=True))
+    trailing_slash = draw(st.sampled_from(["", "/"]))
+    if path:
+        return f"{protocol}{domain}/{path}{trailing_slash}"
+    return f"{protocol}{domain}{trailing_slash}"
 
 
 class TestMakeKeywordsBold:
@@ -98,7 +144,7 @@ class TestSubstitutePlaceholders:
         assert substitute_placeholders(text, {}) == text
 
     @settings(deadline=None)
-    @given(placeholders=placeholder_dicts())
+    @given(placeholders=placeholder_dicts())  # ty: ignore[missing-argument]
     def test_all_keys_absent_from_output(self, placeholders: dict[str, str]) -> None:
         assume(placeholders)
         keys = set(placeholders.keys())
@@ -125,19 +171,19 @@ class TestCleanUrl:
         assert clean_url(url) == expected_clean_url
 
     @settings(deadline=None)
-    @given(url=urls())
+    @given(url=urls())  # ty: ignore[missing-argument]
     def test_is_idempotent(self, url: str) -> None:
         assert clean_url(clean_url(url)) == clean_url(url)
 
     @settings(deadline=None)
-    @given(url=urls())
+    @given(url=urls())  # ty: ignore[missing-argument]
     def test_removes_protocol(self, url: str) -> None:
         result = clean_url(url)
         assert "https://" not in result
         assert "http://" not in result
 
     @settings(deadline=None)
-    @given(url=urls())
+    @given(url=urls())  # ty: ignore[missing-argument]
     def test_removes_trailing_slashes(self, url: str) -> None:
         result = clean_url(url)
         if result:

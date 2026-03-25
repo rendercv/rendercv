@@ -1,6 +1,6 @@
 import pydantic
 import pytest
-from hypothesis import assume, given, settings
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 # They are called dynamically in the test with `eval(f"{entry_type}(**entry)")`.

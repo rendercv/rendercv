@@ -23,7 +23,7 @@ from rendercv.schema.models.cv.entries.education import EducationEntry
 from rendercv.schema.models.cv.entries.experience import ExperienceEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
-from rendercv.schema.models.design.templates import (
+from rendercv.schema.models.design.classic_theme import (
     EducationEntryTemplate,
     NormalEntryTemplate,
     PublicationEntryTemplate,
