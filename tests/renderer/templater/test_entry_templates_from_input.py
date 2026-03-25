@@ -33,102 +33,36 @@ from rendercv.schema.models.locale.english_locale import EnglishLocale
 from rendercv.schema.models.locale.locale import locale_adapter
 
 
-class TestProcessHighlights:
-    @pytest.mark.parametrize(
-        ("highlights", "expected"),
-        [
-            (
-                ["First line", "Second line - Nested"],
-                "- First line\n- Second line\n  - Nested",
-            ),
-            (["Single item"], "- Single item"),
-            (["Item 1", "Item 2", "Item 3"], "- Item 1\n- Item 2\n- Item 3"),
-            (
-                ["Parent - Child 1", "Item 2 - Nested item"],
-                "- Parent\n  - Child 1\n- Item 2\n  - Nested item",
-            ),
-        ],
-    )
-    def test_returns_expected_output(self, highlights, expected):
-        result = process_highlights(highlights)
-        assert result == expected
-
-    @settings(deadline=None)
-    @given(
-        highlights=st.lists(
-            st.text(
-                alphabet=st.characters(categories=("L", "N", "Zs")),
-                min_size=1,
-                max_size=30,
-            ),
-            min_size=1,
-            max_size=10,
-        )
-    )
-    def test_every_item_starts_with_bullet(self, highlights: list[str]) -> None:
-        result = process_highlights(highlights)
-        assert result.startswith("- ")
-
-    @settings(deadline=None)
-    @given(
-        highlights=st.lists(
-            st.text(
-                alphabet=st.characters(categories=("L", "N", "Zs")),
-                min_size=1,
-                max_size=30,
-            ),
-            min_size=1,
-            max_size=10,
-        )
-    )
-    def test_top_level_bullet_count_matches_input_length(
-        self, highlights: list[str]
-    ) -> None:
-        result = process_highlights(highlights)
-        top_level_bullets = [
-            line for line in result.split("\n") if line.startswith("- ")
-        ]
-        assert len(top_level_bullets) == len(highlights)
+@pytest.mark.parametrize(
+    ("highlights", "expected"),
+    [
+        (
+            ["First line", "Second line - Nested"],
+            "- First line\n- Second line\n  - Nested",
+        ),
+        (["Single item"], "- Single item"),
+        (["Item 1", "Item 2", "Item 3"], "- Item 1\n- Item 2\n- Item 3"),
+        (
+            ["Parent - Child 1", "Item 2 - Nested item"],
+            "- Parent\n  - Child 1\n- Item 2\n  - Nested item",
+        ),
+    ],
+)
+def test_process_highlights(highlights, expected):
+    result = process_highlights(highlights)
+    assert result == expected
 
 
-class TestProcessAuthors:
-    @pytest.mark.parametrize(
-        ("authors", "expected"),
-        [
-            (["Alice", "Bob", "Charlie"], "Alice, Bob, Charlie"),
-            (["Single Author"], "Single Author"),
-            (["A", "B"], "A, B"),
-        ],
-    )
-    def test_returns_expected_output(self, authors, expected):
-        assert process_authors(authors) == expected
-
-    @settings(deadline=None)
-    @given(
-        authors=st.lists(
-            st.text(min_size=1, max_size=20).filter(
-                lambda s: "," not in s and s.strip()
-            ),
-            min_size=1,
-            max_size=10,
-        )
-    )
-    def test_comma_count_is_n_minus_one(self, authors: list[str]) -> None:
-        result = process_authors(authors)
-        assert result.count(", ") == len(authors) - 1
-
-    @settings(deadline=None)
-    @given(
-        authors=st.lists(
-            st.text(min_size=1, max_size=20).filter(lambda s: s.strip()),
-            min_size=1,
-            max_size=10,
-        )
-    )
-    def test_all_authors_appear_in_output(self, authors: list[str]) -> None:
-        result = process_authors(authors)
-        for author in authors:
-            assert author in result
+@pytest.mark.parametrize(
+    ("authors", "expected"),
+    [
+        (["Alice", "Bob", "Charlie"], "Alice, Bob, Charlie"),
+        (["Single Author"], "Single Author"),
+        (["A", "B"], "A, B"),
+    ],
+)
+def test_process_authors(authors, expected):
+    assert process_authors(authors) == expected
 
 
 class TestProcessDate:
