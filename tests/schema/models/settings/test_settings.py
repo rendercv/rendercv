@@ -2,6 +2,8 @@ import datetime
 
 import pydantic
 import pytest
+from hypothesis import given, settings as hypothesis_settings
+from hypothesis import strategies as st
 
 from rendercv.schema.models.settings.settings import Settings
 
@@ -55,3 +57,24 @@ class TestSettings:
         settings = Settings(pdf_title="NAME - Resume YEAR")
 
         assert settings.pdf_title == "NAME - Resume YEAR"
+
+    @hypothesis_settings(deadline=None)
+    @given(
+        keywords=st.lists(
+            st.text(min_size=1, max_size=20).filter(lambda s: s.strip()),
+            min_size=0,
+            max_size=20,
+        )
+    )
+    def test_deduplication_preserves_order(self, keywords: list[str]) -> None:
+        settings = Settings(bold_keywords=keywords)
+        # No duplicates
+        assert len(settings.bold_keywords) == len(set(settings.bold_keywords))
+        # Every unique keyword from input is present
+        assert set(settings.bold_keywords) == set(keywords)
+        # Order matches first occurrence
+        seen: list[str] = []
+        for k in keywords:
+            if k not in seen:
+                seen.append(k)
+        assert settings.bold_keywords == seen
