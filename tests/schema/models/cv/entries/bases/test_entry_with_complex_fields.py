@@ -2,12 +2,15 @@ from datetime import date as Date
 
 import pydantic
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     BaseEntryWithComplexFields,
     get_date_object,
 )
+from tests.strategies import valid_date_strings
 
 
 class TestGetDateObject:
@@ -61,3 +64,30 @@ class TestBaseEntryWithComplexFields:
             BaseEntryWithComplexFields(
                 start_date=start_date, end_date=end_date, date=date
             )
+
+    @settings(deadline=None)
+    @given(date=valid_date_strings())
+    def test_date_only_clears_start_and_end(self, date: str) -> None:
+        entry = BaseEntryWithComplexFields(
+            date=date, start_date="2020-01", end_date="2021-01"
+        )
+        assert entry.start_date is None
+        assert entry.end_date is None
+
+    @settings(deadline=None)
+    @given(
+        start_date=st.dates(
+            min_value=Date(1900, 1, 1), max_value=Date(2025, 12, 31)
+        ).map(lambda d: d.isoformat())
+    )
+    def test_start_only_implies_present(self, start_date: str) -> None:
+        entry = BaseEntryWithComplexFields(start_date=start_date)
+        assert entry.end_date == "present"
+
+    @settings(deadline=None)
+    @given(end_date=valid_date_strings())
+    def test_end_only_becomes_date(self, end_date: str) -> None:
+        entry = BaseEntryWithComplexFields(end_date=end_date)
+        assert entry.date == end_date
+        assert entry.start_date is None
+        assert entry.end_date is None
