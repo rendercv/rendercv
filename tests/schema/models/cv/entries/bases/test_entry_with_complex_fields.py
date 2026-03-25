@@ -10,6 +10,9 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     BaseEntryWithComplexFields,
     get_date_object,
 )
+from rendercv.schema.models.cv.entries.bases.entry_with_date import (
+    validate_arbitrary_date,
+)
 from tests.strategies import valid_date_strings
 
 
@@ -91,3 +94,35 @@ class TestBaseEntryWithComplexFields:
         assert entry.date == end_date
         assert entry.start_date is None
         assert entry.end_date is None
+
+
+class TestValidateArbitraryDate:
+    @settings(deadline=None)
+    @given(date_str=valid_date_strings())
+    def test_valid_date_strings_pass_through(self, date_str: str) -> None:
+        result = validate_arbitrary_date(date_str)
+        assert result == date_str
+
+    @settings(deadline=None)
+    @given(year=st.integers(min_value=1, max_value=9999))
+    def test_integer_years_pass_through(self, year: int) -> None:
+        result = validate_arbitrary_date(year)
+        assert result == year
+
+    @settings(deadline=None)
+    @given(
+        text=st.text(min_size=1, max_size=20).filter(
+            lambda s: not s.strip().isdigit() and "-" not in s
+        )
+    )
+    def test_custom_text_passes_through(self, text: str) -> None:
+        result = validate_arbitrary_date(text)
+        assert result == text
+
+    def test_invalid_month_raises(self) -> None:
+        with pytest.raises(ValueError):
+            validate_arbitrary_date("2020-13-01")
+
+    def test_invalid_day_raises(self) -> None:
+        with pytest.raises(ValueError):
+            validate_arbitrary_date("2020-02-30")

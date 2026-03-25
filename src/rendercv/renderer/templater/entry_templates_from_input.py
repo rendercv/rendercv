@@ -470,9 +470,11 @@ def remove_not_provided_placeholders(
             for key, value in entry_templates.items()
         }
 
-        # Then remove the placeholders themselves and adjacent non-space chars:
+        # Then remove the placeholders themselves and adjacent non-space chars.
+        # Sort longest-first so e.g. "AAA" matches before "AA":
+        sorted_placeholders = sorted(not_provided_placeholders, key=len, reverse=True)
         not_provided_placeholders_pattern = re.compile(
-            r"\S*(?:" + "|".join(not_provided_placeholders) + r")\S*"
+            r"\S*\b(?:" + "|".join(sorted_placeholders) + r")\b\S*"
         )
         entry_templates = {
             key: clean_trailing_parts(

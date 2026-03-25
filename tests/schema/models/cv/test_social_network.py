@@ -110,6 +110,20 @@ class TestSocialNetwork:
         assert sn.username == username
 
     @settings(deadline=None)
+    @given(
+        user=st.from_regex(r"[a-zA-Z0-9_]{1,15}", fullmatch=True),
+        domain=st.from_regex(r"[a-z]{2,10}\.[a-z]{2,4}", fullmatch=True),
+    )
+    def test_mastodon_url_contains_username_and_domain(
+        self, user: str, domain: str
+    ) -> None:
+        username = f"@{user}@{domain}"
+        sn = SocialNetwork(network="Mastodon", username=username)
+        assert domain in sn.url
+        assert f"/@{user}" in sn.url
+        assert sn.url.startswith("https://")
+
+    @settings(deadline=None)
     @given(username=st.from_regex(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", fullmatch=True))
     def test_orcid_valid_format_accepted(self, username: str) -> None:
         sn = SocialNetwork(network="ORCID", username=username)

@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import pydantic
 import pytest
-from hypothesis import given, settings
+from hypothesis import assume, given, settings
 from hypothesis import strategies as st
 
 from rendercv.exception import RenderCVInternalError
@@ -602,6 +602,34 @@ def test_remove_not_provided_placeholders(entry_templates, entry_fields, expecte
     assert result == expected
 
 
+class TestRemoveNotProvidedPlaceholders:
+    @settings(deadline=None)
+    @given(
+        provided_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+        missing_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+        value=st.from_regex(r"[a-z ]{1,20}", fullmatch=True),
+    )
+    def test_provided_placeholders_survive(
+        self, provided_key: str, missing_key: str, value: str
+    ) -> None:
+        assume(provided_key != missing_key)
+        templates = {"main": f"{provided_key} {missing_key}"}
+        fields = {provided_key: value}
+        result = remove_not_provided_placeholders(templates, fields)
+        assert provided_key in result["main"]
+
+    @settings(deadline=None)
+    @given(
+        missing_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+    )
+    def test_missing_placeholders_removed(self, missing_key: str) -> None:
+        templates = {"main": f"PREFIX {missing_key} SUFFIX"}
+        fields = {"PREFIX": "a", "SUFFIX": "b"}
+        assume(missing_key not in ("PREFIX", "SUFFIX"))
+        result = remove_not_provided_placeholders(templates, fields)
+        assert missing_key not in result["main"]
+
+
 class TestRenderEntryTemplatesInternalErrors:
     """Test defensive guards when model_dump includes a key but the attribute is None."""
 
@@ -773,6 +801,28 @@ class TestRemoveConnectorsOfMissingPlaceholders:
             remove_connectors_of_missing_placeholders(template, not_provided)
             == expected
         )
+
+    @settings(deadline=None)
+    @given(
+        connector=st.from_regex(r"[a-z]{2,8}", fullmatch=True),
+    )
+    def test_connector_removed_when_adjacent_placeholder_missing(
+        self, connector: str
+    ) -> None:
+        template = f"PRESENT {connector} MISSING"
+        result = remove_connectors_of_missing_placeholders(template, {"MISSING"})
+        assert connector not in result
+
+    @settings(deadline=None)
+    @given(
+        connector=st.from_regex(r"[a-z]{2,8}", fullmatch=True),
+    )
+    def test_connector_preserved_when_both_placeholders_present(
+        self, connector: str
+    ) -> None:
+        template = f"LEFT {connector} RIGHT"
+        result = remove_connectors_of_missing_placeholders(template, set())
+        assert connector in result
 
 
 class TestRenderEntryTemplatesWithMissingDegree:
