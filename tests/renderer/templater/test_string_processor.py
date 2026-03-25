@@ -109,7 +109,7 @@ class TestMakeKeywordsBold:
             alphabet=st.characters(categories=("Lu",)),
             min_size=2,
             max_size=10,
-        )
+        ).filter(lambda s: s.lower() != s)
     )
     def test_is_case_sensitive(self, keyword: str) -> None:
         text = f"before {keyword.lower()} after"
