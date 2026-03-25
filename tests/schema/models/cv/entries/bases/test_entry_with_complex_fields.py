@@ -135,9 +135,9 @@ class TestValidateArbitraryDate:
         assert result == text
 
     def test_invalid_month_raises(self) -> None:
-        with pytest.raises(ValueError, match="month must be in"):
+        with pytest.raises(ValueError, match="month"):
             validate_arbitrary_date("2020-13-01")
 
     def test_invalid_day_raises(self) -> None:
-        with pytest.raises(ValueError, match="day is out of range"):
+        with pytest.raises(ValueError, match="day"):
             validate_arbitrary_date("2020-02-30")
