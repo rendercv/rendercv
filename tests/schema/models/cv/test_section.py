@@ -1,5 +1,7 @@
 import pydantic
 import pytest
+from hypothesis import assume, given, settings
+from hypothesis import strategies as st
 
 # They are called dynamically in the test with `eval(f"{entry_type}(**entry)")`.
 from rendercv.schema.models.cv.entries.bullet import BulletEntry  # NOQA: F401
@@ -97,6 +99,38 @@ def test_entries_with_extra_attributes(EntryType, request: pytest.FixtureRequest
 )
 def test_dictionary_key_to_proper_section_title(key, expected_section_title):
     assert dictionary_key_to_proper_section_title(key) == expected_section_title
+
+
+class TestDictionaryKeyToProperSectionTitle:
+    @settings(deadline=None)
+    @given(
+        key=st.from_regex(r"[a-z]{1,5}(_[a-z]{1,5}){0,3}", fullmatch=True),
+    )
+    def test_snake_case_replaces_underscores_with_spaces(self, key: str) -> None:
+        result = dictionary_key_to_proper_section_title(key)
+        assert "_" not in result
+        assert " " in result or len(key.split("_")) == 1
+
+    @settings(deadline=None)
+    @given(
+        parts=st.lists(
+            st.from_regex(r"[a-zA-Z0-9]{1,10}", fullmatch=True),
+            min_size=2,
+            max_size=5,
+        )
+    )
+    def test_keys_with_spaces_returned_unchanged(self, parts: list[str]) -> None:
+        key = " ".join(parts)
+        assert dictionary_key_to_proper_section_title(key) == key
+
+    @settings(deadline=None)
+    @given(
+        key=st.from_regex(r"[a-zA-Z]*[A-Z][a-zA-Z]*", fullmatch=True).filter(
+            lambda s: " " not in s and len(s) <= 30
+        )
+    )
+    def test_keys_with_uppercase_returned_unchanged(self, key: str) -> None:
+        assert dictionary_key_to_proper_section_title(key) == key
 
 
 def test_section_rejects_none_entries():
