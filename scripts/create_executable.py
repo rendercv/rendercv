@@ -43,6 +43,8 @@ with tempfile.TemporaryDirectory() as temp_dir:
             "rendercv",
             "--collect-all",
             "rendercv_fonts",
+            "--collect-submodules",
+            "rich",
             "--distpath",
             "bin",
             str(rendercv_file),
