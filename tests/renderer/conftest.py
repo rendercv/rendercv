@@ -122,6 +122,57 @@ def minimal_rendercv_model() -> RenderCVModel:
 
 
 @pytest.fixture
+def subsections_rendercv_model() -> RenderCVModel:
+    """Create a RenderCVModel with subsection-based sections."""
+    cv = Cv(
+        name="Jane Doe",
+        headline="Research Scientist",
+        sections={
+            "Selected Work": [
+                {
+                    "title": "Career Highlights",
+                    "entries": [
+                        (
+                            "Built a research platform that supports **mixed subsection"
+                            " entry types**."
+                        )
+                    ],
+                },
+                {
+                    "title": "Featured Projects",
+                    "entries": [
+                        NormalEntry(
+                            name="Subsection Support",
+                            summary=(
+                                "Implemented subsection-based sections across schema,"
+                                " rendering, and docs."
+                            ),
+                            date="2024-02",
+                        )
+                    ],
+                },
+                {
+                    "title": "Recent Milestones",
+                    "entries": [
+                        ReversedNumberedEntry(
+                            reversed_number="Rolled out subsection rendering"
+                        ),
+                        ReversedNumberedEntry(
+                            reversed_number="Added schema and snapshot coverage"
+                        ),
+                    ],
+                },
+                {
+                    "title": "Future Work",
+                    "entries": [],
+                },
+            ]
+        },
+    )
+    return RenderCVModel(cv=cv, settings=Settings(current_date=Date(2025, 11, 30)))
+
+
+@pytest.fixture
 def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
     """Create a comprehensive RenderCVModel with all entry combinations.
 

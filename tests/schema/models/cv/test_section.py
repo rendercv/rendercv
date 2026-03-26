@@ -1,3 +1,5 @@
+from typing import cast
+
 import pydantic
 import pytest
 from hypothesis import given, settings
@@ -7,11 +9,12 @@ from hypothesis import strategies as st
 from rendercv.schema.models.cv.entries.bullet import BulletEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.education import EducationEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.experience import ExperienceEntry  # NOQA: F401
-from rendercv.schema.models.cv.entries.normal import NormalEntry  # NOQA: F401
+from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.one_line import OneLineEntry  # NOQA: F401
 from rendercv.schema.models.cv.entries.publication import PublicationEntry  # NOQA: F401
 from rendercv.schema.models.cv.section import (
     Section,
+    SubsectionEntry,
     available_entry_models,
     dictionary_key_to_proper_section_title,
     get_entry_type_name_and_section_model,
@@ -143,3 +146,54 @@ def test_section_accepts_empty_list():
     section_adapter = pydantic.TypeAdapter[Section](Section)
     result = section_adapter.validate_python([])
     assert result == []
+
+
+def test_section_accepts_subsection_entries(normal_entry):
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+    result = cast(
+        list[SubsectionEntry],
+        section_adapter.validate_python(
+            [
+                {"title": "Summary", "entries": ["A text entry."]},
+                {"title": "Projects", "entries": [normal_entry]},
+            ]
+        ),
+    )
+
+    assert [subsection.title for subsection in result] == ["Summary", "Projects"]
+    assert result[0].entries == ["A text entry."]
+    assert isinstance(result[1].entries[0], NormalEntry)
+
+
+def test_section_rejects_mixed_regular_and_subsection_entries(experience_entry):
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+
+    with pytest.raises(
+        pydantic.ValidationError,
+        match="A section cannot mix regular entries with subsection entries",
+    ):
+        section_adapter.validate_python(
+            [
+                {"title": "Experience", "entries": [experience_entry]},
+                experience_entry,
+            ]
+        )
+
+
+def test_section_rejects_nested_subsection_entries():
+    section_adapter = pydantic.TypeAdapter[Section](Section)
+
+    with pytest.raises(pydantic.ValidationError) as exc_info:
+        section_adapter.validate_python(
+            [
+                {
+                    "title": "Outer",
+                    "entries": [{"title": "Inner", "entries": ["Nested text"]}],
+                }
+            ]
+        )
+
+    nested_errors = exc_info.value.errors()[0]["ctx"]["caused_by"]
+    assert nested_errors[0]["msg"] == (
+        "Subsection entries cannot be nested inside another subsection."
+    )
