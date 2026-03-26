@@ -8,7 +8,7 @@ from rich import print
 from rendercv.exception import RenderCVUserError
 
 
-def handle_user_errors[T, **P](function: Callable[P, None]) -> Callable[P, None]:
+def handle_user_errors[**P](function: Callable[P, None]) -> Callable[P, None]:
     """Decorator that catches user errors and displays friendly messages without stack traces.
 
     Why:

@@ -1,8 +1,11 @@
+import re
 from datetime import date as Date
 from unittest.mock import patch
 
 import pydantic
 import pytest
+from hypothesis import assume, given, settings
+from hypothesis import strategies as st
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.renderer.templater.entry_templates_from_input import (
@@ -22,18 +25,12 @@ from rendercv.schema.models.cv.entries.experience import ExperienceEntry
 from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.design.classic_theme import (
-    EducationEntry as EducationEntryOptions,
+    EducationEntryTemplate,
+    ExperienceEntryTemplate,
+    NormalEntryTemplate,
+    PublicationEntryTemplate,
+    Templates,
 )
-from rendercv.schema.models.design.classic_theme import (
-    ExperienceEntry as ExperienceEntryOptions,
-)
-from rendercv.schema.models.design.classic_theme import (
-    NormalEntry as NormalEntryOptions,
-)
-from rendercv.schema.models.design.classic_theme import (
-    PublicationEntry as PublicationEntryOptions,
-)
-from rendercv.schema.models.design.classic_theme import Templates
 from rendercv.schema.models.locale.english_locale import EnglishLocale
 from rendercv.schema.models.locale.locale import locale_adapter
 
@@ -237,7 +234,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="START_DATE / END_DATE / LOCATION / DATE",
                 )
             ),
@@ -259,7 +256,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                experience_entry=ExperienceEntryOptions(
+                experience_entry=ExperienceEntryTemplate(
                     main_column="**COMPANY** | TIME_SPAN",
                     date_and_location_column="START_DATE – END_DATE",
                 )
@@ -282,7 +279,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="START_DATE / END_DATE / TIME_SPAN / DATE",
                 )
             ),
@@ -308,7 +305,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="NAME | TIME_SPAN",
                 )
             ),
@@ -330,7 +327,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                publication_entry=PublicationEntryOptions(
+                publication_entry=PublicationEntryTemplate(
                     main_column="AUTHORS | DOI | DATE | OPTIONAL",
                 )
             ),
@@ -354,7 +351,7 @@ class TestRenderEntryTemplates:
         )
 
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -380,7 +377,7 @@ class TestRenderEntryTemplates:
 
         french_locale = locale_adapter.validate_python({"language": "french"})
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -406,7 +403,7 @@ class TestRenderEntryTemplates:
 
         japanese_locale = locale_adapter.validate_python({"language": "japanese"})
         templates_with_phrase = Templates(
-            education_entry=EducationEntryOptions(
+            education_entry=EducationEntryTemplate(
                 main_column="**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS",
                 degree_column=None,
             )
@@ -433,7 +430,7 @@ class TestRenderEntryTemplates:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                normal_entry=NormalEntryOptions(
+                normal_entry=NormalEntryTemplate(
                     main_column="NAME URL OPTIONAL",
                 )
             ),
@@ -678,6 +675,34 @@ def test_remove_not_provided_placeholders(entry_templates, entry_fields, expecte
     assert result == expected
 
 
+class TestRemoveNotProvidedPlaceholders:
+    @settings(deadline=None)
+    @given(
+        provided_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+        missing_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+        value=st.from_regex(r"[a-z ]{1,20}", fullmatch=True),
+    )
+    def test_provided_placeholders_survive(
+        self, provided_key: str, missing_key: str, value: str
+    ) -> None:
+        assume(provided_key != missing_key)
+        templates = {"main": f"{provided_key} {missing_key}"}
+        fields = {provided_key: value}
+        result = remove_not_provided_placeholders(templates, fields)
+        assert provided_key in result["main"]
+
+    @settings(deadline=None)
+    @given(
+        missing_key=st.from_regex(r"[A-Z]{2,10}", fullmatch=True),
+    )
+    def test_missing_placeholders_removed(self, missing_key: str) -> None:
+        templates = {"main": f"PREFIX {missing_key} SUFFIX"}
+        fields = {"PREFIX": "a", "SUFFIX": "b"}
+        assume(missing_key not in ("PREFIX", "SUFFIX"))
+        result = remove_not_provided_placeholders(templates, fields)
+        assert missing_key not in re.findall(r"\b[A-Z_]+\b", result["main"])
+
+
 class TestRenderEntryTemplatesInternalErrors:
     """Test defensive guards when model_dump includes a key but the attribute is None."""
 
@@ -788,6 +813,28 @@ def test_clean_trailing_parts(input_text, expected):
     assert clean_trailing_parts(input_text) == expected
 
 
+class TestCleanTrailingParts:
+    @settings(deadline=None)
+    @given(
+        text=st.text(
+            alphabet=st.characters(
+                categories=(), include_characters="abcdefghijABCDEF0123456789.!?[]()_*%"
+            ),
+            min_size=1,
+            max_size=50,
+        )
+    )
+    def test_allowed_trailing_chars_preserved(self, text: str) -> None:
+        result = clean_trailing_parts(text)
+        if result:
+            assert result[-1] in "abcdefghijABCDEF0123456789.!?[]()_*%"
+
+    @settings(deadline=None)
+    @given(text=st.text(min_size=1, max_size=50))
+    def test_never_crashes(self, text: str) -> None:
+        clean_trailing_parts(text)
+
+
 class TestRemoveConnectorsOfMissingPlaceholders:
     @pytest.mark.parametrize(
         ("template", "not_provided", "expected"),
@@ -828,6 +875,28 @@ class TestRemoveConnectorsOfMissingPlaceholders:
             == expected
         )
 
+    @settings(deadline=None)
+    @given(
+        connector=st.from_regex(r"[a-z]{2,8}", fullmatch=True),
+    )
+    def test_connector_removed_when_adjacent_placeholder_missing(
+        self, connector: str
+    ) -> None:
+        template = f"PRESENT {connector} MISSING"
+        result = remove_connectors_of_missing_placeholders(template, {"MISSING"})
+        assert connector not in result
+
+    @settings(deadline=None)
+    @given(
+        connector=st.from_regex(r"[a-z]{2,8}", fullmatch=True),
+    )
+    def test_connector_preserved_when_both_placeholders_present(
+        self, connector: str
+    ) -> None:
+        template = f"LEFT {connector} RIGHT"
+        result = remove_connectors_of_missing_placeholders(template, set())
+        assert connector in result
+
 
 class TestRenderEntryTemplatesWithMissingDegree:
     def test_no_connector_word_when_degree_is_none(self):
@@ -840,7 +909,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),
@@ -866,7 +935,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),
@@ -893,7 +962,7 @@ class TestRenderEntryTemplatesWithMissingDegree:
         entry = render_entry_templates(
             entry,
             templates=Templates(
-                education_entry=EducationEntryOptions(
+                education_entry=EducationEntryTemplate(
                     main_column=(
                         "**INSTITUTION**, DEGREE_WITH_AREA\nSUMMARY\nHIGHLIGHTS"
                     ),

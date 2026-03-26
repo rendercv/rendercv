@@ -1,6 +1,11 @@
 import pathlib
 
 import pytest
+from hypothesis import settings as hypothesis_settings
+
+hypothesis_settings.register_profile("ci", max_examples=200, deadline=None)
+hypothesis_settings.register_profile("dev", max_examples=30, deadline=None)
+hypothesis_settings.register_profile("default", max_examples=100, deadline=None)
 
 
 def pytest_addoption(parser: pytest.Parser) -> None:

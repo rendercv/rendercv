@@ -10,7 +10,7 @@ cv:
   headline: Machine Learning Engineer
   location: San Francisco, CA
   email: john@example.com # (1)!
-  phone: +14155551234 # (2)!
+  phone: "+14155551234" # (2)!
   website: https://johndoe.dev # (3)!
   photo: photo.jpg
   social_networks:
@@ -25,7 +25,7 @@ cv:
 ```
 
 1. Multiple emails can be provided as a list.
-2. Multiple phone numbers can be provided as a list.
+2. Multiple phone numbers can be provided as a list. The display format (national, international, or E164) can be controlled with [`design.header.connections.phone_number_format`](design.md).
 3. Multiple websites can be provided as a list.
 4. Available social networks: << available_social_networks >>
 5. Custom connections let you add any extra link (or plain text if `url` is omitted) with your own display text (`placeholder`) and a Font Awesome icon name (e.g., `calendar-days`, `envelope`). For the list of available icons, see [fontawesome.com/search](https://fontawesome.com/search).

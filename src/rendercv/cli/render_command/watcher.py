@@ -1,6 +1,5 @@
 import contextlib
 import pathlib
-import time
 from collections.abc import Callable
 
 import typer
@@ -63,8 +62,7 @@ def run_function_if_files_change(
         function()
 
     try:
-        while True:
-            time.sleep(1)
+        observer.join()
     except KeyboardInterrupt:
         observer.stop()
-    observer.join()
+        observer.join()

@@ -10,6 +10,7 @@ from rendercv.exception import RenderCVUserError
 
 from ..app import app
 from ..copy_templates import copy_templates
+from ..error_handler import handle_user_errors
 from .create_init_file_for_theme import create_init_file_for_theme
 
 
@@ -21,12 +22,13 @@ from .create_init_file_for_theme import create_init_file_for_theme
         " create-theme --help[/cyan]"
     ),
 )
+@handle_user_errors
 def cli_command_create_theme(
     theme_name: Annotated[
         str,
         typer.Argument(help="The name of the new theme"),
     ],
-):
+) -> None:
     new_theme_folder = pathlib.Path.cwd() / theme_name
 
     if new_theme_folder.exists():

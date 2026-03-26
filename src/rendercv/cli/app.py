@@ -2,7 +2,6 @@ import importlib
 import json
 import os
 import pathlib
-import ssl
 import sys
 import threading
 import time
@@ -93,14 +92,12 @@ def fetch_latest_version_from_pypi() -> str | None:
     """Fetch the latest RenderCV version string from PyPI, or None on failure."""
     url = "https://pypi.org/pypi/rendercv/json"
     try:
-        with urllib.request.urlopen(
-            url, context=ssl._create_unverified_context(), timeout=5
-        ) as response:
+        with urllib.request.urlopen(url, timeout=5) as response:
             data = response.read()
             encoding = response.info().get_content_charset("utf-8")
             json_data = json.loads(data.decode(encoding))
             return json_data["info"]["version"]
-    except Exception:
+    except (OSError, json.JSONDecodeError, KeyError, ValueError):
         return None
 
 

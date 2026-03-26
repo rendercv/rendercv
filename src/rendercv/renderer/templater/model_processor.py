@@ -1,4 +1,5 @@
 import pathlib
+import urllib.error
 import urllib.parse
 import urllib.request
 from collections.abc import Callable
@@ -49,8 +50,9 @@ def download_photo_from_url(rendercv_model: RenderCVModel) -> None:
 
     if not destination.exists():
         try:
-            urllib.request.urlretrieve(url_str, destination)
-        except Exception as e:
+            with urllib.request.urlopen(url_str, timeout=30) as response:
+                destination.write_bytes(response.read())
+        except (urllib.error.URLError, OSError) as e:
             raise RenderCVUserError(
                 message=f"Failed to download photo from {url_str}: {e}"
             ) from e
@@ -134,14 +136,14 @@ def process_model(
             in rendercv_model.design.sections.show_time_spans_in
         )
         for i, entry in enumerate(section.entries):
-            entry = render_entry_templates(  # NOQA: PLW2901
+            processed_entry = render_entry_templates(
                 entry,
                 templates=rendercv_model.design.templates,
                 locale=rendercv_model.locale,
                 show_time_span=show_time_span,
                 current_date=rendercv_model.settings._resolved_current_date,
             )
-            section.entries[i] = process_fields(entry, string_processors)
+            section.entries[i] = process_fields(processed_entry, string_processors)
 
     return rendercv_model
 

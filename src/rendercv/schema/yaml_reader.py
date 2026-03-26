@@ -1,7 +1,6 @@
 import pathlib
 
 import ruamel.yaml
-import ruamel.yaml.scanner
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.scanner import RoundTripScanner
 
@@ -68,17 +67,21 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
 
 
 class ScannerNoAlias(RoundTripScanner):
-    """Custom Scanner that treats * as a regular character instead of alias syntax."""
+    """Custom Scanner that treats * as a regular character instead of alias syntax.
 
-    def fetch_alias(self):
+    Why:
+        CV content frequently contains literal * characters (e.g., in Markdown bold
+        syntax). Standard YAML interprets * as an alias indicator, causing parse
+        errors. This subclass overrides alias handling to treat * as plain text.
+    """
+
+    def fetch_alias(self) -> None:
         """Treat * as a plain scalar character instead of alias syntax."""
-        # Instead of scanning as alias, treat as plain scalar
         self.fetch_plain()
 
 
-# Monkey-patch the RoundTripScanner to treat * as a regular character:
-ruamel.yaml.scanner.RoundTripScanner = ScannerNoAlias  # ty: ignore[invalid-assignment]
 yaml = ruamel.yaml.YAML()
+yaml.Scanner = ScannerNoAlias
 
 # Disable ISO date parsing, keep it as a string:
 yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (

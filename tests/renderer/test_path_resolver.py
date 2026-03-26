@@ -2,8 +2,11 @@ import datetime
 import pathlib
 
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from rendercv.renderer.path_resolver import (
+    build_name_variants,
     resolve_output_folder_placeholder,
     resolve_rendercv_file_path,
 )
@@ -204,3 +207,89 @@ class TestResolveOutputFolderPlaceholder:
         result = resolve_output_folder_placeholder(file_path, output_folder)
 
         assert result == output_folder
+
+    @settings(deadline=None)
+    @given(
+        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+    )
+    def test_idempotent(self, suffix: str, folder: str) -> None:
+        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
+        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
+        first = resolve_output_folder_placeholder(
+            pathlib.Path(path), pathlib.Path(output_folder)
+        )
+        second = resolve_output_folder_placeholder(first, pathlib.Path(output_folder))
+        assert first == second
+
+    @settings(deadline=None)
+    @given(
+        suffix=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+        folder=st.from_regex(r"[a-z_]{1,10}", fullmatch=True),
+    )
+    def test_output_folder_absent_in_result(self, suffix: str, folder: str) -> None:
+        path = pathlib.PurePosixPath(f"/base/OUTPUT_FOLDER/{suffix}")
+        output_folder = pathlib.PurePosixPath(f"/base/{folder}")
+        result = resolve_output_folder_placeholder(
+            pathlib.Path(path), pathlib.Path(output_folder)
+        )
+        assert "OUTPUT_FOLDER" not in result.parts
+
+
+class TestBuildNameVariants:
+    def test_none_returns_empty_dict(self) -> None:
+        assert build_name_variants(None) == {}
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_always_7_keys(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert len(result) == 7
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_snake_case_has_no_spaces(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert " " not in result["NAME_IN_SNAKE_CASE"]
+        assert " " not in result["NAME_IN_LOWER_SNAKE_CASE"]
+        assert " " not in result["NAME_IN_UPPER_SNAKE_CASE"]
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_kebab_case_has_no_spaces(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert " " not in result["NAME_IN_KEBAB_CASE"]
+        assert " " not in result["NAME_IN_LOWER_KEBAB_CASE"]
+        assert " " not in result["NAME_IN_UPPER_KEBAB_CASE"]
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_lower_variants_are_lowercase(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert (
+            result["NAME_IN_LOWER_SNAKE_CASE"]
+            == result["NAME_IN_LOWER_SNAKE_CASE"].lower()
+        )
+        assert (
+            result["NAME_IN_LOWER_KEBAB_CASE"]
+            == result["NAME_IN_LOWER_KEBAB_CASE"].lower()
+        )
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_upper_variants_are_uppercase(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert (
+            result["NAME_IN_UPPER_SNAKE_CASE"]
+            == result["NAME_IN_UPPER_SNAKE_CASE"].upper()
+        )
+        assert (
+            result["NAME_IN_UPPER_KEBAB_CASE"]
+            == result["NAME_IN_UPPER_KEBAB_CASE"].upper()
+        )
+
+    @settings(deadline=None)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_original_name_preserved(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert result["NAME"] == name

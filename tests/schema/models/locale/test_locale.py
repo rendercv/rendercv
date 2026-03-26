@@ -38,6 +38,27 @@ def test_locale_adapter_rtl_languages(language: str):
     assert locale.is_rtl is True
 
 
+@pytest.mark.parametrize("language", available_locales)
+def test_flag_emoji_defined_for_all_locales(language: str):
+    """Every locale must have a flag_emoji mapping."""
+    locale = locale_adapter.validate_python({"language": language})
+    assert len(locale.flag_emoji) > 0
+
+
+@pytest.mark.parametrize(
+    ("language", "expected"),
+    [
+        ("english", "\U0001f1ec\U0001f1e7"),  # 🇬🇧
+        ("arabic", "\U0001f1f8\U0001f1e6"),  # 🇸🇦
+        ("french", "\U0001f1eb\U0001f1f7"),  # 🇫🇷
+        ("japanese", "\U0001f1ef\U0001f1f5"),  # 🇯🇵
+    ],
+)
+def test_flag_emoji_values(language: str, expected: str):
+    locale = locale_adapter.validate_python({"language": language})
+    assert locale.flag_emoji == expected
+
+
 @pytest.mark.parametrize(
     "yaml_file",
     sorted(OTHER_LOCALES_DIR.glob("*.yaml")),

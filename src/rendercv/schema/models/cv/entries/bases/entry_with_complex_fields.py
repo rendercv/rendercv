@@ -65,7 +65,7 @@ def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
         Python Date object.
     """
     if isinstance(date, int):
-        date_object = Date.fromisoformat(f"{date}-01-01")
+        date_object = Date(date, 1, 1)
     elif re.fullmatch(r"\d{4}-\d{2}-\d{2}", date):
         # Then it is in YYYY-MM-DD format
         date_object = Date.fromisoformat(date)

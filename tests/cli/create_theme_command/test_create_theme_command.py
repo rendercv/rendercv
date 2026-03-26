@@ -1,11 +1,11 @@
 import os
 
 import pytest
+import typer
 
 from rendercv.cli.create_theme_command.create_theme_command import (
     cli_command_create_theme,
 )
-from rendercv.exception import RenderCVUserError
 
 
 class TestCliCommandCreateTheme:
@@ -28,11 +28,11 @@ class TestCliCommandCreateTheme:
         theme_name = "mytheme"
         (tmp_path / theme_name).mkdir()
 
-        with pytest.raises(RenderCVUserError, match="already exists"):
+        with pytest.raises(typer.Exit):
             cli_command_create_theme(theme_name)
 
     def test_raises_error_for_invalid_theme_name(self, tmp_path):
         os.chdir(tmp_path)
 
-        with pytest.raises(RenderCVUserError):
+        with pytest.raises(typer.Exit):
             cli_command_create_theme("Invalid-Theme")

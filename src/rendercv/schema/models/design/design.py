@@ -36,6 +36,9 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
         return built_in_design_adapter.validate_python(design)
     except pydantic.ValidationError as e:
         errors = e.errors()
+        # Detect if validation failed because the theme name doesn't match any
+        # built-in theme. Pydantic's discriminator errors include the discriminator
+        # field name in ctx. This format is tied to Pydantic's error structure:
         custom_theme = False
         for error in errors:
             if (
