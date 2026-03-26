@@ -163,14 +163,18 @@ class Cv(BaseModelWithoutExtraKeys):
             return data
 
         # Capture the input order before validation
-        key_order = list(data.keys()) if isinstance(data, dict) else []
+        key_order = (
+            [key for key in data if isinstance(key, str)]
+            if isinstance(data, dict)
+            else []
+        )
 
         # Let Pydantic do its validation
         instance = handler(data)
 
         # Set the private attribute on the instance:
         # If the values of those keys are None, remove the key from the key_order
-        instance._key_order = [key for key in key_order if data.get(key) is not None]  # ty: ignore[invalid-assignment]
+        instance._key_order = [key for key in key_order if data.get(key) is not None]
 
         return instance
 

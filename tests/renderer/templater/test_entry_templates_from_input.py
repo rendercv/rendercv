@@ -1,3 +1,4 @@
+import re
 from datetime import date as Date
 from unittest.mock import patch
 
@@ -25,6 +26,7 @@ from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.cv.entries.publication import PublicationEntry
 from rendercv.schema.models.design.classic_theme import (
     EducationEntryTemplate,
+    ExperienceEntryTemplate,
     NormalEntryTemplate,
     PublicationEntryTemplate,
     Templates,
@@ -242,6 +244,77 @@ class TestRenderEntryTemplates:
         )
 
         assert entry.main_column == "Jan 2020 / Mar 2021 / / Jan 2020 – Mar 2021"  # ty: ignore[unresolved-attribute]
+
+    def test_populates_time_span_placeholder_in_custom_experience_template(self):
+        entry = ExperienceEntry(
+            company="Acme",
+            position="Engineer",
+            start_date="2020-01-01",
+            end_date="2021-03-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                experience_entry=ExperienceEntryTemplate(
+                    main_column="**COMPANY** | TIME_SPAN",
+                    date_and_location_column="START_DATE – END_DATE",
+                )
+            ),
+            locale=EnglishLocale(),
+            show_time_span=True,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == "**Acme** | 1 year 3 months"  # ty: ignore[unresolved-attribute]
+        assert entry.date_and_location_column == "Jan 2020 – Mar 2021"  # ty: ignore[unresolved-attribute]
+
+    def test_suppresses_time_span_in_date_when_time_span_placeholder_is_used(self):
+        entry = NormalEntry(
+            name="Timeline",
+            start_date="2020-01-01",
+            end_date="2021-03-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                normal_entry=NormalEntryTemplate(
+                    main_column="START_DATE / END_DATE / TIME_SPAN / DATE",
+                )
+            ),
+            locale=EnglishLocale(),
+            show_time_span=True,
+            current_date=Date(2024, 1, 1),
+        )
+
+        # DATE should NOT include the appended time span when TIME_SPAN is
+        # explicitly placed in the template:
+        assert (
+            entry.main_column  # ty: ignore[unresolved-attribute]
+            == "Jan 2020 / Mar 2021 / 1 year 3 months / Jan 2020 – Mar 2021"
+        )
+
+    def test_removes_time_span_placeholder_when_disabled(self):
+        entry = NormalEntry(
+            name="Timeline",
+            start_date="2020-01-01",
+            end_date="2021-03-01",
+        )
+
+        entry = render_entry_templates(
+            entry,
+            templates=Templates(
+                normal_entry=NormalEntryTemplate(
+                    main_column="NAME | TIME_SPAN",
+                )
+            ),
+            locale=EnglishLocale(),
+            show_time_span=False,
+            current_date=Date(2024, 1, 1),
+        )
+
+        assert entry.main_column == "Timeline"  # ty: ignore[unresolved-attribute]
 
     def test_handles_authors_doi_and_date_placeholders(self):
         entry = PublicationEntry(
@@ -627,7 +700,7 @@ class TestRemoveNotProvidedPlaceholders:
         fields = {"PREFIX": "a", "SUFFIX": "b"}
         assume(missing_key not in ("PREFIX", "SUFFIX"))
         result = remove_not_provided_placeholders(templates, fields)
-        assert missing_key not in result["main"]
+        assert missing_key not in re.findall(r"\b[A-Z_]+\b", result["main"])
 
 
 class TestRenderEntryTemplatesInternalErrors:
