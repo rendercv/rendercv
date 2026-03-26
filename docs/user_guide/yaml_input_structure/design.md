@@ -186,5 +186,5 @@ design:
    `national` formats for domestic use, `international` includes country code, `E164` is the standard international format
 8. **Photo position:** `left` or `right` of the header text
 9. **Available fonts:** << available_font_families >>. Also, any system font can be used. Custom fonts can be used as well. See [Custom Fonts](../how_to/custom_fonts.md) for more information.
-10. **Templates:** Advanced customization - define how each entry type is rendered using placeholders like NAME, COMPANY, DATE, etc.
+10. **Templates:** Advanced customization - define how each entry type is rendered using placeholders like NAME, COMPANY, DATE, START_DATE, END_DATE, and TIME_SPAN. For ranged entries, `DATE` still includes the time span when enabled; use `START_DATE`, `END_DATE`, and `TIME_SPAN` if you want to place them separately.
 11. **Font family shorthand:** You can specify `font_family: "Latin Modern Roman"` directly instead of using nested options to apply the same font everywhere
