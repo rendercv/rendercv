@@ -24,3 +24,20 @@ def test_generate_markdown(
 
     reference_filename = f"{cv_variant}.md"
     assert compare_file_with_reference(generate_file, reference_filename)
+
+
+def test_generate_markdown_subsections(
+    compare_file_with_reference,
+    subsections_rendercv_model: RenderCVModel,
+):
+    model = RenderCVModel(
+        cv=subsections_rendercv_model.cv,
+        locale=subsections_rendercv_model.locale,
+        settings=subsections_rendercv_model.settings,
+    )
+
+    def generate_file(output_path):
+        model.settings.render_command.markdown_path = output_path
+        generate_markdown(model)
+
+    assert compare_file_with_reference(generate_file, "subsections.md")

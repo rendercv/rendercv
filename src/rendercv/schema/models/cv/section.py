@@ -1,7 +1,7 @@
 from collections import Counter
 from functools import reduce
 from operator import or_
-from typing import Annotated, Any, Literal, get_args
+from typing import Annotated, Any, Literal, cast, get_args
 
 import pydantic
 import pydantic_core
@@ -40,9 +40,10 @@ available_entry_type_names: tuple[str, ...] = tuple(
 )
 # reduce() constructs a union type at runtime that type checkers cannot verify
 # statically, so the ty:ignore below is unavoidable:
-type ListOfEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
+type FlatSectionEntries = list[str] | reduce(  # ty: ignore[invalid-type-form]
     or_, [list[entry_type] for entry_type in available_entry_models]
 )
+type ListOfEntries = FlatSectionEntries
 
 
 def get_characteristic_entry_fields(
@@ -80,10 +81,21 @@ def get_characteristic_entry_fields(
 characteristic_entry_fields = get_characteristic_entry_fields(available_entry_models)
 
 
+class BaseRenderCVSubsection(BaseModelWithoutExtraKeys):
+    title: str
+    entry_type: str
+    entries: list[Any]
+
+    @property
+    def snake_case_title(self) -> str:
+        return self.title.lower().replace(" ", "_")
+
+
 class BaseRenderCVSection(BaseModelWithoutExtraKeys):
     title: str
     entry_type: str
     entries: list[Any]
+    subsections: list[BaseRenderCVSubsection] | None = None
 
     @property
     def snake_case_title(self) -> str:
@@ -126,6 +138,25 @@ section_models: dict[type[EntryModel] | type[str], type[BaseRenderCVSection]] = 
     for entry_type in available_entry_models
 }
 section_models[str] = create_section_models(str)
+
+
+def is_subsection_entry_input(entry: Any) -> bool:
+    """Return whether input uses the reserved subsection-entry shape."""
+    if isinstance(entry, SubsectionEntry):
+        return True
+
+    if not isinstance(entry, dict):
+        return False
+
+    if "title" not in entry or "entries" not in entry:
+        return False
+
+    entry_keys = set(entry.keys())
+    for characteristic_fields in characteristic_entry_fields.values():
+        if (characteristic_fields - {"title"}) & entry_keys:
+            return False
+
+    return True
 
 
 def get_entry_type_name_and_section_model(
@@ -181,6 +212,100 @@ def get_entry_type_name_and_section_model(
     return entry_type_name, section_model
 
 
+def get_entry_type_name_from_entries(entries: list[Any]) -> str:
+    """Return the entry type of a validated flat entry list."""
+    if len(entries) == 0:
+        return "TextEntry"
+
+    entry_type_name, _ = get_entry_type_name_and_section_model(entries[0])
+    return entry_type_name
+
+
+def validate_flat_section_entries(sections_input: list[Any]) -> FlatSectionEntries:
+    """Validate a flat section containing a single homogeneous entry type."""
+    if len(sections_input) == 0:
+        return sections_input
+
+    for entry in sections_input:
+        if is_subsection_entry_input(entry):
+            raise pydantic_core.PydanticCustomError(
+                CustomPydanticErrorTypes.other.value,
+                "Subsection entries cannot be nested inside another subsection.",
+            )
+
+    # Find the entry type based on the first identifiable entry:
+    entry_type_name = None
+    section_type = None
+    for entry in sections_input:
+        try:
+            entry_type_name, section_type = get_entry_type_name_and_section_model(entry)
+            break
+        except pydantic_core.PydanticCustomError:
+            # If the entry type cannot be determined, try the next entry:
+            continue
+
+    if entry_type_name is None or section_type is None:
+        raise pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.other.value,
+            "RenderCV couldn't match this section with any entry types. Please"
+            " check the entries and make sure they are provided correctly.",
+        )
+
+    section = {
+        "title": "Dummy Section for Validation",
+        "entry_type": entry_type_name,
+        "entries": sections_input,
+    }
+
+    try:
+        section_object = section_type.model_validate(section)
+        return section_object.entries
+    except pydantic.ValidationError as e:
+        new_error = pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.entry_validation.value,
+            "There are problems with the entries. RenderCV detected the entry type"
+            " of this section to be {entry_type_name}. The problems are shown"
+            " below.",
+            {"entry_type_name": entry_type_name, "caused_by": e.errors()},
+        )
+        raise new_error from e
+
+
+class SubsectionEntry(BaseModelWithoutExtraKeys):
+    title: str
+    entries: FlatSectionEntries
+
+    @pydantic.field_validator("entries", mode="plain")
+    @classmethod
+    def validate_entries(cls, value: Any) -> FlatSectionEntries:
+        if not isinstance(value, list):
+            raise pydantic_core.PydanticCustomError(
+                CustomPydanticErrorTypes.other.value,
+                "Each subsection should contain a list of entries.",
+            )
+
+        return validate_flat_section_entries(value)
+
+
+subsection_entries_adapter = pydantic.TypeAdapter[list[SubsectionEntry]](
+    list[SubsectionEntry]
+)
+
+
+def validate_subsection_entries(sections_input: list[Any]) -> list[SubsectionEntry]:
+    """Validate a section defined as a list of subsection entries."""
+    try:
+        return subsection_entries_adapter.validate_python(sections_input)
+    except pydantic.ValidationError as e:
+        new_error = pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.entry_validation.value,
+            "There are problems with the subsection entries. The problems are shown"
+            " below.",
+            {"caused_by": e.errors()},
+        )
+        raise new_error from e
+
+
 def validate_section(sections_input: Any) -> Any:
     """Validate section entries with automatic type detection and error reporting.
 
@@ -190,68 +315,39 @@ def validate_section(sections_input: Any) -> Any:
         identify detected type and aggregate nested validation errors.
 
     Args:
-        sections_input: Raw section data (list of entries).
+        sections_input: Raw section data as either a flat entry list or a list of
+            subsection entries.
 
     Returns:
-        Validated list of entry instances.
+        Validated flat entry list or validated subsection entry list.
     """
-    if isinstance(sections_input, list):
-        if len(sections_input) == 0:
-            return sections_input
-
-        # Find the entry type based on the first identifiable entry:
-        entry_type_name = None
-        section_type = None
-        for entry in sections_input:
-            try:
-                entry_type_name, section_type = get_entry_type_name_and_section_model(
-                    entry
-                )
-                break
-            except pydantic_core.PydanticCustomError:
-                # If the entry type cannot be determined, try the next entry:
-                continue
-
-        if entry_type_name is None or section_type is None:
-            raise pydantic_core.PydanticCustomError(
-                CustomPydanticErrorTypes.other.value,
-                "RenderCV couldn't match this section with any entry types. Please"
-                " check the entries and make sure they are provided correctly.",
-            )
-
-        section = {
-            "title": "Dummy Section for Validation",
-            "entry_type": entry_type_name,
-            "entries": sections_input,
-        }
-
-        try:
-            section_object = section_type.model_validate(section)
-            sections_input = section_object.entries
-        except pydantic.ValidationError as e:
-            new_error = pydantic_core.PydanticCustomError(
-                CustomPydanticErrorTypes.entry_validation.value,
-                "There are problems with the entries. RenderCV detected the entry type"
-                " of this section to be {entry_type_name}. The problems are shown"
-                " below.",
-                {"entry_type_name": entry_type_name, "caused_by": e.errors()},
-            )
-            raise new_error from e
-
-    else:
+    if not isinstance(sections_input, list):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
-            "Each section should be a list of entries! This is not a list.",
+            "Each section should be either a list of entries or a list of subsection"
+            " entries.",
         )
 
-    return sections_input
+    subsection_entries = [
+        entry for entry in sections_input if is_subsection_entry_input(entry)
+    ]
+    if len(subsection_entries) == 0:
+        return validate_flat_section_entries(sections_input)
+
+    if len(subsection_entries) != len(sections_input):
+        raise pydantic_core.PydanticCustomError(
+            CustomPydanticErrorTypes.other.value,
+            "A section cannot mix regular entries with subsection entries.",
+        )
+
+    return validate_subsection_entries(sections_input)
 
 
 # Create a custom type named Section, which is a list of entries. The entries can be any
 # of the available entry types. The section is validated with the `validate_section`
 # function.
 type Section = Annotated[
-    pydantic.json_schema.SkipJsonSchema[Any] | ListOfEntries,
+    FlatSectionEntries | list[SubsectionEntry],
     pydantic.BeforeValidator(validate_section),
 ]
 
@@ -321,7 +417,7 @@ def dictionary_key_to_proper_section_title(key: str) -> str:
 
 
 def get_rendercv_sections(
-    sections: dict[str, list[Any]] | None,
+    sections: dict[str, Section] | None,
 ) -> list[BaseRenderCVSection]:
     """Transform user's section dictionary into list of typed section objects.
 
@@ -342,20 +438,32 @@ def get_rendercv_sections(
         for title, entries in sections.items():
             formatted_title = dictionary_key_to_proper_section_title(title)
 
-            if len(entries) == 0:
-                entry_type_name = "TextEntry"
+            subsections = None
+            flattened_entries: list[Any]
+            if len(entries) != 0 and isinstance(entries[0], SubsectionEntry):
+                subsection_entries = cast(list[SubsectionEntry], entries)
+                entry_type_name = "SubsectionEntry"
+                subsections = [
+                    BaseRenderCVSubsection(
+                        title=dictionary_key_to_proper_section_title(subsection.title),
+                        entry_type=get_entry_type_name_from_entries(subsection.entries),
+                        entries=subsection.entries,
+                    )
+                    for subsection in subsection_entries
+                ]
+                flattened_entries = [
+                    entry for subsection in subsections for entry in subsection.entries
+                ]
             else:
-                # The first entry can be used because all the entries in the section
-                # are already validated with the `validate_a_section` function:
-                entry_type_name, _ = get_entry_type_name_and_section_model(
-                    entries[0],
-                )
+                flattened_entries = entries
+                entry_type_name = get_entry_type_name_from_entries(entries)
 
             # SectionBase is used so that entries are not validated again:
             section = BaseRenderCVSection(
                 title=formatted_title,
                 entry_type=entry_type_name,
-                entries=entries,
+                entries=flattened_entries,
+                subsections=subsections,
             )
             sections_rendercv.append(section)
 

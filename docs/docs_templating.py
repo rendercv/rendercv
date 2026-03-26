@@ -21,6 +21,7 @@ from rendercv.schema.models.cv.section import (
     OneLineEntry,
     PublicationEntry,
     ReversedNumberedEntry,
+    SubsectionEntry,
 )
 from rendercv.schema.models.cv.social_network import available_social_networks
 from rendercv.schema.models.design.built_in_design import available_themes
@@ -51,6 +52,7 @@ class SampleEntries(pydantic.BaseModel):
     numbered_entry: NumberedEntry
     reversed_numbered_entry: ReversedNumberedEntry
     text_entry: str
+    subsection_entry: SubsectionEntry
 
 
 def dictionary_to_yaml(dictionary: dict):
@@ -76,6 +78,7 @@ def define_env(env):
     )
     # validate the parsed dictionary by creating an instance of SampleEntries:
     sample_entries = SampleEntries(**sample_entries).model_dump()
+    subsection_entry = sample_entries.pop("subsection_entry")
 
     entries_showcase = {}
     for entry_name, entry in sample_entries.items():
@@ -97,6 +100,7 @@ def define_env(env):
     env.variables["entry_names"] = [
         f"[{entry_name}](#{entry_name.lower()})" for entry_name in entries_showcase
     ]
+    env.variables["subsection_entry_yaml"] = dictionary_to_yaml(subsection_entry)
 
     # Available themes strings (put available themes between ``)
     themes = [

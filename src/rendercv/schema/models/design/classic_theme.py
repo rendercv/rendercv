@@ -466,6 +466,25 @@ class SectionTitles(BaseModelWithoutExtraKeys):
     )
 
 
+class SubsectionTitles(BaseModelWithoutExtraKeys):
+    space_above: TypstDimension = pydantic.Field(
+        default="0cm",
+        description=(
+            "Space above subsection titles. "
+            + length_common_description
+            + " The default value is `0cm`."
+        ),
+    )
+    space_below: TypstDimension = pydantic.Field(
+        default="0cm",
+        description=(
+            "Space below subsection titles. "
+            + length_common_description
+            + " The default value is `0cm`."
+        ),
+    )
+
+
 # Sections
 
 
@@ -871,6 +890,9 @@ class ClassicTheme(BaseModelWithoutExtraKeys):
     links: Links = pydantic.Field(default_factory=Links)
     header: Header = pydantic.Field(default_factory=Header)
     section_titles: SectionTitles = pydantic.Field(default_factory=SectionTitles)
+    subsection_titles: SubsectionTitles = pydantic.Field(
+        default_factory=SubsectionTitles
+    )
     sections: Sections = pydantic.Field(default_factory=Sections)
     entries: Entries = pydantic.Field(default_factory=Entries)
     templates: Templates = pydantic.Field(default_factory=Templates)

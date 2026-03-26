@@ -104,8 +104,10 @@ class Cv(BaseModelWithoutExtraKeys):
         default=None,
         description=(
             "The sections of your CV. Keys are section titles (e.g., Experience,"
-            " Education), and values are lists of entries. Entry types are"
-            " automatically detected based on their fields."
+            " Education), and values are usually lists of entries. Sections can"
+            " also be defined as lists of subsection entries, where each subsection"
+            " has a title and its own list of entries. Entry types are automatically"
+            " detected based on their fields."
         ),
         examples=[
             {
@@ -113,6 +115,16 @@ class Cv(BaseModelWithoutExtraKeys):
                 "Education": "...",
                 "Projects": "...",
                 "Skills": "...",
+                "Selected Work": [
+                    {
+                        "title": "Featured Projects",
+                        "entries": "...",
+                    },
+                    {
+                        "title": "Open Source",
+                        "entries": "...",
+                    },
+                ],
             }
         ],
     )
@@ -163,14 +175,14 @@ class Cv(BaseModelWithoutExtraKeys):
             return data
 
         # Capture the input order before validation
-        key_order = list(data.keys()) if isinstance(data, dict) else []
+        key_order = [str(key) for key in data] if isinstance(data, dict) else []
 
         # Let Pydantic do its validation
         instance = handler(data)
 
         # Set the private attribute on the instance:
         # If the values of those keys are None, remove the key from the key_order
-        instance._key_order = [key for key in key_order if data.get(key) is not None]  # ty: ignore[invalid-assignment]
+        instance._key_order = [key for key in key_order if data.get(key) is not None]
 
         return instance
 

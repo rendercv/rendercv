@@ -221,6 +221,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__1"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__1"
         },
@@ -435,12 +438,22 @@
             }
           ],
           "default": null,
-          "description": "The sections of your CV. Keys are section titles (e.g., Experience, Education), and values are lists of entries. Entry types are automatically detected based on their fields.",
+          "description": "The sections of your CV. Keys are section titles (e.g., Experience, Education), and values are usually lists of entries. Sections can also be defined as lists of subsection entries, where each subsection has a title and its own list of entries. Entry types are automatically detected based on their fields.",
           "examples": [
             {
               "Education": "...",
               "Experience": "...",
               "Projects": "...",
+              "Selected Work": [
+                {
+                  "entries": "...",
+                  "title": "Featured Projects"
+                },
+                {
+                  "entries": "...",
+                  "title": "Open Source"
+                }
+              ],
               "Skills": "..."
             }
           ],
@@ -837,6 +850,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__2"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__2"
         },
@@ -877,6 +893,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__3"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__3"
         },
@@ -916,6 +935,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__4"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__4"
@@ -1191,6 +1213,64 @@
       "title": "ExperienceEntry",
       "type": "object"
     },
+    "FlatSectionEntries": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/OneLineEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/NormalEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/ExperienceEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/EducationEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/PublicationEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/BulletEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/NumberedEntry"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/ReversedNumberedEntry"
+          },
+          "type": "array"
+        }
+      ]
+    },
     "FrenchLocale": {
       "additionalProperties": false,
       "properties": {
@@ -1413,6 +1493,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__5"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__5"
@@ -1846,6 +1929,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__6"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__6"
         },
@@ -2153,64 +2239,6 @@
       "title": "KoreanLocale",
       "type": "object"
     },
-    "ListOfEntries": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/OneLineEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/NormalEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/ExperienceEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/EducationEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/PublicationEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/BulletEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/NumberedEntry"
-          },
-          "type": "array"
-        },
-        {
-          "items": {
-            "$ref": "#/$defs/ReversedNumberedEntry"
-          },
-          "type": "array"
-        }
-      ]
-    },
     "Locale": {
       "discriminator": {
         "mapping": {
@@ -2432,6 +2460,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__7"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__7"
@@ -2865,6 +2896,9 @@
         },
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__8"
+        },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
         },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__8"
@@ -3472,6 +3506,9 @@
         "section_titles": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__SectionTitles__9"
         },
+        "subsection_titles": {
+          "$ref": "#/$defs/SubsectionTitles"
+        },
         "sections": {
           "$ref": "#/$defs/rendercv__schema__models__design__classic_theme__Sections__9"
         },
@@ -3486,7 +3523,17 @@
       "type": "object"
     },
     "Section": {
-      "$ref": "#/$defs/ListOfEntries"
+      "anyOf": [
+        {
+          "$ref": "#/$defs/FlatSectionEntries"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/SubsectionEntry"
+          },
+          "type": "array"
+        }
+      ]
     },
     "SectionTitleType": {
       "enum": [
@@ -3684,6 +3731,41 @@
         }
       },
       "title": "SpanishLocale",
+      "type": "object"
+    },
+    "SubsectionEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "entries": {
+          "title": "Entries"
+        }
+      },
+      "required": [
+        "title",
+        "entries"
+      ],
+      "title": "SubsectionEntry",
+      "type": "object"
+    },
+    "SubsectionTitles": {
+      "additionalProperties": false,
+      "properties": {
+        "space_above": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Space above subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+        },
+        "space_below": {
+          "$ref": "#/$defs/TypstDimension",
+          "default": "0cm",
+          "description": "Space below subsection titles. It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0cm`."
+        }
+      },
+      "title": "SubsectionTitles",
       "type": "object"
     },
     "TurkishLocale": {
