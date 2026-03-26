@@ -5,7 +5,7 @@ from rich import print
 from rendercv import __version__
 
 
-def print_welcome():
+def print_welcome() -> None:
     """Display welcome banner with version and useful links.
 
     Why:

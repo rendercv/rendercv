@@ -28,7 +28,7 @@ class TestCliCommandRender:
             "dont_generate_png": False,
             "watch": False,
             "quiet": False,
-            "_": None,
+            "yaml_field_override": None,
             "extra_data_model_override_arguments": context,
         }
 

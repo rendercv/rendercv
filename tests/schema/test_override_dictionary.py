@@ -1,6 +1,9 @@
+import copy
 from typing import Any
 
 import pytest
+from hypothesis import given, settings
+from hypothesis import strategies as st
 
 from rendercv.exception import RenderCVUserError
 from rendercv.schema.override_dictionary import (
@@ -188,6 +191,25 @@ class TestUpdateValueByLocation:
         )
         assert result["cv"]["sections"]["education"][0]["details"]["gpa"] == "3.9"
 
+    @settings(deadline=None)
+    @given(items=st.lists(st.text(max_size=10), min_size=1, max_size=5))
+    def test_list_index_out_of_bounds_raises(self, items: list[str]) -> None:
+        bad_index = len(items)
+        with pytest.raises(RenderCVUserError):
+            update_value_by_location(items, str(bad_index), "val", str(bad_index))
+
+    @settings(deadline=None)
+    @given(key=st.from_regex(r"[a-z]{2,8}", fullmatch=True))
+    def test_non_integer_key_for_list_raises(self, key: str) -> None:
+        with pytest.raises(RenderCVUserError):
+            update_value_by_location(["a", "b"], key, "val", key)
+
+    @settings(deadline=None)
+    @given(value=st.text(min_size=1, max_size=20))
+    def test_missing_dict_keys_auto_created(self, value: str) -> None:
+        result = update_value_by_location({}, "a.b.c", value, "a.b.c")
+        assert result["a"]["b"]["c"] == value
+
 
 class TestApplyOverridesToDictionary:
     @pytest.mark.parametrize(
@@ -292,3 +314,24 @@ class TestApplyOverridesToDictionary:
         assert result["cv"]["sections"]["experience"][0]["company"] == "Meta"
         assert result["cv"]["sections"]["experience"][0]["title"] == "Engineer"
         assert initial["cv"]["name"] == "John Doe"
+
+    @settings(deadline=None)
+    @given(value=st.text(min_size=1, max_size=20))
+    def test_original_never_mutated(self, value: str) -> None:
+        original = {"a": {"b": "old"}}
+        frozen = copy.deepcopy(original)
+        apply_overrides_to_dictionary(original, {"a.b": value})
+        assert original == frozen
+
+    @settings(deadline=None)
+    @given(value=st.text(min_size=1, max_size=20))
+    def test_applied_value_retrievable(self, value: str) -> None:
+        original = {"a": {"b": "old"}}
+        result = apply_overrides_to_dictionary(original, {"a.b": value})
+        assert result["a"]["b"] == value
+
+    def test_empty_overrides_deep_copies(self) -> None:
+        original = {"a": {"b": "c"}}
+        result = apply_overrides_to_dictionary(original, {})
+        assert result == original
+        assert result is not original

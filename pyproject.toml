@@ -87,6 +87,7 @@ rendercv = "rendercv.cli.entry_point:entry_point"
 [dependency-groups]
 dev = [
   "black>=26.3.1",  # Format the code
+  "hypothesis>=6.151.9",  # Property-based testing
   "prek>=0.3.6",  # Run checks before committing (pre-commit alternative)
   "pytest>=9.0.2",  # Run tests
   "pytest-cov>=7.0.0",  # Coverage plugin for pytest with xdist support
@@ -191,6 +192,10 @@ preview = true  # Enable preview features
 enable-unstable-feature = [
   "string_processing",
 ]  # Break strings into multiple lines
+extend-exclude = "src/rendercv/renderer/typst_fontawesome"
+
+[tool.ty.src]
+exclude = ["src/rendercv/renderer/typst_fontawesome"]
 
 [tool.ty.rules]
 unused-ignore-comment = "error"

@@ -5,6 +5,8 @@ import re
 from typing import overload
 
 import ruamel.yaml
+import ruamel.yaml.nodes
+import ruamel.yaml.representer
 
 from rendercv import __version__
 from rendercv.exception import RenderCVUserError
@@ -14,6 +16,66 @@ from .models.design.built_in_design import available_themes, built_in_design_ada
 from .models.locale.locale import available_locales, locale_adapter
 from .models.rendercv_model import RenderCVModel
 from .rendercv_model_builder import read_yaml
+
+
+def comment_out_section_sub_fields(
+    yaml_string: str, *, section_header: str, next_section_header: str
+) -> str:
+    """Comment out YAML sub-fields between a section header and the next section.
+
+    Why:
+        Sample YAML files show design and locale options as comments so beginners
+        see the structure without being overwhelmed. This splits on exact section
+        boundaries, comments the lines between them, then reassembles.
+
+    Args:
+        yaml_string: Full YAML string.
+        section_header: The section header line(s) to find (e.g., "design:\\n  theme: classic\\n").
+        next_section_header: The next section header that ends this section's sub-fields.
+
+    Returns:
+        YAML string with sub-fields of the target section commented out.
+    """
+    before_section, _, after_section_header = yaml_string.partition(section_header)
+    sub_fields, _, rest = after_section_header.partition(next_section_header)
+
+    commented_lines = [
+        f"  {line.replace('  ', '# ', 1)}"
+        for line in sub_fields.splitlines(keepends=False)
+    ]
+
+    return (
+        before_section
+        + section_header
+        + "\n".join(commented_lines)
+        + "\n"
+        + next_section_header
+        + rest
+    )
+
+
+def expand_nested_bullets(yaml_string: str) -> str:
+    """Expand inline nested bullets in YAML list items to indented sub-items.
+
+    Why:
+        YAML dumper renders highlights like ``"Main point - Sub point"`` as a
+        single string. Users expect nested bullets to appear as indented sub-items
+        in the generated sample file for readability.
+
+    Args:
+        yaml_string: YAML string with potential inline nested bullets.
+
+    Returns:
+        YAML string with nested bullets expanded to indented sub-items.
+    """
+    return "\n".join(
+        (
+            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
+            if re.match(r"\s+- ", line)
+            else line
+        )
+        for line in yaml_string.split("\n")
+    )
 
 
 def dictionary_to_yaml(dictionary: dict) -> str:
@@ -32,7 +94,9 @@ def dictionary_to_yaml(dictionary: dict) -> str:
     """
 
     # Source: https://gist.github.com/alertedsnake/c521bc485b3805aa3839aef29e39f376
-    def str_representer(dumper, data):
+    def str_representer(
+        dumper: ruamel.yaml.representer.Representer, data: str
+    ) -> ruamel.yaml.nodes.ScalarNode:
         if len(data.splitlines()) > 1:  # check for multiline string
             return dumper.represent_scalar("tag:yaml.org,2002:str", data, style="|")
         return dumper.represent_scalar("tag:yaml.org,2002:str", data)
@@ -146,52 +210,26 @@ def create_sample_yaml_input_file(
 
     data_model_as_dictionary = rendercv_model_to_dictionary(data_model)
 
-    yaml_string = dictionary_to_yaml(data_model_as_dictionary)
-
-    # Process for nested bullets (only in YAML list items, not mapping values):
-    yaml_string = "\n".join(
-        (
-            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-            if re.match(r"\s+- ", line)
-            else line
-        )
-        for line in yaml_string.split("\n")
-    )
+    yaml_string = expand_nested_bullets(dictionary_to_yaml(data_model_as_dictionary))
 
     # Add a comment to the first line, for JSON Schema:
-    comment_to_add = (
+    schema_comment = (
         "# yaml-language-server:"
         f" $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v{__version__}/schema.json\n"
     )
-    yaml_string = comment_to_add + yaml_string
+    yaml_string = schema_comment + yaml_string
 
-    yaml_design_theme_part = f"design:\n  theme: {theme}\n"
-    split_yaml_string = yaml_string.split(yaml_design_theme_part)
-    yaml_cv_field = split_yaml_string[0]
-
-    yaml_locale_part = f"locale:\n  language: {locale}\n"
-    split_yaml_string = split_yaml_string[1].split(yaml_locale_part)
-    below_design = split_yaml_string[0].replace(yaml_design_theme_part, "")
-    below_design = [
-        f"  {line.replace('  ', '# ', 1)}"
-        for line in below_design.splitlines(keepends=False)
-    ]
-    yaml_design_field = yaml_design_theme_part + "\n".join(below_design) + "\n"
-
-    # Handle locale field commenting (similar to design)
-    locale_and_settings = split_yaml_string[1]
-    settings_part = "settings:\n"
-    split_by_settings = locale_and_settings.split(settings_part)
-    below_locale = split_by_settings[0]
-    below_locale_commented = [
-        f"  {line.replace('  ', '# ', 1)}"
-        for line in below_locale.splitlines(keepends=False)
-    ]
-    yaml_locale_field = yaml_locale_part + "\n".join(below_locale_commented) + "\n"
-    yaml_settings_field = settings_part + split_by_settings[1]
-
-    yaml_string = (
-        yaml_cv_field + yaml_design_field + yaml_locale_field + yaml_settings_field
+    # Comment out design and locale sub-fields so beginners see the structure
+    # without being overwhelmed by configuration options.
+    yaml_string = comment_out_section_sub_fields(
+        yaml_string,
+        section_header=f"design:\n  theme: {theme}\n",
+        next_section_header=f"locale:\n  language: {locale}\n",
+    )
+    yaml_string = comment_out_section_sub_fields(
+        yaml_string,
+        section_header=f"locale:\n  language: {locale}\n",
+        next_section_header="settings:\n",
     )
 
     if file_path is not None:
@@ -252,17 +290,7 @@ def create_sample_yaml_file(
     Returns:
         YAML string if file_path is None, otherwise None after writing file.
     """
-    yaml_string = dictionary_to_yaml(dictionary)
-
-    # Process for nested bullets (only in YAML list items, not mapping values):
-    yaml_string = "\n".join(
-        (
-            re.sub(r"(?<! ) - (?! )", "\n            - ", line)
-            if re.match(r"\s+- ", line)
-            else line
-        )
-        for line in yaml_string.split("\n")
-    )
+    yaml_string = expand_nested_bullets(dictionary_to_yaml(dictionary))
 
     if file_path is not None:
         file_path.write_text(yaml_string, encoding="utf-8")

@@ -36,7 +36,7 @@ def build_date_placeholders(date: Date, *, locale: Locale) -> dict[str, str]:
         "DAY": str(day),
         "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": str(year)[-2:],
+        "YEAR_IN_TWO_DIGITS": f"{year % 100:02d}",
     }
 
 

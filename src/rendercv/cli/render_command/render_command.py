@@ -185,9 +185,8 @@ def cli_command_render(
             help="If provided, RenderCV will not print any messages.",
         ),
     ] = False,
-    # This is a dummy argument for the help message for
-    # extra_data_model_override_argumets:
-    _: Annotated[
+    # Dummy argument that only exists to show the override syntax in --help:
+    yaml_field_override: Annotated[  # noqa: ARG001
         str | None,
         typer.Option(
             "--YAMLLOCATION",
@@ -196,7 +195,7 @@ def cli_command_render(
         ),
     ] = None,
     extra_data_model_override_arguments: typer.Context = None,  # ty: ignore[invalid-parameter-default]
-):
+) -> None:
     input_file_path = pathlib.Path(input_file_name).absolute()
 
     # Resolve design/locale overlay files from YAML settings when not

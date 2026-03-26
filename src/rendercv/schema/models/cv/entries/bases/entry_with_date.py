@@ -13,7 +13,10 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     Why:
         Users enter dates like "Fall 2023" or "2020-09" for events. Strict
         dates (YYYY-MM-DD/YYYY-MM/YYYY) get validated via ISO parsing, while
-        custom text passes through for template rendering.
+        custom text passes through for template rendering. ValueError from
+        fromisoformat() propagates to Pydantic, which converts it into a
+        specific user-friendly message (e.g., "The month must be between
+        1 and 12.").
 
     Args:
         date: Date value to validate.

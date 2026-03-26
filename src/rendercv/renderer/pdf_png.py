@@ -3,6 +3,7 @@ import functools
 import pathlib
 import shutil
 import tempfile
+import tomllib
 
 import rendercv_fonts
 import typst
@@ -125,13 +126,12 @@ def read_version_from_typst_toml(typst_toml_path: pathlib.Path) -> str:
     Returns:
         The version string.
     """
-    for line in typst_toml_path.read_text(encoding="utf-8").splitlines():
-        stripped = line.strip()
-        if stripped.startswith("version"):
-            return stripped.split("=", 1)[1].strip().strip('"')
-
-    message = f"Could not find version in {typst_toml_path}"
-    raise RenderCVInternalError(message)
+    data = tomllib.loads(typst_toml_path.read_text(encoding="utf-8"))
+    try:
+        return data["package"]["version"]
+    except KeyError as e:
+        message = f"Could not find version in {typst_toml_path}"
+        raise RenderCVInternalError(message) from e
 
 
 def install_bundled_typst_package(

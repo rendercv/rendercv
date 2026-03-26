@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from datetime import date as Date
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pydantic
 import pytest
@@ -267,12 +267,18 @@ class TestDownloadPhotoFromUrl:
         model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
         model.settings.render_command.output_folder = tmp_path / "output"
 
+        mock_response = MagicMock()
+        mock_response.read.return_value = b"photo data"
+        mock_response.__enter__ = MagicMock(return_value=mock_response)
+        mock_response.__exit__ = MagicMock(return_value=False)
+
         with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
-        ) as mock_retrieve:
+            "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
+            return_value=mock_response,
+        ) as mock_urlopen:
             download_photo_from_url(model)
 
-        mock_retrieve.assert_called_once()
+        mock_urlopen.assert_called_once()
         assert model.cv.photo == tmp_path / "output" / "photo.jpg"
 
     def test_uses_photo_jpg_fallback_when_no_filename_in_url(self, tmp_path):
@@ -281,8 +287,14 @@ class TestDownloadPhotoFromUrl:
         model.cv.photo = pydantic.HttpUrl("https://example.com/")
         model.settings.render_command.output_folder = tmp_path / "output"
 
+        mock_response = MagicMock()
+        mock_response.read.return_value = b"photo data"
+        mock_response.__enter__ = MagicMock(return_value=mock_response)
+        mock_response.__exit__ = MagicMock(return_value=False)
+
         with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
+            "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
+            return_value=mock_response,
         ):
             download_photo_from_url(model)
 
@@ -298,11 +310,11 @@ class TestDownloadPhotoFromUrl:
         model.settings.render_command.output_folder = output_dir
 
         with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlretrieve"
-        ) as mock_retrieve:
+            "rendercv.renderer.templater.model_processor.urllib.request.urlopen"
+        ) as mock_urlopen:
             download_photo_from_url(model)
 
-        mock_retrieve.assert_not_called()
+        mock_urlopen.assert_not_called()
         assert model.cv.photo == output_dir / "photo.jpg"
 
     def test_raises_user_error_on_download_failure(self, tmp_path):
@@ -313,9 +325,8 @@ class TestDownloadPhotoFromUrl:
 
         with (
             patch(
-                "rendercv.renderer.templater.model_processor"
-                ".urllib.request.urlretrieve",
-                side_effect=ConnectionError("network error"),
+                "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
+                side_effect=OSError("network error"),
             ),
             pytest.raises(RenderCVUserError) as exc_info,
         ):

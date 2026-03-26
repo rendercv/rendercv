@@ -62,7 +62,7 @@ def timed_step[T, **P](
     elif isinstance(result, list) and result:
         if len(result) > 1:
             message = f"{message}s"
-        paths = result  # ty: ignore[invalid-assignment]
+        paths = [p for p in result if isinstance(p, pathlib.Path)]
 
     if paths:
         progress_panel.update_progress(
@@ -128,7 +128,7 @@ def run_rendercv(
     input_file_path: pathlib.Path,
     progress: ProgressPanel,
     **kwargs: Unpack[BuildRendercvModelArguments],
-):
+) -> None:
     """Execute complete CV generation pipeline with progress tracking and error handling.
 
     Args:

@@ -12,6 +12,15 @@ from .validation_context import get_input_file_path
 
 
 class RenderCVModel(BaseModelWithoutExtraKeys):
+    """Top-level model representing a complete RenderCV configuration.
+
+    Why:
+        This is the root of the entire data model, combining CV content,
+        design theme, locale translations, and rendering settings into a
+        single validated structure. All rendering pipeline stages operate
+        on this unified model.
+    """
+
     # Technically, `cv` is a required field, but we don't pass it to the JSON Schema
     # so that the same schema can be used for standalone design, locale, and settings
     # files.

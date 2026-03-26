@@ -118,7 +118,29 @@ def cli_command_new(
             creator()
             created_items.append((description, path))
 
-    # Build the panel
+    print(build_creation_panel(input_file_path, created_items, existing_items))
+
+
+def build_creation_panel(
+    input_file_path: pathlib.Path,
+    created_items: list[tuple[str, pathlib.Path]],
+    existing_items: list[tuple[str, pathlib.Path]],
+) -> rich.panel.Panel:
+    """Build Rich panel summarizing created and existing files.
+
+    Why:
+        The ``new`` command output is a structured panel with file statuses,
+        next steps, and template info. Extracting this keeps the command
+        handler focused on orchestration while this function owns presentation.
+
+    Args:
+        input_file_path: Path to the generated YAML input file.
+        created_items: Items that were newly created (description, path).
+        existing_items: Items that already existed (description, path).
+
+    Returns:
+        Rich Panel ready for printing.
+    """
     lines: list[str] = []
 
     # Input file status (always first)
@@ -168,11 +190,9 @@ def cli_command_new(
             " delete them."
         )
 
-    print(
-        rich.panel.Panel(
-            "\n".join(lines),
-            title="Get started",
-            title_align="left",
-            border_style="bright_black",
-        )
+    return rich.panel.Panel(
+        "\n".join(lines),
+        title="Get started",
+        title_align="left",
+        border_style="bright_black",
     )

@@ -61,11 +61,23 @@ def build_keyword_matcher_pattern(
         message = "Keywords cannot be empty"
         raise RenderCVInternalError(message)
 
-    escaped: list[str] = [re.escape(k) for k in keywords]
-    escaped.sort(key=len, reverse=True)
-    pattern = "(" + "|".join(escaped) + ")"
     if word_boundary:
-        pattern = r"\b" + pattern + r"\b"
+        parts: list[str] = []
+        for k in keywords:
+            esc = re.escape(k)
+            # Only add \b on sides where the keyword character is a word
+            # character (\w). Non-word characters like ":" or "+" have no
+            # word boundary to match against adjacent spaces.
+            prefix = r"\b" if re.match(r"\w", k[0]) else ""
+            suffix = r"\b" if re.match(r"\w", k[-1]) else ""
+            parts.append(f"{prefix}{esc}{suffix}")
+        parts.sort(key=len, reverse=True)
+        pattern = "(" + "|".join(parts) + ")"
+    else:
+        escaped: list[str] = [re.escape(k) for k in keywords]
+        escaped.sort(key=len, reverse=True)
+        pattern = "(" + "|".join(escaped) + ")"
+
     return re.compile(pattern)
 
 
@@ -146,8 +158,4 @@ def clean_url(url: str | pydantic.HttpUrl) -> str:
     Returns:
         Clean URL string.
     """
-    url = str(url).replace("https://", "").replace("http://", "")
-    if url.endswith("/"):
-        url = url[:-1]
-
-    return url
+    return str(url).replace("https://", "").replace("http://", "").rstrip("/")
