@@ -6,6 +6,7 @@ from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
 )
 from rendercv.schema.models.locale.locale import Locale
 
+from .plural_rules import get_plural_rules
 from .string_processor import substitute_placeholders
 
 
@@ -228,6 +229,50 @@ def compute_time_span_string(
     Returns:
         Formatted time span string with years and months.
     """
+
+    def _get_localized_label(
+        count: int,
+        singular_label: str,
+        plural_data: str | dict[str, str],
+        lang_iso: str,
+    ) -> str:
+        """Select the correct localized label based on count and language plural rules.
+
+        Why:
+            This helper function returns the appropriate singular, plural, or language-specific
+            plural form of a label based on the count value and the target language's pluralization rules.
+
+        Args:
+            count: The quantity used to determine which plural form to use.
+            singular_label: The label to return when count equals 1.
+            plural_data: Either a string (for simple plural forms) or a dictionary mapping
+                plural categories ('one', 'few', 'many', etc.) to their localized labels.
+            lang_iso: ISO 639-1 language code (e.g., 'en', 'de', 'ru') used to determine
+                plural rules and categories.
+
+        Returns:
+            The appropriate localized label (string) for the given count and language.
+            Returns an empty string if count is 0.
+            Returns singular_label if count is 1.
+            Returns the language-specific plural form from plural_data if count > 1.
+        """
+        if count == 0:
+            return ""
+
+        if count == 1:
+            return singular_label
+
+        if isinstance(plural_data, dict):
+            # Determine the category tag (one, few, many)
+            category = get_plural_rules(count, lang_iso)
+            # Return the specific form, or 'many' as a fallback
+            return plural_data.get(category, plural_data.get("many", ""))
+
+        # Fallback for standard string-based locales (english, german, etc.)
+        return plural_data
+
+    lang_iso = locale.language_iso_639_1
+
     if isinstance(start_date, int) or isinstance(end_date, int):
         # Then it means one of the dates is year, so time span cannot be more
         # specific than years.
@@ -236,15 +281,12 @@ def compute_time_span_string(
 
         time_span_in_years = end_year - start_year
 
-        if time_span_in_years < 2:
-            how_many_years = "1"
-            locale_years = locale.year
-        else:
-            how_many_years = str(time_span_in_years)
-            locale_years = locale.years
+        locale_years = _get_localized_label(
+            time_span_in_years, locale.year, locale.years, lang_iso
+        )
 
         placeholders: dict[str, str] = {
-            "HOW_MANY_YEARS": how_many_years,
+            "HOW_MANY_YEARS": str(time_span_in_years),
             "YEARS": locale_years,
             "HOW_MANY_MONTHS": "",
             "MONTHS": "",
@@ -268,31 +310,23 @@ def compute_time_span_string(
     how_many_months %= 12
 
     # Format the number of years and months between start_date and end_date:
-    if how_many_years == 0:
+    locale_years = _get_localized_label(
+        how_many_years, locale.year, locale.years, lang_iso
+    )
+    if locale_years == "":
         how_many_years = ""
-        locale_years = ""
-    elif how_many_years == 1:
-        how_many_years = "1"
-        locale_years = locale.year
-    else:
-        how_many_years = str(how_many_years)
-        locale_years = locale.years
 
     # Format the number of months between start_date and end_date:
-    if how_many_months == 0:
+    locale_months = _get_localized_label(
+        how_many_months, locale.month, locale.months, lang_iso
+    )
+    if locale_months == "":
         how_many_months = ""
-        locale_months = ""
-    elif how_many_months == 1:
-        how_many_months = "1"
-        locale_months = locale.month
-    else:
-        how_many_months = str(how_many_months)
-        locale_months = locale.months
 
     placeholders = {
-        "HOW_MANY_YEARS": how_many_years,
+        "HOW_MANY_YEARS": str(how_many_years),
         "YEARS": locale_years,
-        "HOW_MANY_MONTHS": how_many_months,
+        "HOW_MANY_MONTHS": str(how_many_months),
         "MONTHS": locale_months,
     }
     return substitute_placeholders(time_span_template, placeholders)

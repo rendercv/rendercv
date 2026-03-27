@@ -31,10 +31,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "أشهر",
           "description": "Translation of \"months\" (plural). The default value is `أشهر`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "سنة",
@@ -43,10 +53,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "سنوات",
           "description": "Translation of \"years\" (plural). The default value is `سنوات`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "الحاضر",
@@ -473,10 +493,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "måneder",
           "description": "Translation of \"months\" (plural). The default value is `måneder`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "år",
@@ -485,10 +515,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "år",
           "description": "Translation of \"years\" (plural). The default value is `år`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "nuværende",
@@ -571,10 +611,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "maanden",
           "description": "Translation of \"months\" (plural). The default value is `maanden`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "jaar",
@@ -583,10 +633,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "jaren",
           "description": "Translation of \"years\" (plural). The default value is `jaren`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "heden",
@@ -953,10 +1013,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "months",
           "description": "Translation of \"months\" (plural). The default value is `months`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "year",
@@ -965,10 +1035,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "years",
           "description": "Translation of \"years\" (plural). The default value is `years`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "present",
@@ -1214,10 +1294,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "mois",
           "description": "Translation of \"months\" (plural). The default value is `mois`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "an",
@@ -1226,10 +1316,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "ans",
           "description": "Translation of \"years\" (plural). The default value is `ans`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "présent",
@@ -1312,10 +1412,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "Monate",
           "description": "Translation of \"months\" (plural). The default value is `Monate`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "Jahr",
@@ -1324,10 +1434,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "Jahre",
           "description": "Translation of \"years\" (plural). The default value is `Jahre`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "gegenwärtig",
@@ -1450,10 +1570,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "חודשים",
           "description": "Translation of \"months\" (plural). The default value is `חודשים`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "שנה",
@@ -1462,10 +1592,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "שנים",
           "description": "Translation of \"years\" (plural). The default value is `שנים`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "הווה",
@@ -1548,10 +1688,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "महीने",
           "description": "Translation of \"months\" (plural). The default value is `महीने`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "वर्ष",
@@ -1560,10 +1710,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "वर्ष",
           "description": "Translation of \"years\" (plural). The default value is `वर्ष`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "वर्तमान",
@@ -1646,10 +1806,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "hónap",
           "description": "Translation of \"months\" (plural). The default value is `hónap`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "év",
@@ -1658,10 +1828,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "év",
           "description": "Translation of \"years\" (plural). The default value is `év`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "jelenleg",
@@ -1744,10 +1924,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "bulan",
           "description": "Translation of \"months\" (plural). The default value is `bulan`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "tahun",
@@ -1756,10 +1946,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "tahun",
           "description": "Translation of \"years\" (plural). The default value is `tahun`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "sekarang",
@@ -1882,10 +2082,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "mesi",
           "description": "Translation of \"months\" (plural). The default value is `mesi`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "anno",
@@ -1894,10 +2104,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "anni",
           "description": "Translation of \"years\" (plural). The default value is `anni`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "presente",
@@ -1980,10 +2200,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "ヶ月",
           "description": "Translation of \"months\" (plural). The default value is `ヶ月`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "年",
@@ -1992,10 +2222,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "年",
           "description": "Translation of \"years\" (plural). The default value is `年`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "現在",
@@ -2078,10 +2318,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "개월",
           "description": "Translation of \"months\" (plural). The default value is `개월`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "년",
@@ -2090,10 +2340,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "년",
           "description": "Translation of \"years\" (plural). The default value is `년`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "현재",
@@ -2231,6 +2491,7 @@
           "norwegian_bokmål": "#/$defs/NorwegianBokm_lLocale",
           "norwegian_nynorsk": "#/$defs/NorwegianNynorskLocale",
           "persian": "#/$defs/PersianLocale",
+          "polish": "#/$defs/PolishLocale",
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
@@ -2292,6 +2553,9 @@
           "$ref": "#/$defs/PersianLocale"
         },
         {
+          "$ref": "#/$defs/PolishLocale"
+        },
+        {
           "$ref": "#/$defs/PortugueseLocale"
         },
         {
@@ -2331,10 +2595,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "个月",
           "description": "Translation of \"months\" (plural). The default value is `个月`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "年",
@@ -2343,10 +2617,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "年",
           "description": "Translation of \"years\" (plural). The default value is `年`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "至今",
@@ -2604,10 +2888,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "måneder",
           "description": "Translation of \"months\" (plural). The default value is `måneder`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "år",
@@ -2616,10 +2910,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "år",
           "description": "Translation of \"years\" (plural). The default value is `år`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "nåværende",
@@ -2702,10 +3006,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "månader",
           "description": "Translation of \"months\" (plural). The default value is `månader`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "år",
@@ -2714,10 +3028,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "år",
           "description": "Translation of \"years\" (plural). The default value is `år`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "nåverande",
@@ -2911,10 +3235,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "ماه",
           "description": "Translation of \"months\" (plural). The default value is `ماه`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "سال",
@@ -2923,10 +3257,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "سال",
           "description": "Translation of \"years\" (plural). The default value is `سال`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "حال",
@@ -2998,6 +3342,132 @@
       "format": "path",
       "type": "string"
     },
+    "PolishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "polish",
+          "default": "polish",
+          "description": "The language for your CV. The default value is `polish`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Ostatnia aktualizacja",
+          "description": "Translation of \"Last updated in\". The default value is `Ostatnia aktualizacja`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "miesiąc",
+          "description": "Translation of \"month\" (singular). The default value is `miesiąc`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
+          "default": {
+            "one": "miesiąc",
+            "few": "miesiące",
+            "many": "miesięcy"
+          },
+          "description": "Translation of \"months\" (plural). The default value is `months`.",
+          "title": "Months"
+        },
+        "year": {
+          "default": "rok",
+          "description": "Translation of \"year\" (singular). The default value is `rok`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
+          "default": {
+            "one": "rok",
+            "few": "lata",
+            "many": "lat"
+          },
+          "description": "Translation of \"years\" (plural). The default value is `years`.",
+          "title": "Years"
+        },
+        "present": {
+          "default": "obecnie",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `obecnie`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__18",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Sty",
+            "Lut",
+            "Mar",
+            "Kwi",
+            "Maj",
+            "Cze",
+            "Lip",
+            "Sie",
+            "Wrz",
+            "Paź",
+            "Lis",
+            "Gru"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Styczeń",
+            "Luty",
+            "Marzec",
+            "Kwiecień",
+            "Maj",
+            "Czerwiec",
+            "Lipiec",
+            "Sierpień",
+            "Wrzesień",
+            "Październik",
+            "Listopad",
+            "Grudzień"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "PolishLocale",
+      "type": "object"
+    },
     "PortugueseLocale": {
       "additionalProperties": false,
       "properties": {
@@ -3021,10 +3491,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "meses",
           "description": "Translation of \"months\" (plural). The default value is `meses`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "ano",
@@ -3033,10 +3513,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "anos",
           "description": "Translation of \"years\" (plural). The default value is `anos`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "presente",
@@ -3045,7 +3535,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__18",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__19",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3370,10 +3860,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "месяцы",
           "description": "Translation of \"months\" (plural). The default value is `месяцы`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "год",
@@ -3382,10 +3882,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "лет",
           "description": "Translation of \"years\" (plural). The default value is `лет`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "настоящее время",
@@ -3394,7 +3904,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__19",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__20",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3611,10 +4121,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "meses",
           "description": "Translation of \"months\" (plural). The default value is `meses`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "año",
@@ -3623,10 +4143,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "años",
           "description": "Translation of \"years\" (plural). The default value is `años`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "presente",
@@ -3635,7 +4165,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__20",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3709,10 +4239,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "ay",
           "description": "Translation of \"months\" (plural). The default value is `ay`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "yıl",
@@ -3721,10 +4261,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "yıl",
           "description": "Translation of \"years\" (plural). The default value is `yıl`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "halen",
@@ -3733,7 +4283,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3810,10 +4360,20 @@
           "type": "string"
         },
         "months": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "tháng",
           "description": "Translation of \"months\" (plural). The default value is `tháng`.",
-          "title": "Months",
-          "type": "string"
+          "title": "Months"
         },
         "year": {
           "default": "năm",
@@ -3822,10 +4382,20 @@
           "type": "string"
         },
         "years": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            }
+          ],
           "default": "năm",
           "description": "Translation of \"years\" (plural). The default value is `năm`.",
-          "title": "Years",
-          "type": "string"
+          "title": "Years"
         },
         "present": {
           "default": "hiện tại",
@@ -3834,7 +4404,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__23",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -9378,8 +9948,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE em AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE em AREA`.",
+          "default": "DEGREE w AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE w AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9391,8 +9961,8 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
-          "default": "DEGREE в AREA",
-          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE в AREA`.",
+          "default": "DEGREE em AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE em AREA`.",
           "title": "Degree With Area",
           "type": "string"
         }
@@ -9417,6 +9987,19 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
+          "default": "DEGREE в AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE в AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__21": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
           "default": "DEGREE en AREA",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE en AREA`.",
           "title": "Degree With Area",
@@ -9426,7 +10009,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__21": {
+    "rendercv__schema__models__locale__english_locale__Phrases__22": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
@@ -9439,7 +10022,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+    "rendercv__schema__models__locale__english_locale__Phrases__23": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {

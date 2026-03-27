@@ -33,7 +33,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         default="month",
         description='Translation of "month" (singular). The default value is `month`.',
     )
-    months: str = pydantic.Field(
+    months: str | dict[str, str] = pydantic.Field(
         default="months",
         description='Translation of "months" (plural). The default value is `months`.',
     )
@@ -41,7 +41,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         default="year",
         description='Translation of "year" (singular). The default value is `year`.',
     )
-    years: str = pydantic.Field(
+    years: str | dict[str, str] = pydantic.Field(
         default="years",
         description='Translation of "years" (plural). The default value is `years`.',
     )
@@ -131,6 +131,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "arabic": "ar",
             "hebrew": "he",
             "persian": "fa",
+            "polish": "pl",
             "vietnamese": "vi",
             "hungarian": "hu",
         }[self.language]
