@@ -2234,6 +2234,7 @@
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
+          "swedish": "#/$defs/SwedishLocale",
           "turkish": "#/$defs/TurkishLocale",
           "vietnamese": "#/$defs/VietnameseLocale"
         },
@@ -2299,6 +2300,9 @@
         },
         {
           "$ref": "#/$defs/SpanishLocale"
+        },
+        {
+          "$ref": "#/$defs/SwedishLocale"
         },
         {
           "$ref": "#/$defs/TurkishLocale"
@@ -3240,7 +3244,6 @@
       "properties": {
         "output_folder": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "rendercv_output",
           "description": "Base output folder for all generated files. The default value is `rendercv_output`. Referenced as `OUTPUT_FOLDER` in output path defaults.\n\n"
         },
         "design": {
@@ -3269,28 +3272,23 @@
         },
         "typst_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ",
           "description": "Output path for the Typst file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "pdf_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf",
           "description": "Output path for the PDF file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "markdown_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md",
           "description": "Output path for the Markdown file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n",
           "title": "Markdown Path"
         },
         "html_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html",
           "description": "Output path for the HTML file, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "png_path": {
           "$ref": "#/$defs/PlannedPathRelativeToInput",
-          "default": "OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png",
           "description": "Output path for PNG files, relative to the input YAML file. The default value is `OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png`.\n\nThe following placeholders can be used:\n\n- OUTPUT_FOLDER: The output folder path (e.g., rendercv_output)\n- MONTH_NAME: Full name of the month (e.g., January)\n- MONTH_ABBREVIATION: Abbreviation of the month (e.g., Jan)\n- MONTH: Month as a number (e.g., 1)\n- MONTH_IN_TWO_DIGITS: Month as a number in two digits (e.g., 01)\n- DAY: Day of the month (e.g., 5)\n- DAY_IN_TWO_DIGITS: Day of the month in two digits (e.g., 05)\n- YEAR: Year as a number (e.g., 2024)\n- YEAR_IN_TWO_DIGITS: Year as a number in two digits (e.g., 24)\n- NAME: The name of the CV owner (e.g., John Doe)\n- NAME_IN_SNAKE_CASE: The name of the CV owner in snake case (e.g., John_Doe)\n- NAME_IN_LOWER_SNAKE_CASE: The name of the CV owner in lower snake case (e.g., john_doe)\n- NAME_IN_UPPER_SNAKE_CASE: The name of the CV owner in upper snake case (e.g., JOHN_DOE)\n- NAME_IN_KEBAB_CASE: The name of the CV owner in kebab case (e.g., John-Doe)\n- NAME_IN_LOWER_KEBAB_CASE: The name of the CV owner in lower kebab case (e.g., john-doe)\n- NAME_IN_UPPER_KEBAB_CASE: The name of the CV owner in upper kebab case (e.g., JOHN-DOE)\n"
         },
         "dont_generate_markdown": {
@@ -3686,6 +3684,104 @@
       "title": "SpanishLocale",
       "type": "object"
     },
+    "SwedishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "swedish",
+          "default": "swedish",
+          "description": "The language for your CV. The default value is `swedish`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Senast uppdaterad",
+          "description": "Translation of \"Last updated in\". The default value is `Senast uppdaterad`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "månad",
+          "description": "Translation of \"month\" (singular). The default value is `månad`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "månader",
+          "description": "Translation of \"months\" (plural). The default value is `månader`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "nuvarande",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nuvarande`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Maj",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januari",
+            "Februari",
+            "Mars",
+            "April",
+            "Maj",
+            "Juni",
+            "Juli",
+            "Augusti",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "SwedishLocale",
+      "type": "object"
+    },
     "TurkishLocale": {
       "additionalProperties": false,
       "properties": {
@@ -3733,7 +3829,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3834,7 +3930,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__23",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -9430,6 +9526,19 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
           "default": "AREA, DEGREE",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA, DEGREE`.",
           "title": "Degree With Area",
@@ -9439,7 +9548,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+    "rendercv__schema__models__locale__english_locale__Phrases__23": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
