@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: polish
+  last_updated: Ostatnia aktualizacja w
+  month: miesiąc
+  months: miesiące
+  year: rok
+  years: lata
+  present: obecnie
+  phrases:
+    degree_with_area: "DEGREE w AREA"
+  month_abbreviations:
+    - Sty
+    - Lut
+    - Mar
+    - Kwi
+    - Maj
+    - Cze
+    - Lip
+    - Sie
+    - Wrz
+    - Paź
+    - Lis
+    - Gru
+  month_names:
+    - Styczeń
+    - Luty
+    - Marzec
+    - Kwiecień
+    - Maj
+    - Czerwiec
+    - Lipiec
+    - Sierpień
+    - Wrzesień
+    - Październik
+    - Listopad
+    - Grudzień
