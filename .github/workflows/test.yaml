@@ -33,7 +33,7 @@ jobs:
         run: just sync
 
       - name: Run prek
-        uses: j178/prek-action@v1
+        uses: j178/prek-action@v2
         with:
           extra-args: --all-files
       
