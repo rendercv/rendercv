@@ -34,6 +34,7 @@ def build_date_placeholders(date: Date, *, locale: Locale) -> dict[str, str]:
         "MONTH": str(month),
         "MONTH_IN_TWO_DIGITS": f"{month:02d}",
         "DAY": str(day),
+        "DAY_ORDINAL": f"{day}{['th', 'st', 'nd', 'rd'][day % 10 if day % 10 <= 3 and not 11 <= day <= 13 else 0]}",
         "DAY_IN_TWO_DIGITS": f"{day:02d}",
         "YEAR": str(year),
         "YEAR_IN_TWO_DIGITS": f"{year % 100:02d}",

@@ -73,15 +73,16 @@ class TestBuildDatePlaceholders:
 
     @settings(deadline=None)
     @given(date=st.dates(min_value=Date(1, 1, 1), max_value=Date(9999, 12, 31)))
-    def test_always_returns_8_keys(self, date: Date) -> None:
+    def test_always_returns_9_keys(self, date: Date) -> None:
         result = build_date_placeholders(date, locale=EnglishLocale())
-        assert len(result) == 8
+        assert len(result) == 9
         expected_keys = {
             "MONTH_NAME",
             "MONTH_ABBREVIATION",
             "MONTH",
             "MONTH_IN_TWO_DIGITS",
             "DAY",
+            "DAY_ORDINAL",
             "DAY_IN_TWO_DIGITS",
             "YEAR",
             "YEAR_IN_TWO_DIGITS",
