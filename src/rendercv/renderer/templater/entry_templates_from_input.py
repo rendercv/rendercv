@@ -98,6 +98,7 @@ def render_entry_templates[EntryType: Entry](
     templates: Templates,
     locale: Locale,
     show_time_span: bool,
+    compact_date_ranges_removing_start_year: bool,
     current_date: Date,
 ) -> EntryType:
     """Expand entry templates by substituting field placeholders with processed values.
@@ -112,6 +113,8 @@ def render_entry_templates[EntryType: Entry](
         templates: Template collection for entry types and dates.
         locale: Locale for date and text formatting.
         show_time_span: Whether to include duration calculation in dates.
+        compact_date_ranges_removing_start_year: Flag for compacting date ranges
+            that fall within the same year by removing the start_date year.
         current_date: Reference date for "present" and time span calculations.
 
     Returns:
@@ -169,6 +172,7 @@ def render_entry_templates[EntryType: Entry](
             end_date=getattr(entry, "end_date", None),
             locale=locale,
             show_time_span=show_time_span,
+            compact_date_ranges_removing_start_year=compact_date_ranges_removing_start_year,
             current_date=current_date,
             single_date_template=templates.single_date,
             date_range_template=templates.date_range,
@@ -274,6 +278,7 @@ def process_date(
     locale: Locale,
     current_date: Date,
     show_time_span: bool,
+    compact_date_ranges_removing_start_year: bool,
     single_date_template: str,
     date_range_template: str,
     time_span_template: str,
@@ -295,6 +300,7 @@ def process_date(
             locale=english_locale,
             current_date=Date(2025, 1, 1),
             show_time_span=False,
+            compact_date_ranges_removing_start_year=False,
             single_date_template="MONTH_NAME YEAR",
             date_range_template="",
             time_span_template="",
@@ -309,11 +315,27 @@ def process_date(
             locale=english_locale,
             current_date=Date(2025, 1, 1),
             show_time_span=True,
+            compact_date_ranges_removing_start_year=False,
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE to END_DATE",
             time_span_template="HOW_MANY_YEARS YEARS",
         )
         # Returns: "Jun 2020 to present\n\n4 years"
+
+        # Compact date range enabled
+        result = process_date(
+            date=None,
+            start_date="2020-06",
+            end_date="2020-08",
+            locale=english_locale,
+            current_date=Date(2025, 1, 1),
+            show_time_span=True,
+            compact_date_ranges_removing_start_year=True,
+            single_date_template="MONTH_NAME YEAR",
+            date_range_template="START_DATE to END_DATE",
+            time_span_template="",
+        )
+        # Returns: "June to August 2020"
         ```
 
     Args:
@@ -323,6 +345,8 @@ def process_date(
         locale: Locale for date formatting.
         current_date: Reference date for "present" calculation.
         show_time_span: Whether to append duration to date range.
+        compact_date_ranges_removing_start_year: Flag for compacting date ranges
+            that fall within the same year by removing the start_date year.
         single_date_template: Template for single date formatting.
         date_range_template: Template for date range formatting.
         time_span_template: Template for duration formatting.
@@ -341,6 +365,7 @@ def process_date(
             locale=locale,
             single_date_template=single_date_template,
             date_range_template=date_range_template,
+            compact_date_ranges_removing_start_year=compact_date_ranges_removing_start_year,
         )
         if show_time_span:
             time_span = compute_time_span_string(

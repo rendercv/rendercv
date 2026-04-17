@@ -501,8 +501,19 @@ class Sections(BaseModelWithoutExtraKeys):
         ),
         examples=[["Experience"], ["Experience", "Education"]],
     )
+    compact_date_ranges_removing_start_year_in: list[str] = pydantic.Field(
+        default=[],
+        description=(
+            "Section titles where, in case of a range falling within the same year,"
+            " YEAR should be removed from the start_date template in order to get"
+            " a more compact output. The default value is `[]`."
+        ),
+        examples=[["Experience"], ["Experience", "Education"]],
+    )
 
-    @pydantic.field_validator("show_time_spans_in", mode="after")
+    @pydantic.field_validator(
+        "show_time_spans_in", "compact_date_ranges_removing_start_year_in", mode="after"
+    )
     @classmethod
     def convert_section_titles_to_snake_case(cls, value: list[str]) -> list[str]:
         return [section_title.lower().replace(" ", "_") for section_title in value]

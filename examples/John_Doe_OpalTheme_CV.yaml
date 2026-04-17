@@ -255,6 +255,7 @@ design:
   #   space_between_regular_entries: 1.1em
   #   space_between_text_based_entries: 0.3em
   #   show_time_spans_in: []
+  #   compact_date_ranges_removing_start_year_in: []
   # entries:
   #   date_and_location_width: 4.15cm
   #   side_space: 0.15cm

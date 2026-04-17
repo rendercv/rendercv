@@ -6,7 +6,7 @@
   name: "John Doe",
   title: "John Doe - CV",
   footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
-  top-note: [ #emph[Last updated in Mar 2026] ],
+  top-note: [ #emph[Last updated in Apr 2026] ],
   locale-catalog-language: "en",
   text-direction: ltr,
   page-size: "us-letter",
@@ -80,8 +80,8 @@
   entries-highlights-space-between-bullet-and-text: 0.5em,
   date: datetime(
     year: 2026,
-    month: 3,
-    day: 20,
+    month: 4,
+    day: 17,
   ),
 )
 
@@ -171,7 +171,9 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     June 2023 – present
 
-    2 years 10 months
+    
+
+    2 years 11 months
 
   ],
 )
@@ -190,6 +192,8 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     May 2022 – Aug 2022
 
+    
+
     4 months
 
   ],
@@ -203,17 +207,19 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     - Published research at top-tier venues with significant academic impact
 
-      - ICML 2022 main conference paper, cited 340+ times within two years
+    - ICML 2022 main conference paper, cited 340+ times within two years
 
-      - NeurIPS 2022 workshop paper on emergent communication protocols
+    - NeurIPS 2022 workshop paper on emergent communication protocols
 
-      - Invited journal extension in JMLR (2023)
+    - Invited journal extension in JMLR (2023)
 
   ],
   [
     London, UK
 
     May 2021 – Aug 2021
+
+    
 
     4 months
 
@@ -234,6 +240,8 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
     May 2020 – Aug 2020
 
+    
+
     4 months
 
   ],
@@ -252,6 +260,8 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
     Redmond, WA
 
     May 2019 – Aug 2019
+
+    
 
     4 months
 
