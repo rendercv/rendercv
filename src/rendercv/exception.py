@@ -6,6 +6,7 @@ type YamlSource = Literal[
     "design_yaml_file",
     "locale_yaml_file",
     "settings_yaml_file",
+    "secrets_yaml_file",
 ]
 type OverlaySourceKey = Literal["design", "locale", "settings"]
 type YamlLocation = tuple[tuple[int, int], tuple[int, int]]

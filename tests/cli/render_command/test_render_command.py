@@ -16,6 +16,7 @@ class TestCliCommandRender:
             "design": None,
             "locale": None,
             "settings": None,
+            "secrets": None,
             "typst_path": None,
             "pdf_path": None,
             "markdown_path": None,
@@ -216,6 +217,23 @@ class TestCliCommandRender:
 
         typst_file = input_file.parent / "rendercv_output" / "John_Doe_CV.typ"
         assert expected_in_output in typst_file.read_text()
+
+    def test_uses_secrets_overlay_file(self, input_file, default_arguments):
+        secrets_file = input_file.parent / "secrets.yaml"
+        secrets_file.write_text(
+            'cv:\n  email: private@example.com\n  phone: "+14155552671"\n',
+            encoding="utf-8",
+        )
+
+        cli_command_render(
+            input_file_name=input_file,
+            **{**default_arguments, "secrets": secrets_file},
+        )
+
+        typst_file = input_file.parent / "rendercv_output" / "John_Doe_CV.typ"
+        typst = typst_file.read_text()
+        assert "private@example.com" in typst
+        assert "+1-415-555-2671" in typst
 
     @pytest.mark.parametrize(
         ("render_command_field", "config_content", "expected_in_output"),

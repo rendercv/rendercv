@@ -77,7 +77,8 @@ def collect_input_file_paths(
     design: pathlib.Path | None = None,
     locale: pathlib.Path | None = None,
     settings: pathlib.Path | None = None,
-) -> dict[Literal["input", "design", "locale", "settings"], pathlib.Path]:
+    secrets: pathlib.Path | None = None,
+) -> dict[Literal["input", "design", "locale", "settings", "secrets"], pathlib.Path]:
     """Collect all input file paths involved in a render.
 
     Why:
@@ -92,13 +93,14 @@ def collect_input_file_paths(
         design: CLI-provided design file path.
         locale: CLI-provided locale file path.
         settings: CLI-provided settings file path.
+        secrets: CLI-provided secrets/general overlay file path.
 
     Returns:
-        Mapping from role ("input", "design", "locale", "settings") to path.
+        Mapping from role ("input", "design", "locale", "settings", "secrets") to path.
     """
-    files: dict[Literal["input", "design", "locale", "settings"], pathlib.Path] = {
-        "input": input_file_path
-    }
+    files: dict[
+        Literal["input", "design", "locale", "settings", "secrets"], pathlib.Path
+    ] = {"input": input_file_path}
 
     if design:
         files["design"] = design
@@ -106,6 +108,8 @@ def collect_input_file_paths(
         files["locale"] = locale
     if settings:
         files["settings"] = settings
+    if secrets:
+        files["secrets"] = secrets
 
     # Also include design/locale files referenced in the YAML itself
     # (CLI flags take precedence, so skip if already provided).

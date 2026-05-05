@@ -25,6 +25,7 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     design_yaml_file: str | None
     locale_yaml_file: str | None
     settings_yaml_file: str | None
+    secrets_yaml_file: str | None
     output_folder: pathlib.Path | str | None
     typst_path: pathlib.Path | str | None
     pdf_path: pathlib.Path | str | None
@@ -37,6 +38,50 @@ class BuildRendercvModelArguments(TypedDict, total=False):
     dont_generate_pdf: bool | None
     dont_generate_png: bool | None
     overrides: dict[str, str] | None
+
+
+type OverlaySourceMap = dict[tuple[str, ...], tuple[YamlSource, CommentedMap]]
+
+
+def collect_yaml_paths(
+    yaml_object: CommentedMap | list,
+    prefix: tuple[str, ...] = (),
+) -> set[tuple[str, ...]]:
+    """Collect all paths present in a YAML object for source tracking."""
+    paths: set[tuple[str, ...]] = set()
+    if isinstance(yaml_object, CommentedMap):
+        for key, value in yaml_object.items():
+            path = (*prefix, str(key))
+            if isinstance(value, CommentedMap | list):
+                paths.update(collect_yaml_paths(value, path))
+            else:
+                paths.add(path)
+    elif isinstance(yaml_object, list):
+        for index, value in enumerate(yaml_object):
+            path = (*prefix, str(index))
+            paths.add(path)
+            if isinstance(value, CommentedMap | list):
+                paths.update(collect_yaml_paths(value, path))
+
+    return paths
+
+
+def merge_yaml_overlay(
+    dictionary: CommentedMap,
+    overlay: CommentedMap,
+) -> CommentedMap:
+    """Recursively merge a general YAML overlay into a base dictionary."""
+    for key, value in overlay.items():
+        if (
+            key in dictionary
+            and isinstance(dictionary[key], CommentedMap)
+            and isinstance(value, CommentedMap)
+        ):
+            merge_yaml_overlay(dictionary[key], value)
+        else:
+            dictionary[key] = value
+
+    return dictionary
 
 
 def get_yaml_error_location(error: ruamel.yaml.YAMLError) -> YamlLocation | None:
@@ -104,7 +149,7 @@ def read_yaml_with_validation_errors(
 def build_rendercv_dictionary(
     main_yaml_file: str,
     **kwargs: Unpack[BuildRendercvModelArguments],
-) -> tuple[CommentedMap, dict[str, CommentedMap]]:
+) -> tuple[CommentedMap, OverlaySourceMap]:
     """Merge main YAML with overlays and CLI overrides into final dictionary.
 
     Args:
@@ -112,7 +157,7 @@ def build_rendercv_dictionary(
         kwargs: Optional YAML overlay strings, output paths, generation flags, and CLI overrides.
 
     Returns:
-        Tuple of merged dictionary and overlay source CommentedMaps (for error reporting).
+        Tuple of merged dictionary and overlay source metadata (for error reporting).
     """
     input_dict = read_yaml_with_validation_errors(main_yaml_file, "main_yaml_file")
     input_dict.setdefault("settings", {}).setdefault("render_command", {})
@@ -123,14 +168,23 @@ def build_rendercv_dictionary(
         "locale": kwargs.get("locale_yaml_file"),
     }
 
-    overlay_sources: dict[str, CommentedMap] = {}
+    overlay_sources: OverlaySourceMap = {}
     for key, yaml_content in yaml_overlays.items():
         if yaml_content:
             overlay_cm = read_yaml_with_validation_errors(
                 yaml_content, OVERLAY_SOURCE_TO_YAML_SOURCE[key]
             )
             input_dict[key] = overlay_cm[key]
-            overlay_sources[key] = overlay_cm
+            overlay_sources[(key,)] = (OVERLAY_SOURCE_TO_YAML_SOURCE[key], overlay_cm)
+
+    secrets_yaml_file = kwargs.get("secrets_yaml_file")
+    if secrets_yaml_file:
+        secrets_cm = read_yaml_with_validation_errors(
+            secrets_yaml_file, "secrets_yaml_file"
+        )
+        input_dict = merge_yaml_overlay(input_dict, secrets_cm)
+        for path in collect_yaml_paths(secrets_cm):
+            overlay_sources[path] = ("secrets_yaml_file", secrets_cm)
 
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
         "output_folder": kwargs.get("output_folder"),
@@ -160,7 +214,7 @@ def build_rendercv_dictionary(
 def build_rendercv_model_from_commented_map(
     commented_map: CommentedMap | dict[str, Any],
     input_file_path: pathlib.Path | None = None,
-    overlay_sources: dict[str, CommentedMap] | None = None,
+    overlay_sources: OverlaySourceMap | None = None,
 ) -> RenderCVModel:
     """Validate merged dictionary and build Pydantic model with error mapping.
 
