@@ -204,6 +204,63 @@ class TestProcessModel:
 
         assert result.settings.pdf_title == "John Doe - Resume 2024"
 
+    def test_section_labels_override_rendered_section_title(self):
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "summary": ["Builds reliable tools."],
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(cv=cv)
+        rendercv_model.locale.section_labels = {"summary": "In breve"}
+
+        result = process_model(rendercv_model, "markdown")
+
+        assert result.cv.rendercv_sections[0].title == "In breve"
+
+    def test_section_labels_do_not_change_snake_case_title(self):
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "summary": ["Builds reliable tools."],
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(cv=cv)
+        rendercv_model.locale.section_labels = {"summary": "In breve"}
+
+        result = process_model(rendercv_model, "markdown")
+
+        section = result.cv.rendercv_sections[0]
+        assert section.title == "In breve"
+        assert section.snake_case_title == "summary"
+
+    def test_missing_section_label_falls_back_to_default_title(self):
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "experience": [
+                        {
+                            "company": "Example Co.",
+                            "position": "Engineer",
+                            "start_date": "2020-01-01",
+                            "end_date": "2021-01-01",
+                        }
+                    ],
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(cv=cv)
+        rendercv_model.locale.section_labels = {"summary": "In breve"}
+
+        result = process_model(rendercv_model, "markdown")
+
+        assert result.cv.rendercv_sections[0].title == "Experience"
+
 
 class TestDownloadPhotoFromUrl:
     def test_skips_when_photo_is_none(self):

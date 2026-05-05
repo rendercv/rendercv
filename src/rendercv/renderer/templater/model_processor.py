@@ -130,6 +130,9 @@ def process_model(
         return rendercv_model
 
     for section in rendercv_model.cv.rendercv_sections:
+        section.title = rendercv_model.locale.section_labels.get(
+            section.key, section.title
+        )
         section.title = apply_string_processors(section.title, string_processors)
         show_time_span = (
             section.snake_case_title

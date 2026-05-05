@@ -33,6 +33,7 @@ def discover_other_locales() -> list[type[EnglishLocale]]:
             class_name_suffix="Locale",
             module_name="rendercv.schema.models.locale",
             require_all_fields=True,
+            optional_fields={"section_labels"},
         )
         discovered.append(locale_model)
 
