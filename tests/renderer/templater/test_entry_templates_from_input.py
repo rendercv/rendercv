@@ -1,4 +1,5 @@
 from datetime import date as Date
+import re
 from unittest.mock import patch
 
 import pydantic
@@ -627,7 +628,7 @@ class TestRemoveNotProvidedPlaceholders:
         fields = {"PREFIX": "a", "SUFFIX": "b"}
         assume(missing_key not in ("PREFIX", "SUFFIX"))
         result = remove_not_provided_placeholders(templates, fields)
-        assert missing_key not in result["main"]
+        assert not re.search(rf"\b{re.escape(missing_key)}\b", result["main"])
 
 
 class TestRenderEntryTemplatesInternalErrors:

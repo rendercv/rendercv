@@ -15,7 +15,7 @@ from rendercv.schema.models.cv.social_network import (
 class TestSocialNetwork:
     def test_all_urls_are_present(self):
         assert set(url_dictionary.keys()) == (
-            set(get_args(SocialNetworkName.__value__)) - {"Mastodon"}
+            set(get_args(SocialNetworkName.__value__)) - {"Mastodon", "Itch.io"}
         )
 
     @pytest.mark.parametrize(
@@ -32,6 +32,8 @@ class TestSocialNetwork:
             ("WhatsApp", "invalidphone"),
             ("Bluesky", "invalidusername"),
             ("Reddit", "invalid~username"),
+            ("Itch.io", "invalid~username"),
+            ("Devpost", "invalid~username"),
         ],
     )
     def test_rejects_invalid_networks_and_usernames(self, network, username):
@@ -93,6 +95,8 @@ class TestSocialNetwork:
                 "https://bsky.app/profile/myusername.bsky.social",
             ),
             ("Reddit", "myusername", "https://reddit.com/user/myusername"),
+            ("Itch.io", "myusername", "https://myusername.itch.io/"),
+            ("Devpost", "myusername", "https://devpost.com/myusername"),
         ],
     )
     def test_url(self, network, username, expected_url):
