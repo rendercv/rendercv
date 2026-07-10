@@ -283,7 +283,7 @@ design:
   #   education_entry:
   #     main_column: |-
   #       **INSTITUTION**
-  #       *DEGREE* *in* *AREA*
+  #       DEGREE_WITH_AREA
   #       SUMMARY
   #       HIGHLIGHTS
   #     degree_column:
