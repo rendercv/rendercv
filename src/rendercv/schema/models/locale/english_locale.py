@@ -133,6 +133,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "persian": "fa",
             "vietnamese": "vi",
             "hungarian": "hu",
+            "swedish": "sv",
         }[self.language]
 
     @functools.cached_property
@@ -170,6 +171,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "spanish": "ES",
             "turkish": "TR",
             "vietnamese": "VN",
+            "swedish": "SE",
         }[self.language]
         return "".join(chr(0x1F1E6 + ord(c) - ord("A")) for c in country)
 
