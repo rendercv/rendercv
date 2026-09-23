@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+locale:
+  language: catalan
+  last_updated: Última actualització
+  month: mes
+  months: mesos
+  year: any
+  years: anys
+  present: actualitat
+  phrases:
+    degree_with_area: DEGREE en AREA
+  month_abbreviations:
+    - gen.
+    - febr.
+    - març
+    - abr.
+    - maig
+    - juny
+    - jul.
+    - ag.
+    - set.
+    - oct.
+    - nov.
+    - des.
+  month_names:
+    - gener
+    - febrer
+    - març
+    - abril
+    - maig
+    - juny
+    - juliol
+    - agost
+    - setembre
+    - octubre
+    - novembre
+    - desembre
