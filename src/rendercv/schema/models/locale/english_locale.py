@@ -127,6 +127,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "portuguese": "pt",
             "russian": "ru",
             "spanish": "es",
+            "swedish": "sv",
             "turkish": "tr",
             "arabic": "ar",
             "hebrew": "he",
@@ -168,6 +169,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "portuguese": "PT",
             "russian": "RU",
             "spanish": "ES",
+            "swedish": "SE",
             "turkish": "TR",
             "vietnamese": "VN",
         }[self.language]
