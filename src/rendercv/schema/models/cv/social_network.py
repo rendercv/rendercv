@@ -114,11 +114,12 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         "ORCID username should be in the format 'XXXX-XXXX-XXXX-XXX'.",
                     )
             case "IMDB":
-                imdb_username_pattern = r"nm\d{7}"
+                imdb_username_pattern = r"nm\d{7,}"
                 if not re.fullmatch(imdb_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
                         CustomPydanticErrorTypes.other.value,
-                        "IMDB name should be in the format 'nmXXXXXXX'.",
+                        "IMDB name should be 'nm' followed by at least seven digits"
+                        " (e.g., 'nm0000001').",
                     )
             case "Bluesky":
                 bluesky_username_pattern = r"^([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?$"

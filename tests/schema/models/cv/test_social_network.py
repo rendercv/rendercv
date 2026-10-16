@@ -32,6 +32,8 @@ class TestSocialNetwork:
             ("WhatsApp", "invalidphone"),
             ("Bluesky", "invalidusername"),
             ("Reddit", "invalid~username"),
+            ("IMDB", "nm000001"),
+            ("IMDB", "tt0000001"),
         ],
     )
     def test_rejects_invalid_networks_and_usernames(self, network, username):
@@ -44,6 +46,7 @@ class TestSocialNetwork:
             ("LinkedIn", "myusername", "https://linkedin.com/in/myusername"),
             ("GitHub", "myusername", "https://github.com/myusername"),
             ("IMDB", "nm0000001", "https://imdb.com/name/nm0000001"),
+            ("IMDB", "nm00000001", "https://imdb.com/name/nm00000001"),
             ("Instagram", "myusername", "https://instagram.com/myusername"),
             ("ORCID", "0000-0000-0000-0000", "https://orcid.org/0000-0000-0000-0000"),
             ("Mastodon", "@myusername@test.org", "https://test.org/@myusername"),
