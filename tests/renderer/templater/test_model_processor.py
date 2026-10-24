@@ -188,6 +188,44 @@ class TestProcessModel:
         assert result.cv.name == "Jane Doe"
         assert result.cv.headline == "Software Engineer"
 
+    def test_processes_subsection_titles_and_entries(self):
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "selected_work": [
+                        {
+                            "title": "Python Journal Articles",
+                            "entries": [
+                                {
+                                    "title": "Python Paper",
+                                    "authors": ["Jane Doe"],
+                                    "date": "2024-01",
+                                }
+                            ],
+                        },
+                        {
+                            "title": "conference_proceedings",
+                            "entries": [],
+                        },
+                    ]
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(
+            cv=cv, settings=Settings(current_date=Date(2024, 2, 1))
+        )
+        rendercv_model.settings.bold_keywords = ["Python"]
+
+        result = process_model(rendercv_model, "typst")
+
+        section = result.cv.rendercv_sections[0]
+        assert section.subsections is not None
+        assert section.subsections[0].title == "#strong[Python] Journal Articles"
+        assert section.subsections[1].title == "Conference Proceedings"
+        assert "#strong[" in section.subsections[0].entries[0].main_column
+        assert "Jane Doe" in section.subsections[0].entries[0].main_column
+
     def test_pdf_title_default_placeholder_resolution(self, model):
         result = process_model(model, "typst")
 

@@ -94,7 +94,7 @@ class Cv(BaseModelWithoutExtraKeys):
     website: pydantic.HttpUrl | list[pydantic.HttpUrl] | None = pydantic.Field(default=None, examples=['https://johndoe.com', ['https://johndoe.com', 'https://www.janesmith.dev']])
     social_networks: list[SocialNetwork] | None = pydantic.Field(default=None)
     custom_connections: list[CustomConnection] | None = pydantic.Field(default=None, examples=[[{'placeholder': 'Book a call', 'url': 'https://cal.com/johndoe', 'fontawesome_icon': 'calendar-days'}]])
-    sections: dict[str, Section] | None = pydantic.Field(default=None, examples=[{'Experience': '...', 'Education': '...', 'Projects': '...', 'Skills': '...'}])
+    sections: dict[str, Section] | None = pydantic.Field(default=None, examples=[{'Experience': '...', 'Education': '...', 'Projects': '...', 'Skills': '...', 'Selected Work': [{'title': 'Featured Projects', 'entries': '...'}, {'title': 'Open Source', 'entries': '...'}]}])
 
 ```
 
@@ -509,6 +509,9 @@ design:
     line_thickness: 0.5pt
     space_above: 0.5cm
     space_below: 0.3cm
+  subsection_titles:
+    space_above: 0cm
+    space_below: 0cm
   sections:
     allow_page_break: true
     space_between_regular_entries: 1.2em
