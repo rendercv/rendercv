@@ -118,6 +118,8 @@
   [#link("https://x.com/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
   [#link("https://bsky.app/profile/johndoe.bsky.social", icon: false, if-underline: false, if-color: false)[johndoe.bsky.social]],
   [#link("https://reddit.com/user/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
+  [#link("https://johndoe.itch.io/", icon: false, if-underline: false, if-color: false)[johndoe]],
+  [#link("https://devpost.com/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
 )
   ]
 )

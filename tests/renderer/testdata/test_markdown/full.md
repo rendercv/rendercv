@@ -20,6 +20,8 @@
 - X: [johndoe](https://x.com/johndoe)
 - Bluesky: [johndoe.bsky.social](https://bsky.app/profile/johndoe.bsky.social)
 - Reddit: [johndoe](https://reddit.com/user/johndoe)
+- Itch.io: [johndoe](https://johndoe.itch.io/)
+- Devpost: [johndoe](https://devpost.com/johndoe)
 
 
 # Text Entries

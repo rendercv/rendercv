@@ -30,6 +30,8 @@ type SocialNetworkName = Literal[
     "X",
     "Bluesky",
     "Reddit",
+    "Itch.io",
+    "Devpost",
 ]
 available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
@@ -49,6 +51,7 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "X": "https://x.com/",
     "Bluesky": "https://bsky.app/profile/",
     "Reddit": "https://reddit.com/user/",
+    "Devpost": "https://devpost.com/",
 }
 
 
@@ -148,6 +151,24 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         " letters, numbers, underscores, and hyphens between 3 and 23"
                         " characters.",
                     )
+            case "Itch.io":
+                itch_username_pattern = r"^[a-zA-Z0-9_-]{3,20}$"
+                if not re.fullmatch(itch_username_pattern, username):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        "Itch.io username should be made up of uppercase/lowercase"
+                        " letters, numbers, underscores, and hyphens between 3 and 20"
+                        " characters.",
+                    )
+            case "Devpost":
+                devpost_username_pattern = r"^[a-zA-Z0-9_-]{3,20}$"
+                if not re.fullmatch(devpost_username_pattern, username):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        "Devpost username should be made up of uppercase/lowercase"
+                        " letters, numbers, underscores, and hyphens between 3 and 20"
+                        " characters.",
+                    )
 
         return username
 
@@ -179,6 +200,8 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
         if self.network == "Mastodon":
             _, username, domain = self.username.split("@")
             url = f"https://{domain}/@{username}"
+        elif self.network == "Itch.io":
+            url = f"https://{self.username}.itch.io/"
         else:
             url = url_dictionary[self.network] + self.username
 

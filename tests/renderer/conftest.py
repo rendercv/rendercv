@@ -157,6 +157,8 @@ def full_rendercv_model(testdata_dir: pathlib.Path) -> RenderCVModel:
             SocialNetwork(network="X", username="johndoe"),
             SocialNetwork(network="Bluesky", username="johndoe.bsky.social"),
             SocialNetwork(network="Reddit", username="johndoe"),
+            SocialNetwork(network="Itch.io", username="johndoe"),
+            SocialNetwork(network="Devpost", username="johndoe"),
         ],
         sections={
             "Text Entries": [
