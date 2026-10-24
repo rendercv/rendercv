@@ -80,6 +80,7 @@ def format_date_range(
     locale: Locale,
     single_date_template: str,
     date_range_template: str,
+    compact_date_ranges_removing_start_year: bool,
 ) -> str:
     """Format date range with localized start and end dates.
 
@@ -96,6 +97,7 @@ def format_date_range(
             locale=english_locale,
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE to END_DATE",
+            compact_date_ranges_removing_start_year=False,
         )
         # Returns: "Jun 2020 to present"
         ```
@@ -106,20 +108,14 @@ def format_date_range(
         locale: Locale providing month names and present translation.
         single_date_template: Template for formatting individual dates.
         date_range_template: Template combining start and end dates.
+        compact_date_ranges_removing_start_year: Flag for compacting date ranges
+            that fall within the same year by removing the start_date year.
 
     Returns:
         Formatted date range string.
     """
-    if isinstance(start_date, int):
-        # Then it means only the year is provided
-        start_date = str(start_date)
-    else:
-        # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
-        date_object = get_date_object(start_date)
-        start_date = date_object_to_string(
-            date_object, locale=locale, single_date_template=single_date_template
-        )
-
+    # Compacting the date range only makes sense if the end_date specifies a month
+    end_date_has_month = False
     if end_date == "present":
         end_date = locale.present
     elif isinstance(end_date, int):
@@ -131,6 +127,24 @@ def format_date_range(
         end_date = date_object_to_string(
             date_object, locale=locale, single_date_template=single_date_template
         )
+        end_date_has_month = True
+
+    if isinstance(start_date, int):
+        # Then it means only the year is provided
+        start_date = str(start_date)
+    else:
+        # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
+        date_object = get_date_object(start_date)
+        if compact_date_ranges_removing_start_year and end_date_has_month:
+            start_date = date_object_to_string(
+                date_object,
+                locale=locale,
+                single_date_template=single_date_template.replace("YEAR", ""),
+            )
+        else:
+            start_date = date_object_to_string(
+                date_object, locale=locale, single_date_template=single_date_template
+            )
 
     placeholders: dict[str, str] = {
         "START_DATE": start_date,

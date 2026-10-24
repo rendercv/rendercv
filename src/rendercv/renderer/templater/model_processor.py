@@ -135,12 +135,17 @@ def process_model(
             section.snake_case_title
             in rendercv_model.design.sections.show_time_spans_in
         )
+        compact_date_ranges_removing_start_year = (
+            section.snake_case_title
+            in rendercv_model.design.sections.compact_date_ranges_removing_start_year_in
+        )
         for i, entry in enumerate(section.entries):
             processed_entry = render_entry_templates(
                 entry,
                 templates=rendercv_model.design.templates,
                 locale=rendercv_model.locale,
                 show_time_span=show_time_span,
+                compact_date_ranges_removing_start_year=compact_date_ranges_removing_start_year,
                 current_date=rendercv_model.settings._resolved_current_date,
             )
             section.entries[i] = process_fields(processed_entry, string_processors)

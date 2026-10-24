@@ -7750,6 +7750,24 @@
           },
           "title": "Show Time Spans In",
           "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
+          "type": "array"
         }
       },
       "title": "Sections",
@@ -7781,6 +7799,24 @@
             "type": "string"
           },
           "title": "Show Time Spans In",
+          "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
           "type": "array"
         }
       },
@@ -7814,6 +7850,24 @@
           },
           "title": "Show Time Spans In",
           "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
+          "type": "array"
         }
       },
       "title": "Sections",
@@ -7845,6 +7899,24 @@
             "type": "string"
           },
           "title": "Show Time Spans In",
+          "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
           "type": "array"
         }
       },
@@ -7878,6 +7950,24 @@
           },
           "title": "Show Time Spans In",
           "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
+          "type": "array"
         }
       },
       "title": "Sections",
@@ -7909,6 +7999,24 @@
             "type": "string"
           },
           "title": "Show Time Spans In",
+          "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
           "type": "array"
         }
       },
@@ -7942,6 +8050,24 @@
           },
           "title": "Show Time Spans In",
           "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
+          "type": "array"
         }
       },
       "title": "Sections",
@@ -7974,6 +8100,24 @@
           },
           "title": "Show Time Spans In",
           "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
+          "type": "array"
         }
       },
       "title": "Sections",
@@ -8005,6 +8149,24 @@
             "type": "string"
           },
           "title": "Show Time Spans In",
+          "type": "array"
+        },
+        "compact_date_ranges_removing_start_year_in": {
+          "default": [],
+          "description": "Section titles where, in case of a range falling within the same year, YEAR should be removed from the start_date template in order to get a more compact output. The default value is `[]`.",
+          "examples": [
+            [
+              "Experience"
+            ],
+            [
+              "Experience",
+              "Education"
+            ]
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Compact Date Ranges Removing Start Year In",
           "type": "array"
         }
       },
