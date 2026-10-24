@@ -61,8 +61,18 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
         overlay_yaml = dictionary_to_yaml(overlay_content)
 
-        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        if overlay_key == "design":
+            result, _ = build_rendercv_dictionary(
+                main_yaml, design_yaml_file=overlay_yaml
+            )
+        elif overlay_key == "locale":
+            result, _ = build_rendercv_dictionary(
+                main_yaml, locale_yaml_file=overlay_yaml
+            )
+        else:
+            result, _ = build_rendercv_dictionary(
+                main_yaml, settings_yaml_file=overlay_yaml
+            )
 
         assert result[overlay_key] == overlay_content[overlay_key]
         assert result["cv"]["name"] == "John Doe"
@@ -349,8 +359,18 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
         overlay_yaml = dictionary_to_yaml(overlay_value)
 
-        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        if overlay_key == "design":
+            result, _ = build_rendercv_dictionary(
+                main_yaml, design_yaml_file=overlay_yaml
+            )
+        elif overlay_key == "locale":
+            result, _ = build_rendercv_dictionary(
+                main_yaml, locale_yaml_file=overlay_yaml
+            )
+        else:
+            result, _ = build_rendercv_dictionary(
+                main_yaml, settings_yaml_file=overlay_yaml
+            )
 
         assert result[overlay_key] == overlay_value[overlay_key]
 
@@ -366,6 +386,85 @@ class TestBuildRendercvDictionary:
 
         assert result["design"] == {"theme": "sb2nov"}
         assert "font_size" not in result["design"]
+
+    def test_secrets_overlay_deep_merges_into_main_yaml(self, minimal_input_dict):
+        main_input = {
+            **minimal_input_dict,
+            "cv": {
+                "name": "Public Name",
+                "email": "public@example.com",
+                "sections": {"summary": [{"One public line.": "This remains public."}]},
+            },
+        }
+        main_yaml = dictionary_to_yaml(main_input)
+        secrets_yaml = dictionary_to_yaml(
+            {"cv": {"email": "private@example.com", "phone": "+14155552671"}}
+        )
+
+        result, _ = build_rendercv_dictionary(main_yaml, secrets_yaml_file=secrets_yaml)
+
+        assert result["cv"]["name"] == "Public Name"
+        assert result["cv"]["email"] == "private@example.com"
+        assert result["cv"]["phone"] == "+14155552671"
+        assert "summary" in result["cv"]["sections"]
+
+    def test_secrets_overlay_runs_before_cli_overrides(self, minimal_input_dict):
+        main_yaml = dictionary_to_yaml(minimal_input_dict)
+        secrets_yaml = dictionary_to_yaml({"cv": {"email": "private@example.com"}})
+
+        result, _ = build_rendercv_dictionary(
+            main_yaml,
+            secrets_yaml_file=secrets_yaml,
+            overrides={"cv.email": "override@example.com"},
+        )
+
+        assert result["cv"]["email"] == "override@example.com"
+
+    def test_invalid_secrets_yaml_raises_validation_error(self, minimal_input_dict):
+        main_yaml = dictionary_to_yaml(minimal_input_dict)
+        invalid_secrets_yaml = "cv:\n  email: test@example.com\n   phone: 123"
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary(main_yaml, secrets_yaml_file=invalid_secrets_yaml)
+
+        error = exc_info.value.validation_errors[0]
+        assert error.yaml_source == "secrets_yaml_file"
+
+    def test_validation_error_from_secrets_uses_secrets_source(
+        self, minimal_input_dict
+    ):
+        main_yaml = dictionary_to_yaml(minimal_input_dict)
+        secrets_yaml = dictionary_to_yaml({"cv": {"email": "not-an-email"}})
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary_and_model(
+                main_yaml, secrets_yaml_file=secrets_yaml
+            )
+
+        assert any(
+            error.yaml_source == "secrets_yaml_file"
+            and error.schema_location is not None
+            and error.schema_location[:2] == ("cv", "email")
+            for error in exc_info.value.validation_errors
+        )
+
+    def test_secrets_overlay_does_not_claim_unrelated_main_yaml_errors(self):
+        main_yaml = dictionary_to_yaml(
+            {"cv": {"name": 123}, "design": {"theme": "classic"}}
+        )
+        secrets_yaml = dictionary_to_yaml({"cv": {"email": "private@example.com"}})
+
+        with pytest.raises(RenderCVUserValidationError) as exc_info:
+            build_rendercv_dictionary_and_model(
+                main_yaml, secrets_yaml_file=secrets_yaml
+            )
+
+        assert any(
+            error.yaml_source == "main_yaml_file"
+            and error.schema_location is not None
+            and error.schema_location[:2] == ("cv", "name")
+            for error in exc_info.value.validation_errors
+        )
 
 
 class TestBuildRendercvModelFromDictionary:

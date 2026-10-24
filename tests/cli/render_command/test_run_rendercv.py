@@ -199,14 +199,17 @@ class TestCollectInputFilePaths:
         design_file.touch()
         settings_file = tmp_path / "settings.yaml"
         settings_file.touch()
+        secrets_file = tmp_path / "secrets.yaml"
+        secrets_file.touch()
 
         result = collect_input_file_paths(
-            yaml_file, design=design_file, settings=settings_file
+            yaml_file, design=design_file, settings=settings_file, secrets=secrets_file
         )
 
         assert result["input"] == yaml_file
         assert result["design"] == design_file
         assert result["settings"] == settings_file
+        assert result["secrets"] == secrets_file
 
     def test_includes_yaml_referenced_files(self, tmp_path):
         design_file = tmp_path / "my_design.yaml"

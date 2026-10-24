@@ -30,12 +30,40 @@ unwanted_locations = (
     "constrained-str",
     "function-",
 )
+type OverlaySourceMap = dict[tuple[str, ...], tuple[YamlSource, CommentedMap]]
+
+
+def get_yaml_source_data_for_location(
+    location: tuple[str, ...],
+    overlay_sources: OverlaySourceMap | dict[str, CommentedMap] | None,
+) -> tuple[YamlSource, CommentedMap] | None:
+    """Find the most specific overlay source for a validation location."""
+    if not overlay_sources:
+        return None
+
+    # Backward compatibility for tests and callers that still pass
+    # {"design": commented_map} style overlay metadata.
+    first_value = next(iter(overlay_sources.values()))
+    if isinstance(first_value, CommentedMap):
+        legacy_sources = cast(dict[str, CommentedMap], overlay_sources)
+        if location and location[0] in legacy_sources:
+            source_key = cast(OverlaySourceKey, location[0])
+            return OVERLAY_SOURCE_TO_YAML_SOURCE[source_key], legacy_sources[source_key]
+        return None
+
+    source_map = cast(OverlaySourceMap, overlay_sources)
+    for index in range(len(location), 0, -1):
+        path = location[:index]
+        if path in source_map:
+            return source_map[path]
+
+    return None
 
 
 def parse_plain_pydantic_error(
     plain_error: pydantic_core.ErrorDetails,
     input_dictionary: CommentedMap | dict[str, Any],
-    overlay_sources: dict[str, CommentedMap] | None = None,
+    overlay_sources: OverlaySourceMap | dict[str, CommentedMap] | None = None,
 ) -> RenderCVValidationError:
     """Transform raw Pydantic error into user-friendly validation error with YAML coordinates.
 
@@ -98,10 +126,9 @@ def parse_plain_pydantic_error(
     # CommentedMap for coordinate lookup
     yaml_source: YamlSource = "main_yaml_file"
     coord_dict: CommentedMap | dict[str, Any] = input_dictionary
-    if overlay_sources and location and location[0] in overlay_sources:
-        source_key = cast(OverlaySourceKey, location[0])
-        yaml_source = OVERLAY_SOURCE_TO_YAML_SOURCE[source_key]
-        coord_dict = overlay_sources[source_key]
+    overlay_source_data = get_yaml_source_data_for_location(location, overlay_sources)
+    if overlay_source_data:
+        yaml_source, coord_dict = overlay_source_data
 
     location_for_coords = (
         location if plain_error["type"] != "missing" else location[:-1]
@@ -130,7 +157,7 @@ def parse_plain_pydantic_error(
 def parse_validation_errors(
     exception: pydantic.ValidationError,
     input_dictionary: CommentedMap | dict[str, Any],
-    overlay_sources: dict[str, CommentedMap] | None = None,
+    overlay_sources: OverlaySourceMap | dict[str, CommentedMap] | None = None,
 ) -> list[RenderCVValidationError]:
     """Extract all validation errors from Pydantic exception with deduplication.
 

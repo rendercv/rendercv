@@ -65,6 +65,16 @@ def cli_command_render(
             help='The "settings" field\'s YAML input file.',
         ),
     ] = None,
+    secrets: Annotated[
+        pathlib.Path | None,
+        typer.Option(
+            "--secrets",
+            help=(
+                "A YAML file whose values are merged into the input file before"
+                " validation."
+            ),
+        ),
+    ] = None,
     typst_path: Annotated[
         pathlib.Path | None,
         typer.Option(
@@ -201,7 +211,9 @@ def cli_command_render(
     # Resolve design/locale overlay files from YAML settings when not
     # provided via CLI flags. collect_input_file_paths already handles
     # parsing the YAML and resolving paths relative to the input file.
-    resolved_files = collect_input_file_paths(input_file_path, design, locale, settings)
+    resolved_files = collect_input_file_paths(
+        input_file_path, design, locale, settings, secrets
+    )
     if design is None and "design" in resolved_files:
         design = resolved_files["design"]
     if locale is None and "locale" in resolved_files:
@@ -213,6 +225,7 @@ def cli_command_render(
         "settings_yaml_file": (
             settings.read_text(encoding="utf-8") if settings else None
         ),
+        "secrets_yaml_file": secrets.read_text(encoding="utf-8") if secrets else None,
         "output_folder": output_folder,
         "typst_path": typst_path,
         "pdf_path": pdf_path,
