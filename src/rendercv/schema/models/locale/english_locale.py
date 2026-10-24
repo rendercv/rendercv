@@ -56,6 +56,16 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         default_factory=Phrases,
         description="Locale-specific phrases used in entry templates as placeholders.",
     )
+    section_labels: dict[str, str] = pydantic.Field(
+        default_factory=dict,
+        description=(
+            "Optional mapping from canonical snake_case section keys to localized"
+            " display titles. When a key is present, its value overrides the"
+            " auto-generated title in the rendered output. Keys not listed fall back"
+            " to the default Title Case conversion."
+            " Example: `{summary: 'In breve', experience: 'Esperienza lavorativa'}`."
+        ),
+    )
     # From https://web.library.yale.edu/cataloging/months
     month_abbreviations: Annotated[list[str], at.Len(min_length=12, max_length=12)] = (
         pydantic.Field(
