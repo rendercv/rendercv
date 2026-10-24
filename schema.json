@@ -2234,6 +2234,7 @@
           "portuguese": "#/$defs/PortugueseLocale",
           "russian": "#/$defs/RussianLocale",
           "spanish": "#/$defs/SpanishLocale",
+          "swedish": "#/$defs/SwedishLocale",
           "turkish": "#/$defs/TurkishLocale",
           "vietnamese": "#/$defs/VietnameseLocale"
         },
@@ -2299,6 +2300,9 @@
         },
         {
           "$ref": "#/$defs/SpanishLocale"
+        },
+        {
+          "$ref": "#/$defs/SwedishLocale"
         },
         {
           "$ref": "#/$defs/TurkishLocale"
@@ -3686,6 +3690,104 @@
       "title": "SpanishLocale",
       "type": "object"
     },
+    "SwedishLocale": {
+      "additionalProperties": false,
+      "properties": {
+        "language": {
+          "const": "swedish",
+          "default": "swedish",
+          "description": "The language for your CV. The default value is `swedish`.",
+          "title": "Language",
+          "type": "string"
+        },
+        "last_updated": {
+          "default": "Senast uppdaterat",
+          "description": "Translation of \"Last updated in\". The default value is `Senast uppdaterat`.",
+          "title": "Last Updated",
+          "type": "string"
+        },
+        "month": {
+          "default": "månad",
+          "description": "Translation of \"month\" (singular). The default value is `månad`.",
+          "title": "Month",
+          "type": "string"
+        },
+        "months": {
+          "default": "månader",
+          "description": "Translation of \"months\" (plural). The default value is `månader`.",
+          "title": "Months",
+          "type": "string"
+        },
+        "year": {
+          "default": "år",
+          "description": "Translation of \"year\" (singular). The default value is `år`.",
+          "title": "Year",
+          "type": "string"
+        },
+        "years": {
+          "default": "år",
+          "description": "Translation of \"years\" (plural). The default value is `år`.",
+          "title": "Years",
+          "type": "string"
+        },
+        "present": {
+          "default": "nuvarande",
+          "description": "Translation of \"present\" for ongoing dates. The default value is `nuvarande`.",
+          "title": "Present",
+          "type": "string"
+        },
+        "phrases": {
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
+          "description": "Locale-specific phrases used in entry templates as placeholders."
+        },
+        "month_abbreviations": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "Maj",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Okt",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Month abbreviations (Jan-Dec).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Abbreviations",
+          "type": "array"
+        },
+        "month_names": {
+          "default": [
+            "Januari",
+            "Februari",
+            "Mars",
+            "April",
+            "Maj",
+            "Juni",
+            "Juli",
+            "Augusti",
+            "September",
+            "Oktober",
+            "November",
+            "December"
+          ],
+          "description": "Full month names (January-December).",
+          "items": {
+            "type": "string"
+          },
+          "title": "Month Names",
+          "type": "array"
+        }
+      },
+      "title": "SwedishLocale",
+      "type": "object"
+    },
     "TurkishLocale": {
       "additionalProperties": false,
       "properties": {
@@ -3733,7 +3835,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__21",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -3834,7 +3936,7 @@
           "type": "string"
         },
         "phrases": {
-          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__22",
+          "$ref": "#/$defs/rendercv__schema__models__locale__english_locale__Phrases__23",
           "description": "Locale-specific phrases used in entry templates as placeholders."
         },
         "month_abbreviations": {
@@ -9430,6 +9532,19 @@
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
+          "default": "DEGREE i AREA",
+          "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `DEGREE i AREA`.",
+          "title": "Degree With Area",
+          "type": "string"
+        }
+      },
+      "title": "Phrases",
+      "type": "object"
+    },
+    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+      "additionalProperties": false,
+      "properties": {
+        "degree_with_area": {
           "default": "AREA, DEGREE",
           "description": "Template for combining degree and area in education entries. Available placeholders: DEGREE, AREA. The default value is `AREA, DEGREE`.",
           "title": "Degree With Area",
@@ -9439,7 +9554,7 @@
       "title": "Phrases",
       "type": "object"
     },
-    "rendercv__schema__models__locale__english_locale__Phrases__22": {
+    "rendercv__schema__models__locale__english_locale__Phrases__23": {
       "additionalProperties": false,
       "properties": {
         "degree_with_area": {
