@@ -106,7 +106,15 @@ def make_keywords_bold(string: str, keywords: list[str]) -> str:
         return string
 
     pattern = build_keyword_matcher_pattern(frozenset(keywords), word_boundary=True)
-    return pattern.sub(lambda m: f"**{m.group(0)}**", string)
+    unbold_pattern = re.compile(r"(.*?)(\*\*[^\n]+?\*\*)|(.+)$", re.DOTALL)
+
+    def handle_unbold_match(m1: re.Match) -> str:
+        g1 = pattern.sub(lambda m2: f"**{m2.group(0)}**", m1.group(1) or "")
+        g2 = m1.group(2) or ""
+        g3 = pattern.sub(lambda m2: f"**{m2.group(0)}**", m1.group(3) or "")
+        return g1 + g2 + g3
+
+    return unbold_pattern.sub(handle_unbold_match, string)
 
 
 def substitute_placeholders(string: str, placeholders: dict[str, str]) -> str:

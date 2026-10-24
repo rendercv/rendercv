@@ -84,6 +84,68 @@ class TestMakeKeywordsBold:
     def test_returns_expected_output(self, text, keywords, expected):
         assert make_keywords_bold(text, keywords) == expected
 
+    @pytest.mark.parametrize(
+        ("text", "keywords", "expected"),
+        [
+            # Completely inside existing bold range (existing)
+            ("zero **one** two", ["one"], "zero **one** two"),
+            ("**zero one two**", ["one"], "**zero one two**"),
+            # Keyword outside AND inside bold — outside must be bolded, inside must not
+            ("one **one** one", ["one"], "**one** **one** **one**"),
+            ("two **one** one", ["one"], "two **one** **one**"),
+            # Multiple bold spans
+            ("**one** plain **one**", ["one"], "**one** plain **one**"),
+            ("**one** one **one**", ["one"], "**one** **one** **one**"),
+            # Keyword that straddles a bold boundary (should bold the outside part)
+            (
+                "on**e** word",
+                ["one"],
+                "on**e** word",
+            ),  # not a valid bold span, so "on" is outside
+        ],
+    )
+    def test_handles_existing_bold_ranges(self, text, keywords, expected):
+        assert make_keywords_bold(text, keywords) == expected
+
+    @settings(deadline=None)
+    @given(
+        keyword=st.text(min_size=1, max_size=20).filter(
+            lambda s: s.strip() and "\n" not in s and "**" not in s
+        ),
+    )
+    def test_keyword_inside_bold_is_never_double_bolded(self, keyword: str) -> None:
+        text = f"before **{keyword}** after"
+        result = make_keywords_bold(text, [keyword])
+        assert result == text
+
+    @settings(deadline=None)
+    @given(
+        keyword=st.text(min_size=1, max_size=20).filter(
+            lambda s: s.strip() and "\n" not in s and "**" not in s
+        ),
+    )
+    def test_keyword_inside_bold_range_is_not_bolded(self, keyword: str) -> None:
+        text = f"before **before {keyword} after** after"
+        result = make_keywords_bold(text, [keyword])
+        assert result == text
+
+    @settings(deadline=None)
+    @given(
+        keyword=st.text(min_size=1, max_size=20).filter(
+            lambda s: s.strip() and "\n" not in s and "**" not in s
+        ),
+        other=st.text(min_size=1, max_size=20).filter(
+            lambda s: s.strip() and "**" not in s and "\n" not in s
+        ),
+    )
+    def test_keyword_outside_bold_span_gets_bolded(
+        self, keyword: str, other: str
+    ) -> None:
+        assume(keyword != other)
+        text = f"{keyword} **{other}**"
+        result = make_keywords_bold(text, [keyword])
+        assert f"**{keyword}**" in result
+
     @settings(deadline=None)
     @given(text=st.text(max_size=100))
     def test_empty_keywords_is_identity(self, text: str) -> None:
