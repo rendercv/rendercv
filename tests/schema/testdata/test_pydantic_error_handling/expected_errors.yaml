@@ -36,7 +36,7 @@ expected_errors:
     yaml_source: main_yaml_file
 
   - schema_location: ["cv", "social_networks", "2", "username"]
-    message: IMDB name should be in the format 'nmXXXXXXX'.
+    message: IMDB name should be 'nm' followed by at least seven digits (e.g., 'nmXXXXXXX').
     input: not_a_valid_imdb_id
     yaml_location: [[16, 7], [16, 16]]
     yaml_source: main_yaml_file
