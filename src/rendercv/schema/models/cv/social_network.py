@@ -160,6 +160,20 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         'TikTok username should not start with "@". Remove "@" from'
                         " the beginning of the username.",
                     )
+            case "Linktree":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Linktree username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "Venmo":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Venmo username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
             case "Stripe":
                 if username.startswith("@"):
                     raise pydantic_core.PydanticCustomError(

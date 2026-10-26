@@ -34,6 +34,8 @@ class TestSocialNetwork:
             ("Reddit", "invalid~username"),
             ("Threads", "@invalidusername"),
             ("TikTok", "@invalidusername"),
+            ("Linktree", "@invalidusername"),
+            ("Venmo", "@invalidusername"),
             ("Stripe", "@invalidusername"),
             ("Cash App", "$invalidusername"),
         ],
