@@ -30,6 +30,26 @@ type SocialNetworkName = Literal[
     "X",
     "Bluesky",
     "Reddit",
+    "Facebook",
+    "Threads",
+    "TikTok",
+    "Twitch",
+    "Vimeo",
+    "Flickr",
+    "SoundCloud",
+    "Spotify",
+    "Letterboxd",
+    "Goodreads",
+    "Patreon",
+    "Muck Rack",
+    "Authory",
+    "Linktree",
+    "PayPal",
+    "Venmo",
+    "Cash App",
+    "Ko-fi",
+    "Buy Me a Coffee",
+    "Stripe",
 ]
 available_social_networks = get_args(SocialNetworkName.__value__)
 url_dictionary: dict[SocialNetworkName, str] = {
@@ -49,6 +69,26 @@ url_dictionary: dict[SocialNetworkName, str] = {
     "X": "https://x.com/",
     "Bluesky": "https://bsky.app/profile/",
     "Reddit": "https://reddit.com/user/",
+    "Facebook": "https://facebook.com/",
+    "Threads": "https://threads.com/@",
+    "TikTok": "https://tiktok.com/@",
+    "Twitch": "https://twitch.tv/",
+    "Vimeo": "https://vimeo.com/",
+    "Flickr": "https://flickr.com/photos/",
+    "SoundCloud": "https://soundcloud.com/",
+    "Spotify": "https://open.spotify.com/user/",
+    "Letterboxd": "https://letterboxd.com/",
+    "Goodreads": "https://goodreads.com/",
+    "Patreon": "https://patreon.com/",
+    "Muck Rack": "https://muckrack.com/",
+    "Authory": "https://authory.com/",
+    "Linktree": "https://linktr.ee/",
+    "PayPal": "https://paypal.me/",
+    "Venmo": "https://venmo.com/u/",
+    "Cash App": "https://cash.app/$",
+    "Ko-fi": "https://ko-fi.com/",
+    "Buy Me a Coffee": "https://buymeacoffee.com/",
+    "Stripe": "https://profile.stripe.com/@",
 }
 
 
@@ -105,6 +145,48 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         CustomPydanticErrorTypes.other.value,
                         'YouTube username should not start with "@". Remove "@" from'
                         ' the beginning of the username."',
+                    )
+            case "Threads":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Threads username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "TikTok":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'TikTok username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "Linktree":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Linktree username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "Venmo":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Venmo username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "Stripe":
+                if username.startswith("@"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Stripe username should not start with "@". Remove "@" from'
+                        " the beginning of the username.",
+                    )
+            case "Cash App":
+                if username.startswith("$"):
+                    raise pydantic_core.PydanticCustomError(
+                        CustomPydanticErrorTypes.other.value,
+                        'Cash App username should not start with "$". Remove "$" from'
+                        " the beginning of the username.",
                     )
             case "ORCID":
                 orcid_username_pattern = r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]"
