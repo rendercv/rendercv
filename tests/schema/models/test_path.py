@@ -1,11 +1,18 @@
+import io
 import pathlib
+import urllib.error
+from unittest.mock import patch
 
 import pydantic
+import pydantic_core
 import pytest
 
+from rendercv.schema.models.cv.cv import Cv
 from rendercv.schema.models.path import (
+    ExistingImagePathRelativeToInput,
     ExistingPathRelativeToInput,
     PlannedPathRelativeToInput,
+    validate_image,
 )
 from rendercv.schema.models.validation_context import ValidationContext
 
@@ -29,6 +36,67 @@ def context_with_input_file(tmp_path):
 existing_input_relative_path_adapter = pydantic.TypeAdapter[
     ExistingPathRelativeToInput
 ](ExistingPathRelativeToInput)
+
+
+class TestResolvePhoto:
+    @pytest.mark.parametrize(
+        "url", ["https://example.com/photo.jpg", "https://example.com/"]
+    )
+    def test_validates_remote_images_before_rendering(self, url):
+        image = (
+            pathlib.Path(__file__).parents[2] / "renderer/testdata/profile_picture.jpg"
+        )
+        with patch(
+            "rendercv.schema.models.path.urllib.request.urlopen",
+            return_value=io.BytesIO(image.read_bytes()),
+        ):
+            cv = Cv(photo=url)
+        assert isinstance(cv.photo, pathlib.Path)
+        assert cv.photo.read_bytes() == image.read_bytes()
+
+    def test_rejects_non_image_responses(self):
+        with (
+            patch(
+                "rendercv.schema.models.path.urllib.request.urlopen",
+                return_value=io.BytesIO(b"<html>Not a photo</html>"),
+            ),
+            pytest.raises(pydantic.ValidationError, match="not a PNG") as error,
+        ):
+            Cv(photo="https://example.com/photo.jpg")
+        assert error.value.errors()[0]["loc"] == ("photo",)
+
+    def test_reports_download_errors_at_the_photo_field(self):
+        with (
+            patch(
+                "rendercv.schema.models.path.urllib.request.urlopen",
+                side_effect=urllib.error.URLError("offline"),
+            ),
+            pytest.raises(
+                pydantic.ValidationError, match="Failed to download photo"
+            ) as error,
+        ):
+            Cv(photo="https://example.com/photo.jpg")
+        assert error.value.errors()[0]["loc"] == ("photo",)
+
+    def test_fetches_each_new_validation_instead_of_reusing_an_output(self):
+        content = b"\xff\xd8\xfffirst image"
+        with patch(
+            "rendercv.schema.models.path.urllib.request.urlopen",
+            return_value=io.BytesIO(content),
+        ):
+            first = Cv(photo="https://example.com/photo.jpg")
+        with patch(
+            "rendercv.schema.models.path.urllib.request.urlopen",
+            return_value=io.BytesIO(content + b"changed"),
+        ):
+            second = Cv(photo="https://example.com/photo.jpg")
+        assert isinstance(first.photo, pathlib.Path)
+        assert isinstance(second.photo, pathlib.Path)
+        assert first.photo != second.photo
+        assert first.photo.read_bytes() == content
+        assert second.photo.read_bytes() == content + b"changed"
+
+
 planned_input_relative_path_adapter = pydantic.TypeAdapter[PlannedPathRelativeToInput](
     PlannedPathRelativeToInput
 )
@@ -257,3 +325,44 @@ class TestPathSerialization:
         )
 
         assert model.model_dump()["output"] == str(outside_path)
+
+
+class ImageModel(pydantic.BaseModel):
+    image: ExistingImagePathRelativeToInput
+
+
+class TestValidateImage:
+    @pytest.mark.parametrize(
+        "content",
+        [
+            b"\x89PNG\r\n\x1a\nrest",
+            b"\xff\xd8\xff\xe0rest",
+            b"GIF89arest",
+            b"RIFF\x00\x00\x00\x00WEBPVP8 ",
+            b"%PDF-1.7",
+            b'<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+            b'\xef\xbb\xbf<?xml version="1.0"?>\n<!-- a comment -->\n<svg>',
+        ],
+    )
+    def test_accepts_images_typst_can_embed(self, tmp_path, content):
+        image = tmp_path / "image"
+        image.write_bytes(content)
+
+        assert validate_image(image) == image
+
+    @pytest.mark.parametrize(
+        "content", [b"root:x:0:0:root:/root:/bin/bash", b"", b"<html></html>"]
+    )
+    def test_rejects_other_files(self, tmp_path, content):
+        image = tmp_path / "image"
+        image.write_bytes(content)
+
+        with pytest.raises(pydantic_core.PydanticCustomError, match="not a PNG"):
+            validate_image(image)
+
+    def test_validates_existence_before_content(self, tmp_path):
+        context = {"context": ValidationContext(input_file_path=tmp_path / "cv.yaml")}
+        missing = tmp_path.parent / "elsewhere" / "missing.png"
+
+        with pytest.raises(pydantic.ValidationError, match="does not exist"):
+            ImageModel.model_validate({"image": str(missing)}, context=context)

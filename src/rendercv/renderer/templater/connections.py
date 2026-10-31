@@ -1,18 +1,19 @@
 from dataclasses import dataclass
-from typing import Literal
 
 import phonenumbers
 
 from rendercv.exception import RenderCVInternalError
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .markdown_parser import markdown_to_typst
-from .string_processor import clean_url
+from .markup import Format, clean_url, emit, parse_content, typst_string
 
 fontawesome_icons = {
     "LinkedIn": "linkedin",
     "GitHub": "github",
     "GitLab": "gitlab",
+    "HuggingFace": "hugging-face",
+    "Itch.io": "itch-io",
+    "Devpost": "devpost",
     "IMDB": "imdb",
     "Instagram": "instagram",
     "Mastodon": "mastodon",
@@ -35,13 +36,13 @@ fontawesome_icons = {
 
 
 def compute_connections(
-    rendercv_model: RenderCVModel, file_type: Literal["typst", "markdown"]
+    rendercv_model: RenderCVModel, output_format: Format
 ) -> list[str]:
     """Route to format-specific connection generator.
 
     Args:
         rendercv_model: CV model with contact information.
-        file_type: Target format for connections.
+        output_format: Target format for connections.
 
     Returns:
         List of formatted connection strings.
@@ -49,14 +50,25 @@ def compute_connections(
     return {
         "typst": compute_connections_for_typst,
         "markdown": compute_connections_for_markdown,
-    }[file_type](rendercv_model)
+    }[output_format](rendercv_model)
 
 
 @dataclass
 class Connection:
+    """A contact item of the header.
+
+    Args:
+        fontawesome_icon: Name of the Font Awesome icon shown with it.
+        url: Where it links to, if anywhere.
+        body: Its text (content).
+        label: Network name prefixed in Markdown, which has no icon; for example,
+            `GitHub: johndoe`. Omitted when the body already names the network.
+    """
+
     fontawesome_icon: str
     url: str | None
     body: str
+    label: str | None = None
 
 
 def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
@@ -142,21 +154,24 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
                     raise RenderCVInternalError(
                         "social_networks key present but value is None"
                     )
+                header_connections = rendercv_model.design.header.connections
                 for social_network in rendercv_model.cv.social_networks:
+                    network = social_network.network
                     url = social_network.url
-                    if rendercv_model.design.header.connections.display_urls_instead_of_usernames:
+                    if header_connections.display_urls_instead_of_usernames:
                         body = clean_url(url)
                     else:
-                        match social_network.network:
+                        match network:
                             case "Google Scholar":
                                 body = "Google Scholar"
                             case _:
                                 body = social_network.username
                     connections.append(
                         Connection(
-                            fontawesome_icon=fontawesome_icons[social_network.network],
+                            fontawesome_icon=fontawesome_icons[network],
                             url=url,
                             body=body,
+                            label=None if body == network else network,
                         )
                     )
 
@@ -184,12 +199,14 @@ def parse_connections(rendercv_model: RenderCVModel) -> list[Connection]:
 
 
 def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
-    """Format connections with Typst markup, Font Awesome icons, and conditional hyperlinks.
+    """Format connections with Typst markup, Font Awesome icons, and hyperlinks.
 
     Why:
         Typst templates need connection strings with icon syntax and link markup.
         Icon visibility and hyperlink behavior are user-configurable through
-        design settings, requiring conditional formatting at render time.
+        design settings. Phone numbers are laid out left to right even in
+        right-to-left CVs, where the bidirectional algorithm would otherwise move
+        their `+` to the end.
 
     Args:
         rendercv_model: CV model with contact information and design settings.
@@ -197,34 +214,30 @@ def compute_connections_for_typst(rendercv_model: RenderCVModel) -> list[str]:
     Returns:
         List of Typst-formatted connection strings ready for template insertion.
     """
-    connections = parse_connections(rendercv_model)
-
     show_icon = rendercv_model.design.header.connections.show_icons
     hyperlink = rendercv_model.design.header.connections.hyperlink
 
-    placeholders = [
-        (
-            f'#connection-with-icon("{connection.fontawesome_icon}")'
-            f"[{markdown_to_typst(connection.body)}]"
-            if show_icon
-            else markdown_to_typst(connection.body)
-        )
-        for connection in connections
-    ]
-
-    return [
-        (
-            f'#link("{connection.url}", icon: false, if-underline: false, if-color:'
-            f" false)[{placeholder}]"
-            if connection.url and hyperlink
-            else placeholder
-        )
-        for connection, placeholder in zip(connections, placeholders, strict=True)
-    ]
+    typst_connections = []
+    for connection in parse_connections(rendercv_model):
+        body = emit(parse_content(connection.body), "typst")
+        if connection.fontawesome_icon == fontawesome_icons["phone"]:
+            body = f"#text(dir: ltr)[{body}]"
+        if show_icon:
+            body = (
+                f"#connection-with-icon({typst_string(connection.fontawesome_icon)})"
+                f"[{body}]"
+            )
+        if connection.url and hyperlink:
+            body = (
+                f"#link({typst_string(connection.url)}, icon: false, if-underline:"
+                f" false, if-color: false)[{body}]"
+            )
+        typst_connections.append(body)
+    return typst_connections
 
 
 def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]:
-    """Format connections as Markdown links without icons.
+    """Format connections as Markdown links, labeled with their social network.
 
     Args:
         rendercv_model: CV model with contact information.
@@ -232,13 +245,12 @@ def compute_connections_for_markdown(rendercv_model: RenderCVModel) -> list[str]
     Returns:
         List of Markdown-formatted connection strings.
     """
-    connections = parse_connections(rendercv_model)
-
-    return [
-        (
-            f"[{connection.body}]({connection.url})"
-            if connection.url
-            else connection.body
-        )
-        for connection in connections
-    ]
+    markdown_connections = []
+    for connection in parse_connections(rendercv_model):
+        body = emit(parse_content(connection.body), "markdown")
+        if connection.url:
+            body = f"[{body}]({connection.url})"
+        if connection.label:
+            body = f"{connection.label}: {body}"
+        markdown_connections.append(body)
+    return markdown_connections

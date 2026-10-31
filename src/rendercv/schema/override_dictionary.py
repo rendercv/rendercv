@@ -15,7 +15,8 @@ def update_value_by_location[T: dict | list](
         CLI overrides like `--cv.sections.education.0.institution MIT`
         must modify deeply nested YAML values without requiring users
         to edit files. Recursive traversal handles arbitrary nesting
-        with proper index validation and error context.
+        with proper index validation and error context. Missing keys are
+        added, and so is a list item at the index after the last one.
 
     Example:
         ```py
@@ -38,57 +39,75 @@ def update_value_by_location[T: dict | list](
     Returns:
         Modified structure.
     """
-    keys = key.split(".")
-    first_key: str | int = keys[0]
-    remaining_key = ".".join(keys[1:])
+    first_key, separator, remaining_key = key.partition(".")
+    previous_key = full_key.removesuffix(key).rstrip(".")
 
-    # Calculate the parent path for error messages
-    processed_count = len(full_key.split(".")) - len(key.split("."))
-    previous_key = (
-        ".".join(full_key.split(".")[:processed_count]) if processed_count > 0 else ""
-    )
+    def updated(child: object) -> object:
+        if not separator:
+            return value
+        if not isinstance(child, (dict, list)):
+            message = (
+                f"Cannot descend into `{full_key}`: `{first_key}` is not a mapping"
+                " or list."
+            )
+            raise RenderCVUserError(message)
+        return update_value_by_location(child, remaining_key, value, full_key)
 
     if isinstance(dict_or_list, list):
         try:
-            first_key = int(first_key)
-        except ValueError as e:
+            index = int(first_key)
+        except ValueError as error:
             message = (
-                f"`{previous_key}` corresponds to a list, but `{keys[0]}` is not an"
+                f"`{previous_key}` corresponds to a list, but `{first_key}` is not an"
                 " integer."
             )
-            raise RenderCVUserError(message) from e
-
-        if first_key >= len(dict_or_list):
+            raise RenderCVUserError(message) from error
+        if not 0 <= index <= len(dict_or_list):
             message = (
-                f"Index {first_key} is out of range for the list `{previous_key}`."
+                f"Index {index} is out of range for the list `{previous_key}`,"
+                f" which has {len(dict_or_list)} items. Use {len(dict_or_list)} to"
+                " add an item."
             )
             raise RenderCVUserError(message)
-    elif not isinstance(dict_or_list, dict):
-        message = (
-            f"It seems like there's something wrong with `{full_key}`, but we don't"
-            " know what it is."
-        )
+        if index == len(dict_or_list):
+            dict_or_list.append(updated({}))
+        else:
+            dict_or_list[index] = updated(dict_or_list[index])
+    elif isinstance(dict_or_list, dict):
+        dict_or_list[first_key] = updated(dict_or_list.get(first_key, {}))
+    else:
+        message = f"Cannot apply `{full_key}` to a value that is not a mapping or list."
         raise RenderCVUserError(message)
 
-    if len(keys) == 1:
-        new_value = value
-    else:
-        if isinstance(dict_or_list, dict) and first_key not in dict_or_list:
-            # Safe: isinstance above guarantees dict, but ty cannot narrow T:
-            dict_or_list[first_key] = {}  # ty: ignore[invalid-assignment]
-
-        new_value = update_value_by_location(
-            # Safe: first_key is validated as int for list, str for dict above:
-            dict_or_list[first_key],  # ty: ignore[invalid-argument-type]
-            remaining_key,
-            value,
-            full_key=full_key,
-        )
-
-    # Safe: first_key type matches dict_or_list indexing per isinstance checks:
-    dict_or_list[first_key] = new_value  # ty: ignore[invalid-assignment]
-
     return dict_or_list
+
+
+def merge_overlay(dictionary: dict, overlay: dict) -> None:
+    """Merge an overlay into a dictionary, in place.
+
+    Why:
+        An overlay is a part of an input (for example, the private `cv.email` and
+        `cv.phone` of a CV that is public with placeholders), so its mappings are
+        merged into the input's, and its other values (text, lists) replace the
+        input's. Replacement values are copied so later merges or CLI overrides
+        cannot mutate an overlay that may be reused for another CV.
+
+    Example:
+        ```py
+        data = {"cv": {"name": "John Doe", "email": "john@example.com"}}
+        merge_overlay(data, {"cv": {"email": "john@private.com"}})
+        assert data == {"cv": {"name": "John Doe", "email": "john@private.com"}}
+        ```
+
+    Args:
+        dictionary: Input to merge into.
+        overlay: Overlay to merge.
+    """
+    for key, value in overlay.items():
+        if isinstance(value, dict) and isinstance(dictionary.get(key), dict):
+            merge_overlay(dictionary[key], value)
+        else:
+            dictionary[key] = copy.deepcopy(value)
 
 
 def apply_overrides_to_dictionary[T: dict](

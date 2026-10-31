@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=../../../../../../schema.json
+# Month forms: Unicode CLDR, Gregorian calendar, stand-alone context.
+locale:
+  language: swedish
+  last_updated: "Senast uppdaterad i"
+  month: "månad"
+  months: "månader"
+  year: "år"
+  years: "år"
+  present: "nu"
+  phrases:
+    degree_with_area: DEGREE i AREA
+  month_abbreviations:
+    - jan.
+    - feb.
+    - mars
+    - apr.
+    - maj
+    - juni
+    - juli
+    - aug.
+    - sep.
+    - okt.
+    - nov.
+    - dec.
+  month_names:
+    - januari
+    - februari
+    - mars
+    - april
+    - maj
+    - juni
+    - juli
+    - augusti
+    - september
+    - oktober
+    - november
+    - december
+  day_ordinals: ["1:a", "2:a", "3:e", "4:e", "5:e", "6:e", "7:e", "8:e", "9:e", "10:e", "11:e", "12:e", "13:e", "14:e", "15:e", "16:e", "17:e", "18:e", "19:e", "20:e", "21:a", "22:a", "23:e", "24:e", "25:e", "26:e", "27:e", "28:e", "29:e", "30:e", "31:a"]

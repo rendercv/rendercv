@@ -6,18 +6,14 @@ lock:
   uv lock
 
 format:
-  uv run --frozen --all-extras black src tests || true
-  uv run --frozen --all-extras ruff check --fix src tests || true
-  uv run --frozen --all-extras ruff format src tests
+  uv run --frozen --all-extras ruff check --fix src packages tests scripts docs || true
+  uv run --frozen --all-extras ruff format src packages tests scripts docs
 
 format-file target:
-  uv run --frozen --all-extras black {{target}} || true
   uv run --frozen --all-extras ruff check --fix {{target}} || true
   uv run --frozen --all-extras ruff format {{target}}
 
 check:
-  uv run --frozen --all-extras ruff check src tests
-  uv run --frozen --all-extras ty check src tests
   uv run --frozen --all-extras prek run --all-files
 
 # Testing:
@@ -28,14 +24,14 @@ update-testdata:
   uv run --frozen --all-extras pytest --update-testdata
 
 test-coverage:
-  uv run --frozen --all-extras pytest --cov=src/rendercv --cov-report=term --cov-report=html --cov-report=markdown
+  uv run --frozen --all-extras pytest --cov --cov-report=term --cov-report=html --cov-report=markdown
 
 # Docs:
 build-docs:
-  uv run --frozen --all-extras mkdocs build --clean --strict
+  uv run --frozen --all-extras zensical build --clean --strict
 
 serve-docs:
-  uv run --frozen --all-extras mkdocs serve --watch-theme
+  uv run --frozen --all-extras zensical serve
 
 # Scripts:
 update-schema:
@@ -44,13 +40,13 @@ update-schema:
 update-examples:
   uv run --frozen --all-extras scripts/update_examples.py
 
-update-skill:
-  uv run --frozen --all-extras scripts/rendercv_skill/generate.py
-
 update-entry-figures:
-  uv run --frozen --all-extras --group update-entry-figures scripts/update_entry_figures.py
+  uv run --frozen --all-extras scripts/update_entry_figures.py
 
-create-executable:
+download-typst-packages:
+  uv run --frozen --all-extras --no-default-groups scripts/download_typst_packages.py
+
+create-executable: download-typst-packages
   uv run --frozen --all-extras --no-default-groups --group create-executable scripts/create_executable.py
 
 # Utilities:

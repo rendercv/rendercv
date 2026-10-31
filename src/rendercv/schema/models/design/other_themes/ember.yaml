@@ -14,13 +14,15 @@ design:
       name: Gentium Book Plus
       headline: Gentium Book Plus
       connections: Ubuntu
-      section_titles: Ubuntu
+      section_titles: Source Sans 3
+      subsection_titles: Source Sans 3
     font_size:
       body: 10pt
       name: 30pt
       headline: 10.5pt
       connections: 9pt
       section_titles: 1.25em
+      subsection_titles: 1.05em
     small_caps:
       name: false
       headline: true
@@ -37,6 +39,7 @@ design:
     headline: rgb(90, 60, 55)
     connections: rgb(100, 75, 68)
     section_titles: rgb(155, 35, 25)
+    subsection_titles: rgb(155, 35, 25)
     links: rgb(155, 35, 25)
     footer: rgb(140, 125, 118)
     top_note: rgb(140, 125, 118)
@@ -77,11 +80,11 @@ design:
   templates:
     education_entry:
       main_column: "**INSTITUTION** -- LOCATION\n*DEGREE_WITH_AREA*\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
       degree_column: null
     normal_entry:
       main_column: "**NAME** -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
     experience_entry:
       main_column: "**COMPANY** -- LOCATION\n*POSITION*\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"

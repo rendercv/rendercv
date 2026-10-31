@@ -1,5 +1,5 @@
 # Use a Python image with uv pre-installed
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim AS builder
+FROM ghcr.io/astral-sh/uv:python3.15-trixie-slim AS builder
 
 # Install the project into `/app`
 WORKDIR /app
@@ -10,25 +10,29 @@ ENV UV_COMPILE_BYTECODE=1
 # Copy from the cache instead of linking since it's a mounted volume
 ENV UV_LINK_MODE=copy
 
+# Use the same system interpreter as the runtime image.
+ENV UV_PYTHON_DOWNLOADS=0
+
 # Install the project's dependencies using the lockfile and settings
 # This layer is cached separately from the project code for faster rebuilds
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --frozen --no-install-project --no-editable --extra full --no-default-groups
+    uv sync --frozen --no-install-workspace --no-editable --extra full --no-default-groups
 
-# Then, add the rest of the project source code and install it
-# Installing separately from its dependencies allows optimal layer caching
+# Then, add the rest of the project source code and install it, with the Typst
+# packages that it ships. Installing separately from its dependencies allows optimal
+# layer caching
 COPY . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-editable --extra full --no-default-groups
+    uv run --no-sync scripts/download_typst_packages.py \
+ && uv sync --locked --no-editable --extra full --no-default-groups
 
 # Final stage
-FROM python:3.12-slim-bookworm
+FROM python:3.15-slim-trixie
 
 # Setup a non-root user
-RUN groupadd --system --gid 999 rendercv \
- && useradd --system --gid 999 --uid 999 --create-home rendercv
+RUN groupadd --gid 1000 rendercv \
+ && useradd --gid 1000 --uid 1000 --create-home rendercv
 
 # Set working directory
 WORKDIR /app

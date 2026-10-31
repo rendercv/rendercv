@@ -6,25 +6,31 @@ Why:
     error message instead of a confusing `ImportError`.
 """
 
+import importlib
 import sys
 
 
 def entry_point() -> None:
     """Entry point for the RenderCV CLI."""
     try:
-        from .app import app as cli_app  # NOQA: PLC0415
-    except ImportError:
-        error_message = """
-It looks like you installed RenderCV with:
-
-    pip install rendercv
-
-But RenderCV needs to be installed with:
-
-    pip install "rendercv[full]"
-
-Please reinstall with the correct command above.
-"""
+        cli_app = importlib.import_module("rendercv.cli.app").app
+    except ModuleNotFoundError as error:
+        if error.name not in {
+            "typer",
+            "click",
+            "rich",
+            "shellingham",
+            "watchdog",
+            "typst",
+            "rendercv_fonts",
+        }:
+            raise
+        error_message = (
+            "Your RenderCV installation is missing packages needed to run this"
+            " command. Install them with:\n\n"
+            '    pip install "rendercv[full]"\n\n'
+            "This includes the command-line tools, PDF renderer, and fonts.\n"
+        )
         sys.stderr.write(error_message)
         raise SystemExit(1) from None
 

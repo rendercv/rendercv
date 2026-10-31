@@ -3,6 +3,7 @@ from datetime import date as Date
 from typing import Annotated
 
 import pydantic
+from pydantic_core import PydanticCustomError
 
 from .entry import BaseEntry
 
@@ -13,10 +14,8 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     Why:
         Users enter dates like "Fall 2023" or "2020-09" for events. Strict
         dates (YYYY-MM-DD/YYYY-MM/YYYY) get validated via ISO parsing, while
-        custom text passes through for template rendering. ValueError from
-        fromisoformat() propagates to Pydantic, which converts it into a
-        specific user-friendly message (e.g., "The month must be between
-        1 and 12.").
+        custom text passes through for template rendering. Invalid calendar
+        components produce domain errors independently of Python's error wording.
 
     Args:
         date: Date value to validate.
@@ -26,10 +25,21 @@ def validate_arbitrary_date(date: int | str) -> int | str:
     """
     date_str = str(date)
 
-    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_str):
-        Date.fromisoformat(date_str)
-    elif re.fullmatch(r"\d{4}-\d{2}", date_str):
-        Date.fromisoformat(f"{date_str}-01")
+    if re.fullmatch(r"\d{4}-\d{2}(-\d{2})?", date_str):
+        parts = [int(part) for part in date_str.split("-")]
+        year, month = parts[:2]
+        try:
+            Date.fromisoformat(date_str if len(parts) == 3 else f"{date_str}-01")
+        except ValueError as error:
+            if not date_str.isascii():
+                message = "Use ASCII digits in YYYY-MM-DD or YYYY-MM format."
+            elif not 1 <= year <= 9999:
+                message = "The year must be between 1 and 9999."
+            elif not 1 <= month <= 12:
+                message = "The month must be between 1 and 12."
+            else:
+                message = "The day is out of range for the month."
+            raise PydanticCustomError("rendercv_calendar_date", message) from error
 
     return date
 

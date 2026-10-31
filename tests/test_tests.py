@@ -1,9 +1,9 @@
-"""Tests to validate the test directory structure matches the source directory structure."""
+"""Tests that the structure of the test directory matches the source directory."""
 
 import pathlib
 
-src_root = pathlib.Path(__file__).parent.parent.parent / "src" / "rendercv"
-tests_root = pathlib.Path(__file__).parent.parent
+src_root = pathlib.Path(__file__).parent.parent / "src" / "rendercv"
+tests_root = pathlib.Path(__file__).parent
 
 
 def get_immediate_subdirectories(directory: pathlib.Path) -> set[str]:

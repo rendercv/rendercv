@@ -1,134 +1,64 @@
 ---
-toc_depth: 3
+toc_depth: 2
 ---
 
 # Project Management
 
-## What is "Project Management"?
+RenderCV's Python files say what the program does. The files around them answer three practical questions: what does the project need installed, how does everyone get exactly the same tools, and how does the finished program reach users? This page explains those files.
 
-When you look at RenderCV's repository, you see:
+## Describing the project
 
-```
-.
-├── src/                     ← The actual RenderCV code
-├── pyproject.toml           ← Project configuration
-├── justfile                 ← Command shortcuts
-├── scripts/                 ← Supplementary Python scripts
-├── .pre-commit-config.yaml  ← Pre-commit configuration
-└── uv.lock                  ← Dependency lock file
-```
+[`pyproject.toml`](https://github.com/rendercv/rendercv/blob/main/pyproject.toml) is the project's description card. It records the package's name and version, the Python versions it supports, what it depends on, and settings for the development tools.
 
-**Project management is everything except `src/`.** It's all the infrastructure that lets us:
+A **dependency** is a package that RenderCV uses but didn't write: ruamel.yaml reads YAML, Pydantic checks the input, Jinja fills in templates. Listing them lets an installer fetch them automatically.
 
-- Share RenderCV with users (`pip install rendercv`)
-- Manage dependencies consistently
-- Automate testing, building, and releases
-- Ensure reproducibility across machines and time
+`pyproject.toml` also connects the `rendercv` command to Python code:
 
-## Why Can't We Just Write Python Code?
-
-RenderCV is a Python project. The actual source code lives in `src/rendercv/`. Why do we need all these other files - `pyproject.toml`, `uv.lock`, `justfile`, `.github/workflows/`, etc.?
-
-**Because code alone doesn't solve two critical problems: distribution and development environment.**
-
-### Problem 1: Distribution
-
-**How do users get your code?**
-
-You could tell them "download these files, install dependencies with `pip install -r requirements.txt`, and run them with `python main.py`". But users want `pip install rendercv` and have it work instantly with `rendercv` command.
-
-**This requires:** Packaging your code and uploading to [PyPI](https://pypi.org) (Python Package Index).
-
-### Problem 2: Development Environment
-
-You have the source code. Two developers want to contribute.
-
-Developer A installs today with Python 3.11 and gets `pydantic==2.10`. Tests pass. Developer B installs one month later with Python 3.12 and gets `pydantic==2.11` which has breaking changes. Tests fail. "Works on A's machine" but not B's. B asks: "What formatter do you use? What settings? How do I run tests?"
-
-**What needs to happen:** Everyone gets the same Python version, same package versions (locked, not "latest"), same development tools with same settings. All in one command.
-
-**This requires:** Locking dependencies (Python version, every package, frozen in time), configuring all tools in one place, and automating setup so it's identical for everyone.
-
-### The Solution
-
-All those files you see in the repository (`pyproject.toml`, `uv.lock`, `justfile`, and more) work together to solve these problems. The result:
-
-**For users:**
-```bash
-pip install rendercv
+```toml
+[project.scripts]
+rendercv = "rendercv.cli.entry_point:entry_point"
 ```
 
-Works instantly. Every time. Anywhere. All dependencies installed automatically.
+When RenderCV is installed, the installer creates a `rendercv` command that runs the `entry_point()` function in that module. This link is called an **entry point**.
 
-**For developers** ([Setup](index.md)):
-```bash
-just sync
-```
+Not every user needs every dependency. A Python program that only reads and checks CV data has no use for the command line or the PDF compiler. So the basic `rendercv` package contains the data models and templates, and `rendercv[full]` adds the command-line interface, the Typst compiler, file watching, and fonts. Python packaging calls such a named set of optional dependencies an **extra**; this one is named `full`.
 
-One command. Identical environment for everyone: correct Python version, exact dependency versions, all dev tools ready. Works today, works in 2027. Bug from 6 months ago? Check out that commit, run `just sync`, exact environment recreated.
+Developing RenderCV needs tools that users never do, such as pytest for testing or Zensical for this website. They're listed in **dependency groups**, which `just sync` installs for contributors and which never reach users.
 
-The rest of this guide explains what each file does.
+## Keeping everyone's versions identical
 
-## Files and Folders in the Root
+`pyproject.toml` usually allows a range of versions, such as `pydantic>=2.14.1`. The range helps users combine RenderCV with other packages, but installing on two different days can then produce two different sets of versions, and a bug can appear on one computer and not on another.
 
-### [`pyproject.toml`](https://github.com/rendercv/rendercv/blob/main/pyproject.toml)
+[`uv.lock`](https://github.com/rendercv/rendercv/blob/main/uv.lock) removes that uncertainty. It records the exact version chosen for every package, including the packages those packages depend on. `just sync` installs exactly those versions into `.venv`, and the automated checks do the same. Commit `uv.lock` so that contributors and checks share it. It covers every supported operating system and Python version, but those environments still differ, so we test on each of them. See [uv's documentation](https://docs.astral.sh/uv/concepts/projects/layout/).
 
-The project definition file. This is the [standard way to configure a Python project](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/).
+After changing the dependencies in `pyproject.toml`, run `just lock`. To move to newer versions on purpose, run `uv lock --upgrade`, then review and test the result. Let uv write `uv.lock`; don't edit it by hand.
 
-This file defines:
+A **workspace** keeps several related Python projects in one repository with one lock file and one environment. RenderCV's workspace contains the main package, the fonts package in `packages/rendercv-fonts`, and the ATS analysis tools in `scripts/ats_proof`. The fonts package is released separately, with its own version. During development RenderCV uses the fonts package from this repository; a user's installation downloads the published one.
 
-- Project metadata (name, version, description)
-- Dependencies (what packages RenderCV needs)
-- Entry points (makes `rendercv` a command)
-- Build configuration (how to package RenderCV)
-- Tool settings (`ruff`, `ty`, `pytest`, etc.)
+## Sharing commands
 
-Open the file to see the full configuration with detailed comments.
+The [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile) gives names to commands, so everyone runs `just test` or `just build-docs` with the same options. `just --list` shows them all. Longer tasks, such as generating the examples, are Python programs in `scripts/` that a `just` command runs.
 
-### [`justfile`](https://github.com/rendercv/rendercv/blob/main/justfile)
+## Checking code automatically
 
-[just](https://github.com/casey/just) is a command runner, a tool that lets you define terminal commands in a file and run them easily.
+Some mistakes can be found without running the code. A **linter** reads code and points out likely errors, such as a variable that is never used. A **formatter** rewrites code into one consistent layout, so reviews can focus on meaning instead of spacing. Ruff does both. A **type checker** compares how each value is used with the type the code declares for it, catching mistakes such as passing text where a number is expected; RenderCV uses ty.
 
-**Why do we need it?** During development, you constantly run commands like "run tests with coverage", "format all code", "build and serve docs". Without standardization:
+[prek](https://prek.j178.dev/) runs all of these, plus a spell checker and a check of configuration files, in one command. `.pre-commit-config.yaml` lists the checks. `just check` runs prek, and the [GitHub workflows](github_workflows.md) run it on every proposed change. The checks use the versions in `uv.lock`, so they reach the same verdict on every computer.
 
-- Everyone types different commands with different options
-- You have to remember long command strings
+## Delivering RenderCV to users
 
-The `justfile` solves this: define each command once, and everyone runs the same thing:
+Users install RenderCV with a command such as `pip install "rendercv[full]"`, which downloads it from **PyPI**, the public catalog of Python packages. A file prepared for installation is called a **distribution**. There are two kinds:
+
+- A **wheel** (`.whl`) is the package ready to install; the installer only unpacks it.
+- A **source distribution** (`.tar.gz`) holds the source code, from which an installer can build a wheel.
+
+A **build backend** is the tool that creates these files according to `pyproject.toml`. RenderCV uses `uv_build`. From the repository folder:
 
 ```bash
-just test           # Runs pytest with the right options
-just format         # Formats code with ruff
-just serve-docs     # Builds and serves documentation locally
-just update-schema  # Regenerates schema.json
+just download-typst-packages
+uv build --package rendercv
 ```
 
-### [`scripts/`](https://github.com/rendercv/rendercv/tree/main/scripts)
+The first command downloads the Typst packages that RenderCV's themes import. Git ignores them, but the build includes them, so users can render with the built-in themes without downloading anything. Custom Typst code can still import other packages, which then need the network. The second command builds RenderCV into `dist/`, and `uv build --package rendercv-fonts` builds the fonts package. The [release workflows](github_workflows.md#releases) upload them to PyPI.
 
-Python scripts that automate some repetitive tasks that are not part of RenderCV's functionality.
-
-**Why do we need it?** Some tasks need to be done repeatedly but are too complex for simple shell commands:
-
-- `update_schema.py`: Generate `schema.json` (see [JSON Schema](json_schema.md) for more details) from pydantic models
-- `update_examples.py`: Regenerate all example YAML files and PDFs in [`examples/`](https://github.com/rendercv/rendercv/tree/main/examples) folder
-- `create_executable.py`: Build standalone executable of RenderCV
-
-These scripts are called by `just` commands (`just update-schema`, `just update-examples`, etc.).
-
-### [`.pre-commit-config.yaml`](https://github.com/rendercv/rendercv/blob/main/.pre-commit-config.yaml)
-
-Configuration file for [`pre-commit`](https://pre-commit.com/), a tool that runs code quality checks.
-
-**Why do we need it?** Pre-commit's value is **fast CI/CD**. [pre-commit.ci](https://pre-commit.ci/) (free for open-source projects) automatically checks if the source code has any `ruff` or `ty` errors on every push and pull request. Forgot to format your code? The workflow fails, making it immediately obvious.
-
-### [`uv.lock`](https://github.com/rendercv/rendercv/blob/main/uv.lock)
-
-A dependency lock file. This is a record of the exact version of every package RenderCV uses (including dependencies of dependencies of dependencies...).
-
-**Why do we need it?** Remember development environment problem? This file solves it. When you run `just sync`, `uv` reads this file and installs the exact same versions everyone else has, not "the latest version", but "the exact version that's known to work". Without this file, developers would get different package versions and environments would drift apart.
-
-**Never edit this manually.** Use `just lock` to update it. **Always commit it to git.** That's how everyone gets identical environments.
-
-## Learn More
-
-See the [`uv` documentation](https://docs.astral.sh/uv/) for more information on project management.
+Not everyone has Python. `just create-executable` uses PyInstaller to pack Python, RenderCV, and everything they need into a single program file for one operating system, which runs without installing anything. [Docker](dockerfile.md) is a third route. The executable recipe, the release workflow, and the Dockerfile all download the Typst packages before building.

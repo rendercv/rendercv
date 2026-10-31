@@ -31,8 +31,14 @@ class TestCliCommandCreateTheme:
         with pytest.raises(typer.Exit):
             cli_command_create_theme(theme_name)
 
-    def test_raises_error_for_invalid_theme_name(self, tmp_path):
+    @pytest.mark.parametrize(
+        "name", ["Invalid-Theme", "../escaped", "1theme", "theme\n", "", "/escaped"]
+    )
+    def test_raises_error_for_invalid_theme_name(self, tmp_path, name):
         os.chdir(tmp_path)
 
         with pytest.raises(typer.Exit):
-            cli_command_create_theme("Invalid-Theme")
+            cli_command_create_theme(name)
+
+        assert list(tmp_path.iterdir()) == []
+        assert not (tmp_path.parent / "escaped").exists()

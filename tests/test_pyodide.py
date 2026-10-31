@@ -108,8 +108,15 @@ await micropip.install("email-validator")
 # Install rendercv from Pyodide's virtual filesystem
 await micropip.install("emfs:/tmp/{wheel.name}")
 
-# Verify import works
-import rendercv
+# Exercise the browser's content pipeline as well as installation.
+from rendercv.schema.models.rendercv_model import RenderCVModel
+from rendercv.renderer.templater.templater import render_full_template
+model = RenderCVModel(cv={{
+    "name": "Browser Test",
+    "sections": {{"work": [{{"title": "Group", "entries": ["**Python** and code"]}}]}},
+}})
+assert "### Group" in render_full_template(model, "markdown")
+assert "#strong[Python]" in render_full_template(model, "typst")
     `);
 }}
 

@@ -2,9 +2,9 @@ import pathlib
 from collections.abc import Callable
 from typing import Annotated
 
+import rich.console
 import rich.panel
 import typer
-from rich import print
 
 from rendercv.exception import RenderCVUserError
 from rendercv.schema.models.design.built_in_design import available_themes
@@ -61,7 +61,13 @@ def cli_command_new(
             help="Create Markdown templates",
         ),
     ] = False,
-):
+    quiet: Annotated[
+        bool,
+        typer.Option(
+            "--quiet", "-q", help="If provided, RenderCV will not print any messages."
+        ),
+    ] = False,
+) -> None:
     if theme not in available_themes:
         message = (
             f"Theme {theme} is not available. Available themes are:"
@@ -76,7 +82,8 @@ def cli_command_new(
         )
         raise RenderCVUserError(message)
 
-    print_welcome()
+    console = rich.console.Console(quiet=quiet)
+    print_welcome(console)
 
     input_file_path = pathlib.Path(f"{full_name.replace(' ', '_')}_CV.yaml")
     typst_templates_folder = pathlib.Path(theme)
@@ -118,7 +125,7 @@ def cli_command_new(
             creator()
             created_items.append((description, path))
 
-    print(build_creation_panel(input_file_path, created_items, existing_items))
+    console.print(build_creation_panel(input_file_path, created_items, existing_items))
 
 
 def build_creation_panel(

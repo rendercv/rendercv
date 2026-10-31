@@ -16,12 +16,7 @@ def create_init_file_for_theme(theme_name: str, init_file_path: pathlib.Path) ->
         theme_name: Snake_case theme identifier.
         init_file_path: Destination path for __init__.py.
     """
-    if not custom_theme_name_pattern.match(theme_name):
-        message = (
-            "The custom theme name should only contain lowercase letters and digits."
-            f" The provided value is `{theme_name}`."
-        )
-        raise RenderCVUserError(message)
+    validate_theme_name(theme_name)
 
     classic_theme_file = (
         pathlib.Path(__file__).parent.parent.parent
@@ -41,3 +36,20 @@ def create_init_file_for_theme(theme_name: str, init_file_path: pathlib.Path) ->
         f'theme: Literal["{theme_name}"] = "{theme_name}"',
     )
     init_file_path.write_text(new_init_file_contents, encoding="utf-8")
+
+
+def validate_theme_name(theme_name: str) -> None:
+    """Reject names that cannot safely name a theme directory and Python class.
+
+    Args:
+        theme_name: Proposed theme identifier.
+
+    Raises:
+        RenderCVUserError: If the name is invalid.
+    """
+    if not custom_theme_name_pattern.fullmatch(theme_name):
+        message = (
+            "The custom theme name must start with a lowercase letter and contain"
+            f" only lowercase letters and digits. The provided value is `{theme_name}`."
+        )
+        raise RenderCVUserError(message)

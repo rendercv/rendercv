@@ -43,8 +43,9 @@ type BuiltInDesign = Annotated[
     reduce(or_, discover_other_themes(), ClassicTheme),  # ty: ignore[invalid-type-form]
     pydantic.Field(discriminator="theme"),
 ]
-available_themes: list[str] = [
-    ThemeClass.model_fields["theme"].default
+built_in_theme_models: dict[str, type[ClassicTheme]] = {
+    ThemeClass.model_fields["theme"].default: ThemeClass
     for ThemeClass in get_args(get_args(BuiltInDesign.__value__)[0])
-]
+}
+available_themes = list(built_in_theme_models)
 built_in_design_adapter = pydantic.TypeAdapter[BuiltInDesign](BuiltInDesign)

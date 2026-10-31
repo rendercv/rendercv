@@ -72,6 +72,6 @@ zip_path = executable_path.with_suffix(".zip")
 
 with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
     zipinfo = zipfile.ZipInfo(executable_path.name)
-    # Set Unix executable permissions (rwxr-xr-x) - 0o755 shifted to external_attr position
+    # Unix executable permissions (rwxr-xr-x), in the high bits of external_attr:
     zipinfo.external_attr = 0o755 << 16
     zipf.writestr(zipinfo, executable_path.read_bytes())

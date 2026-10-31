@@ -1,4 +1,4 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.8/schema.json
+# yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/refs/tags/v2.9/schema.json
 cv:
   name: John Doe
   headline:
@@ -197,6 +197,7 @@ design:
   #   headline: rgb(0, 0, 0)
   #   connections: rgb(0, 0, 0)
   #   section_titles: rgb(0, 0, 0)
+  #   subsection_titles: rgb(0, 0, 0)
   #   links: rgb(0, 0, 0)
   #   footer: rgb(128, 128, 128)
   #   top_note: rgb(128, 128, 128)
@@ -210,22 +211,26 @@ design:
   #     headline: XCharter
   #     connections: XCharter
   #     section_titles: XCharter
+  #     subsection_titles: XCharter
   #   font_size:
   #     body: 10pt
   #     name: 25pt
   #     headline: 10pt
   #     connections: 10pt
   #     section_titles: 1.2em
+  #     subsection_titles: 1.05em
   #   small_caps:
   #     name: false
   #     headline: false
   #     connections: false
   #     section_titles: false
+  #     subsection_titles: true
   #   bold:
   #     name: false
   #     headline: false
   #     connections: false
   #     section_titles: true
+  #     subsection_titles: true
   # links:
   #   underline: true
   #   show_external_link_icon: false
@@ -250,6 +255,9 @@ design:
   #   line_thickness: 0.5pt
   #   space_above: 0.5cm
   #   space_below: 0.3cm
+  # subsection_titles:
+  #   space_above: 0.6cm
+  #   space_below: 0.2cm
   # sections:
   #   allow_page_break: true
   #   space_between_regular_entries: 0.42cm
@@ -342,21 +350,58 @@ locale:
   #   - October
   #   - November
   #   - December
+  # day_ordinals:
+  #   - 1st
+  #   - 2nd
+  #   - 3rd
+  #   - 4th
+  #   - 5th
+  #   - 6th
+  #   - 7th
+  #   - 8th
+  #   - 9th
+  #   - 10th
+  #   - 11th
+  #   - 12th
+  #   - 13th
+  #   - 14th
+  #   - 15th
+  #   - 16th
+  #   - 17th
+  #   - 18th
+  #   - 19th
+  #   - 20th
+  #   - 21st
+  #   - 22nd
+  #   - 23rd
+  #   - 24th
+  #   - 25th
+  #   - 26th
+  #   - 27th
+  #   - 28th
+  #   - 29th
+  #   - 30th
+  #   - 31st
 settings:
   current_date: today
   render_command:
     output_folder: rendercv_output
     design:
     locale:
+    overlays: []
     typst_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.typ
     pdf_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.pdf
     markdown_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.md
     html_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.html
     png_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.png
+    svg_path: OUTPUT_FOLDER/NAME_IN_SNAKE_CASE_CV.svg
     dont_generate_markdown: false
     dont_generate_html: false
     dont_generate_typst: false
     dont_generate_pdf: false
     dont_generate_png: false
+    dont_generate_svg: false
   bold_keywords: []
+  sort_entries: none
   pdf_title: NAME - CV
+  pdf_profile: accessible

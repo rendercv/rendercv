@@ -1,0 +1,21 @@
+[build-system]
+requires = ["uv_build>=0.13.5,<0.14.0"]
+build-backend = "uv_build"
+
+[project]
+name = "rendercv-fonts"
+version = "0.6.0"
+description = "Fonts bundled with RenderCV"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Sina Atalay", email = "dev@atalay.biz" }]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+]
+
+[project.urls]
+Documentation = "https://docs.rendercv.com"
+Source = "https://github.com/rendercv/rendercv/tree/main/packages/rendercv-fonts"

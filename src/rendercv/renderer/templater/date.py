@@ -1,75 +1,148 @@
+import calendar
+import re
+from collections.abc import Sequence
 from datetime import date as Date
+from typing import Literal
 
-from rendercv.exception import RenderCVInternalError
+from rendercv.document import build_date_placeholders
 from rendercv.schema.models.cv.entries.bases.entry_with_complex_fields import (
     get_date_object,
 )
 from rendercv.schema.models.locale.locale import Locale
 
-from .string_processor import substitute_placeholders
+from .markup import Format, Node, Text, parse_content
+from .template import compile_template, fill_template
+
+type Precision = Literal["year", "month", "day"]
+
+time_span_placeholders = frozenset(
+    {"HOW_MANY_YEARS", "YEARS", "HOW_MANY_MONTHS", "MONTHS"}
+)
+date_range_placeholders = frozenset({"START_DATE", "END_DATE"})
+# The part of a date that each placeholder of the `single_date` template shows:
+date_placeholder_parts: dict[str, Precision] = {
+    "MONTH_NAME": "month",
+    "MONTH_ABBREVIATION": "month",
+    "MONTH": "month",
+    "MONTH_IN_TWO_DIGITS": "month",
+    "DAY": "day",
+    "DAY_IN_TWO_DIGITS": "day",
+    "DAY_ORDINAL": "day",
+    "YEAR": "year",
+    "YEAR_IN_TWO_DIGITS": "year",
+}
+date_placeholders = frozenset(date_placeholder_parts)
+exact_date_pattern = re.compile(r"\d{4}(?:-\d{2}(?:-\d{2})?)?")
 
 
-def build_date_placeholders(date: Date, *, locale: Locale) -> dict[str, str]:
-    """Build all date-related template placeholders from a date and locale.
+def get_precision(date: str | int) -> Precision:
+    """Tell which part of a calendar date a date value specifies.
 
     Why:
-        Date placeholders are needed in single_date templates, footer, top_note,
-        and file path resolution. Centralizing construction eliminates duplication
-        and ensures new placeholders propagate everywhere.
+        `2020` (or `"2020"`) means a year, `2020-03` a month, and `2020-03-15` (or
+        `present`, which is today) a day. Formatting and durations depend on it.
 
     Args:
-        date: Date to extract components from.
-        locale: Locale providing month names and abbreviations.
+        date: A date in YYYY, YYYY-MM, or YYYY-MM-DD format, or "present".
 
     Returns:
-        Dict mapping placeholder names to their string values.
+        The precision of the date.
     """
-    month = date.month
-    day = date.day
-    year = date.year
-
-    return {
-        "MONTH_NAME": locale.month_names[month - 1],
-        "MONTH_ABBREVIATION": locale.month_abbreviations[month - 1],
-        "MONTH": str(month),
-        "MONTH_IN_TWO_DIGITS": f"{month:02d}",
-        "DAY": str(day),
-        "DAY_IN_TWO_DIGITS": f"{day:02d}",
-        "YEAR": str(year),
-        "YEAR_IN_TWO_DIGITS": f"{year % 100:02d}",
-    }
+    if date == "present":
+        return "day"
+    if isinstance(date, int) or len(date) == 4:
+        return "year"
+    if len(date) == 7:
+        return "month"
+    return "day"
 
 
-def date_object_to_string(
-    date: Date, *, locale: Locale, single_date_template: str
-) -> str:
-    """Convert date object to localized string using template placeholders.
-
-    Why:
-        Date display varies by locale and user preference. Template-based
-        formatting allows MONTH_ABBREVIATION YEAR or MONTH_NAME, YEAR without
-        hardcoding formats for each language.
+def format_date(
+    date: Date,
+    *,
+    locale: Locale,
+    single_date_template: str,
+    output_format: Format,
+) -> tuple[Node, ...]:
+    """Format a calendar date with the `single_date` template.
 
     Example:
         ```py
-        result = date_object_to_string(
+        format_date(
             Date(2025, 3, 15),
             locale=english_locale,
-            single_date_template="MONTH_ABBREVIATION YEAR",
+            single_date_template="MONTH_ABBREVIATION DAY, YEAR",
+            output_format="typst",
         )
-        # Returns: "Mar 2025"
+        # Returns the content "Mar 15, 2025"
         ```
 
     Args:
         date: Date to format.
         locale: Locale providing month names and abbreviations.
         single_date_template: Template with date placeholders.
+        output_format: The output format the template is filled for.
 
     Returns:
-        Formatted date string with placeholders substituted.
+        The formatted date.
     """
-    return substitute_placeholders(
-        single_date_template, build_date_placeholders(date, locale=locale)
+    values = {
+        name: (Text(value),)
+        for name, value in build_date_placeholders(date, locale=locale).items()
+    }
+    return fill_template(
+        compile_template(single_date_template, date_placeholders),
+        values,
+        output_format,
+    )
+
+
+def format_single_date(
+    date: str | int,
+    *,
+    locale: Locale,
+    single_date_template: str,
+    output_format: Format,
+) -> tuple[Node, ...]:
+    """Format a date value, or pass a custom date text (e.g. "Fall 2023") through.
+
+    Why:
+        A year is displayed as the year, `present` as its translation, and a month
+        or a day with the `single_date` template. Anything else is custom text.
+
+    Example:
+        ```py
+        format_single_date(
+            "2024-03",
+            locale=english_locale,
+            single_date_template="MONTH_NAME YEAR",
+            output_format="typst",
+        )
+        # Returns the content "March 2024"
+        ```
+
+    Args:
+        date: A date in YYYY, YYYY-MM, or YYYY-MM-DD format, "present", or custom
+            text.
+        locale: Locale providing month names and the translation of "present".
+        single_date_template: Template for months and days.
+        output_format: The output format the template is filled for.
+
+    Returns:
+        The formatted date.
+    """
+    if date == "present":
+        return parse_content(locale.present)
+    if isinstance(date, str) and not exact_date_pattern.fullmatch(date):
+        # A custom date text (e.g. "Fall 2023"):
+        return parse_content(date)
+    if get_precision(date) == "year":
+        return (Text(str(date)),)
+    return format_date(
+        get_date_object(date),
+        locale=locale,
+        single_date_template=single_date_template,
+        output_format=output_format,
     )
 
 
@@ -80,219 +153,222 @@ def format_date_range(
     locale: Locale,
     single_date_template: str,
     date_range_template: str,
-) -> str:
-    """Format date range with localized start and end dates.
+    output_format: Format,
+) -> tuple[Node, ...]:
+    """Format a date range with the `date_range` template.
 
     Why:
-        CV entries use date ranges for employment and education. Users provide
-        dates as year-only integers, YYYY-MM strings, YYYY-MM-DD strings, or
-        "present". Unified formatting handles all input types consistently.
+        Both endpoints are always formatted independently. The range template
+        controls their separator, even when the displayed endpoints are equal.
 
     Example:
         ```py
-        result = format_date_range(
+        format_date_range(
             "2020-06",
             "present",
             locale=english_locale,
             single_date_template="MONTH_ABBREVIATION YEAR",
             date_range_template="START_DATE to END_DATE",
+            output_format="typst",
         )
-        # Returns: "Jun 2020 to present"
+        # Returns the content "Jun 2020 to present"
         ```
 
     Args:
-        start_date: Start date as integer year or ISO date string.
-        end_date: End date as integer year, ISO date string, or "present".
-        locale: Locale providing month names and present translation.
-        single_date_template: Template for formatting individual dates.
-        date_range_template: Template combining start and end dates.
+        start_date: Start date in YYYY, YYYY-MM, or YYYY-MM-DD format.
+        end_date: End date in YYYY, YYYY-MM, or YYYY-MM-DD format, or "present".
+        locale: Locale providing month names and the translation of "present".
+        single_date_template: Template for months and days.
+        date_range_template: Template combining the start and end dates.
+        output_format: The output format the templates are filled for.
 
     Returns:
-        Formatted date range string.
+        The formatted date range.
     """
-    if isinstance(start_date, int):
-        # Then it means only the year is provided
-        start_date = str(start_date)
-    else:
-        # Then it means start_date is either in YYYY-MM-DD or YYYY-MM format
-        date_object = get_date_object(start_date)
-        start_date = date_object_to_string(
-            date_object, locale=locale, single_date_template=single_date_template
+    start, end = (
+        format_single_date(
+            date,
+            locale=locale,
+            single_date_template=single_date_template,
+            output_format=output_format,
         )
-
-    if end_date == "present":
-        end_date = locale.present
-    elif isinstance(end_date, int):
-        # Then it means only the year is provided
-        end_date = str(end_date)
-    else:
-        # Then it means end_date is either in YYYY-MM-DD or YYYY-MM format
-        date_object = get_date_object(end_date)
-        end_date = date_object_to_string(
-            date_object, locale=locale, single_date_template=single_date_template
-        )
-
-    placeholders: dict[str, str] = {
-        "START_DATE": start_date,
-        "END_DATE": end_date,
-    }
-
-    return substitute_placeholders(date_range_template, placeholders)
+        for date in (start_date, end_date)
+    )
+    return fill_template(
+        compile_template(date_range_template, date_range_placeholders),
+        {"START_DATE": start, "END_DATE": end},
+        output_format,
+    )
 
 
-def format_single_date(
-    date: str | int, *, locale: Locale, single_date_template: str
-) -> str:
-    """Format single date with locale-aware template or pass through custom strings.
-
-    Why:
-        Publications and certifications use single dates rather than ranges.
-        Custom date strings like "Spring 2024" need preservation while standard
-        dates require localized formatting.
+def get_period(date: str | int, current_date: Date) -> tuple[Date, Date]:
+    """Find the first and last days that a date covers.
 
     Example:
         ```py
-        # Standard date formatting
-        result = format_single_date(
-            "2024-03", locale=english_locale, single_date_template="MONTH_NAME YEAR"
-        )
-        # Returns: "March 2024"
-
-        # Custom string pass-through
-        result = format_single_date(
-            "Spring 2024", locale=english_locale, single_date_template="MONTH_NAME YEAR"
-        )
-        # Returns: "Spring 2024"
+        get_period("2020-06", Date(2025, 1, 1))
+        # Returns: (Date(2020, 6, 1), Date(2020, 6, 30))
         ```
 
     Args:
-        date: Date as integer year, ISO date string, "present", or custom text.
-        locale: Locale providing present translation.
-        single_date_template: Template for formatting standard dates.
+        date: A date in YYYY, YYYY-MM, or YYYY-MM-DD format, or "present".
+        current_date: The date that "present" refers to.
 
     Returns:
-        Formatted date string or original custom text.
+        The first and last days.
     """
-    if isinstance(date, int):
-        # Only year is provided
-        date_string = str(date)
-    elif date == "present":
-        date_string = locale.present
-    else:
-        try:
-            date_object = get_date_object(date)
-            date_string = date_object_to_string(
-                date_object, locale=locale, single_date_template=single_date_template
+    first = get_date_object(date, current_date)
+    match get_precision(date):
+        case "year":
+            return first, Date(first.year, 12, 31)
+        case "month":
+            last_day = calendar.monthrange(first.year, first.month)[1]
+            return first, Date(first.year, first.month, last_day)
+    return first, first
+
+
+def sort_entries[T](
+    entries: Sequence[T],
+    *,
+    order: Literal["reverse-chronological", "chronological"],
+    current_date: Date,
+) -> list[T]:
+    """Sort entries by their dates.
+
+    Why:
+        An entry is ordered by its end, then its start, so that ongoing and recent
+        entries come first in reverse-chronological order. A year or a month covers
+        all its days, so `2019 to 2020` ends after `2020-03 to 2020-06`. Entries
+        without dates (or with a custom date text) keep their order, after the dated
+        ones, and so do entries with the same dates.
+
+    Args:
+        entries: Entries of a section.
+        order: `"reverse-chronological"` (the most recent first) or `"chronological"`.
+        current_date: The date that "present" refers to.
+
+    Returns:
+        The sorted entries.
+    """
+
+    def get_dates(entry: T) -> tuple[Date, Date] | None:
+        start_date = getattr(entry, "start_date", None)
+        end_date = getattr(entry, "end_date", None)
+        if start_date is not None and end_date is not None:
+            return (
+                get_period(end_date, current_date)[1],
+                get_period(start_date, current_date)[0],
             )
-        except RenderCVInternalError:
-            # Then it is a custom date string (e.g., "My Custom Date")
-            date_string = str(date)
+        date = getattr(entry, "date", None)
+        if isinstance(date, int) or (
+            isinstance(date, str)
+            and (date == "present" or exact_date_pattern.fullmatch(date))
+        ):
+            first, last = get_period(date, current_date)
+            return last, first
+        return None
 
-    return date_string
+    dated = [(dates, entry) for entry in entries if (dates := get_dates(entry))]
+    dated.sort(key=lambda item: item[0], reverse=order == "reverse-chronological")
+    return [entry for _, entry in dated] + [
+        entry for entry in entries if get_dates(entry) is None
+    ]
 
 
-def compute_time_span_string(
+def count_months(start: Date, end: Date) -> int:
+    """Count the months needed to cover the days from `start` to `end`, inclusive.
+
+    Why:
+        A CV time span answers "how long?" in months, rounding a partial month up,
+        so that Feb 2021 to Mar 2021 is 2 months, the same as Mar to Apr. Counting
+        calendar months instead of dividing a number of days avoids the drift of
+        variable month lengths.
+
+    Example:
+        ```py
+        count_months(Date(2021, 2, 1), Date(2021, 3, 31))
+        # Returns: 2
+        ```
+
+    Args:
+        start: First day.
+        end: Last day (not before `start`).
+
+    Returns:
+        The number of months, at least 1.
+    """
+    months = 12 * (end.year - start.year) + end.month - start.month
+    if end.day == calendar.monthrange(end.year, end.month)[1]:
+        # The months end with `end`'s month:
+        return months + 1
+    # A partial month at the end counts as a month:
+    return months + (end.day >= start.day)
+
+
+def compute_time_span(
     start_date: str | int,
     end_date: str | int,
     *,
     locale: Locale,
     current_date: Date,
     time_span_template: str,
-) -> str:
-    """Calculate and format duration between dates with localized units.
+    output_format: Format,
+) -> tuple[Node, ...]:
+    """Compute the duration of a date range and format it, e.g. "2 years 3 months".
 
     Why:
-        CV readers need quick understanding of experience length. Automatic
-        calculation shows "2 years 3 months" or "1 year" based on date
-        precision, with proper singular/plural forms per locale.
+        A month or day range is measured in months, where a month covers the whole
+        month and a day covers the day. A range with a year at either end is
+        measured in years (at least one), since its months are unknown. Zero
+        components are missing placeholders, so the template drops them with
+        their words ("3 months", not "0 years 3 months").
 
     Example:
         ```py
-        result = compute_time_span_string(
+        compute_time_span(
             "2020-06",
             "2023-09",
             locale=english_locale,
             current_date=Date(2025, 1, 1),
             time_span_template="HOW_MANY_YEARS YEARS HOW_MANY_MONTHS MONTHS",
+            output_format="typst",
         )
-        # Returns: "3 years 4 months"
+        # Returns the content "3 years 4 months"
         ```
 
     Args:
-        start_date: Start date as integer year or ISO date string.
-        end_date: End date as integer year, ISO date string, or "present".
-        locale: Locale providing year/month singular/plural forms.
-        current_date: Reference date for "present" calculation.
-        time_span_template: Template for formatting duration output.
+        start_date: Start date in YYYY, YYYY-MM, or YYYY-MM-DD format.
+        end_date: End date in YYYY, YYYY-MM, or YYYY-MM-DD format, or "present".
+        locale: Locale providing the words for years and months.
+        current_date: The date that "present" refers to.
+        time_span_template: Template for the duration.
+        output_format: The output format the template is filled for.
 
     Returns:
-        Formatted time span string with years and months.
+        The formatted duration.
     """
-    if isinstance(start_date, int) or isinstance(end_date, int):
-        # Then it means one of the dates is year, so time span cannot be more
-        # specific than years.
-        start_year = get_date_object(start_date, current_date).year
-        end_year = get_date_object(end_date, current_date).year
-
-        time_span_in_years = end_year - start_year
-
-        if time_span_in_years < 2:
-            how_many_years = "1"
-            locale_years = locale.year
-        else:
-            how_many_years = str(time_span_in_years)
-            locale_years = locale.years
-
-        placeholders: dict[str, str] = {
-            "HOW_MANY_YEARS": how_many_years,
-            "YEARS": locale_years,
-            "HOW_MANY_MONTHS": "",
-            "MONTHS": "",
-        }
-
-        return substitute_placeholders(time_span_template, placeholders)
-
-    # Then it means both start_date and end_date are in YYYY-MM-DD or YYYY-MM
-    # format.
-    end_date_object = get_date_object(end_date, current_date)
-    start_date_object = get_date_object(start_date, current_date)
-
-    # Calculate the number of days between start_date and end_date:
-    timespan_in_days = (end_date_object - start_date_object).days
-
-    # Calculate the number of years and months between start_date and end_date:
-    how_many_years = timespan_in_days // 365
-    how_many_months = (timespan_in_days % 365) // 30 + 1
-    # Deal with overflow (prevent rounding to 1 year 12 months, etc.)
-    how_many_years += how_many_months // 12
-    how_many_months %= 12
-
-    # Format the number of years and months between start_date and end_date:
-    if how_many_years == 0:
-        how_many_years = ""
-        locale_years = ""
-    elif how_many_years == 1:
-        how_many_years = "1"
-        locale_years = locale.year
+    start = get_date_object(start_date, current_date)
+    end = get_date_object(end_date, current_date)
+    precisions = {get_precision(start_date), get_precision(end_date)}
+    if "year" in precisions:
+        years, months = max(end.year - start.year, 1), 0
     else:
-        how_many_years = str(how_many_years)
-        locale_years = locale.years
+        if get_precision(end_date) == "month":
+            # A month covers the whole month:
+            end = Date(end.year, end.month, calendar.monthrange(end.year, end.month)[1])
+        years, months = divmod(count_months(start, end), 12)
 
-    # Format the number of months between start_date and end_date:
-    if how_many_months == 0:
-        how_many_months = ""
-        locale_months = ""
-    elif how_many_months == 1:
-        how_many_months = "1"
-        locale_months = locale.month
-    else:
-        how_many_months = str(how_many_months)
-        locale_months = locale.months
+    values: dict[str, str] = {}
+    if years:
+        values["HOW_MANY_YEARS"] = str(years)
+        values["YEARS"] = locale.year if years == 1 else locale.years
+    if months:
+        values["HOW_MANY_MONTHS"] = str(months)
+        values["MONTHS"] = locale.month if months == 1 else locale.months
 
-    placeholders = {
-        "HOW_MANY_YEARS": how_many_years,
-        "YEARS": locale_years,
-        "HOW_MANY_MONTHS": how_many_months,
-        "MONTHS": locale_months,
-    }
-    return substitute_placeholders(time_span_template, placeholders)
+    template = compile_template(time_span_template, time_span_placeholders)
+    return fill_template(
+        template,
+        {name: parse_content(value) for name, value in values.items()},
+        output_format,
+    )

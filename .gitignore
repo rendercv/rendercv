@@ -138,7 +138,7 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
+# Documentation site built by Zensical (`just build-docs`)
 /site
 
 # mypy
@@ -188,13 +188,17 @@ render_command.prof
 # Executables:
 bin/
 
+# Typst packages that the rendercv Typst package imports, downloaded by
+# scripts/download_typst_packages.py and shipped with RenderCV:
+src/rendercv/renderer/typst_packages/
+
 # Coverage:
 coverage.md
-
-# MkDocs Material:
-mkdocs-material/
 
 # ATS proof generated artifacts (reproducible via scripts/ats_proof/run_all.py):
 scripts/ats_proof/rendered/
 scripts/ats_proof/results/
 scripts/ats_proof/analysis/
+
+# Wrangler's local state (wrangler.toml):
+.wrangler/

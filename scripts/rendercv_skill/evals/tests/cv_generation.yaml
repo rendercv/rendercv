@@ -71,3 +71,13 @@
         - cv.name is Sam Lee
         - Has a skills section with Python, JavaScript, SQL
         - Does not have unnecessary empty sections
+
+- description: "Local phone number requires country clarification"
+  vars:
+    query: "Create a RenderCV YAML file for Sam Lee. Their phone number is 020 7946 0958."
+  assert:
+    - type: llm-rubric
+      value: |
+        The response asks which country the local phone number belongs to before
+        generating the final CV. It does not guess a country code or silently omit
+        the user-provided phone number.

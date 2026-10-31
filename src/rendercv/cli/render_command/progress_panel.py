@@ -6,9 +6,25 @@ import rich.console
 import rich.live
 import rich.panel
 import rich.table
-import typer
+import rich.text
 
 from rendercv.exception import RenderCVUserError, RenderCVValidationError
+
+from ..error_handler import error_panel
+
+
+def display_path(path: pathlib.Path) -> str:
+    """Display a path relative to the working directory when it's in it.
+
+    Args:
+        path: Absolute path.
+
+    Returns:
+        The path, like `./rendercv_output/John_Doe_CV.pdf`.
+    """
+    if path.is_relative_to(pathlib.Path.cwd()):
+        return f"./{path.relative_to(pathlib.Path.cwd())}"
+    return str(path)
 
 
 def format_validation_error_location(error_object: RenderCVValidationError) -> str:
@@ -24,8 +40,11 @@ def format_validation_error_location(error_object: RenderCVValidationError) -> s
     Returns:
         Human-readable location string for table display.
     """
-    if error_object.schema_location is not None:
-        return ".".join(error_object.schema_location)
+    if error_object.schema_location:
+        location = ".".join(error_object.schema_location)
+        if error_object.yaml_source != "main_yaml_file":
+            return f"{error_object.yaml_source}: {location}"
+        return location
 
     if error_object.yaml_location is None:
         return error_object.yaml_source
@@ -92,14 +111,7 @@ class ProgressPanel(rich.live.Live):
         for step in self.completed_steps:
             paths_str = ""
             if step.paths:
-                try:
-                    paths = [
-                        path.relative_to(pathlib.Path.cwd()) for path in step.paths
-                    ]
-                except ValueError:
-                    paths = step.paths
-                paths_as_strings = [f"./{path}" for path in paths]
-                paths_str = "; ".join(paths_as_strings)
+                paths_str = "; ".join(display_path(path) for path in step.paths)
 
             timing = f"[bold green]{step.timing_ms + ' ms':<8}[/bold green]"
             message = step.message + (": " if paths_str else ".")
@@ -118,24 +130,16 @@ class ProgressPanel(rich.live.Live):
         )
 
     def print_user_error(self, user_error: RenderCVUserError) -> None:
-        """Display error panel and exit with error code.
+        """Display an error panel.
 
         Args:
             user_error: User-facing error to display.
         """
         self.clear()
-        self.update(
-            rich.panel.Panel(
-                user_error.message or "An unknown error occurred.",
-                title="[bold red]Error[/bold red]",
-                title_align="left",
-                border_style="bold red",
-            )
-        )
-        raise typer.Exit(code=1)
+        self.update(error_panel(user_error.message or "An unknown error occurred."))
 
     def print_validation_errors(self, errors: list[RenderCVValidationError]) -> None:
-        """Display validation errors in table format and exit.
+        """Display validation errors in table format.
 
         Why:
             Pydantic validation errors are parsed into user-friendly messages with
@@ -152,9 +156,9 @@ class ProgressPanel(rich.live.Live):
 
         for error_object in errors:
             table.add_row(
-                format_validation_error_location(error_object),
-                error_object.input,
-                error_object.message,
+                rich.text.Text(format_validation_error_location(error_object)),
+                rich.text.Text(error_object.input),
+                rich.text.Text(error_object.message),
             )
 
         self.update(
@@ -165,8 +169,6 @@ class ProgressPanel(rich.live.Live):
                 border_style="bold red",
             )
         )
-
-        raise typer.Exit(code=1)
 
     def clear(self) -> None:
         """Clear all completed steps and panel display."""

@@ -17,15 +17,14 @@ jobs:
       issues: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
-          submodules: true
           fetch-depth: 0
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
         with:
-          python-version: "3.13"
+          python-version: "3.15"
 
       - name: Install just
         uses: taiki-e/install-action@just
@@ -38,4 +37,4 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: "--model claude-sonnet-4-6"
           prompt: |
-            Follow .claude/skills/review-rendercv-pr/SKILL.md to review PR #${{ github.event.pull_request.number }}.
+            Read docs/developer_guide/contributing.md and docs/developer_guide/testing.md. Review PR #${{ github.event.pull_request.number }} and post actionable findings with file and line references.

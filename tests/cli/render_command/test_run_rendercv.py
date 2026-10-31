@@ -1,18 +1,19 @@
+import json
 import os
 import pathlib
 import sys
 from unittest.mock import patch
 
 import pytest
-import typer
+import typst
 
 from rendercv.cli.render_command.progress_panel import ProgressPanel
 from rendercv.cli.render_command.run_rendercv import (
-    collect_input_file_paths,
     run_rendercv,
     timed_step,
 )
 from rendercv.exception import RenderCVUserError
+from rendercv.schema.input_files import InputFiles, collect_input_file_paths
 
 
 class TestTimedStep:
@@ -85,16 +86,32 @@ class TestTimedStep:
 
 
 class TestRunRendercv:
+    @pytest.mark.parametrize(
+        "error", [typst.TypstError("broken", "broken"), RuntimeError("broken")]
+    )
+    def test_renderer_failures_propagate(self, tmp_path, error):
+        source = tmp_path / "cv.yaml"
+        source.write_text("cv:\n  name: Jane Doe\n", encoding="utf-8")
+        progress = ProgressPanel(quiet=True)
+        with (
+            patch(
+                "rendercv.cli.render_command.run_rendercv.render_full_template",
+                side_effect=error,
+            ),
+            progress,
+            pytest.raises(type(error)) as raised,
+        ):
+            run_rendercv(source, progress)
+        assert raised.value is error
+
     def test_invalid_yaml(self, tmp_path):
         invalid_yaml = tmp_path / "invalid.yaml"
         invalid_yaml.write_text("invalid: yaml: content: :", encoding="utf-8")
 
         progress = ProgressPanel(quiet=True)
 
-        with pytest.raises(typer.Exit) as exc_info, progress:
-            run_rendercv(invalid_yaml, progress)
-
-        assert exc_info.value.exit_code == 1
+        with progress:
+            assert not run_rendercv(invalid_yaml, progress)
 
     def test_invalid_input_file(self, tmp_path):
         invalid_schema = tmp_path / "invalid_schema.yaml"
@@ -102,10 +119,8 @@ class TestRunRendercv:
 
         progress = ProgressPanel(quiet=True)
 
-        with pytest.raises(typer.Exit) as exc_info, progress:
-            run_rendercv(invalid_schema, progress)
-
-        assert exc_info.value.exit_code == 1
+        with progress:
+            assert not run_rendercv(invalid_schema, progress)
 
     def test_template_syntax_error(self, tmp_path):
         os.chdir(tmp_path)
@@ -130,16 +145,14 @@ design:
 
         progress = ProgressPanel(quiet=True)
 
-        with pytest.raises(typer.Exit) as exc_info, progress:
-            run_rendercv(yaml_file, progress)
-
-        assert exc_info.value.exit_code == 1
+        with progress:
+            assert not run_rendercv(yaml_file, progress)
 
     def test_user_error(self, tmp_path):
         yaml_file = tmp_path / "doesnt_exist.yaml"
         progress = ProgressPanel(quiet=True)
-        with pytest.raises(typer.Exit) as _, progress:
-            run_rendercv(yaml_file, progress)
+        with progress:
+            assert not run_rendercv(yaml_file, progress)
 
     @pytest.mark.skipif(
         sys.platform == "win32", reason="chmod doesn't work the same on Windows"
@@ -156,10 +169,9 @@ design:
         progress = ProgressPanel(quiet=True)
 
         try:
-            with pytest.raises(typer.Exit) as exc_info, progress:
-                run_rendercv(yaml_file, progress)
+            with progress:
+                assert not run_rendercv(yaml_file, progress)
 
-            assert exc_info.value.exit_code == 1
         finally:
             # Restore permissions for cleanup
             yaml_file.chmod(original_mode)
@@ -171,16 +183,12 @@ design:
 
         with (
             patch(
-                "rendercv.cli.render_command.run_rendercv"
-                ".build_rendercv_dictionary_and_model",
+                "rendercv.cli.render_command.run_rendercv.load_rendercv_model",
                 side_effect=RenderCVUserError(message="test error"),
             ),
-            pytest.raises(typer.Exit) as exc_info,
             progress,
         ):
-            run_rendercv(yaml_file, progress)
-
-        assert exc_info.value.exit_code == 1
+            assert not run_rendercv(yaml_file, progress)
 
 
 class TestCollectInputFilePaths:
@@ -190,7 +198,7 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file)
 
-        assert result == {"input": yaml_file}
+        assert result == InputFiles(input=yaml_file)
 
     def test_includes_cli_provided_files(self, tmp_path):
         yaml_file = tmp_path / "cv.yaml"
@@ -204,9 +212,9 @@ class TestCollectInputFilePaths:
             yaml_file, design=design_file, settings=settings_file
         )
 
-        assert result["input"] == yaml_file
-        assert result["design"] == design_file
-        assert result["settings"] == settings_file
+        assert result.input == yaml_file
+        assert result.design == design_file
+        assert result.settings == settings_file
 
     def test_includes_yaml_referenced_files(self, tmp_path):
         design_file = tmp_path / "my_design.yaml"
@@ -221,8 +229,8 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file)
 
-        assert result["input"] == yaml_file
-        assert result["design"] == design_file.resolve()
+        assert result.input == yaml_file
+        assert result.design == design_file.resolve()
 
     def test_invalid_yaml_still_returns_input_file(self, tmp_path):
         yaml_file = tmp_path / "cv.yaml"
@@ -230,7 +238,7 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file)
 
-        assert result == {"input": yaml_file}
+        assert result == InputFiles(input=yaml_file)
 
     def test_includes_cli_provided_locale_file(self, tmp_path):
         yaml_file = tmp_path / "cv.yaml"
@@ -240,8 +248,8 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file, locale=locale_file)
 
-        assert result["input"] == yaml_file
-        assert result["locale"] == locale_file
+        assert result.input == yaml_file
+        assert result.locale == locale_file
 
     def test_includes_yaml_referenced_locale_file(self, tmp_path):
         locale_file = tmp_path / "my_locale.yaml"
@@ -256,8 +264,8 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file)
 
-        assert result["input"] == yaml_file
-        assert result["locale"] == locale_file.resolve()
+        assert result.input == yaml_file
+        assert result.locale == locale_file.resolve()
 
     def test_cli_flags_take_precedence_over_yaml_references(self, tmp_path):
         yaml_ref_design = tmp_path / "yaml_design.yaml"
@@ -274,4 +282,103 @@ class TestCollectInputFilePaths:
 
         result = collect_input_file_paths(yaml_file, design=cli_design)
 
-        assert result["design"] == cli_design
+        assert result.design == cli_design
+
+
+@pytest.mark.parametrize("reference", [None, 123, []])
+def test_invalid_or_null_overlay_reference_does_not_fall_back(tmp_path, reference):
+
+    main = tmp_path / "cv.yaml"
+    main.write_text(
+        "cv: {}\nsettings:\n  render_command:\n    design: missing.yaml\n",
+        encoding="utf-8",
+    )
+    overlay = tmp_path / "settings.yaml"
+    overlay.write_text(
+        json.dumps({"settings": {"render_command": {"design": reference}}}),
+        encoding="utf-8",
+    )
+    assert collect_input_file_paths(main, settings=overlay).design is None
+
+
+class TestCollectInputFilePathsOverlays:
+    def test_merges_referenced_overlays_before_cli_overlays(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text(
+            "settings:\n  render_command:\n    overlays:\n      - publications.yaml\n",
+            encoding="utf-8",
+        )
+        secrets = tmp_path / "secrets.yaml"
+
+        result = collect_input_file_paths(yaml_file, overlays=[secrets])
+
+        assert result.overlays == ((tmp_path / "publications.yaml").resolve(), secrets)
+        assert result.paths == [yaml_file, *result.overlays]
+
+    def test_takes_the_overlays_of_the_settings_file_first(self, tmp_path):
+        yaml_file = tmp_path / "cv.yaml"
+        yaml_file.write_text(
+            "settings:\n  render_command:\n    overlays: [a.yaml]\n", encoding="utf-8"
+        )
+        settings_file = tmp_path / "settings.yaml"
+        settings_file.write_text(
+            "settings:\n  render_command:\n    overlays: [b.yaml]\n", encoding="utf-8"
+        )
+
+        result = collect_input_file_paths(yaml_file, settings=settings_file)
+
+        assert result.overlays == ((tmp_path / "b.yaml").resolve(),)
+
+
+def test_run_rendercv_merges_overlays(tmp_path):
+    input_file = tmp_path / "cv.yaml"
+    input_file.write_text(
+        "cv:\n  name: Jane Doe\n  email: jane@example.com\n"
+        "settings:\n  render_command:\n    dont_generate_pdf: true\n"
+        "    dont_generate_png: true\n    dont_generate_html: true\n"
+        "    dont_generate_typst: true\n",
+        encoding="utf-8",
+    )
+    overlay = tmp_path / "secrets.yaml"
+    overlay.write_text("cv:\n  email: jane@private.com\n", encoding="utf-8")
+
+    with ProgressPanel(quiet=True) as progress:
+        assert run_rendercv(input_file, progress, overlays=[overlay])
+
+    markdown = (tmp_path / "rendercv_output" / "Jane_Doe_CV.md").read_text(
+        encoding="utf-8"
+    )
+    assert "jane@private.com" in markdown
+    assert "jane@example.com" not in markdown
+
+
+def test_invalid_custom_typst_propagates_a_compiler_error(tmp_path):
+    input_file = tmp_path / "cv.yaml"
+    input_file.write_text("cv:\n  name: Jane Doe\n", encoding="utf-8")
+    custom = tmp_path / "classic"
+    custom.mkdir()
+    (custom / "Preamble.j2.typ").write_text("#unknown-function()", encoding="utf-8")
+    with (
+        ProgressPanel(quiet=True) as progress,
+        pytest.raises(typst.TypstError),
+    ):
+        run_rendercv(input_file, progress)
+
+
+def test_run_rendercv_renders_typst_only_when_an_output_needs_it(tmp_path):
+    input_file = tmp_path / "cv.yaml"
+    input_file.write_text(
+        "cv:\n  name: Jane Doe\n"
+        "settings:\n  render_command:\n    dont_generate_pdf: true\n"
+        "    dont_generate_png: true\n    dont_generate_svg: true\n"
+        "    dont_generate_typst: true\n",
+        encoding="utf-8",
+    )
+    # A broken Typst template doesn't matter to Markdown and HTML:
+    (tmp_path / "classic").mkdir()
+    (tmp_path / "classic" / "Preamble.j2.typ").write_text("{{", encoding="utf-8")
+
+    with ProgressPanel(quiet=True) as progress:
+        assert run_rendercv(input_file, progress)
+
+    assert (tmp_path / "rendercv_output" / "Jane_Doe_CV.md").exists()

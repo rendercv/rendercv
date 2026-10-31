@@ -15,4 +15,4 @@ class CustomConnection(BaseModelWithoutExtraKeys):
 
     fontawesome_icon: str
     placeholder: str
-    url: pydantic.HttpUrl | None
+    url: pydantic.HttpUrl | None = None

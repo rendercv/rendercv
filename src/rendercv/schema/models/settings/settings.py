@@ -1,14 +1,22 @@
-import datetime
-from typing import Literal
+from datetime import date as Date
+from typing import Annotated, Literal
 
 import pydantic
 
 from ..base import BaseModelWithoutExtraKeys
+from ..custom_error_types import invalid_input
 from .render_command import RenderCommand
 
 
 class Settings(BaseModelWithoutExtraKeys):
-    current_date: datetime.date | Literal["today"] = pydantic.Field(
+    current_date: Annotated[
+        Date | Literal["today"],
+        invalid_input(
+            "rendercv_current_date",
+            "This is not a valid `current_date`. Please use YYYY-MM-DD format or"
+            ' "today".',
+        ),
+    ] = pydantic.Field(
         default="today",
         title="Date",
         description=(
@@ -17,7 +25,8 @@ class Settings(BaseModelWithoutExtraKeys):
         ),
     )
     render_command: RenderCommand = pydantic.Field(
-        default_factory=RenderCommand,
+        # Validated like an input, to resolve its paths from the input file:
+        default_factory=dict,
         title="Render Command Settings",
         description=(
             "Settings for the `render` command. These correspond to command-line"
@@ -29,12 +38,29 @@ class Settings(BaseModelWithoutExtraKeys):
         title="Bold Keywords",
         description="Keywords to automatically bold in the output.",
     )
-    pdf_title: str = pydantic.Field(
+    sort_entries: Literal["none", "reverse-chronological", "chronological"] = (
+        pydantic.Field(
+            default="none",
+            title="Sort Entries",
+            description=(
+                "The order of the entries of every section and subsection: as written"
+                " (`none`), the most recent first (`reverse-chronological`), or the"
+                " oldest first (`chronological`). Entries are ordered by their end"
+                " dates, then their start dates, and the ones without dates come last"
+                " in their written order. The default value is `none`."
+            ),
+        )
+    )
+    pdf_title: Annotated[
+        str,
+        pydantic.StringConstraints(pattern=r"\S"),
+        invalid_input("rendercv_pdf_title", "Provide a nonblank title."),
+    ] = pydantic.Field(
         default="NAME - CV",
         title="PDF Title",
         description=(
-            "Title metadata for the PDF document. This appears in browser tabs and"
-            " PDF readers. Available placeholders:\n"
+            "The title of the PDF and HTML documents, which PDF readers and browser"
+            " tabs show. Available placeholders:\n"
             "- `NAME`: The CV owner's name from `cv.name`\n"
             "- `CURRENT_DATE`: Formatted date based on"
             " `design.templates.single_date`\n"
@@ -49,7 +75,17 @@ class Settings(BaseModelWithoutExtraKeys):
             "The default value is `NAME - CV`."
         ),
     )
-    _resolved_current_date: datetime.date = pydantic.PrivateAttr()
+    pdf_profile: Literal["accessible", "standard"] = pydantic.Field(
+        default="accessible",
+        title="PDF Profile",
+        description=(
+            "`accessible` makes the PDF conform to PDF/UA-1, the accessibility"
+            " standard, which requires `cv.name` and alternative text for images in"
+            " Typst code. `standard` makes an ordinary PDF without conformance"
+            " checks. The default value is `accessible`."
+        ),
+    )
+    _resolved_current_date: Date = pydantic.PrivateAttr()
 
     @pydantic.field_validator("bold_keywords")
     @classmethod
@@ -71,6 +107,6 @@ class Settings(BaseModelWithoutExtraKeys):
     @pydantic.model_validator(mode="after")
     def resolve_current_date(self) -> "Settings":
         self._resolved_current_date = (
-            datetime.date.today() if self.current_date == "today" else self.current_date
+            Date.today() if self.current_date == "today" else self.current_date
         )
         return self

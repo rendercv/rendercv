@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import Any, Literal
 
 import pydantic
 
@@ -96,6 +96,12 @@ class Colors(BaseModelWithoutExtraKeys):
         + " The default value is `rgb(0, 79, 144)`.",
         examples=color_common_examples,
     )
+    subsection_titles: Color = pydantic.Field(
+        default=Color("rgb(0, 79, 144)"),
+        description=color_common_description
+        + " The default value is `rgb(0, 79, 144)`.",
+        examples=color_common_examples,
+    )
     links: Color = pydantic.Field(
         default=Color("rgb(0, 79, 144)"),
         description=color_common_description
@@ -153,6 +159,13 @@ class FontFamily(BaseModelWithoutExtraKeys):
             "The font family for section titles. The default value is `Source Sans 3`."
         ),
     )
+    subsection_titles: FontFamilyType = pydantic.Field(
+        default="Source Sans 3",
+        description=(
+            "The font family for subsection titles. The default value is `Source Sans"
+            " 3`."
+        ),
+    )
 
 
 class FontSize(BaseModelWithoutExtraKeys):
@@ -175,6 +188,12 @@ class FontSize(BaseModelWithoutExtraKeys):
     section_titles: TypstDimension = pydantic.Field(
         default="1.4em",
         description="The font size for section titles. The default value is `1.4em`.",
+    )
+    subsection_titles: TypstDimension = pydantic.Field(
+        default="1.1em",
+        description=(
+            "The font size for subsection titles. The default value is `1.1em`."
+        ),
     )
 
 
@@ -204,6 +223,13 @@ class SmallCaps(BaseModelWithoutExtraKeys):
             " `false`."
         ),
     )
+    subsection_titles: bool = pydantic.Field(
+        default=False,
+        description=(
+            "Whether to use small caps for subsection titles. The default value is"
+            " `false`."
+        ),
+    )
 
 
 class Bold(BaseModelWithoutExtraKeys):
@@ -222,6 +248,12 @@ class Bold(BaseModelWithoutExtraKeys):
     section_titles: bool = pydantic.Field(
         default=True,
         description="Whether to make section titles bold. The default value is `true`.",
+    )
+    subsection_titles: bool = pydantic.Field(
+        default=True,
+        description=(
+            "Whether to make subsection titles bold. The default value is `true`."
+        ),
     )
 
 
@@ -250,13 +282,13 @@ class Typography(BaseModelWithoutExtraKeys):
             " 'right'. The default value is `right`."
         ),
     )
-    font_family: FontFamily | FontFamilyType = pydantic.Field(
+    font_family: FontFamily = pydantic.Field(
         default_factory=FontFamily,
         description=(
             "The font family. You can provide a single font name as a string (applies"
             " to all elements), or a dictionary with keys 'body', 'name', 'headline',"
-            " 'connections', and 'section_titles' to customize each element. Any system"
-            " font can be used."
+            " 'connections', 'section_titles', and 'subsection_titles' to customize"
+            " each element. Any system font can be used."
         ),
     )
     font_size: FontSize = pydantic.Field(
@@ -273,35 +305,30 @@ class Typography(BaseModelWithoutExtraKeys):
     )
 
     @pydantic.field_validator(
-        "font_family", mode="plain", json_schema_input_type=FontFamily | FontFamilyType
+        "font_family", mode="before", json_schema_input_type=FontFamily | FontFamilyType
     )
     @classmethod
     def validate_font_family(
-        cls, font_family: FontFamily | FontFamilyType
-    ) -> FontFamily:
-        """Convert string font to FontFamily object with uniform styling.
+        cls, font_family: FontFamily | str | dict[str, str]
+    ) -> FontFamily | dict[str, str]:
+        """Expand a font name before validating against the theme's font model.
 
         Why:
             Users can provide simple string "Latin Modern Roman" for all text,
             or specify per-element fonts via FontFamily dict. Validator accepts
-            both, expanding strings to full FontFamily objects.
+            both. Returning a mapping lets the generated theme variant validate
+            its own FontFamily subclass and preserve defaults for omitted fields.
 
         Args:
             font_family: String font name or FontFamily object.
 
         Returns:
-            FontFamily object with all fields populated.
+            Input model or mapping for normal field validation.
         """
         if isinstance(font_family, str):
-            return FontFamily(
-                body=font_family,
-                name=font_family,
-                headline=font_family,
-                connections=font_family,
-                section_titles=font_family,
-            )
+            return dict.fromkeys(FontFamily.model_fields, font_family)
 
-        return FontFamily.model_validate(font_family)
+        return font_family
 
 
 # Links
@@ -463,6 +490,22 @@ class SectionTitles(BaseModelWithoutExtraKeys):
     space_below: TypstDimension = pydantic.Field(
         default="0.3cm",
         description=length_common_description + " The default value is `0.3cm`.",
+    )
+
+
+class SubsectionTitles(BaseModelWithoutExtraKeys):
+    space_above: TypstDimension = pydantic.Field(
+        default="0.6cm",
+        description=(
+            "Space above subsection titles, except the first one of a section,"
+            " which is below the section title. "
+            + length_common_description
+            + " The default value is `0.6cm`."
+        ),
+    )
+    space_below: TypstDimension = pydantic.Field(
+        default="0.2cm",
+        description=length_common_description + " The default value is `0.2cm`.",
     )
 
 
@@ -634,136 +677,154 @@ class Entries(BaseModelWithoutExtraKeys):
 
 # Templates
 
+entry_placeholder_descriptions: dict[str, str] = {
+    "LABEL": 'The label text (e.g., "Languages", "Citizenship")',
+    "DETAILS": 'The details text (e.g., "English (native), Spanish (fluent)")',
+    "INSTITUTION": "Institution name",
+    "AREA": "Field of study/major",
+    "DEGREE": "Degree type (e.g., BS, PhD)",
+    "DEGREE_WITH_AREA": (
+        "Locale-aware phrase combining degree and area (e.g., 'BS in Computer Science')"
+    ),
+    "NAME": "Entry name/title",
+    "COMPANY": "Company name",
+    "POSITION": "Job title/position",
+    "TITLE": "Publication title",
+    "AUTHORS": "List of authors (formatted as comma-separated string)",
+    "DOI": "Digital Object Identifier",
+    "URL": "Publication URL (the DOI link if a DOI is provided)",
+    "JOURNAL": "Journal/conference/venue name",
+    "SUMMARY": "Summary text",
+    "HIGHLIGHTS": "Bullet points list",
+    "LOCATION": "Location text",
+    "DATE": (
+        "Formatted date or date range, followed by its duration in sections "
+        "listed in `design.sections.show_time_spans_in`"
+    ),
+    "START_DATE": "Formatted start date of the date range",
+    "END_DATE": "Formatted end date of the date range",
+}
+dated_entry_placeholders = (
+    "SUMMARY",
+    "HIGHLIGHTS",
+    "LOCATION",
+    "DATE",
+    "START_DATE",
+    "END_DATE",
+)
+education_entry_placeholders = (
+    "INSTITUTION",
+    "AREA",
+    "DEGREE",
+    "DEGREE_WITH_AREA",
+    *dated_entry_placeholders,
+)
+normal_entry_placeholders = ("NAME", *dated_entry_placeholders)
+experience_entry_placeholders = ("COMPANY", "POSITION", *dated_entry_placeholders)
+publication_entry_placeholders = (
+    "TITLE",
+    "AUTHORS",
+    "SUMMARY",
+    "DOI",
+    "URL",
+    "JOURNAL",
+    "DATE",
+)
+
+
+def template_field(
+    description: str, placeholders: tuple[str, ...], default: str
+) -> Any:
+    """Declare an entry template field, documenting the placeholders it can use.
+
+    Why:
+        Every entry template lists its placeholders in the JSON schema and the
+        documentation. Generating the descriptions from one table keeps them
+        consistent.
+
+    Args:
+        description: What the template is for.
+        placeholders: Names of the placeholders available to the template.
+        default: The default template.
+
+    Returns:
+        The Pydantic field.
+    """
+    placeholder_list = "\n".join(
+        f"- `{name}`: {entry_placeholder_descriptions[name]}" for name in placeholders
+    )
+    escaped_default = default.replace("\n", "\\n")
+    return pydantic.Field(
+        default=default,
+        description=(
+            f"{description} Available placeholders:\n{placeholder_list}\n\nYou can"
+            " also add arbitrary keys to entries and use them as UPPERCASE"
+            f" placeholders.\n\nThe default value is `{escaped_default}`."
+        ),
+    )
+
 
 class OneLineEntryTemplate(BaseModelWithoutExtraKeys):
-    main_column: str = pydantic.Field(
-        default="**LABEL:** DETAILS",
-        description=(
-            "Template for one-line entries. Available placeholders:\n- `LABEL`: The"
-            ' label text (e.g., "Languages", "Citizenship")\n- `DETAILS`: The details'
-            ' text (e.g., "English (native), Spanish (fluent)")\n\nYou can also add'
-            " arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe"
-            " default value is `**LABEL:** DETAILS`."
-        ),
+    main_column: str = template_field(
+        "Template for one-line entries.", ("LABEL", "DETAILS"), "**LABEL:** DETAILS"
     )
 
 
 class EducationEntryTemplate(BaseModelWithoutExtraKeys):
-    main_column: str = pydantic.Field(
-        default="**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS",
-        description=(
-            "Template for education entry main column. Available placeholders:\n-"
-            " `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n-"
-            " `DEGREE`: Degree type (e.g., BS, PhD)\n- `DEGREE_WITH_AREA`: Locale-aware"
-            " phrase combining degree and area (e.g., 'BS in Computer Science')\n-"
-            " `SUMMARY`: Summary text\n-"
-            " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`:"
-            " Formatted date or date range\n\nYou can also add arbitrary keys to"
-            " entries and use them as UPPERCASE placeholders.\n\nThe default value is"
-            " `**INSTITUTION**, AREA\\nSUMMARY\\nHIGHLIGHTS`."
-        ),
+    main_column: str = template_field(
+        "Template for education entry main column.",
+        education_entry_placeholders,
+        "**INSTITUTION**, AREA\nSUMMARY\nHIGHLIGHTS",
     )
-    degree_column: str | None = pydantic.Field(
-        default="**DEGREE**",
-        description=(
-            "Optional degree column template. If provided, displays degree in separate"
-            " column. If `null`, no degree column is shown. Available placeholders:\n-"
-            " `INSTITUTION`: Institution name\n- `AREA`: Field of study/major\n-"
-            " `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`: Summary text\n-"
-            " `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location text\n- `DATE`:"
-            " Formatted date or date range\n\nYou can also add arbitrary keys to"
-            " entries and use them as UPPERCASE placeholders.\n\nThe default value is"
-            " `**DEGREE**`."
-        ),
+    degree_column: str | None = template_field(
+        "Optional degree column template. If provided, displays degree in separate"
+        " column. If `null`, no degree column is shown.",
+        education_entry_placeholders,
+        "**DEGREE**",
     )
-    date_and_location_column: str = pydantic.Field(
-        default="LOCATION\nDATE",
-        description=(
-            "Template for education entry date/location column. Available"
-            " placeholders:\n- `INSTITUTION`: Institution name\n- `AREA`: Field of"
-            " study/major\n- `DEGREE`: Degree type (e.g., BS, PhD)\n- `SUMMARY`:"
-            " Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location"
-            " text\n- `DATE`: Formatted date or date range\n\nYou can also add"
-            " arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe"
-            " default value is `LOCATION\\nDATE`."
-        ),
+    date_and_location_column: str = template_field(
+        "Template for education entry date/location column.",
+        education_entry_placeholders,
+        "LOCATION\nDATE",
     )
 
 
 class NormalEntryTemplate(BaseModelWithoutExtraKeys):
-    main_column: str = pydantic.Field(
-        default="**NAME**\nSUMMARY\nHIGHLIGHTS",
-        description=(
-            "Template for normal entry main column. Available placeholders:\n- `NAME`:"
-            " Entry name/title\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet"
-            " points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or"
-            " date range\n\nYou can also add arbitrary keys to entries and use them as"
-            " UPPERCASE placeholders.\n\nThe default value is"
-            " `**NAME**\\nSUMMARY\\nHIGHLIGHTS`."
-        ),
+    main_column: str = template_field(
+        "Template for normal entry main column.",
+        normal_entry_placeholders,
+        "**NAME**\nSUMMARY\nHIGHLIGHTS",
     )
-    date_and_location_column: str = pydantic.Field(
-        default="LOCATION\nDATE",
-        description=(
-            "Template for normal entry date/location column. Available placeholders:\n-"
-            " `NAME`: Entry name/title\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`:"
-            " Bullet points list\n- `LOCATION`: Location text\n- `DATE`: Formatted date"
-            " or date range\n\nYou can also add arbitrary keys to entries and use them"
-            " as UPPERCASE placeholders.\n\nThe default value is `LOCATION\\nDATE`."
-        ),
+    date_and_location_column: str = template_field(
+        "Template for normal entry date/location column.",
+        normal_entry_placeholders,
+        "LOCATION\nDATE",
     )
 
 
 class ExperienceEntryTemplate(BaseModelWithoutExtraKeys):
-    main_column: str = pydantic.Field(
-        default="**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS",
-        description=(
-            "Template for experience entry main column. Available placeholders:\n-"
-            " `COMPANY`: Company name\n- `POSITION`: Job title/position\n- `SUMMARY`:"
-            " Summary text\n- `HIGHLIGHTS`: Bullet points list\n- `LOCATION`: Location"
-            " text\n- `DATE`: Formatted date or date range\n\nYou can also add"
-            " arbitrary keys to entries and use them as UPPERCASE placeholders.\n\nThe"
-            " default value is `**COMPANY**, POSITION\\nSUMMARY\\nHIGHLIGHTS`."
-        ),
+    main_column: str = template_field(
+        "Template for experience entry main column.",
+        experience_entry_placeholders,
+        "**COMPANY**, POSITION\nSUMMARY\nHIGHLIGHTS",
     )
-    date_and_location_column: str = pydantic.Field(
-        default="LOCATION\nDATE",
-        description=(
-            "Template for experience entry date/location column. Available"
-            " placeholders:\n- `COMPANY`: Company name\n- `POSITION`: Job"
-            " title/position\n- `SUMMARY`: Summary text\n- `HIGHLIGHTS`: Bullet points"
-            " list\n- `LOCATION`: Location text\n- `DATE`: Formatted date or date"
-            " range\n\nYou can also add arbitrary keys to entries and use them as"
-            " UPPERCASE placeholders.\n\nThe default value is `LOCATION\\nDATE`."
-        ),
+    date_and_location_column: str = template_field(
+        "Template for experience entry date/location column.",
+        experience_entry_placeholders,
+        "LOCATION\nDATE",
     )
 
 
 class PublicationEntryTemplate(BaseModelWithoutExtraKeys):
-    main_column: str = pydantic.Field(
-        default="**TITLE**\nSUMMARY\nAUTHORS\nURL (JOURNAL)",
-        description=(
-            "Template for publication entry main column. Available placeholders:\n-"
-            " `TITLE`: Publication title\n- `AUTHORS`: List of authors (formatted as"
-            " comma-separated string)\n- `SUMMARY`: Summary/abstract text\n- `DOI`:"
-            " Digital Object Identifier\n- `URL`: Publication URL (if DOI not"
-            " provided)\n- `JOURNAL`: Journal/conference/venue name\n- `DATE`:"
-            " Formatted date\n\nYou can also add arbitrary keys to entries and use them"
-            " as UPPERCASE placeholders.\n\nThe default value is"
-            " `**TITLE**\\nSUMMARY\\nAUTHORS\\nURL (JOURNAL)`."
-        ),
+    main_column: str = template_field(
+        "Template for publication entry main column.",
+        publication_entry_placeholders,
+        "**TITLE**\nSUMMARY\nAUTHORS\nURL (JOURNAL)",
     )
-    date_and_location_column: str = pydantic.Field(
-        default="DATE",
-        description=(
-            "Template for publication entry date column. Available placeholders:\n-"
-            " `TITLE`: Publication title\n- `AUTHORS`: List of authors (formatted as"
-            " comma-separated string)\n- `SUMMARY`: Summary/abstract text\n- `DOI`:"
-            " Digital Object Identifier\n- `URL`: Publication URL (if DOI not"
-            " provided)\n- `JOURNAL`: Journal/conference/venue name\n- `DATE`:"
-            " Formatted date\n\nYou can also add arbitrary keys to entries and use them"
-            " as UPPERCASE placeholders.\n\nThe default value is `DATE`."
-        ),
+    date_and_location_column: str = template_field(
+        "Template for publication entry date column.",
+        publication_entry_placeholders,
+        "DATE",
     )
 
 
@@ -771,20 +832,17 @@ class Templates(BaseModelWithoutExtraKeys):
     footer: str = pydantic.Field(
         default="*NAME -- PAGE_NUMBER/TOTAL_PAGES*",
         description=(
-            "Template for the footer. Available placeholders:\n"
-            "- `NAME`: The CV owner's name from `cv.name`\n"
-            "- `PAGE_NUMBER`: Current page number\n"
-            "- `TOTAL_PAGES`: Total number of pages\n"
-            "- `CURRENT_DATE`: Formatted date based on `design.templates.single_date`\n"
-            "- `MONTH_NAME`: Full month name (e.g., January)\n"
-            "- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n"
-            "- `MONTH`: Month number (e.g., 1)\n"
-            "- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n"
-            "- `DAY`: Day of the month (e.g., 5)\n"
-            "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
-            "- `YEAR`: Full year (e.g., 2025)\n"
-            "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
-            "The default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`."
+            "Template for the footer. Available placeholders:\n- `NAME`: The CV owner's"
+            " name from `cv.name`\n- `PAGE_NUMBER`: Current page number\n-"
+            " `TOTAL_PAGES`: Total number of pages\n- `CURRENT_DATE`: Formatted date"
+            " based on `design.templates.single_date`\n- `MONTH_NAME`: Full month name"
+            " (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month name (e.g.,"
+            " Jan)\n- `MONTH`: Month number (e.g., 1)\n- `MONTH_IN_TWO_DIGITS`:"
+            " Zero-padded month (e.g., 01)\n- `DAY`: Day of the month (e.g., 5)\n-"
+            " `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `DAY_ORDINAL`: Day as"
+            " an ordinal (e.g., 5th), from `locale.day_ordinals`\n- `YEAR`: Full year"
+            " (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\nThe"
+            " default value is `*NAME -- PAGE_NUMBER/TOTAL_PAGES*`."
         ),
     )
     top_note: str = pydantic.Field(
@@ -797,24 +855,24 @@ class Templates(BaseModelWithoutExtraKeys):
             " name (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month name"
             " (e.g., Jan)\n- `MONTH`: Month number (e.g., 1)\n- `MONTH_IN_TWO_DIGITS`:"
             " Zero-padded month (e.g., 01)\n- `DAY`: Day of the month (e.g., 5)\n-"
-            " `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `YEAR`: Full year"
-            " (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
+            " `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n- `DAY_ORDINAL`: Day"
+            " as an ordinal (e.g., 5th), from `locale.day_ordinals`\n- `YEAR`: Full"
+            " year (e.g., 2025)\n- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
             "The default value is `*LAST_UPDATED CURRENT_DATE*`."
         ),
     )
     single_date: str = pydantic.Field(
         default="MONTH_ABBREVIATION YEAR",
         description=(
-            "Template for single dates. Available placeholders:\n"
-            "- `MONTH_NAME`: Full month name (e.g., January)\n"
-            "- `MONTH_ABBREVIATION`: Abbreviated month name (e.g., Jan)\n"
-            "- `MONTH`: Month number (e.g., 1)\n"
-            "- `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n"
-            "- `DAY`: Day of the month (e.g., 5)\n"
-            "- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n"
-            "- `YEAR`: Full year (e.g., 2025)\n"
-            "- `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\n"
-            "The default value is `MONTH_ABBREVIATION YEAR`."
+            "Template for single dates. Available placeholders:\n- `MONTH_NAME`: Full"
+            " month name (e.g., January)\n- `MONTH_ABBREVIATION`: Abbreviated month"
+            " name (e.g., Jan)\n- `MONTH`: Month number (e.g., 1)\n-"
+            " `MONTH_IN_TWO_DIGITS`: Zero-padded month (e.g., 01)\n- `DAY`: Day of the"
+            " month (e.g., 5)\n- `DAY_IN_TWO_DIGITS`: Zero-padded day (e.g., 05)\n-"
+            " `DAY_ORDINAL`: Day as an ordinal (e.g., 5th), from"
+            " `locale.day_ordinals`\n- `YEAR`: Full year (e.g., 2025)\n-"
+            " `YEAR_IN_TWO_DIGITS`: Two-digit year (e.g., 25)\n\nThe default value is"
+            " `MONTH_ABBREVIATION YEAR`."
         ),
     )
     date_range: str = pydantic.Field(
@@ -871,6 +929,9 @@ class ClassicTheme(BaseModelWithoutExtraKeys):
     links: Links = pydantic.Field(default_factory=Links)
     header: Header = pydantic.Field(default_factory=Header)
     section_titles: SectionTitles = pydantic.Field(default_factory=SectionTitles)
+    subsection_titles: SubsectionTitles = pydantic.Field(
+        default_factory=SubsectionTitles
+    )
     sections: Sections = pydantic.Field(default_factory=Sections)
     entries: Entries = pydantic.Field(default_factory=Entries)
     templates: Templates = pydantic.Field(default_factory=Templates)

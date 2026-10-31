@@ -15,7 +15,7 @@ from .models.cv.cv import Cv
 from .models.design.built_in_design import available_themes, built_in_design_adapter
 from .models.locale.locale import available_locales, locale_adapter
 from .models.rendercv_model import RenderCVModel
-from .rendercv_model_builder import read_yaml
+from .yaml_reader import read_yaml
 
 
 def comment_out_section_sub_fields(
@@ -30,8 +30,9 @@ def comment_out_section_sub_fields(
 
     Args:
         yaml_string: Full YAML string.
-        section_header: The section header line(s) to find (e.g., "design:\\n  theme: classic\\n").
-        next_section_header: The next section header that ends this section's sub-fields.
+        section_header: The section header line(s) to find (e.g.,
+            "design:\\n  theme: classic\\n").
+        next_section_header: The next section header, which ends the sub-fields.
 
     Returns:
         YAML string with sub-fields of the target section commented out.

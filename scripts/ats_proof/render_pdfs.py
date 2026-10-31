@@ -29,7 +29,8 @@ def render_with_theme(yaml_path: Path, theme: str, output_dir: Path) -> Path | N
             dont_generate_html=True,
             dont_generate_markdown=True,
             dont_generate_png=True,
-            overrides={"design": {"theme": theme}},
+            dont_generate_svg=True,
+            overrides={"design.theme": theme},
         )
 
     return pdf_path if pdf_path.exists() else None

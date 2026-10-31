@@ -16,13 +16,11 @@ jobs:
       issues: write
       id-token: write
     steps:
-      - uses: actions/checkout@v6
-        with:
-          submodules: true
+      - uses: actions/checkout@v7
 
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           claude_args: "--model claude-sonnet-4-6"
           prompt: |
-            Follow .claude/skills/triage-rendercv-issue/SKILL.md to triage issue #${{ github.event.issue.number }}.
+            Read docs/developer_guide/contributing.md, especially "Triaging reports". Analyze issue #${{ github.event.issue.number }} and post a concise comment with findings and next steps.

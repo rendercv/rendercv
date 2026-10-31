@@ -83,7 +83,8 @@ def main() -> None:
                 if e.response.status_code == 429:
                     print("    Rate limited. Waiting 30s...")  # noqa: T201
                     time.sleep(30)
-            except Exception as e:
+            # Any other failure is recorded so the remaining PDFs still get submitted:
+            except Exception as e:  # noqa: BLE001
                 failed += 1
                 print(f"  [{i + 1}/{len(pdfs)}] ERROR: {rel} - {e}")  # noqa: T201
     finally:

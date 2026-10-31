@@ -1,9 +1,4 @@
-"""This script generates the example entry figures and creates an environment for
-documentation templates using `mkdocs-macros-plugin`. For example, the content of the
-example entries found in
-"[Structure of the YAML Input File](https://docs.rendercv.com/user_guide/structure_of_the_yaml_input_file/)"
-are coming from this script.
-"""
+"""Expose model defaults and example entries to Zensical Markdown templates."""
 
 import io
 import pathlib
@@ -12,6 +7,7 @@ from typing import get_args
 import pydantic
 import ruamel.yaml
 
+from rendercv import __version__
 from rendercv.schema.models.cv.section import (
     BulletEntry,
     EducationEntry,
@@ -70,7 +66,6 @@ def dictionary_to_yaml(dictionary: dict):
 
 
 def define_env(env):
-    # See https://mkdocs-macros-plugin.readthedocs.io/en/latest/macros/
     sample_entries = read_yaml(
         repository_root / "docs" / "user_guide" / "sample_entries.yaml"
     )
@@ -92,6 +87,7 @@ def define_env(env):
             ],
         }
 
+    env.variables["rendercv_version"] = __version__
     env.variables["sample_entries"] = entries_showcase
     env.variables["entry_count"] = len(sample_entries)
     env.variables["entry_names"] = [
@@ -112,6 +108,7 @@ def define_env(env):
         for locale in available_locales
     ]
     env.variables["available_locales"] = ", ".join(locales)
+    env.variables["locale_count"] = len(available_locales)
 
     # Available social networks strings (put available social networks between ``)
     social_networks = [

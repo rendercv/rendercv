@@ -1,6 +1,10 @@
+import pathlib
+
 import typer
 
 from rendercv.exception import RenderCVUserError
+from rendercv.schema.models.cv.cv import photo_kind
+from rendercv.schema.models.settings.render_command import output_formats
 
 
 def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
@@ -49,6 +53,20 @@ def parse_override_arguments(extra_arguments: typer.Context) -> dict[str, str]:
             raise RenderCVUserError(message)
 
         key = key.replace("--", "")
+
+        if key in {
+            f"settings.render_command.{role}"
+            for role in ("design", "locale", "overlays")
+        }:
+            raise RenderCVUserError(
+                "Use --design, --locale-catalog, or --overlay to select input files."
+            )
+        path_fields = {
+            f"settings.render_command.{kind}_path" for kind in output_formats
+        }
+        path_fields.add("settings.render_command.output_folder")
+        if key in path_fields or (key == "cv.photo" and photo_kind(value) == "path"):
+            value = str(pathlib.Path(value).absolute())
 
         key_and_values[key] = value
 

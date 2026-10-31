@@ -1,15 +1,15 @@
 import pathlib
+from collections.abc import Iterator, Mapping, Sequence
 from typing import Any, cast
 
 import pydantic
 import pydantic_core
-from ruamel.yaml.comments import CommentedMap
+from ruamel.yaml.comments import CommentedMap, CommentedSeq
 
 from rendercv.exception import (
-    OVERLAY_SOURCE_TO_YAML_SOURCE,
-    OverlaySourceKey,
     RenderCVInternalError,
     RenderCVValidationError,
+    YamlLocation,
     YamlSource,
 )
 
@@ -20,238 +20,227 @@ error_dictionary = cast(
     dict[str, str],
     read_yaml(pathlib.Path(__file__).parent / "error_dictionary.yaml"),
 )
-unwanted_texts = ("value is not a valid email address: ", "Value error, ")
-unwanted_locations = (
-    "tagged-union",
-    "list",
-    "literal",
-    "int",
-    "str",
-    "constrained-str",
-    "function-",
-)
+
+
+def resolve_location(
+    location: tuple[str | int, ...], input_value: Any, *, missing: bool = False
+) -> tuple[str | int, ...]:
+    """Project Pydantic's path onto keys and indices in the input tree.
+
+    Args:
+        location: Raw path, possibly containing union branch labels.
+        input_value: Original validation input.
+        missing: Whether the final element names an absent required field.
+
+    Returns:
+        Existing input path, optionally followed by the missing field name.
+    """
+    resolved: list[str | int] = []
+    for i, part in enumerate(location):
+        if contains_location(input_value, (part,)):
+            resolved.append(part)
+            input_value = input_value[part]
+        elif missing and i == len(location) - 1:
+            resolved.append(part)
+    return tuple(resolved)
+
+
+def contains_location(document: Any, location: tuple[str | int, ...]) -> bool:
+    """Tell whether a document has a value at a location.
+
+    Args:
+        document: Mapping or sequence.
+        location: Keys and indices.
+
+    Returns:
+        Whether every key and index of the location exists.
+    """
+    for part in location:
+        if (isinstance(document, Mapping) and part in document) or (
+            isinstance(document, list | tuple)
+            and isinstance(part, int)
+            and 0 <= part < len(document)
+        ):
+            document = document[part]
+        else:
+            return False
+    return True
 
 
 def parse_plain_pydantic_error(
     plain_error: pydantic_core.ErrorDetails,
     input_dictionary: CommentedMap | dict[str, Any],
-    overlay_sources: dict[str, CommentedMap] | None = None,
+    sources: Sequence[tuple[YamlSource, CommentedMap]] = (),
 ) -> RenderCVValidationError:
-    """Transform raw Pydantic error into user-friendly validation error with YAML coordinates.
+    """Translate a structured error without modifying Pydantic's error details.
+
+    Why:
+        The input is the main file with other files laid over it, in order. A
+        value comes from the last of them that has it, so its error is reported in
+        that file, at that file's coordinates.
 
     Args:
         plain_error: Raw Pydantic validation error.
-        input_dictionary: YAML dict with line/column metadata.
-        overlay_sources: Per-section CommentedMaps from overlays (for correct coordinates).
+        input_dictionary: Validated input, with optional YAML coordinates.
+        sources: The files laid over the main file, in order, with their documents.
 
     Returns:
-        Structured error with location tuple, friendly message, and YAML coordinates.
+        Friendly error with an input path and available source coordinates.
     """
-    for unwanted_text in unwanted_texts:
-        plain_error["msg"] = plain_error["msg"].replace(unwanted_text, "")
-
-    if plain_error["loc"][0] in ["design", "locale"]:
-        # Skip the second key because it's the discriminator value.
-        plain_error["loc"] = plain_error["loc"][:1] + plain_error["loc"][2:]
-
-    if "ctx" in plain_error:
-        if "input" in plain_error["ctx"]:
-            plain_error["input"] = plain_error["ctx"]["input"]
-
-        if "loc" in plain_error["ctx"]:
-            plain_error["loc"] = plain_error["ctx"]["loc"]
-
-    location = tuple(
-        str(location_element)
-        for location_element in plain_error["loc"]
-        if not any(item in str(location_element) for item in unwanted_locations)
-    )
-    # Special case for end_date because Pydantic returns multiple end_date errors
-    # since it has multiple valid formats:
-    if location and "end_date" in location[-1]:
-        plain_error["msg"] = (
-            "This is not a valid `end_date`! Please use either YYYY-MM-DD, YYYY-MM,"
-            ' or YYYY format or "present"!'
+    context = plain_error.get("ctx", {})
+    missing = plain_error["type"] == "missing"
+    location = resolve_location(plain_error["loc"], input_dictionary, missing=missing)
+    value = plain_error["input"]
+    template = error_dictionary.get(plain_error["type"])
+    if template is not None:
+        message = template.format(**context)
+    elif plain_error["type"] == "value_error":
+        # EmailStr supplies a reason; ordinary validators supply the exception.
+        message = str(context.get("reason", context.get("error", plain_error["msg"])))
+    elif (
+        plain_error["type"] == "string_pattern_mismatch"
+        and context.get("pattern") == r"\b10\..*"
+    ):
+        message = (
+            'A DOI prefix should always start with "10.". For example,'
+            ' "10.1109/TASC.2023.3340648".'
         )
+    else:
+        message = plain_error["msg"]
+    if not message.endswith((".", "!", "?")):
+        message += "."
 
-    # Special case for current_date: the field is typed as datetime.date |
-    # Literal["today"]. Pydantic appends "date" to the loc for the datetime.date
-    # union branch (e.g. ("settings", "current_date", "date")). Strip that suffix
-    # first so the field name lands at location[-1], matching the end_date pattern.
-    if len(location) >= 2 and location[-1] == "date" and location[-2] == "current_date":
-        location = location[:-1]
-    if location and "current_date" in location[-1]:
-        plain_error["msg"] = (
-            "This is not a valid `current_date`! Please use YYYY-MM-DD format or"
-            ' "today".'
-        )
-
-    for old_error_message, new_error_message in error_dictionary.items():
-        if old_error_message in plain_error["msg"]:
-            plain_error["msg"] = new_error_message
+    yaml_source: YamlSource = "main_yaml_file"
+    coord_dict: Any = input_dictionary
+    value_location = location[:-1] if missing else location
+    for source, document in reversed(sources):
+        if value_location and contains_location(document, value_location):
+            yaml_source, coord_dict = source, document
             break
 
-    if not plain_error["msg"].endswith("."):
-        plain_error["msg"] += "."
-
-    # Determine which YAML source this error came from and use the correct
-    # CommentedMap for coordinate lookup
-    yaml_source: YamlSource = "main_yaml_file"
-    coord_dict: CommentedMap | dict[str, Any] = input_dictionary
-    if overlay_sources and location and location[0] in overlay_sources:
-        source_key = cast(OverlaySourceKey, location[0])
-        yaml_source = OVERLAY_SOURCE_TO_YAML_SOURCE[source_key]
-        coord_dict = overlay_sources[source_key]
-
-    location_for_coords = (
-        location if plain_error["type"] != "missing" else location[:-1]
-    )
-
     return RenderCVValidationError(
-        schema_location=location,
-        yaml_location=(
-            get_coordinates_of_a_key_in_a_yaml_object(
-                coord_dict,
-                location_for_coords,
-            )
-            if isinstance(coord_dict, CommentedMap)
-            else None
+        schema_location=tuple(str(part) for part in location),
+        yaml_location=get_coordinates_of_a_key_in_a_yaml_object(
+            coord_dict, value_location
         ),
         yaml_source=yaml_source,
-        message=plain_error["msg"],
-        input=(
-            str(plain_error["input"])
-            if not isinstance(plain_error["input"], dict | list)
-            else "..."
-        ),
+        message=message,
+        input=str(value) if not isinstance(value, dict | list) else "...",
     )
 
 
 def parse_validation_errors(
     exception: pydantic.ValidationError,
     input_dictionary: CommentedMap | dict[str, Any],
-    overlay_sources: dict[str, CommentedMap] | None = None,
+    sources: Sequence[tuple[YamlSource, CommentedMap]] = (),
 ) -> list[RenderCVValidationError]:
-    """Extract all validation errors from Pydantic exception with deduplication.
+    """Expand nested entry errors and remove only identical table rows.
 
     Args:
         exception: Pydantic validation exception.
-        input_dictionary: YAML dict with location metadata.
-        overlay_sources: Per-section CommentedMaps from overlays (for correct coordinates).
+        input_dictionary: Validated input with optional YAML coordinates.
+        sources: The files laid over the main file, in order, with their documents.
 
     Returns:
-        Deduplicated list of user-friendly validation errors.
+        Errors in validation order, including distinct failures at the same path.
     """
-    all_plain_errors = exception.errors()
-    all_final_errors: list[RenderCVValidationError] = []
+    result: list[RenderCVValidationError] = []
+    for error in expand_entry_errors(exception.errors()):
+        parsed = parse_plain_pydantic_error(error, input_dictionary, sources)
+        if parsed not in result:
+            result.append(parsed)
+    return result
 
-    for plain_error in all_plain_errors:
-        all_final_errors.append(
-            parse_plain_pydantic_error(plain_error, input_dictionary, overlay_sources)
-        )
 
-        if plain_error["type"] == CustomPydanticErrorTypes.entry_validation.value:
-            if "ctx" not in plain_error or "caused_by" not in plain_error["ctx"]:
-                raise RenderCVInternalError(
-                    "entry_validation error missing ctx or caused_by"
-                )
-            for plain_cause_error in plain_error["ctx"]["caused_by"]:
-                loc = plain_cause_error["loc"][1:]  # Omit `entries` location
-                plain_cause_error["loc"] = plain_error["loc"] + loc
-                all_final_errors.append(
-                    parse_plain_pydantic_error(
-                        plain_cause_error, input_dictionary, overlay_sources
-                    )
-                )
+def expand_entry_errors(
+    errors: list[pydantic_core.ErrorDetails],
+) -> Iterator[pydantic_core.ErrorDetails]:
+    """Yield each error, followed by the errors that caused it, with full locations.
 
-    # Remove duplicates from all_final_errors:
-    error_locations = set()
-    errors_without_duplicates = []
-    for error in all_final_errors:
-        schema_location = error.schema_location
-        if schema_location not in error_locations:
-            error_locations.add(schema_location)
-            errors_without_duplicates.append(error)
+    Why:
+        A section validates its entries in a nested validation call and reports
+        their errors as the `caused_by` context of a single section error. Their
+        locations are relative to that nested call, so they are prefixed with the
+        section's location. Expansion is recursive because causes can be section
+        errors themselves.
 
-    return errors_without_duplicates
+    Args:
+        errors: Pydantic error details.
+
+    Yields:
+        The errors and their causes in validation order.
+    """
+    for error in errors:
+        yield error
+        if error["type"] == CustomPydanticErrorTypes.entry_validation.value:
+            for cause in expand_entry_errors(error["ctx"]["caused_by"]):
+                prefixed_cause = cause.copy()
+                # The nested call's first location element is its `entries` field:
+                prefixed_cause["loc"] = error["loc"] + cause["loc"][1:]
+                yield prefixed_cause
 
 
 def get_inner_yaml_object_from_its_key(
-    yaml_object: CommentedMap,
-    location_key: str,
-) -> tuple[CommentedMap, tuple[tuple[int, int], tuple[int, int]]]:
-    """Navigate one level into YAML structure and extract coordinates.
-
-    Why:
-        Error locations are dotted paths like `cv.sections.education.0.degree`.
-        Each traversal step must extract both the nested object and its exact
-        source coordinates for error highlighting.
+    yaml_object: Any, location_key: str | int
+) -> tuple[Any, YamlLocation | None]:
+    """Navigate by container type, preserving numeric-looking mapping keys.
 
     Args:
-        yaml_object: Current YAML object being traversed.
-        location_key: Single key or list index as string.
+        yaml_object: Mapping or sequence to navigate.
+        location_key: Mapping key or list index.
 
     Returns:
-        Tuple of nested object and ((start_line, start_col), (end_line, end_col)).
+        Child value and its source coordinates, if present.
+
+    Raises:
+        RenderCVInternalError: If the requested key or index does not exist.
     """
-    # If the part is numeric, interpret it as a list index:
-    try:
+    if isinstance(yaml_object, list | tuple):
         index = int(location_key)
-        try:
-            inner_yaml_object = yaml_object[index]
-            # Get the coordinates from the list's lc.data (which is a list of tuples).
-            start_line, start_col = yaml_object.lc.data[index]
-            end_line, end_col = start_line, start_col
-            coordinates = ((start_line + 1, start_col - 1), (end_line + 1, end_col))
-        except IndexError as e:
+        if not 0 <= index < len(yaml_object):
             message = f"Index {index} is out of range in the YAML file."
-            raise RenderCVInternalError(message) from e
-    except ValueError as e:
-        # Otherwise, the part is a key in a mapping.
-        if location_key not in yaml_object:
-            message = f"Key '{location_key}' not found in the YAML file."
-            raise RenderCVInternalError(message) from e
+            raise RenderCVInternalError(message)
+        location_key = index
+    elif not isinstance(yaml_object, Mapping) or location_key not in yaml_object:
+        message = f"Key '{location_key}' not found in the YAML file."
+        raise RenderCVInternalError(message)
 
-        inner_yaml_object = yaml_object[location_key]
-        start_line, start_col, end_line, end_col = yaml_object.lc.data[location_key]
-        coordinates = ((start_line + 1, start_col + 1), (end_line + 1, end_col))
-
-    return inner_yaml_object, coordinates
+    coordinates = None
+    if isinstance(yaml_object, CommentedMap | CommentedSeq):
+        metadata = (yaml_object.lc.data or {}).get(location_key)
+        if metadata is not None:
+            if isinstance(yaml_object, CommentedSeq):
+                line, column = metadata
+                coordinates = ((line + 1, max(1, column - 1)), (line + 1, column))
+            else:
+                line, column, end_line, end_column = metadata
+                coordinates = ((line + 1, column + 1), (end_line + 1, end_column))
+    return yaml_object[location_key], coordinates
 
 
 def get_coordinates_of_a_key_in_a_yaml_object(
-    yaml_object: CommentedMap, location: tuple[str, ...]
-) -> tuple[tuple[int, int], tuple[int, int]]:
-    """Resolve dotted location path to exact YAML source coordinates.
-
-    Why:
-        Error tables must show users exactly which line/column contains
-        the invalid value. Recursive traversal through CommentedMap's
-        lc.data preserves coordinates at every nesting level.
-
-    Example:
-        ```py
-        data = read_yaml(pathlib.Path("cv.yaml"))
-        coords = get_coordinates_of_a_key_in_a_yaml_object(
-            data, ("cv", "sections", "education", "0", "degree")
-        )
-        # coords = ((12, 4), (12, 10)) for line 12, columns 4-10
-        ```
+    yaml_object: Any, location: tuple[str | int, ...]
+) -> YamlLocation | None:
+    """Find source coordinates without inventing positions for injected values.
 
     Args:
-        yaml_object: Root YAML object with location metadata.
-        location: Path segments from root to target key.
+        yaml_object: Source document, possibly containing plain Python containers.
+        location: Resolved input path (without an absent required field).
 
     Returns:
-        ((start_line, start_col), (end_line, end_col)) in 1-indexed coordinates.
+        Source coordinates, or None when the target has no YAML metadata.
     """
-
-    current_yaml_object = yaml_object
-    coordinates = ((0, 0), (0, 0))
-    # start from the first key and move forward:
-    for location_key in location:
-        current_yaml_object, coordinates = get_inner_yaml_object_from_its_key(
-            current_yaml_object, location_key
-        )
-
+    coordinates = None
+    if (
+        not location
+        and isinstance(yaml_object, CommentedMap | CommentedSeq)
+        and yaml_object.lc.line is not None
+        and yaml_object.lc.col is not None
+    ):
+        point = (yaml_object.lc.line + 1, yaml_object.lc.col + 1)
+        return point, point
+    if not contains_location(yaml_object, location):
+        return None
+    for part in location:
+        yaml_object, coordinates = get_inner_yaml_object_from_its_key(yaml_object, part)
     return coordinates

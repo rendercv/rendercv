@@ -1,90 +1,17 @@
-from collections.abc import Callable
 from datetime import date as Date
-from unittest.mock import MagicMock, patch
 
-import pydantic
 import pytest
+from hypothesis import given
+from hypothesis import strategies as st
 
-from rendercv.exception import RenderCVUserError
+from rendercv.document import build_document_placeholders, build_name_variants
 from rendercv.renderer.templater.model_processor import (
-    download_photo_from_url,
-    process_fields,
     process_model,
 )
+from rendercv.renderer.templater.rendered import RenderedEntry, RenderedSection
 from rendercv.schema.models.cv.cv import Cv
-from rendercv.schema.models.cv.entries.normal import NormalEntry
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.models.settings.settings import Settings
-
-
-@pytest.fixture
-def recorder():
-    """Return a processor function and a list tracking all values it has processed.
-
-    Used to verify which fields get processed and in what order.
-    """
-    seen = []
-
-    def fn(v: str) -> str:
-        seen.append(v)
-        return f"processed-{v}"
-
-    return fn, seen
-
-
-class TestProcessFields:
-    def test_applies_processors_in_order(self):
-        processors: list[Callable[[str], str]] = [
-            lambda s: s.upper(),
-            lambda s: f"{s}!",
-        ]
-        result = process_fields("content", processors)
-        assert result == "CONTENT!"
-
-    def test_processes_fields_and_mutates_entry(self, recorder):
-        fn, seen = recorder
-
-        entry = NormalEntry.model_validate(
-            {
-                "name": "Entry",
-                "summary": "hello",
-                "highlights": ["a", "b"],
-                "start_date": "2020-01-01",
-                "end_date": "2020-02-01",
-                "location": "Remote",
-            }
-        )
-
-        process_fields(entry, [fn])
-
-        assert "hello" in seen
-        assert "a" in seen
-        assert "b" in seen
-        assert "Remote" in seen
-
-        assert "2020-01-01" not in seen
-        assert "2020-02-01" not in seen
-        assert entry.summary == "processed-hello"
-        assert entry.highlights == ["processed-a", "processed-b"]
-        assert entry.location == "processed-Remote"
-
-        assert entry.start_date == "2020-01-01"
-        assert entry.end_date == "2020-02-01"
-
-    def test_converts_non_string_non_list_fields_to_string(self, recorder):
-        class EntryWithInt(pydantic.BaseModel):
-            name: str
-            count: int
-
-        fn, seen = recorder
-        entry = EntryWithInt(name="Test", count=42)
-
-        process_fields(entry, [fn])  # ty: ignore[invalid-argument-type]
-
-        assert "Test" in seen
-        assert "42" in seen
-        assert entry.name == "processed-Test"
-        assert entry.count == "processed-42"
 
 
 @pytest.fixture(params=[["Python", "Remote"], []])
@@ -130,27 +57,25 @@ class TestProcessModel:
         assert result.cv.headline == "Software Engineer @"
 
         # Connections and last updated date are added to cv
-        assert result.cv._connections == [
+        assert list(result.cv._connections) == [
             "[jane@example.com](mailto:jane@example.com)",
             "[janedoe.dev](https://janedoe.dev/)",
         ]
         assert result.cv._top_note == "*Last updated in Feb 2024*"
 
         entry = result.cv.rendercv_sections[0].entries[0]
-        assert entry.main_column.startswith("**Backend Work**")
+        assert isinstance(entry, RenderedEntry)
+        main_column = entry.main_column
+        assert isinstance(main_column, str)
+        assert main_column.startswith("**Backend Work**")
         if model.settings.bold_keywords:
-            assert (
-                "Built **Python** services with *markdown* emphasis."
-                in entry.main_column
-            )
-            assert "- Improved **Python** performance" in entry.main_column
+            assert "Built **Python** services with *markdown* emphasis." in main_column
+            assert "- Improved **Python** performance" in main_column
             # DATE placeholder removed because it's not provided; location remains
             assert entry.date_and_location_column == "**Remote**\nJan 2022 – Feb 2023"
         else:
-            assert (
-                "Built Python services with *markdown* emphasis." in entry.main_column
-            )
-            assert "- Improved Python performance" in entry.main_column
+            assert "Built Python services with *markdown* emphasis." in main_column
+            assert "- Improved Python performance" in main_column
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
 
     def test_typst_output_escapes_special_characters(self, model):
@@ -160,9 +85,12 @@ class TestProcessModel:
         assert result.cv.headline == "Software Engineer \\@"
 
         entry = result.cv.rendercv_sections[0].entries[0]
-        assert entry.main_column.startswith("#strong[Backend Work]")
+        assert isinstance(entry, RenderedEntry)
+        main_column = entry.main_column
+        assert isinstance(main_column, str)
+        assert main_column.startswith("#strong[Backend Work]")
         if model.settings.bold_keywords:
-            assert "- Improved #strong[Python] performance" in entry.main_column
+            assert "- Improved #strong[Python] performance" in main_column
             assert (
                 entry.date_and_location_column == "#strong[Remote]\nJan 2022 – Feb 2023"
             )
@@ -170,7 +98,7 @@ class TestProcessModel:
             assert result.cv._connections[0].startswith("#link(")
             assert "#connection-with-icon" in result.cv._connections[0]
         else:
-            assert "- Improved Python performance" in entry.main_column
+            assert "- Improved Python performance" in main_column
             assert entry.date_and_location_column == "Remote\nJan 2022 – Feb 2023"
             assert result.cv._connections[0].startswith("#link(")
             assert "jane@example.com" in result.cv._connections[0]
@@ -193,6 +121,27 @@ class TestProcessModel:
 
         assert result.settings.pdf_title == "Jane Doe @ - CV"
 
+    def test_pdf_title_is_plain_text(self):
+        cv = Cv.model_validate({"name": "**John** Doe"})
+        rendercv_model = RenderCVModel(cv=cv)
+
+        result = process_model(rendercv_model, "typst")
+
+        assert result.settings.pdf_title == "John Doe - CV"
+
+    def test_wraps_the_typst_footer_in_a_context(self, model):
+        result = process_model(model, "typst")
+
+        assert (
+            result.cv._footer == "context { [#emph[Jane Doe \\@ -- #str(here().page())/"
+            "#str(counter(page).final().first())]] }"
+        )
+
+    def test_does_not_modify_the_model(self, model):
+        process_model(model, "typst")
+
+        assert model.cv.name == "Jane Doe @"
+
     def test_pdf_title_custom_placeholder_resolution(self):
         cv = Cv.model_validate({"name": "John Doe"})
         rendercv_model = RenderCVModel(
@@ -204,95 +153,136 @@ class TestProcessModel:
 
         assert result.settings.pdf_title == "John Doe - Resume 2024"
 
+    def test_renders_subsections_like_sections(self):
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "experience": [
+                        {
+                            "title": "*Industry*",
+                            "entries": [
+                                {
+                                    "company": "Acme",
+                                    "position": "Engineer",
+                                    "start_date": "2020-01",
+                                    "end_date": "2021-01",
+                                }
+                            ],
+                        }
+                    ]
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(
+            cv=cv, settings=Settings(current_date=Date(2024, 2, 1))
+        )
 
-class TestDownloadPhotoFromUrl:
-    def test_skips_when_photo_is_none(self):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
+        result = process_model(rendercv_model, "typst")
 
-        download_photo_from_url(model)
+        [subsection] = result.cv.rendercv_sections[0].entries
+        assert isinstance(subsection, RenderedSection)
+        entry = subsection.entries[0]
+        assert isinstance(entry, RenderedEntry)
+        assert subsection.title == "#emph[Industry]"
+        # Its section shows time spans (`experience` does by default):
+        assert entry.date_and_location_column == "Jan 2020 – Jan 2021\n\n1 year 1 month"
 
-        assert model.cv.photo is None
+    def test_sorts_the_entries_of_sections_and_subsections(self):
+        entries = [
+            {"name": "Old", "date": "2019"},
+            {"name": "New", "date": "2023"},
+        ]
+        cv = Cv.model_validate(
+            {
+                "name": "Jane Doe",
+                "sections": {
+                    "projects": entries,
+                    "talks": [{"title": "Invited", "entries": entries}],
+                },
+            }
+        )
+        rendercv_model = RenderCVModel(
+            cv=cv, settings=Settings(sort_entries="reverse-chronological")
+        )
 
-    def test_skips_when_photo_is_local_path(self, tmp_path):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
-        model.cv.photo = tmp_path / "photo.jpg"
+        result = process_model(rendercv_model, "markdown")
 
-        download_photo_from_url(model)
+        projects, talks = result.cv.rendercv_sections
+        group = talks.entries[0]
+        assert isinstance(group, RenderedSection)
+        for section in (projects, group):
+            names = []
+            for entry in section.entries:
+                assert isinstance(entry, RenderedEntry)
+                names.append(entry.name)
+            assert names == ["New", "Old"]
 
-        assert model.cv.photo == tmp_path / "photo.jpg"
 
-    def test_downloads_photo_from_url(self, tmp_path):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
-        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
-        model.settings.render_command.output_folder = tmp_path / "output"
+class TestBuildNameVariants:
+    def test_none_gives_empty_values(self) -> None:
+        result = build_name_variants(None)
 
-        mock_response = MagicMock()
-        mock_response.read.return_value = b"photo data"
-        mock_response.__enter__ = MagicMock(return_value=mock_response)
-        mock_response.__exit__ = MagicMock(return_value=False)
+        assert len(result) == 7
+        assert set(result.values()) == {""}
 
-        with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
-            return_value=mock_response,
-        ) as mock_urlopen:
-            download_photo_from_url(model)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_always_7_keys(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert len(result) == 7
 
-        mock_urlopen.assert_called_once()
-        assert model.cv.photo == tmp_path / "output" / "photo.jpg"
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_snake_case_has_no_spaces(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert " " not in result["NAME_IN_SNAKE_CASE"]
+        assert " " not in result["NAME_IN_LOWER_SNAKE_CASE"]
+        assert " " not in result["NAME_IN_UPPER_SNAKE_CASE"]
 
-    def test_uses_photo_jpg_fallback_when_no_filename_in_url(self, tmp_path):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
-        model.cv.photo = pydantic.HttpUrl("https://example.com/")
-        model.settings.render_command.output_folder = tmp_path / "output"
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_kebab_case_has_no_spaces(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert " " not in result["NAME_IN_KEBAB_CASE"]
+        assert " " not in result["NAME_IN_LOWER_KEBAB_CASE"]
+        assert " " not in result["NAME_IN_UPPER_KEBAB_CASE"]
 
-        mock_response = MagicMock()
-        mock_response.read.return_value = b"photo data"
-        mock_response.__enter__ = MagicMock(return_value=mock_response)
-        mock_response.__exit__ = MagicMock(return_value=False)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_lower_variants_are_lowercase(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert (
+            result["NAME_IN_LOWER_SNAKE_CASE"]
+            == result["NAME_IN_LOWER_SNAKE_CASE"].lower()
+        )
+        assert (
+            result["NAME_IN_LOWER_KEBAB_CASE"]
+            == result["NAME_IN_LOWER_KEBAB_CASE"].lower()
+        )
 
-        with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
-            return_value=mock_response,
-        ):
-            download_photo_from_url(model)
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_upper_variants_are_uppercase(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert (
+            result["NAME_IN_UPPER_SNAKE_CASE"]
+            == result["NAME_IN_UPPER_SNAKE_CASE"].upper()
+        )
+        assert (
+            result["NAME_IN_UPPER_KEBAB_CASE"]
+            == result["NAME_IN_UPPER_KEBAB_CASE"].upper()
+        )
 
-        assert model.cv.photo == tmp_path / "output" / "photo.jpg"
+    @given(name=st.text(min_size=1, max_size=50))
+    def test_original_name_preserved(self, name: str) -> None:
+        result = build_name_variants(name)
+        assert result["NAME"] == name
 
-    def test_skips_download_when_file_already_exists(self, tmp_path):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
-        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
-        output_dir = tmp_path / "output"
-        output_dir.mkdir()
-        (output_dir / "photo.jpg").write_bytes(b"existing")
-        model.settings.render_command.output_folder = output_dir
 
-        with patch(
-            "rendercv.renderer.templater.model_processor.urllib.request.urlopen"
-        ) as mock_urlopen:
-            download_photo_from_url(model)
+def test_build_document_placeholders():
+    cv = Cv.model_validate({"name": "John Doe"})
+    rendercv_model = RenderCVModel(
+        cv=cv, settings=Settings(current_date=Date(2024, 3, 5))
+    )
 
-        mock_urlopen.assert_not_called()
-        assert model.cv.photo == output_dir / "photo.jpg"
+    placeholders = build_document_placeholders(rendercv_model)
 
-    def test_raises_user_error_on_download_failure(self, tmp_path):
-        cv = Cv.model_validate({"name": "John Doe"})
-        model = RenderCVModel(cv=cv)
-        model.cv.photo = pydantic.HttpUrl("https://example.com/photo.jpg")
-        model.settings.render_command.output_folder = tmp_path / "output"
-
-        with (
-            patch(
-                "rendercv.renderer.templater.model_processor.urllib.request.urlopen",
-                side_effect=OSError("network error"),
-            ),
-            pytest.raises(RenderCVUserError) as exc_info,
-        ):
-            download_photo_from_url(model)
-
-        assert exc_info.value.message is not None
-        assert "Failed to download photo" in exc_info.value.message
+    assert placeholders["NAME_IN_SNAKE_CASE"] == "John_Doe"
+    assert placeholders["CURRENT_DATE"] == "Mar 2024"
+    assert placeholders["DAY_IN_TWO_DIGITS"] == "05"

@@ -288,8 +288,8 @@ class TestCreateNestedFieldSpec:
         annotation, field = create_nested_field_spec(updates, field_info)
 
         # Check that a variant class was created with default_factory
-        assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
+        assert isinstance(field.default_factory, type)
+        assert issubclass(field.default_factory, pydantic.BaseModel)
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -310,8 +310,8 @@ class TestCreateNestedFieldSpec:
         _, field = create_nested_field_spec(updates, field_info)
 
         # Check that a variant class was created with default_factory
-        assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
+        assert isinstance(field.default_factory, type)
+        assert issubclass(field.default_factory, pydantic.BaseModel)
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -351,8 +351,8 @@ class TestCreateNestedFieldSpec:
         _, field = create_nested_field_spec(updates, field_info)
 
         # Check that a variant class was created with default_factory
-        assert field.default_factory is not None
-        assert issubclass(field.default_factory, pydantic.BaseModel)  # ty: ignore[invalid-argument-type]
+        assert isinstance(field.default_factory, type)
+        assert issubclass(field.default_factory, pydantic.BaseModel)
 
         # Instantiate to check default values
         instance = field.default_factory()
@@ -823,7 +823,7 @@ class TestCreateVariantPydanticModel:
         )
 
         nested_annotation = VariantClass.model_fields["nested"].annotation
-        assert nested_annotation is not None
+        assert isinstance(nested_annotation, type)
         assert issubclass(nested_annotation, pydantic.BaseModel)
         nested_font_family_field = nested_annotation.model_fields["font_family"]
         nested_font_size_field = nested_annotation.model_fields["font_size"]
@@ -875,7 +875,7 @@ class TestCreateVariantPydanticModel:
         )
 
         level2_annotation = VariantClass.model_fields["level2"].annotation
-        assert level2_annotation is not None
+        assert isinstance(level2_annotation, type)
         assert issubclass(level2_annotation, pydantic.BaseModel)
         level2_name_field = level2_annotation.model_fields["name"]
         assert (
@@ -884,7 +884,7 @@ class TestCreateVariantPydanticModel:
         )
 
         level3_annotation = level2_annotation.model_fields["level3"].annotation
-        assert level3_annotation is not None
+        assert isinstance(level3_annotation, type)
         assert issubclass(level3_annotation, pydantic.BaseModel)
         level3_value_field = level3_annotation.model_fields["value"]
         assert (
@@ -1016,7 +1016,7 @@ class TestCreateVariantPydanticModel:
         )
 
         nested_annotation = VariantClass.model_fields["nested"].annotation
-        assert nested_annotation is not None
+        assert isinstance(nested_annotation, type)
         assert issubclass(nested_annotation, pydantic.BaseModel)
 
         assert (
@@ -1117,7 +1117,7 @@ class TestUpdateDescriptionWithNewDefault:
 
 class TestCreateNestedModelVariantModel:
     def test_skips_fields_not_in_base_model(self):
-        """Test that fields not in base model are skipped during nested variant creation."""
+        """Fields not in the base model are skipped in nested variants."""
 
         class Nested(pydantic.BaseModel):
             x: int = 1
@@ -1139,7 +1139,7 @@ class TestCreateNestedModelVariantModel:
         assert not hasattr(instance, "nonexistent_field")
 
     def test_plain_dict_field_treated_as_simple_value(self):
-        """Test that plain dict fields are treated as simple values in nested model variants."""
+        """Plain dict fields are simple values in nested model variants."""
 
         class ModelWithPlainDict(pydantic.BaseModel):
             metadata: dict[str, str] = {"default_key": "default_value"}

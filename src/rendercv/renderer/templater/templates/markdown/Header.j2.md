@@ -1,21 +1,11 @@
 {% if cv.name %}
-# {{ cv.name }}'s CV
-{% endif %}
+# {{ cv.name }}
 
-{% if cv.phone %}
-- Phone: {{cv.phone|replace("tel:", "")|replace("-"," ")}}
 {% endif %}
-{% if cv.email %}
-- Email: [{{cv.email}}](mailto:{{cv.email}})
+{% if cv.headline %}
+{{ cv.headline }}
+
 {% endif %}
-{% if cv.location %}
-- Location: {{cv.location}}
-{% endif %}
-{% if cv.website %}
-- Website: [{{cv.website|replace("https://","")|replace("/","")}}]({{cv.website}})
-{% endif %}
-{% if cv.social_networks %}
-    {% for network in cv.social_networks %}
-- {{network.network}}: [{{network.username}}]({{network.url}})
-    {% endfor %}
-{% endif %}
+{% for connection in cv._connections %}
+- {{ connection }}
+{% endfor %}

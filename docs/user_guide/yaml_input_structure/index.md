@@ -47,6 +47,10 @@ To maximize your productivity while editing the input YAML file, set up RenderCV
 
     1. Add this line at the top of your file:
         ```yaml
-        # yaml-language-server: $schema=https://github.com/rendercv/rendercv/blob/main/schema.json?raw=true
+        # yaml-language-server: $schema=https://raw.githubusercontent.com/rendercv/rendercv/v<< rendercv_version >>/schema.json
         ```
     2. Press `Ctrl + Space` for suggestions (if your editor supports JSON Schema).
+
+Zed supports the same schema comment natively. See [Set Up Zed](../how_to/set_up_zed_for_rendercv.md)
+for schema suggestions, offline editing, and watch mode. In every editor, keep
+the version in the schema URL aligned with `rendercv --version`.

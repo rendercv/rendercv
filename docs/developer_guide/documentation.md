@@ -1,86 +1,42 @@
 ---
-toc_depth: 3
+toc_depth: 2
 ---
 
 # Documentation
 
-## The Goal
+This website is written as Markdown files in `docs/`. Plain text is easy to edit and review, but a browser needs HTML pages with styles, navigation, and search. A **static site generator** bridges the two: it converts the text files into a complete website once, ahead of time. RenderCV uses [Zensical](https://zensical.org/docs/). The result is a folder of ordinary files that any web host can serve; Cloudflare serves ours at [docs.rendercv.com](https://docs.rendercv.com).
 
-We want documentation at `docs.rendercv.com`, a proper website with navigation, search, theming, and interactive features.
-
-**What is a website?** A collection of HTML, CSS, and JavaScript files. Browsers download these files and render them as the pages you see. To have a website, you need:
-
-1. HTML/CSS/JavaScript files
-2. A server hosting those files
-3. A domain (e.g. `docs.rendercv.com`) pointing to that server
-
-**The problem:** We don't want to develop a web app (writing HTML/CSS/JavaScript). We just want to put some content online.
-
-What if we could write content in Markdown and use some software to automatically generate HTML/CSS/JavaScript files from it?
-
-**The solution:** [MkDocs](https://github.com/mkdocs/mkdocs) with [Material theme](https://github.com/squidfunk/mkdocs-material). You write Markdown in `docs/`, MkDocs generates HTML/CSS/JavaScript, and GitHub Pages hosts it at `docs.rendercv.com`.
-
-Tools like MkDocs exist because documentation sites follow a stable, well-understood pattern. They aren’t open-ended web applications with unique interfaces or behaviors; they’re a specific kind of website with predictable needs: structured pages, cross-page navigation, search, consistent styling, and readable content.
-
-Once a pattern becomes that well defined, entire ecosystems form around it. Just as you reach for Python rather than designing a new programming language, you reach for MkDocs rather than hand-assembling HTML, CSS, and JavaScript files for a documentation site.
-
-## Configuration: [`mkdocs.yaml`](https://github.com/rendercv/rendercv/blob/main/mkdocs.yaml)
-
-`mkdocs.yaml` controls how MkDocs builds the website:
-
-- **Site metadata:** name, description, repository
-- **Theme:** Material theme with colors and features
-- **Navigation:** sidebar structure
-- **Plugins:** see below
-
-## Plugins
-
-MkDocs plugins extend functionality beyond Markdown → HTML conversion.
-
-### [`mkdocstrings`](https://github.com/mkdocstrings/mkdocstrings): API Reference
-
-Generates the API reference from Python docstrings. The entire [API Reference](../api_reference/index.md) section is auto-generated from `src/rendercv/`.
-
-### [`mkdocs-macros-plugin`](https://mkdocs-macros-plugin.readthedocs.io/): Dynamic Content
-
-Lets you inject code-generated values into Markdown. [`docs/docs_templating.py`](https://github.com/rendercv/rendercv/blob/main/docs/docs_templating.py) runs during the build. It imports values directly from RenderCV's code and exposes them as variables. It's heavily used in [YAML Input Structure: `cv` Field](../user_guide/yaml_input_structure/cv.md) page.
-
-## Entry Type Figures
-
-The [YAML Input Structure: `cv` Field](../user_guide/yaml_input_structure/cv.md) page shows example images of each entry type rendered in each theme.
-
-These are auto-generated PNG images. Run `just update-entry-figures` to regenerate them from [`docs/user_guide/sample_entries.yaml`](https://github.com/rendercv/rendercv/blob/main/docs/user_guide/sample_entries.yaml).
-
-## Local Preview
+## Previewing and building
 
 ```bash
 just serve-docs
-```
-
-Starts a local server at `http://127.0.0.1:8000` with live reload. Edit Markdown files and see changes instantly.
-
-```bash
 just build-docs
 ```
 
-Generates the final website in the `site/` directory. Mainly used by GitHub workflows for final deployment (see [GitHub Workflows](github_workflows.md)).
+`just serve-docs` shows the site at `http://localhost:8000`, an address that points to your own computer, and refreshes it as you edit. `just build-docs` writes the whole site to `site/`. It runs in strict mode, where any warning, such as a broken link, fails the build, so mistakes are caught before the site is published.
 
-## Deployment
+## Configuration and appearance
 
-Every push to `main` triggers automatic deployment.
+[`zensical.toml`](https://github.com/rendercv/rendercv/blob/main/zensical.toml) defines the navigation, the Markdown extensions, the site's details, and Zensical's modern theme. Add each new page to its `project.nav` list.
 
-**The workflow** ([`.github/workflows/deploy-docs.yaml`](https://github.com/rendercv/rendercv/blob/main/.github/workflows/deploy-docs.yaml)):
+The **theme** decides how every page looks, and it is built from [templates](understanding_rendercv.md#assembling-a-document-with-templates). An **override** is our own file that replaces one of the theme's templates. Overrides give us control, but each one has to be updated whenever Zensical changes the template it replaces, so keep them few and small. Brand colors, sidebar styling, and the logo animation live in `docs/assets/`, and custom icons in `docs/overrides/.icons/`. The header, tabs, and logo use Zensical's own templates.
 
-1. **Trigger:** Runs on every push to `main`
-2. **Build step:**
-      - Installs `uv` and `just`
-      - Runs `just build-docs` to generate the website
-      - Uploads the `site/` directory as an artifact
-3. **Deploy step:**
-      - Takes the uploaded artifact
-      - Deploys it to GitHub Pages (a free static website hosting service)
-      - Makes it available at `docs.rendercv.com`
+The only template override, `toc-item.html`, limits how many heading levels a page's table of contents lists, using the page's `toc_depth` setting. That setting goes in the **front matter**, a small YAML block between `---` lines at the top of a page; `toc_depth: 2` lists headings down to the second level.
 
-## Learn More
+When changing an override, compare it with the matching template in [Zensical UI](https://github.com/zensical/ui). Zensical's templates use MiniJinja, a smaller variant of Jinja, so use its own filters and tests rather than Python methods. Follow the [customization guide](https://zensical.org/docs/customization/), and after upgrading Zensical check navigation on desktop and mobile, search, and both color schemes.
 
-See the [MkDocs Material documentation](https://squidfunk.github.io/mkdocs-material/) for more information.
+## Generated content
+
+Some pages show information that already lives in RenderCV's code, such as the list of themes or a field's default value. A hand-written copy would fall out of date. The **macros extension** lets a page run Python while the site is built: `zensical.extensions.macros` loads [`docs/docs_templating.py`](https://github.com/rendercv/rendercv/blob/main/docs/docs_templating.py), which reads defaults and examples straight from RenderCV, so adding a theme updates the theme list by itself. These insertions use their own delimiters, which `zensical.toml` sets, so they can't be confused with the Jinja examples shown on the pages. If an insertion fails, the build fails.
+
+The [API Reference](../api_reference/index.md) describes RenderCV's Python functions and classes. Its text comes from **docstrings**, the descriptions written at the start of each function and class. The `zensical.extensions.mkdocstrings` extension turns them into pages, and Zensical's `api-autonav` plugin creates a page for each module. To change the reference, edit the docstrings.
+
+The [entry pictures](../user_guide/yaml_input_structure/cv.md) in the user guide come from `docs/user_guide/sample_entries.yaml`. `just update-entry-figures` renders each entry directly to PNG with Typst, on a page sized to fit the entry, so no cropping or image conversion is needed.
+
+## Publishing and previews
+
+Cloudflare serves the site from a **Worker**, a program on Cloudflare's servers that answers the requests for a web address. Ours runs no code of its own: [`wrangler.toml`](https://github.com/rendercv/rendercv/blob/main/wrangler.toml) tells Cloudflare to answer requests for `docs.rendercv.com` with the files in `site/`, and Wrangler, Cloudflare's command-line tool, uploads them.
+
+[The documentation workflow](https://github.com/rendercv/rendercv/blob/main/.github/workflows/deploy-docs.yaml) builds the site for every pull request and every change to `main`. A change to `main` replaces the published site. A pull request gets a **preview**: the site with its changes, at an address of its own that the workflow posts as a comment and updates with every push. Closing the pull request deletes the preview. Previews are public, like the repository, and ask search engines not to index them.
+
+Uploading needs `CLOUDFLARE_API_TOKEN`, a [repository secret](github_workflows.md#secrets) allowed to deploy the Worker. GitHub doesn't give secrets to pull requests from forks or from Dependabot, so their documentation is only built, which still catches its mistakes.

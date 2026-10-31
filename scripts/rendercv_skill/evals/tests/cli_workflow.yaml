@@ -25,6 +25,13 @@
     - type: contains
       value: "--watch"
 
+- description: "Create editable Markdown templates"
+  vars:
+    query: "Create a starter RenderCV file for Jane Doe and include editable Markdown templates. Which command should I run?"
+  assert:
+    - type: contains
+      value: "--create-markdown-templates"
+
 - description: "CLI field overrides with dot notation"
   vars:
     query: "I want to render my CV but temporarily change my name to 'Jane Smith' and switch to the moderncv theme without editing the YAML file. How?"

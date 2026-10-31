@@ -1,12 +1,12 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.3.0": *
+#import "@preview/rendercv:0.4.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
   name: "John Doe",
   title: "John Doe - CV",
-  footer: context { [#emph[John Doe -- #str(here().page())\/#str(counter(page).final().first())]] },
-  top-note: [ #emph[Last updated in Mar 2026] ],
+  footer: context { [#emph[John Doe -- #str(here().page())/#str(counter(page).final().first())]] },
+  top-note: [ #emph[Last updated in Oct 2026] ],
   locale-catalog-language: "en",
   text-direction: ltr,
   page-size: "us-letter",
@@ -21,6 +21,7 @@
   colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
   colors-section-titles: rgb(0, 79, 144),
+  colors-subsection-titles: rgb(0, 79, 144),
   colors-links: rgb(0, 79, 144),
   colors-footer: rgb(128, 128, 128),
   colors-top-note: rgb(128, 128, 128),
@@ -32,19 +33,23 @@
   typography-font-family-headline: "Raleway",
   typography-font-family-connections: "Raleway",
   typography-font-family-section-titles: "Raleway",
+  typography-font-family-subsection-titles: "Raleway",
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
   typography-font-size-connections: 10pt,
   typography-font-size-section-titles: 1.4em,
+  typography-font-size-subsection-titles: 1.1em,
   typography-small-caps-name: false,
   typography-small-caps-headline: false,
   typography-small-caps-connections: false,
   typography-small-caps-section-titles: false,
+  typography-small-caps-subsection-titles: false,
   typography-bold-name: false,
   typography-bold-headline: false,
   typography-bold-connections: false,
   typography-bold-section-titles: false,
+  typography-bold-subsection-titles: true,
   links-underline: false,
   links-show-external-link-icon: false,
   header-alignment: left,
@@ -61,6 +66,8 @@
   section-titles-line-thickness: 0.5pt,
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
+  subsection-titles-space-above: 0.6cm,
+  subsection-titles-space-below: 0.2cm,
   sections-allow-page-break: true,
   sections-space-between-text-based-entries: 0.3em,
   sections-space-between-regular-entries: 1.2em,
@@ -72,16 +79,16 @@
   entries-degree-width: 1cm,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0.12cm,
-  entries-highlights-bullet:  "•" ,
-  entries-highlights-nested-bullet:  "•" ,
+  entries-highlights-bullet: "•",
+  entries-highlights-nested-bullet: "•",
   entries-highlights-space-left: 0cm,
   entries-highlights-space-above: 0.12cm,
   entries-highlights-space-between-items: 0.12cm,
   entries-highlights-space-between-bullet-and-text: 0.5em,
   date: datetime(
     year: 2026,
-    month: 3,
-    day: 20,
+    month: 10,
+    day: 30,
   ),
 )
 
@@ -111,8 +118,10 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #education-entry(
   [
-    #strong[Princeton University], PhD in Computer Science -- Princeton, NJ
+    #entry-heading[
+      #strong[Princeton University], PhD in Computer Science -- Princeton, NJ
 
+    ]
   ],
   [
     Sept 2018 – May 2023
@@ -130,15 +139,17 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #education-entry(
   [
-    #strong[Boğaziçi University], BS in Computer Engineering -- Istanbul, Türkiye
+    #entry-heading[
+      #strong[Boğaziçi University], BS in Computer Engineering -- Istanbul, Türkiye
 
+    ]
   ],
   [
     Sept 2014 – June 2018
 
   ],
   main-column-second-row: [
-    - GPA: 3.97\/4.00, Valedictorian
+    - GPA: 3.97/4.00, Valedictorian
 
     - Fulbright Scholarship recipient for Graduate Studies
 
@@ -149,29 +160,33 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[Co-Founder & CTO], Nexus AI -- San Francisco, CA
+    #entry-heading[
+      #strong[Co-Founder & CTO], Nexus AI -- San Francisco, CA
 
+    ]
   ],
   [
     June 2023 – present
 
   ],
   main-column-second-row: [
-    - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97\% uptime
+    - Built foundation model infrastructure serving 2M+ monthly API requests with 99.97% uptime
 
     - Raised \$18M Series A led by Sequoia Capital, with participation from a16z and Founders Fund
 
     - Scaled engineering team from 3 to 28 across ML research, platform, and applied AI divisions
 
-    - Developed proprietary inference optimization reducing latency by 73\% compared to baseline
+    - Developed proprietary inference optimization reducing latency by 73% compared to baseline
 
   ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], NVIDIA Research -- Santa Clara, CA
+    #entry-heading[
+      #strong[Research Intern], NVIDIA Research -- Santa Clara, CA
 
+    ]
   ],
   [
     May 2022 – Aug 2022
@@ -180,15 +195,17 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     - Designed sparse attention mechanism reducing transformer memory footprint by 4.2x
 
-    - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5\% of submissions)
+    - Co-authored paper accepted at NeurIPS 2022 (spotlight presentation, top 5% of submissions)
 
   ],
 )
 
 #regular-entry(
   [
-    #strong[Research Intern], Google DeepMind -- London, UK
+    #entry-heading[
+      #strong[Research Intern], Google DeepMind -- London, UK
 
+    ]
   ],
   [
     May 2021 – Aug 2021
@@ -210,8 +227,10 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[Research Intern], Apple ML Research -- Cupertino, CA
+    #entry-heading[
+      #strong[Research Intern], Apple ML Research -- Cupertino, CA
 
+    ]
   ],
   [
     May 2020 – Aug 2020
@@ -227,8 +246,10 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[Research Intern], Microsoft Research -- Redmond, WA
+    #entry-heading[
+      #strong[Research Intern], Microsoft Research -- Redmond, WA
 
+    ]
   ],
   [
     May 2019 – Aug 2019
@@ -237,7 +258,7 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     - Implemented novel self-supervised learning framework for low-resource language modeling
 
-    - Research integrated into Azure Cognitive Services, reducing training data requirements by 60\%
+    - Research integrated into Azure Cognitive Services, reducing training data requirements by 60%
 
   ],
 )
@@ -246,8 +267,10 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[#link("https://github.com/")[FlashInfer]]
+    #entry-heading[
+      #strong[#link("https://github.com/")[FlashInfer]]
 
+    ]
   ],
   [
     Jan 2023 – present
@@ -265,17 +288,19 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[#link("https://github.com/")[NeuralPrune]]
+    #entry-heading[
+      #strong[#link("https://github.com/")[NeuralPrune]]
 
+    ]
   ],
   [
-    Jan 2021
+    2021
 
   ],
   main-column-second-row: [
     #summary[Automated neural network pruning toolkit with differentiable masks]
 
-    - Reduced model size by 90\% with less than 1\% accuracy degradation on ImageNet
+    - Reduced model size by 90% with less than 1% accuracy degradation on ImageNet
 
     - Featured in PyTorch ecosystem tools, 4,200+ GitHub stars
 
@@ -286,8 +311,10 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
 
 #regular-entry(
   [
-    #strong[Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models]
+    #entry-heading[
+      #strong[Sparse Mixture-of-Experts at Scale: Efficient Routing for Trillion-Parameter Models]
 
+    ]
   ],
   [
     July 2023
@@ -296,15 +323,17 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     #emph[John Doe], Sarah Williams, David Park
 
-    #link("https://doi.org/10.1234/neurips.2023.1234")[10.1234\/neurips.2023.1234] (NeurIPS 2023)
+    #link("https://doi.org/10.1234/neurips.2023.1234")[10.1234/neurips.2023.1234] (NeurIPS 2023)
 
   ],
 )
 
 #regular-entry(
   [
-    #strong[Neural Architecture Search via Differentiable Pruning]
+    #entry-heading[
+      #strong[Neural Architecture Search via Differentiable Pruning]
 
+    ]
   ],
   [
     Dec 2022
@@ -313,15 +342,17 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     James Liu, #emph[John Doe]
 
-    #link("https://doi.org/10.1234/neurips.2022.5678")[10.1234\/neurips.2022.5678] (NeurIPS 2022, Spotlight)
+    #link("https://doi.org/10.1234/neurips.2022.5678")[10.1234/neurips.2022.5678] (NeurIPS 2022, Spotlight)
 
   ],
 )
 
 #regular-entry(
   [
-    #strong[Multi-Agent Reinforcement Learning with Emergent Communication]
+    #entry-heading[
+      #strong[Multi-Agent Reinforcement Learning with Emergent Communication]
 
+    ]
   ],
   [
     July 2022
@@ -330,15 +361,17 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     Maria Garcia, #emph[John Doe], Tom Anderson
 
-    #link("https://doi.org/10.1234/icml.2022.9012")[10.1234\/icml.2022.9012] (ICML 2022)
+    #link("https://doi.org/10.1234/icml.2022.9012")[10.1234/icml.2022.9012] (ICML 2022)
 
   ],
 )
 
 #regular-entry(
   [
-    #strong[On-Device Model Compression via Learned Quantization]
+    #entry-heading[
+      #strong[On-Device Model Compression via Learned Quantization]
 
+    ]
   ],
   [
     May 2021
@@ -347,7 +380,7 @@ Markdown syntax is supported everywhere. This is #strong[bold], #emph[italic], a
   main-column-second-row: [
     #emph[John Doe], Kevin Wu
 
-    #link("https://doi.org/10.1234/iclr.2021.3456")[10.1234\/iclr.2021.3456] (ICLR 2021, Best Paper Award)
+    #link("https://doi.org/10.1234/iclr.2021.3456")[10.1234/iclr.2021.3456] (ICLR 2021, Best Paper Award)
 
   ],
 )

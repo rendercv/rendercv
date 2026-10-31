@@ -113,7 +113,11 @@ Templates use [Jinja2](https://jinja.palletsprojects.com/) syntax with Typst cod
 - `cv`: All CV data (name, sections, etc.)
 - `design`: All design options
 - `locale`: Locale strings (month names, translations)
+- `settings`: All settings
 - `entry`: Current entry data (in entry templates)
+- `section_title`, `snake_case_section_title`: The title of the section (in `SectionBeginning`)
+- `entry_type`: The entry type of the section's entries (in `SectionBeginning` and `SectionEnding`). It's `SubsectionEntry` for a section of [subsections](../yaml_input_structure/cv.md#subsections), which are rendered with the same templates.
+- `level`: The heading level of what the template renders: 2 for sections, 3 for subsections, and one more than its section for an entry (the name is level 1). For example, `SectionBeginning.j2.typ` starts with `{{ "=" * level }} {{ section_title }}`.
 
 Example accessing design options:
 

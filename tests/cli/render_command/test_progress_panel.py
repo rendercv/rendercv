@@ -1,7 +1,8 @@
+import io
 import pathlib
 
 import pytest
-import typer
+import rich.console
 
 from rendercv.cli.render_command.progress_panel import (
     CompletedStep,
@@ -163,27 +164,21 @@ class TestProgressPanelPrintProgressPanel:
 
 
 class TestProgressPanelPrintUserError:
-    def test_exits_with_code_1(self):
+    def test_displays_without_exiting(self):
         panel = ProgressPanel(quiet=True)
         error = RenderCVUserError(message="Test error message")
 
-        with pytest.raises(typer.Exit) as exc_info:
-            panel.print_user_error(error)
-
-        assert exc_info.value.exit_code == 1
+        panel.print_user_error(error)
 
     def test_handles_error_without_message(self):
         panel = ProgressPanel(quiet=True)
         error = RenderCVUserError(message=None)
 
-        with pytest.raises(typer.Exit) as exc_info:
-            panel.print_user_error(error)
-
-        assert exc_info.value.exit_code == 1
+        panel.print_user_error(error)
 
 
 class TestProgressPanelPrintValidationErrors:
-    def test_exits_with_code_1(self):
+    def test_displays_without_exiting(self):
         panel = ProgressPanel(quiet=True)
         errors: list[RenderCVValidationError] = [
             RenderCVValidationError(
@@ -195,10 +190,7 @@ class TestProgressPanelPrintValidationErrors:
             )
         ]
 
-        with pytest.raises(typer.Exit) as exc_info:
-            panel.print_validation_errors(errors)
-
-        assert exc_info.value.exit_code == 1
+        panel.print_validation_errors(errors)
 
     def test_clears_completed_steps_before_displaying_errors(self):
         panel = ProgressPanel(quiet=True)
@@ -215,11 +207,9 @@ class TestProgressPanelPrintValidationErrors:
             )
         ]
 
-        with pytest.raises(typer.Exit):
-            panel.print_validation_errors(errors)
+        panel.print_validation_errors(errors)
 
-        # We can't check this after the exception, but the implementation shows
-        # it clears steps before displaying
+        assert panel.completed_steps == []
 
     def test_handles_multiple_validation_errors(self):
         panel = ProgressPanel(quiet=True)
@@ -240,10 +230,7 @@ class TestProgressPanelPrintValidationErrors:
             ),
         ]
 
-        with pytest.raises(typer.Exit) as exc_info:
-            panel.print_validation_errors(errors)
-
-        assert exc_info.value.exit_code == 1
+        panel.print_validation_errors(errors)
 
     def test_handles_yaml_parse_error_with_no_location(self):
         panel = ProgressPanel(quiet=True)
@@ -257,10 +244,7 @@ class TestProgressPanelPrintValidationErrors:
             )
         ]
 
-        with pytest.raises(typer.Exit) as exc_info:
-            panel.print_validation_errors(errors)
-
-        assert exc_info.value.exit_code == 1
+        panel.print_validation_errors(errors)
 
 
 class TestProgressPanelClear:
@@ -293,3 +277,47 @@ class TestCompletedStep:
         assert step.timing_ms == "250"
         assert step.message == "Generated PDF"
         assert step.paths == [test_path]
+
+
+@pytest.mark.parametrize(
+    "source", ["design_yaml_file", "locale_yaml_file", "settings_yaml_file"]
+)
+def test_validation_table_shows_overlay_source(source):
+    error = RenderCVValidationError(("design", "theme"), None, source, "Invalid!", "x")
+    assert format_validation_error_location(error) == f"{source}: design.theme"
+
+
+def test_validation_table_renders_user_values_literally():
+    panel = ProgressPanel(quiet=True)
+    error = RenderCVValidationError(
+        ("cv", "[red]interests[/red]"),
+        None,
+        "main_yaml_file",
+        "Bad [/bold] value!",
+        "[blue]x[/blue]",
+    )
+    panel.print_validation_errors([error])
+    output = io.StringIO()
+    console = rich.console.Console(file=output, width=240, color_system=None)
+    console.print(panel.renderable)
+    assert "[red]interests[/red]" in output.getvalue()
+    assert "Bad [/bold] value!" in output.getvalue()
+    assert "[blue]x[/blue]" in output.getvalue()
+
+
+def test_root_error_has_a_nonempty_display_location():
+    error = RenderCVValidationError(
+        (), ((1, 1), (1, 1)), "main_yaml_file", "Bad root", "..."
+    )
+    assert format_validation_error_location(error) == "main_yaml_file: line 1"
+
+
+def test_user_error_renders_diagnostics_literally():
+    panel = ProgressPanel(quiet=True)
+    message = "Invalid template: [/unknown] [red]source[/red]"
+    panel.print_user_error(RenderCVUserError(message))
+    output = io.StringIO()
+    rich.console.Console(file=output, width=120, color_system=None).print(
+        panel.renderable
+    )
+    assert message in output.getvalue()
