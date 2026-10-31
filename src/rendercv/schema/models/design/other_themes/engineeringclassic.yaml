@@ -8,6 +8,7 @@ design:
       headline: Raleway
       connections: Raleway
       section_titles: Raleway
+      subsection_titles: Raleway
     bold:
       name: false
       section_titles: false
@@ -30,11 +31,11 @@ design:
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
       degree_column: null
     normal_entry:
       main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
     experience_entry:
       main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"

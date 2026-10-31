@@ -10,9 +10,13 @@ design:
       headline: XCharter
       connections: XCharter
       section_titles: XCharter
+      subsection_titles: XCharter
     font_size:
       name: "25pt"
       section_titles: "1.2em"
+      subsection_titles: 1.05em
+    small_caps:
+      subsection_titles: true
     bold:
       name: false
   header:
@@ -25,6 +29,7 @@ design:
     connections: rgb(0,0,0)
     headline: rgb(0,0,0)
     section_titles: rgb(0,0,0)
+    subsection_titles: rgb(0,0,0)
     links: rgb(0,0,0)
   links:
     underline: true
@@ -52,11 +57,11 @@ design:
   templates:
     education_entry:
       main_column: "**INSTITUTION**, DEGREE_WITH_AREA -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
       degree_column: null
     normal_entry:
       main_column: "**NAME** -- **LOCATION**\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"
     experience_entry:
       main_column: "**POSITION**, COMPANY -- LOCATION\nSUMMARY\nHIGHLIGHTS"
-      date_and_location_column: DATE
+      date_and_location_column: "DATE"

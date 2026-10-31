@@ -1,0 +1,9 @@
+# A PDF often starts with plain text, so Git can't tell that it's binary and would
+# diff it, merge it, and convert its line endings:
+*.pdf binary
+
+# Generated files: collapsed in GitHub diffs (regenerate them instead of editing).
+schema.json linguist-generated
+examples/** linguist-generated
+tests/**/testdata/** linguist-generated
+src/rendercv/renderer/rendercv_typst/examples/** linguist-generated

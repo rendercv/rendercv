@@ -1,9 +1,8 @@
 {% macro image() %}
-#pad(left: {{ design.header.photo_space_left }}, right: {{ design.header.photo_space_right }}, image("{{ cv.photo.name }}", width: {{ design.header.photo_width }}))
+#pad(left: {{ design.header.photo_space_left }}, right: {{ design.header.photo_space_right }}, image({{ cv.photo.name|typst_string }}, width: {{ design.header.photo_width }}, alt: {{ (cv._plain_name or cv.photo.stem)|typst_string }}))
 {% endmacro %}
 
 {% if cv.photo %}
-{% set photo = "image(\"" + cv.photo|string + "\", width: "+ design.header.photo_width + ")" %}
 #grid(
 {% if design.header.photo_position == "left" %}
   columns: (auto, 1fr),

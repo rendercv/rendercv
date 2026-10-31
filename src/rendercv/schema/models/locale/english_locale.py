@@ -96,6 +96,48 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         )
     )
 
+    day_ordinals: Annotated[list[str], at.Len(min_length=31, max_length=31)] = (
+        pydantic.Field(
+            default=[
+                "1st",
+                "2nd",
+                "3rd",
+                "4th",
+                "5th",
+                "6th",
+                "7th",
+                "8th",
+                "9th",
+                "10th",
+                "11th",
+                "12th",
+                "13th",
+                "14th",
+                "15th",
+                "16th",
+                "17th",
+                "18th",
+                "19th",
+                "20th",
+                "21st",
+                "22nd",
+                "23rd",
+                "24th",
+                "25th",
+                "26th",
+                "27th",
+                "28th",
+                "29th",
+                "30th",
+                "31st",
+            ],
+            description=(
+                "The days of a month as written in dates as ordinals (1st-31st), for"
+                " the `DAY_ORDINAL` placeholder."
+            ),
+        )
+    )
+
     @functools.cached_property
     def language_iso_639_1(self) -> str:
         """Get ISO 639-1 two-letter language code for locale.
@@ -110,6 +152,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             Two-letter ISO 639-1 language code for Typst and HTML.
         """
         return {
+            "catalan": "ca",
             "danish": "da",
             "dutch": "nl",
             "english": "en",
@@ -120,13 +163,14 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "indonesian": "id",
             "japanese": "ja",
             "korean": "ko",
-            "indonesia": "id",
             "mandarin_chinese": "zh",
             "norwegian_bokmål": "nb",
             "norwegian_nynorsk": "nn",
             "portuguese": "pt",
+            "polish": "pl",
             "russian": "ru",
             "spanish": "es",
+            "swedish": "sv",
             "turkish": "tr",
             "arabic": "ar",
             "hebrew": "he",
@@ -149,6 +193,7 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
         """
         country = {
             "arabic": "SA",
+            "catalan": "ES",
             "danish": "DK",
             "dutch": "NL",
             "english": "GB",
@@ -165,9 +210,11 @@ class EnglishLocale(BaseModelWithoutExtraKeys):
             "norwegian_bokmål": "NO",
             "norwegian_nynorsk": "NO",
             "persian": "IR",
+            "polish": "PL",
             "portuguese": "PT",
             "russian": "RU",
             "spanish": "ES",
+            "swedish": "SE",
             "turkish": "TR",
             "vietnamese": "VN",
         }[self.language]

@@ -2,7 +2,6 @@ import pathlib
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .path_resolver import resolve_rendercv_file_path
 from .templater.templater import render_html
 
 
@@ -27,9 +26,8 @@ def generate_html(
         or markdown_path is None
     ):
         return None
-    html_path = resolve_rendercv_file_path(
-        rendercv_model, rendercv_model.settings.render_command.html_path
-    )
+    html_path = rendercv_model._output_plan.paths["html"]
+    html_path.parent.mkdir(parents=True, exist_ok=True)
     html_contents = render_html(
         rendercv_model, markdown_path.read_text(encoding="utf-8")
     )

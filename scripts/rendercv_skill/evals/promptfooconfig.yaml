@@ -1,3 +1,6 @@
+# Generate the skill, then evaluate it:
+#   uv run scripts/rendercv_skill/generate.py /tmp/rendercv-skill
+#   RENDERCV_SKILL_DIRECTORY=/tmp/rendercv-skill bunx promptfoo eval -c scripts/rendercv_skill/evals/promptfooconfig.yaml
 description: RenderCV Skill Evaluation
 
 providers:

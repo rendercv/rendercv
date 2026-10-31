@@ -96,6 +96,30 @@ sections:
 !!! warning "One entry type per section"
     Each section must contain only one type of entry. For example, you cannot mix `ExperienceEntry` and `EducationEntry` in the same section.
 
+### Subsections
+
+A section is a list of entries of one type. A `SubsectionEntry` groups entries under a `title`:
+
+```yaml
+cv:
+  sections:
+    publications:
+      - title: Journal Articles
+        entries:
+          - title: Magneto-Thermal Thin Shell Approximation for 3D Finite Element Analysis
+            authors:
+              - John Doe
+              - Jane Smith
+            journal: IEEE Transactions on Applied Superconductivity
+            date: 2023-12
+      - title: Talks
+        entries:
+          - Invited talk at the Applied Superconductivity Conference, 2024.
+          - Contributed talk at the Magnet Technology Conference, 2023.
+```
+
+Every list contains one entry type, and each subsection chooses its own type. That type can also be `SubsectionEntry`, so groups can nest: Publications → Journal Articles → First Author, for example. Group order stays as written; date sorting applies to the entries within each group. All subsection titles use the `subsection_titles` options of [`design`](design.md).
+
 ## Entry Types
 
 RenderCV provides << entry_count >> entry types:

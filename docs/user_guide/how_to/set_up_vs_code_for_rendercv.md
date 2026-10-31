@@ -37,11 +37,11 @@ To enable automatic rendering as you type, you need to configure VS Code to auto
     ```json
     {
         "files.autoSave": "afterDelay",
-        "files.autoSaveDelay": 10
+        "files.autoSaveDelay": 500
     }
     ```
 
-These settings will automatically save your YAML file 10 milliseconds after you stop typing.
+These settings save your YAML file 500 milliseconds after you stop typing.
 
 ## Start Writing Your CV with Live Preview
 

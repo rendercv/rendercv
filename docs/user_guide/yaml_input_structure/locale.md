@@ -4,7 +4,7 @@ The `locale` field lets you create a CV in any language by customizing month nam
 
 ## Built-in Locales
 
-RenderCV includes translations for 12 languages. To use one, simply specify the language:
+RenderCV includes translations for << locale_count >> languages. To use one, simply specify the language:
 
 ```yaml
 locale:
@@ -12,6 +12,26 @@ locale:
 ```
 
 Available languages: << available_locales >>.
+
+## Section Titles
+
+Section titles are your CV’s content. Write the keys under `cv.sections` in
+any language, just as you write entry text:
+
+```yaml
+cv:
+  sections:
+    Esperienza lavorativa:
+      - company: Acme
+        position: Ingegnere
+locale:
+  language: italian
+```
+
+The locale translates generated words such as month names and “present”; it
+does not translate your content. Options that identify sections, such as
+`show_time_spans_in`, use the title in lowercase with spaces replaced by
+underscores (`esperienza_lavorativa` here). Overlays use the exact YAML key.
 
 ## Customizing Locale
 

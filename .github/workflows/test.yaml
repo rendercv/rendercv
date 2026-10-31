@@ -17,14 +17,12 @@ jobs:
     name: Run pre-commit checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-        with:
-          submodules: true
+      - uses: actions/checkout@v7
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
         with:
-          python-version: "3.13"
+          python-version: "3.15"
 
       - name: Install just
         uses: taiki-e/install-action@just
@@ -33,10 +31,10 @@ jobs:
         run: just sync
 
       - name: Run prek
-        uses: j178/prek-action@v1
+        uses: j178/prek-action@v3.0.0
         with:
           extra-args: --all-files
-      
+
   test:
     name: Test with Py${{ matrix.python-version }} on ${{ matrix.os }}
 
@@ -44,16 +42,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, windows, macos]
-        python-version: ["3.12", "3.13", "3.14"]
+        python-version: ["3.12", "3.13", "3.14", "3.15"]
 
     runs-on: ${{ matrix.os }}-latest
     steps:
-      - uses: actions/checkout@v6
-        with:
-          submodules: true
+      - uses: actions/checkout@v7
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -62,6 +58,8 @@ jobs:
 
       - name: Test
         run: just test-coverage
+        env:
+          HYPOTHESIS_PROFILE: ci
 
       - name: Rename the coverage file
         run: mv .coverage .coverage.${{ matrix.python-version }}.${{ matrix.os }}
@@ -73,13 +71,32 @@ jobs:
           name: coverage-${{ matrix.python-version }}-${{ matrix.os }}
           path: .coverage.${{ matrix.python-version }}.${{ matrix.os }}
 
+  docker:
+    name: Render offline with Docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Build image
+        run: docker build -t rendercv:test .
+
+      - name: Render without network access or cached Typst packages
+        run: |
+          mkdir -p "$RUNNER_TEMP/rendercv-docker"
+          cp examples/John_Doe_ClassicTheme_CV.yaml "$RUNNER_TEMP/rendercv-docker/cv.yaml"
+          docker run --rm --network none \
+            -v "$RUNNER_TEMP/rendercv-docker:/work" \
+            --user "$(id -u):$(id -g)" -e HOME=/tmp -w /work \
+            rendercv:test render cv.yaml
+          test -s "$RUNNER_TEMP/rendercv-docker/rendercv_output/John_Doe_CV.pdf"
+
   report-coverage:
     name: Generate the coverage report
     needs: [test]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Download coverage files
         uses: actions/download-artifact@v8
@@ -89,7 +106,7 @@ jobs:
           merge-multiple: true # download them in the same folder
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
 
       - name: Install just
         uses: taiki-e/install-action@just

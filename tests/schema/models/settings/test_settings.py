@@ -1,9 +1,8 @@
-import datetime
+from datetime import date as Date
 
 import pydantic
 import pytest
 from hypothesis import given
-from hypothesis import settings as hypothesis_settings
 from hypothesis import strategies as st
 
 from rendercv.schema.models.settings.settings import Settings
@@ -16,19 +15,19 @@ class TestCurrentDate:
         assert settings.current_date == "today"
 
     def test_accepts_date_object(self):
-        date = datetime.date(2024, 6, 15)
+        date = Date(2024, 6, 15)
         settings = Settings(current_date=date)
 
         assert settings.current_date == date
 
     def test_accepts_iso_date_string(self):
-        settings = Settings(current_date="2024-06-15")  # ty: ignore[invalid-argument-type]
+        settings = Settings(current_date="2024-06-15")
 
-        assert settings.current_date == datetime.date(2024, 6, 15)
+        assert settings.current_date == Date(2024, 6, 15)
 
     def test_rejects_invalid_string(self):
         with pytest.raises(pydantic.ValidationError):
-            Settings(current_date="not-a-date")  # ty: ignore[invalid-argument-type]
+            Settings(current_date="not-a-date")
 
 
 class TestSettings:
@@ -50,16 +49,13 @@ class TestSettings:
         assert set(settings.bold_keywords) == {"Python", "Java", "C++"}
 
     def test_pdf_title_default(self):
-        settings = Settings()
+        assert Settings().pdf_title == "NAME - CV"
 
-        assert settings.pdf_title == "NAME - CV"
+    @pytest.mark.parametrize("title", ["", "   "])
+    def test_blank_pdf_titles_are_rejected(self, title):
+        with pytest.raises(pydantic.ValidationError):
+            Settings(pdf_title=title)
 
-    def test_pdf_title_custom(self):
-        settings = Settings(pdf_title="NAME - Resume YEAR")
-
-        assert settings.pdf_title == "NAME - Resume YEAR"
-
-    @hypothesis_settings(deadline=None)
     @given(
         keywords=st.lists(
             st.text(min_size=1, max_size=20).filter(lambda s: s.strip()),

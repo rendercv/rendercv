@@ -7,11 +7,12 @@ import jinja2
 
 from rendercv.schema.models.rendercv_model import RenderCVModel
 
-from .markdown_parser import markdown_to_html
-from .model_processor import download_photo_from_url, process_model
-from .string_processor import clean_url
+from .markup import clean_url, markdown_to_html, typst_string
+from .model_processor import process_model
+from .rendered import RenderContext, RenderedSection
 
 templates_directory = pathlib.Path(__file__).parent / "templates"
+file_extensions: dict[str, str] = {"typst": "typ", "markdown": "md"}
 
 
 @functools.lru_cache(maxsize=1)
@@ -42,10 +43,28 @@ def get_jinja2_environment(
         ),
         trim_blocks=True,
         lstrip_blocks=True,
+        autoescape=jinja2.select_autoescape(["html"], default_for_string=False),
     )
     env.filters["clean_url"] = clean_url
     env.filters["strip"] = lambda string: string.strip()
+    env.filters["typst_string"] = typst_string
+    env.filters["markdown_heading"] = render_markdown_heading
     return env
+
+
+def render_markdown_heading(title: str, level: int) -> str:
+    """Write a heading, preserving depths beyond Markdown's six heading levels.
+
+    Args:
+        title: Heading content in Markdown.
+        level: Heading level in the CV's outline.
+
+    Returns:
+        A Markdown heading, or an HTML heading with an explicit accessible level.
+    """
+    if level <= 6:
+        return f"{'#' * level} {title}"
+    return f'<h6 aria-level="{level}">{markdown_to_html(title, inline=True)}</h6>'
 
 
 def render_full_template(
@@ -74,58 +93,91 @@ def render_full_template(
     Returns:
         Complete rendered document as string.
     """
-    extension = {
-        "typst": "typ",
-        "markdown": "md",
-    }[file_type]
+    extension = file_extensions[file_type]
 
-    download_photo_from_url(rendercv_model)
-    rendercv_model = process_model(rendercv_model, file_type)
+    context = process_model(rendercv_model, file_type)
 
     header = render_single_template(
         file_type,
         f"Header.j2.{extension}",
-        rendercv_model,
+        context,
     )
     if file_type == "typst":
         preamble = render_single_template(
             file_type,
             f"Preamble.j2.{extension}",
-            rendercv_model,
+            context,
         )
         code = f"{preamble}\n\n{header}\n"
     else:
         code = f"{header}\n"
 
-    for rendercv_section in rendercv_model.cv.rendercv_sections:
-        section_beginning = render_single_template(
-            file_type,
-            f"SectionBeginning.j2.{extension}",
-            rendercv_model,
-            section_title=rendercv_section.title,
-            snake_case_section_title=rendercv_section.snake_case_title,
-            entry_type=rendercv_section.entry_type,
-        )
-        section_ending = render_single_template(
-            file_type,
-            f"SectionEnding.j2.{extension}",
-            rendercv_model,
-            entry_type=rendercv_section.entry_type,
-        )
-        entry_codes = []
-        for entry in rendercv_section.entries:
-            entry_code = render_single_template(
-                file_type,
-                f"entries/{rendercv_section.entry_type}.j2.{extension}",
-                rendercv_model,
-                entry=entry,
-            )
-            entry_codes.append(entry_code)
-        entries_code = "\n\n".join(entry_codes)
-        section_code = f"{section_beginning}\n{entries_code}\n{section_ending}"
-        code += f"\n{section_code}"
+    for rendercv_section in context.cv.rendercv_sections:
+        code += f"\n{render_section(context, file_type, rendercv_section)}"
 
     return code
+
+
+def render_section(
+    rendercv_model: RenderContext,
+    file_type: Literal["typst", "markdown"],
+    section: RenderedSection,
+    level: int = 2,
+) -> str:
+    """Render a section, or a subsection, with its entries.
+
+    Why:
+        A subsection is a section one level down, so it is rendered with the
+        same templates. Each template gets the heading level of what it renders
+        (the name is level 1, sections are 2, subsections are 3, and entries are
+        one level below their section), so that headings nest in every format.
+
+    Args:
+        rendercv_model: Processed CV model.
+        file_type: Output format for template selection.
+        section: Section to render.
+        level: Heading level of the section.
+
+    Returns:
+        Rendered section.
+    """
+    extension = file_extensions[file_type]
+    section_beginning = render_single_template(
+        file_type,
+        f"SectionBeginning.j2.{extension}",
+        rendercv_model,
+        section_title=section.title,
+        snake_case_section_title=section.snake_case_title,
+        entry_type=section.entry_type,
+        level=level,
+    )
+    section_ending = render_single_template(
+        file_type,
+        f"SectionEnding.j2.{extension}",
+        rendercv_model,
+        entry_type=section.entry_type,
+        level=level,
+    )
+    if section.entry_type == "SubsectionEntry":
+        entry_codes = []
+        for subsection in section.entries:
+            assert isinstance(subsection, RenderedSection)
+            entry_codes.append(
+                render_section(rendercv_model, file_type, subsection, level + 1)
+            )
+    else:
+        entry_codes = [
+            render_single_template(
+                file_type,
+                f"entries/{section.entry_type}.j2.{extension}",
+                rendercv_model,
+                entry=entry,
+                level=level + 1,
+            )
+            for entry in section.entries
+        ]
+    entries_code = "\n\n".join(entry_codes)
+    return f"{section_beginning}\n{entries_code}\n{section_ending}"
 
 
 def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:
@@ -133,8 +185,9 @@ def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:
 
     Why:
         HTML output requires both content conversion (Markdown to HTML body) and
-        document structure (head, CSS, metadata). Separate function handles HTML-
-        specific workflow distinct from Typst/Markdown direct generation.
+        document structure (head, CSS, metadata). The HTML document is the Markdown
+        document in HTML, so its template sees the model processed for Markdown
+        (with the title resolved, for example).
 
     Example:
         ```py
@@ -152,14 +205,17 @@ def render_html(rendercv_model: RenderCVModel, markdown: str) -> str:
     """
     html_body = markdown_to_html(markdown)
     return render_single_template(
-        "html", "Full.html", rendercv_model, html_body=html_body
+        "html",
+        "Full.html",
+        process_model(rendercv_model, "markdown"),
+        html_body=html_body,
     )
 
 
 def render_single_template(
     file_type: Literal["markdown", "typst", "html"],
     relative_template_path: str,
-    rendercv_model: RenderCVModel,
+    rendercv_model: RenderContext,
     **kwargs,
 ) -> str:
     """Render single Jinja2 template with user override support. Arbitrary keyword
@@ -211,5 +267,13 @@ def render_single_template(
         design=rendercv_model.design,
         locale=rendercv_model.locale,
         settings=rendercv_model.settings,
+        entry_layout=jinja2_environment.select_template(
+            [
+                f"{rendercv_model.design.theme}/EntryLayout.j2.typ",
+                "typst/EntryLayout.j2.typ",
+            ]
+        )
+        if file_type == "typst"
+        else None,
         **kwargs,
     )

@@ -17,23 +17,41 @@ jobs:
   #     - test
 
   build:
-    name: Build Package
+    name: Build the Package
     needs:
       - test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.3.2
 
-      - name: Check if the release tag matches the version
-        uses: samuelcolvin/check-python-version@v5
-        with:
-          version_file_path: src/rendercv/__init__.py
+      - name: Check that the tag matches the version
+        run: test "$GITHUB_REF_NAME" = "v$(uv version --package rendercv --short)"
+
+      # Users get the fonts from PyPI, so the fonts that RenderCV was tested with must
+      # be a released version (see release-fonts.yaml), unchanged since its release:
+      - name: Check that the fonts are released
+        run: |
+          tag="rendercv-fonts-v$(uv version --package rendercv-fonts --short)"
+          git fetch --depth=1 --filter=blob:none origin tag "$tag" || {
+            echo "::error::$tag doesn't exist. Release the fonts first."
+            exit 1
+          }
+          if [ "$(git rev-parse "$tag:packages/rendercv-fonts")" != "$(git rev-parse HEAD:packages/rendercv-fonts)" ]; then
+            echo "::error::packages/rendercv-fonts changed after $tag. Release a new version of the fonts first."
+            exit 1
+          fi
+
+      - name: Install just
+        uses: taiki-e/install-action@just
+
+      - name: Download the Typst packages that RenderCV ships
+        run: just download-typst-packages
 
       - name: Build
-        run: uv build
+        run: uv build --package rendercv
 
       - name: Upload the wheel and source distribution as artifacts
         uses: actions/upload-artifact@v7
@@ -69,7 +87,7 @@ jobs:
           path: dist
 
       - name: Add assets to the GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             rendercv-*/rendercv-linux-ARM64.zip
@@ -93,8 +111,54 @@ jobs:
           name: dist
           path: dist
 
-      - name: Upload package to PyPI
+      - name: Upload to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+
+  publish_skill:
+    name: Publish the AI agent skill
+    needs:
+      - publish_to_pypi
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.3.2
+
+      - name: Check out rendercv/rendercv-skill
+        uses: actions/checkout@v7
+        with:
+          repository: rendercv/rendercv-skill
+          # A deploy key with write access to rendercv/rendercv-skill:
+          ssh-key: ${{ secrets.RENDERCV_SKILL_DEPLOY_KEY }}
+          path: rendercv-skill
+
+      - name: Replace the skill
+        run: |
+          git -C rendercv-skill rm -rq .
+          uv run --frozen --all-extras scripts/rendercv_skill/generate.py rendercv-skill
+
+      - name: Push the skill
+        working-directory: rendercv-skill
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          # A rerun of the same release has nothing new to publish:
+          if ! git diff --cached --quiet; then
+            git commit -m "RenderCV $GITHUB_REF_NAME"
+            git push
+          fi
+
+      - name: Add the skill to the GitHub release
+        run: |
+          cd rendercv-skill/skills
+          zip -qr "$RUNNER_TEMP/rendercv_skill.zip" rendercv
+          gh release upload --clobber "$GITHUB_REF_NAME" "$RUNNER_TEMP/rendercv_skill.zip"
+        env:
+          GH_TOKEN: ${{ github.token }}
 
   publish_docker_to_ghcr:
     name: Push Docker image to GitHub Container Registry
@@ -108,10 +172,10 @@ jobs:
       id-token: write
     steps:
       - name: Check out the repo
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Log in to the Container registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -119,7 +183,7 @@ jobs:
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: |
             ghcr.io/${{ github.repository }}

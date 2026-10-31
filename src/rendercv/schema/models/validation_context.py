@@ -9,6 +9,7 @@ import pydantic
 @dataclass
 class ValidationContext:
     input_file_path: pathlib.Path | None = None
+    input_paths: tuple[pathlib.Path, ...] = ()
     current_date: Any = None
 
 

@@ -31,6 +31,13 @@ class TestCreateSampleRendercvPydanticModel:
             name="John Doe", theme=theme, locale=locale
         )
         assert isinstance(data_model, RenderCVModel)
+        serialized = data_model.model_dump_json(warnings="error")
+        assert (
+            RenderCVModel.model_validate_json(serialized).model_dump_json(
+                warnings="error"
+            )
+            == serialized
+        )
 
     def test_rejects_invalid_theme_or_locale(self):
         with pytest.raises(ValueError):  # NOQA: PT011

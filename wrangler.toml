@@ -1,0 +1,14 @@
+# docs.rendercv.com: the documentation that `just build-docs` builds into site/,
+# served by Cloudflare as static files. .github/workflows/deploy-docs.yaml publishes it.
+name = "rendercv-docs"
+account_id = "9b860ed5721afad8ac7ca08e9e91d292"
+compatibility_date = "2026-10-30"
+routes = [{ pattern = "docs.rendercv.com/*", zone_name = "rendercv.com" }]
+workers_dev = false
+# Pull request previews are served at pr-<number>-rendercv-docs.<subdomain>.workers.dev:
+preview_urls = true
+previews = {}
+
+[assets]
+directory = "site"
+not_found_handling = "404-page"

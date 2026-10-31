@@ -2,7 +2,7 @@ from typing import get_args
 
 import pydantic
 import pytest
-from hypothesis import given, settings
+from hypothesis import given
 from hypothesis import strategies as st
 
 from rendercv.schema.models.cv.social_network import (
@@ -15,7 +15,7 @@ from rendercv.schema.models.cv.social_network import (
 class TestSocialNetwork:
     def test_all_urls_are_present(self):
         assert set(url_dictionary.keys()) == (
-            set(get_args(SocialNetworkName.__value__)) - {"Mastodon"}
+            set(get_args(SocialNetworkName.__value__)) - {"Mastodon", "Itch.io"}
         )
 
     @pytest.mark.parametrize(
@@ -29,7 +29,7 @@ class TestSocialNetwork:
             ("StackOverflow", "invalidusername/invalid"),
             ("YouTube", "@invalidusername"),
             ("NONAME", "@invalidusername"),
-            ("WhatsApp", "invalidphone"),
+            ("WhatsApp", "+123"),
             ("Bluesky", "invalidusername"),
             ("Reddit", "invalid~username"),
         ],
@@ -44,6 +44,15 @@ class TestSocialNetwork:
             ("LinkedIn", "myusername", "https://linkedin.com/in/myusername"),
             ("GitHub", "myusername", "https://github.com/myusername"),
             ("IMDB", "nm0000001", "https://imdb.com/name/nm0000001"),
+            ("IMDB", "nm12345678", "https://imdb.com/name/nm12345678"),
+            ("IMDB", "nm123456789012", "https://imdb.com/name/nm123456789012"),
+            ("HuggingFace", "julien-c", "https://huggingface.co/julien-c"),
+            ("HuggingFace", "A2va", "https://huggingface.co/A2va"),
+            ("Itch.io", "fasterthanlime", "https://fasterthanlime.itch.io/"),
+            ("Itch.io", "DevolverDigital", "https://devolverdigital.itch.io/"),
+            ("Itch.io", "my-games", "https://my-games.itch.io/"),
+            ("Devpost", "test_devpost", "https://devpost.com/test_devpost"),
+            ("Devpost", "my-name", "https://devpost.com/my-name"),
             ("Instagram", "myusername", "https://instagram.com/myusername"),
             ("ORCID", "0000-0000-0000-0000", "https://orcid.org/0000-0000-0000-0000"),
             ("Mastodon", "@myusername@test.org", "https://test.org/@myusername"),
@@ -80,8 +89,16 @@ class TestSocialNetwork:
             (
                 "WhatsApp",
                 "+14155552671",
-                "https://wa.me/+14155552671",
+                "https://wa.me/14155552671",
             ),
+            ("WhatsApp", "+1 (415) 555-2671", "https://wa.me/14155552671"),
+            ("WhatsApp", "14155552671", "https://wa.me/14155552671"),
+            ("WhatsApp", "+1.415.555.2671", "https://wa.me/14155552671"),
+            ("WhatsApp", "1.415.555.2671", "https://wa.me/14155552671"),
+            ("WhatsApp", "@1.415.555.2671", "https://wa.me/1.415.555.2671"),
+            ("WhatsApp", "john.doe_123", "https://wa.me/john.doe_123"),
+            ("WhatsApp", "@john.doe_123", "https://wa.me/john.doe_123"),
+            ("WhatsApp", "a" * 35, "https://wa.me/" + "a" * 35),
             (
                 "X",
                 "myusername",
@@ -99,7 +116,47 @@ class TestSocialNetwork:
         social_network = SocialNetwork(network=network, username=username)
         assert str(social_network.url) == expected_url
 
-    @settings(deadline=None)
+    @pytest.mark.parametrize(
+        ("network", "usernames"),
+        [
+            ("IMDB", ["nm123456", "nm1234567x", "nm12345678\n"]),
+            (
+                "HuggingFace",
+                ["a", "a" * 43, "123", "-name", "name-", "a--b", "a_b", "a.b"],
+            ),
+            ("Itch.io", ["", "my.name", "my_name", "-name", "name-", "a" * 64]),
+            (
+                "Devpost",
+                [
+                    "",
+                    ".",
+                    "..",
+                    "my name",
+                    "name/project",
+                    "name?query",
+                    "name#fragment",
+                ],
+            ),
+            (
+                "WhatsApp",
+                [
+                    "ab",
+                    "a" * 36,
+                    "JohnDoe",
+                    "john-doe",
+                    "123",
+                    "+1-800-FLOWERS",
+                    "+14155552671 ext 1",
+                    "@@john",
+                ],
+            ),
+        ],
+    )
+    def test_platform_username_rules(self, network, usernames):
+        for username in usernames:
+            with pytest.raises(pydantic.ValidationError):
+                SocialNetwork(network=network, username=username)
+
     @given(
         username=st.from_regex(
             r"@[a-zA-Z0-9_]{1,15}@[a-z]{2,10}\.[a-z]{2,4}", fullmatch=True
@@ -109,7 +166,6 @@ class TestSocialNetwork:
         sn = SocialNetwork(network="Mastodon", username=username)
         assert sn.username == username
 
-    @settings(deadline=None)
     @given(
         user=st.from_regex(r"[a-zA-Z0-9_]{1,15}", fullmatch=True),
         domain=st.from_regex(r"[a-z]{2,10}\.[a-z]{2,4}", fullmatch=True),
@@ -123,25 +179,21 @@ class TestSocialNetwork:
         assert f"/@{user}" in sn.url
         assert sn.url.startswith("https://")
 
-    @settings(deadline=None)
     @given(username=st.from_regex(r"\d{4}-\d{4}-\d{4}-\d{3}[\dX]", fullmatch=True))
     def test_orcid_valid_format_accepted(self, username: str) -> None:
         sn = SocialNetwork(network="ORCID", username=username)
         assert sn.username == username
 
-    @settings(deadline=None)
     @given(username=st.from_regex(r"\d{1,8}/[a-zA-Z0-9_-]+", fullmatch=True))
     def test_stackoverflow_valid_format_accepted(self, username: str) -> None:
         sn = SocialNetwork(network="StackOverflow", username=username)
         assert sn.username == username
 
-    @settings(deadline=None)
     @given(username=st.from_regex(r"[a-zA-Z0-9_-]{3,23}", fullmatch=True))
     def test_reddit_valid_format_accepted(self, username: str) -> None:
         sn = SocialNetwork(network="Reddit", username=username)
         assert sn.username == username
 
-    @settings(deadline=None)
     @given(
         network=st.sampled_from(["LinkedIn", "GitHub", "GitLab", "X"]),
         username=st.from_regex(r"[a-zA-Z0-9_-]{1,20}", fullmatch=True),

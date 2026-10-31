@@ -1,5 +1,5 @@
 // Import the rendercv function and all the refactored components
-#import "@preview/rendercv:0.3.0": *
+#import "@preview/rendercv:0.4.0": *
 
 // Apply the rendercv template with custom configuration
 #show: rendercv.with(
@@ -69,8 +69,8 @@
   entries-short-second-row: false,
   entries-summary-space-left: 0cm,
   entries-summary-space-above: 0.08cm,
-  entries-highlights-bullet:  text(13pt, [•], baseline: -0.6pt) ,
-  entries-highlights-nested-bullet:  text(13pt, [•], baseline: -0.6pt) ,
+  entries-highlights-bullet: "●",
+  entries-highlights-nested-bullet: "●",
   entries-highlights-space-left: 0cm,
   entries-highlights-space-above: 0.08cm,
   entries-highlights-space-between-items: 0.08cm,

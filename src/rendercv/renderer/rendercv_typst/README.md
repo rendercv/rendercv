@@ -4,14 +4,14 @@ All six looks below are produced by the same package with different parameter va
 
 <table>
 <tr>
-<td><img alt="Example CV using the Classic theme with blue accents and partial section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/classic.png" width="350"></td>
-<td><img alt="Example CV using the Engineering Resumes theme with a minimal single-column layout" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/engineeringresumes.png" width="350"></td>
-<td><img alt="Example CV using the Sb2nov theme with full-width section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/sb2nov.png" width="350"></td>
+<td><img alt="Example CV using the Classic theme with blue accents and partial section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/classic.png" width="350"></td>
+<td><img alt="Example CV using the Engineering Resumes theme with a minimal single-column layout" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/engineeringresumes.png" width="350"></td>
+<td><img alt="Example CV using the Sb2nov theme with full-width section title lines" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/sb2nov.png" width="350"></td>
 </tr>
 <tr>
-<td><img alt="Example CV using the ModernCV theme with a sidebar layout and colored name" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/moderncv.png" width="350"></td>
-<td><img alt="Example CV using the Engineering Classic theme with a traditional academic style" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/engineeringclassic.png" width="350"></td>
-<td><img alt="Example CV using the Harvard theme with a clean serif font and full-width lines" src="https://raw.githubusercontent.com/rendercv/rendercv/9b7830a0e1b5d731461320c10df0a9c12267e5f0/docs/assets/images/examples/harvard.png" width="350"></td>
+<td><img alt="Example CV using the ModernCV theme with a sidebar layout and colored name" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/moderncv.png" width="350"></td>
+<td><img alt="Example CV using the Engineering Classic theme with a traditional academic style" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/engineeringclassic.png" width="350"></td>
+<td><img alt="Example CV using the Harvard theme with a clean serif font and full-width lines" src="https://raw.githubusercontent.com/rendercv/rendercv/dd5ac9115ac0fc1cc97e9608f08a6d075883e20b/docs/assets/images/examples/harvard.png" width="350"></td>
 </tr>
 </table>
 
@@ -26,13 +26,13 @@ typst init @preview/rendercv
 Or import into an existing file:
 
 ```typst
-#import "@preview/rendercv:0.3.0": *
+#import "@preview/rendercv:0.4.0": *
 ```
 
 ## Usage
 
 ```typst
-#import "@preview/rendercv:0.3.0": *
+#import "@preview/rendercv:0.4.0": *
 
 #show: rendercv.with(
   name: "John Doe",
@@ -87,6 +87,22 @@ Or import into an existing file:
 - **`reversed-numbered-entries(content)`** -- Reverse-numbered list
 - **`link(dest, body, icon: none, if-underline: none, if-color: none)`** -- Enhanced link with customizable styling
 
+## Sections and Subsections
+
+A level-2 heading (`== Experience`) starts a section, and a level-3 heading (`=== Industry`) starts a subsection of it, with its own entries:
+
+```typst
+== Publications
+
+=== Journal Articles
+
+#regular-entry([*A Paper*], [2024])
+
+=== Talks
+
+An invited talk at a conference, 2024.
+```
+
 ## Customization
 
 Everything is customizable through `rendercv.with()`. A few examples:
@@ -95,6 +111,7 @@ Everything is customizable through `rendercv.with()`. A few examples:
 #show: rendercv.with(
   // Page
   page-size: "a4",
+  page-height: none, // Use auto for a page whose height follows its content.
   page-top-margin: 0.7in,
   text-direction: rtl,                    // right-to-left support
 
@@ -115,6 +132,10 @@ Everything is customizable through `rendercv.with()`. A few examples:
 
   // Section titles
   section-titles-type: "with_partial_line", // "with_full_line", "without_line", "moderncv", "centered_without_line", "centered_with_partial_line", "centered_with_centered_partial_line", "centered_with_full_line"
+
+  // Subsection titles (level-3 headings, `=== Title`)
+  typography-font-size-subsection-titles: 1.1em,
+  subsection-titles-space-above: 0.6cm,
 
   // Entries
   entries-date-and-location-width: 4.15cm,

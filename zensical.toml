@@ -1,0 +1,195 @@
+[project]
+site_name = "RenderCV CLI"
+site_description = "Typst-based CV/resume generator for academics and engineers"
+copyright = "Copyright &copy; 2023 - 2026 RenderCV"
+repo_url = "https://github.com/rendercv/rendercv"
+repo_name = "rendercv/rendercv"
+edit_uri = "edit/main/docs/"
+extra_javascript = [
+    "assets/javascripts/katex.js",
+    "assets/javascripts/rendercv-logo.js",
+    "https://unpkg.com/katex@0/dist/katex.min.js",
+    "https://unpkg.com/katex@0/dist/contrib/auto-render.min.js",
+]
+extra_css = [
+    "assets/stylesheets/rendercv.css",
+    "https://unpkg.com/katex@0/dist/katex.min.css",
+]
+site_url = "https://docs.rendercv.com/"
+# Files in docs/ that build the site rather than being part of it:
+exclude_docs = """
+docs_templating.py
+__pycache__/
+overrides/
+"""
+
+nav = [
+    { "User Guide" = [
+        { "Welcome" = "index.md" },
+        { "Get Started" = "user_guide/index.md" },
+        { "CLI Reference" = "user_guide/cli_reference.md" },
+        { "YAML Input Structure" = [
+            { "Overview" = "user_guide/yaml_input_structure/index.md" },
+            { "cv Field" = "user_guide/yaml_input_structure/cv.md" },
+            { "design Field" = "user_guide/yaml_input_structure/design.md" },
+            { "locale Field" = "user_guide/yaml_input_structure/locale.md" },
+            { "settings Field" = "user_guide/yaml_input_structure/settings.md" },
+        ] },
+        { "How-To Guides" = [
+            { "Set Up VS Code for RenderCV" = "user_guide/how_to/set_up_vs_code_for_rendercv.md" },
+            { "Set Up Zed for RenderCV" = "user_guide/how_to/set_up_zed_for_rendercv.md" },
+            { "Upgrade from v2.8" = "user_guide/how_to/upgrade_from_v2_8.md" },
+            { "Arbitrary Keys in Entries" = "user_guide/how_to/arbitrary_keys_in_entries.md" },
+            { "Combine YAML Files" = "user_guide/how_to/combine_yaml_files.md" },
+            { "Custom Fonts" = "user_guide/how_to/custom_fonts.md" },
+            { "Override Default Templates" = "user_guide/how_to/override_default_templates.md" },
+            { "Use the AI Agent Skill" = "user_guide/how_to/use_the_ai_agent_skill.md" },
+        ] },
+    ] },
+    { "Developer Guide" = [
+        { "Setup" = "developer_guide/index.md" },
+        { "Contributing" = "developer_guide/contributing.md" },
+        { "Project Management" = "developer_guide/project_management.md" },
+        { "Understanding RenderCV" = "developer_guide/understanding_rendercv.md" },
+        { "Testing" = "developer_guide/testing.md" },
+        { "Documentation" = "developer_guide/documentation.md" },
+        { "JSON Schema" = "developer_guide/json_schema.md" },
+        { "GitHub Workflows" = "developer_guide/github_workflows.md" },
+        { "Docker" = "developer_guide/dockerfile.md" },
+        { "How-To Guides" = [
+            { "Add Theme" = "developer_guide/how_to/add_theme.md" },
+            { "Add Locale" = "developer_guide/how_to/add_locale.md" },
+            { "Add Social Network" = "developer_guide/how_to/add_social_network.md" },
+            { "Publish the Typst Package" = "developer_guide/how_to/publish_typst_package.md" },
+        ] },
+    ] },
+    { "API Reference" = [{ "Overview" = "api_reference/index.md" }] },
+    { "ATS Compatibility" = "ats_compatibility.md" },
+    { "Changelog" = "changelog.md" },
+    { "Web App" = "https://rendercv.com" },
+]
+
+[project.theme]
+variant = "modern"
+language = "en"
+custom_dir = "docs/overrides"
+features = [
+    "content.code.copy",
+    "content.action.view",
+    "content.action.edit",
+    "navigation.footer",
+    "navigation.tabs",
+    "navigation.instant",
+    "navigation.instant.prefetch",
+    "navigation.instant.progress",
+    "navigation.top",
+    "navigation.sections",
+    "search.highlight",
+    "toc.follow",
+    "content.code.annotate",
+    "content.tabs.link",
+]
+
+[project.theme.icon]
+logo = "custom/rendercv"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "default"
+accent = "default"
+
+[project.theme.palette.toggle]
+icon = "custom/sun"
+name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "default"
+accent = "default"
+
+[project.theme.palette.toggle]
+icon = "custom/moon"
+name = "Switch to light mode"
+
+[project.theme.font]
+text = "DM Sans"
+code = "Roboto Mono"
+
+[project.markdown_extensions.github-callouts]
+
+[project.markdown_extensions."pymdownx.highlight"]
+anchor_linenums = true
+line_spans = "__span"
+pygments_lang_class = true
+
+[project.markdown_extensions."pymdownx.inlinehilite"]
+
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.md_in_html]
+[project.markdown_extensions.tables]
+
+[project.markdown_extensions."pymdownx.superfences"]
+custom_fences = [
+    { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+
+[project.markdown_extensions."pymdownx.tabbed"]
+alternate_style = true
+
+[project.markdown_extensions.toc]
+permalink = true
+title = "Page contents"
+
+[project.markdown_extensions.admonition]
+
+[project.markdown_extensions."zensical.extensions.macros"]
+module_name = "docs/docs_templating"
+on_error_fail = true
+j2_block_start_string = "{$"
+j2_block_end_string = "$}"
+j2_variable_start_string = "<<"
+j2_variable_end_string = ">>"
+
+[project.markdown_extensions."zensical.extensions.mkdocstrings".handlers.python.options]
+members_order = "alphabetical"
+show_bases = true
+docstring_section_style = "list"
+docstring_style = "google"
+inherited_members = true
+show_root_heading = true
+heading_level = 1
+show_symbol_type_heading = true
+show_root_full_path = false
+show_symbol_type_toc = true
+signature_crossrefs = true
+show_docstring_attributes = true
+show_source = true
+show_submodules = false
+merge_init_into_class = true
+annotations_path = "brief"
+show_signature = true
+show_docstring_examples = true
+show_docstring_type_aliases = true
+show_overloads = false
+show_if_no_docstring = true
+
+[project.plugins.search]
+
+[project.plugins.api-autonav]
+modules = [
+    "src/rendercv",
+]
+nav_section_title = "API Reference"
+api_root_uri = "api_reference"
+
+[project.extra]
+social = [
+    { icon = "fontawesome/brands/github", link = "https://github.com/rendercv" },
+    { icon = "fontawesome/brands/linkedin", link = "https://www.linkedin.com/company/rendercv/" },
+]
+
+[project.extra.analytics]
+provider = "google"
+property = "G-7D7Y8D5Q4W"

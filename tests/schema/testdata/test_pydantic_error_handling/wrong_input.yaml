@@ -54,6 +54,25 @@ cv:
     welcome_to_rendercv_tests_9:
       - title: Can you provide a date in YYYY-MM format?
         authors: I'm the author! But should this be a list?
+    welcome_to_rendercv_tests_10:
+      - title: Can a subsection have invalid entries?
+        entries:
+          - title: A publication without authors
+          - title: A publication with an invalid date
+            authors:
+              - Not really.
+            date: 2025-13-01
+    welcome_to_rendercv_tests_11:
+      - title: Can a section mix subsections and entries?
+        entries:
+          - No.
+      - This is an entry.
+    welcome_to_rendercv_tests_12:
+      - title: Are invalid nested entries reported?
+        entries:
+          - title: A subsection in a subsection
+            entries:
+              - title: A publication without authors
 design:
   theme: not_a_valid_theme
   extra_field_in_design: I don't think this is allowed.

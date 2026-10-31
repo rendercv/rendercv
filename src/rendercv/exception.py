@@ -1,12 +1,9 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Literal
 
-type YamlSource = Literal[
-    "main_yaml_file",
-    "design_yaml_file",
-    "locale_yaml_file",
-    "settings_yaml_file",
-]
+# The file that an input value comes from: `main_yaml_file`, `design_yaml_file`,
+# `locale_yaml_file`, `settings_yaml_file`, or the path of an overlay file:
+type YamlSource = str
 type OverlaySourceKey = Literal["design", "locale", "settings"]
 type YamlLocation = tuple[tuple[int, int], tuple[int, int]]
 
@@ -34,7 +31,6 @@ class RenderCVValidationError:
     input: str
 
 
-@dataclass
 class RenderCVUserError(ValueError):
     """User-facing error for recoverable problems like invalid input or missing files.
 
@@ -44,10 +40,11 @@ class RenderCVUserError(ValueError):
         actionable messages reach end users.
     """
 
-    message: str | None = field(default=None)
+    def __init__(self, message: str | None = None) -> None:
+        self.message = message
+        super().__init__(message or "")
 
 
-@dataclass
 class RenderCVUserValidationError(ValueError):
     """User-facing error carrying multiple structured validation errors.
 
@@ -57,10 +54,11 @@ class RenderCVUserValidationError(ValueError):
         one pass rather than stopping at the first.
     """
 
-    validation_errors: list[RenderCVValidationError]
+    def __init__(self, validation_errors: list[RenderCVValidationError]) -> None:
+        self.validation_errors = validation_errors
+        super().__init__("\n".join(error.message for error in validation_errors))
 
 
-@dataclass
 class RenderCVInternalError(RuntimeError):
     """Internal error indicating a bug in RenderCV logic.
 
@@ -70,4 +68,6 @@ class RenderCVInternalError(RuntimeError):
         in normal operation and indicate code that needs fixing.
     """
 
-    message: str
+    def __init__(self, message: str) -> None:
+        self.message = message
+        super().__init__(message)

@@ -2,16 +2,16 @@ import pathlib
 import textwrap
 from typing import Annotated
 
+import rich.console
 import rich.panel
 import typer
-from rich import print
 
 from rendercv.exception import RenderCVUserError
 
 from ..app import app
 from ..copy_templates import copy_templates
 from ..error_handler import handle_user_errors
-from .create_init_file_for_theme import create_init_file_for_theme
+from .create_init_file_for_theme import create_init_file_for_theme, validate_theme_name
 
 
 @app.command(
@@ -28,7 +28,14 @@ def cli_command_create_theme(
         str,
         typer.Argument(help="The name of the new theme"),
     ],
+    quiet: Annotated[
+        bool,
+        typer.Option(
+            "--quiet", "-q", help="If provided, RenderCV will not print any messages."
+        ),
+    ] = False,
 ) -> None:
+    validate_theme_name(theme_name)
     new_theme_folder = pathlib.Path.cwd() / theme_name
 
     if new_theme_folder.exists():
@@ -56,7 +63,7 @@ def cli_command_create_theme(
         [cyan]    theme: {theme_name}
     """).strip("\n")
 
-    print(
+    rich.console.Console(quiet=quiet).print(
         rich.panel.Panel(
             message,
             title="Theme created",

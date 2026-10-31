@@ -10,6 +10,17 @@ from rendercv.schema.models.cv.section import available_entry_type_names
 
 
 class TestCv:
+    @pytest.mark.parametrize(
+        "website", ["https://example.com/", ["https://example.com/"]]
+    )
+    def test_websites_serialize_without_warnings(self, website):
+        cv = Cv.model_validate({"website": website})
+        assert cv.model_dump(mode="json", warnings="error")["website"] == website
+        assert (
+            Cv.model_validate_json(cv.model_dump_json(warnings="error")).website
+            == cv.website
+        )
+
     def test_rendercv_sections(self, request: pytest.FixtureRequest):
         entry_type_names = [
             "".join(
@@ -89,6 +100,29 @@ class TestCv:
 
         assert "tel:" not in serialized["phone"]
         assert serialized["phone"] == "+90-541-999-99-99"
+
+    @pytest.mark.parametrize("mode", ["python", "json"])
+    @pytest.mark.parametrize(
+        ("phone", "expected"),
+        [
+            (None, None),
+            ([], []),
+            ("+14155552671", "+1-415-555-2671"),
+            (
+                ["+14155552671", "+442071838750"],
+                ["+1-415-555-2671", "+44-20-7183-8750"],
+            ),
+        ],
+    )
+    def test_phone_shapes_serialize_and_round_trip(self, mode, phone, expected):
+        cv = Cv.model_validate({"phone": phone})
+        serialized = cv.model_dump(mode=mode, warnings="error")
+        assert serialized["phone"] == expected
+        assert Cv.model_validate(serialized).phone == cv.phone
+        assert (
+            Cv.model_validate_json(cv.model_dump_json(warnings="error")).phone
+            == cv.phone
+        )
 
     def test_raises_internal_error_when_field_name_is_none(self):
         mock_info = MagicMock(spec=pydantic.ValidationInfo)

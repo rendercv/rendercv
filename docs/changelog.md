@@ -8,7 +8,7 @@ hide:
 
 All notable changes to this project will be documented in this file.
 
-[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.8...HEAD)
+[Click here to see the unreleased changes.](https://github.com/rendercv/rendercv/compare/v2.9...HEAD)
 
 <!--
 ### Added
@@ -16,6 +16,73 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 ### Removed
 -->
+
+## [2.9] - Unreleased
+
+> **Full Changelog**: [v2.8...v2.9]
+
+### Added
+
+- Subsections: `SubsectionEntry` has a `title` and its own `entries`. Each list contains one entry type, which can itself be `SubsectionEntry` for deeper nesting ([#254](https://github.com/rendercv/rendercv/issues/254), [#545](https://github.com/rendercv/rendercv/issues/545), [#694](https://github.com/rendercv/rendercv/issues/694)). Their titles are styled with the new `subsection_titles` options of `design.typography` and `design.colors`, and spaced with `design.subsection_titles`.
+- Overlays: `--overlay FILE` and `settings.render_command.overlays` merge YAML files over the input file, like private contact details over a CV published with placeholders ([#740](https://github.com/rendercv/rendercv/issues/740), [#747](https://github.com/rendercv/rendercv/issues/747)), or parts of a CV kept in their own files ([#477](https://github.com/rendercv/rendercv/issues/477)). See [Combine YAML Files](user_guide/how_to/combine_yaml_files.md).
+- SVG files, one per page, are generated like PNG files, with `svg_path` and `dont_generate_svg` ([#731](https://github.com/rendercv/rendercv/issues/731)).
+- `settings.sort_entries` is back: entries can be ordered by date, the most recent first or the oldest first ([#794](https://github.com/rendercv/rendercv/issues/794)).
+- PDFs conform to PDF/UA-1, the accessibility standard ([#769](https://github.com/rendercv/rendercv/issues/769)). It requires `cv.name` and alternative text for images in Typst code; `settings.pdf_profile: standard` makes an ordinary PDF instead.
+- A `DAY_ORDINAL` date placeholder, like `6th`, written by each locale in `locale.day_ordinals` ([#732](https://github.com/rendercv/rendercv/issues/732)).
+- CLI overrides can add a list item at the index after the last one ([#774](https://github.com/rendercv/rendercv/issues/774)).
+- Built-in locales for Swedish ([#713](https://github.com/rendercv/rendercv/issues/713), [#802](https://github.com/rendercv/rendercv/issues/802)), Polish ([#714](https://github.com/rendercv/rendercv/issues/714)), and Catalan ([#800](https://github.com/rendercv/rendercv/issues/800)).
+- HuggingFace ([#746](https://github.com/rendercv/rendercv/issues/746)), Itch.io, and Devpost ([#756](https://github.com/rendercv/rendercv/issues/756)) social networks, WhatsApp usernames ([#777](https://github.com/rendercv/rendercv/issues/777)), and longer IMDb IDs ([#806](https://github.com/rendercv/rendercv/issues/806)).
+- Custom connections can be plain text, without a URL ([#803](https://github.com/rendercv/rendercv/issues/803)).
+- Chinese, Japanese, and Korean are rendered with the bundled Noto Sans fonts, in the variant of the CV's language ([#655](https://github.com/rendercv/rendercv/issues/655)).
+- Python 3.15 is supported.
+
+### Changed
+
+- RenderCV no longer checks PyPI for a newer version when it starts.
+- User content is parsed once into a tree and emitted once, as Typst or Markdown, instead of being rewritten as text several times. Escaping now follows the grammars exactly: `"` makes smart quotes, and `%`, `>`, and `/` are text.
+- Bold and italic follow CommonMark: after punctuation, a closing `**` needs a space, punctuation, or the line's end after it, so `**C++**17` stays literal while `**C++** 17` is bold. Raw HTML and Markdown images in content are shown as text, in the HTML output too ([#594](https://github.com/rendercv/rendercv/pull/594)).
+- In entry templates, an uppercase word of two or more letters or digits, like `GPA` or `Q3`, is a placeholder for the field of that name, and a single capital letter is text.
+- A template placeholder without a value is removed together with the formatting, brackets, and connecting words that only existed for it.
+- Markdown and HTML headings nest like the PDF's: sections are level 2 (they were level 1, like the name), subsections level 3, and entries one level below their section.
+- The Markdown and HTML header lists the same contact details as the PDF, in the same format: phone numbers follow `design.header.connections.phone_number_format`, which is national by default.
+- The time spans of month ranges count whole months: February to March is 2 months.
+- An entry's header never ends a page without its content ([#190](https://github.com/rendercv/rendercv/issues/190)).
+- `dont_generate_typst` no longer disables PDF and PNG generation, which compile from memory ([#730](https://github.com/rendercv/rendercv/issues/730), [#760](https://github.com/rendercv/rendercv/issues/760)).
+- Paths given on the command line are relative to the current working directory ([#752](https://github.com/rendercv/rendercv/issues/752)), and the design, locale, and settings files are chosen with the precedence CLI > settings file > main file ([#776](https://github.com/rendercv/rendercv/issues/776)). Every render, and every re-render of watch mode, reads them again.
+- The photo must be an image: PNG, JPEG, GIF, WebP, SVG, or PDF ([#598](https://github.com/rendercv/rendercv/issues/598)). A photo given as a URL is downloaded during validation, on every render.
+- Templates written for RenderCV 1 are rejected with an explanation instead of printing their syntax, and syntax errors in template overrides are reported during validation ([#721](https://github.com/rendercv/rendercv/issues/721)).
+- Custom theme names must start with a letter, everywhere ([#771](https://github.com/rendercv/rendercv/issues/771)), and the design options of a custom theme without an `__init__.py` are validated.
+- A custom theme's `__init__.py` must define every design option of the classic theme. One created by an older version of RenderCV is rejected with the list of options it lacks; recreate it with `rendercv create-theme`.
+- CLI overrides no longer accept negative list indices, which edited the last items.
+- Validation errors are classified by their type instead of their text, and a mistyped language lists the available ones.
+- The `rendercv-fonts` package is developed in this repository, as a uv workspace package, and its version 0.6.0 has Font Awesome 7.3.1.
+- The Typst package `@preview/rendercv` is version 0.4.0. It draws the `●` highlight bullet of `engineeringresumes`, with tighter line spacing.
+- The Docker image uses Python 3.15 on Debian trixie and the user ID 1000 ([#780](https://github.com/rendercv/rendercv/issues/780)).
+- The AI agent skill lists every theme, keeps every contact detail it's given, and takes its references from RenderCV itself. It's published to [rendercv-skill](https://github.com/rendercv/rendercv-skill) with each release ([#784](https://github.com/rendercv/rendercv/issues/784), [#785](https://github.com/rendercv/rendercv/issues/785), [#787](https://github.com/rendercv/rendercv/issues/787), [#788](https://github.com/rendercv/rendercv/issues/788), [#791](https://github.com/rendercv/rendercv/issues/791), [#792](https://github.com/rendercv/rendercv/issues/792), [#793](https://github.com/rendercv/rendercv/issues/793), [#767](https://github.com/rendercv/rendercv/issues/767)).
+- The documentation is built with Zensical ([#728](https://github.com/rendercv/rendercv/issues/728)) and hosted on Cloudflare, with a preview of each pull request. The pages of the API reference are now under `api_reference/rendercv/`.
+- All dependencies have been upgraded, including Typst 0.15.
+
+### Fixed
+
+- Enabled output files are checked together before rendering: they cannot overwrite input files, each other, or another format’s numbered page files. The photo copied next to the Typst file is named after it, like `John_Doe_CV_photo.jpg`, so it can't overwrite an unrelated file.
+- Accented letters in small capitals are small capitals too: the `ember` and `opal` themes use Source Sans 3, which has them, for their small-capital headings ([#807](https://github.com/rendercv/rendercv/issues/807)).
+- Nested highlights are nested again ([#712](https://github.com/rendercv/rendercv/issues/712), [#754](https://github.com/rendercv/rendercv/issues/754), [#786](https://github.com/rendercv/rendercv/issues/786)).
+- Formatting around a date that spans several lines is closed and reopened on each line ([#705](https://github.com/rendercv/rendercv/issues/705)).
+- A year written as text, like `date: '2021'`, is shown as `2021` instead of `Jan 2021`, and its time span counts whole years.
+- `bold_keywords` bolds whole words only, whatever their first and last characters ([#706](https://github.com/rendercv/rendercv/issues/706)), and never inside bold text, code, or links ([#736](https://github.com/rendercv/rendercv/issues/736)).
+- The `sb2nov` theme uses the locale's degree phrase ([#755](https://github.com/rendercv/rendercv/issues/755), [#759](https://github.com/rendercv/rendercv/issues/759)), the `harvard` theme no longer shows the degree twice ([#804](https://github.com/rendercv/rendercv/issues/804)), and `ember` and `ink` no longer print a stray `*`.
+- The HTML page has a title, `settings.pdf_title` ([#805](https://github.com/rendercv/rendercv/issues/805)).
+- Phone numbers are laid out left to right in right-to-left CVs ([#781](https://github.com/rendercv/rendercv/issues/781)).
+- A section named `interests`, `internships`, or anything containing `int`, `str`, or `list` no longer crashes the error report ([#758](https://github.com/rendercv/rendercv/issues/758)).
+- `--settings` with `--output-folder` no longer crashes ([#551](https://github.com/rendercv/rendercv/issues/551)).
+- Exceptions keep their messages ([#757](https://github.com/rendercv/rendercv/issues/757)), and `rendercv new` and `rendercv create-theme` honor `--quiet` ([#751](https://github.com/rendercv/rendercv/issues/751)).
+- A saved Typst file compiles on its own, with the photo next to it ([#778](https://github.com/rendercv/rendercv/issues/778)).
+- Phone numbers are serialized the same as a single value and in a list ([#789](https://github.com/rendercv/rendercv/issues/789), [#790](https://github.com/rendercv/rendercv/issues/790)), and lengths can start with a decimal point, like `.5cm` ([#798](https://github.com/rendercv/rendercv/issues/798), [#799](https://github.com/rendercv/rendercv/issues/799)).
+- The JSON Schema accepts custom themes ([#772](https://github.com/rendercv/rendercv/issues/772)) and is the same on every operating system.
+- Font Awesome icons render offline, in the Docker image too: the Font Awesome Typst package ships with RenderCV instead of being downloaded on the first render ([#775](https://github.com/rendercv/rendercv/issues/775)).
+- A `/` or another character that can't be in a file name, in the CV owner's name, no longer makes directories in the output folder: it's replaced by `_` in file names.
+- A partial `typography.font_family` mapping keeps the theme's own fonts for the elements it leaves out; they became Source Sans 3.
+- A locale's `month_names`, `month_abbreviations`, and `day_ordinals` must have 12, 12, and 31 items. A shorter list is rejected during validation instead of crashing the render.
 
 ## [2.8] - March 21, 2026
 
@@ -668,6 +735,7 @@ RenderCV has transitioned from using $\LaTeX$ to Typst. RenderCV is now much fas
 
 The first release of RenderCV.
 
+[v2.8...v2.9]: https://github.com/rendercv/rendercv/compare/v2.8...v2.9
 [v2.7...v2.8]: https://github.com/rendercv/rendercv/compare/v2.7...v2.8
 [v2.6...v2.7]: https://github.com/rendercv/rendercv/compare/v2.6...v2.7
 [v2.5...v2.6]: https://github.com/rendercv/rendercv/compare/v2.5...v2.6
@@ -704,6 +772,7 @@ The first release of RenderCV.
 [v0.3...v0.4]: https://github.com/rendercv/rendercv/compare/v0.3...v0.4
 [v0.2...v0.3]: https://github.com/rendercv/rendercv/compare/v0.2...v0.3
 [v0.1...v0.2]: https://github.com/rendercv/rendercv/compare/v0.1...v0.2
+[2.9]: https://github.com/rendercv/rendercv/releases/tag/v2.9
 [2.8]: https://github.com/rendercv/rendercv/releases/tag/v2.8
 [2.7]: https://github.com/rendercv/rendercv/releases/tag/v2.7
 [2.6]: https://github.com/rendercv/rendercv/releases/tag/v2.6

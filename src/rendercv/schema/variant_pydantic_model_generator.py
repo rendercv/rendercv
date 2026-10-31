@@ -166,7 +166,7 @@ def validate_defaults_against_base(
             raise RenderCVInternalError(message)
 
     if require_all_fields:
-        missing_fields = set(base_fields.keys()) - set(defaults.keys())
+        missing_fields = set(base_fields) - set(defaults)
         if missing_fields:
             message = (
                 f"Missing fields {sorted(missing_fields)} in defaults for"
@@ -457,4 +457,7 @@ def create_simple_field_spec(
             title=base_field_info.title,
         ),
     )
+    # Pydantic keeps the constraints of an `Annotated` type, such as the length of
+    # the month names, in the field's metadata rather than in its annotation:
+    new_field.metadata = [*base_field_info.metadata]
     return (cast(type[Any], base_field_info.annotation), new_field)

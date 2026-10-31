@@ -1,8 +1,6 @@
 import functools
 import re
 
-import pydantic
-
 from ....base import BaseModelWithExtraKeys
 
 entry_type_to_snake_case_pattern = re.compile(r"(?<!^)(?=[A-Z])")
@@ -13,11 +11,9 @@ class BaseEntry(BaseModelWithExtraKeys):
 
     Why:
         All entry types share common configuration (extra keys allowed for
-        template fields, JSON schema description suppressed). This base
-        provides the shared config and entry type introspection.
+        template fields). This base provides the shared config and entry type
+        introspection.
     """
-
-    model_config = pydantic.ConfigDict(json_schema_extra={"description": None})
 
     @functools.cached_property
     def entry_type_in_snake_case(self) -> str:

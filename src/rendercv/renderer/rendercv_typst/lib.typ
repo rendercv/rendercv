@@ -1,7 +1,34 @@
-#import "@preview/fontawesome:0.6.0": fa-icon
+#import "@preview/fontawesome:0.6.2": fa-icon
 
 // State to hold rendercv configuration for use by components
 #let rendercv-config = state("rendercv-config", (:))
+
+// A font with the bundled fonts for Chinese, Japanese, and Korean as fallbacks, which
+// most fonts don't cover and Typst may not find on its own. They are used only for
+// these scripts, with the document's language first, since the three draw some shared
+// characters differently.
+#let with-font-fallbacks(font, language) = {
+  let cjk-fonts = (zh: "Noto Sans SC", ja: "Noto Sans JP", ko: "Noto Sans KR")
+  let preferred = cjk-fonts.at(language, default: none)
+  // Ideographs, Hangul, and the CJK blocks from radicals to compatibility symbols (with
+  // kana, punctuation, and marks such as "ー" and "・"), and full-width forms:
+  let cjk-characters = regex(
+    "[\\p{Han}\\p{Hangul}\u{2E80}-\u{33FF}\u{FE30}-\u{FE4F}\u{FF00}-\u{FFEF}]",
+  )
+  let fallbacks = cjk-fonts
+    .values()
+    .sorted(key: cjk-font => cjk-font != preferred)
+    .map(cjk-font => (name: cjk-font, covers: cjk-characters))
+  (if type(font) == array { font } else { (font,) }) + fallbacks
+}
+
+// The "●" glyph is too large in most fonts, so "●" means an enlarged "•" centered on
+// the x-height. Its edges are clamped so that it doesn't change the line height.
+#let bullet-marker(bullet) = if bullet == "●" {
+  text(1.3em, top-edge: "x-height", bottom-edge: "baseline", baseline: 0.1em)[•]
+} else {
+  bullet
+}
 
 // Direction-aware inset: maps logical start/end to physical left/right.
 // Must be called from within a `context` scope.
@@ -172,11 +199,9 @@
 #let content-area(content) = context {
   let config = rendercv-config.get()
   let entries-side-space = config.at("entries-side-space")
-  let entries-date-and-location-width = config.at("entries-date-and-location-width")
-  let entries-space-between-columns = config.at("entries-space-between-columns")
+  let entries-start-space = config.at("entries-start-space")
   let entries-allow-page-break = config.at("entries-allow-page-break")
   let sections-space-between-text-based-entries = config.at("sections-space-between-text-based-entries")
-  let section-titles-type = config.at("section-titles-type")
   let typography-line-spacing = config.at("typography-line-spacing")
   let justify = config.at("justify")
   let entries-highlights-bullet = config.at("entries-highlights-bullet")
@@ -185,13 +210,6 @@
     "entries-highlights-space-between-bullet-and-text",
   )
   let start-align = config.at("start-align")
-
-  let start-space = entries-side-space
-  if section-titles-type == "moderncv" {
-    start-space = (
-      start-space + entries-date-and-location-width + entries-space-between-columns
-    )
-  }
 
   set par(
     spacing: sections-space-between-text-based-entries + typography-line-spacing,
@@ -213,7 +231,7 @@
     content,
     breakable: entries-allow-page-break,
     below: sections-space-between-text-based-entries + typography-line-spacing,
-    inset: directional-inset(start: start-space, end: entries-side-space),
+    inset: directional-inset(start: entries-start-space, end: entries-side-space),
     width: 100%,
   )
 }
@@ -230,6 +248,17 @@
       above: entries-summary-space-above + typography-line-spacing,
     )
   }
+}
+
+// Keep a semantic entry heading with its body, retaining normal line spacing.
+#let entry-heading(body) = context {
+  block(
+    body,
+    sticky: true,
+    breakable: false,
+    above: 0pt,
+    below: rendercv-config.get().at("typography-line-spacing"),
+  )
 }
 
 #let regular-entry(main-column, date-and-location-column, main-column-second-row: none) = {
@@ -295,19 +324,21 @@
               #date-and-location-column
             ],
             [
-              #main-column
+              // An entry's header never ends a page without its content:
+              #block(sticky: true, main-column)
 
               #main-column-second-row
             ],
           )
         } else {
           if repr(main-column) != "[ ]" or repr(date-and-location-column) != "[ ]" {
-            grid(
+            // An entry's header never ends a page without its content:
+            block(sticky: true, grid(
               columns: (1fr, entries-date-and-location-width),
               column-gutter: entries-space-between-columns,
               align: (start-align, typography-date-and-location-column-alignment),
               main-column, date-and-location-column,
-            )
+            ))
           }
           set align(start-align)
           main-column-second-row
@@ -373,11 +404,14 @@
   doc,
   name: "John Doe",
   title: "John Doe's CV",
+  description: none,
+  keywords: (),
   footer: context { "Page " + str(here().page()) + " of " + str(counter(page).final().first()) + "" },
   top-note: "Last updated in " + datetime.today().display(),
   locale-catalog-language: "en",
   text-direction: ltr,
   page-size: "us-letter",
+  page-height: none,
   page-top-margin: 0.7in,
   page-bottom-margin: 0.7in,
   page-left-margin: 0.7in,
@@ -389,6 +423,7 @@
   colors-headline: rgb(0, 79, 144),
   colors-connections: rgb(0, 79, 144),
   colors-section-titles: rgb(0, 79, 144),
+  colors-subsection-titles: rgb(0, 79, 144),
   colors-links: rgb(0, 79, 144),
   colors-footer: rgb(128, 128, 128),
   colors-top-note: rgb(128, 128, 128),
@@ -400,19 +435,23 @@
   typography-font-family-headline: "Raleway",
   typography-font-family-connections: "Raleway",
   typography-font-family-section-titles: "Raleway",
+  typography-font-family-subsection-titles: "Raleway",
   typography-font-size-body: 10pt,
   typography-font-size-name: 30pt,
   typography-font-size-headline: 10pt,
   typography-font-size-connections: 10pt,
   typography-font-size-section-titles: 1.4em,
+  typography-font-size-subsection-titles: 1.1em,
   typography-small-caps-name: false,
   typography-small-caps-headline: false,
   typography-small-caps-connections: false,
   typography-small-caps-section-titles: false,
+  typography-small-caps-subsection-titles: false,
   typography-bold-name: false,
   typography-bold-headline: false,
   typography-bold-connections: false,
   typography-bold-section-titles: false,
+  typography-bold-subsection-titles: true,
   links-underline: false,
   links-show-external-link-icon: false,
   header-alignment: left,
@@ -429,6 +468,8 @@
   section-titles-line-thickness: 0.5pt,
   section-titles-space-above: 0.5cm,
   section-titles-space-below: 0.3cm,
+  subsection-titles-space-above: 0.6cm,
+  subsection-titles-space-below: 0.2cm,
   sections-allow-page-break: true,
   sections-space-between-text-based-entries: 0.3em,
   sections-space-between-regular-entries: 1.2em,
@@ -461,6 +502,19 @@
   #let is-rtl = text-direction == rtl
   #let start-align = if is-rtl { right } else { left }
   #let end-align = if is-rtl { left } else { right }
+  // Where the text of entries starts, which is after the date column in ModernCV:
+  #let entries-start-space = if section-titles-type == "moderncv" {
+    entries-side-space + entries-date-and-location-width + entries-space-between-columns
+  } else {
+    entries-side-space
+  }
+
+  #let typography-font-family-body = with-font-fallbacks(typography-font-family-body, locale-catalog-language)
+  #let typography-font-family-name = with-font-fallbacks(typography-font-family-name, locale-catalog-language)
+  #let typography-font-family-headline = with-font-fallbacks(typography-font-family-headline, locale-catalog-language)
+  #let typography-font-family-connections = with-font-fallbacks(typography-font-family-connections, locale-catalog-language)
+  #let typography-font-family-section-titles = with-font-fallbacks(typography-font-family-section-titles, locale-catalog-language)
+  #let typography-font-family-subsection-titles = with-font-fallbacks(typography-font-family-subsection-titles, locale-catalog-language)
 
   // Initialize state with all configuration parameters
   #rendercv-config.update((
@@ -477,6 +531,7 @@
     colors-headline: colors-headline,
     colors-connections: colors-connections,
     colors-section-titles: colors-section-titles,
+    colors-subsection-titles: colors-subsection-titles,
     colors-links: colors-links,
     colors-footer: colors-footer,
     colors-top-note: colors-top-note,
@@ -489,19 +544,23 @@
     typography-font-family-headline: typography-font-family-headline,
     typography-font-family-connections: typography-font-family-connections,
     typography-font-family-section-titles: typography-font-family-section-titles,
+    typography-font-family-subsection-titles: typography-font-family-subsection-titles,
     typography-font-size-body: typography-font-size-body,
     typography-font-size-name: typography-font-size-name,
     typography-font-size-headline: typography-font-size-headline,
     typography-font-size-connections: typography-font-size-connections,
     typography-font-size-section-titles: typography-font-size-section-titles,
+    typography-font-size-subsection-titles: typography-font-size-subsection-titles,
     typography-small-caps-name: typography-small-caps-name,
     typography-small-caps-headline: typography-small-caps-headline,
     typography-small-caps-connections: typography-small-caps-connections,
     typography-small-caps-section-titles: typography-small-caps-section-titles,
+    typography-small-caps-subsection-titles: typography-small-caps-subsection-titles,
     typography-bold-name: typography-bold-name,
     typography-bold-headline: typography-bold-headline,
     typography-bold-connections: typography-bold-connections,
     typography-bold-section-titles: typography-bold-section-titles,
+    typography-bold-subsection-titles: typography-bold-subsection-titles,
     // Links
     links-underline: links-underline,
     links-show-external-link-icon: links-show-external-link-icon,
@@ -521,6 +580,9 @@
     section-titles-line-thickness: section-titles-line-thickness,
     section-titles-space-above: section-titles-space-above,
     section-titles-space-below: section-titles-space-below,
+    // Subsection titles
+    subsection-titles-space-above: subsection-titles-space-above,
+    subsection-titles-space-below: subsection-titles-space-below,
     // Sections
     sections-allow-page-break: sections-allow-page-break,
     sections-space-between-regular-entries: sections-space-between-regular-entries,
@@ -532,8 +594,8 @@
     entries-allow-page-break: entries-allow-page-break,
     entries-summary-space-left: entries-summary-space-left,
     entries-summary-space-above: entries-summary-space-above,
-    entries-highlights-bullet: entries-highlights-bullet,
-    entries-highlights-nested-bullet: entries-highlights-nested-bullet,
+    entries-highlights-bullet: bullet-marker(entries-highlights-bullet),
+    entries-highlights-nested-bullet: bullet-marker(entries-highlights-nested-bullet),
     entries-highlights-space-left: entries-highlights-space-left,
     entries-highlights-space-above: entries-highlights-space-above,
     entries-highlights-space-between-items: entries-highlights-space-between-items,
@@ -541,10 +603,17 @@
     entries-degree-width: entries-degree-width,
     // Internal computed values
     justify: justify,
+    entries-start-space: entries-start-space,
   ))
 
   // Metadata:
-  #set document(author: name, title: title, date: date)
+  #set document(
+    author: if name == none { () } else { name },
+    title: title,
+    description: description,
+    keywords: keywords,
+    date: date,
+  )
 
   // Page:
   #set page(
@@ -555,6 +624,7 @@
       right: page-right-margin,
     ),
     paper: page-size,
+    ..if page-height == none { (:) } else { (height: page-height) },
     footer: if page-show-footer and footer != none and footer != "" {
       text(
         fill: colors-footer,
@@ -575,8 +645,6 @@
     dir: text-direction,
     hyphenate: hyphenate,
     fill: colors-body,
-    // Disable ligatures for better ATS compatibility:
-    ligatures: true,
   )
 
   // Main heading (name):
@@ -600,10 +668,11 @@
     #v(header-space-below-name, weak: true)
   ]
 
+  #let section-titles-centered = section-titles-type in ("centered_without_line", "centered_with_partial_line", "centered_with_centered_partial_line", "centered_with_full_line")
+
   // Section titles:
   #show heading.where(level: 2): it => [
-    #let is-centered = section-titles-type in ("centered_without_line", "centered_with_partial_line", "centered_with_centered_partial_line", "centered_with_full_line")
-    #set align(if is-centered { center } else { start-align })
+    #set align(if section-titles-centered { center } else { start-align })
     #set text(size: (1em / 1.2)) // reset
     #set text(
       font: typography-font-family-section-titles,
@@ -623,6 +692,7 @@
 
     #block(
       breakable: false,
+      sticky: true,
       width: 100%,
       [
         #if section-titles-type == "moderncv" [
@@ -682,6 +752,31 @@
     #v(section-titles-space-below - 0.5em)
   ]
 
+  // Subsection titles, aligned with the entries. Their spacing is the space above them
+  // (see below) and below them only:
+  #show heading: it => if it.level < 3 { it } else [
+    #set block(above: 0pt, below: 0pt)
+    #set align(if section-titles-centered { center } else { start-align })
+    #set text(
+      font: typography-font-family-subsection-titles,
+      size: typography-font-size-subsection-titles,
+      weight: if typography-bold-subsection-titles { 700 } else { 400 },
+      fill: colors-subsection-titles,
+    )
+    #block(
+      breakable: false,
+      sticky: true,
+      width: 100%,
+      inset: if is-rtl {
+        (left: entries-side-space, right: entries-start-space)
+      } else {
+        (left: entries-start-space, right: entries-side-space)
+      },
+      if typography-small-caps-subsection-titles [#smallcaps(it.body)] else [#it.body],
+    )
+    #v(subsection-titles-space-below)
+  ]
+
   // Top note:
   #if page-show-top-note and top-note != none and top-note != "" {
     let dx = if is-rtl { entries-side-space } else { -entries-side-space }
@@ -736,8 +831,20 @@
     ]
   ]
 
-  // Render sections as before
-  #for (section-title, section-content) in grouped.sections [
+  #let has-content(content) = content != none and content.func() != parbreak
+  // A heading's level is known only when it's laid out, but it's its depth and offset:
+  #let level-of(heading) = heading.at("level", default: heading.depth + heading.at("offset", default: 0))
+
+  #let render-sections(sections) = [
+  #for (index, (section-title, section-content)) in sections.enumerate() [
+    // A subsection title is separated from the content above it, which isn't its
+    // section's title:
+    #if level-of(section-title) >= 3 and index > 0 {
+      let (previous-title, previous-content) = sections.at(index - 1)
+      if has-content(previous-content) or level-of(previous-title) >= level-of(section-title) {
+        v(subsection-titles-space-above, weak: true)
+      }
+    }
     #section-title
     #let should-skip = {
       let skip = false
@@ -751,7 +858,7 @@
       }
       skip
     }
-    #if section-content != none and section-content.func() != parbreak [
+    #if has-content(section-content) [
       #block(breakable: sections-allow-page-break)[
         #if should-skip [
           #section-content
@@ -761,4 +868,27 @@
       ]
     ]
   ]
+  ]
+
+  #if sections-allow-page-break {
+    render-sections(grouped.sections)
+  } else {
+    // A top-level section owns all its nested subsection content. Keeping only
+    // each leaf block unbreakable would still split the parent section.
+    let roots = ()
+    for section in grouped.sections {
+      if roots.len() == 0 or level-of(section.at(0)) <= 2 {
+        roots.push(())
+      }
+      roots.last().push(section)
+    }
+    for root in roots {
+      block(
+        breakable: false,
+        above: section-titles-space-above,
+        below: 0pt,
+        render-sections(root),
+      )
+    }
+  }
 ]

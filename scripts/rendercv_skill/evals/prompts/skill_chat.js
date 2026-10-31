@@ -1,18 +1,9 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const skillPath = path.resolve(
-  __dirname,
-  "..",
-  "..",
-  "..",
-  "..",
-  ".claude",
-  "skills",
-  "rendercv-skill",
+// The skill that `uv run scripts/rendercv_skill/generate.py <directory>` wrote:
+const skillPath = path.join(
+  process.env.RENDERCV_SKILL_DIRECTORY,
   "skills",
   "rendercv",
   "SKILL.md",

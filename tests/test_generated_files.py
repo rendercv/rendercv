@@ -1,15 +1,16 @@
-"""Tests that auto-generated files are up to date with the source code.
+"""Tests that generated files describe the current source code.
 
 Why:
-    Several files in the repository (schema.json, example YAMLs, SKILL.md,
-    llms.txt) are derived from source code. These tests fail when the committed
-    files diverge from what the generation code produces, catching staleness on
-    every PR instead of silently regenerating in CI.
+    schema.json and the example YAMLs are derived from source code and committed.
+    These tests fail when the committed files diverge from what the generation code
+    produces, catching staleness on every PR instead of silently regenerating in
+    CI. The AI agent skill is generated at release time, so its tests check what
+    the generator writes.
 """
 
 import pathlib
+import runpy
 import subprocess
-import sys
 
 import pytest
 
@@ -29,9 +30,6 @@ def run_just(recipe: str) -> None:
     )
 
 
-@pytest.mark.skipif(
-    sys.platform == "win32", reason="Schema generation differs on Windows"
-)
 def test_schema_json_is_up_to_date() -> None:
     schema_path = repository_root / "schema.json"
     before = schema_path.read_text(encoding="utf-8")
@@ -67,33 +65,21 @@ def test_example_yaml_is_up_to_date(theme: str) -> None:
     )
 
 
-def test_skill_md_is_up_to_date() -> None:
-    skill_path = (
-        repository_root
-        / ".claude"
-        / "skills"
-        / "rendercv-skill"
-        / "skills"
-        / "rendercv"
-        / "SKILL.md"
+def build_skill_repository() -> dict[str, str]:
+    generator = runpy.run_path(
+        str(repository_root / "scripts" / "rendercv_skill" / "generate.py")
     )
-    before = skill_path.read_text(encoding="utf-8")
+    return generator["build_skill_repository"]()
 
-    llms_txt_path = repository_root / "docs" / "llms.txt"
-    llms_before = llms_txt_path.read_text(encoding="utf-8")
 
-    run_just("update-skill")
+def test_skill_lists_every_available_theme() -> None:
+    files = build_skill_repository()
 
-    skill_after = skill_path.read_text(encoding="utf-8")
-    llms_after = llms_txt_path.read_text(encoding="utf-8")
+    for theme in available_themes:
+        assert f"`{theme}`" in files["skills/rendercv/SKILL.md"]
+        assert f"skills/rendercv/references/themes/{theme}.yaml" in files
 
-    # Restore original content
-    skill_path.write_text(before, encoding="utf-8")
-    llms_txt_path.write_text(llms_before, encoding="utf-8")
 
-    assert before == skill_after, (
-        "skills/rendercv/SKILL.md is stale. Run `just update-skill` to regenerate."
-    )
-    assert llms_before == llms_after, (
-        "docs/llms.txt is stale. Run `just update-skill` to regenerate."
-    )
+def test_skill_has_no_repository_relative_schema_paths() -> None:
+    for content in build_skill_repository().values():
+        assert "$schema=../" not in content

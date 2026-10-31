@@ -3,6 +3,7 @@ from typing import Annotated
 
 import typer
 
+from rendercv.schema.input_files import collect_input_file_paths
 from rendercv.schema.rendercv_model_builder import (
     BuildRendercvModelArguments,
 )
@@ -11,7 +12,7 @@ from ..app import app
 from ..error_handler import handle_user_errors
 from .parse_override_arguments import parse_override_arguments
 from .progress_panel import ProgressPanel
-from .run_rendercv import collect_input_file_paths, run_rendercv
+from .run_rendercv import run_rendercv
 from .watcher import run_function_if_files_change
 
 
@@ -21,8 +22,7 @@ from .watcher import run_function_if_files_change
         "Render a YAML input file. Example: [yellow]rendercv render"
         " John_Doe_CV.yaml[/yellow]. Details: [cyan]rendercv render --help[/cyan]"
     ),
-    # allow extra arguments for updating the old_data model (for overriding the values of
-    # the input file):
+    # Allow extra arguments, which override values of the input file:
     context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
 )
 @handle_user_errors
@@ -37,7 +37,7 @@ def cli_command_render(
             "-o",
             help=(
                 "Base output folder for all generated files. Replaces the default"
-                " 'rendercv_output' folder."
+                " 'rendercv_output' folder. Relative to the current working directory."
             ),
         ),
     ] = None,
@@ -46,7 +46,10 @@ def cli_command_render(
         typer.Option(
             "--design",
             "-d",
-            help='The "design" field\'s YAML input file.',
+            help=(
+                'The "design" field\'s YAML input file, relative to the current working'
+                " directory."
+            ),
         ),
     ] = None,
     locale: Annotated[
@@ -54,7 +57,10 @@ def cli_command_render(
         typer.Option(
             "--locale-catalog",
             "-lc",
-            help='The "locale" field\'s YAML input file.',
+            help=(
+                'The "locale" field\'s YAML input file, relative to the current working'
+                " directory."
+            ),
         ),
     ] = None,
     settings: Annotated[
@@ -62,7 +68,21 @@ def cli_command_render(
         typer.Option(
             "--settings",
             "-s",
-            help='The "settings" field\'s YAML input file.',
+            help=(
+                'The "settings" field\'s YAML input file, relative to the current'
+                " working directory."
+            ),
+        ),
+    ] = None,
+    overlay: Annotated[
+        list[pathlib.Path] | None,
+        typer.Option(
+            "--overlay",
+            help=(
+                "A YAML file merged over the input file, like a private file with the"
+                " real `cv.email` of a public CV. Can be given more than once, merged"
+                " in order. Relative to the current working directory."
+            ),
         ),
     ] = None,
     typst_path: Annotated[
@@ -72,7 +92,7 @@ def cli_command_render(
             "-typ",
             help=(
                 "Save the generated Typst file to the specified path, relative to the"
-                " input file."
+                " current working directory."
             ),
         ),
     ] = None,
@@ -83,7 +103,7 @@ def cli_command_render(
             "-pdf",
             help=(
                 "Save the generated PDF file to the specified path, relative to the"
-                " input file."
+                " current working directory."
             ),
         ),
     ] = None,
@@ -94,7 +114,7 @@ def cli_command_render(
             "-md",
             help=(
                 "Save the generated Markdown file to the specified path, relative to"
-                " the input file."
+                " the current working directory."
             ),
         ),
     ] = None,
@@ -105,7 +125,7 @@ def cli_command_render(
             "-html",
             help=(
                 "Save the generated HTML file to the specified path, relative to the"
-                " input file."
+                " current working directory."
             ),
         ),
     ] = None,
@@ -116,7 +136,18 @@ def cli_command_render(
             "-png",
             help=(
                 "Save the generated PNG files to the specified path, relative to the"
-                " input file."
+                " current working directory."
+            ),
+        ),
+    ] = None,
+    svg_path: Annotated[
+        pathlib.Path | None,
+        typer.Option(
+            "--svg-path",
+            "-svg",
+            help=(
+                "Save the generated SVG files to the specified path, relative to the"
+                " current working directory."
             ),
         ),
     ] = None,
@@ -145,8 +176,8 @@ def cli_command_render(
             "--dont-generate-typst",
             "-notyp",
             help=(
-                "If provided, the Typst file will not be generated. Disabling Typst"
-                " generation implicitly disables PDF and PNG."
+                "Do not save the Typst source file. PDF, PNG, and SVG generation are"
+                " unaffected."
             ),
         ),
     ] = None,
@@ -164,6 +195,14 @@ def cli_command_render(
             "--dont-generate-png",
             "-nopng",
             help="If provided, the PNG file will not be generated.",
+        ),
+    ] = None,
+    dont_generate_svg: Annotated[
+        bool | None,
+        typer.Option(
+            "--dont-generate-svg",
+            "-nosvg",
+            help="If provided, the SVG files will not be generated.",
         ),
     ] = None,
     watch: Annotated[
@@ -198,40 +237,53 @@ def cli_command_render(
 ) -> None:
     input_file_path = pathlib.Path(input_file_name).absolute()
 
-    # Resolve design/locale overlay files from YAML settings when not
-    # provided via CLI flags. collect_input_file_paths already handles
-    # parsing the YAML and resolving paths relative to the input file.
-    resolved_files = collect_input_file_paths(input_file_path, design, locale, settings)
-    if design is None and "design" in resolved_files:
-        design = resolved_files["design"]
-    if locale is None and "locale" in resolved_files:
-        locale = resolved_files["locale"]
-
     arguments: BuildRendercvModelArguments = {
-        "design_yaml_file": design.read_text(encoding="utf-8") if design else None,
-        "locale_yaml_file": locale.read_text(encoding="utf-8") if locale else None,
-        "settings_yaml_file": (
-            settings.read_text(encoding="utf-8") if settings else None
+        "output_folder": (
+            output_folder.absolute() if output_folder is not None else None
         ),
-        "output_folder": output_folder,
-        "typst_path": typst_path,
-        "pdf_path": pdf_path,
-        "markdown_path": markdown_path,
-        "html_path": html_path,
-        "png_path": png_path,
+        "typst_path": typst_path.absolute() if typst_path is not None else None,
+        "pdf_path": pdf_path.absolute() if pdf_path is not None else None,
+        "markdown_path": (
+            markdown_path.absolute() if markdown_path is not None else None
+        ),
+        "html_path": html_path.absolute() if html_path is not None else None,
+        "png_path": png_path.absolute() if png_path is not None else None,
+        "svg_path": svg_path.absolute() if svg_path is not None else None,
         "dont_generate_typst": dont_generate_typst,
         "dont_generate_html": dont_generate_html,
         "dont_generate_markdown": dont_generate_markdown,
         "dont_generate_pdf": dont_generate_pdf,
         "dont_generate_png": dont_generate_png,
+        "dont_generate_svg": dont_generate_svg,
         "overrides": parse_override_arguments(extra_data_model_override_arguments),
     }
 
+    design = design.absolute() if design is not None else None
+    locale = locale.absolute() if locale is not None else None
+    settings = settings.absolute() if settings is not None else None
+    overlays = [path.absolute() for path in overlay or []]
+
     with ProgressPanel(quiet=quiet) as progress_panel:
+
+        def render() -> bool:
+            return run_rendercv(
+                input_file_path,
+                progress_panel,
+                design=design,
+                locale=locale,
+                settings=settings,
+                overlays=overlays,
+                **arguments,
+            )
+
         if watch:
             run_function_if_files_change(
-                list(resolved_files.values()),
-                lambda: run_rendercv(input_file_path, progress_panel, **arguments),
+                lambda: (
+                    collect_input_file_paths(
+                        input_file_path, design, locale, settings, overlays
+                    ).paths
+                ),
+                render,
             )
-        else:
-            run_rendercv(input_file_path, progress_panel, **arguments)
+        elif not render():
+            raise typer.Exit(code=1)

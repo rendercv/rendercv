@@ -36,7 +36,7 @@ expected_errors:
     yaml_source: main_yaml_file
 
   - schema_location: ["cv", "social_networks", "2", "username"]
-    message: IMDB name should be in the format 'nmXXXXXXX'.
+    message: IMDB name should be 'nm' followed by at least seven digits.
     input: not_a_valid_imdb_id
     yaml_location: [[16, 7], [16, 16]]
     yaml_source: main_yaml_file
@@ -138,14 +138,76 @@ expected_errors:
     yaml_location: [[56, 9], [56, 17]]
     yaml_source: main_yaml_file
 
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_10"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be SubsectionEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[57, 5], [58, 6]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_10", "0", "entries"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be PublicationEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[59, 9], [60, 10]]
+    yaml_source: main_yaml_file
+
+  - schema_location:
+      ["cv", "sections", "welcome_to_rendercv_tests_10", "0", "entries", "0", "authors"]
+    message: This field is required.
+    input: ...
+    yaml_location: [[60, 11], [60, 12]]
+    yaml_source: main_yaml_file
+
+  - schema_location:
+      ["cv", "sections", "welcome_to_rendercv_tests_10", "0", "entries", "1", "date"]
+    message: The month must be between 1 and 12.
+    input: 2025-13-01
+    yaml_location: [[64, 13], [64, 18]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_11"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be SubsectionEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[65, 5], [66, 6]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_11", "1"]
+    message: Input should be a valid dictionary or instance of SubsectionEntry.
+    input: This is an entry.
+    yaml_location: [[69, 7], [69, 8]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_12"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be SubsectionEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[70, 5], [71, 6]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_12", "0", "entries"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be SubsectionEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[72, 9], [73, 10]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_12", "0", "entries", "0", "entries"]
+    message: There are problems with the entries. RenderCV detected the entry type of this section to be PublicationEntry. The problems are shown below.
+    input: ...
+    yaml_location: [[74, 13], [75, 14]]
+    yaml_source: main_yaml_file
+
+  - schema_location: ["cv", "sections", "welcome_to_rendercv_tests_12", "0", "entries", "0", "entries", "0", "authors"]
+    message: This field is required.
+    input: ...
+    yaml_location: [[75, 15], [75, 16]]
+    yaml_source: main_yaml_file
+
   - schema_location: ["design", "theme"]
-    message: The custom theme name should only contain lowercase letters and digits. The provided value is `not_a_valid_theme`.
+    message: The custom theme name must start with a lowercase letter and contain only lowercase letters and digits. The provided value is `not_a_valid_theme`.
     input: not_a_valid_theme
-    yaml_location: [[58, 3], [58, 9]]
+    yaml_location: [[77, 3], [77, 9]]
     yaml_source: main_yaml_file
 
   - schema_location: ["settings", "current_date"]
-    message: 'This is not a valid `current_date`! Please use YYYY-MM-DD format or "today".'
+    message: 'This is not a valid `current_date`. Please use YYYY-MM-DD format or "today".'
     input: todady
-    yaml_location: [[61, 3], [61, 16]]
+    yaml_location: [[80, 3], [80, 16]]
     yaml_source: main_yaml_file

@@ -8,10 +8,16 @@ design:
       headline: New Computer Modern
       connections: New Computer Modern
       section_titles: New Computer Modern
+      subsection_titles: New Computer Modern
+    font_size:
+      subsection_titles: 1.05em
+    small_caps:
+      subsection_titles: true
   colors:
     name: rgb(0,0,0)
     connections: rgb(0,0,0)
     section_titles: rgb(0,0,0)
+    subsection_titles: rgb(0,0,0)
     headline: rgb(0,0,0)
     links: rgb(0,0,0)
   links:
@@ -34,7 +40,7 @@ design:
       nested_bullet: "◦"
   templates:
     education_entry:
-      main_column: "**INSTITUTION**\n*DEGREE* *in* *AREA*\nSUMMARY\nHIGHLIGHTS"
+      main_column: "**INSTITUTION**\n*DEGREE_WITH_AREA*\nSUMMARY\nHIGHLIGHTS"
       degree_column: null
       date_and_location_column: "*LOCATION*\n*DATE*"
     normal_entry:

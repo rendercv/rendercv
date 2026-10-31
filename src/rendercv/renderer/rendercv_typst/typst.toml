@@ -1,6 +1,6 @@
 [package]
 name = "rendercv"
-version = "0.3.0"
+version = "0.4.0"
 entrypoint = "lib.typ"
 authors = ["Sina Atalay <dev@atalay.biz>"]
 license = "MIT"

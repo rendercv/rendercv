@@ -5,7 +5,7 @@ _Resume builder for academics and engineers, deployed at [rendercv.com](https://
 
 [![test](https://github.com/rendercv/rendercv/actions/workflows/test.yaml/badge.svg?branch=main)](https://github.com/rendercv/rendercv/actions/workflows/test.yaml)
 [![coverage](https://coverage-badge.samuelcolvin.workers.dev/rendercv/rendercv.svg)](https://coverage-badge.samuelcolvin.workers.dev/redirect/rendercv/rendercv)
-[![docs](<https://img.shields.io/badge/docs-mkdocs-rgb(0%2C79%2C144)>)](https://docs.rendercv.com)
+[![docs](<https://img.shields.io/badge/docs-zensical-rgb(0%2C79%2C144)>)](https://docs.rendercv.com)
 [![pypi-version](<https://img.shields.io/pypi/v/rendercv?label=PyPI%20version&color=rgb(0%2C79%2C144)>)](https://pypi.python.org/pypi/rendercv)
 [![pypi-downloads](<https://img.shields.io/pepy/dt/rendercv?label=PyPI%20downloads&color=rgb(0%2C%2079%2C%20144)>)](https://pypistats.org/packages/rendercv)
 
@@ -153,6 +153,12 @@ Install RenderCV (Requires Python 3.12+):
 
 ```
 pip install "rendercv[full]"
+```
+
+Or, with [uv](https://docs.astral.sh/uv/), which installs Python too if needed:
+
+```
+uv tool install "rendercv[full]"
 ```
 
 Create a new CV yaml file:

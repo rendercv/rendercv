@@ -1,17 +1,21 @@
-import rich
+import rich.console
 import rich.panel
-from rich import print
 
 from rendercv import __version__
 
 
-def print_welcome() -> None:
+def print_welcome(console: rich.console.Console) -> None:
     """Display welcome banner with version and useful links.
 
     Why:
         New users need guidance on where to find documentation and support.
+
+    Args:
+        console: The console of the command.
     """
-    print(f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n")
+    console.print(
+        f"\nWelcome to [dodger_blue3]RenderCV v{__version__}[/dodger_blue3]!\n"
+    )
     links = {
         "RenderCV App": "https://rendercv.com",
         "Documentation": "https://docs.rendercv.com",
@@ -29,4 +33,4 @@ def print_welcome() -> None:
         border_style="bright_black",
     )
 
-    print(link_panel)
+    console.print(link_panel)

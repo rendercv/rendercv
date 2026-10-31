@@ -1,0 +1,15 @@
+.git
+.venv
+**/__pycache__
+**/*.pyc
+.cache
+.pytest_cache
+.ruff_cache
+.hypothesis
+.coverage*
+build
+dist
+bin
+site
+htmlcov
+rendercv_output

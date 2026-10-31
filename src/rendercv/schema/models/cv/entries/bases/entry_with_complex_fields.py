@@ -7,9 +7,9 @@ import pydantic_core
 
 from rendercv.exception import RenderCVInternalError
 
-from .....pydantic_error_handling import CustomPydanticErrorTypes
+from ....custom_error_types import CustomPydanticErrorTypes, invalid_input
 from ....validation_context import get_current_date
-from .entry_with_date import BaseEntryWithDate
+from .entry_with_date import BaseEntryWithDate, validate_arbitrary_date
 
 
 def validate_exact_date(date: str | int) -> str | int:
@@ -26,18 +26,27 @@ def validate_exact_date(date: str | int) -> str | int:
     Returns:
         Original date if valid.
     """
+    validate_arbitrary_date(date)
     try:
         get_date_object(date)
     except RenderCVInternalError as e:
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
-            "This is not a valid date! Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
+            "This is not a valid date. Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
             " format.",
         ) from e
     return date
 
 
-type ExactDate = Annotated[str | int, pydantic.AfterValidator(validate_exact_date)]
+type ExactDate = Annotated[
+    str | int,
+    invalid_input(
+        "rendercv_exact_date",
+        "This is not a valid date. Please use either YYYY-MM-DD, YYYY-MM, or YYYY"
+        " format.",
+    ),
+    pydantic.AfterValidator(validate_exact_date),
+]
 
 
 def get_date_object(date: str | int, current_date: Date | None = None) -> Date:
@@ -95,7 +104,17 @@ class BaseEntryWithComplexFields(BaseEntryWithDate):
         description="The start date in YYYY-MM-DD, YYYY-MM, or YYYY format.",
         examples=["2020-09-24", "2020-09", "2020"],
     )
-    end_date: ExactDate | Literal["present"] | None = pydantic.Field(
+    end_date: (
+        Annotated[
+            ExactDate | Literal["present"],
+            invalid_input(
+                "rendercv_end_date",
+                "This is not a valid `end_date`. Please use either YYYY-MM-DD, YYYY-MM,"
+                ' or YYYY format or "present".',
+            ),
+        ]
+        | None
+    ) = pydantic.Field(
         default=None,
         description=(
             'The end date in YYYY-MM-DD, YYYY-MM, or YYYY format. Use "present" for'

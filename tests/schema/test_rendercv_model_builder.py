@@ -1,13 +1,15 @@
 import io
 import pathlib
 from datetime import date as Date
+from typing import cast
 
 import pytest
 import ruamel.yaml
 
-from rendercv.exception import RenderCVUserError, RenderCVUserValidationError
+from rendercv.exception import RenderCVUserValidationError
 from rendercv.schema.models.rendercv_model import RenderCVModel
 from rendercv.schema.rendercv_model_builder import (
+    BuildRendercvModelArguments,
     build_rendercv_dictionary,
     build_rendercv_dictionary_and_model,
     build_rendercv_model_from_commented_map,
@@ -61,8 +63,10 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
         overlay_yaml = dictionary_to_yaml(overlay_content)
 
-        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        kwargs = cast(
+            BuildRendercvModelArguments, {f"{overlay_key}_yaml_file": overlay_yaml}
+        )
+        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)
 
         assert result[overlay_key] == overlay_content[overlay_key]
         assert result["cv"]["name"] == "John Doe"
@@ -349,8 +353,10 @@ class TestBuildRendercvDictionary:
         main_yaml = dictionary_to_yaml(main_input)
         overlay_yaml = dictionary_to_yaml(overlay_value)
 
-        kwargs = {f"{overlay_key}_yaml_file": overlay_yaml}
-        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)  # pyright: ignore[reportArgumentType]
+        kwargs = cast(
+            BuildRendercvModelArguments, {f"{overlay_key}_yaml_file": overlay_yaml}
+        )
+        result, _ = build_rendercv_dictionary(main_yaml, **kwargs)
 
         assert result[overlay_key] == overlay_value[overlay_key]
 
@@ -622,7 +628,7 @@ class TestBuildRendercvModel:
         assert isinstance(model, RenderCVModel)
 
     def test_empty_yaml_raises_error(self):
-        with pytest.raises(RenderCVUserError):
+        with pytest.raises(RenderCVUserValidationError):
             build_rendercv_dictionary_and_model("")
 
     def test_invalid_yaml_raises_error(self):
@@ -763,3 +769,103 @@ class TestGetYamlErrorLocation:
         result = get_yaml_error_location(error)
 
         assert result is None
+
+
+class TestMalformedInputs:
+    @pytest.mark.parametrize(
+        "settings",
+        ["null", "bad", "[]", "{render_command: null}", "{render_command: bad}"],
+    )
+    def test_invalid_settings_uses_validation_table(self, settings):
+        with pytest.raises(RenderCVUserValidationError) as exc:
+            build_rendercv_dictionary_and_model(f"settings: {settings}")
+        location = exc.value.validation_errors[0].schema_location
+        assert location is not None
+        assert location[:1] == ("settings",)
+
+    @pytest.mark.parametrize("section", ["design", "locale", "settings"])
+    def test_overlay_requires_its_named_section(self, section):
+        overlays: BuildRendercvModelArguments = {
+            "design_yaml_file": "\n\ntypo: {}" if section == "design" else None,
+            "locale_yaml_file": "\n\ntypo: {}" if section == "locale" else None,
+            "settings_yaml_file": "\n\ntypo: {}" if section == "settings" else None,
+        }
+        with pytest.raises(RenderCVUserValidationError) as exc:
+            build_rendercv_dictionary_and_model("cv: {}", **overlays)
+        error = exc.value.validation_errors[0]
+        assert error.schema_location == (section,)
+        assert error.yaml_source == f"{section}_yaml_file"
+        assert error.yaml_location == ((3, 1), (3, 1))
+
+    @pytest.mark.parametrize(
+        ("section", "content", "path", "line"),
+        [
+            (
+                "design",
+                "design:\n  theme: classic\n  colors:\n    body: notacolor",
+                ("design", "colors", "body"),
+                6,
+            ),
+            ("locale", "locale:\n  language: engilsh", ("locale", "language"), 4),
+            (
+                "settings",
+                "settings:\n  current_date: bad",
+                ("settings", "current_date"),
+                4,
+            ),
+        ],
+    )
+    def test_overlay_uses_original_document_coordinates(
+        self, section, content, path, line
+    ):
+        with pytest.raises(RenderCVUserValidationError) as exc:
+            build_rendercv_dictionary_and_model(
+                "cv: {}", **{f"{section}_yaml_file": "\n\n" + content}
+            )
+        error = exc.value.validation_errors[0]
+        assert error.schema_location == path
+        assert error.yaml_source == f"{section}_yaml_file"
+        assert error.yaml_location is not None
+        assert error.yaml_location[0][0] == line
+
+    def test_cli_created_path_has_no_invented_yaml_coordinates(self):
+        with pytest.raises(RenderCVUserValidationError) as exc:
+            build_rendercv_dictionary_and_model(
+                "cv: {}", overrides={"design.theme": "bad_theme"}
+            )
+        error = exc.value.validation_errors[0]
+        assert error.schema_location == ("design", "theme")
+        assert error.yaml_location is None
+
+    def test_settings_overlay_can_omit_render_command_when_cli_overrides_exist(self):
+        _, model = build_rendercv_dictionary_and_model(
+            "cv: {}",
+            settings_yaml_file="settings: {current_date: today}",
+            dont_generate_pdf=True,
+        )
+        assert model.settings.render_command.dont_generate_pdf is True
+
+    def test_explicit_false_override_is_preserved(self):
+        _, model = build_rendercv_dictionary_and_model(
+            "cv: {name: Jane Doe}\n"
+            "settings: {render_command: {dont_generate_pdf: true}}",
+            dont_generate_pdf=False,
+        )
+        assert model.settings.render_command.dont_generate_pdf is False
+
+    def test_sequence_root_uses_validation_table(self):
+        with pytest.raises(RenderCVUserValidationError) as exc:
+            build_rendercv_dictionary_and_model("[hello]")
+        assert exc.value.validation_errors[0].schema_location == ()
+
+    @pytest.mark.parametrize("value", [123, False, [1]])
+    def test_unsupported_entry_types_do_not_crash(self, value):
+        with pytest.raises(RenderCVUserValidationError):
+            build_rendercv_model_from_commented_map(
+                {"cv": {"sections": {"interests": [value]}}}
+            )
+
+
+def test_empty_overlay_is_not_silently_ignored():
+    with pytest.raises(RenderCVUserValidationError):
+        build_rendercv_dictionary_and_model("cv: {}", design_yaml_file="")

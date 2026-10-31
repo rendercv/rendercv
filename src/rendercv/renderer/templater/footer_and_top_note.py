@@ -1,123 +1,69 @@
-from collections.abc import Callable
-from datetime import date as Date
+from collections.abc import Mapping
 
-from rendercv.schema.models.locale.locale import Locale
+from .markup import Node, Raw, parse_content
+from .template import compile_template, fill_template
 
-from .date import build_date_placeholders, date_object_to_string
-from .string_processor import apply_string_processors, substitute_placeholders
+
+def fill_document_template(
+    template: str, placeholders: Mapping[str, str | tuple[Node, ...]]
+) -> tuple[Node, ...]:
+    """Fill a template about the whole document (the title, the footer, the top note).
+
+    Why:
+        Typst code in these templates is filled for Typst: the footer and the top
+        note exist only in Typst, and the title is plain text.
+
+    Args:
+        template: Template with document placeholders.
+        placeholders: Placeholder names mapped to strings (parsed as content) or
+            content.
+
+    Returns:
+        The filled template.
+    """
+    values = {
+        name: parse_content(value) if isinstance(value, str) else value
+        for name, value in placeholders.items()
+    }
+    return fill_template(compile_template(template, frozenset(values)), values, "typst")
 
 
 def render_top_note_template(
-    top_note_template: str,
-    *,
-    locale: Locale,
-    current_date: Date,
-    name: str | None,
-    single_date_template: str,
-    string_processors: list[Callable[[str], str]] | None = None,
-) -> str:
-    """Render top note by substituting placeholders and applying string processors.
-
-    Why:
-        Top notes display generation metadata like "Last Updated: Jan 2025" at
-        document top. Template-based generation allows localization and custom
-        formatting per user preference.
-
-    Example:
-        ```py
-        result = render_top_note_template(
-            "LAST_UPDATED: CURRENT_DATE",
-            locale=english_locale,
-            current_date=date(2025, 1, 15),
-            name="John Doe",
-            single_date_template="MONTH_ABBREVIATION YEAR",
-        )
-        # Returns: "Last Updated: Jan 2025"
-        ```
+    top_note_template: str, *, placeholders: Mapping[str, str], last_updated: str
+) -> tuple[Node, ...]:
+    """Fill the top note template, e.g. "Last updated in Jan 2025".
 
     Args:
-        top_note_template: Template with CURRENT_DATE, LAST_UPDATED, NAME placeholders.
-        locale: Locale providing last_updated translation.
-        current_date: Date for timestamp.
-        name: CV owner name for placeholder substitution.
-        single_date_template: Template for date formatting.
-        string_processors: Optional processors for markdown parsing and formatting.
+        top_note_template: Template with LAST_UPDATED and document placeholders.
+        placeholders: The document placeholders (name and current date).
+        last_updated: The locale's translation of "Last updated in".
 
     Returns:
-        Rendered top note with substituted placeholders.
+        The top note.
     """
-    if string_processors is None:
-        string_processors = []
-
-    placeholders: dict[str, str] = {
-        "CURRENT_DATE": date_object_to_string(
-            current_date,
-            locale=locale,
-            single_date_template=single_date_template,
-        ),
-        "LAST_UPDATED": locale.last_updated,
-        "NAME": name or "",
-        **build_date_placeholders(current_date, locale=locale),
-    }
-    return apply_string_processors(
-        substitute_placeholders(top_note_template, placeholders), string_processors
+    return fill_document_template(
+        top_note_template, {**placeholders, "LAST_UPDATED": last_updated}
     )
 
 
 def render_footer_template(
-    footer_template: str,
-    *,
-    locale: Locale,
-    current_date: Date,
-    name: str | None,
-    single_date_template: str,
-    string_processors: list[Callable[[str], str]] | None = None,
-) -> str:
-    """Render footer by substituting placeholders and wrapping in Typst context block.
-
-    Why:
-        Footers show page numbers and metadata on each page. Typst context blocks
-        enable dynamic page number access. Template substitution handles localized
-        dates and names before wrapping in required Typst syntax.
-
-    Example:
-        ```py
-        result = render_footer_template(
-            "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
-            locale=english_locale,
-            current_date=date(2025, 1, 15),
-            name="John Doe",
-            single_date_template="MONTH_ABBREVIATION YEAR",
-        )
-        # Returns: "context { [John Doe - Page #str(here().page()) of #str(counter(page).final().first())] }"
-        ```
+    footer_template: str, *, placeholders: Mapping[str, str]
+) -> tuple[Node, ...]:
+    """Fill the footer template, e.g. "John Doe -- 1/2".
 
     Args:
-        footer_template: Template with NAME, PAGE_NUMBER, TOTAL_PAGES, CURRENT_DATE placeholders.
-        locale: Locale for date formatting.
-        current_date: Date for timestamp.
-        name: CV owner name for placeholder substitution.
-        single_date_template: Template for date formatting.
-        string_processors: Optional processors for markdown parsing and formatting.
+        footer_template: Template with PAGE_NUMBER, TOTAL_PAGES, and document
+            placeholders.
+        placeholders: The document placeholders (name and current date).
 
     Returns:
-        Typst context block with rendered footer content.
+        The footer. Page numbers are Typst code evaluated on each page.
     """
-    if string_processors is None:
-        string_processors = []
-
-    placeholders: dict[str, str] = {
-        "CURRENT_DATE": date_object_to_string(
-            current_date,
-            locale=locale,
-            single_date_template=single_date_template,
-        ),
-        "NAME": name or "",
-        "PAGE_NUMBER": "#str(here().page())",
-        "TOTAL_PAGES": "#str(counter(page).final().first())",
-        **build_date_placeholders(current_date, locale=locale),
-    }
-    return (
-        "context {"
-        f" [{apply_string_processors(substitute_placeholders(footer_template, placeholders), string_processors)}] }}"
+    return fill_document_template(
+        footer_template,
+        {
+            **placeholders,
+            "PAGE_NUMBER": (Raw("#str(here().page())"),),
+            "TOTAL_PAGES": (Raw("#str(counter(page).final().first())"),),
+        },
     )

@@ -41,6 +41,7 @@ for theme in available_themes:
             png_path=temp_directory_path / f"{yaml_file_path.stem}.png",
             dont_generate_html=True,
             dont_generate_markdown=True,
+            dont_generate_svg=True,
         )
 
         image_assets_directory.mkdir(parents=True, exist_ok=True)

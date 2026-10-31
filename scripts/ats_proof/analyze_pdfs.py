@@ -140,7 +140,8 @@ def analyze_pdf(pdf_path: Path) -> dict:
                 result["structural"]["reading_order"] = reading["correct"]
                 result["structural"]["reading_issues"] = reading["issues"]
 
-        except Exception as e:
+        # Any failure of a third-party extractor is a measurement, not a crash:
+        except Exception as e:  # noqa: BLE001
             result["extractors"][ext_name] = {"success": False, "error": str(e)}
 
     return result
@@ -225,11 +226,13 @@ def main() -> None:
 
     # Print summary
     print(  # noqa: T201
-        f"\nStructural: {structural_pass}/{len(pdfs)} passed ({structural_summary['pass_rate']})"
+        f"\nStructural: {structural_pass}/{len(pdfs)} passed"
+        f" ({structural_summary['pass_rate']})"
     )
     for name, s in extraction_summary["extractors"].items():
         print(  # noqa: T201
-            f"Extraction ({name}): {s['average_accuracy']} avg accuracy, {s['garbled_count']} garbled"
+            f"Extraction ({name}): {s['average_accuracy']} avg accuracy,"
+            f" {s['garbled_count']} garbled"
         )
 
     if structural_pass < len(pdfs):

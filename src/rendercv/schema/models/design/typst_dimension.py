@@ -21,7 +21,7 @@ def validate_typst_dimension(dimension: str) -> str:
         Original dimension if valid.
     """
     # Negative dimensions are valid in Typst for negative spacing/offsets:
-    if not re.fullmatch(r"-?\d+(?:\.\d+)?(cm|in|pt|mm|em)", dimension):
+    if not re.fullmatch(r"-?(?:\d+(?:\.\d+)?|\.\d+)(cm|in|pt|mm|em)", dimension):
         raise pydantic_core.PydanticCustomError(
             CustomPydanticErrorTypes.other.value,
             "The value must be a number followed by a unit (cm, in, pt, mm, em)."
