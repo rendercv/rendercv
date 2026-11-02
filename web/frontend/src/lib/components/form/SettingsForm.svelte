@@ -54,7 +54,7 @@
 	}
 </script>
 
-<div class="flex h-full flex-col gap-4 overflow-auto p-1">
+<div class="relative flex h-full flex-col gap-4 overflow-auto p-1">
 	{#if $syncState.toast}
 		<div
 			role="alert"
