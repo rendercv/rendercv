@@ -118,4 +118,36 @@ test.describe('CV form editor (schema-driven, CV tab)', () => {
 
 		await expect.poll(() => hint.count(), { timeout: 5_000 }).toBe(before);
 	});
+
+	test('a long form scrolls inside its pane and never makes the page itself scroll', async ({ page }) => {
+		// Regression: the form's `sr-only` labels are `position: absolute`.
+		// With no positioned ancestor they were placed against <body>, at
+		// the bottom of the whole form, so the page grew to the form's full
+		// height (7942px on a 745px window in production) and scrolling past
+		// the form showed a long empty area below the editor.
+		await switchToFormMode(page);
+		await page.getByLabel('New section title').waitFor({ state: 'attached' });
+
+		for (const tab of ['CV', 'Design', 'Locale', 'Settings']) {
+			await page.getByRole('tab', { name: tab, exact: true }).click();
+			const panel = page.locator('[role="tabpanel"]:visible').first();
+			await expect(panel).toBeVisible();
+
+			const sizes = await page.evaluate(() => ({
+				page: document.documentElement.scrollHeight,
+				viewport: window.innerHeight
+			}));
+			expect(sizes.page, `page height on the ${tab} tab`).toBeLessThanOrEqual(sizes.viewport);
+		}
+
+		// The check above only means something if the CV form really is
+		// taller than its pane, so confirm the seeded example overflows it.
+		await page.getByRole('tab', { name: 'CV', exact: true }).click();
+		const formOverflows = await page.getByLabel('New section title').evaluate((input) => {
+			let node: HTMLElement | null = input.parentElement;
+			while (node && getComputedStyle(node).overflowY !== 'auto') node = node.parentElement;
+			return node !== null && node.scrollHeight > node.clientHeight;
+		});
+		expect(formOverflows).toBe(true);
+	});
 });
