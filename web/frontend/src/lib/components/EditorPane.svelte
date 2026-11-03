@@ -17,6 +17,8 @@
 	import { fetchThemes, type ThemeInfo } from '$lib/api/themes';
 	import { createFormSync } from '$lib/form/formSync';
 	import { buildDiscriminatorSwitchOp } from '$lib/form/documentActions';
+	import { designOverrides } from '$lib/themes/designDiff';
+	import { themeDisplayName } from '$lib/themes/displayName';
 	import YamlEditor from '$lib/components/YamlEditor.svelte';
 	import CvForm from '$lib/components/form/CvForm.svelte';
 	import DesignForm from '$lib/components/form/DesignForm.svelte';
@@ -121,6 +123,37 @@
 			return;
 		}
 		designSync.submitOp({ op: 'set', path: ['design'], value: defaults });
+	}
+
+	let currentThemeDefaults = $derived(
+		themes.find((candidate) => candidate.name === currentTheme)?.design_defaults
+	);
+
+	/**
+	 * Design options that override the current theme's defaults.
+	 *
+	 * Why shown at all: a stale value (an imported `separator: ' | '`, say)
+	 * makes a theme look broken while the YAML is doing exactly what it
+	 * says. Naming the overrides next to the switcher points at the cause
+	 * instead of the theme. Empty until the theme list has loaded.
+	 */
+	let overrides = $derived(
+		currentThemeDefaults ? designOverrides($designSyncState.data?.design, currentThemeDefaults) : []
+	);
+
+	let confirmingReset = $state(false);
+
+	/**
+	 * Puts the current theme's defaults back, discarding every design edit.
+	 *
+	 * Why behind a confirmation: it is the same whole-block rewrite as a
+	 * theme switch, so every customised option goes at once. Undo and the
+	 * version history can bring them back, but the user should choose it.
+	 */
+	function resetThemeDefaults(): void {
+		confirmingReset = false;
+		if (!currentThemeDefaults) return;
+		designSync.submitOp({ op: 'set', path: ['design'], value: currentThemeDefaults });
 	}
 
 	// Whenever the error set changes, refresh gutter markers in all four
@@ -503,8 +536,69 @@
 			{/each}
 		</div>
 
-		<ThemeSwitcher {themeNames} {currentTheme} onSwitch={switchTheme} />
+		<div class="flex items-center gap-2">
+			<ThemeSwitcher {themeNames} {currentTheme} onSwitch={switchTheme} />
+			{#if currentThemeDefaults}
+				<button
+					type="button"
+					data-testid="reset-theme-defaults"
+					class="relative rounded-md border border-neutral-300 px-2 py-1 text-xs font-medium text-neutral-700 hover:bg-neutral-100 disabled:cursor-default disabled:opacity-40 disabled:hover:bg-transparent dark:border-[var(--border-subtle)] dark:text-neutral-200 dark:hover:bg-white/5"
+					disabled={overrides.length === 0}
+					title={overrides.length
+						? `Customised (${overrides.length}): ${overrides.join(', ')}`
+						: `Design matches the ${themeDisplayName(currentTheme)} defaults`}
+					aria-label={overrides.length
+						? `Reset design to ${themeDisplayName(currentTheme)} defaults (${overrides.length} customised option(s))`
+						: `Design matches the ${themeDisplayName(currentTheme)} defaults`}
+					onclick={() => (confirmingReset = true)}
+				>
+					Reset
+					{#if overrides.length > 0}
+						<span
+							class="absolute -right-0.5 -top-0.5 h-2 w-2 rounded-full bg-amber-500"
+							aria-hidden="true"
+						></span>
+					{/if}
+				</button>
+			{/if}
+		</div>
 	</div>
+
+	{#if confirmingReset && overrides.length > 0}
+		<div
+			role="alertdialog"
+			aria-labelledby="reset-theme-title"
+			class="border-b border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100"
+		>
+			<p id="reset-theme-title" class="font-medium">
+				Reset design to {themeDisplayName(currentTheme)} defaults?
+			</p>
+			<p class="mt-0.5">
+				{overrides.length} option(s) differ from the theme and will be replaced:
+			</p>
+			<ul class="mt-1 max-h-24 list-inside list-disc overflow-auto font-mono text-xs">
+				{#each overrides as path (path)}
+					<li>{path}</li>
+				{/each}
+			</ul>
+			<div class="mt-2 flex items-center gap-2">
+				<button
+					type="button"
+					class="rounded-md bg-amber-600 px-2.5 py-1 font-medium text-white hover:bg-amber-700"
+					onclick={resetThemeDefaults}
+				>
+					Reset
+				</button>
+				<button
+					type="button"
+					class="rounded-md border border-amber-400 px-2.5 py-1 font-medium hover:bg-amber-100 dark:hover:bg-amber-900"
+					onclick={() => (confirmingReset = false)}
+				>
+					Cancel
+				</button>
+			</div>
+		</div>
+	{/if}
 
 	{#if $autosaveState.status === 'conflict'}
 		<div
