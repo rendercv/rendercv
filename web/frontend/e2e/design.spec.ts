@@ -187,6 +187,43 @@ test.describe('Design form: effective-value overlay', () => {
 	});
 });
 
+test.describe('Reset to theme defaults', () => {
+	test('flags a customised design and puts the theme defaults back', async ({ page }) => {
+		// Why this exists: a Harvard CV carrying a stale `separator: ' | '`
+		// rendered nothing like Harvard, and the only way back was to switch
+		// away and return. The button names the overrides and resets them.
+		await gotoReady(page);
+		await firstPreviewUrl(page);
+
+		const reset = page.getByTestId('reset-theme-defaults');
+		// A fresh CV is exactly the classic defaults: nothing to reset.
+		await expect(reset).toBeDisabled({ timeout: 20_000 });
+
+		await goToTab(page, 'Design');
+		await setYamlMode(page, false);
+		const topMargin = page.getByLabel('Top Margin', { exact: true });
+		await expect(topMargin).toBeVisible({ timeout: 20_000 });
+		await topMargin.fill('0.5');
+		await topMargin.blur();
+
+		await expect(reset).toBeEnabled({ timeout: 20_000 });
+		await expect(reset).toHaveAttribute('title', /page\.top_margin/);
+
+		await reset.click();
+		const dialog = page.getByRole('alertdialog');
+		await expect(dialog).toContainText('page.top_margin');
+		await dialog.getByRole('button', { name: 'Reset' }).click();
+
+		await expect(dialog).toBeHidden();
+		await expect(reset).toBeDisabled({ timeout: 20_000 });
+		await setYamlMode(page, true);
+		await expect
+			.poll(async () => yamlText(page), { timeout: 20_000 })
+			.not.toMatch(/top_margin:\s*0\.5in/);
+		expect(await yamlText(page)).toMatch(/theme:\s*classic/);
+	});
+});
+
 test.describe('Locale form', () => {
 	test('editing a month name updates the locale YAML', async ({ page }) => {
 		await gotoReady(page);
