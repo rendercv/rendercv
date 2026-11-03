@@ -290,24 +290,32 @@
 				</svg>
 			</button>
 
-			<div class="flex items-center gap-0.5" role="group" aria-label="Undo/redo">
+			<div class="flex items-center gap-1.5" role="group" aria-label="Undo/redo">
 				<button
 					type="button"
-					class="grid h-6 w-6 place-items-center rounded text-neutral-600 hover:bg-neutral-100 disabled:opacity-40 dark:text-neutral-300 dark:hover:bg-[var(--surface-card)]"
+					class="history-btn"
 					aria-label="Undo"
+					title="Undo"
 					disabled={!yamlMode || !canUndo}
 					onclick={() => yamlEditor?.undoActive()}
 				>
-					↶
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="M9 14 4 9l5-5" />
+						<path d="M4 9h11a5 5 0 0 1 5 5v6" />
+					</svg>
 				</button>
 				<button
 					type="button"
-					class="grid h-6 w-6 place-items-center rounded text-neutral-600 hover:bg-neutral-100 disabled:opacity-40 dark:text-neutral-300 dark:hover:bg-[var(--surface-card)]"
+					class="history-btn"
 					aria-label="Redo"
+					title="Redo"
 					disabled={!yamlMode || !canRedo}
 					onclick={() => yamlEditor?.redoActive()}
 				>
-					↷
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+						<path d="m15 14 5-5-5-5" />
+						<path d="M20 9H9a5 5 0 0 0-5 5v6" />
+					</svg>
 				</button>
 			</div>
 

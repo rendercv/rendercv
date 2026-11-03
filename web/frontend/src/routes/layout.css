@@ -48,3 +48,87 @@
 	--surface-card: #141b2e;
 	--border-subtle: #232c42;
 }
+
+/*
+ * Undo/redo "tile" buttons -- a soft squircle with a diagonal sheen
+ * (lighter top-left corner fading into the surface), a hairline inner
+ * highlight, and a faint glow, so the history controls read as physical
+ * keys rather than bare glyphs. Light mode keeps the same shape with a
+ * white-to-gray sheen; dark mode uses an indigo-tinted navy that sits on
+ * the `--surface` family above.
+ */
+.history-btn {
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	border-radius: 0.55rem;
+	color: #334155;
+	background: linear-gradient(145deg, #ffffff 0%, #eef0f6 55%, #e3e6ef 100%);
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.9),
+		inset 0 0 0 1px rgb(15 23 42 / 0.08),
+		0 1px 2px rgb(15 23 42 / 0.12),
+		0 2px 6px -2px rgb(99 102 241 / 0.18);
+	transition:
+		transform 120ms ease,
+		box-shadow 160ms ease,
+		color 160ms ease,
+		opacity 160ms ease;
+}
+
+.history-btn:hover:not(:disabled) {
+	color: #0f172a;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.95),
+		inset 0 0 0 1px rgb(99 102 241 / 0.25),
+		0 1px 2px rgb(15 23 42 / 0.12),
+		0 4px 12px -3px rgb(99 102 241 / 0.35);
+}
+
+.history-btn:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+}
+
+.history-btn:focus-visible {
+	outline: 2px solid rgb(129 140 248);
+	outline-offset: 2px;
+}
+
+.history-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+	box-shadow:
+		inset 0 0 0 1px rgb(15 23 42 / 0.08);
+}
+
+.history-btn svg {
+	width: 0.95rem;
+	height: 0.95rem;
+}
+
+:root.dark .history-btn {
+	color: #f8fafc;
+	background: linear-gradient(145deg, #4a4f86 0%, #262c4c 38%, #161c30 72%, #12182a 100%);
+	box-shadow:
+		inset 0 1px 0 rgb(199 210 254 / 0.18),
+		inset 0 0 0 1px rgb(165 180 252 / 0.12),
+		0 0 10px -2px rgb(165 180 252 / 0.28),
+		0 4px 8px -2px rgb(0 0 0 / 0.6);
+}
+
+:root.dark .history-btn:hover:not(:disabled) {
+	box-shadow:
+		inset 0 1px 0 rgb(199 210 254 / 0.25),
+		inset 0 0 0 1px rgb(165 180 252 / 0.2),
+		0 0 14px -1px rgb(165 180 252 / 0.45),
+		0 4px 8px -2px rgb(0 0 0 / 0.6);
+}
+
+:root.dark .history-btn:hover:not(:disabled) svg {
+	filter: drop-shadow(0 0 3px rgb(224 231 255 / 0.6));
+}
+
+:root.dark .history-btn:disabled {
+	box-shadow: inset 0 0 0 1px rgb(165 180 252 / 0.1);
+}
