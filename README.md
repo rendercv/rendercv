@@ -11,6 +11,23 @@ _Resume builder for academics and engineers, deployed at [rendercv.com](https://
 
 </div>
 
+> ### This fork adds a web editor
+>
+> A browser front end for RenderCV, built on the Python core in this
+> repository: edit your CV as a form or as YAML, watch the typeset PDF
+> update as you type, and keep your CVs against a Google account.
+>
+> | | |
+> | --- | --- |
+> | **Run it locally** | [`local_setup.md`](local_setup.md) — clone to every test green |
+> | **Architecture, configuration, deploy** | [`web/README.md`](web/README.md) |
+> | **Source** | [`web/backend`](web/backend) (FastAPI) · [`web/frontend`](web/frontend) (SvelteKit) |
+>
+> Those two guides are written in Vietnamese. The rest of this README is
+> upstream RenderCV's and still describes the core accurately — the web
+> editor calls that core rather than reimplementing it. The badges above
+> track upstream, not this fork.
+
 Write your CV or resume as YAML, then run RenderCV,
 
 ```bash

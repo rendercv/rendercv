@@ -121,6 +121,21 @@ class TestBuildRendercvDictionary:
         assert result["settings"]["current_date"] == "2024-01-01"
         assert result["design"]["theme"] == "sb2nov"
 
+    def test_settings_overlay_without_render_command_accepts_render_overrides(
+        self, minimal_input_dict
+    ):
+        main_yaml = dictionary_to_yaml(minimal_input_dict)
+        settings_yaml = dictionary_to_yaml({"settings": {"pdf_title": "NAME - CV"}})
+
+        result, _ = build_rendercv_dictionary(
+            main_yaml,
+            settings_yaml_file=settings_yaml,
+            dont_generate_png=True,
+        )
+
+        assert result["settings"]["pdf_title"] == "NAME - CV"
+        assert result["settings"]["render_command"]["dont_generate_png"] is True
+
     def test_none_overlays_are_ignored(self, minimal_input_dict):
         yaml_input = dictionary_to_yaml(minimal_input_dict)
 

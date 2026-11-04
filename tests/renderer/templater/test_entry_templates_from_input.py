@@ -625,7 +625,12 @@ class TestRemoveNotProvidedPlaceholders:
     def test_missing_placeholders_removed(self, missing_key: str) -> None:
         templates = {"main": f"PREFIX {missing_key} SUFFIX"}
         fields = {"PREFIX": "a", "SUFFIX": "b"}
-        assume(missing_key not in ("PREFIX", "SUFFIX"))
+        # Why a substring check and not `not in ("PREFIX", "SUFFIX")`: the
+        # assertion below searches the rendered string, so a generated key
+        # that merely *occurs inside* the surviving literals is still found
+        # there after its own placeholder was correctly removed. Hypothesis
+        # eventually finds one -- e.g. "EF", which sits inside "PREFIX".
+        assume(missing_key not in "PREFIX SUFFIX")
         result = remove_not_provided_placeholders(templates, fields)
         assert missing_key not in result["main"]
 

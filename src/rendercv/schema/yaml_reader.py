@@ -4,7 +4,7 @@ import ruamel.yaml
 from ruamel.yaml.comments import CommentedMap
 from ruamel.yaml.scanner import RoundTripScanner
 
-from rendercv.exception import RenderCVInternalError, RenderCVUserError
+from rendercv.exception import RenderCVUserError
 
 
 def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
@@ -49,19 +49,23 @@ def read_yaml(file_path_or_contents: pathlib.Path | str) -> CommentedMap:
     else:
         file_content = file_path_or_contents
 
-    yaml_as_dictionary: CommentedMap = yaml.load(file_content)
+    yaml_as_dictionary: CommentedMap = build_yaml_parser().load(file_content)
 
     if yaml_as_dictionary is None:
         message = "The input file is empty!"
         raise RenderCVUserError(message)
 
-    if isinstance(yaml_as_dictionary, str):
+    if not isinstance(yaml_as_dictionary, CommentedMap):
         message = (
-            "You probably meant to pass a path to the YAML file, but you passed as a"
-            " string and RenderCV interpreted it as the contents of the YAML file."
-            f" Pass the path using `pathlib.Path({file_path_or_contents})`."
+            "The input must be a YAML mapping of `key: value` pairs (e.g. starting"
+            " with `cv:`), not a single value or a list."
         )
-        raise RenderCVInternalError(message)
+        if isinstance(yaml_as_dictionary, str):
+            message += (
+                " If you meant to pass a file path, pass it as a `pathlib.Path`"
+                " instead of a string."
+            )
+        raise RenderCVUserError(message)
 
     return yaml_as_dictionary
 
@@ -80,10 +84,26 @@ class ScannerNoAlias(RoundTripScanner):
         self.fetch_plain()
 
 
-yaml = ruamel.yaml.YAML()
-yaml.Scanner = ScannerNoAlias
+def build_yaml_parser() -> ruamel.yaml.YAML:
+    """Build a fresh ruamel YAML parser for one parse operation.
 
-# Disable ISO date parsing, keep it as a string:
-yaml.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
-    lambda loader, node: loader.construct_scalar(node)
-)
+    Why:
+        A ruamel `YAML` object keeps mutable parser/composer state between
+        calls, so a shared module-level instance is not thread-safe: two
+        threads parsing concurrently (as the web API's threadpool does)
+        corrupt that state and crash with errors like
+        `AttributeError: 'NoneType' object has no attribute 'id'`.
+        Constructing a parser per call is cheap and makes every caller
+        safe regardless of threading model.
+
+    Returns:
+        A configured parser with the no-alias scanner and string dates.
+    """
+    parser = ruamel.yaml.YAML()
+    parser.Scanner = ScannerNoAlias
+
+    # Disable ISO date parsing, keep it as a string:
+    parser.constructor.yaml_constructors["tag:yaml.org,2002:timestamp"] = (
+        lambda loader, node: loader.construct_scalar(node)
+    )
+    return parser

@@ -137,6 +137,17 @@ class SomeOtherClass(BaseModel):
                 },
             )
 
+    def test_rejects_design_with_no_theme_key_with_a_validation_error(
+        self, design_adapter
+    ):
+        """A `design:` document missing the `theme` discriminator entirely must
+        raise a normal `pydantic.ValidationError` (so callers -- e.g. the web
+        API's exception boundary -- can translate it into a structured 422),
+        not an unhandled `KeyError` from treating it as a custom theme lookup.
+        """
+        with pytest.raises(pydantic.ValidationError, match="theme"):
+            design_adapter.validate_python({"page": {"top_margin": "0.5in"}})
+
     def test_rejects_invalid_built_in_theme_options(self, design_adapter):
         with pytest.raises(pydantic.ValidationError):
             design_adapter.validate_python(

@@ -121,7 +121,12 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+# `.env` alone does not cover `.env.local` / `.env.production`, which is how a
+# Google OAuth secret would end up committed to a public repository. The
+# negation keeps a checked-in template possible.
 .env
+.env.*
+!.env.example
 .venv
 .venv*/
 env/
@@ -198,3 +203,30 @@ mkdocs-material/
 scripts/ats_proof/rendered/
 scripts/ats_proof/results/
 scripts/ats_proof/analysis/
+
+# Harness core maintenance binary
+scripts/bin/harness
+scripts/bin/harness.exe
+
+# Graphify machine-local sidecars
+graphify-out/.graphify_python
+graphify-out/.graphify_root
+**/graphify-out/cache/
+
+# Local scratch directories, none of them part of the project:
+#
+# `full_repository/` is 562 MB of clones of the other RenderCV org
+# repositories, each with its own `.git`. Nested repositories are not
+# something git handles as a plain directory, so committing this would
+# either fail confusingly or bury half a gigabyte in history.
+#
+# `docs/assets/rendercv_skill/` is the extracted contents of
+# `docs/assets/rendercv_skill.zip`, which is tracked -- so the extraction is
+# derived from something already in the repository.
+#
+# `image/` holds screenshots kept while working.
+full_repository/
+docs/assets/rendercv_skill/
+image/
+.harness-core/
+.harness-backup/

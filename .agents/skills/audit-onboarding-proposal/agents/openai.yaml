@@ -1,0 +1,6 @@
+interface:
+  display_name: "Audit Onboarding Proposal"
+  short_description: "Independently verify onboarding patches"
+  default_prompt: "Use $audit-onboarding-proposal to verify this onboarding transcript and exact patch before application."
+policy:
+  allow_implicit_invocation: false

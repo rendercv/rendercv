@@ -1,0 +1,44 @@
+# Keeps the build context small and, more importantly, keeps a developer's
+# local state out of the image. The context is the repository root for both
+# Dockerfiles (`./Dockerfile` for the CLI, `web/Dockerfile` for the editor).
+
+# Virtual environments -- rebuilt inside the image, and a host `.venv`
+# carries platform-specific binaries that would not run there anyway.
+.venv/
+web/backend/.venv/
+
+node_modules/
+web/frontend/node_modules/
+web/frontend/.svelte-kit/
+web/frontend/build/
+
+# ~30 MB of Pyodide, fonts and a Typst wasm binary, generated locally by
+# `npm run build:wasm-assets`. The image deliberately does not ship the
+# client-side preview, and without this line a developer who happens to have
+# run that script would bake it in without noticing.
+web/frontend/static/wasm/
+
+# Test output and caches.
+web/frontend/test-results/
+web/frontend/playwright-report/
+.pytest_cache/
+**/__pycache__/
+*.pyc
+htmlcov/
+.coverage
+
+# Local databases. Copying one in would ship a developer's CVs.
+web/backend/data/
+
+# Secrets. `.env` is gitignored, but the build context is the working tree,
+# not the index -- so it would otherwise be copied in.
+.env
+**/.env
+!**/.env.example
+
+.git/
+.github/
+graphify-out/
+docs/
+full_repository/
+image/

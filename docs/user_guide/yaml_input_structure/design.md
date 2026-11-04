@@ -42,7 +42,7 @@ design:
     bottom_margin: 0.7in
     left_margin: 0.7in
     right_margin: 0.7in
-    show_footer: true
+    show_footer: false
     show_top_note: true
 
   colors:
