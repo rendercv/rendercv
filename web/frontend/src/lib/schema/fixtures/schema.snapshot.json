@@ -7234,8 +7234,8 @@
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.7in`."
         },
         "show_footer": {
-          "default": true,
-          "description": "Show the footer at the bottom of pages. The default value is `true`.",
+          "default": false,
+          "description": "Show the footer at the bottom of pages. The default value is `false`.",
           "title": "Show Footer",
           "type": "boolean"
         },
@@ -7278,8 +7278,8 @@
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.6in`."
         },
         "show_footer": {
-          "default": true,
-          "description": "Show the footer at the bottom of pages. The default value is `true`.",
+          "default": false,
+          "description": "Show the footer at the bottom of pages. The default value is `false`.",
           "title": "Show Footer",
           "type": "boolean"
         },
@@ -7366,8 +7366,8 @@
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.5in`."
         },
         "show_footer": {
-          "default": true,
-          "description": "Show the footer at the bottom of pages. The default value is `true`.",
+          "default": false,
+          "description": "Show the footer at the bottom of pages. The default value is `false`.",
           "title": "Show Footer",
           "type": "boolean"
         },
@@ -7410,8 +7410,8 @@
           "description": "It can be specified with units (cm, in, pt, mm, em). For example, `0.1cm`. The default value is `0.6in`."
         },
         "show_footer": {
-          "default": true,
-          "description": "Show the footer at the bottom of pages. The default value is `true`.",
+          "default": false,
+          "description": "Show the footer at the bottom of pages. The default value is `false`.",
           "title": "Show Footer",
           "type": "boolean"
         },
