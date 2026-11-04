@@ -110,6 +110,17 @@ class Cv(Base):
     design_yaml: Mapped[str] = mapped_column(Text, nullable=False, default="")
     locale_yaml: Mapped[str] = mapped_column(Text, nullable=False, default="")
     settings_yaml: Mapped[str] = mapped_column(Text, nullable=False, default="")
+    # A JSON object `{theme name: design mapping}`: the design each theme
+    # had when the user last switched away from it, so switching back
+    # restores their tuned values instead of the theme's defaults. Text,
+    # not a JSON column type, per the portable-types rule above; it is never
+    # queried into, only read and written whole (`repository.*_theme_design`).
+    # Deliberately outside `content_hash` and `updated_at`: it is not part of
+    # what renders, and bumping `updated_at` would make the open editor's
+    # next autosave lose its optimistic-concurrency check.
+    theme_designs: Mapped[str] = mapped_column(
+        Text, nullable=False, default="{}", server_default="{}"
+    )
     content_hash: Mapped[str] = mapped_column(String(64), nullable=False)
     created_at: Mapped[datetime] = mapped_column(nullable=False)
     updated_at: Mapped[datetime] = mapped_column(nullable=False)

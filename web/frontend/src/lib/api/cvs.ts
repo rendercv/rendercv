@@ -15,6 +15,8 @@ import { apiFetch } from '$lib/api/http';
  * | DELETE | /api/cvs/{id}                            | 204                              |
  * | GET    | /api/cvs/{id}/versions                   | newest first                    |
  * | POST   | /api/cvs/{id}/versions/{vid}/restore     | 200, same conflict shape as PUT |
+ * | GET    | /api/cvs/{id}/theme-designs/{theme}      | 404 if none remembered          |
+ * | PUT    | /api/cvs/{id}/theme-designs/{theme}      | 204, leaves updated_at alone    |
  *
  * Every function accepts an injectable `fetchImpl` (defaulting to the
  * shared, credentialed `apiFetch`) so tests never hit the network -- see
@@ -222,4 +224,53 @@ export async function restoreVersion(
 		};
 	}
 	return await unexpectedError(response);
+}
+
+/** A `design:` mapping, as the Design form's sync holds it. */
+export type DesignMapping = Record<string, unknown>;
+
+/**
+ * `GET /api/cvs/{id}/theme-designs/{theme}` -- the design this CV had the
+ * last time the user switched away from `theme`, on any device.
+ *
+ * Returns `null` when nothing is remembered (a 404: the theme was never
+ * left, or the CV is gone). Throws on any other failure so the caller can
+ * tell "nothing saved" apart from "could not ask" and fall back to what it
+ * remembers locally.
+ */
+export async function getThemeDesign(
+	id: number,
+	theme: string,
+	fetchImpl: typeof fetch = apiFetch
+): Promise<DesignMapping | null> {
+	const response = await fetchImpl(`/api/cvs/${id}/theme-designs/${encodeURIComponent(theme)}`);
+	if (response.status === 404) return null;
+	if (!response.ok) {
+		throw new Error(`GET /api/cvs/${id}/theme-designs/${theme} failed with status ${response.status}`);
+	}
+	const body = (await response.json()) as { design: DesignMapping };
+	return body.design;
+}
+
+/**
+ * `PUT /api/cvs/{id}/theme-designs/{theme}` -- remembers `design` as this
+ * CV's design under `theme`. Resolves `false` instead of throwing on
+ * failure: losing this write must not stop the theme switch itself.
+ */
+export async function putThemeDesign(
+	id: number,
+	theme: string,
+	design: DesignMapping,
+	fetchImpl: typeof fetch = apiFetch
+): Promise<boolean> {
+	try {
+		const response = await fetchImpl(`/api/cvs/${id}/theme-designs/${encodeURIComponent(theme)}`, {
+			method: 'PUT',
+			headers: { 'content-type': 'application/json' },
+			body: JSON.stringify({ design })
+		});
+		return response.status === 204;
+	} catch {
+		return false;
+	}
 }
