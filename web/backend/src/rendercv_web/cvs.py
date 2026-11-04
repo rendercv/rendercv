@@ -12,10 +12,13 @@ Why:
     that doesn't exist at all (guardrail: never leak ownership via a 403).
 """
 
+import json
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+
+from rendercv.schema.models.design.built_in_design import available_themes
 
 from .auth import CurrentAccount
 from .db import repository
@@ -32,6 +35,7 @@ from .errors import CvConflictError
 from .limits import enforce_documents_size_cap
 from .models import (
     MAX_CV_NAME_LENGTH,
+    MAX_DOCUMENT_BYTES,
     CvConflictCurrent,
     CvCreateRequest,
     CvDetail,
@@ -40,6 +44,7 @@ from .models import (
     CvUpdateRequest,
     CvUpdateResponse,
     CvVersionSummary,
+    ThemeDesignPayload,
 )
 
 router = APIRouter(tags=["cvs"])
@@ -298,6 +303,7 @@ def duplicate_cv(
         design_yaml=source.design_yaml,
         locale_yaml=source.locale_yaml,
         settings_yaml=source.settings_yaml,
+        theme_designs=source.theme_designs,
     )
     return cv_to_detail(copy)
 
@@ -404,3 +410,101 @@ def restore_version(
         settings_yaml=version.settings_yaml,
     )
     return apply_update_result(session, cv_id, current_user.id, result)
+
+
+def ensure_known_theme(theme: str) -> None:
+    """Refuse a theme name the core does not ship.
+
+    Why:
+        The path segment becomes a key in the stored map. Accepting only
+        built-in names keeps that map bounded (one entry per theme) instead
+        of growing with whatever a caller puts in the URL.
+
+    Args:
+        theme: The theme name from the path.
+
+    Raises:
+        HTTPException: 404 if `theme` is not a built-in theme.
+    """
+    if theme not in available_themes:
+        raise HTTPException(status_code=404, detail="Unknown theme.")
+
+
+@router.get("/api/cvs/{cv_id}/theme-designs/{theme}", response_model=ThemeDesignPayload)
+def get_theme_design(
+    cv_id: int, theme: str, current_user: CurrentAccount, session: SessionDep
+) -> ThemeDesignPayload:
+    """Return the design a CV last had under `theme`.
+
+    Why:
+        Read at switch time rather than shipped with `GET /api/cvs/{id}`, so
+        a design remembered on another device after this one loaded the CV
+        is still the one restored.
+
+    Args:
+        cv_id: The CV.
+        theme: The built-in theme name.
+        current_user: The session's `User`, resolved from the session
+            cookie.
+        session: The database session.
+
+    Returns:
+        The remembered design mapping.
+
+    Raises:
+        HTTPException: 404 if the theme is unknown, the CV doesn't exist or
+            isn't owned, or nothing is remembered for this theme yet.
+    """
+    ensure_known_theme(theme)
+    found, design = repository.get_theme_design(session, cv_id, current_user.id, theme)
+    if not found:
+        raise HTTPException(status_code=404, detail="CV not found.")
+    if design is None:
+        raise HTTPException(status_code=404, detail="No design saved for this theme.")
+    return ThemeDesignPayload(design=design)
+
+
+@router.put("/api/cvs/{cv_id}/theme-designs/{theme}", status_code=204)
+def put_theme_design(
+    cv_id: int,
+    theme: str,
+    request: ThemeDesignPayload,
+    current_user: CurrentAccount,
+    session: SessionDep,
+) -> None:
+    """Remember the design a CV has under `theme`, for when it comes back.
+
+    Why:
+        Returns `None` for the same cookie reason as `delete_cv`. Does not
+        touch `updated_at` (see `repository.set_theme_design`), so it never
+        races the autosave write.
+
+    Args:
+        cv_id: The CV.
+        theme: The built-in theme name.
+        request: The design mapping to remember.
+        current_user: The session's `User`, resolved from the session
+            cookie.
+        session: The database session.
+
+    Raises:
+        HTTPException: 404 if the theme is unknown or the CV doesn't exist
+            or isn't owned; 422 if the design names a different theme; 413
+            if it is over the document size cap.
+    """
+    ensure_known_theme(theme)
+    if request.design.get("theme") != theme:
+        raise HTTPException(
+            status_code=422, detail="The design's `theme` must match the path."
+        )
+    encoded_size = len(json.dumps(request.design, ensure_ascii=False).encode("utf-8"))
+    if encoded_size > MAX_DOCUMENT_BYTES:
+        raise HTTPException(
+            status_code=413,
+            detail=f"`design` exceeds the {MAX_DOCUMENT_BYTES} byte limit.",
+        )
+    stored = repository.set_theme_design(
+        session, cv_id, current_user.id, theme, request.design
+    )
+    if not stored:
+        raise HTTPException(status_code=404, detail="CV not found.")

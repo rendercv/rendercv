@@ -150,17 +150,16 @@ test.describe('Design form: effective-value overlay', () => {
 			.toMatch(/top_margin:\s*0\.5in/);
 	});
 
-	test('switching theme replaces design edits, which is the accepted cost', async ({
+	test('switching away and back puts the design edits back, even after a reload', async ({
 		page
 	}) => {
-		// The opposite of what this file asserted before, and deliberately
-		// so. While a fresh design document was blank, an edit was the only
-		// thing in it and a theme switch could leave it alone. Now the
-		// document holds every option, and the switcher has to replace the
-		// whole block or the new theme has no effect at all -- so an edit
-		// goes with it. Keeping edits would mean telling apart values the
-		// user chose from values that merely came with the old theme, and
-		// the document does not record that difference.
+		// A theme switch still replaces the whole block -- it has to, or the
+		// new theme has no effect (see the first test). What changed: the
+		// design being left is stored for its theme on the server, so coming
+		// back restores it instead of the theme's defaults. That is what keeps
+		// a CV tuned to one page from coming back on two. The reload proves
+		// the copy is the server's, which is what the user's other device
+		// sees, not one held in this tab.
 		await gotoReady(page);
 		await firstPreviewUrl(page);
 
@@ -177,13 +176,38 @@ test.describe('Design form: effective-value overlay', () => {
 			.poll(async () => yamlText(page), { timeout: 20_000 })
 			.toMatch(/top_margin:\s*0\.5in/);
 
+		// The autosave of the ember document, not the theme-design write:
+		// the reload below must find ember saved to come back from.
+		const emberSaved = page.waitForResponse(
+			(response) =>
+				response.request().method() === 'PUT' &&
+				/\/api\/cvs\/\d+$/.test(new URL(response.url()).pathname) &&
+				response.ok(),
+			{ timeout: 30_000 }
+		);
 		await page.getByRole('button', { name: 'Next Theme' }).click();
-
 		await expect
 			.poll(async () => yamlText(page), { timeout: 20_000 })
 			.toMatch(/theme:\s*ember/);
-		// Gone, replaced by ember's own top margin.
+		// Ember arrives at its own values: the edit does not leak across themes.
 		expect(await yamlText(page)).not.toMatch(/top_margin:\s*0\.5in/);
+		await emberSaved;
+
+		await page.reload();
+		await firstPreviewUrl(page);
+		await goToTab(page, 'Design');
+		await setYamlMode(page, true);
+		await expect
+			.poll(async () => yamlText(page), { timeout: 20_000 })
+			.toMatch(/theme:\s*ember/);
+
+		await page.getByRole('button', { name: 'Previous Theme' }).click();
+		await expect
+			.poll(async () => yamlText(page), { timeout: 20_000 })
+			.toMatch(/theme:\s*classic/);
+		await expect
+			.poll(async () => yamlText(page), { timeout: 20_000 })
+			.toMatch(/top_margin:\s*0\.5in/);
 	});
 });
 

@@ -18,6 +18,8 @@
 	import { createFormSync } from '$lib/form/formSync';
 	import { buildDiscriminatorSwitchOp } from '$lib/form/documentActions';
 	import { designOverrides } from '$lib/themes/designDiff';
+	import { createThemeMemory } from '$lib/themes/themeMemory';
+	import { activeCv } from '$lib/stores/cvSession';
 	import { themeDisplayName } from '$lib/themes/displayName';
 	import YamlEditor from '$lib/components/YamlEditor.svelte';
 	import CvForm from '$lib/components/form/CvForm.svelte';
@@ -105,16 +107,18 @@
 	 * byte-identical PDF -- the switcher looked like it worked and changed
 	 * nothing. Replacing the block puts the new theme's own values in.
 	 *
-	 * The cost, accepted deliberately: design edits the user has made are
-	 * replaced along with everything else. Keeping them would mean deciding
-	 * which values were chosen and which were merely inherited, and the
-	 * document does not record that difference.
+	 * Design edits do not go with it: the design being left is stored for
+	 * its theme, on the server, and arriving at a theme puts back the design
+	 * it had when the user last left it -- from either device
+	 * (`themeMemory`). Only a theme never left before arrives at its
+	 * defaults. Without this a CV tuned to one page under Harvard came back
+	 * from a round trip through another theme on two.
 	 *
 	 * Falls back to the old single-key patch when the theme list has not
 	 * loaded -- an offline switcher that renames the theme is still better
 	 * than one that does nothing.
 	 */
-	function switchTheme(theme: string): void {
+	async function switchTheme(theme: string): Promise<void> {
 		const defaults = themes.find((candidate) => candidate.name === theme)?.design_defaults;
 		if (!defaults) {
 			designSync.submitOp(
@@ -122,8 +126,30 @@
 			);
 			return;
 		}
-		designSync.submitOp({ op: 'set', path: ['design'], value: defaults });
+
+		const ticket = ++switchTicket;
+		const cvId = get(activeCv)?.id ?? null;
+		const fromTheme = currentTheme;
+		const outcome = await themeMemory.switchTheme({
+			cvId,
+			fromTheme,
+			fromDesign: $designSyncState.data?.design,
+			toTheme: theme,
+			toDefaults: defaults
+		});
+		// A later click, or opening another CV, while this was on the wire
+		// has made this switch stale; applying it would undo the newer one.
+		if (ticket !== switchTicket || (get(activeCv)?.id ?? null) !== cvId) return;
+
+		designSync.submitOp({ op: 'set', path: ['design'], value: outcome.design });
+		themeMemoryNotice = outcome.rememberFailed
+			? `Couldn't save your ${themeDisplayName(fromTheme)} design to your account. It is kept in this tab only, so your other device won't see it.`
+			: null;
 	}
+
+	const themeMemory = createThemeMemory();
+	let switchTicket = 0;
+	let themeMemoryNotice = $state<string | null>(null);
 
 	let currentThemeDefaults = $derived(
 		themes.find((candidate) => candidate.name === currentTheme)?.design_defaults
@@ -571,6 +597,23 @@
 			{/if}
 		</div>
 	</div>
+
+	{#if themeMemoryNotice}
+		<div
+			role="status"
+			data-testid="theme-memory-notice"
+			class="flex items-start justify-between gap-3 border-b border-amber-300 bg-amber-50 px-3 py-2 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-100"
+		>
+			<p>{themeMemoryNotice}</p>
+			<button
+				type="button"
+				class="shrink-0 rounded-md border border-amber-400 px-2 py-0.5 text-xs font-medium hover:bg-amber-100 dark:hover:bg-amber-900"
+				onclick={() => (themeMemoryNotice = null)}
+			>
+				Dismiss
+			</button>
+		</div>
+	{/if}
 
 	{#if confirmingReset && overrides.length > 0}
 		<div

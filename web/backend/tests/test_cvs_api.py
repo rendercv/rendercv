@@ -589,3 +589,130 @@ class TestDesignDiscriminatorRegression:
         )
 
         assert response.status_code == 422
+
+
+HARVARD_TUNED = {
+    "theme": "harvard",
+    "section_titles": {"space_above": "0.25cm"},
+    "entries": {"space_between_entries": "0.7em"},
+}
+
+
+class TestThemeDesigns:
+    """`/api/cvs/{id}/theme-designs/{theme}`: a theme's design survives switching away."""
+
+    def test_nothing_is_remembered_for_a_new_cv(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+
+        response = client.get(f"/api/cvs/{created['id']}/theme-designs/harvard")
+
+        assert response.status_code == 404
+
+    def test_a_put_design_reads_back_unchanged(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+        url = f"/api/cvs/{created['id']}/theme-designs/harvard"
+
+        assert client.put(url, json={"design": HARVARD_TUNED}).status_code == 204
+
+        response = client.get(url)
+        assert response.status_code == 200
+        assert response.json() == {"design": HARVARD_TUNED}
+
+    def test_a_later_put_replaces_only_that_theme(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+        base = f"/api/cvs/{created['id']}/theme-designs"
+        client.put(f"{base}/harvard", json={"design": HARVARD_TUNED})
+        client.put(f"{base}/classic", json={"design": {"theme": "classic"}})
+        retuned = {**HARVARD_TUNED, "entries": {"space_between_entries": "0.5em"}}
+
+        client.put(f"{base}/harvard", json={"design": retuned})
+
+        assert client.get(f"{base}/harvard").json() == {"design": retuned}
+        assert client.get(f"{base}/classic").json() == {"design": {"theme": "classic"}}
+
+    def test_remembering_a_design_does_not_move_updated_at(
+        self, client: TestClient
+    ) -> None:
+        # The open editor's next autosave sends the `updated_at` it last
+        # saw; if this write moved it, that save would 409 against itself.
+        created = create_default_cv(client)
+
+        client.put(
+            f"/api/cvs/{created['id']}/theme-designs/harvard",
+            json={"design": HARVARD_TUNED},
+        )
+
+        after = client.get(f"/api/cvs/{created['id']}").json()
+        assert after["updated_at"] == created["updated_at"]
+        assert after["documents"] == created["documents"]
+
+    def test_an_unknown_theme_is_404(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+        url = f"/api/cvs/{created['id']}/theme-designs/not-a-theme"
+
+        assert client.get(url).status_code == 404
+        assert (
+            client.put(url, json={"design": {"theme": "not-a-theme"}}).status_code
+            == 404
+        )
+
+    def test_a_design_naming_another_theme_is_refused(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+
+        response = client.put(
+            f"/api/cvs/{created['id']}/theme-designs/classic",
+            json={"design": HARVARD_TUNED},
+        )
+
+        assert response.status_code == 422
+
+    def test_an_oversized_design_is_refused(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+
+        response = client.put(
+            f"/api/cvs/{created['id']}/theme-designs/harvard",
+            json={"design": {"theme": "harvard", "padding": "x" * 600_000}},
+        )
+
+        assert response.status_code == 413
+
+    def test_a_missing_cv_is_404(self, client: TestClient) -> None:
+        url = "/api/cvs/999999/theme-designs/harvard"
+
+        assert client.get(url).status_code == 404
+        assert client.put(url, json={"design": HARVARD_TUNED}).status_code == 404
+
+    def test_a_duplicate_remembers_the_same_designs(self, client: TestClient) -> None:
+        created = create_default_cv(client)
+        client.put(
+            f"/api/cvs/{created['id']}/theme-designs/harvard",
+            json={"design": HARVARD_TUNED},
+        )
+
+        copy = client.post(f"/api/cvs/{created['id']}/duplicate").json()
+
+        response = client.get(f"/api/cvs/{copy['id']}/theme-designs/harvard")
+        assert response.json() == {"design": HARVARD_TUNED}
+
+    def test_another_accounts_cv_looks_missing(self, tmp_path, monkeypatch) -> None:
+        client_a = make_client(tmp_path, monkeypatch, db_name="theme-designs.db")
+        try:
+            created = create_default_cv(client_a)
+            url = f"/api/cvs/{created['id']}/theme-designs/harvard"
+            client_a.put(url, json={"design": HARVARD_TUNED})
+
+            client_b = TestClient(app, cookies={})
+            sign_client_in(
+                client_b, second_session_factory(tmp_path, "theme-designs.db"), "other"
+            )
+            try:
+                assert client_b.get(url).status_code == 404
+                assert (
+                    client_b.put(url, json={"design": HARVARD_TUNED}).status_code == 404
+                )
+            finally:
+                client_b.close()
+            assert client_a.get(url).json() == {"design": HARVARD_TUNED}
+        finally:
+            client_a.__exit__(None, None, None)
+            app.dependency_overrides.pop(get_session, None)

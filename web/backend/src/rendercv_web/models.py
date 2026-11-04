@@ -297,6 +297,23 @@ class CvConflictResponse(pydantic.BaseModel):
     current: CvConflictCurrent
 
 
+class ThemeDesignPayload(pydantic.BaseModel):
+    """Body of `GET`/`PUT /api/cvs/{id}/theme-designs/{theme}`.
+
+    Why:
+        The parsed `design:` mapping, not its YAML text: the editor switches
+        theme by setting the whole mapping (`EditorPane.switchTheme`), so
+        that is the shape it has in hand when leaving a theme and the shape
+        it needs back when returning.
+    """
+
+    model_config = pydantic.ConfigDict(extra="forbid")
+
+    design: dict[str, Any] = pydantic.Field(
+        description="The design mapping, including its `theme` key."
+    )
+
+
 class CvVersionSummary(pydantic.BaseModel):
     """One row of `GET /api/cvs/{id}/versions`."""
 

@@ -7,7 +7,9 @@ import {
 	duplicateCv,
 	deleteCv,
 	listVersions,
-	restoreVersion
+	restoreVersion,
+	getThemeDesign,
+	putThemeDesign
 } from './cvs';
 import type { CvDocuments } from '$lib/stores/documents';
 
@@ -166,5 +168,44 @@ describe('listVersions / restoreVersion', () => {
 		);
 		const result = await restoreVersion(1, 5, fetchImpl);
 		expect(result).toEqual({ ok: false, kind: 'conflict', current: { updatedAt: 'tserver', documents } });
+	});
+});
+
+describe('getThemeDesign', () => {
+	it('returns the remembered design', async () => {
+		const design = { theme: 'harvard', entries: { space_between_entries: '0.7em' } };
+		const fetchImpl = vi.fn().mockResolvedValue(jsonResponse(200, { design }));
+		const result = await getThemeDesign(4, 'harvard', fetchImpl);
+		expect(fetchImpl).toHaveBeenCalledWith('/api/cvs/4/theme-designs/harvard');
+		expect(result).toEqual(design);
+	});
+
+	it('returns null when nothing is remembered', async () => {
+		const fetchImpl = vi.fn().mockResolvedValue(jsonResponse(404, { detail: 'No design saved for this theme.' }));
+		expect(await getThemeDesign(4, 'harvard', fetchImpl)).toBeNull();
+	});
+
+	it('throws on any other failure, so the caller can fall back', async () => {
+		const fetchImpl = vi.fn().mockResolvedValue(jsonResponse(500, {}));
+		await expect(getThemeDesign(4, 'harvard', fetchImpl)).rejects.toThrow();
+	});
+});
+
+describe('putThemeDesign', () => {
+	it('PUTs the design and reports success on 204', async () => {
+		const design = { theme: 'harvard' };
+		const fetchImpl = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+		expect(await putThemeDesign(4, 'harvard', design, fetchImpl)).toBe(true);
+		expect(fetchImpl).toHaveBeenCalledWith(
+			'/api/cvs/4/theme-designs/harvard',
+			expect.objectContaining({ method: 'PUT', body: JSON.stringify({ design }) })
+		);
+	});
+
+	it('reports failure instead of throwing', async () => {
+		const failing = vi.fn().mockRejectedValue(new Error('offline'));
+		expect(await putThemeDesign(4, 'harvard', { theme: 'harvard' }, failing)).toBe(false);
+		const refused = vi.fn().mockResolvedValue(jsonResponse(422, {}));
+		expect(await putThemeDesign(4, 'harvard', { theme: 'harvard' }, refused)).toBe(false);
 	});
 });

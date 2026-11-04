@@ -32,6 +32,8 @@ Access patterns (endpoint -> query -> index), Phase 4b:
     | `DELETE /api/cvs/{id}`            | `delete_cv`: DELETE cvs WHERE id=:id AND user_id=:u (cascades)   | cvs PK; FK ON DELETE CASCADE       |
     | `GET /api/cvs/{id}/versions`      | `list_versions`: SELECT cv_versions WHERE cv_id=:id ORDER BY created_at DESC | ix_cv_versions_cv_id_created_at |
     | `GET /api/cvs/{id}/versions/{vid}`| `get_version`: SELECT cv_versions WHERE id=:vid AND cv_id=:id    | cv_versions PK                     |
+    | `GET /api/cvs/{id}/theme-designs/{theme}` | `get_theme_design`: SELECT cvs WHERE id=:id AND user_id=:u | cvs PK + user_id equality filter |
+    | `PUT /api/cvs/{id}/theme-designs/{theme}` | `set_theme_design`: SELECT ... FOR UPDATE, then UPDATE cvs.theme_designs | cvs PK |
     | `GET /api/preferences`            | `get_preferences`: SELECT preferences WHERE user_id=:u           | preferences PK (user_id prefix)    |
     | `PUT /api/preferences/{key}`      | `set_preference`: UPDATE ... WHERE user_id=:u AND key=:k, INSERT if 0 rows | preferences PK              |
 
@@ -41,9 +43,10 @@ Access patterns (endpoint -> query -> index), Phase 4b:
 """
 
 import hashlib
+import json
 from dataclasses import dataclass
 from datetime import UTC, datetime
-from typing import Literal
+from typing import Any, Literal
 
 from sqlalchemy import delete, select, update
 from sqlalchemy.exc import IntegrityError
@@ -147,6 +150,7 @@ def create_cv(
     design_yaml: str = "",
     locale_yaml: str = "",
     settings_yaml: str = "",
+    theme_designs: str = "{}",
 ) -> Cv:
     """Create a new CV owned by `user_id`.
 
@@ -158,6 +162,9 @@ def create_cv(
         design_yaml: The `design:` document, or empty.
         locale_yaml: The `locale:` document, or empty.
         settings_yaml: The `settings:` document, or empty.
+        theme_designs: The stored `{theme: design}` JSON text; a
+            duplicate passes its source's so the copy remembers the same
+            per-theme designs.
 
     Returns:
         The newly created `Cv` row.
@@ -170,6 +177,7 @@ def create_cv(
         design_yaml=design_yaml,
         locale_yaml=locale_yaml,
         settings_yaml=settings_yaml,
+        theme_designs=theme_designs,
         content_hash=compute_content_hash(
             cv_yaml, design_yaml, locale_yaml, settings_yaml
         ),
@@ -306,6 +314,91 @@ def delete_cv(session: Session, cv_id: int, user_id: int) -> bool:
     result = session.execute(stmt)
     session.commit()
     return result.rowcount == 1
+
+
+def read_theme_designs(cv: Cv) -> dict[str, dict[str, Any]]:
+    """Decode a CV's stored `{theme: design}` map.
+
+    Why:
+        Tolerant on purpose: the column only ever holds what
+        `set_theme_design` wrote, but a hand-edited or truncated value must
+        cost the user their remembered designs, not every request on that CV.
+
+    Args:
+        cv: The database row.
+
+    Returns:
+        The map; empty if the stored text is not a JSON object. Entries
+        whose value is not an object are dropped.
+    """
+    try:
+        decoded = json.loads(cv.theme_designs or "{}")
+    except ValueError:
+        return {}
+    if not isinstance(decoded, dict):
+        return {}
+    return {
+        str(theme): design
+        for theme, design in decoded.items()
+        if isinstance(design, dict)
+    }
+
+
+def get_theme_design(
+    session: Session, cv_id: int, user_id: int, theme: str
+) -> tuple[bool, dict[str, Any] | None]:
+    """Fetch the design a CV last had under `theme`.
+
+    Args:
+        session: The database session.
+        cv_id: The CV's id.
+        user_id: The caller's user id (ownership is part of the query).
+        theme: The theme name.
+
+    Returns:
+        `(cv_found, design)`: `cv_found` is `False` if no such CV is owned
+        by `user_id`; `design` is `None` if the CV has none stored for
+        `theme`.
+    """
+    cv = get_cv(session, cv_id, user_id)
+    if cv is None:
+        return False, None
+    return True, read_theme_designs(cv).get(theme)
+
+
+def set_theme_design(
+    session: Session, cv_id: int, user_id: int, theme: str, design: dict[str, Any]
+) -> bool:
+    """Store the design a CV has under `theme`, replacing any earlier one.
+
+    Why:
+        Leaves `updated_at` and `content_hash` alone: this is not an edit to
+        what renders, and moving `updated_at` would make the editor's next
+        autosave fail its optimistic-concurrency check against its own
+        session. The read-modify-write takes a row lock (`FOR UPDATE`, a
+        no-op on SQLite) so two devices saving different themes at once
+        cannot drop each other's entry.
+
+    Args:
+        session: The database session.
+        cv_id: The CV's id.
+        user_id: The caller's user id (ownership is part of the query).
+        theme: The theme name.
+        design: The design mapping to remember.
+
+    Returns:
+        `True` on success, `False` if no such CV is owned by `user_id`.
+    """
+    stmt = select(Cv).where(Cv.id == cv_id, Cv.user_id == user_id).with_for_update()
+    cv = session.execute(stmt).scalar_one_or_none()
+    if cv is None:
+        session.rollback()
+        return False
+    designs = read_theme_designs(cv)
+    designs[theme] = design
+    cv.theme_designs = json.dumps(designs, ensure_ascii=False)
+    session.commit()
+    return True
 
 
 def add_version(
