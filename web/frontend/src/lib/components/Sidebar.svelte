@@ -74,12 +74,60 @@
 	let historyVersions = $state<CvVersionSummary[] | null>(null);
 	let historyLoading = $state(false);
 
-	function toggleMenu(id: number): void {
-		menuOpenId = menuOpenId === id ? null : id;
+	// Where the open CV's popovers (menu, history, delete confirmation) sit.
+	// They are `position: fixed` because the CV list scrolls: an absolutely
+	// positioned popover under the last CVs was clipped by the list's
+	// `overflow-y: auto` and ended up hidden behind the account footer, so
+	// those CVs could not be renamed or deleted at all.
+	let popoverAnchor = $state<DOMRect | null>(null);
+
+	const MENU_HEIGHT: number = 160;
+	const HISTORY_HEIGHT: number = 260;
+	const CONFIRM_HEIGHT: number = 120;
+
+	/**
+	 * Compute fixed-position CSS for a popover anchored to the ⋯ button.
+	 *
+	 * Why:
+	 *     Opens below the button when there is room, and flips above it
+	 *     otherwise, so the last CVs in a long list still get a usable menu.
+	 *
+	 * Args:
+	 *     anchor: Bounding rect of the ⋯ button that opened the popover.
+	 *     height: Expected popover height used to decide whether it fits below.
+	 *
+	 * Returns:
+	 *     Inline style string for the popover element.
+	 */
+	function popoverStyle(anchor: DOMRect | null, height: number): string {
+		if (!anchor) return '';
+		const right: number = window.innerWidth - anchor.right;
+		const roomBelow: number = window.innerHeight - anchor.bottom;
+		if (roomBelow < height + 8 && anchor.top > roomBelow) {
+			return `right: ${right}px; bottom: ${window.innerHeight - anchor.top + 4}px;`;
+		}
+		return `right: ${right}px; top: ${anchor.bottom + 4}px;`;
+	}
+
+	function toggleMenu(id: number, event: MouseEvent): void {
+		if (menuOpenId === id) {
+			menuOpenId = null;
+			return;
+		}
+		popoverAnchor = (event.currentTarget as HTMLElement).getBoundingClientRect();
+		historyId = null;
+		confirmDeleteId = null;
+		menuOpenId = id;
 	}
 
 	function closeMenu(): void {
 		menuOpenId = null;
+	}
+
+	function closeAllPopovers(): void {
+		closeMenu();
+		if (historyId !== null) closeHistory();
+		confirmDeleteId = null;
 	}
 
 	async function startRename(cv: CvSummary): Promise<void> {
@@ -212,7 +260,9 @@
 			CVs
 		</div>
 
-		<nav class="flex-1 overflow-y-auto px-2" aria-label="Saved CVs">
+		<!-- Popovers are fixed to the viewport, so scrolling the list would
+		     leave them floating beside the wrong CV: close them instead. -->
+		<nav class="flex-1 overflow-y-auto px-2" aria-label="Saved CVs" onscroll={closeAllPopovers}>
 			<ul class="space-y-0.5">
 				{#each $cvs as cv (cv.id)}
 					{@const active = $activeCv?.id === cv.id}
@@ -262,7 +312,7 @@
 									aria-label={`More actions for ${cv.name}`}
 									aria-haspopup="menu"
 									aria-expanded={menuOpenId === cv.id}
-									onclick={() => toggleMenu(cv.id)}
+									onclick={(e) => toggleMenu(cv.id, e)}
 								>
 									⋯
 								</button>
@@ -271,7 +321,7 @@
 							{#if menuOpenId === cv.id}
 								<button
 									type="button"
-									class="fixed inset-0 z-10 cursor-default"
+									class="fixed inset-0 z-40 cursor-default"
 									aria-label="Close menu"
 									tabindex="-1"
 									onclick={closeMenu}
@@ -279,7 +329,8 @@
 								<ul
 									role="menu"
 									aria-label={`Actions for ${cv.name}`}
-									class="absolute right-0 top-full z-20 mt-1 w-40 rounded-md border border-neutral-200 bg-white py-1 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
+									style={popoverStyle(popoverAnchor, MENU_HEIGHT)}
+									class="fixed z-50 w-40 rounded-md border border-neutral-200 bg-white py-1 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
 								>
 									<li role="none">
 										<button
@@ -326,7 +377,8 @@
 
 							{#if historyId === cv.id}
 								<div
-									class="absolute right-0 top-full z-20 mt-1 w-56 rounded-md border border-neutral-200 bg-white p-2 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
+									style={popoverStyle(popoverAnchor, HISTORY_HEIGHT)}
+									class="fixed z-50 w-56 rounded-md border border-neutral-200 bg-white p-2 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
 								>
 									<div class="mb-1 flex items-center justify-between">
 										<span class="font-medium text-neutral-700 dark:text-neutral-200">History</span>
@@ -365,7 +417,8 @@
 								<div
 									role="alertdialog"
 									aria-label={`Delete ${cv.name}?`}
-									class="absolute right-0 top-full z-20 mt-1 w-56 rounded-md border border-neutral-200 bg-white p-3 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
+									style={popoverStyle(popoverAnchor, CONFIRM_HEIGHT)}
+									class="fixed z-50 w-56 rounded-md border border-neutral-200 bg-white p-3 text-sm shadow-lg dark:border-[var(--border-subtle)] dark:bg-[var(--surface-card)]"
 								>
 									<p class="mb-2 text-neutral-700 dark:text-neutral-200">Delete "{cv.name}"? This cannot be undone.</p>
 									<div class="flex justify-end gap-2">
@@ -423,6 +476,7 @@
 </aside>
 
 <svelte:window
+	onresize={closeAllPopovers}
 	onkeydown={(e) => {
 		if (e.key !== 'Escape') return;
 		if (menuOpenId !== null) closeMenu();
