@@ -109,7 +109,7 @@
   [#link("https://orcid.org/0000-0000-0000-0000", icon: false, if-underline: false, if-color: false)[0000-0000-0000-0000]],
   [#link("https://scholar.google.com/citations?user=F8IyYrQAAAAJ", icon: false, if-underline: false, if-color: false)[Google Scholar]],
   [#link("https://example.com/@johndoe", icon: false, if-underline: false, if-color: false)[\@johndoe\@example.com]],
-  [#link("https://stackoverflow.com/users/12323/johndoe", icon: false, if-underline: false, if-color: false)[12323\/johndoe]],
+  [#link("https://stackoverflow.com/users/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
   [#link("https://gitlab.com/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
   [#link("https://researchgate.net/profile/johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],
   [#link("https://youtube.com/@johndoe", icon: false, if-underline: false, if-color: false)[johndoe]],

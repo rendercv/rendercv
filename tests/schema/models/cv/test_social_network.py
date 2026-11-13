@@ -24,9 +24,10 @@ class TestSocialNetwork:
             ("Mastodon", "invalidmastodon"),
             ("Mastodon", "@inva@l@id"),
             ("Mastodon", "@invalid@ne<>twork.com"),
-            ("StackOverflow", "invalidusername"),
             ("StackOverflow", "invalidusername//"),
             ("StackOverflow", "invalidusername/invalid"),
+            ("StackOverflow", "4567/"),
+            ("StackOverflow", "user name"),
             ("YouTube", "@invalidusername"),
             ("NONAME", "@invalidusername"),
             ("WhatsApp", "invalidphone"),
@@ -49,8 +50,8 @@ class TestSocialNetwork:
             ("Mastodon", "@myusername@test.org", "https://test.org/@myusername"),
             (
                 "StackOverflow",
-                "4567/myusername",
-                "https://stackoverflow.com/users/4567/myusername",
+                "myusername",
+                "https://stackoverflow.com/users/myusername",
             ),
             (
                 "GitLab",
@@ -130,10 +131,27 @@ class TestSocialNetwork:
         assert sn.username == username
 
     @settings(deadline=None)
-    @given(username=st.from_regex(r"\d{1,8}/[a-zA-Z0-9_-]+", fullmatch=True))
+    @given(username=st.from_regex(r"[a-zA-Z0-9._-]{1,30}", fullmatch=True))
     def test_stackoverflow_valid_format_accepted(self, username: str) -> None:
         sn = SocialNetwork(network="StackOverflow", username=username)
         assert sn.username == username
+        assert sn.url == f"https://stackoverflow.com/users/{username}"
+
+    @pytest.mark.parametrize(
+        ("username", "expected_username"),
+        [
+            ("johndoe", "johndoe"),
+            ("12323/johndoe", "johndoe"),
+            ("4567/myusername", "myusername"),
+        ],
+    )
+    def test_stackoverflow_legacy_id_is_stripped(
+        self, username: str, expected_username: str
+    ) -> None:
+        """The numeric id is dropped so only the username is rendered/linked."""
+        sn = SocialNetwork(network="StackOverflow", username=username)
+        assert sn.username == expected_username
+        assert sn.url == f"https://stackoverflow.com/users/{expected_username}"
 
     @settings(deadline=None)
     @given(username=st.from_regex(r"[a-zA-Z0-9_-]{3,23}", fullmatch=True))

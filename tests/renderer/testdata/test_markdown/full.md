@@ -11,7 +11,7 @@
 - ORCID: [0000-0000-0000-0000](https://orcid.org/0000-0000-0000-0000)
 - Google Scholar: [F8IyYrQAAAAJ](https://scholar.google.com/citations?user=F8IyYrQAAAAJ)
 - Mastodon: [@johndoe@example.com](https://example.com/@johndoe)
-- StackOverflow: [12323/johndoe](https://stackoverflow.com/users/12323/johndoe)
+- StackOverflow: [johndoe](https://stackoverflow.com/users/johndoe)
 - GitLab: [johndoe](https://gitlab.com/johndoe)
 - ResearchGate: [johndoe](https://researchgate.net/profile/johndoe)
 - YouTube: [johndoe](https://youtube.com/@johndoe)
