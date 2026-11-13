@@ -65,8 +65,8 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
 
         Why:
             Different platforms have specific username formats (e.g., Mastodon needs
-            @user@domain, StackOverflow needs id/name). Early validation prevents
-            broken URL generation.
+            @user@domain, StackOverflow needs the profile slug). Early validation
+            prevents broken URL generation.
 
         Args:
             username: Username to validate.
@@ -92,13 +92,22 @@ class SocialNetwork(BaseModelWithoutExtraKeys):
                         'Mastodon username should be in the format "@username@domain".',
                     )
             case "StackOverflow":
-                stackoverflow_username_pattern = r"\d+\/[^\/]+"
+                # Both the plain profile slug (e.g., "johndoe") and the legacy
+                # "user_id/username" format (e.g., "12323/johndoe") are accepted.
+                # Stack Overflow resolves https://stackoverflow.com/users/<slug>
+                # on its own, so the numeric id is not needed in the URL.
+                stackoverflow_username_pattern = r"(?:\d+\/)?[\w.-]+"
                 if not re.fullmatch(stackoverflow_username_pattern, username):
                     raise pydantic_core.PydanticCustomError(
                         CustomPydanticErrorTypes.other.value,
-                        "StackOverflow username should be in the format"
-                        ' "user_id/username".',
+                        "StackOverflow username should be the profile slug found"
+                        ' in "https://stackoverflow.com/users/<username>" (e.g.,'
+                        ' "johndoe"). The legacy "user_id/username" format is also'
+                        " accepted.",
                     )
+                # Strip the legacy id so that the rendered text and the generated
+                # URL only contain the username, like GitHub.
+                username = username.rsplit("/", maxsplit=1)[-1]
             case "YouTube":
                 if username.startswith("@"):
                     raise pydantic_core.PydanticCustomError(
