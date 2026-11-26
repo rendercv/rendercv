@@ -71,9 +71,16 @@ dark mode.
 
 ## Next
 
-- Keep the app from going down when Supabase is unreachable: a scheduled
-  ping so the free project never pauses, a paid plan, or letting the app
-  start without the database.
+- Keep-awake job (branch `quan-keep-supabase-awake`): `GET /api/health/db`
+  runs `SELECT 1`, and `.github/workflows/keep-supabase-awake.yaml` calls
+  it daily at 02:17 UTC, so the free Supabase project never reaches 7 idle
+  days. When the database is already paused, the job fails and GitHub
+  emails the owner. It only runs once it is on `main`. Not yet verified:
+  that a query through the pooler counts as activity for Supabase. Check
+  that the project is still awake after 7+ days.
+- Still open: the app cannot start at all without the database. Letting it
+  start, with only the signed-in features failing, would keep the landing
+  page up.
 - This machine has no global git identity. Commits made here pass
   `-c user.name=... -c user.email=...` with the author of the earlier commits.
 

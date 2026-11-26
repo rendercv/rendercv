@@ -623,11 +623,11 @@ class TestThemeDesigns:
         base = f"/api/cvs/{created['id']}/theme-designs"
         client.put(f"{base}/harvard", json={"design": HARVARD_TUNED})
         client.put(f"{base}/classic", json={"design": {"theme": "classic"}})
-        retuned = {**HARVARD_TUNED, "entries": {"space_between_entries": "0.5em"}}
+        tuned_again = {**HARVARD_TUNED, "entries": {"space_between_entries": "0.5em"}}
 
-        client.put(f"{base}/harvard", json={"design": retuned})
+        client.put(f"{base}/harvard", json={"design": tuned_again})
 
-        assert client.get(f"{base}/harvard").json() == {"design": retuned}
+        assert client.get(f"{base}/harvard").json() == {"design": tuned_again}
         assert client.get(f"{base}/classic").json() == {"design": {"theme": "classic"}}
 
     def test_remembering_a_design_does_not_move_updated_at(
