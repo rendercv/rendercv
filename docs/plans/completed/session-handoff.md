@@ -1,8 +1,61 @@
 # Session Handoff — RenderCV Web Editor
 
-Last updated: 2026-10-20, after the Supabase move reached `main`. Read this
+Last updated: 2026-11-26, after a deployment check. Read this
 together with [cv-editor-web-app.md](cv-editor-web-app.md), whose Progress
 section carries the per-phase verification evidence.
+
+## Status on 2026-11-26: live, after two outages caused by the database
+
+`main` is at PR #71 (`7676d84b`) and that commit is what Render serves.
+
+| Check (2026-11-26) | Result |
+| --- | --- |
+| Render `rendercv-web` | Live on `7676d84`. `/`, `/app`, `/api/themes` answer 200; the first request took 52 s (free instance waking up) |
+| Supabase `RenderCV-Web` | Status *Healthy*, Nano, 5/60 connections |
+| Real use after recovery (10:11 AM) | A signed-in session ran `/api/auth/me`, `/api/cvs`, `/api/render`, `PUT /api/cvs/30` -- all 200/204, so the database reads and writes again |
+| `/api/cvs` without a session | 401 *Sign in to use this endpoint.* -- expected |
+
+**The outages.** Render's Events page shows the instance failing to start
+(exit status 3) repeatedly on **2026-11-20, 02:25–02:37 AM** (instance
+`9fs9h`) and **2026-11-26, 09:59–10:07 AM** (instance `ngtw8`). Every failure
+has the same log:
+
+```text
+psycopg.OperationalError: connection to server at "...", port 5432 failed:
+FATAL: (EAUTHQUERY) authentication query failed: connection to database not available
+host: aws-0-us-east-2.pooler.supabase.com
+ERROR: Application startup failed. Exiting.
+```
+
+The Supabase pooler answered, but the database behind it did not. That is
+what a paused free project looks like (see *Watch for* below); Supabase's
+dashboard also carried a "technical issue" banner on 2026-11-26. Which of the
+two it was is not verified. Either way the cause was outside this repository,
+and no code change was needed.
+
+**Still open:** while the database is unreachable the whole app refuses to
+start, so even the landing page and the anonymous editor go down. Keeping
+the project awake (a scheduled ping) or a paid Supabase plan would prevent
+it.
+
+## Work merged after 2026-10-20 (PR #58 – #71)
+
+All on `main` and deployed:
+
+- PR #58: this handoff recorded the Supabase move.
+- PR #61: the form editor no longer makes the whole page scroll.
+- PR #62: the design panel shows when it overrides its theme, and resets it in one click.
+- PR #64: undo and redo restyled as glowing tiles.
+- PR #66: the page footer is off by default.
+- PR #68: each theme's design is remembered, so switching back restores it.
+- PR #70: the last CVs in the list can open their actions menu (it was clipped).
+- PR #59, #63, #65, #67, #69, #71: `develop → main` releases.
+
+Open on 2026-11-26, not yet merged:
+
+- PR #73: the CV preview stays white paper in dark mode. The preview iframe
+  had inherited `color-scheme: dark`, so Chrome's PDF viewer painted the
+  pages dark.
 
 ## Status on 2026-10-20: back up, on Supabase
 
