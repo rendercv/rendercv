@@ -189,7 +189,7 @@ design:
   #   bottom_margin: 0.5in
   #   left_margin: 0.5in
   #   right_margin: 0.5in
-  #   show_footer: true
+  #   show_footer: false
   #   show_top_note: false
   # colors:
   #   body: rgb(0, 0, 0)

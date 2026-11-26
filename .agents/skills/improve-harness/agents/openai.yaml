@@ -1,0 +1,6 @@
+interface:
+  display_name: "Improve Harness"
+  short_description: "Test one evidence-backed Harness improvement"
+  default_prompt: "Use $improve-harness to test one authorized repository Harness improvement from baseline through a fresh rerun."
+policy:
+  allow_implicit_invocation: false

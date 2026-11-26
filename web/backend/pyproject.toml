@@ -1,0 +1,52 @@
+[build-system]
+requires = ["uv_build>=0.10.3,<0.11.0"]
+build-backend = "uv_build"
+
+[project]
+name = "rendercv-web-backend"
+version = "0.1.0"
+description = "FastAPI backend for the RenderCV Web Editor; wraps the rendercv core as a service."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+  "fastapi>=0.121.2",
+  "uvicorn>=0.38.0",
+  "rendercv[full]",
+  "sqlalchemy>=2.0.36",
+  "alembic>=1.14.0",
+  "httpx>=0.28.1",
+  # Pinned to whatever the repository root's `uv.lock` holds, and named
+  # here rather than left to `rendercv[full]` so the two cannot drift.
+  #
+  # The core asks for `typst>=0.14.8` with no upper bound, so the two
+  # lockfiles resolved independently: the root to 0.14.8, this one to
+  # 0.15.0. Same CV, same fonts, byte-identical Typst source -- and one
+  # page from `rendercv render` against two from the web editor, because
+  # 0.15 breaks lines differently. An editor that paginates unlike the
+  # tool it wraps is worse than an editor on an older compiler.
+  #
+  # Raising this means raising the root lock in the same commit, and
+  # expecting `just update-testdata` to have something to say.
+  "typst==0.14.8",
+]
+
+# Why Postgres is an extra and not a plain dependency: development and the
+# whole test suite run on SQLite, which needs no driver at all, so a
+# deployment opts in with `uv sync --extra postgres` rather than every
+# contributor building a database driver they never use.
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2.3"]
+
+[dependency-groups]
+dev = [
+  "pytest>=9.0.2",
+]
+
+[tool.uv.sources]
+rendercv = { path = "../../", editable = true }
+
+[tool.uv.build-backend]
+module-name = "rendercv_web"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

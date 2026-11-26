@@ -186,6 +186,13 @@ ignore = [
 ]
 flake8-unused-arguments.ignore-variadic-names = true
 
+[tool.ruff.lint.per-file-ignores]
+# `T20` keeps `print` out of library code, where output belongs to the
+# caller. These are operator command-line tools whose entire job is to
+# print a report to a terminal, so the rule has nothing to protect there.
+# Scoped to this one directory rather than relaxed globally.
+"web/backend/scripts/*.py" = ["T201"]
+
 [tool.black]
 line-length = 88  # Maximum line length
 preview = true  # Enable preview features

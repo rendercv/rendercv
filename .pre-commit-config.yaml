@@ -1,3 +1,5 @@
+# Harness payload and generated graphify output are not project code:
+exclude: ^(\.agents/|\.harness-core/|graphify-out/)
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -9,8 +11,10 @@ repos:
     hooks:
       - id: codespell
         args:
-          - --skip=src/rendercv/schema/models/locale/other_locales/*
+          - --skip=src/rendercv/schema/models/locale/other_locales/*,web/frontend/package-lock.json
           - --exclude-file=schema.json
+          # "thay" is a valid Vietnamese word used in the web editor's UI copy.
+          - --ignore-words-list=thay
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.7
     hooks:
@@ -24,4 +28,6 @@ repos:
         entry: ty check src tests
         pass_filenames: false
         args: [--python=.venv/]
-        additional_dependencies: ["ty>=0.0.24"]
+        # Pinned to the lockfile version so the hook matches `just check`'s
+        # `uv run --frozen` result instead of floating to the newest ty.
+        additional_dependencies: ["ty==0.0.24"]

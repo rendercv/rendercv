@@ -1,0 +1,134 @@
+@import 'tailwindcss';
+
+/*
+ * Tailwind v4's default `dark:` variant follows `prefers-color-scheme`
+ * (media strategy). The editor has its own light/dark toggle (see
+ * `$lib/stores/theme.ts`), so `dark:` must react to a `.dark` class on
+ * `<html>` instead -- this is the officially documented v4 way to switch
+ * strategies (see https://tailwindcss.com/docs/dark-mode).
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Native form controls (the <select> in DimensionField, the
+ * <input type="color"> swatch in ColorField, scrollbars) don't pick up
+ * Tailwind's `dark:` utilities -- they're themed by the browser itself via
+ * `color-scheme`. Without this, a native dropdown/color-picker popup stays
+ * light-on-white even though everything around it is dark.
+ */
+:root {
+	color-scheme: light;
+}
+
+:root.dark {
+	color-scheme: dark;
+
+	/*
+	 * Phase 5 wave 3 -- navy dark palette (reference: rendercv.com dark
+	 * mode, observed as a deep-navy family, not neutral gray). Semantic
+	 * tokens rather than scattering literal hex values across every
+	 * `dark:` class: `--surface` is the page/editor backdrop, `--surface-
+	 * sidebar` is a touch darker for the sidebar and the preview pane's
+	 * dark surround (the PDF paper itself always stays white -- only the
+	 * surround is dark), `--surface-card` is a step lighter for elevated
+	 * surfaces (inputs, dropdown menus, the YAML editor's own panel border
+	 * accents), and `--border-subtle` is a blue-gray hairline visible
+	 * against all three without being a hard gray seam.
+	 *
+	 * Contrast check (WCAG relative luminance, done by hand -- see the
+	 * wave-3 handoff notes): `text-neutral-400` (the muted-label color
+	 * already used throughout, unchanged) against `--surface-card`
+	 * (the lightest of the three, so the tightest case) is ~6.8:1, still
+	 * comfortably above the 4.5:1 AA text threshold the wave-2 audit
+	 * established -- swapping neutral-950 for this navy family does not
+	 * regress it.
+	 */
+	--surface: #0d1220;
+	--surface-sidebar: #0a0e1a;
+	--surface-card: #141b2e;
+	--border-subtle: #232c42;
+}
+
+/*
+ * Undo/redo "tile" buttons -- a soft squircle with a diagonal sheen
+ * (lighter top-left corner fading into the surface), a hairline inner
+ * highlight, and a faint glow, so the history controls read as physical
+ * keys rather than bare glyphs. Light mode keeps the same shape with a
+ * white-to-gray sheen; dark mode uses an indigo-tinted navy that sits on
+ * the `--surface` family above.
+ */
+.history-btn {
+	display: grid;
+	place-items: center;
+	width: 1.75rem;
+	height: 1.75rem;
+	border-radius: 0.55rem;
+	color: #334155;
+	background: linear-gradient(145deg, #ffffff 0%, #eef0f6 55%, #e3e6ef 100%);
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.9),
+		inset 0 0 0 1px rgb(15 23 42 / 0.08),
+		0 1px 2px rgb(15 23 42 / 0.12),
+		0 2px 6px -2px rgb(99 102 241 / 0.18);
+	transition:
+		transform 120ms ease,
+		box-shadow 160ms ease,
+		color 160ms ease,
+		opacity 160ms ease;
+}
+
+.history-btn:hover:not(:disabled) {
+	color: #0f172a;
+	box-shadow:
+		inset 0 1px 0 rgb(255 255 255 / 0.95),
+		inset 0 0 0 1px rgb(99 102 241 / 0.25),
+		0 1px 2px rgb(15 23 42 / 0.12),
+		0 4px 12px -3px rgb(99 102 241 / 0.35);
+}
+
+.history-btn:active:not(:disabled) {
+	transform: translateY(1px) scale(0.97);
+}
+
+.history-btn:focus-visible {
+	outline: 2px solid rgb(129 140 248);
+	outline-offset: 2px;
+}
+
+.history-btn:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+	box-shadow:
+		inset 0 0 0 1px rgb(15 23 42 / 0.08);
+}
+
+.history-btn svg {
+	width: 0.95rem;
+	height: 0.95rem;
+}
+
+:root.dark .history-btn {
+	color: #f8fafc;
+	background: linear-gradient(145deg, #4a4f86 0%, #262c4c 38%, #161c30 72%, #12182a 100%);
+	box-shadow:
+		inset 0 1px 0 rgb(199 210 254 / 0.18),
+		inset 0 0 0 1px rgb(165 180 252 / 0.12),
+		0 0 10px -2px rgb(165 180 252 / 0.28),
+		0 4px 8px -2px rgb(0 0 0 / 0.6);
+}
+
+:root.dark .history-btn:hover:not(:disabled) {
+	box-shadow:
+		inset 0 1px 0 rgb(199 210 254 / 0.25),
+		inset 0 0 0 1px rgb(165 180 252 / 0.2),
+		0 0 14px -1px rgb(165 180 252 / 0.45),
+		0 4px 8px -2px rgb(0 0 0 / 0.6);
+}
+
+:root.dark .history-btn:hover:not(:disabled) svg {
+	filter: drop-shadow(0 0 3px rgb(224 231 255 / 0.6));
+}
+
+:root.dark .history-btn:disabled {
+	box-shadow: inset 0 0 0 1px rgb(165 180 252 / 0.1);
+}

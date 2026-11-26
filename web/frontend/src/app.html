@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="text-scale" content="scale" />
+		<script>
+			// Applies the saved theme before first paint to avoid a flash of the
+			// wrong theme. Mirrors `$lib/stores/theme.ts`'s localStorage key --
+			// preferences from the server arrive async, so this can only use the
+			// local mirror (or the OS preference) at this point.
+			(function () {
+				try {
+					var stored = localStorage.getItem('rendercv.uiTheme');
+					var dark =
+						stored === 'dark' ||
+						(stored !== 'light' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+					if (dark) document.documentElement.classList.add('dark');
+				} catch (e) {
+					// localStorage/matchMedia can throw in locked-down contexts; fall back to light.
+				}
+			})();
+		</script>
+		%sveltekit.head%
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		<div style="display: contents">%sveltekit.body%</div>
+	</body>
+</html>

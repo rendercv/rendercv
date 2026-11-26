@@ -1,0 +1,6 @@
+interface:
+  display_name: "Encode Invariant"
+  short_description: "Turn accepted rules into validation"
+  default_prompt: "Use $encode-invariant to enforce this accepted repository rule with mechanical proof."
+policy:
+  allow_implicit_invocation: true

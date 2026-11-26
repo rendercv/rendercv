@@ -1,0 +1,38 @@
+name: Keep Supabase awake
+
+# The web editor's database is a free Supabase project, which pauses after
+# 7 days without activity. While paused, the Render service fails at startup
+# and the whole site is down (2026-11-20 and 2026-11-26). This job queries
+# the database through the app once a day, which counts as activity.
+#
+# When the database is already paused, the request fails, the job goes red,
+# and GitHub emails the repository owner. In that case, use "Restore
+# project" on the Supabase dashboard (see the runbook).
+#
+# Scheduled workflows run only from the default branch (main). GitHub turns
+# them off after 60 days without commits to the repository; re-enable the
+# workflow from the Actions tab if that happens.
+
+on:
+  schedule:
+    - cron: "17 2 * * *" # daily, 02:17 UTC
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      HEALTH_URL: ${{ vars.KEEP_AWAKE_URL || 'https://rendercv-web-uk68.onrender.com/api/health/db' }}
+    steps:
+      - name: Query the database through the app
+        # A free Render instance sleeps after 15 minutes, and its first
+        # request can take a minute or more. The retries cover that wake-up.
+        run: |
+          curl --fail --show-error --silent \
+            --max-time 120 \
+            --retry 5 --retry-delay 30 --retry-all-errors \
+            "$HEALTH_URL"
+          echo

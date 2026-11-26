@@ -14,7 +14,7 @@
   page-bottom-margin: 0.6in,
   page-left-margin: 0.6in,
   page-right-margin: 0.6in,
-  page-show-footer: true,
+  page-show-footer: false,
   page-show-top-note: true,
   colors-body: rgb(35, 31, 32),
   colors-name: rgb(155, 35, 25),

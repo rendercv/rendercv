@@ -49,7 +49,14 @@ def validate_design(design: Any, info: pydantic.ValidationInfo) -> Any:
                 custom_theme = True
                 break
 
-        if custom_theme:
+        # `theme` missing entirely (as opposed to present but unrecognized)
+        # is not a custom theme -- it is the same discriminator error
+        # pydantic already raised, and `design["theme"]` below would raise
+        # an unhelpful `KeyError` instead. Re-raise the original,
+        # user-facing validation error instead.
+        theme_key_is_present = isinstance(design, dict) and "theme" in design
+
+        if custom_theme and theme_key_is_present:
             pass
         else:
             raise e

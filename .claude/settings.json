@@ -1,5 +1,18 @@
 {
     "hooks": {
+        "PreToolUse": [
+            {
+                "matcher": "Bash|PowerShell|Edit|Write|NotebookEdit",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "python \"$CLAUDE_PROJECT_DIR/scripts/guardrails/pre_tool_guard.py\"",
+                        "timeout": 30,
+                        "statusMessage": "Guardrail check..."
+                    }
+                ]
+            }
+        ],
         "PostToolUse": [
             {
                 "matcher": "Edit|Write",

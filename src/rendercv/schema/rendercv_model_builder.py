@@ -115,7 +115,6 @@ def build_rendercv_dictionary(
         Tuple of merged dictionary and overlay source CommentedMaps (for error reporting).
     """
     input_dict = read_yaml_with_validation_errors(main_yaml_file, "main_yaml_file")
-    input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     yaml_overlays: dict[OverlaySourceKey, str | None] = {
         "settings": kwargs.get("settings_yaml_file"),
@@ -131,6 +130,10 @@ def build_rendercv_dictionary(
             )
             input_dict[key] = overlay_cm[key]
             overlay_sources[key] = overlay_cm
+
+    # A settings overlay replaces the whole mapping above, so the
+    # render_command default must be ensured after overlay merging.
+    input_dict.setdefault("settings", {}).setdefault("render_command", {})
 
     render_overrides: dict[str, pathlib.Path | str | bool | None] = {
         "output_folder": kwargs.get("output_folder"),

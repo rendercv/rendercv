@@ -40,9 +40,9 @@ class Page(BaseModelWithoutExtraKeys):
         description=length_common_description + " The default value is `0.7in`.",
     )
     show_footer: bool = pydantic.Field(
-        default=True,
+        default=False,
         description=(
-            "Show the footer at the bottom of pages. The default value is `true`."
+            "Show the footer at the bottom of pages. The default value is `false`."
         ),
     )
     show_top_note: bool = pydantic.Field(
