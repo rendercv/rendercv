@@ -145,11 +145,11 @@ def compile_typst(
     command = rendercv_model.settings.render_command
     # A render that does not save Typst must not write assets into its disabled
     # output folder. Compilers still see the same relative asset names.
-    directory_context = (
-        tempfile.TemporaryDirectory(prefix="rendercv-compile-")
-        if command.dont_generate_typst
-        else contextlib.nullcontext(
-            str(rendercv_model._output_plan.paths["typst"].parent)
+    directory_context = contextlib.nullcontext(
+        str(
+            get_compile_directory()
+            if command.dont_generate_typst
+            else rendercv_model._output_plan.paths["typst"].parent
         )
     )
     with directory_context as root:
@@ -190,6 +190,23 @@ def read_version_from_typst_toml(typst_toml_path: pathlib.Path) -> str:
     except KeyError as e:
         message = f"Could not find version in {typst_toml_path}"
         raise RenderCVInternalError(message) from e
+
+
+@functools.lru_cache(maxsize=1)
+def get_compile_directory() -> pathlib.Path:
+    """Create the directory that Typst is compiled in when it is not saved.
+
+    Why:
+        `get_typst_compiler` is cached by its root directory. One directory for the
+        whole process lets the PDF, PNG, and SVG compilations share a compiler, where
+        one directory per compilation rebuilt it for every format.
+
+    Returns:
+        Path to a temporary directory, removed when the process exits.
+    """
+    directory = pathlib.Path(tempfile.mkdtemp(prefix="rendercv-compile-"))
+    atexit.register(shutil.rmtree, str(directory), True)
+    return directory
 
 
 @functools.lru_cache(maxsize=1)
