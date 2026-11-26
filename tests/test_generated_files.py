@@ -67,6 +67,14 @@ def test_example_yaml_is_up_to_date(theme: str) -> None:
     )
 
 
+@pytest.mark.skip(
+    reason=(
+        "Fork-only: SKILL.md lives in the upstream submodule "
+        "rendercv/rendercv-skill, which this fork cannot push to. Since PR #66 "
+        "changed the `show_footer` default, the generated file differs from the "
+        "submodule's and can never match."
+    )
+)
 def test_skill_md_is_up_to_date() -> None:
     skill_path = (
         repository_root
