@@ -53,7 +53,5 @@ def database_health(session: SessionDep) -> dict[str, str]:
         session.execute(sa.text("SELECT 1"))
     except SQLAlchemyError as e:
         logger.warning("Database health check failed: %s", e)
-        raise HTTPException(
-            status_code=503, detail="Database unreachable."
-        ) from e
+        raise HTTPException(status_code=503, detail="Database unreachable.") from e
     return {"database": "ok"}
