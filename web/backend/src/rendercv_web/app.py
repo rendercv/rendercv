@@ -32,6 +32,7 @@ from .db.migrate import upgrade_to_head
 from .documents import apply_patch_ops, to_json_safe
 from .errors import register_exception_handlers
 from .frontend import mount_frontend
+from .health import router as health_router
 from .limits import enforce_documents_size_cap, enforce_yaml_size_cap
 from .models import (
     CvDocumentsRequest,
@@ -112,6 +113,7 @@ register_exception_handlers(app)
 app.include_router(auth_router)
 app.include_router(cvs_router)
 app.include_router(preferences_router)
+app.include_router(health_router)
 
 # Renders run in a bounded thread pool so a slow Typst compile can be given
 # a hard timeout (guardrails: "timeouts on all external calls") instead of
