@@ -122,7 +122,16 @@
 			<div
 				style={`transform: scale(${zoom / 100}); transform-origin: top left; width: ${scalePercent}%; height: ${scalePercent}%;`}
 			>
-				<iframe title="CV PDF preview" src={$previewState.url} class="h-full w-full border-0"
+				<!--
+					`color-scheme: light` pins the PDF paper white. Without it the
+					iframe inherits `color-scheme: dark` from `:root.dark`, and
+					Chrome's PDF viewer then paints the CV pages dark too.
+				-->
+				<iframe
+					title="CV PDF preview"
+					src={$previewState.url}
+					class="h-full w-full border-0"
+					style="color-scheme: light"
 				></iframe>
 			</div>
 		{:else}
