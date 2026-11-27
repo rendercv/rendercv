@@ -17,6 +17,7 @@ from rendercv.renderer.pdf_png import (
     generate_png,
     generate_svg,
     get_package_path,
+    get_typst_compiler,
     read_version_from_typst_toml,
     write_pages,
 )
@@ -200,6 +201,24 @@ def test_compiles_without_writing_typst(tmp_path, minimal_rendercv_model, pdf, p
     assert (generate_pdf(model) is not None) == pdf
     assert (generate_png(model) is not None) == png
     assert not list(tmp_path.rglob("*.typ"))
+
+
+def test_formats_share_a_compiler_without_writing_typst(
+    tmp_path, minimal_rendercv_model
+):
+    get_typst_compiler.cache_clear()
+    model = minimal_rendercv_model
+    command = model.settings.render_command
+    command.dont_generate_typst = True
+    command.pdf_path = tmp_path / "cv.pdf"
+    command.png_path = tmp_path / "cv.png"
+    command.svg_path = tmp_path / "cv.svg"
+
+    assert generate_pdf(model) is not None
+    assert generate_png(model) is not None
+    assert generate_svg(model) is not None
+
+    assert get_typst_compiler.cache_info().misses == 1
 
 
 @pytest.mark.parametrize(
